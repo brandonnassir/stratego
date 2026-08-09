@@ -1,12 +1,18 @@
 """Perspective normalization.
 
-Covers `06_observation_v2_127ch.md` section 3, `04_engine_validation_plan.md`
+Covers `06_observation_v2_127ch.md` sections 3 and 10.6,
+`07_observation_validation_matrix.md` section 9A, `04_engine_validation_plan.md`
 section 12 and section 15 of the Phase Two instructions.
 
-The strongest available statement is a *mirror equivalence*: build a game and its
-colour-swapped, 180-degree-rotated twin, then require that the two players who
-occupy equivalent roles receive byte-identical observations. If any channel used
-the wrong coordinate frame, that equality would break.
+The contract is a *mirror equivalence*: build a game and its colour-swapped,
+180-degree-rotated twin, then require that the two players who occupy equivalent
+roles receive byte-identical observations across all 127 channels. If any
+channel used the wrong coordinate frame, that equality would break.
+
+Under the superseded `observation_v2_127ch` this held only for channels 0-67 and
+108-126, because behavioural counterpart ties were broken by absolute square
+index. `observation_v2_1_127ch` breaks them by normalized index, so the
+equivalence now covers the whole tensor.
 """
 
 import random
@@ -85,86 +91,187 @@ def test_mirrored_games_start_with_identical_normalized_observations(seed):
     )
 
 
-# Channels outside the behavioural block. These must be mirror-exact in every
-# position; see `test_behaviour_counterpart_selection_is_orientation_dependent`
-# for why the behavioural block is treated separately.
-NON_BEHAVIOUR_CHANNELS = list(range(0, 68)) + list(range(108, 127))
-
-
 @pytest.mark.parametrize("seed", range(8))
 @pytest.mark.parametrize("plies", [1, 6, 25, 60, 150])
-def test_mirrored_games_keep_identical_non_behaviour_channels(seed, plies):
+def test_mirrored_games_stay_identical_across_all_127_channels(seed, plies):
     original, twin = mirrored_games(seed)
     play_mirrored(original, twin, plies, seed)
 
     for left, right in ((RED, BLUE), (BLUE, RED)):
-        first = build_observation(original, left)[NON_BEHAVIOUR_CHANNELS]
-        second = build_observation(twin, right)[NON_BEHAVIOUR_CHANNELS]
-        assert np.array_equal(first, second), f"observer pair {left}/{right}"
+        first = build_observation(original, left)
+        second = build_observation(twin, right)
+        differing = [
+            channel
+            for channel in range(127)
+            if not np.array_equal(first[channel], second[channel])
+        ]
+        assert differing == [], f"observer pair {left}/{right}, channels {differing}"
 
 
-@pytest.mark.parametrize("seed", range(5))
-@pytest.mark.parametrize("plies", [1, 6, 25])
-def test_mirrored_games_agree_on_behaviour_actor_placement(seed, plies):
-    """Which piece owns a behaviour record is orientation independent.
-
-    Only the *counterpart* selection depends on absolute square order, so the
-    recency planes of the four actor-selected behaviours must still mirror
-    exactly. `was_protected` is excluded because its actor is the selected
-    counterpart of the corresponding `protect` event.
-    """
+@pytest.mark.parametrize("seed", range(6))
+def test_mirrored_games_agree_at_every_ply(seed):
+    """Equality must hold continuously, not only at sampled checkpoints."""
     original, twin = mirrored_games(seed)
-    play_mirrored(original, twin, plies, seed)
-
-    recency_channels = [
-        block + 4 * behavior
-        for block in (68, 88)
-        for behavior in range(4)  # threat, evade, declined attack, protect
-    ]
-    for left, right in ((RED, BLUE), (BLUE, RED)):
-        assert np.array_equal(
-            build_observation(original, left)[recency_channels],
-            build_observation(twin, right)[recency_channels],
-        )
+    for _ in range(40):
+        play_mirrored(original, twin, 1, seed)
+        if original.terminal:
+            break
+        for left, right in ((RED, BLUE), (BLUE, RED)):
+            assert np.array_equal(
+                build_observation(original, left), build_observation(twin, right)
+            )
 
 
-def test_behaviour_counterpart_selection_is_orientation_dependent():
-    """Documented consequence of the absolute-index tie-break rule.
+def test_behaviour_counterpart_selection_is_orientation_independent():
+    """`06_observation_v2_127ch.md` section 10.6.
 
-    `06_observation_v2_127ch.md` section 10 breaks counterpart ties by lowest
-    *absolute* board-square index. Absolute indices are not preserved by the
-    180-degree perspective rotation, so a colour-swapped twin can legitimately
-    select the other candidate. This test pins that behaviour rather than
-    asserting a symmetry the specification does not promise; the Phase Two
-    report records it as an open question.
+    Ties are broken by the lowest square index *after normalization into the
+    acting player's perspective*, so a colour-swapped, rotated position selects
+    the mirror image of the same counterpart. Under the superseded
+    `observation_v2_127ch` absolute-index rule this test would fail.
     """
-    from tests.helpers import make_position, piece_at, play
+    from tests.helpers import make_position, mirror_name, piece_at, play
 
-    # Red's captain ends adjacent to two blue pieces at once.
-    red_view = make_position(
+    # Red's captain ends adjacent to two blue pieces at once. In red's frame the
+    # normalization is the identity, so d4 (index 33) beats e5 (index 44).
+    red_to_move = make_position(
         red={"e3": "captain", "a1": "flag"},
         blue={"d4": "sergeant", "e5": "marshal", "j10": "flag"},
         acting_player=RED,
     )
-    low_square_piece = piece_at(red_view, "d4")
-    play(red_view, "e3 e4")
-    chosen = red_view.behavior_event(
-        piece_at(red_view, "e4").piece_id, "threat"
+    expected = piece_at(red_to_move, "d4")
+    play(red_to_move, "e3 e4")
+    chosen = red_to_move.behavior_event(
+        piece_at(red_to_move, "e4").piece_id, "threat"
     ).counterpart_piece_id
-    assert chosen == low_square_piece.piece_id
+    assert chosen == expected.piece_id
 
-    # The same geometry rotated 180 degrees, with the colours swapped, selects
-    # the mirror image of the *other* candidate.
-    blue_view = make_position(
-        red={"g7": "sergeant", "f6": "marshal", "a1": "flag"},
-        blue={"f8": "captain", "j10": "flag"},
+    # Exactly the same geometry, colours swapped and rotated 180 degrees. The
+    # mirror of d4 is g7, whose absolute index (66) is now the *higher* of the
+    # two, so only a normalized tie-break picks it.
+    blue_to_move = make_position(
+        red=mirror_placements_for({"d4": "sergeant", "e5": "marshal", "j10": "flag"}),
+        blue=mirror_placements_for({"e3": "captain", "a1": "flag"}),
         acting_player=BLUE,
     )
-    play(blue_view, "f8 f7")
-    mirrored_choice = blue_view.behavior_event(
-        piece_at(blue_view, "f7").piece_id, "threat"
+    mirrored_source = mirror_name("e3")
+    mirrored_destination = mirror_name("e4")
+    play(blue_to_move, f"{mirrored_source} {mirrored_destination}")
+
+    mirrored_choice = blue_to_move.behavior_event(
+        piece_at(blue_to_move, mirrored_destination).piece_id, "threat"
     ).counterpart_piece_id
-    assert mirrored_choice == piece_at(blue_view, "f6").piece_id
+    assert mirrored_choice == piece_at(blue_to_move, mirror_name("d4")).piece_id
+
+
+def mirror_placements_for(placements):
+    from tests.helpers import mirror_placements
+
+    return mirror_placements(placements)
+
+
+# Scripted positions that guarantee a live event of each behaviour type, plus a
+# genuine counterpart tie. Random mirrored games reach all of these too, but
+# these cases pin the coverage required by `07_...` section 9A.
+LOOSE_RULES = RulesConfig(battleless_move_limit=10_000, absolute_move_limit=10_000)
+
+SCRIPTED_MIRROR_CASES = {
+    "threat": (
+        {"e3": "captain", "a1": "flag"},
+        {"e5": "sergeant", "j10": "flag"},
+        RED,
+        ["e3 e4"],
+    ),
+    "evade": (
+        {"e3": "captain", "c3": "miner", "a1": "flag"},
+        {"e5": "sergeant", "j9": "scout", "j10": "flag"},
+        BLUE,
+        ["e5 e4", "e3 e2"],
+    ),
+    "declined_attack": (
+        {"e3": "captain", "c3": "miner", "a1": "flag"},
+        {"e4": "sergeant", "j10": "flag"},
+        RED,
+        ["c3 c4"],
+    ),
+    "protect": (
+        {"e3": "captain", "c3": "miner", "a1": "flag"},
+        {"e5": "sergeant", "j9": "scout", "j10": "flag"},
+        BLUE,
+        ["e5 e4", "c3 d3"],
+    ),
+    "was_protected": (
+        {"e3": "captain", "c3": "miner", "a1": "flag"},
+        {"e5": "sergeant", "j9": "scout", "j10": "flag"},
+        BLUE,
+        ["e5 e4", "c3 d3"],
+    ),
+    "multiple_counterparts": (
+        {"e3": "captain", "a1": "flag"},
+        {"d4": "sergeant", "e5": "marshal", "j10": "flag"},
+        RED,
+        ["e3 e4"],
+    ),
+}
+
+
+def build_scripted_mirror_pair(case):
+    """Build a scripted position and its colour-swapped, rotated twin."""
+    from tests.helpers import make_position, mirror_move, mirror_placements, play
+
+    red, blue, acting, moves = case
+    original = make_position(
+        red=red, blue=blue, acting_player=acting, rules=LOOSE_RULES
+    )
+    twin = make_position(
+        red=mirror_placements(blue),
+        blue=mirror_placements(red),
+        acting_player=BLUE if acting == RED else RED,
+        rules=LOOSE_RULES,
+    )
+    for move in moves:
+        play(original, move)
+        play(twin, mirror_move(move))
+    return original, twin
+
+
+@pytest.mark.parametrize("label", sorted(SCRIPTED_MIRROR_CASES))
+def test_scripted_mirrored_positions_match_on_all_channels(label):
+    original, twin = build_scripted_mirror_pair(SCRIPTED_MIRROR_CASES[label])
+
+    if label in ("threat", "evade", "declined_attack", "protect", "was_protected"):
+        assert any(
+            key[1] == label for key in original.behavior_memory
+        ), f"scripted case did not record a {label} event"
+
+    for left, right in ((RED, BLUE), (BLUE, RED)):
+        first = build_observation(original, left)
+        second = build_observation(twin, right)
+        differing = [
+            channel
+            for channel in range(127)
+            if not np.array_equal(first[channel], second[channel])
+        ]
+        assert differing == [], f"{label}: observer pair {left}/{right}, {differing}"
+
+
+def test_scripted_tie_case_really_has_multiple_eligible_counterparts():
+    original, _ = build_scripted_mirror_pair(
+        SCRIPTED_MIRROR_CASES["multiple_counterparts"]
+    )
+    assert len(original.active_threat_relations) >= 2
+
+
+def test_behaviour_planes_transform_consistently():
+    """The whole behavioural block, including counterpart-derived features."""
+    original, twin = mirrored_games(5)
+    play_mirrored(original, twin, 120, 5)
+    channels = list(range(68, 108))
+    for left, right in ((RED, BLUE), (BLUE, RED)):
+        assert np.array_equal(
+            build_observation(original, left)[channels],
+            build_observation(twin, right)[channels],
+        )
 
 
 def test_setup_memory_planes_transform_consistently():

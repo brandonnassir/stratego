@@ -6,6 +6,7 @@ writes `reports/phase_2_metrics.json`:
 
 - deterministic replay over >= 10,000 complete games;
 - >= 100,000 valid hidden-identity permutation trials;
+- >= 1,000 mirrored position pairs with all 127 channels equal;
 - state-invariant stress over complete games;
 - snapshot/restore across every required game phase;
 - legal-action list versus mask agreement;
@@ -51,12 +52,15 @@ sys.path.insert(0, str(REPOSITORY_ROOT))
 
 from stratego.engine.combat import resolve_combat  # noqa: E402
 from stratego.engine.constants import (  # noqa: E402
+    BEHAVIOR_TYPES,
     BLUE,
     IMPLEMENTATION_VERSION,
+    OBSERVATION_CHANNELS,
     OBSERVATION_VERSION,
     PIECE_TYPE_BY_NAME,
     RED,
     RULES_VERSION,
+    SUPERSEDED_OBSERVATION_VERSIONS,
     TRAINING_RULES,
 )
 from stratego.engine.events import filter_events_for_observer, public_board_view  # noqa: E402
@@ -65,7 +69,11 @@ from stratego.engine.invariants import (  # noqa: E402
     capture_knowledge,
     check_invariants,
 )
-from stratego.engine.legal_moves import legal_action_mask, legal_actions  # noqa: E402
+from stratego.engine.legal_moves import (  # noqa: E402
+    adjacent_attack_opportunities,
+    legal_action_mask,
+    legal_actions,
+)
 from stratego.engine.observation import build_observation  # noqa: E402
 from stratego.engine.permutation import (  # noqa: E402
     belief_targets_differ,
@@ -622,6 +630,111 @@ def legal_stage(seeds: int, workers: int) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Stage 5B: mirror equivalence (perspective normalization)
+# ---------------------------------------------------------------------------
+
+MIRROR_SEED_BASE = 7_000_000
+MIRROR_CHECKPOINT_INTERVAL = 15
+MIRROR_MAX_PLIES = 120
+
+
+def mirror_worker(bounds: tuple[int, int]) -> dict:
+    """Compare a game and its colour-swapped, rotated twin at checkpoints.
+
+    `07_observation_validation_matrix.md` section 9A requires all 127 channels
+    to agree for the equivalent acting-player perspectives.
+    """
+    from tests.observation.test_perspective import mirror_action, mirrored_games
+
+    start, end = bounds
+    pairs = 0
+    comparisons = 0
+    mismatches = 0
+    mismatch_channels: Counter = Counter()
+    coverage: Counter = Counter()
+    tie_positions = 0
+    tie_events = 0
+
+    for seed in range(start, end):
+        original, twin = mirrored_games(MIRROR_SEED_BASE + seed)
+        rng = random.Random(MIRROR_SEED_BASE + seed)
+        tie_seen = False
+
+        for step in range(1, MIRROR_MAX_PLIES + 1):
+            if original.terminal or twin.terminal:
+                break
+
+            # A declined-attack tie exists when one piece could legally attack
+            # two adjacent opponents at turn start.
+            opportunities = adjacent_attack_opportunities(original, original.acting_player)
+            if any(len(targets) >= 2 for targets in opportunities.values()):
+                tie_seen = True
+                tie_events += 1
+
+            action = select_random_action(original, rng)
+            apply_action(original, action)
+            apply_action(twin, mirror_action(action))
+
+            # A threat tie exists when the moved piece ends adjacent to two or
+            # more opponent pieces.
+            if len(original.active_threat_relations) >= 2:
+                tie_seen = True
+                tie_events += 1
+
+            if step % MIRROR_CHECKPOINT_INTERVAL:
+                continue
+
+            pairs += 1
+            if tie_seen:
+                tie_positions += 1
+            for (actor_id, behavior_type) in original.behavior_memory:
+                if original.pieces[actor_id].alive:
+                    coverage[behavior_type] += 1
+
+            for left, right in ((RED, BLUE), (BLUE, RED)):
+                comparisons += 1
+                first = build_observation(original, left)
+                second = build_observation(twin, right)
+                if np.array_equal(first, second):
+                    continue
+                mismatches += 1
+                for channel in range(OBSERVATION_CHANNELS):
+                    if not np.array_equal(first[channel], second[channel]):
+                        mismatch_channels[channel] += 1
+
+    return {
+        "pairs": pairs,
+        "comparisons": comparisons,
+        "mismatches": mismatches,
+        "mismatch_channels": mismatch_channels,
+        "coverage": coverage,
+        "tie_positions": tie_positions,
+        "tie_events": tie_events,
+    }
+
+
+def mirror_stage(seeds: int, workers: int) -> dict:
+    started = time.perf_counter()
+    results = run_parallel(mirror_worker, chunk_ranges(seeds, workers), workers)
+    elapsed = time.perf_counter() - started
+    coverage = merge_counters(results, "coverage")
+    mismatch_channels = merge_counters(results, "mismatch_channels")
+    return {
+        "pairs": sum(result["pairs"] for result in results),
+        "comparisons": sum(result["comparisons"] for result in results),
+        "mismatches": sum(result["mismatches"] for result in results),
+        "mismatch_channels": {
+            str(channel): count for channel, count in sorted(mismatch_channels.items())
+        },
+        "behavior_coverage": {name: coverage.get(name, 0) for name in BEHAVIOR_TYPES},
+        "behaviors_missing": [name for name in BEHAVIOR_TYPES if not coverage.get(name)],
+        "multi_counterpart_positions": sum(result["tie_positions"] for result in results),
+        "multi_counterpart_events": sum(result["tie_events"] for result in results),
+        "seconds": elapsed,
+    }
+
+
+# ---------------------------------------------------------------------------
 # Stage 6: combat matrix
 # ---------------------------------------------------------------------------
 
@@ -821,6 +934,7 @@ def main() -> int:
     parser.add_argument("--replay-games", type=int, default=10_000)
     parser.add_argument("--antileak-trials", type=int, default=100_000)
     parser.add_argument("--antileak-trials-per-position", type=int, default=50)
+    parser.add_argument("--mirror-seeds", type=int, default=250)
     parser.add_argument("--invariant-games", type=int, default=2_000)
     parser.add_argument("--snapshot-seeds", type=int, default=120)
     parser.add_argument("--legal-seeds", type=int, default=250)
@@ -836,6 +950,7 @@ def main() -> int:
     if options.quick:
         options.replay_games = 60
         options.antileak_trials = 2_000
+        options.mirror_seeds = 12
         options.invariant_games = 20
         options.snapshot_seeds = 6
         options.legal_seeds = 10
@@ -850,37 +965,40 @@ def main() -> int:
 
     note(f"workers={options.workers} python={platform.python_version()}")
 
-    note("stage 1/8 combat matrix")
+    note("stage 1/9 combat matrix")
     combat = combat_stage()
 
-    note(f"stage 2/8 legal-action consistency ({options.legal_seeds} game walks)")
+    note(f"stage 2/9 legal-action consistency ({options.legal_seeds} game walks)")
     legal = legal_stage(options.legal_seeds, options.workers)
 
-    note(f"stage 3/8 replay reconstruction ({options.replay_games} games)")
+    note(f"stage 3/9 replay reconstruction ({options.replay_games} games)")
     replay = replay_stage(options.replay_games, options.workers)
 
-    note(f"stage 4/8 anti-leak permutations ({options.antileak_trials} trials)")
+    note(f"stage 4/9 anti-leak permutations ({options.antileak_trials} trials)")
     antileak = antileak_stage(
         options.antileak_trials, options.antileak_trials_per_position, options.workers
     )
 
-    note(f"stage 5/8 invariant stress ({options.invariant_games} games)")
+    note(f"stage 5/9 mirror equivalence ({options.mirror_seeds} seeded game pairs)")
+    mirror = mirror_stage(options.mirror_seeds, options.workers)
+
+    note(f"stage 6/9 invariant stress ({options.invariant_games} games)")
     invariant = invariant_stage(options.invariant_games, options.workers)
 
-    note(f"stage 6/8 snapshot / restore ({options.snapshot_seeds} seeds)")
+    note(f"stage 7/9 snapshot / restore ({options.snapshot_seeds} seeds)")
     snapshot = snapshot_stage(options.snapshot_seeds, options.workers)
 
-    note("stage 7/8 performance and storage baselines")
+    note("stage 8/9 performance and storage baselines")
     sample_states = build_sample_states(24)
     performance = performance_stage(sample_states, options.perf_repeats)
     storage = storage_stage(sample_states)
 
     tests = {"total": 0, "passed": 0, "failed": 0, "skipped": 0, "expected_failures": 0}
     if not options.skip_pytest:
-        note("stage 8/8 automated test suite")
+        note("stage 9/9 automated test suite")
         tests = pytest_stage()
     else:
-        note("stage 8/8 skipped")
+        note("stage 9/9 skipped")
 
     lengths = replay["lengths"]
     outcomes = replay["outcome_counts"]
@@ -891,6 +1009,7 @@ def main() -> int:
         "implementation_version": IMPLEMENTATION_VERSION,
         "rules_version": RULES_VERSION,
         "observation_version": OBSERVATION_VERSION,
+        "superseded_observation_versions": list(SUPERSEDED_OBSERVATION_VERSIONS),
         "python_version": platform.python_version(),
         "platform": f"{platform.system()} {platform.release()} {platform.machine()}",
         "numpy_version": np.__version__,
@@ -927,6 +1046,14 @@ def main() -> int:
         "replay_observation_mismatches": replay["observation_mismatches"],
         "replay_event_mismatches": replay["event_mismatches"],
         "replay_result_mismatches": replay["result_mismatches"],
+        "mirror_pairs_tested": mirror["pairs"],
+        "mirror_observation_comparisons": mirror["comparisons"],
+        "mirror_observation_mismatches": mirror["mismatches"],
+        "mirror_mismatch_channels": mirror["mismatch_channels"],
+        "mirror_behavior_coverage": mirror["behavior_coverage"],
+        "mirror_behaviors_missing": mirror["behaviors_missing"],
+        "mirror_multi_counterpart_positions": mirror["multi_counterpart_positions"],
+        "mirror_multi_counterpart_events": mirror["multi_counterpart_events"],
         "snapshot_tests": snapshot["snapshots"],
         "snapshot_tests_by_phase": snapshot["by_phase"],
         "snapshot_mismatches": snapshot["total_mismatches"],
@@ -971,6 +1098,7 @@ def main() -> int:
             "legal_actions": legal["seconds"],
             "replay": replay["seconds"],
             "anti_leak": antileak["seconds"],
+            "mirror": mirror["seconds"],
             "invariants": invariant["seconds"],
             "snapshots": snapshot["seconds"],
             "tests": tests.get("seconds", 0.0),
@@ -994,6 +1122,8 @@ def main() -> int:
         + metrics["replay_result_mismatches"]
         + metrics["snapshot_mismatches"]
         + metrics["invariant_violations"]
+        + metrics["mirror_observation_mismatches"]
+        + len(metrics["mirror_behaviors_missing"])
         + metrics["tests_failed"]
     )
     print(f"\nunexplained mismatches across every gate: {unexplained}")

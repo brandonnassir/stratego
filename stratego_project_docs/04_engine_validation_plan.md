@@ -8,6 +8,27 @@ A rule bug is more dangerous than a weak neural network because it can contamina
 
 The Python reference engine is the behavioral source of truth. Any later optimized backend must pass differential tests against it.
 
+### Current acceptance status
+
+Phase 2.1 has passed the **reference-engine correctness gate** and frozen:
+
+- `phase2_1_reference_1.1.0`;
+- `stratego_project_v1`;
+- `observation_v2_1_127ch`;
+- the 10,000-entry source-destination action encoding.
+
+Recorded Phase 2.1 evidence includes:
+
+- 1,255 automated tests passed, 0 failed;
+- 120 combat cases, 0 failures;
+- 1,804 mirrored position pairs / 3,608 observation comparisons, 0 mismatches across all 127 channels;
+- 103,625 valid hidden-information permutations, 0 public-information mismatches;
+- 10,000 deterministic replay games / 5,078,406 plies, 0 mismatches;
+- 600 snapshot/restore cases, 0 mismatches;
+- 1,045,111 invariant-checked transitions across 2,000 stress games, 0 violations.
+
+The **production-training readiness gate** remains Phase 3 work because batch scaling, multi-hour soak testing, shared-memory transport, representative-model throughput, and the optimized-backend decision have not yet been measured.
+
 ---
 
 ## 2. Static board tests
@@ -136,7 +157,7 @@ Include explicit anti-leak tests that compare observations from two full states 
 
 ## 8A. Observation-version validation
 
-The authoritative first model observation is `observation_v2_127ch`.
+The authoritative first model observation is `observation_v2_1_127ch`.
 
 Validation must follow `07_observation_validation_matrix.md`, including:
 
@@ -266,7 +287,7 @@ Across large numbers of randomly generated legal states verify invariants:
 
 ---
 
-## 17. Long-run stability test
+## 17. Long-run stability test — Phase 3 production gate
 
 Run continuous batched games for several hours.
 
@@ -279,7 +300,9 @@ Monitor:
 - terminal-reason proportions;
 - throughput drift.
 
-**Gate:** no unexplained memory growth and no invariant violation.
+**Gate:** no unexplained memory growth, no invariant violation, no worker/coordinator desynchronization, and no unexplained throughput collapse during a multi-hour batched soak.
+
+This gate is intentionally separate from Phase 2.1 reference-engine correctness acceptance. Phase 2.1 established correctness under millions of checked transitions; Phase 3 establishes sustained behavior of the new multi-process production pipeline.
 
 ---
 
@@ -306,45 +329,82 @@ Any mismatch blocks the optimized backend from training use.
 
 ---
 
-## 19. Performance gate before model integration
+## 19. Performance gate before model integration — Phase 3
 
-Measure the reference engine before deciding whether optimization is necessary.
+Use the frozen Python reference engine and a representative compact Transformer to benchmark the complete self-play path.
 
-Record:
+Measure:
 
-- single-game transitions per second;
-- batched transitions per second at several batch sizes;
+- worker scaling at 4, 6, 8, 10, and 12 simulation workers;
+- parallel environments at 256, 512, 1,024, 1,536, and 2,048;
+- inference batch sizes at 64, 128, 256, 512, 1,024, 1,536, and 2,048;
+- end-to-end positions per second;
+- worker active and barrier-wait fractions;
+- coordinator/model active and wait fractions;
 - observation-construction throughput;
-- legal-mask throughput;
-- central-processing-unit utilization;
-- memory usage.
+- legal-mask/list throughput;
+- shared-memory transport overhead;
+- memory use and growth;
+- snapshot/reconstruction throughput at 16-, 32-, and 64-ply intervals.
 
-Then estimate:
+The single-process Phase 2.1 values are baselines only. Do not infer production throughput by multiplying them by core count.
+
+Define:
 
 \[
-\text{projected transitions in 168 hours}
-=
-\text{measured transitions/second}\times604{,}800.
+R =
+rac{	ext{sustainable simulation-pipeline positions/second}}
+{	ext{sustainable representative-model inference positions/second}}.
 \]
 
-The production backend decision will be based on profiling rather than assumption.
+Decision:
+
+- `R >= 2.0`: retain Python as production simulator;
+- `1.25 <= R < 2.0`: retain Python initially, with optimization optional;
+- `R < 1.25`: design and evaluate an optimized production backend.
+
+If an optimized backend is introduced, section 18 differential gates become mandatory before it may produce training data.
 
 ---
 
-## 20. Engine-ready gate
+## 20. Engine readiness gates
 
-The engine is approved for model training only when all of the following are true:
+### 20.1 Reference-engine correctness gate — PASSED in Phase 2.1
+
+The Python reference engine is frozen when all of the following are true:
 
 - rule unit tests pass;
 - combat matrix passes;
-- information-leak tests pass;
+- legal-action list/mask consistency passes;
+- observation and mirror-equivalence tests pass;
+- hidden-information anti-leak tests pass;
 - 10,000-game deterministic replay test passes;
-- long-run stability test passes;
+- snapshot/restore tests pass;
+- randomized invariant stress testing passes;
 - observation version is frozen;
 - action encoding is frozen;
 - rules version is frozen;
-- measured throughput is documented;
-- a decision has been made to retain the Python backend or build the optimized backend.
+- single-process performance/storage baselines are documented.
+
+**Status:** passed by `phase2_1_reference_1.1.0`.
+
+### 20.2 Production-training readiness gate — Phase 3
+
+Model training may use the production simulator pipeline only after:
+
+- batched behavior is differentially equivalent to the frozen reference engine;
+- independent environment reset is validated;
+- shared-memory transport is validated;
+- a representative Metal-backed model has been benchmarked;
+- worker/environment/batch scaling is measured;
+- historical trajectory reconstruction is exact;
+- the multi-hour batched stability soak passes;
+- memory headroom is acceptable and no sustained swapping occurs;
+- the ratio `R` in section 19 is measured;
+- a documented decision is made to retain Python or build the optimized backend;
+- if optimized code is added, section 18 differential gates pass.
+
+This separation prevents Phase 3 infrastructure work from retroactively blocking the already accepted reference-engine correctness freeze.
 
 ---
 
@@ -362,7 +422,9 @@ After every transition in randomized games:
 - starting square, owner, identifier, and true type never change;
 - knowledge flags never revert from known to unknown.
 
-**Gate:** zero invariant violations over at least 10,000 complete randomized games.
+**Reference-engine correctness gate:** zero invariant violations over at least **1,000,000 checked transitions spanning at least 2,000 complete randomized games**.
+
+Phase 2.1 measured 1,045,111 checked transitions across 2,000 games with zero violations. The separate multi-hour batched soak in section 17 remains a Phase 3 production-readiness requirement.
 
 ### 21.2 Type-independent identifier test
 
@@ -389,8 +451,9 @@ Create a move that ends adjacent to several opponent pieces.
 Expected:
 
 - every qualifying threat relation is retained for the next response;
-- the long-term `threat` behavior record selects only the deterministic lowest-square counterpart;
-- hidden type permutations do not change relation membership or selection.
+- the long-term `threat` behavior record selects only the deterministic counterpart with the lowest normalized square index, per `06_observation_v2_127ch.md` section 10.6;
+- hidden type permutations do not change relation membership or selection;
+- the colour-swapped, 180-degree-rotated equivalent position selects the mirror image of the same counterpart.
 
 ### 21.5 Snapshot completeness test
 
@@ -406,7 +469,7 @@ Snapshot, advance, restore, then require exact equality of:
 
 - full state;
 - both observer views;
-- `observation_v2_127ch`;
+- `observation_v2_1_127ch`;
 - legal-action mask;
 - next generated events under the same action.
 

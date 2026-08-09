@@ -15,6 +15,18 @@ Build a Stratego simulation layer that is:
 
 The first implementation is a **readable Python reference engine**. After it is validated and profiled, an optimized production backend may be introduced behind the same interface if required by the 168-hour training budget.
 
+### Frozen reference implementation
+
+Phase 2.1 accepted and froze:
+
+- implementation: `phase2_1_reference_1.1.0`;
+- rules: `stratego_project_v1`;
+- observation: `observation_v2_1_127ch`;
+- action encoding: `action_id = 100 * source + destination`, 10,000 entries;
+- deterministic replay semantics defined by the current replay/event contracts.
+
+The reference engine is now the behavioral oracle. It should not be optimized in place. Any later production backend must be a separate interchangeable backend and must pass differential testing against this frozen implementation.
+
 ---
 
 ## 2. Engine architecture
@@ -274,7 +286,7 @@ The acting player's own side must always be normalized to the same orientation b
 
 The authoritative observation identifier is:
 
-- `observation_v2_127ch`
+- `observation_v2_1_127ch`
 
 Shape:
 
@@ -339,43 +351,92 @@ These labels must never be included in the policy observation.
 
 ## 16. Batch simulation interface
 
-The reference engine may begin with a small batch wrapper, but the production training interface must support many independent games.
+Phase 3 uses a **bulk-synchronous** collection architecture.
 
-Conceptual operations:
+Approved production-interface direction:
 
-- create `N` games;
-- reset selected games;
-- get acting players;
-- get observations;
-- get legal-action masks;
-- apply `N` actions or actions for the active subset;
-- retrieve rewards/terminal results;
-- independently reset finished games;
-- retrieve compact trajectory data.
+- one coordinator process owns the PyTorch model and the Apple Metal device;
+- multiple central-processing-unit simulation workers own disjoint groups of reference-engine games;
+- observations, legality data, actions, and control metadata move through persistent preallocated shared-memory buffers rather than per-position Python-object queues;
+- finished games reset independently before the next global step so environments naturally occupy different game phases;
+- the number of workers, environments, and inference batch size are configurable and selected by benchmark rather than assumption.
 
-Finished games should be reset independently so parallel games naturally occupy different game phases.
+Initial benchmark point:
+
+- 1,024 simultaneous environments;
+- approximately 8 simulation workers;
+- dense 10,000-entry legality masks as the correctness/performance baseline.
+
+Phase 3 must benchmark at least:
+
+- workers: 4, 6, 8, 10, 12;
+- environments: 256, 512, 1,024, 1,536, 2,048;
+- inference batch sizes: 64, 128, 256, 512, 1,024, 1,536, 2,048.
+
+Each persistent environment slot must have an `environment_id` and a monotonically increasing `generation` value so trajectory fragments cannot cross a game reset boundary.
+
+Only the coordinator may invoke the Metal-backed model. Simulation workers remain central-processing-unit-only.
 
 ---
 
 ## 17. Training trajectory record
 
-A compact trajectory record should contain enough information to reconstruct model training examples without storing every 127 by 10 by 10 observation tensor.
+Training storage must remain compact and reconstructible. Do not store the full 127 by 10 by 10 observation tensor at every move.
 
-Minimum record:
+### Game-level record
 
+Minimum game-level metadata:
+
+- stable game identifier;
+- environment identifier and generation;
 - rules version;
 - observation version;
 - red setup;
 - blue setup;
-- action sequence;
-- public combat/reveal events if not trivially reconstructible;
-- final result;
+- first player;
+- setup-generator/family identifiers when available;
+- terminal result;
 - terminal reason;
-- model/checkpoint identifiers;
-- action probabilities for sampled actions when required by policy optimization;
-- value predictions when required for return estimation.
+- final ply;
+- policy/checkpoint identifiers required for audit and reconstruction.
 
-Prefer reconstructing observations from compact game history rather than storing full observations for every move.
+### Decision-level record
+
+Minimum per-decision metadata:
+
+- game identifier;
+- ply;
+- acting player;
+- selected action identifier;
+- legal action identifiers;
+- behavior-policy probabilities over those legal actions;
+- win/draw/loss value prediction;
+- collection-policy version;
+- nearest snapshot reference.
+
+Store legality/probabilities sparsely in trajectory records even if dense masks are used for live shared-memory inference.
+
+### Snapshot cadence
+
+Use periodic compact state snapshots plus intervening action deltas.
+
+Initial default:
+
+- snapshot every **32 plies**.
+
+Phase 3 must compare snapshot intervals 16, 32, and 64 and choose based on reconstruction throughput and storage cost.
+
+Historical training positions must reconstruct exactly from:
+
+```text
+game metadata
++ nearest earlier snapshot
++ subsequent actions
+-> frozen reference engine
+-> observation_v2_1_127ch + legal actions + privileged belief target
+```
+
+A large randomized reconstruction test in Phase 3 must confirm zero unexplained mismatches between live and reconstructed positions.
 
 ---
 
@@ -406,22 +467,52 @@ The engine should fail loudly during development for:
 
 The training coordinator may later choose a controlled error-recovery policy, but the reference engine must prioritize detectability over silent recovery.
 
+Phase 3 development policy:
+
+- any invariant failure, observation mismatch, illegal transition, or hidden-information leak is a global-stop error and must preserve a reproducible crash package;
+- ordinary infrastructure failure such as a worker process exiting may be recoverable by restarting that worker from known coordinator state;
+- infrastructure recovery must never convert a correctness failure into a silently discarded game.
+
 ---
 
 ## 20. Performance instrumentation
 
-The engine must expose or make measurable:
+Phase 2.1 established the single-process reference baseline on the target Mac mini:
 
-- state transitions per second;
-- games completed per second;
-- average game length;
-- observation construction time;
-- legal-action generation time;
-- batch size;
-- memory usage;
-- fraction of games ending by each terminal reason.
+- state transitions: approximately 73,269 per second;
+- observations: approximately 26,975 per second;
+- legal-action lists: approximately 134,067 per second;
+- legal-action masks: approximately 115,980 per second.
 
-Optimization decisions will be based on these measurements.
+These are reference measurements, not assumed multi-process production throughput.
+
+Phase 3 must measure end-to-end sustainable throughput including:
+
+- observation construction;
+- legal-action generation;
+- worker synchronization;
+- shared-memory transport;
+- Metal-backed model inference;
+- action sampling;
+- environment stepping;
+- independent reset;
+- trajectory recording.
+
+Define:
+
+\[
+R =
+rac{	ext{sustainable simulation-pipeline positions/second}}
+{	ext{sustainable representative-model inference positions/second}}.
+\]
+
+Production-backend decision rule:
+
+- `R >= 2.0`: retain Python as the production simulator;
+- `1.25 <= R < 2.0`: retain Python initially; optimized backend remains optional;
+- `R < 1.25`: simulation is too close to or below model demand; design and benchmark a second optimized backend.
+
+The decision must be based on measured end-to-end throughput rather than multiplying the single-process reference rate by the number of central-processing-unit cores.
 
 ---
 
@@ -479,4 +570,4 @@ These documents are authoritative for:
 - privileged replay versus public browser data;
 - event ordering and hidden-information filtering.
 
-The engine must store enough compact factual state to reconstruct `observation_v2_127ch`; it must not store model-ready observation channels as a second source of truth.
+The engine must store enough compact factual state to reconstruct `observation_v2_1_127ch`; it must not store model-ready observation channels as a second source of truth.

@@ -20,7 +20,7 @@ This folder contains the current planning and specification documents for the re
    High-level collaborative development plan from engine specification through the final 168-hour training run and human evaluation.
 
 6. [`06_observation_v2_127ch.md`](06_observation_v2_127ch.md)  
-   Authoritative 127-channel player-observation specification, including perspective normalization, setup memory, unresolved inventory, and formal behavioral-event semantics.
+   Authoritative 127-channel player-observation specification, including perspective normalization, setup memory, unresolved inventory, and formal behavioral-event semantics. The current identifier is `observation_v2_1_127ch`; the file name is retained so the cross-references in the other documents stay valid.
 
 7. [`07_observation_validation_matrix.md`](07_observation_validation_matrix.md)  
    Channel-by-channel and behavior-by-behavior acceptance tests, hidden-information anti-leak tests, replay reconstruction tests, and optimized-backend differential requirements.
@@ -41,7 +41,47 @@ Build a local Stratego system on an Apple M4 Pro Mac mini that uses a compact Tr
 - **Official publisher reference:** Hasbro's official Stratego instruction page was checked as an external reference for the existence of the classic game instructions.
 - **Project-specific decisions:** Explicitly identified in `02_project_ruleset.md`; they are not presented as rules from the paper.
 
+## Documentation synchronization note
+
+This package incorporates the Phase 2.1 agent updates and reconciles the planning/validation documents with the accepted Phase 2.1 results. In particular:
+
+- Phase 2 correctness acceptance is separated from the Phase 3 production-throughput and multi-hour-soak gate;
+- the frozen reference implementation and version identifiers are recorded explicitly;
+- Phase 3's four approved architecture decisions are recorded in the engine/project planning documents;
+- the earlier theoretical multi-core throughput extrapolation is not treated as a production measurement.
+
 ## Status
 
-Planning baseline: **version 0.2**  
-Phase 1 rules, observation, internal-state, replay, and validation contracts are now specified. No model or game-engine implementation is included in these documents.
+Planning baseline: **version 0.4**
+
+### Completed
+
+- **Phase 1:** rules, observation, internal-state, replay, and validation contracts.
+- **Phase 2:** Python reference engine.
+- **Phase 2.1:** perspective-symmetry correction and terminal-precedence clarification.
+
+Frozen contracts entering Phase 3:
+
+- implementation: `phase2_1_reference_1.1.0`;
+- rules: `stratego_project_v1`;
+- observation: `observation_v2_1_127ch`;
+- action encoding: 10,000 source-destination identifiers;
+- replay/state behavior: current frozen reference implementation.
+
+Phase 2.1 validation recorded:
+
+- 1,255 tests passed, 0 failed;
+- 120 combat cases, 0 failures;
+- 1,804 mirrored pairs / 3,608 comparisons, 0 mismatches across all 127 channels;
+- 103,625 valid hidden-information permutations, 0 public-information mismatches;
+- 10,000 replay games / 5,078,406 plies, 0 mismatches;
+- 600 snapshot/restore cases, 0 mismatches;
+- 1,045,111 invariant-checked transitions, 0 violations.
+
+### Next
+
+**Phase 3 is ready to implement.** The approved direction is bulk-synchronous collection with one Metal-owning coordinator, multiple central-processing-unit simulation workers, persistent preallocated shared-memory buffers, and compact trajectories reconstructed from periodic snapshots plus action deltas.
+
+Phase 3 will determine with measured end-to-end throughput whether the frozen Python engine is sufficient as the production simulator or whether a second optimized backend is justified.
+
+The Markdown files in this folder are specifications/documentation only; the frozen engine implementation and its reports live elsewhere in the project repository.

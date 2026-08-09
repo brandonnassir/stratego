@@ -10,11 +10,23 @@ Every function here works from public geometry only: squares, ownership,
 adjacency and stable piece identifiers. No detection decision reads a hidden
 `true_type`, which is invariant 11 of `08_internal_state_spec.md` section 18.
 
-Deterministic counterpart selection always uses the lowest absolute board-square
-index, evaluated at the moment the specification names for that event.
+Counterpart selection
+---------------------
+When several counterparts qualify for the same event, the one with the lowest
+square index **after normalization into the acting player's perspective** is
+selected, evaluated at the moment the specification names for that event.
+
+`observation_v2_127ch` used the raw absolute index here. Absolute indices are
+not preserved by the 180 degree perspective rotation, so a position and its
+colour-swapped mirror could select non-equivalent counterparts and the
+behavioural channels of the two were not mirror images. `observation_v2_1_127ch`
+orders by the normalized index instead, which makes the selection depend only on
+the geometry the acting player actually sees. For red the normalization is the
+identity, so red-to-move selections are unchanged.
 """
 
 from dataclasses import dataclass
+from typing import Callable
 
 from .constants import (
     BEHAVIOR_DECLINED_ATTACK,
@@ -23,9 +35,23 @@ from .constants import (
     BEHAVIOR_THREAT,
     BEHAVIOR_WAS_PROTECTED,
 )
-from .coordinates import NEIGHBOURS, are_adjacent
+from .coordinates import NEIGHBOURS, PERSPECTIVE_TABLES, are_adjacent
 from .legal_moves import adjacent_attack_opportunities
 from .state import BehaviorEvent, GameState
+
+
+def normalized_square_key(state: GameState, player: int) -> Callable[[int], int]:
+    """Sort key ordering piece identifiers by normalized square index.
+
+    The returned key reads each piece's *current* square, so callers must apply
+    it while the board still holds the squares the specification refers to.
+    """
+    table = PERSPECTIVE_TABLES[player]
+
+    def key(piece_id: int) -> int:
+        return table[state.pieces[piece_id].current_square]
+
+    return key
 
 
 @dataclass
@@ -66,14 +92,19 @@ def capture_pre_move_context(
     # action actually chosen counts as declined for the piece that could have
     # made it, whether or not that piece is the one that moves.
     declined_attacks: dict[int, int] = {}
+    square_key = normalized_square_key(state, player)
     for actor_id, target_ids in adjacent_attack_opportunities(state, player).items():
         actor_square = state.pieces[actor_id].current_square
-        for target_id in target_ids:  # already ordered by target square index
-            target_square = state.pieces[target_id].current_square
-            chosen = actor_square == source and target_square == destination
-            if not chosen:
-                declined_attacks[actor_id] = target_id
-                break
+        declined = [
+            target_id
+            for target_id in target_ids
+            if not (
+                actor_square == source
+                and state.pieces[target_id].current_square == destination
+            )
+        ]
+        if declined:
+            declined_attacks[actor_id] = min(declined, key=square_key)
 
     # -- threats created by the previous opponent move (08 section 9) ------
     threatened_own_pieces: dict[int, int] = {}
@@ -83,8 +114,10 @@ def capture_pre_move_context(
         if threatened.owner != player or not threatened.alive:
             continue
         current = threatened_own_pieces.get(threatened_id)
-        threatener_square = state.pieces[threatener_id].current_square
-        if current is None or threatener_square < state.pieces[current].current_square:
+        # Every relation in the set was created by the same move and therefore
+        # shares one threatener, so this comparison never actually has to break
+        # a tie. It is kept normalized for consistency with the other rules.
+        if current is None or square_key(threatener_id) < square_key(current):
             threatened_own_pieces[threatened_id] = threatener_id
         threatened_squares[threatened_id] = threatened.current_square
 
@@ -132,14 +165,14 @@ def compute_threat_relations(
 
 
 def detect_threat_counterpart(
-    state: GameState, relations: list[tuple[int, int, int]]
+    state: GameState, relations: list[tuple[int, int, int]], player: int
 ) -> int | None:
-    """Deterministic counterpart for the `threat` event: lowest square index."""
+    """Counterpart for the `threat` event: lowest normalized square index."""
     if not relations:
         return None
     return min(
         (threatened for _, threatened, _ in relations),
-        key=lambda piece_id: state.pieces[piece_id].current_square,
+        key=normalized_square_key(state, player),
     )
 
 
@@ -168,7 +201,7 @@ def detect_evade_counterpart(state: GameState, context: PreMoveContext) -> int |
             escaped.append(threatener_id)
     if not escaped:
         return None
-    return min(escaped, key=lambda piece_id: state.pieces[piece_id].current_square)
+    return min(escaped, key=normalized_square_key(state, mover.owner))
 
 
 def detect_protection(
@@ -204,9 +237,7 @@ def detect_protection(
 
     if not candidates:
         return None
-    protected_id = min(
-        candidates, key=lambda piece_id: state.pieces[piece_id].current_square
-    )
+    protected_id = min(candidates, key=normalized_square_key(state, mover.owner))
     return protected_id, context.threatened_own_pieces[protected_id]
 
 
@@ -232,7 +263,9 @@ def build_behavior_events(
         return state.pieces[counterpart_id].known_to(owner)
 
     # threat
-    threat_counterpart = detect_threat_counterpart(state, threat_relations)
+    threat_counterpart = detect_threat_counterpart(
+        state, threat_relations, state.pieces[context.mover_piece_id].owner
+    )
     if threat_counterpart is not None:
         actor_id = context.mover_piece_id
         events.append(

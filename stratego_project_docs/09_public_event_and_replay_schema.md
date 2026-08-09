@@ -15,6 +15,12 @@ The key design rule is that **privileged replay data and public event data are d
 
 A replay used internally may contain both secret setups. A public event stream shown to a player or browser client must never expose information that player is not allowed to know.
 
+### Frozen reference status
+
+Phase 2.1 froze these replay/event semantics in `phase2_1_reference_1.1.0`. Ten thousand complete games covering 5,078,406 plies replayed with zero state, observation, event, or terminal-result mismatches, and 103,625 valid hidden-state permutations produced zero public-event or browser-view mismatches.
+
+Phase 3 may add training-trajectory metadata, periodic snapshots, sparse legal-action probabilities, and shared-memory transport records. Those additions are training/infrastructure products and must not redefine the authoritative replay or public-event semantics in this document.
+
 ---
 
 ## 2. Three record layers
@@ -326,7 +332,7 @@ For two privileged games that differ only by a permutation of true types among u
 - move events;
 - behavior events and threat relations;
 - legal action set, unless a public rule consequence legitimately differs;
-- all `observation_v2_127ch` channels;
+- all `observation_v2_1_127ch` channels;
 - opponent setup view;
 - browser event stream.
 

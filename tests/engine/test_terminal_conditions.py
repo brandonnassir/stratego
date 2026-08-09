@@ -20,7 +20,10 @@ from stratego.engine.constants import (
     RulesConfig,
     TRAINING_RULES,
 )
-from stratego.engine.legal_moves import has_legal_action
+from stratego.engine.legal_moves import (
+    generate_actions_for_player,
+    has_legal_action,
+)
 from tests.helpers import make_position, play, square
 
 
@@ -182,3 +185,149 @@ def test_result_requires_a_terminal_state():
     state = shuffle_position()
     with pytest.raises(ValueError):
         state.result_for(RED)
+
+
+# ---------------------------------------------------------------------------
+# Terminal-condition precedence (`02_project_ruleset.md` section 9A)
+#
+#   1. flag_capture
+#   2. opponent_no_legal_move
+#   3. both_no_legal_move_draw
+#   4. battleless_move_limit_draw
+#   5. absolute_move_limit_draw
+# ---------------------------------------------------------------------------
+
+# Blue owns only a Flag and a Bomb, so blue never has a legal move.
+IMMOBILE_BLUE = {"a10": "flag", "b10": "bomb"}
+
+
+def test_no_legal_move_victory_outranks_the_battleless_draw():
+    """Level 2 beats level 4 when one move satisfies both."""
+    state = make_position(
+        red={"a1": "captain", "j1": "flag"},
+        blue=dict(IMMOBILE_BLUE),
+        acting_player=RED,
+        rules=TRAINING_RULES,
+        battleless_moves=TRAINING_RULES.battleless_move_limit - 1,
+    )
+    assert not has_legal_action(state, BLUE)
+
+    play(state, "a1 a2")
+
+    # Both conditions really are satisfied by this single move.
+    assert state.battleless_moves == TRAINING_RULES.battleless_move_limit
+    assert not has_legal_action(state, BLUE)
+    # Precedence resolves it as a win, not a draw.
+    assert state.terminal_reason == TERMINAL_OPPONENT_NO_LEGAL_MOVE
+    assert state.winner == RED
+    assert not state.is_draw
+
+
+def test_no_legal_move_victory_outranks_the_absolute_move_limit_draw():
+    """Level 2 beats level 5 when one move satisfies both."""
+    rules = RulesConfig(battleless_move_limit=10_000, absolute_move_limit=12)
+    state = make_position(
+        red={"a1": "captain", "j1": "flag"},
+        blue=dict(IMMOBILE_BLUE),
+        acting_player=RED,
+        rules=rules,
+        total_moves=rules.absolute_move_limit - 1,
+    )
+
+    play(state, "a1 a2")
+
+    assert state.total_moves == rules.absolute_move_limit
+    assert not has_legal_action(state, BLUE)
+    assert state.terminal_reason == TERMINAL_OPPONENT_NO_LEGAL_MOVE
+    assert state.winner == RED
+
+
+def test_mutual_stalemate_outranks_the_absolute_move_limit_draw():
+    """Level 3 beats level 5; both are draws, but the reason must be correct."""
+    rules = RulesConfig(battleless_move_limit=10_000, absolute_move_limit=12)
+    state = make_position(
+        red={"a1": "flag", "a3": "captain"},
+        blue={"j10": "flag", "a4": "bomb", "j9": "bomb"},
+        acting_player=RED,
+        rules=rules,
+        total_moves=rules.absolute_move_limit - 1,
+    )
+
+    play(state, "a3 a4")  # the captain dies on the bomb, stranding both sides
+
+    assert state.total_moves == rules.absolute_move_limit
+    assert not has_legal_action(state, RED)
+    assert not has_legal_action(state, BLUE)
+    assert state.terminal_reason == TERMINAL_BOTH_NO_LEGAL_MOVE_DRAW
+    assert state.is_draw
+
+
+def test_flag_capture_outranks_every_other_condition():
+    """Level 1 beats levels 2 and 5 simultaneously."""
+    rules = RulesConfig(battleless_move_limit=10_000, absolute_move_limit=12)
+    state = make_position(
+        red={"e3": "scout", "a1": "bomb"},
+        blue={"e4": "flag", "j10": "bomb"},
+        acting_player=RED,
+        rules=rules,
+        total_moves=rules.absolute_move_limit - 1,
+    )
+
+    play(state, "e3 e4")
+
+    assert state.total_moves == rules.absolute_move_limit
+    assert not has_legal_action(state, BLUE)
+    assert state.terminal_reason == TERMINAL_FLAG_CAPTURE
+    assert state.winner == RED
+
+
+def test_draw_limits_still_apply_when_both_players_can_move():
+    """Levels 4 and 5 are unaffected when the mobility question does not arise."""
+    state = shuffle_position(TRAINING_RULES)
+    shuffle(state, 100)
+    assert state.terminal_reason == TERMINAL_BATTLELESS_MOVE_LIMIT_DRAW
+
+    rules = RulesConfig(battleless_move_limit=10_000, absolute_move_limit=12)
+    state = shuffle_position(rules)
+    shuffle(state, 12)
+    assert state.terminal_reason == TERMINAL_ABSOLUTE_MOVE_LIMIT_DRAW
+
+
+def test_battleless_limit_can_never_coincide_with_a_capture_or_stalemate():
+    """The two remaining precedence collisions are structurally unreachable.
+
+    `02_project_ruleset.md` section 9A records both consequences:
+
+    - any combat resets the no-battle counter to zero, so a capture and
+      `battleless_move_limit_draw` cannot occur on the same move;
+    - a player cannot strand itself with a non-combat move, because the square
+      it just vacated is always available to move back into, so
+      `both_no_legal_move_draw` always follows a combat move and therefore also
+      cannot coincide with the battleless limit.
+    """
+    # Combat resets the counter even when it was one short of the threshold.
+    state = make_position(
+        red={"e3": "marshal", "a1": "flag"},
+        blue={"e4": "captain", "j10": "flag", "j9": "scout"},
+        acting_player=RED,
+        rules=TRAINING_RULES,
+        battleless_moves=TRAINING_RULES.battleless_move_limit - 1,
+    )
+    play(state, "e3 e4")
+    assert state.battleless_moves == 0
+    assert not state.terminal
+
+    # A non-combat move always leaves the mover able to step back, so the mover
+    # can never strand itself.
+    state = make_position(
+        red={"a1": "captain", "j1": "flag"},
+        blue={"a10": "captain", "j10": "flag"},
+        acting_player=RED,
+        rules=TRAINING_RULES,
+    )
+    play(state, "a1 a2")
+    assert has_legal_action(state, RED)
+    destinations = {
+        action % 100 for action in generate_actions_for_player(state, RED)
+    }
+    assert square("a1") in destinations

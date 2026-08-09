@@ -1,4 +1,4 @@
-# Observation Validation Matrix for `observation_v2_127ch`
+# Observation Validation Matrix for `observation_v2_1_127ch`
 
 ## 1. Purpose
 
@@ -7,6 +7,16 @@ This document converts the observation specification into testable engine behavi
 The observation is not accepted because its tensor shape is correct. It is accepted only when each channel changes exactly when intended and never reveals information unavailable to the acting player.
 
 All tests apply first to the Python reference engine. Any optimized backend must reproduce the reference tensor exactly for the same full state and public history.
+
+### Current status
+
+The Phase 2.1 reference implementation `phase2_1_reference_1.1.0` has passed the frozen observation acceptance suite:
+
+- 1,804 mirrored position pairs, zero mismatches across all 127 channels;
+- 103,625 valid hidden-information permutations, zero unexplained observation differences;
+- 10,000 complete replay games / 5,078,406 plies, zero observation mismatches.
+
+The remaining observation-related work in Phase 3 is **transport/reconstruction equivalence under batching**, not a change to the observation definition.
 
 ---
 
@@ -216,9 +226,11 @@ No threat event when:
 
 ### Multiple-counterpart determinism
 
-If two opponent pieces are adjacent after the move, verify the counterpart with the lowest absolute board-square index is selected.
+If two opponent pieces are adjacent after the move, verify the counterpart with the lowest board-square index **after normalization into the acting player's perspective** is selected, per `06_observation_v2_127ch.md` section 10.6.
 
 The selection must be unchanged if the two hidden true types are swapped.
+
+The same position, colour-swapped and rotated 180 degrees, must select the mirror image of the same counterpart.
 
 ---
 
@@ -265,7 +277,7 @@ No declined attack when:
 
 ### Multiple opportunities
 
-If `P` could legally attack two adjacent opponent pieces and attacks neither, verify the lower-index counterpart is chosen without inspecting hidden types.
+If `P` could legally attack two adjacent opponent pieces and attacks neither, verify the counterpart with the lower **normalized** index is chosen without inspecting hidden types.
 
 ---
 
@@ -398,6 +410,34 @@ For perspective-normalized equivalent games, recent-move planes must map identic
 
 ---
 
+# 9A. Mirror-equivalence suite
+
+This suite is the acceptance gate for perspective normalization introduced with `observation_v2_1_127ch`.
+
+Construct a position and its equivalent twin, obtained by swapping the colours and rotating the board 180 degrees, so that the two acting players occupy equivalent roles. Advance both through equivalent action sequences.
+
+Requirement:
+
+- **all 127 channels** must be identical for the equivalent acting-player perspectives, in both directions of the pairing.
+
+The sampled positions must include at least one instance of each of:
+
+- threat;
+- evade;
+- declined attack;
+- protect;
+- was protected;
+- a position in which more than one counterpart was eligible for the same behavioural event.
+
+Recommended acceptance target:
+
+- at least **1,000 mirrored position pairs**;
+- **zero observation mismatches**.
+
+Under the superseded `observation_v2_127ch` tie-break this gate could not be met, because absolute square indices are not preserved by the rotation.
+
+---
+
 # 10. Global-channel tests
 
 ## 10.1 Lake mask 124
@@ -463,7 +503,7 @@ For at least 10,000 complete reference-engine games:
 
 1. store only rules version, observation version, setups, and action history;
 2. replay from the beginning;
-3. reconstruct `observation_v2_127ch` at every ply;
+3. reconstruct `observation_v2_1_127ch` at every ply;
 4. compare against observations recorded during original play.
 
 **Gate:** zero mismatches.
@@ -501,4 +541,4 @@ The observation representation is considered frozen for initial model developmen
 - the documented channel ordering is exported as machine-readable metadata by the engine package;
 - no unresolved interpretation remains for any behavioral event.
 
-At that point, changing the observation requires a new version identifier rather than silently altering `observation_v2_127ch`.
+At that point, changing the observation requires a new version identifier rather than silently altering `observation_v2_1_127ch`.

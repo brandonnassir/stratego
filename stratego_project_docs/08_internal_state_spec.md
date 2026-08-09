@@ -5,7 +5,7 @@
 This document defines the minimum authoritative state that the Stratego engine must retain so that it can:
 
 - enforce the project's rules;
-- reconstruct `observation_v2_127ch` exactly;
+- reconstruct `observation_v2_1_127ch` exactly;
 - generate legal-action masks;
 - support deterministic replay;
 - support snapshot/restore for decision-time search;
@@ -13,6 +13,17 @@ This document defines the minimum authoritative state that the Stratego engine m
 - provide privileged ground-truth targets for belief learning.
 
 The engine must store **facts and event records**, not model-ready channel values. The 127-channel observation is derived from this state.
+
+### Frozen implementation status
+
+Phase 2.1 validated this state contract in `phase2_1_reference_1.1.0`, including:
+
+- 600 snapshot/restore cases with zero mismatches;
+- 1,045,111 invariant-checked transitions with zero violations;
+- exact deterministic replay over 10,000 complete games;
+- zero public-information leaks in 103,625 valid hidden-type permutations.
+
+Phase 3 may wrap, batch, snapshot, and transport these states, but it must not change their behavioral meaning. Any production backend remains subordinate to differential equivalence with the frozen reference engine.
 
 ---
 
@@ -34,7 +45,7 @@ Public knowledge + public history
 Observer-specific player view
         |
         v
-observation_v2_127ch + legal-action mask
+observation_v2_1_127ch + legal-action mask
 ```
 
 The policy and value model must never receive the privileged full game state directly.
@@ -261,7 +272,7 @@ piece_id -> ordered list of legally attackable adjacent opponent piece_ids
 
 After the selected action is known, declined-attack events are generated according to `06_observation_v2_127ch.md`.
 
-If several eligible declined targets remain for one piece, select the target occupying the lowest absolute board-square index at turn start.
+If several eligible declined targets remain for one piece, select the target occupying the lowest board-square index at turn start **after normalization into the acting player's perspective**, per `06_observation_v2_127ch.md` section 10.6.
 
 No target ordering may inspect hidden piece type.
 
@@ -425,7 +436,7 @@ Any invariant failure is a hard engine error during development.
 
 This specification is ready for implementation when:
 
-- all fields needed by `observation_v2_127ch` are accounted for;
+- all fields needed by `observation_v2_1_127ch` are accounted for;
 - no model input requires privileged hidden information;
 - snapshot contents are sufficient to reproduce observations exactly;
 - public event schemas have been defined;

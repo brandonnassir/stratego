@@ -1,12 +1,36 @@
-# Observation Specification: `observation_v2_127ch`
+# Observation Specification: `observation_v2_1_127ch`
 
 ## 1. Status
 
-**Status:** Approved Phase 1 design.
+**Status:** Approved. Current authoritative version is `observation_v2_1_127ch`.
 
-This document is the authoritative model-observation contract for the first Stratego system. It replaces the earlier draft identifier `observation_v1_68ch`.
+This document is the authoritative model-observation contract for the first Stratego system.
 
 Any future change to channel meaning, normalization, ordering, or perspective convention requires a new observation-version identifier.
+
+### Frozen implementation anchor
+
+Phase 2.1 froze this observation contract against reference implementation `phase2_1_reference_1.1.0`.
+
+Acceptance evidence for this exact version includes:
+
+- 1,804 mirrored position pairs / 3,608 observer comparisons with zero mismatches across all 127 channels;
+- 103,625 valid hidden-information permutations with zero observation mismatches;
+- 10,000 complete deterministic replay games / 5,078,406 plies with zero observation mismatches.
+
+Phase 3 may optimize transport or reconstruction, but it must not alter these channel semantics without a new observation identifier.
+
+> **Note on the file name.** This file is still called `06_observation_v2_127ch.md` so that the cross-references in the other Phase 1 documents remain valid. The identifier it defines is `observation_v2_1_127ch`.
+
+### 1.1 Version history
+
+| Identifier | Status | Change |
+|---|---|---|
+| `observation_v1_68ch` | Superseded | Early draft; never implemented. |
+| `observation_v2_127ch` | Superseded | First 127-channel contract. Broke behavioural counterpart ties by **absolute** board-square index. |
+| `observation_v2_1_127ch` | **Current** | Identical channel count, order, ranges and meaning. Behavioural counterpart ties are broken by the square index **after normalization into the acting player's perspective** (section 10.6). |
+
+Rationale for `observation_v2_1_127ch`: absolute board-square indices are not preserved by the 180-degree perspective rotation used for blue. Under `observation_v2_127ch`, a position and its colour-swapped mirror could therefore select non-equivalent behavioural counterparts, and behavioural channels 68-107 were not mirror images of one another. Phase 2 validation measured this in 22 of 60 mirrored game pairs. Because one network is intended to play both colours, the tie-break now uses the normalized index so that selection depends only on the geometry the acting player sees. For red the normalization is the identity, so red-to-move selections are unchanged.
 
 ---
 
@@ -397,7 +421,7 @@ Piece \(P\) creates a **threat** against opponent piece \(Q\) when:
 4. \(P\) is orthogonally adjacent to \(Q\) after the move;
 5. \(Q\) was not the piece directly attacked by that action.
 
-If several opponent pieces satisfy the definition, choose one counterpart deterministically using the lowest absolute board-square index after the move.
+If several opponent pieces satisfy the definition, choose one counterpart deterministically using the lowest **normalized** board-square index after the move, as defined in section 10.6.
 
 Combat itself is not recorded as a threat against the attacked piece.
 
@@ -424,7 +448,7 @@ If the player's chosen action is not \(P\rightarrow Q\), then \(P\) records a de
 
 The piece \(P\) does not have to be the piece moved that turn.
 
-If multiple legal adjacent attacks were declined by the same piece, choose the counterpart occupying the lowest absolute board-square index at the start of the turn.
+If multiple legal adjacent attacks were declined by the same piece, choose the counterpart occupying the lowest **normalized** board-square index at the start of the turn, as defined in section 10.6.
 
 The selection rule must not inspect hidden piece types.
 
@@ -441,7 +465,7 @@ Piece \(C\) records a **protect** event for friendly piece \(B\) when:
 5. \(C\) was not orthogonally adjacent to \(B\) immediately before the move;
 6. \(C\) is orthogonally adjacent to \(B\) immediately after the move.
 
-If several threatened friendly pieces satisfy the definition, choose the one at the lowest absolute board-square index after the move.
+If several threatened friendly pieces satisfy the definition, choose the one at the lowest **normalized** board-square index after the move, as defined in section 10.6.
 
 ## 10.5 Was protected
 
@@ -453,6 +477,36 @@ Whenever \(C\) protects \(B\):
 The counterpart for `protect` is \(B\).
 
 The counterpart for `was_protected` is \(C\).
+
+---
+
+## 10.6 Deterministic counterpart selection
+
+Every rule in section 10 that must break a tie between eligible counterparts uses the same ordering.
+
+Let \(A\) be the acting player, that is the owner of the piece receiving the behavioural record. Let \(\operatorname{norm}_A(s)\) be the perspective normalization of absolute square index \(s\) for \(A\), the same transform used for the observation tensor in section 3:
+
+\[
+\operatorname{norm}_{\text{red}}(s)=s,
+\qquad
+\operatorname{norm}_{\text{blue}}(s)=99-s.
+\]
+
+Among the eligible counterparts, select the one whose square minimizes \(\operatorname{norm}_A(s)\), evaluated at the moment named by that behaviour's definition:
+
+| Behaviour | Evaluated at |
+|---|---|
+| Threat | after the move has fully resolved |
+| Evade | after the move has fully resolved |
+| Declined attack | the start of the acting player's turn |
+| Protect / was protected | after the move has fully resolved |
+
+Two properties follow, and both are required:
+
+1. **Determinism.** The ordering is a total order on distinct squares, so exactly one counterpart is selected.
+2. **Perspective equivalence.** A position and its colour-swapped, 180-degree-rotated mirror select mirror-image counterparts, so all 127 channels of the two positions are identical for the equivalent acting-player perspectives.
+
+The selection rule must not inspect hidden piece types. Square index, ownership and adjacency are all public facts.
 
 ---
 
@@ -561,7 +615,7 @@ They must never be accessible to the policy/value/belief encoder input.
 
 # 16. Version acceptance conditions
 
-`observation_v2_127ch` is accepted only when:
+`observation_v2_1_127ch` is accepted only when:
 
 1. every channel has a deterministic construction rule;
 2. perspective normalization is fully tested;

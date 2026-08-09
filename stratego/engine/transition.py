@@ -228,31 +228,23 @@ def _evaluate_terminal(
 ) -> None:
     """Set terminal fields, following the project precedence order.
 
-    Precedence, highest first:
+    Precedence, highest first (`02_project_ruleset.md` section 9A):
 
-    1. `flag_capture` -- `01_official_rules.md` section 7 makes it immediate;
-    2. `battleless_move_limit_draw` -- the project draw limit "immediately"
-       ends the game once the threshold is reached
-       (`PHASE_2_IMPLEMENTATION_INSTRUCTIONS.md` section 10);
-    3. `absolute_move_limit_draw` -- the engineering safety limit;
-    4. `opponent_no_legal_move` / `both_no_legal_move_draw`.
+    1. `flag_capture`
+    2. `opponent_no_legal_move`
+    3. `both_no_legal_move_draw`
+    4. `battleless_move_limit_draw`
+    5. `absolute_move_limit_draw`
 
-    The relative order of 2/3 against 4 is not stated by any Phase One document.
-    It only becomes observable when a non-combat move simultaneously reaches a
-    draw threshold and strands the opponent, which the draw-limit wording
-    resolves in favour of the draw. The choice is recorded in the Phase Two
-    report rather than left implicit.
+    Genuine Stratego game-ending conditions outrank the project's own training
+    termination limits. The ordering is only observable when a single move both
+    reaches a draw threshold and settles the mobility question; in every other
+    position at most one condition applies.
     """
     rules = state.rules
 
     if flag_captured:
         _finish(state, TERMINAL_FLAG_CAPTURE, winner=player)
-        return
-    if state.battleless_moves >= rules.battleless_move_limit:
-        _finish(state, TERMINAL_BATTLELESS_MOVE_LIMIT_DRAW, winner=None)
-        return
-    if state.total_moves >= rules.absolute_move_limit:
-        _finish(state, TERMINAL_ABSOLUTE_MOVE_LIMIT_DRAW, winner=None)
         return
 
     if not has_legal_action(state, opponent):
@@ -263,6 +255,13 @@ def _evaluate_terminal(
             _finish(state, TERMINAL_OPPONENT_NO_LEGAL_MOVE, winner=player)
         else:
             _finish(state, TERMINAL_BOTH_NO_LEGAL_MOVE_DRAW, winner=None)
+        return
+
+    if state.battleless_moves >= rules.battleless_move_limit:
+        _finish(state, TERMINAL_BATTLELESS_MOVE_LIMIT_DRAW, winner=None)
+        return
+    if state.total_moves >= rules.absolute_move_limit:
+        _finish(state, TERMINAL_ABSOLUTE_MOVE_LIMIT_DRAW, winner=None)
 
 
 def _finish(state: GameState, reason: str, winner: int | None) -> None:

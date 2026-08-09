@@ -6,6 +6,17 @@ This file is the authoritative rules contract for the first version of the proje
 
 It deliberately differs from the full competitive rules described in the Ataraxos paper. Those deviations are explicit so they do not become accidental implementation errors.
 
+### Current implementation status
+
+As of Phase 2.1, this rules contract is implemented by the frozen Python reference engine:
+
+- implementation: `phase2_1_reference_1.1.0`;
+- rules version: `stratego_project_v1`;
+- observation version: `observation_v2_1_127ch`;
+- action encoding: fixed 10,000-entry source-destination space.
+
+Phase 2.1 validation passed with zero unexplained rule, replay, observation, hidden-information, snapshot, or invariant mismatches. Future changes to game semantics require explicit versioning and differential comparison against the frozen reference engine.
+
 ---
 
 ## 1. Included rules
@@ -151,6 +162,27 @@ When combat occurs:
 - captured identities remain part of public game history and remaining-piece counts.
 
 If an unrevealed piece makes a multi-square Scout move, its identity becomes known as Scout in the project observation state because no other piece can legally make that move.
+
+---
+
+## 9A. Terminal-condition precedence
+
+More than one terminal condition can be satisfied by a single move. The engine resolves them in this fixed order, highest priority first:
+
+1. `flag_capture`
+2. `opponent_no_legal_move`
+3. `both_no_legal_move_draw`
+4. `battleless_move_limit_draw`
+5. `absolute_move_limit_draw`
+
+The principle is that genuine Stratego game-ending conditions take precedence over the project-specific training termination limits, which exist only to guarantee practical termination once the two anti-repetition rules were removed.
+
+The order is observable only when a single move both reaches a draw threshold and settles the mobility question. Two consequences are worth stating explicitly:
+
+- combat always resets the no-battle counter to zero, so a capture can never coincide with `battleless_move_limit_draw`;
+- a player cannot strand itself with a non-combat move, because the square it just vacated is always available to move back into. `both_no_legal_move_draw` therefore always arises from a move that resolves combat, and so can never coincide with `battleless_move_limit_draw` either.
+
+This section records behaviour that earlier revisions of `stratego_project_v1` left unspecified. It clarifies the existing ruleset rather than changing a stated rule, so the rules version is unchanged. Any future change to this ordering does require a new rules version identifier under section 10.
 
 ---
 

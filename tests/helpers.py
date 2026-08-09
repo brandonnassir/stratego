@@ -22,7 +22,7 @@ from stratego.engine.constants import (
     RulesConfig,
     TRAINING_RULES,
 )
-from stratego.engine.coordinates import square_from_name
+from stratego.engine.coordinates import square_from_name, square_name, to_perspective
 from stratego.engine.pieces import PieceRecord, make_piece_id
 from stratego.engine.setup import setup_squares
 from stratego.engine.state import GameState
@@ -92,7 +92,15 @@ def make_position(
             remaining[piece_type] -= 1
 
         used = set(requested)
-        filler_squares = [item for item in setup_squares(player) if item not in used]
+        # Filler starting squares are taken in ascending *normalized* order for
+        # their owner. That keeps synthetic positions mirror-consistent: a
+        # position and its colour-swapped 180-degree rotation then assign their
+        # fillers to equivalent normalized squares, so the setup-memory and
+        # unresolved-inventory planes of the two agree.
+        filler_squares = sorted(
+            (item for item in setup_squares(player) if item not in used),
+            key=lambda item: to_perspective(item, player),
+        )
 
         slot = 0
         for placed_square in sorted(requested):
@@ -145,13 +153,27 @@ def make_position(
     )
 
 
-def cell(observation, channel: int, square_name: str, observer: int = RED) -> float:
+def cell(observation, channel: int, name: str, observer: int = RED) -> float:
     """Read one observation cell by human square name, in `observer`'s frame."""
-    from stratego.engine.coordinates import to_perspective
-
-    normalized = to_perspective(square_from_name(square_name), observer)
+    normalized = to_perspective(square_from_name(name), observer)
     row, column = divmod(normalized, 10)
     return float(observation[channel, row, column])
+
+
+def mirror_name(name: str) -> str:
+    """The square a name maps to under the 180 degree perspective rotation."""
+    return square_name(99 - square_from_name(name))
+
+
+def mirror_placements(placements: "dict[str, str]") -> dict[str, str]:
+    """Rotate a `{square name: type name}` placement map by 180 degrees."""
+    return {mirror_name(name): type_name for name, type_name in placements.items()}
+
+
+def mirror_move(move: str) -> str:
+    """Rotate a `"a4 a5"` move by 180 degrees."""
+    source, destination = move.split()
+    return f"{mirror_name(source)} {mirror_name(destination)}"
 
 
 def plane_sum(observation, channel: int) -> float:
@@ -218,6 +240,9 @@ __all__ = [
     "full_inventory_setup",
     "known_good_game",
     "make_position",
+    "mirror_move",
+    "mirror_name",
+    "mirror_placements",
     "nonterminal_state",
     "piece_at",
     "plane_sum",

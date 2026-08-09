@@ -1,43 +1,49 @@
 # Phase Two Implementation Report — Python Reference Stratego Engine
 
-Implementation version: `phase2_reference_1.0.0`
+Implementation version: `phase2_1_reference_1.1.0`
 Rules version: `stratego_project_v1`
-Observation version: `observation_v2_127ch`
+Observation version: `observation_v2_1_127ch` (supersedes `observation_v2_127ch`)
 Report generated from the acceptance run recorded in `reports/phase_2_metrics.json`.
+
+This report covers Phase Two and the two corrections applied in Phase Two Point
+One. The Phase Two Point One section near the end summarises exactly what
+changed; every other section already reflects the corrected engine.
 
 ---
 
 ## 24.1 Executive status
 
 ```text
-PASS — recommended for Phase Three
+PASS — Reference Engine Frozen for Phase Three
 ```
 
-Every Phase Two acceptance gate was met with zero unexplained mismatches:
+Every acceptance gate was met with zero unexplained mismatches:
 
 | Gate | Target | Measured |
 |---|---|---|
-| Automated tests | all pass | 1,250 passed, 0 failed, 0 skipped |
+| Automated tests | all pass | 1,255 passed, 0 failed, 0 skipped |
 | Combat matrix | exhaustive, 0 failures | 120 cases, 0 failures |
 | Legal list vs mask | 0 discrepancies | 9,285 positions, 0 discrepancies |
+| Mirror equivalence (all 127 channels) | >= 1,000 pairs, 0 mismatches | 1,804 pairs / 3,608 comparisons, 0 mismatches |
 | Hidden-information anti-leak | >= 100,000 valid trials, 0 mismatches | 103,625 valid trials, 0 mismatches |
 | Deterministic replay | >= 10,000 games, 0 mismatches | 10,000 games / 5,078,406 plies, 0 mismatches |
 | Snapshot / restore | equivalence | 600 snapshots across 6 phases, 0 mismatches |
 | State invariants under stress | 0 violations | 2,000 games / 1,045,111 transitions, 0 violations |
 
-Two matters are recorded as open items rather than defects, and neither blocks
-Phase Three. Both are described fully in sections 24.17 and 24.19:
+The two open items carried by the original Phase Two report are now closed:
 
-1. The behavioural counterpart tie-break defined in `06_observation_v2_127ch.md`
-   section 10 uses the **absolute** board-square index, which is not preserved
-   by the perspective rotation. Perspective normalization is therefore exact for
-   109 of the 127 channels but not for the counterpart-derived behavioural
-   features when a genuine tie exists. This is a property of the frozen
-   specification, not an implementation error; changing it would require a new
-   observation version identifier.
-2. The relative precedence of the draw limits against the no-legal-move win is
-   not stated by any Phase One document. A precedence was chosen, implemented
-   and documented (section 24.5).
+1. Perspective normalization is exact across **all 127 channels**. The
+   behavioural counterpart tie-break now orders candidates by normalized rather
+   than absolute square index, published as observation version
+   `observation_v2_1_127ch`.
+2. Terminal-condition precedence is specified, implemented and tested. Genuine
+   Stratego game-ending conditions now outrank the project's own training
+   termination limits, and the ordering is recorded in
+   `02_project_ruleset.md` section 9A.
+
+The reference engine is frozen. Rule semantics, `observation_v2_1_127ch`, the
+action encoding and replay semantics must not change without a new version
+identifier and a differential comparison against this implementation.
 
 ---
 
@@ -45,13 +51,13 @@ Phase Three. Both are described fully in sections 24.17 and 24.19:
 
 ### Files created
 
-Engine (`stratego/`, 3,778 lines of implementation code):
+Engine (`stratego/`, 3,823 lines of implementation code):
 
 | File | Lines | Responsibility |
 |---|---:|---|
 | `stratego/__init__.py` | 7 | package marker |
 | `stratego/engine/__init__.py` | 106 | public API surface |
-| `stratego/engine/constants.py` | 296 | geometry, inventory, terminal labels, `RulesConfig` |
+| `stratego/engine/constants.py` | 300 | geometry, inventory, terminal labels, `RulesConfig` |
 | `stratego/engine/coordinates.py` | 213 | index/name conversion, adjacency, rays, perspective |
 | `stratego/engine/pieces.py` | 171 | `PieceRecord`, stable identifiers |
 | `stratego/engine/setup.py` | 173 | setup validation, generation, serialisation |
@@ -59,9 +65,9 @@ Engine (`stratego/`, 3,778 lines of implementation code):
 | `stratego/engine/actions.py` | 67 | 10,000-entry action encoding |
 | `stratego/engine/legal_moves.py` | 143 | move generation, mask, attack opportunities |
 | `stratego/engine/combat.py` | 76 | exhaustive combat resolver |
-| `stratego/engine/transition.py` | 288 | atomic transition, terminal evaluation, event emission |
-| `stratego/engine/behavior.py` | 321 | the five behavioural events and threat relations |
-| `stratego/engine/observation.py` | 424 | `observation_v2_127ch`, metadata, belief targets |
+| `stratego/engine/transition.py` | 289 | atomic transition, terminal evaluation, event emission |
+| `stratego/engine/behavior.py` | 353 | the five behavioural events and threat relations |
+| `stratego/engine/observation.py` | 432 | `observation_v2_1_127ch`, metadata, belief targets |
 | `stratego/engine/events.py` | 302 | derived events, observer filtering, browser views |
 | `stratego/engine/replay.py` | 138 | privileged replay record and reconstruction |
 | `stratego/engine/snapshot.py` | 162 | compact snapshot / restore |
@@ -69,17 +75,17 @@ Engine (`stratego/`, 3,778 lines of implementation code):
 | `stratego/engine/random_play.py` | 94 | seeded uniform random legal agent |
 | `stratego/engine/permutation.py` | 174 | hidden-identity permutation and public-surface comparison |
 
-Tests (`tests/`, 5,280 lines including 227 lines of shared fixtures):
+Tests (`tests/`, 5,561 lines including 252 lines of shared fixtures):
 
 | Package | Files | Lines |
 |---|---:|---:|
-| `tests/engine/` | 12 | 1,951 |
-| `tests/observation/` | 9 | 2,047 |
+| `tests/engine/` | 12 | 2,100 |
+| `tests/observation/` | 9 | 2,154 |
 | `tests/information_security/` | 4 | 644 |
 | `tests/replay/` | 2 | 406 |
-| `tests/helpers.py` | 1 | 227 |
+| `tests/helpers.py` | 1 | 252 |
 
-Harness and reporting (`scripts/`, 1,307 lines):
+Harness and reporting (`scripts/`, 1,462 lines):
 
 - `scripts/run_phase2_validation.py` — the acceptance harness that produces `reports/phase_2_metrics.json`
 - `scripts/manual_inspection_examples.py` — generates the section 24.16 examples
@@ -87,9 +93,30 @@ Harness and reporting (`scripts/`, 1,307 lines):
 Other files: `requirements.txt`, `reports/phase_2_implementation_report.md`,
 `reports/phase_2_metrics.json`.
 
-### Files modified
+### Files modified in Phase Two Point One
 
-None. No Phase One documentation file was changed; see section 24.18.
+Source (3 files):
+
+| File | Change |
+|---|---|
+| `stratego/engine/behavior.py` | counterpart ties broken by normalized square index; new `normalized_square_key` helper |
+| `stratego/engine/transition.py` | terminal-condition precedence reordered |
+| `stratego/engine/constants.py` | `OBSERVATION_VERSION` bumped, `SUPERSEDED_OBSERVATION_VERSIONS` added, `IMPLEMENTATION_VERSION` bumped |
+
+`stratego/engine/observation.py` had only its module docstring updated; the
+channel construction is untouched.
+
+Tests (4 files) and harness (1 file):
+
+| File | Change |
+|---|---|
+| `tests/observation/test_perspective.py` | full 127-channel mirror equality; scripted mirrored pairs per behaviour type; tie case now asserts orientation *independence* |
+| `tests/engine/test_terminal_conditions.py` | six new precedence tests |
+| `tests/helpers.py` | filler setup squares assigned in normalized order; `mirror_name`, `mirror_placements`, `mirror_move` |
+| `tests/observation/__init__.py` | docstring version |
+| `scripts/run_phase2_validation.py` | new mirror-equivalence stage and metrics |
+
+Phase One documentation (9 files): listed individually in section 24.18.
 
 ### Environment
 
@@ -144,15 +171,18 @@ Two additions and one relocation, all permitted by instruction section 3:
 | Atomic transition, illegal action inert | `03` §10, instruction §9 | `transition.py::apply_action` | `tests/engine/test_transition.py` | PASS |
 | Battleless counter semantics | `02` §3, instruction §10 | `transition.py` | `tests/engine/test_terminal_conditions.py` | PASS |
 | Six terminal reason labels | `03` §11 | `constants.py`, `transition.py` | `tests/engine/test_terminal_conditions.py` | PASS |
+| Terminal-condition precedence | `02` §9A | `transition.py::_evaluate_terminal` | `tests/engine/test_terminal_conditions.py` | PASS |
 | Two-square rule excluded | `02` §2, `04` §11 | not implemented; `RulesConfig` rejects it | `tests/engine/test_rule_exclusions.py` | PASS |
 | Continuous chasing excluded | `02` §2, `04` §11 | not implemented; `RulesConfig` rejects it | `tests/engine/test_rule_exclusions.py` | PASS |
 | Knowledge monotonicity | `08` §5, `04` §21.3 | `pieces.py::set_known_to`, `invariants.py` | `tests/information_security/test_knowledge.py` | PASS |
 | Five behavioural events | `06` §10, `08` §10 | `behavior.py` | `tests/observation/test_behavior_channels.py` | PASS |
 | Active threat relation set | `08` §9, `04` §21.4 | `behavior.py::compute_threat_relations` | `tests/observation/test_behavior_channels.py` | PASS |
 | Turn-start attack opportunities | `08` §11 | `legal_moves.py::adjacent_attack_opportunities` | `tests/observation/test_behavior_channels.py` | PASS |
-| `observation_v2_127ch` shape and order | `06` §3-§13 | `observation.py` | `tests/observation/` (all files) | PASS |
+| `observation_v2_1_127ch` shape and order | `06` §3-§13 | `observation.py` | `tests/observation/` (all files) | PASS |
 | Channel metadata export | `07` §14, instruction §14 | `observation.py::observation_channel_metadata` | `tests/observation/test_shape_and_ranges.py` | PASS |
-| Perspective normalization | `06` §3, `04` §12 | `coordinates.py`, `observation.py` | `tests/observation/test_perspective.py` | PASS (see 24.8) |
+| Perspective normalization | `06` §3, `04` §12 | `coordinates.py`, `observation.py` | `tests/observation/test_perspective.py` | PASS |
+| Normalized counterpart tie-break | `06` §10.6 | `behavior.py::normalized_square_key` | `tests/observation/test_perspective.py` | PASS |
+| Mirror-equivalence acceptance suite | `07` §9A | `scripts/run_phase2_validation.py::mirror_stage` | `tests/observation/test_perspective.py`, harness stage 5 | PASS |
 | Public event schema and ordering | `09` §5-§10, §17 | `events.py`, `transition.py` | `tests/replay/test_event_stream.py` | PASS |
 | Observer-filtered board / setup view | `09` §11-§12 | `events.py` | `tests/information_security/test_browser_privacy.py` | PASS |
 | Deterministic replay | `03` §12, `09` §13 | `replay.py` | `tests/replay/test_replay.py`, harness stage 3 | PASS |
@@ -169,13 +199,13 @@ Two additions and one relocation, all permitted by instruction section 3:
 
 | Measure | Value |
 |---|---:|
-| Total tests | 1,250 |
-| Passed | 1,250 |
+| Total tests | 1,255 |
+| Passed | 1,255 |
 | Failed | 0 |
 | Skipped | 0 |
 | Expected failures | 0 |
 | Errors | 0 |
-| Execution time | 17.3 s |
+| Execution time | 17.7 s |
 
 There are no individual failures or skipped tests to list.
 
@@ -209,24 +239,39 @@ Reproduce with `python -m pytest -q` from the repository root.
 | Two-square rule excluded | PASS | 20 repetitions of an A-B-A-B shuffle stay legal; the sequence only ends through the battleless draw counter at ply 100. `RulesConfig` raises if the rule is requested |
 | Continuous chasing excluded | PASS | A chase that recreates an identical position 12 times is never rejected. `RulesConfig` raises if the rule is requested |
 
-### Terminal-condition precedence (implementation decision)
+### Terminal-condition precedence
 
-No Phase One document orders the terminal conditions against one another. The
-engine applies, highest priority first:
+Specified in `02_project_ruleset.md` section 9A, added in Phase Two Point One.
+The engine applies, highest priority first:
 
 1. `flag_capture`
-2. `battleless_move_limit_draw`
-3. `absolute_move_limit_draw`
-4. `opponent_no_legal_move` / `both_no_legal_move_draw`
+2. `opponent_no_legal_move`
+3. `both_no_legal_move_draw`
+4. `battleless_move_limit_draw`
+5. `absolute_move_limit_draw`
 
-The draw limits are placed above the no-legal-move outcomes because instruction
-section 10 states that on reaching the threshold "the game immediately becomes a
-draw". The ordering is only observable in the rare case where a single
-non-combat move simultaneously reaches a draw threshold and strands the
-opponent; combat always resets the battleless counter, so a capture can never
-collide with the battleless limit. The choice is recorded in
-`transition.py::_evaluate_terminal` and listed as an open question in section
-24.19.
+Genuine Stratego game-ending conditions outrank the project's own training
+termination limits, which exist only to guarantee practical termination once the
+two anti-repetition rules were removed.
+
+Six tests in `tests/engine/test_terminal_conditions.py` pin the ordering:
+
+| Collision | Expected | Result |
+|---|---|---|
+| Battleless threshold reached on the move that strands the opponent | `opponent_no_legal_move` | PASS |
+| Absolute limit reached on the move that strands the opponent | `opponent_no_legal_move` | PASS |
+| Absolute limit reached on the move that strands both players | `both_no_legal_move_draw` | PASS |
+| Flag captured on the move that also reaches the absolute limit and strands the opponent | `flag_capture` | PASS |
+| Draw limits reached while both players can still move | the matching draw reason | PASS |
+| Battleless limit colliding with a capture or a mutual stalemate | structurally unreachable | PASS |
+
+The last row is a proof by construction rather than an example. Any combat
+resets the no-battle counter to zero, so a capture cannot coincide with
+`battleless_move_limit_draw`. A player also cannot strand itself with a
+non-combat move, because the square it just vacated is always available to move
+back into, so `both_no_legal_move_draw` always follows a combat move and
+therefore cannot coincide with the battleless limit either. Both consequences
+are recorded in `02_project_ruleset.md` section 9A.
 
 ---
 
@@ -351,19 +396,39 @@ Red normalizes to the identity and blue to a 180-degree rotation
 (`square -> 99 - square`), which maps the lake mask onto itself and places each
 observer's own four setup rows at the bottom of the board.
 
-The test builds a game and its colour-swapped, rotated twin and requires the two
-players in equivalent roles to receive identical observations.
+The gate builds a game and its colour-swapped, rotated twin and requires the two
+players in equivalent roles to receive identical observations across **all 127
+channels**, in both directions of the pairing.
 
-| Channel range | Mirror equivalence |
-|---|---|
-| 0-67 (identity, disclosure, movement, origins, setup memory, inventory) | exact, in every sampled position |
-| 108-126 (recent moves, lake, progress) | exact, in every sampled position |
-| 68-107 recency planes for threat, evade, declined attack, protect | exact |
-| 68-107 counterpart-derived features (rank, actor-knew, special) and the `was_protected` block | orientation dependent when a counterpart tie exists |
+| Measure | Value |
+|---|---:|
+| Mirrored position pairs tested | 1,804 |
+| Observation comparisons (two observer pairings per pair) | 3,608 |
+| Channels compared | 127 of 127 |
+| **Mismatches** | **0** |
+| Pairs whose history contained more than one eligible counterpart | 1,557 |
+| Multi-counterpart events observed during the walks | 5,395 |
 
-Measured over 60 mirrored game pairs advanced 150 plies each, 22 pairs showed a
-difference and every difference fell inside channels 68-107. The cause is the
-specification's own tie-break rule and is analysed in section 24.17.
+Behavioural coverage of the sampled positions, counted as live behaviour records
+present at a compared checkpoint:
+
+| Behaviour | Occurrences |
+|---|---:|
+| threat | 6,635 |
+| evade | 709 |
+| declined attack | 10,738 |
+| protect | 953 |
+| was protected | 815 |
+
+All five behaviour types appeared, so the gate's coverage requirement from
+`07_observation_validation_matrix.md` section 9A is satisfied by the randomized
+sample alone. Six scripted mirrored pairs in
+`tests/observation/test_perspective.py` additionally guarantee coverage of each
+behaviour type and of a genuine counterpart tie regardless of the random draw.
+
+Under the superseded `observation_v2_127ch` this gate could not be met: the same
+measurement over 60 mirrored pairs found differences in 22 of them, always
+inside channels 68-107. Section "Phase Two Point One Changes" records the fix.
 
 Legal actions map correctly between mirrored games: the mirrored image of one
 game's legal set equals the other's, and both normalize to the same set in the
@@ -584,15 +649,19 @@ single-threaded.
 
 | Measurement | Result |
 |---|---:|
-| Legal-action generations per second | 132,409 |
-| Legal-action masks per second | 114,620 |
-| State transitions per second | 72,812 |
-| Observations generated per second | 27,025 |
-| Snapshots per second | 66,568 |
-| Complete random games per second | 124.4 |
-| Random-game plies per second | 59,303 |
+| Legal-action generations per second | 134,067 |
+| Legal-action masks per second | 115,980 |
+| State transitions per second | 73,269 |
+| Observations generated per second | 26,975 |
+| Snapshots per second | 66,184 |
+| Complete random games per second | 121.9 |
+| Random-game plies per second | 58,118 |
 | Mean memory use | 49.9 MB |
 | Peak memory use | 155.3 MB |
+
+The two Phase Two Point One changes are performance neutral within measurement
+noise: the tie-break replaced one comparison key with a table lookup, and the
+terminal check reordered existing predicates.
 
 Memory figures describe the coordinating process, in which the performance and
 storage stages run, so they reflect what one engine instance costs. The harness
@@ -606,10 +675,10 @@ Estimated share of engine time by component, from the same measurements:
 
 | Component | Share |
 |---|---:|
-| Observation construction | 50.7 % |
-| Behavioural processing | 20.1 % |
-| State transition (excluding behaviour) | 18.8 % |
-| Legal-action generation | 10.4 % |
+| Observation construction | 50.5 % |
+| Behavioural processing | 20.8 % |
+| State transition (excluding behaviour) | 18.6 % |
+| Legal-action generation | 10.2 % |
 
 Behavioural processing was timed directly by calling
 `capture_pre_move_context`, `compute_threat_relations` and
@@ -621,12 +690,12 @@ Projection for Phase Three planning, using `04_engine_validation_plan.md`
 section 19's formula and the single-threaded transition rate:
 
 ```text
-72,812 transitions/second x 604,800 seconds = 4.40 x 10^10 transitions in 168 hours
+73,269 transitions/second x 604,800 seconds = 4.43 x 10^10 transitions in 168 hours
 ```
 
 That figure is engine-only and ignores neural-network inference, which will
 dominate self-play. A self-play step also needs one observation, so the
-observation rate of 27,025 per second is the more relevant single-core bound;
+observation rate of 26,975 per second is the more relevant single-core bound;
 across 12 usable cores that is roughly 324,000 observations per second before
 any optimization. No batch wrapper exists yet, so batch-size scaling was not
 measured; that belongs to Phase Three.
@@ -639,8 +708,8 @@ No engine change was made to improve these numbers.
 
 | Item | Size |
 |---|---:|
-| One snapshot (JSON, compact separators) | 7,067 bytes |
-| One typical complete replay (JSON) | 3,270 bytes mean, 3,288 bytes median |
+| One snapshot (JSON, compact separators) | 7,066 bytes |
+| One typical complete replay (JSON) | 3,272 bytes mean, 3,290 bytes median |
 | 1,000 typical replays | 3.27 MB |
 | Estimated 1,000,000 games | 3.27 GB |
 
@@ -793,50 +862,36 @@ Red's view before, then after:
 
 ## 24.17 Known limitations
 
-1. **Perspective normalization is not exact for behavioural counterpart
-   features.** `06_observation_v2_127ch.md` section 10 breaks counterpart ties by
-   lowest *absolute* board-square index, and absolute indices are not preserved
-   by the 180-degree perspective rotation. When two or more candidates qualify,
-   a red-to-move position and its colour-swapped rotation can legitimately select
-   different counterparts. Measured over 60 mirrored game pairs advanced 150
-   plies, 22 pairs differed and every difference was confined to channels
-   68-107, specifically the rank, actor-knew and special features and the
-   `was_protected` block whose actor is itself a selected counterpart. Channels
-   0-67 and 108-126 were exact in every pair. The engine implements the
-   specification literally; changing the tie-break to the acting player's
-   normalized index would remove the asymmetry but requires a new observation
-   version identifier. See section 24.19.
-
-2. **The `evade` negative case "P remains adjacent to A" is unreachable.** One
+1. **The `evade` negative case "P remains adjacent to A" is unreachable.** One
    move creates threat relations from exactly one piece, and with orthogonal-only
    movement every square adjacent to the threatener other than the threatened
    square is a diagonal or blocked step away. So any legal non-attack move by a
    threatened piece necessarily breaks the adjacency. The test suite asserts this
    property by enumeration rather than pretending to construct the case.
 
-3. **No batch simulation wrapper.** `03_game_engine_spec.md` section 16 describes
+2. **No batch simulation wrapper.** `03_game_engine_spec.md` section 16 describes
    a batch interface as a later requirement and instruction section 23 asks for
    batch measurements only "if a simple batch wrapper exists". None was built, so
    batch-size scaling is unmeasured. This is Phase Three work.
 
-4. **No long-run stability soak.** `04_engine_validation_plan.md` section 17 asks
+3. **No long-run stability soak.** `04_engine_validation_plan.md` section 17 asks
    for several hours of continuous batched play. The acceptance run applies more
    than sixteen million transitions across all stages — the replay gate alone
    plays each of its 10,000 games once and reconstructs it twice — without a
    memory growth trend or a single invariant violation, but a multi-hour soak
    has not been performed.
 
-5. **Performance figures are single-machine and single-threaded.** They were
+4. **Performance figures are single-machine and single-threaded.** They were
    measured on the target Mac mini but on an otherwise interactive desktop
    session, so they should be treated as approximate. The component time-share
    split overlaps between "behavioural processing" and "state transition" because
    the former is a subset of the latter.
 
-6. **The random agent is a validation tool, not a baseline opponent.** Its
+5. **The random agent is a validation tool, not a baseline opponent.** Its
    statistics describe engine behaviour under random play and say nothing about
    playing strength. Phase Four owns the baseline agents.
 
-7. **Game creation assumes the first player has a legal move.** Terminal
+6. **Game creation assumes the first player has a legal move.** Terminal
    conditions are only evaluated after a move, so a hypothetical start position
    in which the first player cannot move would not be detected as terminal. This
    is unreachable with legal setups: at most 7 of a player's pieces are
@@ -845,7 +900,7 @@ Red's view before, then after:
    raises a `RuntimeError` rather than looping if this assumption is ever
    violated.
 
-8. **Anti-leak coverage is broad but not exhaustive.** 103,625 trials across
+7. **Anti-leak coverage is broad but not exhaustive.** 103,625 trials across
    4,145 positions is a sampling argument, not a proof. The structural guard in
    `tests/information_security/test_belief_targets.py` — that
    `build_observation` never calls `belief_target` — plus the guarded
@@ -860,13 +915,43 @@ Red's view before, then after:
 No known specification deviations.
 ```
 
-No Phase One document was modified. Three points required interpretation where
-the documents are silent rather than contradictory; each is implemented
-explicitly, documented in code comments and listed here for review.
+The implementation matches the Phase One documents as they now stand. Phase Two
+Point One changed the documents rather than deviating from them, so every
+modification is listed below.
+
+### Phase One documents modified in Phase Two Point One
+
+| Document | Change | Approved |
+|---|---|---|
+| `README.md` | status raised to 0.3; notes the new observation identifier and the section 9A addition | Yes — Phase 2.1 instruction 1 and 2 |
+| `02_project_ruleset.md` | new section 9A specifying terminal-condition precedence and its two unreachable collisions | Yes — Phase 2.1 instruction 2 |
+| `03_game_engine_spec.md` | observation identifier updated in sections 14 and 23 | Yes — Phase 2.1 instruction 1 |
+| `04_engine_validation_plan.md` | observation identifier updated in sections 8A and 21.5; section 21.4 now requires the normalized tie-break and mirror equivalence | Yes — Phase 2.1 instruction 1 |
+| `05_project_plan.md` | observation identifier updated in sections 6, 13 (Phase 1) and 13 (Phase 5) | Yes — Phase 2.1 instruction 1 |
+| `06_observation_v2_127ch.md` | now defines `observation_v2_1_127ch`; new section 1.1 version history and new section 10.6 specifying normalized counterpart selection; sections 10.1, 10.3 and 10.4 point at 10.6; acceptance clause updated | Yes — Phase 2.1 instruction 1 |
+| `07_observation_validation_matrix.md` | observation identifier updated; sections 8.1 and 8.3 require the normalized tie-break; new section 9A defines the mirror-equivalence acceptance suite | Yes — Phase 2.1 instruction 1 |
+| `08_internal_state_spec.md` | observation identifier updated in sections 1, 2 and 19; section 11 requires the normalized tie-break | Yes — Phase 2.1 instruction 1 |
+| `09_public_event_and_replay_schema.md` | observation identifier updated in section 16 | Yes — Phase 2.1 instruction 1 |
+
+The file `06_observation_v2_127ch.md` keeps its name even though it now defines
+`observation_v2_1_127ch`. Renaming it would break the cross-references in the
+eight other Phase One documents, and the original Phase Two instruction
+forbids renaming Phase One files. The mismatch is called out in a note at the
+top of the document and in the README.
+
+Neither change requires a new `rules_version`. The observation change is
+carried by the new observation identifier. The terminal precedence was never
+stated in `stratego_project_v1`, so section 9A specifies previously unspecified
+behaviour rather than altering a stated rule; section 9A itself records that any
+*future* change to the ordering does require a new rules version.
+
+### Remaining interpretations
+
+Two points still required interpretation where the documents are silent rather
+than contradictory. Each is implemented explicitly and documented in code.
 
 | Interpretation | Where the documents are silent | Choice made | Reference |
 |---|---|---|---|
-| Terminal-condition precedence | No document orders the draw limits against `opponent_no_legal_move` | flag capture, then battleless limit, then absolute limit, then no-legal-move outcomes, following instruction section 10's "immediately becomes a draw" | `transition.py::_evaluate_terminal`, section 24.5 |
 | Ply numbering for recency | `06` §9.2 requires recency `1.0` "immediately after the event" but does not fix the ply origin | a completed move is stamped with the ply number it produces, so `Δ = total_moves - event_ply` is `0` right after the event, reproducing the documented table exactly | `state.py` module docstring |
 | Meaning of "newly threatened" in the relation set | `08` §9 says "all opponent pieces newly threatened by that move" while `06` §10.1 defines a threat purely by post-move adjacency | the relation set uses the section 10.1 condition without an extra "was not already adjacent" filter, so it is always a superset of the recorded threat counterpart | `behavior.py::compute_threat_relations` |
 
@@ -886,33 +971,23 @@ behaviour:
 
 ## 24.19 Open questions
 
-1. **Should the behavioural counterpart tie-break use the normalized index?**
-   The current absolute-index rule from `06_observation_v2_127ch.md` section 10
-   makes counterpart selection colour dependent, which partially defeats the
-   purpose of perspective normalization for a single network that plays both
-   colours. Switching to the acting player's normalized index would cost nothing
-   and would make all 127 channels mirror-exact, but it changes channel
-   semantics and therefore requires a new observation version identifier per
-   `06` section 1. **Recommendation:** decide before the observation is frozen in
-   Phase Five; if accepted, publish it as `observation_v2_1_127ch` rather than
-   silently altering `observation_v2_127ch`.
+The two questions carried by the original Phase Two report are now **closed**:
+the counterpart tie-break was changed to the normalized index and published as
+`observation_v2_1_127ch`, and the terminal-condition precedence was set and
+recorded in `02_project_ruleset.md` section 9A. The remaining questions are all
+Phase Three scoping decisions.
 
-2. **Confirm the terminal-condition precedence.** The choice described in
-   section 24.5 is reasonable but was made by the implementer. If the project
-   prefers a win to outrank a simultaneous draw threshold, the change is two
-   lines in `transition.py::_evaluate_terminal` and one test.
-
-3. **Is a batch wrapper wanted in Phase Three, and at what shape?**
+1. **Is a batch wrapper wanted in Phase Three, and at what shape?**
    `03_game_engine_spec.md` section 16 lists the conceptual operations but not
    the array layout or the reset policy. This determines whether the optimized
    backend decision is made against per-game or batched throughput.
 
-4. **What throughput does the training coordinator actually need?** The Phase
+2. **What throughput does the training coordinator actually need?** The Phase
    Three optimization decision needs a target, not just a measurement. The
    figures in section 24.14 are the input; the required rate depends on the model
    size chosen in Phase Six.
 
-5. **Should the reference engine keep failing loudly in production?** The engine
+3. **Should the reference engine keep failing loudly in production?** The engine
    currently raises on illegal setups, illegal actions and post-terminal
    transitions, as `03_game_engine_spec.md` section 19 requires for development.
    `03` section 19 also anticipates a "controlled error-recovery policy" in the
@@ -944,12 +1019,12 @@ Evidence for each item:
 
 | Item | Evidence |
 |---|---|
-| All rule tests pass | section 24.4 (1,250 passed, 0 failed) and section 24.5 |
+| All rule tests pass | section 24.4 (1,255 passed, 0 failed) and section 24.5 |
 | Complete combat matrix passes | section 24.6 (120 of 120) |
 | Legal-action list and mask agree | section 24.7 (9,285 positions, 0 discrepancies) |
 | 127-channel observation contract passes | section 24.8 |
 | Behavioral representation passes | section 24.8 behavioural paragraph and section 24.16 example 5 |
-| Perspective normalization passes | section 24.8; the one non-exact area is the specification's own absolute-index tie-break, documented in 24.17 item 1 and raised in 24.19 item 1 |
+| Perspective normalization passes | section 24.8 (1,804 mirrored pairs, all 127 channels, 0 mismatches) |
 | 100,000+ anti-leak trials pass | section 24.9 (103,625 valid trials, 0 mismatches) |
 | 10,000+ replay reconstructions pass | section 24.10 (10,000 games, 5,078,406 plies, 0 mismatches) |
 | Snapshot/restore passes | section 24.11 (600 snapshots across all six phases, 0 mismatches) |
@@ -958,6 +1033,126 @@ Evidence for each item:
 | No unexplained specification deviations | section 24.18 |
 | Performance baseline recorded | section 24.14 |
 | Storage baseline recorded | section 24.15 |
+
+---
+
+## Phase Two Point One Changes
+
+Two narrowly scoped specification corrections were applied to the validated
+Phase Two engine, after which the whole acceptance suite was rerun and the
+engine was frozen.
+
+### Change 1 — behavioural counterpart tie-break
+
+| Item | Value |
+|---|---|
+| Previous observation version | `observation_v2_127ch` |
+| New observation version | `observation_v2_1_127ch` |
+| Previous rule | eligible counterparts ordered by **absolute** board-square index |
+| New rule | eligible counterparts ordered by square index **after normalization into the acting player's perspective** (`06_observation_v2_127ch.md` section 10.6) |
+| Channels affected | none in number, order, range or meaning; only which counterpart is selected when several qualify |
+| Red-to-move behaviour | unchanged, because red's normalization is the identity |
+
+The absolute index is not preserved by the 180-degree rotation used for blue, so
+under the old rule a position and its colour-swapped mirror could select
+non-equivalent counterparts and behavioural channels 68-107 were not mirror
+images. Since one network is intended to play both colours, that asymmetry was a
+real defect in the representation rather than a cosmetic one.
+
+The rule is applied at all four selection points in `behavior.py`: the `threat`
+counterpart, the `evade` counterpart, the `declined_attack` counterpart and the
+`protect` / `was_protected` counterpart.
+
+Mirror-equivalence acceptance result:
+
+| Measure | Before (`observation_v2_127ch`) | After (`observation_v2_1_127ch`) |
+|---|---|---|
+| Mirrored position pairs tested | 60 | 1,804 |
+| Observation comparisons | 60 | 3,608 |
+| Channels compared per comparison | 127 | 127 |
+| Pairs with a mismatch | 22 | **0** |
+| Channels that ever mismatched | 18, all in 68-107 | **none** |
+| Pairs whose history contained multiple eligible counterparts | not measured | 1,557 |
+
+Behaviour coverage of the sampled positions: threat 6,635, evade 709, declined
+attack 10,738, protect 953, was protected 815 — all five present, plus 5,395
+multi-counterpart events. Six scripted mirrored pairs in
+`tests/observation/test_perspective.py` guarantee the same coverage
+independently of the random draw.
+
+### Change 2 — terminal-condition precedence
+
+| Item | Value |
+|---|---|
+| Previous order | flag capture, battleless draw, absolute draw, no-legal-move outcomes |
+| New order | flag capture, `opponent_no_legal_move`, `both_no_legal_move_draw`, `battleless_move_limit_draw`, `absolute_move_limit_draw` |
+| Rationale | genuine Stratego game-ending conditions outrank the project's own training termination limits |
+| Recorded in | `02_project_ruleset.md` section 9A |
+| Rules version | unchanged (`stratego_project_v1`); section 9A specifies previously unspecified behaviour rather than altering a stated rule |
+
+The reordering did not change the outcome of a single game in the 10,000-game
+replay set: the terminal-reason distribution is byte-identical to the Phase Two
+run. That is expected, because a collision requires one move to both reach a
+draw threshold and settle the mobility question, and two of the four possible
+collisions are structurally impossible (section 24.5).
+
+### New tests added
+
+| File | Tests added |
+|---|---|
+| `tests/engine/test_terminal_conditions.py` | `test_no_legal_move_victory_outranks_the_battleless_draw`, `test_no_legal_move_victory_outranks_the_absolute_move_limit_draw`, `test_mutual_stalemate_outranks_the_absolute_move_limit_draw`, `test_flag_capture_outranks_every_other_condition`, `test_draw_limits_still_apply_when_both_players_can_move`, `test_battleless_limit_can_never_coincide_with_a_capture_or_stalemate` |
+| `tests/observation/test_perspective.py` | `test_mirrored_games_stay_identical_across_all_127_channels` (replaces the channel-restricted version), `test_mirrored_games_agree_at_every_ply`, `test_behaviour_planes_transform_consistently`, `test_scripted_mirrored_positions_match_on_all_channels` (6 parametrised cases), `test_scripted_tie_case_really_has_multiple_eligible_counterparts`, and `test_behaviour_counterpart_selection_is_orientation_independent` (replaces the test that pinned the old orientation-dependent behaviour) |
+| `scripts/run_phase2_validation.py` | new mirror-equivalence stage feeding `mirror_*` metrics |
+
+Test count moved from 1,250 to 1,255.
+
+### Complete regression results after the changes
+
+| Gate | Target | Result |
+|---|---|---:|
+| Automated tests | all pass | 1,255 passed, 0 failed, 0 skipped |
+| Combat matrix | 0 failures | 120 cases, 0 failures |
+| Legal-action list vs mask | 0 discrepancies | 9,285 positions, 0 |
+| Mirror equivalence, all 127 channels | >= 1,000 pairs, 0 mismatches | 1,804 pairs, 0 |
+| Hidden-information anti-leak | >= 100,000 valid trials, 0 mismatches | 103,625 valid trials (363,461 attempted, 4,145 positions), 0 |
+| Deterministic replay | >= 10,000 games, 0 mismatches | 10,000 games, 5,078,406 plies, 0 |
+| Snapshot / restore | 0 mismatches | 600 snapshots across 6 phases, 0 |
+| Randomized invariant checking | 0 violations | 2,000 games, 1,045,111 transitions, 0 |
+
+Every previously established threshold was met or exceeded:
+
+| Gate | Phase Two | Phase Two Point One |
+|---|---:|---:|
+| Valid anti-leak trials | 103,625 | 103,625 |
+| Complete replay games | 10,000 | 10,000 |
+| Replayed plies | 5,078,406 | 5,078,406 |
+| Invariant-checked transitions | 1,045,111 | 1,045,111 |
+| Mirrored pairs, all 127 channels | not achievable | 1,804 |
+
+Anti-leak detail: 0 observation mismatches, 0 legal-action mismatches, 0
+public-event mismatches, 0 browser/public-view mismatches, and 103,625 of
+103,625 belief-target positive controls behaved as expected.
+
+Replay detail: 0 board-state mismatches, 0 observation mismatches, 0 event
+mismatches, 0 terminal-result mismatches.
+
+Invariant detail: 0 violations across 1,045,111 transitions, with every
+transition checked against the immutability baseline and the previous knowledge
+snapshot.
+
+### Freeze
+
+All acceptance gates pass, so the reference engine is frozen. From this point:
+
+- no performance optimization of the reference engine;
+- no change to rule semantics;
+- no change to `observation_v2_1_127ch`;
+- no change to the 10,000-entry source-destination action encoding;
+- no change to replay semantics.
+
+Any later behavioural change requires an explicit new version identifier and a
+differential comparison against this implementation, which is now the
+behavioural source of truth for the project.
 
 ---
 
@@ -1073,6 +1268,7 @@ From the repository root, with the virtual environment created once via
     --replay-games 10000 \
     --antileak-trials 120000 \
     --antileak-trials-per-position 25 \
+    --mirror-seeds 250 \
     --invariant-games 2000 \
     --snapshot-seeds 120 \
     --legal-seeds 250 \

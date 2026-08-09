@@ -1,8 +1,17 @@
-"""Construction of `observation_v2_127ch` and its machine-readable metadata.
+"""Construction of `observation_v2_1_127ch` and its machine-readable metadata.
+
+`observation_v2_1_127ch` supersedes `observation_v2_127ch`. The 127 channels
+keep their number, order, ranges and meaning; the only difference is that
+behavioural counterpart ties are broken by normalized rather than absolute
+square index, which makes every channel mirror-exact under perspective
+normalization. See `behavior.py` for the rule and the Phase Two Point One
+section of `reports/phase_2_implementation_report.md` for the rationale.
 
 Specification sources:
 
-- `06_observation_v2_127ch.md` (authoritative channel contract)
+- `06_observation_v2_127ch.md` (authoritative channel contract, now defining
+  `observation_v2_1_127ch`; the filename is retained so cross-references from
+  the other Phase One documents stay valid)
 - `07_observation_validation_matrix.md` (per-channel acceptance behaviour)
 - `08_internal_state_spec.md` sections 12, 13, 16 (derivation, not storage)
 

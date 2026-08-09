@@ -39,6 +39,34 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 - browser-based interface;
 - browser training controls are allowed through a training-control service.
 
+## 2A. Current project status
+
+| Phase | Status |
+|---|---|
+| Phase 1 — rules/specification | **Complete** |
+| Phase 2 — Python reference engine | **Complete** |
+| Phase 2.1 — symmetry + terminal-precedence correction | **Complete** |
+| Phase 3 — high-throughput training architecture | **Ready to implement; architecture direction approved** |
+| Later phases | Planned |
+
+Frozen behavioral contracts entering Phase 3:
+
+- reference implementation: `phase2_1_reference_1.1.0`;
+- rules: `stratego_project_v1`;
+- observation: `observation_v2_1_127ch`;
+- action encoding: 10,000 source-destination identifiers;
+- replay/state semantics: current Phase 2.1 reference implementation.
+
+Phase 2.1 acceptance evidence:
+
+- 1,255 tests passed;
+- 1,804 mirrored pairs with zero 127-channel mismatches;
+- 103,625 valid hidden-information permutations with zero public leaks;
+- 10,000 replay games / 5,078,406 plies with zero mismatches;
+- 1,045,111 invariant-checked transitions with zero violations.
+
+The reference engine is now a correctness oracle and should not be optimized in place.
+
 ---
 
 ## 3. Ruleset
@@ -116,7 +144,7 @@ The first version does not train a separate large belief Transformer.
 
 ## 6. State representation
 
-Use the approved `observation_v2_127ch` representation specified in `06_observation_v2_127ch.md`:
+Use the approved `observation_v2_1_127ch` representation specified in `06_observation_v2_127ch.md`:
 
 - 12 current own-piece identity planes;
 - 12 current known-opponent identity planes;
@@ -376,7 +404,7 @@ Deliverables:
 
 Before implementation begins, Phase 1 also freezes:
 
-- `observation_v2_127ch` in `06_observation_v2_127ch.md`;
+- `observation_v2_1_127ch` in `06_observation_v2_127ch.md`;
 - its validation matrix in `07_observation_validation_matrix.md`;
 - compact internal state in `08_internal_state_spec.md`;
 - privileged replay and browser-safe public events in `09_public_event_and_replay_schema.md`.
@@ -384,30 +412,72 @@ Before implementation begins, Phase 1 also freezes:
 These contracts ensure the engine can reconstruct model observations and browser views from compact facts without exposing privileged hidden identities.
 
 
-## Phase 2 — Python reference engine
+## Phase 2 — Python reference engine — COMPLETE
 
-Another implementation agent builds the reference engine from the specification.
+The Python reference engine was implemented, validated, and finalized in Phase 2.1.
 
-Our role:
+Frozen implementation:
 
-- review behavior;
-- resolve ambiguities;
-- create/expand validation cases;
-- confirm training-facing interfaces.
+- `phase2_1_reference_1.1.0`;
+- `stratego_project_v1`;
+- `observation_v2_1_127ch`;
+- fixed 10,000-entry action encoding.
 
-**Gate:** complete validation suite passes.
+**Gate:** passed.
 
-## Phase 3 — Engine profiling and optimization decision
+## Phase 3 — High-throughput training architecture and optimization decision — READY
 
-Benchmark:
+Approved architecture:
 
-- transitions per second;
-- observation construction;
-- legal-action generation;
-- batch scaling;
-- memory.
+1. **bulk-synchronous collection** rather than fully asynchronous self-play;
+2. **one Metal-owning coordinator process** plus multiple central-processing-unit simulation workers;
+3. **persistent preallocated shared-memory buffers** rather than per-position Python-object queues;
+4. **compact trajectory storage with periodic state snapshots** rather than storing full observations.
 
-**Gate:** decide whether the Python backend can support the planned run. If not, build an optimized backend behind the same interface and require differential equivalence.
+Initial implementation/benchmark point:
+
+- 1,024 simultaneous environments;
+- approximately 8 simulation workers;
+- dense legality masks for the first correctness/performance baseline;
+- snapshots every 32 plies.
+
+Benchmark matrix:
+
+- workers: 4, 6, 8, 10, 12;
+- environments: 256, 512, 1,024, 1,536, 2,048;
+- inference batches: 64, 128, 256, 512, 1,024, 1,536, 2,048;
+- snapshot intervals: 16, 32, 64;
+- dense legality first, then sparse comparison;
+- supported reduced precision compared against 32-bit floating point.
+
+Use a temporary representative compact Transformer to measure end-to-end self-play demand; do not use simulator-only speed as the production decision.
+
+Define:
+
+\[
+R =
+rac{	ext{sustainable simulation-pipeline positions/second}}
+{	ext{sustainable representative-model inference positions/second}}.
+\]
+
+Decision rule:
+
+- `R >= 2.0`: keep Python as production simulator;
+- `1.25 <= R < 2.0`: keep Python initially; optimized backend remains optional;
+- `R < 1.25`: build and validate a second optimized production backend.
+
+Phase 3 also owns:
+
+- exact batched-equivalence tests against the frozen reference engine;
+- independent environment reset validation;
+- shared-memory transport benchmarks;
+- compact decision/game trajectory records;
+- sparse storage of legal-action identifiers plus old policy probabilities;
+- storage of three-class win/draw/loss predictions;
+- exact historical reconstruction from periodic snapshots + action deltas;
+- a multi-hour batched soak with no unexplained memory growth.
+
+**Gate:** identify the actual end-to-end self-play bottleneck and make an evidence-based production-backend decision.
 
 ## Phase 4 — Baseline opponents and evaluation harness
 
@@ -421,11 +491,17 @@ Build:
 
 **Gate:** reproducible balanced evaluation and self-play sanity checks.
 
-## Phase 5 — Freeze state/action representation
+## Phase 5 — Integration confirmation of frozen state/action representation
 
-Validate `observation_v2_127ch`, its behavioral event semantics, and the 10,000 source-destination action space.
+The semantic freeze was completed early in Phase 2.1:
 
-**Gate:** no hidden-information leakage, stable tensor shapes, exact legality masking.
+- `observation_v2_1_127ch`;
+- behavioral event semantics;
+- 10,000 source-destination action space.
+
+Phase 5 therefore does **not** redefine these contracts. It confirms that the model/training stack consumes them exactly and that no integration layer introduces hidden-information leakage, shape drift, or legality mismatch.
+
+**Gate:** model/training integration matches the already frozen reference contracts exactly.
 
 ## Phase 6 — Model design and hardware benchmark
 

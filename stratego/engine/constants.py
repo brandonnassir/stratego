@@ -231,10 +231,14 @@ BEHAVIOR_FEATURES_PER_TYPE = 4
 # ---------------------------------------------------------------------------
 
 RULES_VERSION = "stratego_project_v1"
-OBSERVATION_VERSION = "observation_v2_127ch"
+OBSERVATION_VERSION = "observation_v2_1_127ch"
+# `observation_v2_127ch` is superseded. The channel count, order and meaning are
+# unchanged; only the behavioural counterpart tie-break differs, which is enough
+# to require a new identifier under `06_observation_v2_1_127ch` section 1.
+SUPERSEDED_OBSERVATION_VERSIONS = ("observation_v1_68ch", "observation_v2_127ch")
 REPLAY_VERSION = "replay_v1"
 EVENT_SCHEMA_VERSION = "event_schema_v1"
-IMPLEMENTATION_VERSION = "phase2_reference_1.0.0"
+IMPLEMENTATION_VERSION = "phase2_1_reference_1.1.0"
 
 # ---------------------------------------------------------------------------
 # Observation shape (`06_observation_v2_127ch.md` section 3)
