@@ -1,0 +1,5 @@
+# Phase Two reference engine dependencies.
+# Pinned to the versions used to produce reports/phase_2_metrics.json.
+numpy==2.5.1
+pytest==9.1.1
+psutil==7.2.2
