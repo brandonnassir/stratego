@@ -10,13 +10,19 @@ All tests apply first to the Python reference engine. Any optimized backend must
 
 ### Current status
 
-The Phase 2.1 reference implementation `phase2_1_reference_1.1.0` has passed the frozen observation acceptance suite:
+The frozen reference implementation `phase2_1_reference_1.1.0` passed the Phase 2.1 observation acceptance suite:
 
 - 1,804 mirrored position pairs, zero mismatches across all 127 channels;
 - 103,625 valid hidden-information permutations, zero unexplained observation differences;
 - 10,000 complete replay games / 5,078,406 plies, zero observation mismatches.
 
-The remaining observation-related work in Phase 3 is **transport/reconstruction equivalence under batching**, not a change to the observation definition.
+Phase 3 then passed the transport/reconstruction integration gate without changing the observation definition:
+
+- 10,048 end-to-end worker/shared-memory/model comparisons, zero observation/state mismatches;
+- 11,251 integrated trajectory reconstructions, zero mismatches;
+- 411,818 sampled soak reconstructions, zero mismatches.
+
+The observation representation remains frozen. A future optimized backend, if ever introduced, must still reproduce these tensors exactly.
 
 ---
 

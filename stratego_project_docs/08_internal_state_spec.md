@@ -23,7 +23,13 @@ Phase 2.1 validated this state contract in `phase2_1_reference_1.1.0`, including
 - exact deterministic replay over 10,000 complete games;
 - zero public-information leaks in 103,625 valid hidden-type permutations.
 
-Phase 3 may wrap, batch, snapshot, and transport these states, but it must not change their behavioral meaning. Any production backend remains subordinate to differential equivalence with the frozen reference engine.
+Phase 3 preserved the same state semantics while adding batching, multiprocessing, shared-memory transport, compact snapshots, model decisions, and trajectory reconstruction:
+
+- 10,048 integrated end-to-end comparisons, zero mismatches;
+- 11,251 integrated reconstructed decisions, zero mismatches;
+- two-hour soak with no invariant failure, state/reconstruction mismatch, worker error, or memory-growth trend.
+
+The Python reference state remains authoritative. Phase 3 infrastructure may wrap/transport/reconstruct it but must not redefine its behavioral meaning.
 
 ---
 

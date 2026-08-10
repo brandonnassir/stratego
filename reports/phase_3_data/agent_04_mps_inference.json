@@ -1,0 +1,4714 @@
+{
+  "agent": "agent_04",
+  "architecture_summary": {
+    "action_encoding": "action_id = 100 * source + destination",
+    "attention_heads": 4,
+    "belief_head": "shared per-square placeholder -> (100, 12) opponent-type logits",
+    "benchmark_probe": true,
+    "embedding_width": 128,
+    "feedforward_width": 512,
+    "initialisation_seed": 4,
+    "input_features_per_token": 127,
+    "note": "Representative benchmark probe only. Not the frozen model design; not trained for playing strength.",
+    "parameter_count": 873999,
+    "policy_head": "source-query / destination-key over 100x100 -> 10000 logits",
+    "tokens": 100,
+    "trained": false,
+    "transformer_layers": 4,
+    "value_head": "3 logits (win, draw, loss)",
+    "version": "representative_benchmark_probe_0.1.0"
+  },
+  "batch_sizes": [
+    64,
+    128,
+    256,
+    512,
+    1024,
+    1536,
+    2048
+  ],
+  "batch_sizes_completed": [
+    64,
+    128,
+    256,
+    512,
+    1024,
+    1536,
+    2048
+  ],
+  "benchmark_version": "agent_04_mps_benchmark_0.1.0",
+  "best_compact_configuration": {
+    "batch_size": 2048,
+    "belief_shape": [
+      2048,
+      100,
+      12
+    ],
+    "device": "mps",
+    "illegal_samples": 0,
+    "iterations_per_pass": 15,
+    "latency": {
+      "end_to_end": {
+        "count": 45,
+        "max_ms": 141.6703,
+        "mean_ms": 138.7403,
+        "median_ms": 139.2807,
+        "min_ms": 132.3874,
+        "p95_ms": 140.6256,
+        "stdev_ms": 2.1632
+      },
+      "legality_and_sampling": {
+        "count": 45,
+        "max_ms": 1.4255,
+        "mean_ms": 1.2289,
+        "median_ms": 1.2082,
+        "min_ms": 1.0369,
+        "p95_ms": 1.4025,
+        "stdev_ms": 0.0732
+      },
+      "model_only": {
+        "count": 45,
+        "max_ms": 131.6276,
+        "mean_ms": 128.941,
+        "median_ms": 128.8498,
+        "min_ms": 128.3851,
+        "p95_ms": 129.5772,
+        "stdev_ms": 0.4878
+      },
+      "readback": {
+        "count": 45,
+        "max_ms": 1.2115,
+        "mean_ms": 0.4029,
+        "median_ms": 0.3491,
+        "min_ms": 0.1884,
+        "p95_ms": 1.0024,
+        "stdev_ms": 0.2128
+      },
+      "transfer": {
+        "count": 45,
+        "max_ms": 11.1733,
+        "mean_ms": 9.1142,
+        "median_ms": 9.4489,
+        "min_ms": 2.9925,
+        "p95_ms": 10.7368,
+        "stdev_ms": 1.5906
+      }
+    },
+    "legality": "compact",
+    "legality_bytes_per_position": 504.0,
+    "legality_host_bytes": 1032192,
+    "legality_sampling_positions_per_second": 1666538.58,
+    "legality_share_of_end_to_end": 0.0089,
+    "model_only_positions_per_second": 15883.24,
+    "model_share_of_end_to_end": 0.9294,
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 190201088,
+      "driver_allocated_bytes": 2180726784,
+      "recommended_max_bytes": 40200896512
+    },
+    "outputs_finite": true,
+    "peak_process_memory_bytes": 985694208,
+    "phased_sum_positions_per_second": 14661.36,
+    "policy_shape": [
+      2048,
+      10000
+    ],
+    "positions_per_second": 14761.39,
+    "precision": "float16",
+    "readback_positions_per_second": 5083579.26,
+    "sampled_actions_checked": 2048,
+    "seeded_generator": true,
+    "status": "OK",
+    "transfer_positions_per_second": 224703.76,
+    "trials": 3,
+    "value_shape": [
+      2048,
+      3
+    ],
+    "warmup_iterations": 5,
+    "warmup_seconds": 0.6516
+  },
+  "best_dense_configuration": {
+    "batch_size": 2048,
+    "belief_shape": [
+      2048,
+      100,
+      12
+    ],
+    "device": "mps",
+    "illegal_samples": 0,
+    "iterations_per_pass": 14,
+    "latency": {
+      "end_to_end": {
+        "count": 42,
+        "max_ms": 149.5403,
+        "mean_ms": 146.4329,
+        "median_ms": 147.6018,
+        "min_ms": 140.0934,
+        "p95_ms": 149.0538,
+        "stdev_ms": 2.7276
+      },
+      "legality_and_sampling": {
+        "count": 42,
+        "max_ms": 9.5077,
+        "mean_ms": 8.9016,
+        "median_ms": 8.8616,
+        "min_ms": 8.6107,
+        "p95_ms": 9.3678,
+        "stdev_ms": 0.1878
+      },
+      "model_only": {
+        "count": 42,
+        "max_ms": 129.6393,
+        "mean_ms": 129.0001,
+        "median_ms": 128.947,
+        "min_ms": 128.5313,
+        "p95_ms": 129.3339,
+        "stdev_ms": 0.2371
+      },
+      "readback": {
+        "count": 42,
+        "max_ms": 1.6845,
+        "mean_ms": 0.58,
+        "median_ms": 0.5228,
+        "min_ms": 0.3257,
+        "p95_ms": 1.0965,
+        "stdev_ms": 0.2747
+      },
+      "transfer": {
+        "count": 42,
+        "max_ms": 13.2276,
+        "mean_ms": 9.988,
+        "median_ms": 10.2295,
+        "min_ms": 5.7701,
+        "p95_ms": 12.039,
+        "stdev_ms": 1.6191
+      }
+    },
+    "legality": "dense",
+    "legality_bytes_per_position": 10000.0,
+    "legality_host_bytes": 20480000,
+    "legality_sampling_positions_per_second": 230071.2,
+    "legality_share_of_end_to_end": 0.0608,
+    "model_only_positions_per_second": 15875.96,
+    "model_share_of_end_to_end": 0.881,
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 279903488,
+      "driver_allocated_bytes": 2180726784,
+      "recommended_max_bytes": 40200896512
+    },
+    "outputs_finite": true,
+    "peak_process_memory_bytes": 985694208,
+    "phased_sum_positions_per_second": 13794.06,
+    "policy_shape": [
+      2048,
+      10000
+    ],
+    "positions_per_second": 13985.93,
+    "precision": "bfloat16",
+    "readback_positions_per_second": 3530793.44,
+    "sampled_actions_checked": 2048,
+    "seeded_generator": true,
+    "status": "OK",
+    "transfer_positions_per_second": 205046.67,
+    "trials": 3,
+    "value_shape": [
+      2048,
+      3
+    ],
+    "warmup_iterations": 5,
+    "warmup_seconds": 0.7187
+  },
+  "best_end_to_end_configuration": {
+    "batch_size": 2048,
+    "belief_shape": [
+      2048,
+      100,
+      12
+    ],
+    "device": "mps",
+    "illegal_samples": 0,
+    "iterations_per_pass": 15,
+    "latency": {
+      "end_to_end": {
+        "count": 45,
+        "max_ms": 141.6703,
+        "mean_ms": 138.7403,
+        "median_ms": 139.2807,
+        "min_ms": 132.3874,
+        "p95_ms": 140.6256,
+        "stdev_ms": 2.1632
+      },
+      "legality_and_sampling": {
+        "count": 45,
+        "max_ms": 1.4255,
+        "mean_ms": 1.2289,
+        "median_ms": 1.2082,
+        "min_ms": 1.0369,
+        "p95_ms": 1.4025,
+        "stdev_ms": 0.0732
+      },
+      "model_only": {
+        "count": 45,
+        "max_ms": 131.6276,
+        "mean_ms": 128.941,
+        "median_ms": 128.8498,
+        "min_ms": 128.3851,
+        "p95_ms": 129.5772,
+        "stdev_ms": 0.4878
+      },
+      "readback": {
+        "count": 45,
+        "max_ms": 1.2115,
+        "mean_ms": 0.4029,
+        "median_ms": 0.3491,
+        "min_ms": 0.1884,
+        "p95_ms": 1.0024,
+        "stdev_ms": 0.2128
+      },
+      "transfer": {
+        "count": 45,
+        "max_ms": 11.1733,
+        "mean_ms": 9.1142,
+        "median_ms": 9.4489,
+        "min_ms": 2.9925,
+        "p95_ms": 10.7368,
+        "stdev_ms": 1.5906
+      }
+    },
+    "legality": "compact",
+    "legality_bytes_per_position": 504.0,
+    "legality_host_bytes": 1032192,
+    "legality_sampling_positions_per_second": 1666538.58,
+    "legality_share_of_end_to_end": 0.0089,
+    "model_only_positions_per_second": 15883.24,
+    "model_share_of_end_to_end": 0.9294,
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 190201088,
+      "driver_allocated_bytes": 2180726784,
+      "recommended_max_bytes": 40200896512
+    },
+    "outputs_finite": true,
+    "peak_process_memory_bytes": 985694208,
+    "phased_sum_positions_per_second": 14661.36,
+    "policy_shape": [
+      2048,
+      10000
+    ],
+    "positions_per_second": 14761.39,
+    "precision": "float16",
+    "readback_positions_per_second": 5083579.26,
+    "sampled_actions_checked": 2048,
+    "seeded_generator": true,
+    "status": "OK",
+    "transfer_positions_per_second": 224703.76,
+    "trials": 3,
+    "value_shape": [
+      2048,
+      3
+    ],
+    "warmup_iterations": 5,
+    "warmup_seconds": 0.6516
+  },
+  "best_end_to_end_model_step_positions_per_second": 14761.39,
+  "best_float32_dense_configuration": {
+    "batch_size": 1536,
+    "belief_shape": [
+      1536,
+      100,
+      12
+    ],
+    "device": "mps",
+    "illegal_samples": 0,
+    "iterations_per_pass": 16,
+    "latency": {
+      "end_to_end": {
+        "count": 48,
+        "max_ms": 133.6037,
+        "mean_ms": 130.2393,
+        "median_ms": 130.2808,
+        "min_ms": 127.5262,
+        "p95_ms": 131.2579,
+        "stdev_ms": 0.9638
+      },
+      "legality_and_sampling": {
+        "count": 48,
+        "max_ms": 7.6343,
+        "mean_ms": 6.6177,
+        "median_ms": 6.5249,
+        "min_ms": 6.2181,
+        "p95_ms": 7.4108,
+        "stdev_ms": 0.3015
+      },
+      "model_only": {
+        "count": 48,
+        "max_ms": 121.0781,
+        "mean_ms": 119.6639,
+        "median_ms": 119.583,
+        "min_ms": 118.8416,
+        "p95_ms": 120.6283,
+        "stdev_ms": 0.4449
+      },
+      "readback": {
+        "count": 48,
+        "max_ms": 1.3284,
+        "mean_ms": 0.5084,
+        "median_ms": 0.459,
+        "min_ms": 0.2157,
+        "p95_ms": 0.9293,
+        "stdev_ms": 0.1965
+      },
+      "transfer": {
+        "count": 48,
+        "max_ms": 6.0922,
+        "mean_ms": 4.2915,
+        "median_ms": 4.2146,
+        "min_ms": 2.2089,
+        "p95_ms": 5.4678,
+        "stdev_ms": 0.7413
+      }
+    },
+    "legality": "dense",
+    "legality_bytes_per_position": 10000.0,
+    "legality_host_bytes": 15360000,
+    "legality_sampling_positions_per_second": 232105.16,
+    "legality_share_of_end_to_end": 0.0508,
+    "model_only_positions_per_second": 12835.95,
+    "model_share_of_end_to_end": 0.9188,
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 308780288,
+      "driver_allocated_bytes": 2184921088,
+      "recommended_max_bytes": 40200896512
+    },
+    "outputs_finite": true,
+    "peak_process_memory_bytes": 860700672,
+    "phased_sum_positions_per_second": 11717.91,
+    "policy_shape": [
+      1536,
+      10000
+    ],
+    "positions_per_second": 11793.67,
+    "precision": "float32",
+    "readback_positions_per_second": 3021468.71,
+    "sampled_actions_checked": 1536,
+    "seeded_generator": true,
+    "status": "OK",
+    "transfer_positions_per_second": 357916.88,
+    "trials": 3,
+    "value_shape": [
+      1536,
+      3
+    ],
+    "warmup_iterations": 5,
+    "warmup_seconds": 0.6438
+  },
+  "best_inference_configuration": {
+    "batch_size": 2048,
+    "belief_shape": [
+      2048,
+      100,
+      12
+    ],
+    "device": "mps",
+    "illegal_samples": 0,
+    "iterations_per_pass": 15,
+    "latency": {
+      "end_to_end": {
+        "count": 45,
+        "max_ms": 141.4069,
+        "mean_ms": 139.7056,
+        "median_ms": 139.6618,
+        "min_ms": 137.9534,
+        "p95_ms": 141.1612,
+        "stdev_ms": 0.8479
+      },
+      "legality_and_sampling": {
+        "count": 45,
+        "max_ms": 2.0216,
+        "mean_ms": 1.2642,
+        "median_ms": 1.2121,
+        "min_ms": 1.0527,
+        "p95_ms": 1.729,
+        "stdev_ms": 0.198
+      },
+      "model_only": {
+        "count": 45,
+        "max_ms": 129.4694,
+        "mean_ms": 128.7879,
+        "median_ms": 128.739,
+        "min_ms": 128.3484,
+        "p95_ms": 129.2319,
+        "stdev_ms": 0.2422
+      },
+      "readback": {
+        "count": 45,
+        "max_ms": 1.4524,
+        "mean_ms": 0.3763,
+        "median_ms": 0.3369,
+        "min_ms": 0.2399,
+        "p95_ms": 0.7217,
+        "stdev_ms": 0.2052
+      },
+      "transfer": {
+        "count": 45,
+        "max_ms": 11.738,
+        "mean_ms": 9.6009,
+        "median_ms": 10.0567,
+        "min_ms": 3.441,
+        "p95_ms": 11.5734,
+        "stdev_ms": 1.8575
+      }
+    },
+    "legality": "compact",
+    "legality_bytes_per_position": 504.0,
+    "legality_host_bytes": 1032192,
+    "legality_sampling_positions_per_second": 1619962.32,
+    "legality_share_of_end_to_end": 0.009,
+    "model_only_positions_per_second": 15902.12,
+    "model_share_of_end_to_end": 0.9219,
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 190151936,
+      "driver_allocated_bytes": 2180726784,
+      "recommended_max_bytes": 40200896512
+    },
+    "outputs_finite": true,
+    "peak_process_memory_bytes": 985694208,
+    "phased_sum_positions_per_second": 14625.51,
+    "policy_shape": [
+      2048,
+      10000
+    ],
+    "positions_per_second": 14659.4,
+    "precision": "bfloat16",
+    "readback_positions_per_second": 5441984.7,
+    "sampled_actions_checked": 2048,
+    "seeded_generator": true,
+    "status": "OK",
+    "transfer_positions_per_second": 213313.48,
+    "trials": 3,
+    "value_shape": [
+      2048,
+      3
+    ],
+    "warmup_iterations": 5,
+    "warmup_seconds": 0.674
+  },
+  "best_inference_positions_per_second": 15902.12,
+  "compact_capacity_sensitivity": [
+    {
+      "batch_size": 2048,
+      "capacity": 56,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 504.0,
+      "legality_sampling_positions_per_second": 2729504.2,
+      "positions_per_second": 12323.8,
+      "precision": "float32",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 56,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 504.0,
+      "legality_sampling_positions_per_second": 1592619.81,
+      "positions_per_second": 14785.36,
+      "precision": "float16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 56,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 504.0,
+      "legality_sampling_positions_per_second": 1654789.77,
+      "positions_per_second": 14689.49,
+      "precision": "bfloat16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 64,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 576.0,
+      "legality_sampling_positions_per_second": 3459209.18,
+      "positions_per_second": 12413.55,
+      "precision": "float32",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 64,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 576.0,
+      "legality_sampling_positions_per_second": 1562830.84,
+      "positions_per_second": 14797.24,
+      "precision": "float16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 64,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 576.0,
+      "legality_sampling_positions_per_second": 1632156.54,
+      "positions_per_second": 14731.17,
+      "precision": "bfloat16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 128,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 1152.0,
+      "legality_sampling_positions_per_second": 3533616.33,
+      "positions_per_second": 12457.72,
+      "precision": "float32",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 128,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 1152.0,
+      "legality_sampling_positions_per_second": 1654894.9,
+      "positions_per_second": 14702.33,
+      "precision": "float16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 128,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 1152.0,
+      "legality_sampling_positions_per_second": 1620771.94,
+      "positions_per_second": 14639.87,
+      "precision": "bfloat16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 256,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 2304.0,
+      "legality_sampling_positions_per_second": 2645215.62,
+      "positions_per_second": 12304.07,
+      "precision": "float32",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 256,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 2304.0,
+      "legality_sampling_positions_per_second": 1468621.83,
+      "positions_per_second": 14791.48,
+      "precision": "float16",
+      "status": "OK"
+    },
+    {
+      "batch_size": 2048,
+      "capacity": 256,
+      "illegal_samples": 0,
+      "legality_bytes_per_position": 2304.0,
+      "legality_sampling_positions_per_second": 1554370.69,
+      "positions_per_second": 14799.52,
+      "precision": "bfloat16",
+      "status": "OK"
+    }
+  ],
+  "compact_capacity_sensitivity_batch_size": 2048,
+  "compact_legality_results": [
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 7.4018,
+          "mean_ms": 6.7043,
+          "median_ms": 6.6833,
+          "min_ms": 6.5202,
+          "p95_ms": 6.8982,
+          "stdev_ms": 0.114
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.551,
+          "mean_ms": 0.2175,
+          "median_ms": 0.2073,
+          "min_ms": 0.1694,
+          "p95_ms": 0.2809,
+          "stdev_ms": 0.0342
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 9.549,
+          "mean_ms": 6.1276,
+          "median_ms": 6.0086,
+          "min_ms": 5.8744,
+          "p95_ms": 6.7553,
+          "stdev_ms": 0.4915
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.224,
+          "mean_ms": 0.1375,
+          "median_ms": 0.1353,
+          "min_ms": 0.1206,
+          "p95_ms": 0.1517,
+          "stdev_ms": 0.0121
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.2599,
+          "mean_ms": 0.5985,
+          "median_ms": 0.5842,
+          "min_ms": 0.5311,
+          "p95_ms": 0.7127,
+          "stdev_ms": 0.0592
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 32256,
+      "legality_sampling_positions_per_second": 294318.42,
+      "legality_share_of_end_to_end": 0.0324,
+      "model_only_positions_per_second": 10444.59,
+      "model_share_of_end_to_end": 0.914,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 51015168,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660668416,
+      "phased_sum_positions_per_second": 9038.25,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 9546.18,
+      "precision": "float32",
+      "readback_positions_per_second": 465496.81,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 106933.41,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0344
+    },
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 9.8166,
+          "mean_ms": 5.9874,
+          "median_ms": 5.8603,
+          "min_ms": 5.65,
+          "p95_ms": 6.3811,
+          "stdev_ms": 0.5367
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.7618,
+          "mean_ms": 0.2507,
+          "median_ms": 0.2354,
+          "min_ms": 0.1893,
+          "p95_ms": 0.3626,
+          "stdev_ms": 0.0591
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 16.0625,
+          "mean_ms": 5.6522,
+          "median_ms": 5.076,
+          "min_ms": 4.9667,
+          "p95_ms": 9.9422,
+          "stdev_ms": 1.7883
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.2735,
+          "mean_ms": 0.138,
+          "median_ms": 0.1331,
+          "min_ms": 0.115,
+          "p95_ms": 0.1725,
+          "stdev_ms": 0.0174
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.6106,
+          "mean_ms": 0.679,
+          "median_ms": 0.6436,
+          "min_ms": 0.5705,
+          "p95_ms": 0.8519,
+          "stdev_ms": 0.1121
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 32256,
+      "legality_sampling_positions_per_second": 255250.96,
+      "legality_share_of_end_to_end": 0.0419,
+      "model_only_positions_per_second": 11323.04,
+      "model_share_of_end_to_end": 0.944,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 39876608,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660684800,
+      "phased_sum_positions_per_second": 9523.96,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 10689.04,
+      "precision": "float16",
+      "readback_positions_per_second": 463869.56,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 94256.91,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0292
+    },
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 6.4147,
+          "mean_ms": 5.9218,
+          "median_ms": 5.8981,
+          "min_ms": 5.6743,
+          "p95_ms": 6.1359,
+          "stdev_ms": 0.1195
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.3045,
+          "mean_ms": 0.2355,
+          "median_ms": 0.2327,
+          "min_ms": 0.194,
+          "p95_ms": 0.266,
+          "stdev_ms": 0.0164
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 5.389,
+          "mean_ms": 5.0903,
+          "median_ms": 5.0736,
+          "min_ms": 4.9516,
+          "p95_ms": 5.2528,
+          "stdev_ms": 0.0702
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.2147,
+          "mean_ms": 0.1345,
+          "median_ms": 0.1327,
+          "min_ms": 0.1157,
+          "p95_ms": 0.1495,
+          "stdev_ms": 0.01
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.3977,
+          "mean_ms": 0.6892,
+          "median_ms": 0.6696,
+          "min_ms": 0.5729,
+          "p95_ms": 0.844,
+          "stdev_ms": 0.091
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 32256,
+      "legality_sampling_positions_per_second": 271726.35,
+      "legality_share_of_end_to_end": 0.0398,
+      "model_only_positions_per_second": 12573.04,
+      "model_share_of_end_to_end": 0.8596,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 39876608,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660701184,
+      "phased_sum_positions_per_second": 10407.43,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 10807.45,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 475998.71,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 92859.74,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0296
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 12.1515,
+          "mean_ms": 11.5057,
+          "median_ms": 11.4732,
+          "min_ms": 11.2694,
+          "p95_ms": 11.8336,
+          "stdev_ms": 0.1496
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.7838,
+          "mean_ms": 0.2781,
+          "median_ms": 0.2263,
+          "min_ms": 0.1907,
+          "p95_ms": 0.6728,
+          "stdev_ms": 0.1438
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 11.373,
+          "mean_ms": 10.765,
+          "median_ms": 10.7259,
+          "min_ms": 10.5738,
+          "p95_ms": 11.251,
+          "stdev_ms": 0.1579
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.8036,
+          "mean_ms": 0.1739,
+          "median_ms": 0.1373,
+          "min_ms": 0.1205,
+          "p95_ms": 0.6124,
+          "stdev_ms": 0.1279
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 2.3454,
+          "mean_ms": 0.7212,
+          "median_ms": 0.6336,
+          "min_ms": 0.5942,
+          "p95_ms": 1.353,
+          "stdev_ms": 0.2782
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 64512,
+      "legality_sampling_positions_per_second": 460252.36,
+      "legality_share_of_end_to_end": 0.0242,
+      "model_only_positions_per_second": 11890.34,
+      "model_share_of_end_to_end": 0.9356,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 64915712,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660750336,
+      "phased_sum_positions_per_second": 10721.83,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 11124.89,
+      "precision": "float32",
+      "readback_positions_per_second": 735932.55,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 177487.96,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0578
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 12.5653,
+          "mean_ms": 10.0471,
+          "median_ms": 9.9613,
+          "min_ms": 9.6747,
+          "p95_ms": 10.4785,
+          "stdev_ms": 0.3465
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.8178,
+          "mean_ms": 0.2645,
+          "median_ms": 0.2504,
+          "min_ms": 0.2105,
+          "p95_ms": 0.3043,
+          "stdev_ms": 0.0742
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 10.5725,
+          "mean_ms": 9.0968,
+          "median_ms": 9.0324,
+          "min_ms": 8.9044,
+          "p95_ms": 9.5987,
+          "stdev_ms": 0.2295
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.7765,
+          "mean_ms": 0.1535,
+          "median_ms": 0.1378,
+          "min_ms": 0.1211,
+          "p95_ms": 0.1831,
+          "stdev_ms": 0.0861
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.4255,
+          "mean_ms": 0.7559,
+          "median_ms": 0.7475,
+          "min_ms": 0.6205,
+          "p95_ms": 0.9955,
+          "stdev_ms": 0.1119
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 64512,
+      "legality_sampling_positions_per_second": 483919.51,
+      "legality_share_of_end_to_end": 0.0263,
+      "model_only_positions_per_second": 14070.92,
+      "model_share_of_end_to_end": 0.9054,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 54734080,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660750336,
+      "phased_sum_positions_per_second": 12462.69,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 12740.04,
+      "precision": "float16",
+      "readback_positions_per_second": 833994.14,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 169334.84,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.05
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 11.6798,
+          "mean_ms": 10.1372,
+          "median_ms": 9.9888,
+          "min_ms": 9.7602,
+          "p95_ms": 11.082,
+          "stdev_ms": 0.3706
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.8552,
+          "mean_ms": 0.2803,
+          "median_ms": 0.2552,
+          "min_ms": 0.2064,
+          "p95_ms": 0.3568,
+          "stdev_ms": 0.106
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 11.4957,
+          "mean_ms": 9.1873,
+          "median_ms": 9.0596,
+          "min_ms": 8.8984,
+          "p95_ms": 10.0662,
+          "stdev_ms": 0.4353
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.7444,
+          "mean_ms": 0.1542,
+          "median_ms": 0.1421,
+          "min_ms": 0.125,
+          "p95_ms": 0.1935,
+          "stdev_ms": 0.0647
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 2.2474,
+          "mean_ms": 0.7867,
+          "median_ms": 0.7628,
+          "min_ms": 0.6398,
+          "p95_ms": 1.0201,
+          "stdev_ms": 0.1406
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 64512,
+      "legality_sampling_positions_per_second": 456617.9,
+      "legality_share_of_end_to_end": 0.0277,
+      "model_only_positions_per_second": 13932.26,
+      "model_share_of_end_to_end": 0.9063,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 54423808,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660799488,
+      "phased_sum_positions_per_second": 12297.58,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 12626.75,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 829899.35,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 162707.26,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0495
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 26.1437,
+          "mean_ms": 23.3969,
+          "median_ms": 23.453,
+          "min_ms": 21.261,
+          "p95_ms": 24.5853,
+          "stdev_ms": 0.7344
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 1.9661,
+          "mean_ms": 0.4924,
+          "median_ms": 0.5127,
+          "min_ms": 0.2792,
+          "p95_ms": 0.7235,
+          "stdev_ms": 0.1982
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 23.3107,
+          "mean_ms": 21.542,
+          "median_ms": 21.5105,
+          "min_ms": 20.1577,
+          "p95_ms": 22.5849,
+          "stdev_ms": 0.624
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 1.5104,
+          "mean_ms": 0.2611,
+          "median_ms": 0.2331,
+          "min_ms": 0.1639,
+          "p95_ms": 0.3456,
+          "stdev_ms": 0.13
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 2.8711,
+          "mean_ms": 1.3688,
+          "median_ms": 1.2519,
+          "min_ms": 0.8805,
+          "p95_ms": 2.2574,
+          "stdev_ms": 0.3511
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 129024,
+      "legality_sampling_positions_per_second": 519939.54,
+      "legality_share_of_end_to_end": 0.021,
+      "model_only_positions_per_second": 11883.78,
+      "model_share_of_end_to_end": 0.9207,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 91433216,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676478976,
+      "phased_sum_positions_per_second": 10818.05,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 10941.62,
+      "precision": "float32",
+      "readback_positions_per_second": 980597.09,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 187030.28,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.1078
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 22.7034,
+          "mean_ms": 19.9192,
+          "median_ms": 19.6863,
+          "min_ms": 18.3881,
+          "p95_ms": 21.3946,
+          "stdev_ms": 0.8772
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 1.4282,
+          "mean_ms": 0.4829,
+          "median_ms": 0.418,
+          "min_ms": 0.2706,
+          "p95_ms": 0.6988,
+          "stdev_ms": 0.1696
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 19.2569,
+          "mean_ms": 17.8669,
+          "median_ms": 17.9667,
+          "min_ms": 16.4986,
+          "p95_ms": 18.7756,
+          "stdev_ms": 0.6155
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.9773,
+          "mean_ms": 0.2379,
+          "median_ms": 0.2077,
+          "min_ms": 0.1406,
+          "p95_ms": 0.3445,
+          "stdev_ms": 0.0887
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 3.0897,
+          "mean_ms": 1.3969,
+          "median_ms": 1.1921,
+          "min_ms": 0.7944,
+          "p95_ms": 2.139,
+          "stdev_ms": 0.4564
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 129024,
+      "legality_sampling_positions_per_second": 530125.53,
+      "legality_share_of_end_to_end": 0.0242,
+      "model_only_positions_per_second": 14328.21,
+      "model_share_of_end_to_end": 0.897,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 84731136,
+        "driver_allocated_bytes": 1092304896,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676478976,
+      "phased_sum_positions_per_second": 12809.88,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 12851.89,
+      "precision": "float16",
+      "readback_positions_per_second": 1076149.77,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 183258.02,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0942
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 22.142,
+          "mean_ms": 19.1371,
+          "median_ms": 19.3236,
+          "min_ms": 17.3334,
+          "p95_ms": 21.234,
+          "stdev_ms": 1.3518
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 2.084,
+          "mean_ms": 0.5105,
+          "median_ms": 0.4207,
+          "min_ms": 0.2937,
+          "p95_ms": 0.6781,
+          "stdev_ms": 0.2227
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 19.45,
+          "mean_ms": 18.025,
+          "median_ms": 17.9877,
+          "min_ms": 16.6461,
+          "p95_ms": 18.717,
+          "stdev_ms": 0.4209
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.6888,
+          "mean_ms": 0.2474,
+          "median_ms": 0.2159,
+          "min_ms": 0.1494,
+          "p95_ms": 0.3588,
+          "stdev_ms": 0.0688
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 3.1019,
+          "mean_ms": 1.5706,
+          "median_ms": 1.3369,
+          "min_ms": 0.8796,
+          "p95_ms": 2.5775,
+          "stdev_ms": 0.4355
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 129024,
+      "legality_sampling_positions_per_second": 501476.66,
+      "legality_share_of_end_to_end": 0.0267,
+      "model_only_positions_per_second": 14202.47,
+      "model_share_of_end_to_end": 0.9419,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 84724992,
+        "driver_allocated_bytes": 1092304896,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676478976,
+      "phased_sum_positions_per_second": 12577.67,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 13377.16,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 1034734.67,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 162995.23,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0996
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 45,
+      "latency": {
+        "end_to_end": {
+          "count": 135,
+          "max_ms": 50.2605,
+          "mean_ms": 46.1142,
+          "median_ms": 45.9435,
+          "min_ms": 43.747,
+          "p95_ms": 49.0064,
+          "stdev_ms": 1.1846
+        },
+        "legality_and_sampling": {
+          "count": 135,
+          "max_ms": 2.2628,
+          "mean_ms": 0.623,
+          "median_ms": 0.579,
+          "min_ms": 0.3398,
+          "p95_ms": 1.0433,
+          "stdev_ms": 0.23
+        },
+        "model_only": {
+          "count": 135,
+          "max_ms": 44.9702,
+          "mean_ms": 43.3852,
+          "median_ms": 43.4694,
+          "min_ms": 42.2401,
+          "p95_ms": 44.4665,
+          "stdev_ms": 0.5726
+        },
+        "readback": {
+          "count": 135,
+          "max_ms": 1.697,
+          "mean_ms": 0.3237,
+          "median_ms": 0.2836,
+          "min_ms": 0.1754,
+          "p95_ms": 0.6945,
+          "stdev_ms": 0.1801
+        },
+        "transfer": {
+          "count": 135,
+          "max_ms": 3.5188,
+          "mean_ms": 2.0804,
+          "median_ms": 2.0068,
+          "min_ms": 1.149,
+          "p95_ms": 3.0006,
+          "stdev_ms": 0.4369
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 258048,
+      "legality_sampling_positions_per_second": 821781.75,
+      "legality_share_of_end_to_end": 0.0135,
+      "model_only_positions_per_second": 11801.26,
+      "model_share_of_end_to_end": 0.9408,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 117054720,
+        "driver_allocated_bytes": 1102790656,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 703021056,
+      "phased_sum_positions_per_second": 11031.53,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 11102.88,
+      "precision": "float32",
+      "readback_positions_per_second": 1581500.58,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 246101.66,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.2199
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 58,
+      "latency": {
+        "end_to_end": {
+          "count": 174,
+          "max_ms": 41.194,
+          "mean_ms": 37.707,
+          "median_ms": 37.7291,
+          "min_ms": 35.5289,
+          "p95_ms": 39.1182,
+          "stdev_ms": 0.9698
+        },
+        "legality_and_sampling": {
+          "count": 174,
+          "max_ms": 2.192,
+          "mean_ms": 0.7207,
+          "median_ms": 0.7046,
+          "min_ms": 0.4575,
+          "p95_ms": 1.0603,
+          "stdev_ms": 0.2133
+        },
+        "model_only": {
+          "count": 174,
+          "max_ms": 36.1846,
+          "mean_ms": 34.6369,
+          "median_ms": 34.5622,
+          "min_ms": 33.7359,
+          "p95_ms": 35.6428,
+          "stdev_ms": 0.5578
+        },
+        "readback": {
+          "count": 174,
+          "max_ms": 1.5475,
+          "mean_ms": 0.3132,
+          "median_ms": 0.3001,
+          "min_ms": 0.1631,
+          "p95_ms": 0.4095,
+          "stdev_ms": 0.1471
+        },
+        "transfer": {
+          "count": 174,
+          "max_ms": 4.6901,
+          "mean_ms": 2.4606,
+          "median_ms": 2.5302,
+          "min_ms": 1.15,
+          "p95_ms": 3.7171,
+          "stdev_ms": 0.6975
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 258048,
+      "legality_sampling_positions_per_second": 710397.75,
+      "legality_share_of_end_to_end": 0.0191,
+      "model_only_positions_per_second": 14781.92,
+      "model_share_of_end_to_end": 0.9186,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 91911424,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 703610880,
+      "phased_sum_positions_per_second": 13427.23,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 13578.36,
+      "precision": "float16",
+      "readback_positions_per_second": 1634631.1,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 208078.13,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.1757
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 57,
+      "latency": {
+        "end_to_end": {
+          "count": 171,
+          "max_ms": 39.5077,
+          "mean_ms": 36.8795,
+          "median_ms": 37.0991,
+          "min_ms": 34.3802,
+          "p95_ms": 38.876,
+          "stdev_ms": 1.2311
+        },
+        "legality_and_sampling": {
+          "count": 171,
+          "max_ms": 1.4256,
+          "mean_ms": 0.7141,
+          "median_ms": 0.7041,
+          "min_ms": 0.465,
+          "p95_ms": 1.0013,
+          "stdev_ms": 0.1324
+        },
+        "model_only": {
+          "count": 171,
+          "max_ms": 36.3408,
+          "mean_ms": 34.0032,
+          "median_ms": 34.1939,
+          "min_ms": 33.109,
+          "p95_ms": 34.8083,
+          "stdev_ms": 0.5653
+        },
+        "readback": {
+          "count": 171,
+          "max_ms": 1.0197,
+          "mean_ms": 0.3164,
+          "median_ms": 0.3016,
+          "min_ms": 0.2044,
+          "p95_ms": 0.3816,
+          "stdev_ms": 0.1108
+        },
+        "transfer": {
+          "count": 171,
+          "max_ms": 4.8515,
+          "mean_ms": 2.7852,
+          "median_ms": 2.6733,
+          "min_ms": 1.6149,
+          "p95_ms": 3.9059,
+          "stdev_ms": 0.6204
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 258048,
+      "legality_sampling_positions_per_second": 716978.18,
+      "legality_share_of_end_to_end": 0.0194,
+      "model_only_positions_per_second": 15057.39,
+      "model_share_of_end_to_end": 0.922,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 91899136,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 704069632,
+      "phased_sum_positions_per_second": 13538.18,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 13883.06,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 1618061.25,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 183828.82,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.177
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 24,
+      "latency": {
+        "end_to_end": {
+          "count": 72,
+          "max_ms": 88.7327,
+          "mean_ms": 86.0442,
+          "median_ms": 85.9377,
+          "min_ms": 84.2878,
+          "p95_ms": 87.8054,
+          "stdev_ms": 0.8791
+        },
+        "legality_and_sampling": {
+          "count": 72,
+          "max_ms": 1.6938,
+          "mean_ms": 0.6503,
+          "median_ms": 0.6185,
+          "min_ms": 0.4363,
+          "p95_ms": 1.0491,
+          "stdev_ms": 0.1681
+        },
+        "model_only": {
+          "count": 72,
+          "max_ms": 84.7765,
+          "mean_ms": 82.816,
+          "median_ms": 82.7546,
+          "min_ms": 81.9778,
+          "p95_ms": 83.5254,
+          "stdev_ms": 0.4346
+        },
+        "readback": {
+          "count": 72,
+          "max_ms": 1.1667,
+          "mean_ms": 0.3317,
+          "median_ms": 0.3142,
+          "min_ms": 0.2406,
+          "p95_ms": 0.4108,
+          "stdev_ms": 0.1079
+        },
+        "transfer": {
+          "count": 72,
+          "max_ms": 4.7622,
+          "mean_ms": 3.2286,
+          "median_ms": 3.0962,
+          "min_ms": 2.3608,
+          "p95_ms": 4.3068,
+          "stdev_ms": 0.5104
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 516096,
+      "legality_sampling_positions_per_second": 1574585.68,
+      "legality_share_of_end_to_end": 0.0076,
+      "model_only_positions_per_second": 12364.77,
+      "model_share_of_end_to_end": 0.9625,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 188097792,
+        "driver_allocated_bytes": 2176532480,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766885888,
+      "phased_sum_positions_per_second": 11766.52,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 11900.86,
+      "precision": "float32",
+      "readback_positions_per_second": 3086855.36,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 317168.06,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.4429
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 29,
+      "latency": {
+        "end_to_end": {
+          "count": 87,
+          "max_ms": 73.6372,
+          "mean_ms": 71.0744,
+          "median_ms": 71.0217,
+          "min_ms": 67.749,
+          "p95_ms": 73.0619,
+          "stdev_ms": 1.2096
+        },
+        "legality_and_sampling": {
+          "count": 87,
+          "max_ms": 1.695,
+          "mean_ms": 0.9202,
+          "median_ms": 0.9085,
+          "min_ms": 0.6923,
+          "p95_ms": 1.0272,
+          "stdev_ms": 0.13
+        },
+        "model_only": {
+          "count": 87,
+          "max_ms": 67.724,
+          "mean_ms": 65.4771,
+          "median_ms": 65.3505,
+          "min_ms": 64.7582,
+          "p95_ms": 66.4432,
+          "stdev_ms": 0.5104
+        },
+        "readback": {
+          "count": 87,
+          "max_ms": 1.6214,
+          "mean_ms": 0.3756,
+          "median_ms": 0.3347,
+          "min_ms": 0.2089,
+          "p95_ms": 0.8588,
+          "stdev_ms": 0.2009
+        },
+        "transfer": {
+          "count": 87,
+          "max_ms": 6.8175,
+          "mean_ms": 5.1131,
+          "median_ms": 5.1868,
+          "min_ms": 1.9125,
+          "p95_ms": 6.4248,
+          "stdev_ms": 0.9582
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 516096,
+      "legality_sampling_positions_per_second": 1112822.25,
+      "legality_share_of_end_to_end": 0.0129,
+      "model_only_positions_per_second": 15639.05,
+      "model_share_of_end_to_end": 0.9212,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 135943424,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766951424,
+      "phased_sum_positions_per_second": 14244.78,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 14407.44,
+      "precision": "float16",
+      "readback_positions_per_second": 2726386.84,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 200270.75,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.3366
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 30,
+      "latency": {
+        "end_to_end": {
+          "count": 90,
+          "max_ms": 73.977,
+          "mean_ms": 71.5419,
+          "median_ms": 71.523,
+          "min_ms": 68.1747,
+          "p95_ms": 73.2351,
+          "stdev_ms": 1.1907
+        },
+        "legality_and_sampling": {
+          "count": 90,
+          "max_ms": 2.1791,
+          "mean_ms": 0.9109,
+          "median_ms": 0.8717,
+          "min_ms": 0.6308,
+          "p95_ms": 1.3558,
+          "stdev_ms": 0.2231
+        },
+        "model_only": {
+          "count": 90,
+          "max_ms": 66.8847,
+          "mean_ms": 65.365,
+          "median_ms": 65.3395,
+          "min_ms": 64.6591,
+          "p95_ms": 66.1404,
+          "stdev_ms": 0.34
+        },
+        "readback": {
+          "count": 90,
+          "max_ms": 1.2647,
+          "mean_ms": 0.3301,
+          "median_ms": 0.3302,
+          "min_ms": 0.1849,
+          "p95_ms": 0.3778,
+          "stdev_ms": 0.1077
+        },
+        "transfer": {
+          "count": 90,
+          "max_ms": 7.8651,
+          "mean_ms": 5.0413,
+          "median_ms": 4.9945,
+          "min_ms": 1.8361,
+          "p95_ms": 6.8302,
+          "stdev_ms": 1.2052
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 516096,
+      "legality_sampling_positions_per_second": 1124144.62,
+      "legality_share_of_end_to_end": 0.0127,
+      "model_only_positions_per_second": 15665.89,
+      "model_share_of_end_to_end": 0.9137,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 124450048,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766951424,
+      "phased_sum_positions_per_second": 14292.24,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 14313.3,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 3102298.7,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 203120.53,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.3343
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 16,
+      "latency": {
+        "end_to_end": {
+          "count": 48,
+          "max_ms": 133.1407,
+          "mean_ms": 125.9507,
+          "median_ms": 125.6274,
+          "min_ms": 123.9732,
+          "p95_ms": 127.9117,
+          "stdev_ms": 1.4298
+        },
+        "legality_and_sampling": {
+          "count": 48,
+          "max_ms": 1.0516,
+          "mean_ms": 0.6433,
+          "median_ms": 0.6286,
+          "min_ms": 0.4438,
+          "p95_ms": 0.8234,
+          "stdev_ms": 0.1081
+        },
+        "model_only": {
+          "count": 48,
+          "max_ms": 121.9949,
+          "mean_ms": 120.7534,
+          "median_ms": 120.7368,
+          "min_ms": 119.9458,
+          "p95_ms": 121.4583,
+          "stdev_ms": 0.376
+        },
+        "readback": {
+          "count": 48,
+          "max_ms": 0.8827,
+          "mean_ms": 0.3187,
+          "median_ms": 0.3189,
+          "min_ms": 0.1923,
+          "p95_ms": 0.389,
+          "stdev_ms": 0.0925
+        },
+        "transfer": {
+          "count": 48,
+          "max_ms": 5.5427,
+          "mean_ms": 4.2534,
+          "median_ms": 4.1884,
+          "min_ms": 2.3912,
+          "p95_ms": 5.2051,
+          "stdev_ms": 0.6292
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 774144,
+      "legality_sampling_positions_per_second": 2387571.42,
+      "legality_share_of_end_to_end": 0.0051,
+      "model_only_positions_per_second": 12720.14,
+      "model_share_of_end_to_end": 0.9587,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 270327040,
+        "driver_allocated_bytes": 2184921088,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860717056,
+      "phased_sum_positions_per_second": 12193.5,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 12195.25,
+      "precision": "float32",
+      "readback_positions_per_second": 4819977.48,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 361126.01,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.6343
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 20,
+      "latency": {
+        "end_to_end": {
+          "count": 60,
+          "max_ms": 107.8477,
+          "mean_ms": 105.3442,
+          "median_ms": 105.8508,
+          "min_ms": 99.6336,
+          "p95_ms": 107.4573,
+          "stdev_ms": 1.9027
+        },
+        "legality_and_sampling": {
+          "count": 60,
+          "max_ms": 1.3958,
+          "mean_ms": 1.0852,
+          "median_ms": 1.0738,
+          "min_ms": 0.9257,
+          "p95_ms": 1.2573,
+          "stdev_ms": 0.0734
+        },
+        "model_only": {
+          "count": 60,
+          "max_ms": 99.6525,
+          "mean_ms": 97.055,
+          "median_ms": 96.9845,
+          "min_ms": 96.5742,
+          "p95_ms": 98.1876,
+          "stdev_ms": 0.4498
+        },
+        "readback": {
+          "count": 60,
+          "max_ms": 1.298,
+          "mean_ms": 0.3678,
+          "median_ms": 0.3567,
+          "min_ms": 0.217,
+          "p95_ms": 0.468,
+          "stdev_ms": 0.1313
+        },
+        "transfer": {
+          "count": 60,
+          "max_ms": 9.353,
+          "mean_ms": 7.5893,
+          "median_ms": 7.627,
+          "min_ms": 2.7691,
+          "p95_ms": 9.1749,
+          "stdev_ms": 1.0175
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 774144,
+      "legality_sampling_positions_per_second": 1415406.41,
+      "legality_share_of_end_to_end": 0.0103,
+      "model_only_positions_per_second": 15826.08,
+      "model_share_of_end_to_end": 0.9213,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 174533888,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860717056,
+      "phased_sum_positions_per_second": 14477.27,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 14580.77,
+      "precision": "float16",
+      "readback_positions_per_second": 4175889.97,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 202389.47,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.4914
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 20,
+      "latency": {
+        "end_to_end": {
+          "count": 60,
+          "max_ms": 115.4106,
+          "mean_ms": 105.7064,
+          "median_ms": 106.1199,
+          "min_ms": 99.7313,
+          "p95_ms": 108.5306,
+          "stdev_ms": 2.4481
+        },
+        "legality_and_sampling": {
+          "count": 60,
+          "max_ms": 2.4757,
+          "mean_ms": 1.1356,
+          "median_ms": 1.0692,
+          "min_ms": 0.8646,
+          "p95_ms": 1.7931,
+          "stdev_ms": 0.2536
+        },
+        "model_only": {
+          "count": 60,
+          "max_ms": 98.1904,
+          "mean_ms": 97.214,
+          "median_ms": 97.208,
+          "min_ms": 96.4214,
+          "p95_ms": 97.7337,
+          "stdev_ms": 0.2866
+        },
+        "readback": {
+          "count": 60,
+          "max_ms": 1.5098,
+          "mean_ms": 0.4374,
+          "median_ms": 0.3549,
+          "min_ms": 0.1963,
+          "p95_ms": 1.0409,
+          "stdev_ms": 0.2606
+        },
+        "transfer": {
+          "count": 60,
+          "max_ms": 10.3479,
+          "mean_ms": 8.0042,
+          "median_ms": 8.3675,
+          "min_ms": 2.285,
+          "p95_ms": 10.1089,
+          "stdev_ms": 1.5331
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 774144,
+      "legality_sampling_positions_per_second": 1352613.75,
+      "legality_share_of_end_to_end": 0.0107,
+      "model_only_positions_per_second": 15800.19,
+      "model_share_of_end_to_end": 0.9197,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 174497024,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860749824,
+      "phased_sum_positions_per_second": 14383.2,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 14530.82,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 3511397.56,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 191898.64,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.4919
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 12,
+      "latency": {
+        "end_to_end": {
+          "count": 36,
+          "max_ms": 167.8891,
+          "mean_ms": 165.8992,
+          "median_ms": 165.931,
+          "min_ms": 163.0285,
+          "p95_ms": 167.3975,
+          "stdev_ms": 1.0447
+        },
+        "legality_and_sampling": {
+          "count": 36,
+          "max_ms": 1.4828,
+          "mean_ms": 0.7072,
+          "median_ms": 0.6487,
+          "min_ms": 0.5817,
+          "p95_ms": 1.1934,
+          "stdev_ms": 0.1839
+        },
+        "model_only": {
+          "count": 36,
+          "max_ms": 162.3246,
+          "mean_ms": 160.381,
+          "median_ms": 160.2765,
+          "min_ms": 159.7347,
+          "p95_ms": 161.8492,
+          "stdev_ms": 0.5298
+        },
+        "readback": {
+          "count": 36,
+          "max_ms": 0.399,
+          "mean_ms": 0.3111,
+          "median_ms": 0.3126,
+          "min_ms": 0.2077,
+          "p95_ms": 0.3588,
+          "stdev_ms": 0.0353
+        },
+        "transfer": {
+          "count": 36,
+          "max_ms": 6.8498,
+          "mean_ms": 5.5948,
+          "median_ms": 5.4999,
+          "min_ms": 5.111,
+          "p95_ms": 6.7849,
+          "stdev_ms": 0.4471
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 1032192,
+      "legality_sampling_positions_per_second": 2895888.7,
+      "legality_share_of_end_to_end": 0.0043,
+      "model_only_positions_per_second": 12769.6,
+      "model_share_of_end_to_end": 0.9667,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 363015424,
+        "driver_allocated_bytes": 3258662912,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985694208,
+      "phased_sum_positions_per_second": 12263.91,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 12344.85,
+      "precision": "float32",
+      "readback_positions_per_second": 6583936.45,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 366053.07,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.8316
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 15,
+      "latency": {
+        "end_to_end": {
+          "count": 45,
+          "max_ms": 141.6703,
+          "mean_ms": 138.7403,
+          "median_ms": 139.2807,
+          "min_ms": 132.3874,
+          "p95_ms": 140.6256,
+          "stdev_ms": 2.1632
+        },
+        "legality_and_sampling": {
+          "count": 45,
+          "max_ms": 1.4255,
+          "mean_ms": 1.2289,
+          "median_ms": 1.2082,
+          "min_ms": 1.0369,
+          "p95_ms": 1.4025,
+          "stdev_ms": 0.0732
+        },
+        "model_only": {
+          "count": 45,
+          "max_ms": 131.6276,
+          "mean_ms": 128.941,
+          "median_ms": 128.8498,
+          "min_ms": 128.3851,
+          "p95_ms": 129.5772,
+          "stdev_ms": 0.4878
+        },
+        "readback": {
+          "count": 45,
+          "max_ms": 1.2115,
+          "mean_ms": 0.4029,
+          "median_ms": 0.3491,
+          "min_ms": 0.1884,
+          "p95_ms": 1.0024,
+          "stdev_ms": 0.2128
+        },
+        "transfer": {
+          "count": 45,
+          "max_ms": 11.1733,
+          "mean_ms": 9.1142,
+          "median_ms": 9.4489,
+          "min_ms": 2.9925,
+          "p95_ms": 10.7368,
+          "stdev_ms": 1.5906
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 1032192,
+      "legality_sampling_positions_per_second": 1666538.58,
+      "legality_share_of_end_to_end": 0.0089,
+      "model_only_positions_per_second": 15883.24,
+      "model_share_of_end_to_end": 0.9294,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 190201088,
+        "driver_allocated_bytes": 2180726784,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985694208,
+      "phased_sum_positions_per_second": 14661.36,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 14761.39,
+      "precision": "float16",
+      "readback_positions_per_second": 5083579.26,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 224703.76,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.6516
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 15,
+      "latency": {
+        "end_to_end": {
+          "count": 45,
+          "max_ms": 141.4069,
+          "mean_ms": 139.7056,
+          "median_ms": 139.6618,
+          "min_ms": 137.9534,
+          "p95_ms": 141.1612,
+          "stdev_ms": 0.8479
+        },
+        "legality_and_sampling": {
+          "count": 45,
+          "max_ms": 2.0216,
+          "mean_ms": 1.2642,
+          "median_ms": 1.2121,
+          "min_ms": 1.0527,
+          "p95_ms": 1.729,
+          "stdev_ms": 0.198
+        },
+        "model_only": {
+          "count": 45,
+          "max_ms": 129.4694,
+          "mean_ms": 128.7879,
+          "median_ms": 128.739,
+          "min_ms": 128.3484,
+          "p95_ms": 129.2319,
+          "stdev_ms": 0.2422
+        },
+        "readback": {
+          "count": 45,
+          "max_ms": 1.4524,
+          "mean_ms": 0.3763,
+          "median_ms": 0.3369,
+          "min_ms": 0.2399,
+          "p95_ms": 0.7217,
+          "stdev_ms": 0.2052
+        },
+        "transfer": {
+          "count": 45,
+          "max_ms": 11.738,
+          "mean_ms": 9.6009,
+          "median_ms": 10.0567,
+          "min_ms": 3.441,
+          "p95_ms": 11.5734,
+          "stdev_ms": 1.8575
+        }
+      },
+      "legality": "compact",
+      "legality_bytes_per_position": 504.0,
+      "legality_host_bytes": 1032192,
+      "legality_sampling_positions_per_second": 1619962.32,
+      "legality_share_of_end_to_end": 0.009,
+      "model_only_positions_per_second": 15902.12,
+      "model_share_of_end_to_end": 0.9219,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 190151936,
+        "driver_allocated_bytes": 2180726784,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985694208,
+      "phased_sum_positions_per_second": 14625.51,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 14659.4,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 5441984.7,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 213313.48,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.674
+    }
+  ],
+  "completion_gate": {
+    "all_outputs_finite": true,
+    "all_requested_batch_sizes_measured": true,
+    "dense_and_compact_compared": true,
+    "dense_compact_equivalent": true,
+    "float32_baseline_measured": true,
+    "mps_available": true,
+    "no_illegal_samples": true,
+    "repeat_stability": true,
+    "sustainable_rate_recorded": true,
+    "tests_passed": true
+  },
+  "dense_legality_results": [
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 10.1429,
+          "mean_ms": 6.9644,
+          "median_ms": 6.6332,
+          "min_ms": 6.4586,
+          "p95_ms": 8.8079,
+          "stdev_ms": 0.7611
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.5642,
+          "mean_ms": 0.3629,
+          "median_ms": 0.3489,
+          "min_ms": 0.2976,
+          "p95_ms": 0.4546,
+          "stdev_ms": 0.0435
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 8.1547,
+          "mean_ms": 6.5383,
+          "median_ms": 6.1357,
+          "min_ms": 5.9567,
+          "p95_ms": 7.8315,
+          "stdev_ms": 0.6421
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.7763,
+          "mean_ms": 0.1599,
+          "median_ms": 0.1447,
+          "min_ms": 0.1226,
+          "p95_ms": 0.2156,
+          "stdev_ms": 0.0544
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.1268,
+          "mean_ms": 0.3719,
+          "median_ms": 0.3409,
+          "min_ms": 0.3144,
+          "p95_ms": 0.4887,
+          "stdev_ms": 0.0745
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 640000,
+      "legality_sampling_positions_per_second": 176340.57,
+      "legality_share_of_end_to_end": 0.0521,
+      "model_only_positions_per_second": 9788.55,
+      "model_share_of_end_to_end": 0.9388,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 45344256,
+        "driver_allocated_bytes": 1128005632,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660570112,
+      "phased_sum_positions_per_second": 8610.23,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 9189.65,
+      "precision": "float32",
+      "readback_positions_per_second": 400222.5,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 172076.99,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0412
+    },
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 6.2306,
+          "mean_ms": 5.7614,
+          "median_ms": 5.7293,
+          "min_ms": 5.5691,
+          "p95_ms": 5.966,
+          "stdev_ms": 0.1221
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.4251,
+          "mean_ms": 0.3625,
+          "median_ms": 0.3607,
+          "min_ms": 0.2974,
+          "p95_ms": 0.3901,
+          "stdev_ms": 0.0164
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 5.6691,
+          "mean_ms": 5.1019,
+          "median_ms": 5.0843,
+          "min_ms": 4.9443,
+          "p95_ms": 5.2975,
+          "stdev_ms": 0.0905
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.167,
+          "mean_ms": 0.1363,
+          "median_ms": 0.136,
+          "min_ms": 0.1017,
+          "p95_ms": 0.1492,
+          "stdev_ms": 0.0073
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 0.6297,
+          "mean_ms": 0.4122,
+          "median_ms": 0.3817,
+          "min_ms": 0.3298,
+          "p95_ms": 0.5655,
+          "stdev_ms": 0.0792
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 640000,
+      "legality_sampling_positions_per_second": 176558.16,
+      "legality_share_of_end_to_end": 0.0629,
+      "model_only_positions_per_second": 12544.31,
+      "model_share_of_end_to_end": 0.8855,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 43707392,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660668416,
+      "phased_sum_positions_per_second": 10643.78,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 11108.43,
+      "precision": "float16",
+      "readback_positions_per_second": 469447.09,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 155277.13,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0316
+    },
+    {
+      "batch_size": 64,
+      "belief_shape": [
+        64,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 6.2673,
+          "mean_ms": 5.8022,
+          "median_ms": 5.7887,
+          "min_ms": 5.5517,
+          "p95_ms": 5.9978,
+          "stdev_ms": 0.1163
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 0.5121,
+          "mean_ms": 0.3682,
+          "median_ms": 0.3624,
+          "min_ms": 0.3171,
+          "p95_ms": 0.4214,
+          "stdev_ms": 0.0274
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 9.5283,
+          "mean_ms": 5.208,
+          "median_ms": 5.0851,
+          "min_ms": 4.984,
+          "p95_ms": 5.7438,
+          "stdev_ms": 0.5227
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.3129,
+          "mean_ms": 0.1416,
+          "median_ms": 0.1361,
+          "min_ms": 0.1215,
+          "p95_ms": 0.1729,
+          "stdev_ms": 0.0233
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 0.6729,
+          "mean_ms": 0.4486,
+          "median_ms": 0.4237,
+          "min_ms": 0.3419,
+          "p95_ms": 0.5807,
+          "stdev_ms": 0.0745
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 640000,
+      "legality_sampling_positions_per_second": 173825.05,
+      "legality_share_of_end_to_end": 0.0635,
+      "model_only_positions_per_second": 12288.89,
+      "model_share_of_end_to_end": 0.8976,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 40430592,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660684800,
+      "phased_sum_positions_per_second": 10378.87,
+      "policy_shape": [
+        64,
+        10000
+      ],
+      "positions_per_second": 11030.23,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 451952.96,
+      "sampled_actions_checked": 64,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 142658.57,
+      "trials": 3,
+      "value_shape": [
+        64,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0311
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 12.0526,
+          "mean_ms": 11.5239,
+          "median_ms": 11.5159,
+          "min_ms": 11.3101,
+          "p95_ms": 11.7284,
+          "stdev_ms": 0.1136
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 1.5416,
+          "mean_ms": 0.5967,
+          "median_ms": 0.5352,
+          "min_ms": 0.4915,
+          "p95_ms": 1.117,
+          "stdev_ms": 0.1773
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 29.6201,
+          "mean_ms": 11.4995,
+          "median_ms": 10.7069,
+          "min_ms": 10.5048,
+          "p95_ms": 15.2541,
+          "stdev_ms": 2.6227
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.7947,
+          "mean_ms": 0.1764,
+          "median_ms": 0.1463,
+          "min_ms": 0.1268,
+          "p95_ms": 0.3096,
+          "stdev_ms": 0.0958
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.7059,
+          "mean_ms": 0.4664,
+          "median_ms": 0.4082,
+          "min_ms": 0.3667,
+          "p95_ms": 0.7623,
+          "stdev_ms": 0.1702
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 1280000,
+      "legality_sampling_positions_per_second": 214529.25,
+      "legality_share_of_end_to_end": 0.0518,
+      "model_only_positions_per_second": 11130.94,
+      "model_share_of_end_to_end": 0.9979,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 73903360,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660750336,
+      "phased_sum_positions_per_second": 10047.98,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 11107.31,
+      "precision": "float32",
+      "readback_positions_per_second": 725784.97,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 274453.56,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0621
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 10.6026,
+          "mean_ms": 10.0101,
+          "median_ms": 9.9981,
+          "min_ms": 9.7443,
+          "p95_ms": 10.245,
+          "stdev_ms": 0.1269
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 1.2193,
+          "mean_ms": 0.5577,
+          "median_ms": 0.5442,
+          "min_ms": 0.4886,
+          "p95_ms": 0.6116,
+          "stdev_ms": 0.0753
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 10.5378,
+          "mean_ms": 9.0986,
+          "median_ms": 9.0541,
+          "min_ms": 8.9043,
+          "p95_ms": 9.4934,
+          "stdev_ms": 0.1908
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.7875,
+          "mean_ms": 0.1552,
+          "median_ms": 0.144,
+          "min_ms": 0.1273,
+          "p95_ms": 0.1802,
+          "stdev_ms": 0.0678
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 2.0948,
+          "mean_ms": 0.5174,
+          "median_ms": 0.5311,
+          "min_ms": 0.4086,
+          "p95_ms": 0.5938,
+          "stdev_ms": 0.1163
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 1280000,
+      "legality_sampling_positions_per_second": 229519.71,
+      "legality_share_of_end_to_end": 0.0557,
+      "model_only_positions_per_second": 14068.09,
+      "model_share_of_end_to_end": 0.9089,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 70640896,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660750336,
+      "phased_sum_positions_per_second": 12392.45,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 12787.14,
+      "precision": "float16",
+      "readback_positions_per_second": 824774.64,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 247399.77,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0563
+    },
+    {
+      "batch_size": 128,
+      "belief_shape": [
+        128,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 14.058,
+          "mean_ms": 10.1732,
+          "median_ms": 10.0096,
+          "min_ms": 9.7394,
+          "p95_ms": 11.686,
+          "stdev_ms": 0.6045
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 1.2692,
+          "mean_ms": 0.5794,
+          "median_ms": 0.5558,
+          "min_ms": 0.4864,
+          "p95_ms": 0.6558,
+          "stdev_ms": 0.1027
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 11.0661,
+          "mean_ms": 9.2171,
+          "median_ms": 9.0725,
+          "min_ms": 8.867,
+          "p95_ms": 10.3941,
+          "stdev_ms": 0.4368
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 0.255,
+          "mean_ms": 0.1546,
+          "median_ms": 0.1487,
+          "min_ms": 0.1289,
+          "p95_ms": 0.1911,
+          "stdev_ms": 0.0191
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 1.1823,
+          "mean_ms": 0.5463,
+          "median_ms": 0.5378,
+          "min_ms": 0.4301,
+          "p95_ms": 0.6684,
+          "stdev_ms": 0.0732
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 1280000,
+      "legality_sampling_positions_per_second": 220905.42,
+      "legality_share_of_end_to_end": 0.057,
+      "model_only_positions_per_second": 13887.19,
+      "model_share_of_end_to_end": 0.906,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 73607424,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 660799488,
+      "phased_sum_positions_per_second": 12193.41,
+      "policy_shape": [
+        128,
+        10000
+      ],
+      "positions_per_second": 12582.08,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 827712.44,
+      "sampled_actions_checked": 128,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 234316.39,
+      "trials": 3,
+      "value_shape": [
+        128,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0523
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 28.2679,
+          "mean_ms": 23.1219,
+          "median_ms": 23.3288,
+          "min_ms": 20.9785,
+          "p95_ms": 25.3569,
+          "stdev_ms": 1.5796
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 2.7189,
+          "mean_ms": 1.1421,
+          "median_ms": 1.0216,
+          "min_ms": 0.886,
+          "p95_ms": 1.6296,
+          "stdev_ms": 0.2826
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 23.8122,
+          "mean_ms": 20.9208,
+          "median_ms": 20.0987,
+          "min_ms": 19.6932,
+          "p95_ms": 22.5602,
+          "stdev_ms": 1.1226
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 1.2058,
+          "mean_ms": 0.2881,
+          "median_ms": 0.206,
+          "min_ms": 0.1394,
+          "p95_ms": 0.666,
+          "stdev_ms": 0.1792
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 2.0513,
+          "mean_ms": 0.8192,
+          "median_ms": 0.6604,
+          "min_ms": 0.5149,
+          "p95_ms": 1.2473,
+          "stdev_ms": 0.2972
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 2560000,
+      "legality_sampling_positions_per_second": 224148.84,
+      "legality_share_of_end_to_end": 0.0494,
+      "model_only_positions_per_second": 12236.6,
+      "model_share_of_end_to_end": 0.9048,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 107297024,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676429824,
+      "phased_sum_positions_per_second": 11048.63,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 11071.75,
+      "precision": "float32",
+      "readback_positions_per_second": 888493.04,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 312491.26,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.1077
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 23.4319,
+          "mean_ms": 20.4475,
+          "median_ms": 20.4003,
+          "min_ms": 18.2957,
+          "p95_ms": 22.0202,
+          "stdev_ms": 0.953
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 3.1028,
+          "mean_ms": 1.2337,
+          "median_ms": 1.2193,
+          "min_ms": 1.0208,
+          "p95_ms": 1.469,
+          "stdev_ms": 0.2114
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 20.0251,
+          "mean_ms": 18.3151,
+          "median_ms": 18.2984,
+          "min_ms": 16.8687,
+          "p95_ms": 19.1102,
+          "stdev_ms": 0.5357
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 1.1295,
+          "mean_ms": 0.3239,
+          "median_ms": 0.2996,
+          "min_ms": 0.1803,
+          "p95_ms": 0.4928,
+          "stdev_ms": 0.1378
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 3.3076,
+          "mean_ms": 1.2942,
+          "median_ms": 1.3568,
+          "min_ms": 0.6701,
+          "p95_ms": 2.2997,
+          "stdev_ms": 0.4684
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 2560000,
+      "legality_sampling_positions_per_second": 207505.12,
+      "legality_share_of_end_to_end": 0.0603,
+      "model_only_positions_per_second": 13977.5,
+      "model_share_of_end_to_end": 0.8957,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 116544768,
+        "driver_allocated_bytes": 1125859328,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676478976,
+      "phased_sum_positions_per_second": 12094.37,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 12519.85,
+      "precision": "float16",
+      "readback_positions_per_second": 790483.84,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 197810.0,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.098
+    },
+    {
+      "batch_size": 256,
+      "belief_shape": [
+        256,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 80,
+      "latency": {
+        "end_to_end": {
+          "count": 240,
+          "max_ms": 22.7649,
+          "mean_ms": 20.6088,
+          "median_ms": 20.6864,
+          "min_ms": 18.686,
+          "p95_ms": 22.0475,
+          "stdev_ms": 0.8852
+        },
+        "legality_and_sampling": {
+          "count": 240,
+          "max_ms": 2.2169,
+          "mean_ms": 1.2533,
+          "median_ms": 1.2549,
+          "min_ms": 1.0178,
+          "p95_ms": 1.5642,
+          "stdev_ms": 0.1786
+        },
+        "model_only": {
+          "count": 240,
+          "max_ms": 20.0294,
+          "mean_ms": 18.3229,
+          "median_ms": 18.2107,
+          "min_ms": 16.749,
+          "p95_ms": 19.3545,
+          "stdev_ms": 0.5851
+        },
+        "readback": {
+          "count": 240,
+          "max_ms": 1.1578,
+          "mean_ms": 0.3161,
+          "median_ms": 0.3036,
+          "min_ms": 0.1655,
+          "p95_ms": 0.4353,
+          "stdev_ms": 0.1199
+        },
+        "transfer": {
+          "count": 240,
+          "max_ms": 3.6457,
+          "mean_ms": 1.3441,
+          "median_ms": 1.3803,
+          "min_ms": 0.6375,
+          "p95_ms": 2.1888,
+          "stdev_ms": 0.4629
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 2560000,
+      "legality_sampling_positions_per_second": 204257.1,
+      "legality_share_of_end_to_end": 0.0608,
+      "model_only_positions_per_second": 13971.58,
+      "model_share_of_end_to_end": 0.8891,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 123092224,
+        "driver_allocated_bytes": 1092304896,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 676478976,
+      "phased_sum_positions_per_second": 12054.74,
+      "policy_shape": [
+        256,
+        10000
+      ],
+      "positions_per_second": 12421.86,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 809836.08,
+      "sampled_actions_checked": 256,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 190461.51,
+      "trials": 3,
+      "value_shape": [
+        256,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.0982
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 46,
+      "latency": {
+        "end_to_end": {
+          "count": 138,
+          "max_ms": 52.1826,
+          "mean_ms": 47.1682,
+          "median_ms": 47.1302,
+          "min_ms": 45.0416,
+          "p95_ms": 48.7136,
+          "stdev_ms": 1.0082
+        },
+        "legality_and_sampling": {
+          "count": 138,
+          "max_ms": 3.8124,
+          "mean_ms": 2.4175,
+          "median_ms": 2.3512,
+          "min_ms": 2.0585,
+          "p95_ms": 3.263,
+          "stdev_ms": 0.3217
+        },
+        "model_only": {
+          "count": 138,
+          "max_ms": 46.0238,
+          "mean_ms": 42.9943,
+          "median_ms": 43.2764,
+          "min_ms": 40.6507,
+          "p95_ms": 44.5659,
+          "stdev_ms": 1.1462
+        },
+        "readback": {
+          "count": 138,
+          "max_ms": 1.4202,
+          "mean_ms": 0.4232,
+          "median_ms": 0.3981,
+          "min_ms": 0.16,
+          "p95_ms": 1.095,
+          "stdev_ms": 0.2319
+        },
+        "transfer": {
+          "count": 138,
+          "max_ms": 3.2613,
+          "mean_ms": 1.7311,
+          "median_ms": 1.7329,
+          "min_ms": 0.8435,
+          "p95_ms": 2.7511,
+          "stdev_ms": 0.5527
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 5120000,
+      "legality_sampling_positions_per_second": 211792.67,
+      "legality_share_of_end_to_end": 0.0513,
+      "model_only_positions_per_second": 11908.56,
+      "model_share_of_end_to_end": 0.9115,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 161799424,
+        "driver_allocated_bytes": 1102790656,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 703021056,
+      "phased_sum_positions_per_second": 10763.97,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 10854.77,
+      "precision": "float32",
+      "readback_positions_per_second": 1209713.66,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 295763.55,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.2153
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 52,
+      "latency": {
+        "end_to_end": {
+          "count": 156,
+          "max_ms": 43.3809,
+          "mean_ms": 39.2028,
+          "median_ms": 39.3052,
+          "min_ms": 36.3899,
+          "p95_ms": 41.3464,
+          "stdev_ms": 1.3463
+        },
+        "legality_and_sampling": {
+          "count": 156,
+          "max_ms": 3.5092,
+          "mean_ms": 2.507,
+          "median_ms": 2.4904,
+          "min_ms": 2.2715,
+          "p95_ms": 2.747,
+          "stdev_ms": 0.1468
+        },
+        "model_only": {
+          "count": 156,
+          "max_ms": 38.9123,
+          "mean_ms": 34.9921,
+          "median_ms": 34.9197,
+          "min_ms": 33.4203,
+          "p95_ms": 36.3958,
+          "stdev_ms": 0.9332
+        },
+        "readback": {
+          "count": 156,
+          "max_ms": 1.2843,
+          "mean_ms": 0.3955,
+          "median_ms": 0.3803,
+          "min_ms": 0.202,
+          "p95_ms": 0.7397,
+          "stdev_ms": 0.1485
+        },
+        "transfer": {
+          "count": 156,
+          "max_ms": 4.6563,
+          "mean_ms": 2.3583,
+          "median_ms": 2.3549,
+          "min_ms": 1.0221,
+          "p95_ms": 3.6313,
+          "stdev_ms": 0.7
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 5120000,
+      "legality_sampling_positions_per_second": 204226.92,
+      "legality_share_of_end_to_end": 0.0639,
+      "model_only_positions_per_second": 14631.86,
+      "model_share_of_end_to_end": 0.8926,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 130323712,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 703610880,
+      "phased_sum_positions_per_second": 12719.58,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 13060.29,
+      "precision": "float16",
+      "readback_positions_per_second": 1294584.89,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 217108.89,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.1949
+    },
+    {
+      "batch_size": 512,
+      "belief_shape": [
+        512,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 54,
+      "latency": {
+        "end_to_end": {
+          "count": 162,
+          "max_ms": 41.5457,
+          "mean_ms": 38.8581,
+          "median_ms": 39.2125,
+          "min_ms": 36.3233,
+          "p95_ms": 40.7562,
+          "stdev_ms": 1.2039
+        },
+        "legality_and_sampling": {
+          "count": 162,
+          "max_ms": 3.606,
+          "mean_ms": 2.5082,
+          "median_ms": 2.4842,
+          "min_ms": 2.2153,
+          "p95_ms": 2.8733,
+          "stdev_ms": 0.2017
+        },
+        "model_only": {
+          "count": 162,
+          "max_ms": 37.473,
+          "mean_ms": 34.4012,
+          "median_ms": 34.438,
+          "min_ms": 33.3333,
+          "p95_ms": 35.6139,
+          "stdev_ms": 0.7691
+        },
+        "readback": {
+          "count": 162,
+          "max_ms": 1.2291,
+          "mean_ms": 0.4204,
+          "median_ms": 0.4093,
+          "min_ms": 0.216,
+          "p95_ms": 0.7453,
+          "stdev_ms": 0.1617
+        },
+        "transfer": {
+          "count": 162,
+          "max_ms": 4.8302,
+          "mean_ms": 2.5566,
+          "median_ms": 2.448,
+          "min_ms": 1.1438,
+          "p95_ms": 3.956,
+          "stdev_ms": 0.7462
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 5120000,
+      "legality_sampling_positions_per_second": 204127.19,
+      "legality_share_of_end_to_end": 0.0645,
+      "model_only_positions_per_second": 14883.18,
+      "model_share_of_end_to_end": 0.8853,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 117204224,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 704069632,
+      "phased_sum_positions_per_second": 12836.43,
+      "policy_shape": [
+        512,
+        10000
+      ],
+      "positions_per_second": 13176.15,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 1217897.72,
+      "sampled_actions_checked": 512,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 200265.6,
+      "trials": 3,
+      "value_shape": [
+        512,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.189
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 24,
+      "latency": {
+        "end_to_end": {
+          "count": 72,
+          "max_ms": 91.8528,
+          "mean_ms": 89.1573,
+          "median_ms": 89.6937,
+          "min_ms": 86.1103,
+          "p95_ms": 91.6298,
+          "stdev_ms": 1.8411
+        },
+        "legality_and_sampling": {
+          "count": 72,
+          "max_ms": 4.993,
+          "mean_ms": 4.2883,
+          "median_ms": 4.2756,
+          "min_ms": 4.0139,
+          "p95_ms": 4.5751,
+          "stdev_ms": 0.2068
+        },
+        "model_only": {
+          "count": 72,
+          "max_ms": 85.0092,
+          "mean_ms": 81.9631,
+          "median_ms": 82.5412,
+          "min_ms": 79.3905,
+          "p95_ms": 83.8771,
+          "stdev_ms": 1.5958
+        },
+        "readback": {
+          "count": 72,
+          "max_ms": 1.5608,
+          "mean_ms": 0.3667,
+          "median_ms": 0.276,
+          "min_ms": 0.169,
+          "p95_ms": 0.8256,
+          "stdev_ms": 0.2444
+        },
+        "transfer": {
+          "count": 72,
+          "max_ms": 3.9334,
+          "mean_ms": 2.2046,
+          "median_ms": 1.875,
+          "min_ms": 1.4019,
+          "p95_ms": 3.6438,
+          "stdev_ms": 0.7332
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 10240000,
+      "legality_sampling_positions_per_second": 238789.38,
+      "legality_share_of_end_to_end": 0.0481,
+      "model_only_positions_per_second": 12493.42,
+      "model_share_of_end_to_end": 0.9193,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 209364224,
+        "driver_allocated_bytes": 2176532480,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766885888,
+      "phased_sum_positions_per_second": 11528.58,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 11485.32,
+      "precision": "float32",
+      "readback_positions_per_second": 2792326.19,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 464478.46,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.4382
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 28,
+      "latency": {
+        "end_to_end": {
+          "count": 84,
+          "max_ms": 77.5259,
+          "mean_ms": 74.3449,
+          "median_ms": 74.3746,
+          "min_ms": 71.0475,
+          "p95_ms": 76.5571,
+          "stdev_ms": 1.5547
+        },
+        "legality_and_sampling": {
+          "count": 84,
+          "max_ms": 5.8396,
+          "mean_ms": 4.7103,
+          "median_ms": 4.693,
+          "min_ms": 4.3867,
+          "p95_ms": 4.9322,
+          "stdev_ms": 0.1871
+        },
+        "model_only": {
+          "count": 84,
+          "max_ms": 66.9282,
+          "mean_ms": 65.6048,
+          "median_ms": 65.568,
+          "min_ms": 64.6287,
+          "p95_ms": 66.4083,
+          "stdev_ms": 0.43
+        },
+        "readback": {
+          "count": 84,
+          "max_ms": 2.3552,
+          "mean_ms": 0.5352,
+          "median_ms": 0.477,
+          "min_ms": 0.2046,
+          "p95_ms": 0.9325,
+          "stdev_ms": 0.2925
+        },
+        "transfer": {
+          "count": 84,
+          "max_ms": 7.2697,
+          "mean_ms": 4.5968,
+          "median_ms": 4.7853,
+          "min_ms": 1.5873,
+          "p95_ms": 6.2374,
+          "stdev_ms": 1.1659
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 10240000,
+      "legality_sampling_positions_per_second": 217396.51,
+      "legality_share_of_end_to_end": 0.0634,
+      "model_only_positions_per_second": 15608.61,
+      "model_share_of_end_to_end": 0.8824,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 196384000,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766951424,
+      "phased_sum_positions_per_second": 13572.41,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 13773.64,
+      "precision": "float16",
+      "readback_positions_per_second": 1913215.35,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 222763.17,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.3565
+    },
+    {
+      "batch_size": 1024,
+      "belief_shape": [
+        1024,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 28,
+      "latency": {
+        "end_to_end": {
+          "count": 84,
+          "max_ms": 78.1011,
+          "mean_ms": 74.7261,
+          "median_ms": 74.6832,
+          "min_ms": 70.2966,
+          "p95_ms": 76.706,
+          "stdev_ms": 1.4577
+        },
+        "legality_and_sampling": {
+          "count": 84,
+          "max_ms": 5.867,
+          "mean_ms": 4.6989,
+          "median_ms": 4.6659,
+          "min_ms": 4.3631,
+          "p95_ms": 5.0991,
+          "stdev_ms": 0.2064
+        },
+        "model_only": {
+          "count": 84,
+          "max_ms": 67.285,
+          "mean_ms": 65.1916,
+          "median_ms": 65.061,
+          "min_ms": 64.5,
+          "p95_ms": 66.2064,
+          "stdev_ms": 0.4634
+        },
+        "readback": {
+          "count": 84,
+          "max_ms": 1.7413,
+          "mean_ms": 0.5042,
+          "median_ms": 0.4759,
+          "min_ms": 0.2276,
+          "p95_ms": 0.8861,
+          "stdev_ms": 0.2198
+        },
+        "transfer": {
+          "count": 84,
+          "max_ms": 7.3763,
+          "mean_ms": 5.2928,
+          "median_ms": 5.1807,
+          "min_ms": 2.0058,
+          "p95_ms": 6.863,
+          "stdev_ms": 1.083
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 10240000,
+      "legality_sampling_positions_per_second": 217924.85,
+      "legality_share_of_end_to_end": 0.0629,
+      "model_only_positions_per_second": 15707.54,
+      "model_share_of_end_to_end": 0.8724,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 175060224,
+        "driver_allocated_bytes": 1098596352,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 766951424,
+      "phased_sum_positions_per_second": 13529.31,
+      "policy_shape": [
+        1024,
+        10000
+      ],
+      "positions_per_second": 13703.38,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 2030997.94,
+      "sampled_actions_checked": 1024,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 193469.32,
+      "trials": 3,
+      "value_shape": [
+        1024,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.3582
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 16,
+      "latency": {
+        "end_to_end": {
+          "count": 48,
+          "max_ms": 133.6037,
+          "mean_ms": 130.2393,
+          "median_ms": 130.2808,
+          "min_ms": 127.5262,
+          "p95_ms": 131.2579,
+          "stdev_ms": 0.9638
+        },
+        "legality_and_sampling": {
+          "count": 48,
+          "max_ms": 7.6343,
+          "mean_ms": 6.6177,
+          "median_ms": 6.5249,
+          "min_ms": 6.2181,
+          "p95_ms": 7.4108,
+          "stdev_ms": 0.3015
+        },
+        "model_only": {
+          "count": 48,
+          "max_ms": 121.0781,
+          "mean_ms": 119.6639,
+          "median_ms": 119.583,
+          "min_ms": 118.8416,
+          "p95_ms": 120.6283,
+          "stdev_ms": 0.4449
+        },
+        "readback": {
+          "count": 48,
+          "max_ms": 1.3284,
+          "mean_ms": 0.5084,
+          "median_ms": 0.459,
+          "min_ms": 0.2157,
+          "p95_ms": 0.9293,
+          "stdev_ms": 0.1965
+        },
+        "transfer": {
+          "count": 48,
+          "max_ms": 6.0922,
+          "mean_ms": 4.2915,
+          "median_ms": 4.2146,
+          "min_ms": 2.2089,
+          "p95_ms": 5.4678,
+          "stdev_ms": 0.7413
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 15360000,
+      "legality_sampling_positions_per_second": 232105.16,
+      "legality_share_of_end_to_end": 0.0508,
+      "model_only_positions_per_second": 12835.95,
+      "model_share_of_end_to_end": 0.9188,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 308780288,
+        "driver_allocated_bytes": 2184921088,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860700672,
+      "phased_sum_positions_per_second": 11717.91,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 11793.67,
+      "precision": "float32",
+      "readback_positions_per_second": 3021468.71,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 357916.88,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.6438
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 19,
+      "latency": {
+        "end_to_end": {
+          "count": 57,
+          "max_ms": 112.7651,
+          "mean_ms": 110.4535,
+          "median_ms": 111.1435,
+          "min_ms": 105.4517,
+          "p95_ms": 112.4978,
+          "stdev_ms": 1.9716
+        },
+        "legality_and_sampling": {
+          "count": 57,
+          "max_ms": 7.1411,
+          "mean_ms": 6.9129,
+          "median_ms": 6.9093,
+          "min_ms": 6.6501,
+          "p95_ms": 7.1246,
+          "stdev_ms": 0.1182
+        },
+        "model_only": {
+          "count": 57,
+          "max_ms": 98.1831,
+          "mean_ms": 96.9663,
+          "median_ms": 96.9134,
+          "min_ms": 96.3559,
+          "p95_ms": 97.9778,
+          "stdev_ms": 0.3678
+        },
+        "readback": {
+          "count": 57,
+          "max_ms": 1.3266,
+          "mean_ms": 0.5138,
+          "median_ms": 0.5042,
+          "min_ms": 0.2509,
+          "p95_ms": 0.8378,
+          "stdev_ms": 0.1878
+        },
+        "transfer": {
+          "count": 57,
+          "max_ms": 9.8863,
+          "mean_ms": 7.2263,
+          "median_ms": 7.7289,
+          "min_ms": 2.6858,
+          "p95_ms": 9.3335,
+          "stdev_ms": 1.8363
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 15360000,
+      "legality_sampling_positions_per_second": 222194.0,
+      "legality_share_of_end_to_end": 0.0626,
+      "model_only_positions_per_second": 15840.55,
+      "model_share_of_end_to_end": 0.8779,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 226487552,
+        "driver_allocated_bytes": 2180726784,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860717056,
+      "phased_sum_positions_per_second": 13761.06,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 13906.31,
+      "precision": "float16",
+      "readback_positions_per_second": 2989500.18,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 212555.97,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.551
+    },
+    {
+      "batch_size": 1536,
+      "belief_shape": [
+        1536,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 19,
+      "latency": {
+        "end_to_end": {
+          "count": 57,
+          "max_ms": 113.9284,
+          "mean_ms": 111.342,
+          "median_ms": 111.8778,
+          "min_ms": 106.1232,
+          "p95_ms": 113.3838,
+          "stdev_ms": 1.8262
+        },
+        "legality_and_sampling": {
+          "count": 57,
+          "max_ms": 8.5836,
+          "mean_ms": 6.8703,
+          "median_ms": 6.8109,
+          "min_ms": 6.49,
+          "p95_ms": 7.6802,
+          "stdev_ms": 0.3463
+        },
+        "model_only": {
+          "count": 57,
+          "max_ms": 123.6917,
+          "mean_ms": 97.6866,
+          "median_ms": 97.1166,
+          "min_ms": 96.5297,
+          "p95_ms": 98.9139,
+          "stdev_ms": 3.5348
+        },
+        "readback": {
+          "count": 57,
+          "max_ms": 1.5965,
+          "mean_ms": 0.5047,
+          "median_ms": 0.4883,
+          "min_ms": 0.2617,
+          "p95_ms": 1.209,
+          "stdev_ms": 0.2253
+        },
+        "transfer": {
+          "count": 57,
+          "max_ms": 10.3958,
+          "mean_ms": 7.9726,
+          "median_ms": 8.2682,
+          "min_ms": 2.3426,
+          "p95_ms": 10.2176,
+          "stdev_ms": 1.6968
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 15360000,
+      "legality_sampling_positions_per_second": 223570.63,
+      "legality_share_of_end_to_end": 0.0617,
+      "model_only_positions_per_second": 15723.75,
+      "model_share_of_end_to_end": 0.8774,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 250412288,
+        "driver_allocated_bytes": 2172338176,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 860749824,
+      "phased_sum_positions_per_second": 13588.81,
+      "policy_shape": [
+        1536,
+        10000
+      ],
+      "positions_per_second": 13795.33,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 3043676.72,
+      "sampled_actions_checked": 1536,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 192660.23,
+      "trials": 3,
+      "value_shape": [
+        1536,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.5221
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 12,
+      "latency": {
+        "end_to_end": {
+          "count": 36,
+          "max_ms": 175.8695,
+          "mean_ms": 173.7439,
+          "median_ms": 173.8256,
+          "min_ms": 171.4177,
+          "p95_ms": 175.6532,
+          "stdev_ms": 1.1483
+        },
+        "legality_and_sampling": {
+          "count": 36,
+          "max_ms": 8.7448,
+          "mean_ms": 8.349,
+          "median_ms": 8.4021,
+          "min_ms": 7.9778,
+          "p95_ms": 8.6326,
+          "stdev_ms": 0.1868
+        },
+        "model_only": {
+          "count": 36,
+          "max_ms": 160.9784,
+          "mean_ms": 159.8874,
+          "median_ms": 159.9097,
+          "min_ms": 158.5025,
+          "p95_ms": 160.92,
+          "stdev_ms": 0.5919
+        },
+        "readback": {
+          "count": 36,
+          "max_ms": 1.0544,
+          "mean_ms": 0.4374,
+          "median_ms": 0.4018,
+          "min_ms": 0.1642,
+          "p95_ms": 0.879,
+          "stdev_ms": 0.1999
+        },
+        "transfer": {
+          "count": 36,
+          "max_ms": 7.2205,
+          "mean_ms": 4.8293,
+          "median_ms": 5.2724,
+          "min_ms": 2.752,
+          "p95_ms": 7.0692,
+          "stdev_ms": 1.4445
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 20480000,
+      "legality_sampling_positions_per_second": 245298.02,
+      "legality_share_of_end_to_end": 0.0481,
+      "model_only_positions_per_second": 12809.02,
+      "model_share_of_end_to_end": 0.9202,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 437189888,
+        "driver_allocated_bytes": 3258662912,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985677824,
+      "phased_sum_positions_per_second": 11803.83,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 11787.46,
+      "precision": "float32",
+      "readback_positions_per_second": 4682728.15,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 424082.01,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.8748
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 14,
+      "latency": {
+        "end_to_end": {
+          "count": 42,
+          "max_ms": 148.9707,
+          "mean_ms": 146.4802,
+          "median_ms": 146.8648,
+          "min_ms": 141.5512,
+          "p95_ms": 148.6102,
+          "stdev_ms": 1.7285
+        },
+        "legality_and_sampling": {
+          "count": 42,
+          "max_ms": 10.3904,
+          "mean_ms": 9.1847,
+          "median_ms": 9.1261,
+          "min_ms": 8.8152,
+          "p95_ms": 9.5171,
+          "stdev_ms": 0.2681
+        },
+        "model_only": {
+          "count": 42,
+          "max_ms": 129.5896,
+          "mean_ms": 128.9443,
+          "median_ms": 128.9599,
+          "min_ms": 128.1462,
+          "p95_ms": 129.5112,
+          "stdev_ms": 0.3409
+        },
+        "readback": {
+          "count": 42,
+          "max_ms": 0.9979,
+          "mean_ms": 0.4902,
+          "median_ms": 0.4603,
+          "min_ms": 0.2057,
+          "p95_ms": 0.7669,
+          "stdev_ms": 0.1648
+        },
+        "transfer": {
+          "count": 42,
+          "max_ms": 12.2172,
+          "mean_ms": 8.5945,
+          "median_ms": 8.932,
+          "min_ms": 3.0504,
+          "p95_ms": 10.9439,
+          "stdev_ms": 2.331
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 20480000,
+      "legality_sampling_positions_per_second": 222978.88,
+      "legality_share_of_end_to_end": 0.0627,
+      "model_only_positions_per_second": 15882.82,
+      "model_share_of_end_to_end": 0.8803,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 248003840,
+        "driver_allocated_bytes": 2180726784,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985694208,
+      "phased_sum_positions_per_second": 13911.74,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 13981.42,
+      "precision": "float16",
+      "readback_positions_per_second": 4178019.29,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 238291.98,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.6963
+    },
+    {
+      "batch_size": 2048,
+      "belief_shape": [
+        2048,
+        100,
+        12
+      ],
+      "device": "mps",
+      "illegal_samples": 0,
+      "iterations_per_pass": 14,
+      "latency": {
+        "end_to_end": {
+          "count": 42,
+          "max_ms": 149.5403,
+          "mean_ms": 146.4329,
+          "median_ms": 147.6018,
+          "min_ms": 140.0934,
+          "p95_ms": 149.0538,
+          "stdev_ms": 2.7276
+        },
+        "legality_and_sampling": {
+          "count": 42,
+          "max_ms": 9.5077,
+          "mean_ms": 8.9016,
+          "median_ms": 8.8616,
+          "min_ms": 8.6107,
+          "p95_ms": 9.3678,
+          "stdev_ms": 0.1878
+        },
+        "model_only": {
+          "count": 42,
+          "max_ms": 129.6393,
+          "mean_ms": 129.0001,
+          "median_ms": 128.947,
+          "min_ms": 128.5313,
+          "p95_ms": 129.3339,
+          "stdev_ms": 0.2371
+        },
+        "readback": {
+          "count": 42,
+          "max_ms": 1.6845,
+          "mean_ms": 0.58,
+          "median_ms": 0.5228,
+          "min_ms": 0.3257,
+          "p95_ms": 1.0965,
+          "stdev_ms": 0.2747
+        },
+        "transfer": {
+          "count": 42,
+          "max_ms": 13.2276,
+          "mean_ms": 9.988,
+          "median_ms": 10.2295,
+          "min_ms": 5.7701,
+          "p95_ms": 12.039,
+          "stdev_ms": 1.6191
+        }
+      },
+      "legality": "dense",
+      "legality_bytes_per_position": 10000.0,
+      "legality_host_bytes": 20480000,
+      "legality_sampling_positions_per_second": 230071.2,
+      "legality_share_of_end_to_end": 0.0608,
+      "model_only_positions_per_second": 15875.96,
+      "model_share_of_end_to_end": 0.881,
+      "mps_memory_bytes": {
+        "current_allocated_bytes": 279903488,
+        "driver_allocated_bytes": 2180726784,
+        "recommended_max_bytes": 40200896512
+      },
+      "outputs_finite": true,
+      "peak_process_memory_bytes": 985694208,
+      "phased_sum_positions_per_second": 13794.06,
+      "policy_shape": [
+        2048,
+        10000
+      ],
+      "positions_per_second": 13985.93,
+      "precision": "bfloat16",
+      "readback_positions_per_second": 3530793.44,
+      "sampled_actions_checked": 2048,
+      "seeded_generator": true,
+      "status": "OK",
+      "transfer_positions_per_second": 205046.67,
+      "trials": 3,
+      "value_shape": [
+        2048,
+        3
+      ],
+      "warmup_iterations": 5,
+      "warmup_seconds": 0.7187
+    }
+  ],
+  "determinism": {
+    "bfloat16": {
+      "bitwise_identical": true,
+      "max_absolute_logit_difference": 0.0,
+      "repeats": 5
+    },
+    "float16": {
+      "bitwise_identical": true,
+      "max_absolute_logit_difference": 0.0,
+      "repeats": 5
+    },
+    "float32": {
+      "bitwise_identical": true,
+      "max_absolute_logit_difference": 0.0,
+      "repeats": 5
+    }
+  },
+  "elapsed_seconds": 689.701,
+  "failures": [],
+  "files_created": [
+    "stratego/training/representative_model.py",
+    "stratego/training/mps_benchmark.py",
+    "tests/training/test_representative_model.py",
+    "scripts/run_phase3_agent04.py",
+    "requirements-training.txt",
+    "reports/phase_3_data/agent_04_mps_inference.json",
+    "reports/phase_3_data/agent_04_mps_inference_raw.csv"
+  ],
+  "files_modified": [
+    "stratego/training/__init__.py",
+    "reports/phase_3_implementation_report.md"
+  ],
+  "illegal_samples_total": 0,
+  "implementation_version": "phase2_1_reference_1.1.0",
+  "is_benchmark_probe": true,
+  "legality_ab_repeatability": {
+    "batch_size": 2048,
+    "compact_capacity": 128,
+    "compact_gain_per_pair": [
+      0.00952,
+      0.04434,
+      0.04123,
+      0.0406,
+      0.05078
+    ],
+    "compact_positions_per_second": [
+      14677.23,
+      14679.29,
+      14635.93,
+      14671.4,
+      14706.16
+    ],
+    "compact_won_every_pair": true,
+    "dense_positions_per_second": [
+      14538.89,
+      14056.03,
+      14056.45,
+      14098.97,
+      13995.42
+    ],
+    "max_gain": 0.05078,
+    "mean_gain": 0.03729,
+    "median_gain": 0.04123,
+    "min_gain": 0.00952,
+    "pairs": 5,
+    "precision": "float16",
+    "stdev_gain": 0.01604,
+    "usable": true
+  },
+  "legality_equivalence": [
+    {
+      "batch_size": 256,
+      "equivalent": true,
+      "max_absolute_probability_difference": 5.960464477539063e-08,
+      "max_illegal_probability_mass": 0.0,
+      "min_compact_probability_sum": 0.9999998807907104,
+      "min_dense_probability_sum": 0.9999998807907104,
+      "precision": "float32"
+    },
+    {
+      "batch_size": 256,
+      "equivalent": true,
+      "max_absolute_probability_difference": 2.9802322387695312e-08,
+      "max_illegal_probability_mass": 0.0,
+      "min_compact_probability_sum": 0.9999998807907104,
+      "min_dense_probability_sum": 0.9999998807907104,
+      "precision": "float16"
+    },
+    {
+      "batch_size": 256,
+      "equivalent": true,
+      "max_absolute_probability_difference": 2.9802322387695312e-08,
+      "max_illegal_probability_mass": 0.0,
+      "min_compact_probability_sum": 0.9999998807907104,
+      "min_dense_probability_sum": 0.9999998807907104,
+      "precision": "bfloat16"
+    }
+  ],
+  "model_disclaimer": "Representative benchmark probe of the planned shape. NOT the frozen model architecture and never trained for playing strength.",
+  "mps_available": true,
+  "mps_built": true,
+  "mps_device_info_if_available": {
+    "backend": "torch.backends.mps",
+    "chip": "Apple M4 Pro",
+    "current_allocated_bytes": 0,
+    "driver_allocated_bytes": 475136,
+    "logical_cores": "14",
+    "physical_cores": "14",
+    "recommended_max_bytes": 40200896512,
+    "unified_memory_bytes": 51539607552
+  },
+  "mps_peak_memory_bytes_if_available": {
+    "current_allocated_bytes": 24108288,
+    "driver_allocated_bytes": 3258662912,
+    "recommended_max_bytes": 40200896512
+  },
+  "numpy_version": "2.5.1",
+  "observation_version": "observation_v2_1_127ch",
+  "peak_memory_bytes": 1115701248,
+  "platform": "Darwin 25.5.0 arm64",
+  "platform_full": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "position_pool": {
+    "build_seconds": 1.356,
+    "compact_capacity": 56,
+    "dense_mask_bytes": 20480000,
+    "legal_actions_max": 49,
+    "legal_actions_mean": 24.267,
+    "legal_actions_median": 25.0,
+    "legal_actions_min": 2,
+    "legal_density_mean": 0.00242666,
+    "ply_max": 480,
+    "ply_mean": 202.9,
+    "ply_min": 0,
+    "positions": 2048,
+    "root_seed": 20260809,
+    "token_bytes": 104038400
+  },
+  "precision_modes": [
+    "float32",
+    "float16",
+    "bfloat16"
+  ],
+  "precision_stability": {
+    "bfloat16": {
+      "batch_size": 256,
+      "finite_outputs": true,
+      "greedy_action_agreement": 0.941406,
+      "max_legal_probability_difference": 0.0012656748294830322,
+      "max_total_variation_distance": 0.001859894022345543,
+      "max_value_probability_difference": 0.0010883808135986328,
+      "stable": true
+    },
+    "float16": {
+      "batch_size": 256,
+      "finite_outputs": true,
+      "greedy_action_agreement": 0.996094,
+      "max_legal_probability_difference": 0.00013431906700134277,
+      "max_total_variation_distance": 0.0002704896032810211,
+      "max_value_probability_difference": 0.00016885995864868164,
+      "stable": true
+    }
+  },
+  "precision_support": {
+    "bfloat16": {
+      "supported": true
+    },
+    "float16": {
+      "supported": true
+    },
+    "float32": {
+      "supported": true
+    }
+  },
+  "prerequisites": {
+    "agents": {
+      "agent_01": {
+        "present": true,
+        "status": "PASS"
+      },
+      "agent_02": {
+        "present": true,
+        "status": "PASS"
+      },
+      "agent_03": {
+        "present": true,
+        "status": "PASS"
+      }
+    },
+    "satisfied": true
+  },
+  "python_version": "3.13.2",
+  "quick_mode": false,
+  "recommended_legality_rationale": "Dense legality is recommended: compact is only +3.7 percent end to end, which does not clear the 5 percent adoption margin robustly, so its padded fixed-capacity representation and the capacity-overflow failure mode it introduces are not justified. Sparse legality should not be forced on later agents. Legality transport costs 10000 bytes/position dense against 504 bytes/position compact at capacity 56. Widening the padding capacity from 56 to 256 changes the compact end-to-end rate by +0.0 percent. At the matched configuration (batch 2048, float16) compact is +5.6 percent on the end-to-end step while its legality+sampling stage alone is 7.5x faster: the encoder dominates the step, so the stage speed-up does not carry through. Priced at the production padding capacity of 128 rather than the pool's observed 56, compact is +5.2 percent against the same dense configuration. Repeatability, 5 interleaved dense/compact pairs at batch 2048, float16, capacity 128: mean +3.7 percent, median +4.1 percent, range +1.0 to +5.1 percent, standard deviation 1.6 percentage points, compact ahead in every pair: True.",
+  "recommended_legality_representation": "dense",
+  "recommended_precision": "float16",
+  "recommended_precision_rationale": "float16 is recommended: 19.6 percent faster than float32 on the complete inference + legality + sampling path, with greedy-action agreement 0.996 and the legal-set distribution unchanged within tolerance. Ties within 2 percent on speed were broken on agreement with the float32 distribution. Measured: bfloat16: +18.7 percent against float32, stable=True, max legal-probability difference 1.27e-03, greedy agreement 0.941; float16: +19.6 percent against float32, stable=True, max legal-probability difference 1.34e-04, greedy agreement 0.996.",
+  "representative_model_parameter_count": 873999,
+  "representative_model_version": "representative_benchmark_probe_0.1.0",
+  "status": "PASS",
+  "sustainable_representative_model_positions_per_second": 14922.19,
+  "sustainable_representative_model_positions_per_second_float32_dense": 12184.98,
+  "sustained_throughput": {
+    "batch_size": 2048,
+    "legality": "compact",
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 78454016,
+      "driver_allocated_bytes": 3254468608,
+      "recommended_max_bytes": 40200896512
+    },
+    "peak_process_memory_bytes": 1115176960,
+    "positions_per_second": 15777.66,
+    "precision": "float16",
+    "seconds": 10.1247,
+    "steps": 78
+  },
+  "sustained_throughput_float32_dense": {
+    "batch_size": 1536,
+    "legality": "dense",
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 147397888,
+      "driver_allocated_bytes": 3258662912,
+      "recommended_max_bytes": 40200896512
+    },
+    "peak_process_memory_bytes": 1115701248,
+    "positions_per_second": 12184.98,
+    "precision": "float32",
+    "seconds": 10.0846,
+    "steps": 80
+  },
+  "sustained_throughput_recommended": {
+    "batch_size": 2048,
+    "legality": "dense",
+    "mps_memory_bytes": {
+      "current_allocated_bytes": 128965888,
+      "driver_allocated_bytes": 3254468608,
+      "recommended_max_bytes": 40200896512
+    },
+    "peak_process_memory_bytes": 1115422720,
+    "positions_per_second": 14922.19,
+    "precision": "float16",
+    "seconds": 10.0189,
+    "steps": 73
+  },
+  "tests": {
+    "target": "tests/training/test_representative_model.py",
+    "test_errors": 0,
+    "test_exit_code": 0,
+    "test_expected_failures": 0,
+    "test_failed": 0,
+    "test_failure_lines": [],
+    "test_passed": 29,
+    "test_seconds": 1.6,
+    "test_skipped": 0,
+    "test_total": 29
+  },
+  "torch_version": "2.13.0"
+}

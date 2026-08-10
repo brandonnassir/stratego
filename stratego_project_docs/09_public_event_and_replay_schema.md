@@ -15,11 +15,20 @@ The key design rule is that **privileged replay data and public event data are d
 
 A replay used internally may contain both secret setups. A public event stream shown to a player or browser client must never expose information that player is not allowed to know.
 
-### Frozen reference status
+### Frozen reference and Phase 3 trajectory status
 
-Phase 2.1 froze these replay/event semantics in `phase2_1_reference_1.1.0`. Ten thousand complete games covering 5,078,406 plies replayed with zero state, observation, event, or terminal-result mismatches, and 103,625 valid hidden-state permutations produced zero public-event or browser-view mismatches.
+Phase 2.1 froze replay/event semantics in `phase2_1_reference_1.1.0`. Ten thousand complete games covering 5,078,406 plies replayed with zero state, observation, event, or terminal-result mismatches; 103,625 valid hidden-state permutations produced zero public-event/browser-view mismatches.
 
-Phase 3 may add training-trajectory metadata, periodic snapshots, sparse legal-action probabilities, and shared-memory transport records. Those additions are training/infrastructure products and must not redefine the authoritative replay or public-event semantics in this document.
+Phase 3 added a separate compact training-trajectory product without redefining the authoritative replay/public-event semantics.
+
+Accepted Phase 3 trajectory/reconstruction evidence:
+
+- schema: `trajectory_v1`, wire-format magic `STJ1`;
+- 1,000,162 historical decisions reconstructed in the dedicated trajectory gate with zero required-field mismatches;
+- 11,251 integrated pipeline decision reconstructions, zero mismatches;
+- 411,818 sampled reconstruction checks during the two-hour soak, zero mismatches.
+
+Training trajectory metadata, model outputs, and snapshots remain infrastructure/training data, not game-state authority.
 
 ---
 
@@ -282,21 +291,47 @@ Derived event logs must therefore be reproducible rather than treated as indepen
 
 ---
 
-## 14. Training metadata record
+## 14. Training metadata and trajectory record
 
-The reinforcement-learning system may attach metadata to each sampled decision without altering the game rules or replay semantics.
+The reinforcement-learning system may attach metadata to each sampled decision without altering game rules or replay semantics.
 
-Possible fields:
+Accepted Phase 3 decision metadata includes:
 
-- policy checkpoint identifier;
-- opponent checkpoint identifier;
-- setup family and setup identifier;
-- action selected;
-- behavior-policy action probability;
+- game identifier;
+- environment identifier and generation;
+- ply;
+- acting player;
+- policy/checkpoint identifier;
+- collection-policy version;
+- selected action;
+- ascending legal action identifiers;
+- behavior-policy probabilities aligned one-for-one with those legal actions;
 - win/draw/loss value prediction;
-- belief-head output summary or loss target reference;
-- training iteration;
-- random-number generator state/seed where needed.
+- snapshot reference;
+- setup family/setup identifier when available;
+- training iteration/collection block when available.
+
+Observed Phase 3 policy-version identifiers include:
+
+- `synthetic_hash_policy_v1` for the deterministic Agent 3 storage/reconstruction probe;
+- `end_to_end_representative_probe_v1` for the integrated representative-model collection path.
+
+These identifiers document the collection policy that produced a record; they do not define game rules or the final model architecture.
+
+### Model decision transport
+
+In the accepted Phase 3 production path:
+
+- the coordinator owns the model;
+- the worker owns the game state and exact ascending legal-action list;
+- coordinator writes selected action, legal-prefix probabilities, win/draw/loss prediction, and `decision_valid` into shared memory;
+- worker records the decision before applying the action.
+
+The model-facing shared transport never contains privileged belief targets or true hidden opponent identities.
+
+### Belief targets
+
+Belief targets are reconstructed separately from privileged state when training data is consumed. They are not serialized as model-facing trajectory input fields.
 
 These fields are training data, not engine state.
 
@@ -377,17 +412,42 @@ Changing channel semantics, action encoding, or event meaning requires a version
 
 ## 19. Storage policy
 
-For the 168-hour training run, prefer storing:
+For the 168-hour training run, store compact trajectories rather than full observations.
 
-- compact setups;
-- action sequences;
-- terminal results;
-- selected training metadata;
-- periodic checkpoints and evaluation summaries.
+Accepted Phase 3 baseline:
 
-Do not store the full 127 by 10 by 10 observation tensor for every move unless profiling demonstrates that reconstruction is more expensive than the storage cost.
+- snapshot interval: 32 plies;
+- sparse legal-action identifiers;
+- `float32` old-policy probability per legal action;
+- win/draw/loss prediction;
+- compressed game record;
+- exact reconstruction through the frozen reference engine.
 
-The 1-terabyte external solid-state drive should hold long-run trajectories, checkpoints, and evaluation artifacts. The 150-gigabyte internal disk should retain the active run, current checkpoints, logs, and sufficient restart data.
+Measured with real representative-model policy rows during the two-hour soak:
+
+- 187.8 encoded bytes/decision;
+- 96,965 encoded bytes/game;
+- 11.17 GiB generated in two hours;
+- approximately **5.59 GiB/hour**.
+
+At the same rate for 168 hours, permanent retention of every trajectory would be approximately:
+
+\[
+5.59 \times 168 \approx 939\ \text{GiB}.
+\]
+
+That is too close to the project's 1-terabyte archive capacity once checkpoints, evaluations, logs, filesystem overhead, and other artifacts are included.
+
+Therefore:
+
+- use a rolling training/replay buffer for bulk self-play data;
+- expire/delete bulk trajectories after they are no longer required by the training algorithm;
+- retain selected representative training games;
+- retain diagnostic/error/unusual games;
+- retain evaluation games and manifests;
+- retain checkpoints, run summaries, and enough data for reproducibility/debugging.
+
+The exact buffer size is a later training-system decision; the principle that full-run bulk trajectories are not all permanently archived is now fixed.
 
 ---
 

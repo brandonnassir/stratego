@@ -8,14 +8,16 @@ It deliberately differs from the full competitive rules described in the Ataraxo
 
 ### Current implementation status
 
-As of Phase 2.1, this rules contract is implemented by the frozen Python reference engine:
+This rules contract remains frozen and unchanged after Phase 3:
 
-- implementation: `phase2_1_reference_1.1.0`;
+- implementation oracle: `phase2_1_reference_1.1.0`;
 - rules version: `stratego_project_v1`;
 - observation version: `observation_v2_1_127ch`;
 - action encoding: fixed 10,000-entry source-destination space.
 
-Phase 2.1 validation passed with zero unexplained rule, replay, observation, hidden-information, snapshot, or invariant mismatches. Future changes to game semantics require explicit versioning and differential comparison against the frozen reference engine.
+Phase 2.1 established rule correctness, replay determinism, information security, snapshot correctness, and state invariants. Phase 3 then wrapped the same engine in a multiprocess/shared-memory/model pipeline and completed 10,048 integrated end-to-end comparisons plus a two-hour soak without changing `stratego/engine/`.
+
+Phase 3 selected the frozen Python engine as the production simulation backend (`KEEP_PYTHON`, measured \(R=6.50\)). This is a systems decision, not a rule change. Future changes to game semantics still require explicit versioning and differential comparison against the frozen reference engine.
 
 ---
 

@@ -1,0 +1,13 @@
+# Phase 3 training/benchmark dependencies.
+#
+# Kept separate from `requirements.txt` on purpose: that file pins the exact
+# versions used to produce `reports/phase_2_metrics.json` for the frozen
+# Phase 2.1 reference engine, and the engine has no PyTorch dependency. Install
+# both files for Phase 3 work:
+#
+#     pip install -r requirements.txt -r requirements-training.txt
+#
+# Added by Phase 3 Agent 4 for the Apple Metal (MPS) inference benchmark.
+# Pinned to the version used to produce
+# `reports/phase_3_data/agent_04_mps_inference.json`.
+torch==2.13.0

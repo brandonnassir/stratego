@@ -10,24 +10,38 @@ The Python reference engine is the behavioral source of truth. Any later optimiz
 
 ### Current acceptance status
 
-Phase 2.1 has passed the **reference-engine correctness gate** and frozen:
+The project has passed both the reference-engine correctness gate and the Phase 3 production-training readiness gate.
+
+Frozen reference:
 
 - `phase2_1_reference_1.1.0`;
 - `stratego_project_v1`;
 - `observation_v2_1_127ch`;
-- the 10,000-entry source-destination action encoding.
+- 10,000-entry source-destination action encoding.
 
-Recorded Phase 2.1 evidence includes:
+Phase 2.1 evidence:
 
-- 1,255 automated tests passed, 0 failed;
+- 1,255 automated tests passed at the freeze;
 - 120 combat cases, 0 failures;
-- 1,804 mirrored position pairs / 3,608 observation comparisons, 0 mismatches across all 127 channels;
+- 1,804 mirrored position pairs / 3,608 observation comparisons, 0 mismatches;
 - 103,625 valid hidden-information permutations, 0 public-information mismatches;
 - 10,000 deterministic replay games / 5,078,406 plies, 0 mismatches;
 - 600 snapshot/restore cases, 0 mismatches;
-- 1,045,111 invariant-checked transitions across 2,000 stress games, 0 violations.
+- 1,045,111 invariant-checked transitions, 0 violations.
 
-The **production-training readiness gate** remains Phase 3 work because batch scaling, multi-hour soak testing, shared-memory transport, representative-model throughput, and the optimized-backend decision have not yet been measured.
+Phase 3 production evidence:
+
+- repository suite reached 1,497 passing tests;
+- 10,048 integrated end-to-end environment-step comparisons, 0 mismatches;
+- 11,251 integrated stored-decision reconstructions, 0 mismatches;
+- two-hour soak: 63,871,488 positions, 123,718 games, 0 errors/restarts;
+- 411,818 reconstruction checks during the soak, 0 mismatches;
+- 0 bytes swap at start/end;
+- 0 unexplained coordinator memory growth;
+- first-to-last-quarter throughput drift: -0.76%;
+- backend decision: `KEEP_PYTHON`, measured \(R=6.50\).
+
+Agent 6 / a separate optimized backend was not triggered.
 
 ---
 
@@ -287,22 +301,36 @@ Across large numbers of randomly generated legal states verify invariants:
 
 ---
 
-## 17. Long-run stability test — Phase 3 production gate
+## 17. Long-run stability test — PASSED in Phase 3
 
-Run continuous batched games for several hours.
-
-Monitor:
+Run the integrated batch/shared-memory/Metal/trajectory pipeline continuously while monitoring:
 
 - memory growth;
 - state corruption;
 - exceptions;
 - impossible piece counts;
 - terminal-reason proportions;
-- throughput drift.
+- throughput drift;
+- worker liveness;
+- swap usage;
+- trajectory reconstruction.
 
-**Gate:** no unexplained memory growth, no invariant violation, no worker/coordinator desynchronization, and no unexplained throughput collapse during a multi-hour batched soak.
+Accepted Phase 3 soak:
 
-This gate is intentionally separate from Phase 2.1 reference-engine correctness acceptance. Phase 2.1 established correctness under millions of checked transitions; Phase 3 establishes sustained behavior of the new multi-process production pipeline.
+- duration: 7,200.1 seconds;
+- positions: 63,871,488;
+- games completed/resets: 123,718;
+- workers alive: 10/10 throughout;
+- errors/restarts: 0/0;
+- reconstruction checks: 411,818;
+- reconstruction mismatches: 0;
+- coordinator memory growth: 0 bytes;
+- system swap: 0 -> 0 bytes;
+- first-vs-last-quarter throughput change: -0.76%.
+
+Four terminal reasons occurred naturally at scale: Flag capture, battleless-limit draw, opponent-no-legal-move win, and both-no-legal-move draw. The absolute-move-limit draw did not occur naturally because the battleless limit ordinarily preempts it.
+
+**Gate status:** passed.
 
 ---
 
@@ -329,41 +357,29 @@ Any mismatch blocks the optimized backend from training use.
 
 ---
 
-## 19. Performance gate before model integration — Phase 3
+## 19. Performance gate before model integration — PASSED in Phase 3
 
-Use the frozen Python reference engine and a representative compact Transformer to benchmark the complete self-play path.
+The accepted decision is based on measured end-to-end-relevant rates, not core-count extrapolation.
 
-Measure:
+Measured:
 
-- worker scaling at 4, 6, 8, 10, and 12 simulation workers;
-- parallel environments at 256, 512, 1,024, 1,536, and 2,048;
-- inference batch sizes at 64, 128, 256, 512, 1,024, 1,536, and 2,048;
-- end-to-end positions per second;
-- worker active and barrier-wait fractions;
-- coordinator/model active and wait fractions;
-- observation-construction throughput;
-- legal-mask/list throughput;
-- shared-memory transport overhead;
-- memory use and growth;
-- snapshot/reconstruction throughput at 16-, 32-, and 64-ply intervals.
+- simulation pipeline: 96,963 positions/s;
+- representative model sustainable rate used for denominator: 14,922 positions/s;
+- ratio: \(R=6.50\);
+- integrated finalist: 12,838 positions/s;
+- production-style collecting soak: 8,871 positions/s.
 
-The single-process Phase 2.1 values are baselines only. Do not infer production throughput by multiplying them by core count.
+Decision rule:
 
-Define:
+- `R >= 2.0`: retain Python;
+- `1.25 <= R < 2.0`: retain Python initially, optimization optional;
+- `R < 1.25`: evaluate separate optimized backend.
 
-\[
-R =
-rac{	ext{sustainable simulation-pipeline positions/second}}
-{	ext{sustainable representative-model inference positions/second}}.
-\]
+**Result:** `KEEP_PYTHON`.
 
-Decision:
+The end-to-end profile independently supports this result: Metal inference dominates the integrated step and workers have substantial idle headroom.
 
-- `R >= 2.0`: retain Python as production simulator;
-- `1.25 <= R < 2.0`: retain Python initially, with optimization optional;
-- `R < 1.25`: design and evaluate an optimized production backend.
-
-If an optimized backend is introduced, section 18 differential gates become mandatory before it may produce training data.
+This decision must be re-measured for the final model architecture rather than assumed permanently.
 
 ---
 
@@ -371,40 +387,43 @@ If an optimized backend is introduced, section 18 differential gates become mand
 
 ### 20.1 Reference-engine correctness gate — PASSED in Phase 2.1
 
-The Python reference engine is frozen when all of the following are true:
+The Python reference engine passed:
 
-- rule unit tests pass;
-- combat matrix passes;
-- legal-action list/mask consistency passes;
-- observation and mirror-equivalence tests pass;
-- hidden-information anti-leak tests pass;
-- 10,000-game deterministic replay test passes;
-- snapshot/restore tests pass;
-- randomized invariant stress testing passes;
-- observation version is frozen;
-- action encoding is frozen;
-- rules version is frozen;
-- single-process performance/storage baselines are documented.
+- rule unit tests;
+- exhaustive combat tests;
+- legal-action list/mask consistency;
+- observation and mirror equivalence;
+- hidden-information anti-leak tests;
+- 10,000-game deterministic replay;
+- snapshot/restore;
+- randomized invariant stress;
+- frozen rules/observation/action versions.
 
-**Status:** passed by `phase2_1_reference_1.1.0`.
+Frozen implementation:
 
-### 20.2 Production-training readiness gate — Phase 3
+- `phase2_1_reference_1.1.0`.
 
-Model training may use the production simulator pipeline only after:
+### 20.2 Production-training readiness gate — PASSED in Phase 3
 
-- batched behavior is differentially equivalent to the frozen reference engine;
-- independent environment reset is validated;
-- shared-memory transport is validated;
-- a representative Metal-backed model has been benchmarked;
-- worker/environment/batch scaling is measured;
-- historical trajectory reconstruction is exact;
-- the multi-hour batched stability soak passes;
-- memory headroom is acceptable and no sustained swapping occurs;
-- the ratio `R` in section 19 is measured;
-- a documented decision is made to retain Python or build the optimized backend;
-- if optimized code is added, section 18 differential gates pass.
+The integrated simulator pipeline passed:
 
-This separation prevents Phase 3 infrastructure work from retroactively blocking the already accepted reference-engine correctness freeze.
+- batched equivalence to the frozen engine;
+- independent reset/generation validation;
+- persistent shared-memory transport;
+- representative Metal model integration;
+- worker/environment/batch scaling;
+- exact compact trajectory reconstruction;
+- two-hour continuous soak;
+- memory/swap stability;
+- explicit backend-ratio measurement.
+
+Backend decision:
+
+- `KEEP_PYTHON`;
+- \(R=6.50\);
+- optimized backend not required.
+
+**Status:** production simulation infrastructure is accepted for subsequent project phases. The final model and training loop still require their own future validation gates.
 
 ---
 
@@ -504,3 +523,23 @@ For each player perspective:
 - no privileged type, belief target, or opponent setup identity appears in browser payloads before legal revelation.
 
 A single unexplained hidden-information leak blocks model integration.
+---
+
+## 22. Model action-sampling safety regression
+
+Any model/action sampler used with the frozen engine must satisfy:
+
+1. sampled action is in the exact engine-generated legal set;
+2. sampler intermediate values used for ranking/selection are finite where required;
+3. masking with `-inf` cannot combine with non-finite random noise to produce a `NaN` winner;
+4. uniform random draws passed through singular transforms are clamped/bounded away from singular endpoints;
+5. coordinator performs an explicit sampled-action legality check before worker application;
+6. illegal sampled action causes a loud correctness failure and no state mutation.
+
+### Phase 3 regression basis
+
+The representative Gumbel-max sampler originally allowed a boundary uniform draw to create non-finite Gumbel noise. Combined with an illegal action's `-inf` logit, this could create `NaN` before `argmax`.
+
+The frozen engine caught the illegal action before mutation. The sampler was corrected and regression tests were added.
+
+This validation requirement applies to future samplers even if they do not use Gumbel-max: model-side legality is never trusted over engine legality.

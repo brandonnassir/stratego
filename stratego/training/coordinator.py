@@ -1,0 +1,703 @@
+"""Bulk-synchronous self-play coordinator: CPU workers, one Metal consumer.
+
+Specification sources:
+
+- `03_game_engine_spec.md` section 16 (bulk-synchronous batch interface)
+- `03_game_engine_spec.md` section 18 (only the coordinator owns the device)
+- `00_PHASE_3_SEQUENCE_AND_COMMON_CONTRACT.md` (approved architecture)
+- `05_AGENT_5_END_TO_END_DECISION.md` (required cycle)
+
+One global step::
+
+    workers build observations and legality into shared memory
+    -> barrier: every worker reports its phase complete
+    -> coordinator runs the model over the ready rows, in inference-batch chunks
+    -> coordinator applies legality and samples one legal action per row
+    -> actions, policy and value written back to shared memory
+    -> workers advance their environments
+    -> finished games are sealed and their slots independently reset
+    -> next global step
+
+Device ownership
+----------------
+This module is the *only* place that imports the model or touches Metal. A
+simulation worker never imports it, which is why the worker pool it drives can
+stay a pure NumPy/engine process. Importing this module requires PyTorch;
+`stratego.training.worker_pool` does not.
+
+Why the coordinator always knows the compact legal set
+------------------------------------------------------
+A stored decision carries one probability per *legal* action, in the ascending
+order the engine produces. The coordinator therefore has to know that ordering
+whenever it is recording, regardless of which legality representation the model
+uses. Building it is a vectorised pass over the dense masks -- see
+:func:`compact_legality_from_masks` -- and it is skipped entirely when recording
+is off, so a pure throughput run does not pay for it.
+
+Determinism
+-----------
+Sampling uses a seeded generator on the device. Two runs with the same seed,
+configuration and worker count draw the same actions. Changing the worker count
+changes nothing about what a slot contains, because a slot's game is a function
+of `(root_seed, environment_id, generation)` alone -- but it does change the
+sampling order, so action draws are reproducible per configuration rather than
+across configurations.
+"""
+
+from __future__ import annotations
+
+import time
+from dataclasses import dataclass, field
+
+import numpy as np
+import torch
+
+from ..engine.constants import ACTION_SPACE_SIZE, RulesConfig, TRAINING_RULES
+from .representative_model import (
+    CompactLegality,
+    RepresentativeConfig,
+    build_representative_model,
+    compact_legal_probabilities,
+    dense_legal_probabilities,
+    dense_mask_to_bool,
+    sample_compact,
+    sample_dense,
+)
+from .shared_buffers import (
+    POLICY_CAPACITY,
+    SKIP_ACTION,
+    STATUS_ACTIVE,
+    VALUE_CLASSES,
+    terminal_reason_name,
+)
+from .worker_pool import (
+    DEFAULT_COLLECTION_POLICY_VERSION,
+    RecordingConfig,
+    WorkerPool,
+)
+
+COORDINATOR_VERSION = "coordinator_v1"
+
+#: Precisions the coordinator will run the encoder in. Sampling and
+#: normalisation always run in float32 regardless -- see
+#: `representative_model.SAMPLING_DTYPE`.
+PRECISIONS = ("float32", "float16", "bfloat16")
+
+DTYPE_BY_NAME = {
+    "float32": torch.float32,
+    "float16": torch.float16,
+    "bfloat16": torch.bfloat16,
+}
+
+LEGALITY_MODES = ("dense", "compact")
+
+
+class CoordinatorError(RuntimeError):
+    """Raised when the end-to-end pipeline cannot run or has lost an invariant."""
+
+
+# ---------------------------------------------------------------------------
+# Legality
+# ---------------------------------------------------------------------------
+
+
+def compact_legality_from_masks(
+    masks: np.ndarray, *, capacity: int
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Vectorised `(B, 10000)` dense masks -> padded ascending legal identifiers.
+
+    Returns `(action_ids, valid, counts)`. `numpy.nonzero` walks a 2-D array in
+    row-major order, so the identifiers land in exactly the ascending order
+    `BatchSimulator.legal_actions` returns -- which is what lets a worker line
+    the probabilities up with its own legal list without transmitting either.
+
+    This is the whole-batch replacement for
+    `representative_model.build_compact_legality`, which loops in Python and is
+    fine for a 2,048-row benchmark pool built once but not for a per-step cost.
+    """
+    if masks.ndim != 2 or masks.shape[1] != ACTION_SPACE_SIZE:
+        raise ValueError(
+            f"expected (B, {ACTION_SPACE_SIZE}) masks, got {tuple(masks.shape)}"
+        )
+    # Zero-copy reinterpretation; NumPy's boolean `nonzero` is several times
+    # faster than scanning the identical bytes as uint8 (Agent 2's finding).
+    boolean = masks.view(np.bool_) if masks.dtype == np.uint8 else masks.astype(bool)
+    rows, columns = np.nonzero(boolean)
+    counts = np.count_nonzero(boolean, axis=1)
+    if counts.size and int(counts.max()) > capacity:
+        raise CoordinatorError(
+            f"a position has {int(counts.max())} legal actions, above the "
+            f"compact capacity of {capacity}"
+        )
+
+    starts = np.zeros(counts.size, dtype=np.int64)
+    if counts.size > 1:
+        np.cumsum(counts[:-1], out=starts[1:])
+    positions = np.arange(rows.size, dtype=np.int64) - np.repeat(starts, counts)
+
+    action_ids = np.zeros((masks.shape[0], capacity), dtype=np.int64)
+    valid = np.zeros((masks.shape[0], capacity), dtype=bool)
+    action_ids[rows, positions] = columns
+    valid[rows, positions] = True
+    return action_ids, valid, counts.astype(np.int64)
+
+
+# ---------------------------------------------------------------------------
+# Configuration and metrics
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class CoordinatorConfig:
+    """One end-to-end pipeline configuration."""
+
+    num_environments: int
+    num_workers: int
+    inference_batch_size: int
+    precision: str = "float16"
+    legality: str = "dense"
+    compact_capacity: int = POLICY_CAPACITY
+    root_seed: int = 0
+    sampling_seed: int = 12345
+    model_seed: int = 0
+    rules: RulesConfig = TRAINING_RULES
+    record_trajectories: bool = False
+    snapshot_interval: int = 32
+    collection_policy_version: str = DEFAULT_COLLECTION_POLICY_VERSION
+    collection_checkpoint_id: str | None = None
+    verify_target_decisions: int = 0
+    max_concurrent_verifications: int = 2
+    retain_games: int = 0
+    #: Synchronise the device between the encoder and the sampling stage so the
+    #: two can be timed apart. Costs a little throughput; the benchmark measures
+    #: how much rather than assuming it is free.
+    detailed_timing: bool = True
+    #: Check every sampled action against the mask it was drawn from before the
+    #: workers see it. One gather per step; it names a sampling fault at the
+    #: point it happens instead of letting it surface as a worker fault.
+    verify_sampled_legality: bool = True
+    step_timeout: float = 300.0
+
+    def __post_init__(self) -> None:
+        if self.precision not in DTYPE_BY_NAME:
+            raise ValueError(f"unknown precision {self.precision!r}")
+        if self.legality not in LEGALITY_MODES:
+            raise ValueError(f"unknown legality mode {self.legality!r}")
+        if self.compact_capacity > POLICY_CAPACITY:
+            raise ValueError(
+                f"compact capacity {self.compact_capacity} exceeds the shared "
+                f"policy row width of {POLICY_CAPACITY}"
+            )
+        if self.inference_batch_size < 1:
+            raise ValueError("inference batch size must be positive")
+
+    @property
+    def label(self) -> str:
+        return (
+            f"w{self.num_workers}_e{self.num_environments}"
+            f"_b{self.inference_batch_size}_{self.precision}_{self.legality}"
+        )
+
+    def as_dict(self) -> dict:
+        return {
+            "num_workers": self.num_workers,
+            "num_environments": self.num_environments,
+            "inference_batch_size": self.inference_batch_size,
+            "precision": self.precision,
+            "legality": self.legality,
+            "compact_capacity": self.compact_capacity,
+            "record_trajectories": self.record_trajectories,
+            "snapshot_interval": self.snapshot_interval,
+            "detailed_timing": self.detailed_timing,
+            "label": self.label,
+        }
+
+
+@dataclass
+class StepMetrics:
+    """Where one global step's wall time went."""
+
+    step: int = 0
+    positions: int = 0
+    transitions: int = 0
+    terminals: int = 0
+    resets: int = 0
+    chunks: int = 0
+    wall_seconds: float = 0.0
+    observation_seconds: float = 0.0
+    legality_seconds: float = 0.0
+    transfer_seconds: float = 0.0
+    inference_seconds: float = 0.0
+    sampling_seconds: float = 0.0
+    writeback_seconds: float = 0.0
+    worker_seconds: float = 0.0
+    barrier_seconds: float = 0.0
+    straggler_seconds: float = 0.0
+    worker_busy_seconds: float = 0.0
+
+    @property
+    def coordinator_seconds(self) -> float:
+        return (
+            self.observation_seconds
+            + self.legality_seconds
+            + self.transfer_seconds
+            + self.inference_seconds
+            + self.sampling_seconds
+            + self.writeback_seconds
+        )
+
+
+@dataclass
+class RunTotals:
+    """Accumulated totals over a measurement block."""
+
+    steps: int = 0
+    positions: int = 0
+    transitions: int = 0
+    terminals: int = 0
+    resets: int = 0
+    chunks: int = 0
+    wall_seconds: float = 0.0
+    observation_seconds: float = 0.0
+    legality_seconds: float = 0.0
+    transfer_seconds: float = 0.0
+    inference_seconds: float = 0.0
+    sampling_seconds: float = 0.0
+    writeback_seconds: float = 0.0
+    worker_seconds: float = 0.0
+    barrier_seconds: float = 0.0
+    straggler_seconds: float = 0.0
+    worker_busy_seconds: float = 0.0
+    step_latencies: list[float] = field(default_factory=list)
+    terminal_reason_counts: dict = field(default_factory=dict)
+    games: int = 0
+
+    @property
+    def coordinator_seconds(self) -> float:
+        """Everything the coordinator did itself, excluding the worker phase."""
+        return (
+            self.observation_seconds
+            + self.legality_seconds
+            + self.transfer_seconds
+            + self.inference_seconds
+            + self.sampling_seconds
+            + self.writeback_seconds
+        )
+
+    def add(self, metrics: StepMetrics) -> None:
+        self.steps += 1
+        self.positions += metrics.positions
+        self.transitions += metrics.transitions
+        self.terminals += metrics.terminals
+        self.resets += metrics.resets
+        self.chunks += metrics.chunks
+        self.wall_seconds += metrics.wall_seconds
+        self.observation_seconds += metrics.observation_seconds
+        self.legality_seconds += metrics.legality_seconds
+        self.transfer_seconds += metrics.transfer_seconds
+        self.inference_seconds += metrics.inference_seconds
+        self.sampling_seconds += metrics.sampling_seconds
+        self.writeback_seconds += metrics.writeback_seconds
+        self.worker_seconds += metrics.worker_seconds
+        self.barrier_seconds += metrics.barrier_seconds
+        self.straggler_seconds += metrics.straggler_seconds
+        self.worker_busy_seconds += metrics.worker_busy_seconds
+        self.step_latencies.append(metrics.wall_seconds)
+
+
+# ---------------------------------------------------------------------------
+# Device
+# ---------------------------------------------------------------------------
+
+
+def resolve_device(requested: str | None = None) -> torch.device:
+    """Pick the device, defaulting to Metal and refusing to fake it."""
+    if requested is not None:
+        return torch.device(requested)
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    raise CoordinatorError(
+        "Metal is not available. The end-to-end decision must not be taken on "
+        "central-processing-unit inference numbers; pass an explicit device only "
+        "for tests."
+    )
+
+
+def synchronize(device: torch.device) -> None:
+    if device.type == "mps":
+        torch.mps.synchronize()
+    elif device.type == "cuda":  # pragma: no cover - not this platform
+        torch.cuda.synchronize()
+
+
+def mps_memory_bytes() -> dict:
+    """Metal allocator counters, empty when Metal is not in use."""
+    if not torch.backends.mps.is_available():
+        return {}
+    try:
+        return {
+            "current_allocated_bytes": int(torch.mps.current_allocated_memory()),
+            "driver_allocated_bytes": int(torch.mps.driver_allocated_memory()),
+        }
+    except Exception:  # pragma: no cover - allocator counters are best effort
+        return {}
+
+
+# ---------------------------------------------------------------------------
+# Coordinator
+# ---------------------------------------------------------------------------
+
+
+class SelfPlayCoordinator:
+    """Drives the bulk-synchronous cycle and owns the only model instance."""
+
+    def __init__(
+        self,
+        config: CoordinatorConfig,
+        *,
+        device: torch.device | str | None = None,
+        model_config: RepresentativeConfig | None = None,
+    ) -> None:
+        self.config = config
+        self.device = (
+            device if isinstance(device, torch.device) else resolve_device(device)
+        )
+        self.dtype = DTYPE_BY_NAME[config.precision]
+
+        recording = RecordingConfig(
+            enabled=config.record_trajectories,
+            snapshot_interval=config.snapshot_interval,
+            collection_policy_version=config.collection_policy_version,
+            collection_checkpoint_id=config.collection_checkpoint_id,
+            verify_target_decisions=config.verify_target_decisions,
+            max_concurrent_verifications=config.max_concurrent_verifications,
+            retain_games=config.retain_games,
+        )
+        self.pool = WorkerPool(
+            config.num_environments,
+            config.num_workers,
+            root_seed=config.root_seed,
+            rules=config.rules,
+            step_timeout=config.step_timeout,
+            recording=recording,
+        )
+
+        self.model = build_representative_model(
+            model_config,
+            seed=config.model_seed,
+            device=self.device,
+            dtype=self.dtype,
+        )
+        self.generator = torch.Generator(device=self.device)
+        self.generator.manual_seed(config.sampling_seed)
+
+        self.step_index = 0
+        self.totals = RunTotals()
+        self.games_finished = 0
+        self.terminal_reason_counts: dict[str, int] = {}
+        self.errors: list[str] = []
+        self._started = False
+
+        # Reusable host-side staging so a step does not allocate per chunk.
+        self._actions = np.full(config.num_environments, SKIP_ACTION, dtype=np.int32)
+        self._counted_episodes = np.zeros(config.num_environments, dtype=np.int64)
+
+    # -- lifecycle ----------------------------------------------------------
+
+    def start(self) -> None:
+        self.pool.start()
+        self._started = True
+
+    def shutdown(self) -> dict:
+        totals = self.pool.shutdown() if self._started else {}
+        self._started = False
+        return totals
+
+    def __enter__(self) -> "SelfPlayCoordinator":
+        self.start()
+        return self
+
+    def __exit__(self, *exception) -> None:
+        self.shutdown()
+
+    # -- one global step ----------------------------------------------------
+
+    def step(self) -> StepMetrics:
+        """Run one complete global step of the required cycle."""
+        if not self._started:
+            raise CoordinatorError("coordinator has not been started")
+        config = self.config
+        buffers = self.pool.buffers
+        metrics = StepMetrics(step=self.step_index)
+        step_started = time.perf_counter()
+
+        # -- ready state: which rows the workers published as needing a move --
+        gather_started = time.perf_counter()
+        status = buffers.status
+        active = np.flatnonzero(status == STATUS_ACTIVE)
+        all_active = active.size == config.num_environments
+        metrics.positions = int(active.size)
+        if active.size == 0:
+            raise CoordinatorError("no active environment in the batch")
+
+        observations = buffers.observations
+        # `(N, 127, 10, 10)` -> `(N, 127, 100)` is a pure view; the transpose to
+        # token-major happens on the device, where it costs a device copy rather
+        # than a 50 KB-per-row host copy.
+        flat = observations.reshape(config.num_environments, observations.shape[1], -1)
+        if all_active:
+            observation_rows = flat
+            mask_rows = buffers.legal_mask
+        else:
+            observation_rows = flat[active]
+            mask_rows = buffers.legal_mask[active]
+        metrics.observation_seconds = time.perf_counter() - gather_started
+
+        # -- compact legal set, when a stored decision will need it ------------
+        legality_started = time.perf_counter()
+        compact_ids = compact_valid = None
+        need_compact = config.record_trajectories or config.legality == "compact"
+        if need_compact:
+            compact_ids, compact_valid, _ = compact_legality_from_masks(
+                mask_rows, capacity=config.compact_capacity
+            )
+        metrics.legality_seconds = time.perf_counter() - legality_started
+
+        # -- inference in chunks of the configured batch size ------------------
+        chunk_size = min(config.inference_batch_size, int(active.size))
+        sampled = np.empty(active.size, dtype=np.int64)
+        values = np.empty((active.size, VALUE_CLASSES), dtype=np.float32)
+        probabilities = (
+            np.zeros((active.size, config.compact_capacity), dtype=np.float32)
+            if config.record_trajectories
+            else None
+        )
+
+        for start in range(0, int(active.size), chunk_size):
+            stop = min(start + chunk_size, int(active.size))
+            metrics.chunks += 1
+            self._run_chunk(
+                metrics,
+                observation_rows[start:stop],
+                mask_rows[start:stop],
+                None if compact_ids is None else compact_ids[start:stop],
+                None if compact_valid is None else compact_valid[start:stop],
+                sampled[start:stop],
+                values[start:stop],
+                None if probabilities is None else probabilities[start:stop],
+            )
+
+        # -- write the decision back into shared memory ------------------------
+        writeback_started = time.perf_counter()
+        self._actions.fill(SKIP_ACTION)
+        self._actions[active] = sampled
+
+        if config.verify_sampled_legality:
+            # The engine is the backstop and will refuse an illegal action, but
+            # it refuses it inside a worker, which surfaces as an opaque worker
+            # fault a whole phase later. Checking the sampled actions against the
+            # very masks they were drawn from costs one gather and names the
+            # cause on the spot. This is what caught the `+inf` Gumbel draw.
+            chosen = mask_rows[np.arange(active.size), sampled]
+            if not chosen.all():
+                offenders = np.flatnonzero(chosen == 0)[:5]
+                details = ", ".join(
+                    f"slot {int(active[position])} action {int(sampled[position])} "
+                    f"(legal_count {int(buffers.legal_count[active[position]])})"
+                    for position in offenders
+                )
+                raise CoordinatorError(
+                    f"sampling returned {int((chosen == 0).sum())} action(s) the "
+                    f"published legality mask forbids: {details}"
+                )
+        self.pool.set_actions(self._actions)
+        self.pool.clear_decisions()
+        if config.record_trajectories:
+            capacity = config.compact_capacity
+            if all_active:
+                buffers.policy_probabilities[:, :capacity] = probabilities
+                buffers.value_prediction[:] = values
+                buffers.decision_valid[:] = 1
+            else:
+                buffers.policy_probabilities[active, :capacity] = probabilities
+                buffers.value_prediction[active] = values
+                buffers.decision_valid[active] = 1
+        metrics.writeback_seconds = time.perf_counter() - writeback_started
+
+        # -- workers advance, finalise and reset -------------------------------
+        worker_started = time.perf_counter()
+        report = self.pool.step(apply_actions=True, auto_reset=True)
+        metrics.worker_seconds = time.perf_counter() - worker_started
+        metrics.transitions = report.stepped
+        metrics.terminals = report.terminals
+        metrics.resets = report.resets
+        metrics.barrier_seconds = report.wait_seconds
+        metrics.straggler_seconds = report.straggler_seconds
+        metrics.worker_busy_seconds = report.worker_busy_seconds
+
+        if report.terminals:
+            self._collect_finished()
+
+        metrics.wall_seconds = time.perf_counter() - step_started
+        self.step_index += 1
+        self.totals.add(metrics)
+        return metrics
+
+    def _run_chunk(
+        self,
+        metrics: StepMetrics,
+        observation_rows: np.ndarray,
+        mask_rows: np.ndarray,
+        compact_ids: np.ndarray | None,
+        compact_valid: np.ndarray | None,
+        sampled_out: np.ndarray,
+        values_out: np.ndarray,
+        probabilities_out: np.ndarray | None,
+    ) -> None:
+        """One MPS dispatch: transfer, encode, apply legality, sample."""
+        config = self.config
+        device = self.device
+        detailed = config.detailed_timing
+
+        transfer_started = time.perf_counter()
+        # `(B, 127, 100)` contiguous host block -> device, then token-major.
+        tokens = torch.from_numpy(np.ascontiguousarray(observation_rows)).to(
+            device, non_blocking=True
+        )
+        tokens = tokens.transpose(1, 2).contiguous().to(self.dtype)
+
+        legality_tensor: torch.Tensor | CompactLegality
+        if config.legality == "dense":
+            # `uint8` and `bool` are both one byte, so the reinterpretation is
+            # zero-copy and the 10,000 bytes per row go straight from the shared
+            # block to the device without a host-side conversion pass.
+            legality_tensor = dense_mask_to_bool(mask_rows.view(np.bool_)).to(
+                device, non_blocking=True
+            )
+        else:
+            legality_tensor = CompactLegality(
+                action_ids=torch.from_numpy(compact_ids).to(device, non_blocking=True),
+                valid=torch.from_numpy(compact_valid).to(device, non_blocking=True),
+                counts=torch.empty(0, dtype=torch.int64),
+            )
+        if detailed:
+            synchronize(device)
+        metrics.transfer_seconds += time.perf_counter() - transfer_started
+
+        inference_started = time.perf_counter()
+        with torch.no_grad():
+            outputs = self.model(tokens)
+        if detailed:
+            synchronize(device)
+        metrics.inference_seconds += time.perf_counter() - inference_started
+
+        sampling_started = time.perf_counter()
+        with torch.no_grad():
+            if config.legality == "dense":
+                actions = sample_dense(
+                    outputs.policy_logits,
+                    legality_tensor,
+                    generator=self.generator,
+                )
+            else:
+                actions = sample_compact(
+                    outputs.policy_logits,
+                    legality_tensor,
+                    generator=self.generator,
+                )
+            value_probabilities = torch.softmax(
+                outputs.value_logits.to(torch.float32), dim=1
+            )
+
+            if probabilities_out is not None:
+                if config.legality == "compact":
+                    legal_probabilities = compact_legal_probabilities(
+                        outputs.policy_logits, legality_tensor
+                    )
+                else:
+                    # The dense path still owes the record one probability per
+                    # legal action, so the compact identifiers built above are
+                    # used to gather them out of the dense distribution.
+                    dense_probabilities = dense_legal_probabilities(
+                        outputs.policy_logits, legality_tensor
+                    )
+                    ids = torch.from_numpy(compact_ids).to(device, non_blocking=True)
+                    valid = torch.from_numpy(compact_valid).to(
+                        device, non_blocking=True
+                    )
+                    legal_probabilities = dense_probabilities.gather(1, ids)
+                    legal_probabilities = legal_probabilities * valid.to(
+                        legal_probabilities.dtype
+                    )
+                probabilities_out[:] = legal_probabilities.to("cpu").numpy()
+
+            # Reading the actions back is what actually forces the device to
+            # finish, so the sampling stage always ends synchronised.
+            sampled_out[:] = actions.to("cpu").numpy()
+            values_out[:] = value_probabilities.to("cpu").numpy()
+        metrics.sampling_seconds += time.perf_counter() - sampling_started
+
+    # -- finished games -----------------------------------------------------
+
+    def _collect_finished(self) -> None:
+        """Tally the games that finished in the phase just completed.
+
+        Read straight out of the `last_*` shared fields, which a reset does not
+        overwrite, so an outcome cannot be lost to an immediate reset and no
+        round trip to a worker is needed. `episode_count` is monotonic per slot,
+        so the difference against what has already been counted is how many
+        games that slot finished since the last look.
+        """
+        buffers = self.pool.buffers
+        episodes = buffers.episode_count.astype(np.int64)
+        newly = episodes - self._counted_episodes
+        for slot in np.flatnonzero(newly > 0).tolist():
+            reason = terminal_reason_name(int(buffers.last_terminal_reason[slot]))
+            count = int(newly[slot])
+            self.terminal_reason_counts[reason] = (
+                self.terminal_reason_counts.get(reason, 0) + count
+            )
+            self.games_finished += count
+        self._counted_episodes = episodes
+
+    # -- convenience --------------------------------------------------------
+
+    def run_steps(self, steps: int) -> RunTotals:
+        for _ in range(steps):
+            self.step()
+        return self.totals
+
+    @property
+    def last_actions(self) -> np.ndarray:
+        """The dense action vector written for the most recent step."""
+        return self._actions
+
+    def snapshot(self) -> dict:
+        """A cheap, allocation-free view of run-level counters."""
+        totals = self.totals
+        return {
+            "steps": totals.steps,
+            "positions": totals.positions,
+            "transitions": totals.transitions,
+            "games": self.games_finished,
+            "resets": totals.resets,
+            "wall_seconds": totals.wall_seconds,
+            "terminal_reason_counts": dict(self.terminal_reason_counts),
+        }
+
+
+__all__ = [
+    "COORDINATOR_VERSION",
+    "DTYPE_BY_NAME",
+    "LEGALITY_MODES",
+    "PRECISIONS",
+    "CoordinatorConfig",
+    "CoordinatorError",
+    "RunTotals",
+    "SelfPlayCoordinator",
+    "StepMetrics",
+    "compact_legality_from_masks",
+    "mps_memory_bytes",
+    "resolve_device",
+    "synchronize",
+]

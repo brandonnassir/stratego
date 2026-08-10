@@ -35,7 +35,7 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 - PyTorch for neural-network training;
 - Apple graphics processor through the supported PyTorch Metal backend;
 - readable Python reference game engine first;
-- optimized engine backend only if profiling shows it is needed;
+- frozen Python reference engine selected as the current production simulator after Phase 3 profiling; a separate optimized backend only if a later model changes the bottleneck;
 - browser-based interface;
 - browser training controls are allowed through a training-control service.
 
@@ -46,26 +46,28 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 | Phase 1 — rules/specification | **Complete** |
 | Phase 2 — Python reference engine | **Complete** |
 | Phase 2.1 — symmetry + terminal-precedence correction | **Complete** |
-| Phase 3 — high-throughput training architecture | **Ready to implement; architecture direction approved** |
+| Phase 3 — high-throughput self-play architecture and backend decision | **Complete** |
+| Phase 4 — baseline opponents and evaluation harness | **Next** |
 | Later phases | Planned |
 
-Frozen behavioral contracts entering Phase 3:
+Frozen behavioral contracts:
 
 - reference implementation: `phase2_1_reference_1.1.0`;
 - rules: `stratego_project_v1`;
 - observation: `observation_v2_1_127ch`;
 - action encoding: 10,000 source-destination identifiers;
-- replay/state semantics: current Phase 2.1 reference implementation.
+- replay/state semantics: frozen Phase 2.1 reference implementation.
 
-Phase 2.1 acceptance evidence:
+Phase 3 production decision:
 
-- 1,255 tests passed;
-- 1,804 mirrored pairs with zero 127-channel mismatches;
-- 103,625 valid hidden-information permutations with zero public leaks;
-- 10,000 replay games / 5,078,406 plies with zero mismatches;
-- 1,045,111 invariant-checked transitions with zero violations.
+- backend: `KEEP_PYTHON`;
+- measured \(R=6.50\);
+- Agent 6 / optimized backend: not required;
+- accepted initial integrated configuration: 10 workers, 1,536 environments, batch 1,536, float16 representative inference, dense legality, 32-ply snapshots;
+- two-hour collecting rate: 8,871 positions/s;
+- measured trajectory generation: approximately 5.59 GiB/hour.
 
-The reference engine is now a correctness oracle and should not be optimized in place.
+The representative Phase 3 Transformer is an untrained systems probe, not the final playing model.
 
 ---
 
@@ -108,7 +110,7 @@ Game-engine interface
       +----------------------+
       |                      |
       v                      v
-Python reference engine   Optimized backend (optional after profiling)
+Python reference engine   Optimized backend (future only if re-profiling justifies it)
 ```
 
 The interface consumes stable records and service endpoints rather than model internals.
@@ -386,6 +388,17 @@ Use for:
 
 Store compact setups + action histories + essential model outputs rather than full 127 by 10 by 10 observations for every move. Reconstruct observations when practical.
 
+Phase 3 measured approximately **5.59 GiB/hour** of encoded trajectory at the representative collecting configuration. At the same rate for 168 hours, retaining everything would be about 939 GiB before other run artifacts.
+
+Therefore the production training system should use:
+
+- a rolling trajectory/replay buffer sized to the training algorithm's consumption needs;
+- selective archival of evaluation games, diagnostic/unusual games, and representative training samples;
+- checkpoint/log storage independent from bulk trajectory retention;
+- explicit deletion/expiration policy for consumed bulk trajectories.
+
+Do not plan to retain every generated self-play decision for the entire final run.
+
 ---
 
 # 13. Collaborative development phases
@@ -425,61 +438,50 @@ Frozen implementation:
 
 **Gate:** passed.
 
-## Phase 3 — High-throughput training architecture and optimization decision — READY
+## Phase 3 — High-throughput self-play architecture and optimization decision — COMPLETE
 
-Approved architecture:
+Implemented:
 
-1. **bulk-synchronous collection** rather than fully asynchronous self-play;
-2. **one Metal-owning coordinator process** plus multiple central-processing-unit simulation workers;
-3. **persistent preallocated shared-memory buffers** rather than per-position Python-object queues;
-4. **compact trajectory storage with periodic state snapshots** rather than storing full observations.
+1. bulk-synchronous collection;
+2. one Metal-owning coordinator plus multiple CPU simulation workers;
+3. persistent preallocated shared-memory transport;
+4. compact trajectories with periodic snapshots;
+5. representative PyTorch/Metal inference benchmark;
+6. integrated worker/model/trajectory pipeline;
+7. two-hour production-style soak.
 
-Initial implementation/benchmark point:
+Accepted results:
 
-- 1,024 simultaneous environments;
-- approximately 8 simulation workers;
-- dense legality masks for the first correctness/performance baseline;
-- snapshots every 32 plies.
+- standalone simulation pipeline: 96,963 positions/s;
+- representative model denominator: 14,922 positions/s;
+- measured \(R=6.50\);
+- backend decision: `KEEP_PYTHON`;
+- Agent 6 / optimized backend: not required;
+- integrated finalist without full recording: 12,838 positions/s;
+- trajectory-recording soak: 8,871 positions/s;
+- zero integrated correctness/reconstruction mismatches;
+- zero unexplained memory growth;
+- zero swap use.
 
-Benchmark matrix:
+Accepted initial configuration for similarly sized model-backed collection:
 
-- workers: 4, 6, 8, 10, 12;
-- environments: 256, 512, 1,024, 1,536, 2,048;
-- inference batches: 64, 128, 256, 512, 1,024, 1,536, 2,048;
-- snapshot intervals: 16, 32, 64;
-- dense legality first, then sparse comparison;
-- supported reduced precision compared against 32-bit floating point.
+- 10 workers;
+- 1,536 environments;
+- inference batch 1,536;
+- float16 representative inference;
+- dense legality;
+- snapshot interval 32.
 
-Use a temporary representative compact Transformer to measure end-to-end self-play demand; do not use simulator-only speed as the production decision.
+Important conclusions:
 
-Define:
+- the current system is model/Metal-bound, not simulator-bound;
+- compact legality is slower end to end on the current dense-mask transport and is not the production default;
+- the final model must re-measure throughput and \(R\);
+- the Phase 3 representative model is not a strength/model-design decision.
 
-\[
-R =
-rac{	ext{sustainable simulation-pipeline positions/second}}
-{	ext{sustainable representative-model inference positions/second}}.
-\]
+**Gate:** passed.
 
-Decision rule:
-
-- `R >= 2.0`: keep Python as production simulator;
-- `1.25 <= R < 2.0`: keep Python initially; optimized backend remains optional;
-- `R < 1.25`: build and validate a second optimized production backend.
-
-Phase 3 also owns:
-
-- exact batched-equivalence tests against the frozen reference engine;
-- independent environment reset validation;
-- shared-memory transport benchmarks;
-- compact decision/game trajectory records;
-- sparse storage of legal-action identifiers plus old policy probabilities;
-- storage of three-class win/draw/loss predictions;
-- exact historical reconstruction from periodic snapshots + action deltas;
-- a multi-hour batched soak with no unexplained memory growth.
-
-**Gate:** identify the actual end-to-end self-play bottleneck and make an evidence-based production-backend decision.
-
-## Phase 4 — Baseline opponents and evaluation harness
+## Phase 4 — Baseline opponents and evaluation harness — NEXT
 
 Build:
 
@@ -487,9 +489,13 @@ Build:
 - elementary heuristic agent;
 - stronger rule-based agent;
 - unusual/adversarial style agents;
-- checkpoint league runner.
+- checkpoint league runner;
+- balanced color/setup assignment;
+- reproducible match manifests and result summaries.
 
-**Gate:** reproducible balanced evaluation and self-play sanity checks.
+The Phase 3 representative model is not used as a training-strength baseline; it is an untrained systems probe.
+
+**Gate:** reproducible balanced evaluation and self-play sanity checks suitable for later warm-start and self-play phases.
 
 ## Phase 5 — Integration confirmation of frozen state/action representation
 

@@ -12,13 +12,19 @@ Any future change to channel meaning, normalization, ordering, or perspective co
 
 Phase 2.1 froze this observation contract against reference implementation `phase2_1_reference_1.1.0`.
 
-Acceptance evidence for this exact version includes:
+Phase 2.1 evidence includes:
 
 - 1,804 mirrored position pairs / 3,608 observer comparisons with zero mismatches across all 127 channels;
 - 103,625 valid hidden-information permutations with zero observation mismatches;
-- 10,000 complete deterministic replay games / 5,078,406 plies with zero observation mismatches.
+- 10,000 deterministic replay games / 5,078,406 plies with zero observation mismatches.
 
-Phase 3 may optimize transport or reconstruction, but it must not alter these channel semantics without a new observation identifier.
+Phase 3 preserved the same observation semantics through batching, shared memory, model input, trajectory recording, and historical reconstruction:
+
+- 10,048 integrated end-to-end state/observation comparisons, 0 mismatches;
+- 11,251 integrated stored-decision reconstructions, 0 mismatches;
+- 411,818 sampled reconstruction checks during the two-hour soak, 0 mismatches.
+
+Transport/layout optimization does not authorize changing channel semantics. Any such change still requires a new observation identifier.
 
 > **Note on the file name.** This file is still called `06_observation_v2_127ch.md` so that the cross-references in the other Phase 1 documents remain valid. The identifier it defines is `observation_v2_1_127ch`.
 
