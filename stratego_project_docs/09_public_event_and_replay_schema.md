@@ -15,20 +15,25 @@ The key design rule is that **privileged replay data and public event data are d
 
 A replay used internally may contain both secret setups. A public event stream shown to a player or browser client must never expose information that player is not allowed to know.
 
-### Frozen reference and Phase 3 trajectory status
+### Frozen reference status
 
-Phase 2.1 froze replay/event semantics in `phase2_1_reference_1.1.0`. Ten thousand complete games covering 5,078,406 plies replayed with zero state, observation, event, or terminal-result mismatches; 103,625 valid hidden-state permutations produced zero public-event/browser-view mismatches.
+Phase 2.1 froze these replay/event semantics in `phase2_1_reference_1.1.0`.
 
-Phase 3 added a separate compact training-trajectory product without redefining the authoritative replay/public-event semantics.
+Phase 3 added training-trajectory infrastructure without changing authoritative replay or public-event meaning:
 
-Accepted Phase 3 trajectory/reconstruction evidence:
+- `trajectory_v1` stores compact snapshots, actions, sparse legal probabilities, and value predictions;
+- belief labels remain reconstructed privileged targets rather than serialized model inputs;
+- model-generated trajectory records reconstruct exactly through the frozen reference engine;
+- 11,251 integrated stored decisions and 411,818 soak-time decisions reconstructed with zero mismatches.
 
-- schema: `trajectory_v1`, wire-format magic `STJ1`;
-- 1,000,162 historical decisions reconstructed in the dedicated trajectory gate with zero required-field mismatches;
-- 11,251 integrated pipeline decision reconstructions, zero mismatches;
-- 411,818 sampled reconstruction checks during the two-hour soak, zero mismatches.
+Phase 3 collection-policy identifiers used during validation include:
 
-Training trajectory metadata, model outputs, and snapshots remain infrastructure/training data, not game-state authority.
+- `synthetic_hash_policy_v1`;
+- `end_to_end_representative_probe_v1`.
+
+These identifiers describe data-generating policies, not game rules.
+
+Phase 4 added a separate evaluation-result layer above the engine replay schema. It does not change authoritative replay/event semantics.
 
 ---
 
@@ -291,47 +296,25 @@ Derived event logs must therefore be reproducible rather than treated as indepen
 
 ---
 
-## 14. Training metadata and trajectory record
+## 14. Training metadata record
 
-The reinforcement-learning system may attach metadata to each sampled decision without altering game rules or replay semantics.
+The reinforcement-learning system may attach metadata to each sampled decision without altering the game rules or replay semantics.
 
-Accepted Phase 3 decision metadata includes:
+Possible fields:
 
-- game identifier;
-- environment identifier and generation;
-- ply;
-- acting player;
-- policy/checkpoint identifier;
+- policy checkpoint identifier;
+- opponent checkpoint identifier;
 - collection-policy version;
-- selected action;
-- ascending legal action identifiers;
-- behavior-policy probabilities aligned one-for-one with those legal actions;
+- setup family and setup identifier;
+- action selected;
+- legal action identifiers in deterministic ascending order;
+- behavior-policy probability for each legal action;
 - win/draw/loss value prediction;
-- snapshot reference;
-- setup family/setup identifier when available;
-- training iteration/collection block when available.
+- belief-head output summary or loss target reference;
+- training iteration;
+- random-number generator state/seed where needed.
 
-Observed Phase 3 policy-version identifiers include:
-
-- `synthetic_hash_policy_v1` for the deterministic Agent 3 storage/reconstruction probe;
-- `end_to_end_representative_probe_v1` for the integrated representative-model collection path.
-
-These identifiers document the collection policy that produced a record; they do not define game rules or the final model architecture.
-
-### Model decision transport
-
-In the accepted Phase 3 production path:
-
-- the coordinator owns the model;
-- the worker owns the game state and exact ascending legal-action list;
-- coordinator writes selected action, legal-prefix probabilities, win/draw/loss prediction, and `decision_valid` into shared memory;
-- worker records the decision before applying the action.
-
-The model-facing shared transport never contains privileged belief targets or true hidden opponent identities.
-
-### Belief targets
-
-Belief targets are reconstructed separately from privileged state when training data is consumed. They are not serialized as model-facing trajectory input fields.
+The integrated Phase 3 transport writes policy probabilities back to workers in the same deterministic ascending legal-action order used by the engine. This lets workers create compact trajectory records without transmitting privileged game objects to the coordinator.
 
 These fields are training data, not engine state.
 
@@ -412,44 +395,96 @@ Changing channel semantics, action encoding, or event meaning requires a version
 
 ## 19. Storage policy
 
-For the 168-hour training run, store compact trajectories rather than full observations.
+For the 168-hour training run, prefer storing:
 
-Accepted Phase 3 baseline:
+- compact setups;
+- action sequences;
+- sparse legal-action probability rows;
+- win/draw/loss predictions;
+- periodic compact snapshots;
+- terminal results;
+- selected training metadata;
+- checkpoints and evaluation summaries.
 
-- snapshot interval: 32 plies;
-- sparse legal-action identifiers;
-- `float32` old-policy probability per legal action;
-- win/draw/loss prediction;
-- compressed game record;
-- exact reconstruction through the frozen reference engine.
+Do not store the full 127 by 10 by 10 observation tensor for every move.
 
-Measured with real representative-model policy rows during the two-hour soak:
+Phase 3 measured model-backed trajectory encoding at approximately:
 
-- 187.8 encoded bytes/decision;
-- 96,965 encoded bytes/game;
-- 11.17 GiB generated in two hours;
-- approximately **5.59 GiB/hour**.
+- 187.8 bytes per decision;
+- 96,965 bytes per game;
+- 5.59 GiB/hour at 8,871 collected positions/second.
 
-At the same rate for 168 hours, permanent retention of every trajectory would be approximately:
-
-\[
-5.59 \times 168 \approx 939\ \text{GiB}.
-\]
-
-That is too close to the project's 1-terabyte archive capacity once checkpoints, evaluations, logs, filesystem overhead, and other artifacts are included.
-
-Therefore:
-
-- use a rolling training/replay buffer for bulk self-play data;
-- expire/delete bulk trajectories after they are no longer required by the training algorithm;
-- retain selected representative training games;
-- retain diagnostic/error/unusual games;
-- retain evaluation games and manifests;
-- retain checkpoints, run summaries, and enough data for reproducibility/debugging.
-
-The exact buffer size is a later training-system decision; the principle that full-run bulk trajectories are not all permanently archived is now fixed.
+Retaining every generated trajectory for all 168 hours would approach the capacity of the 1-terabyte external drive. The production training system must therefore use a rolling/managed trajectory buffer and selectively archive important and diagnostic material. Evaluation games are far smaller than training trajectories; accepted final evaluation leagues should normally retain their complete action histories when practical. The project preference is to preserve most games on the external drive when storage permits, while avoiding an unbounded hot training buffer.
 
 ---
+
+## 20A. Phase 4 evaluation records
+
+Phase 4 introduced versioned evaluation records that reference, but do not replace, the engine replay contract.
+
+Accepted versions:
+
+```text
+policy_interface_v1
+match_spec_v1
+match_runner_v1
+match_result_v1
+evaluation_scheduler_v1
+evaluation_statistics_v1
+evaluation_reporting_v1
+phase4_calibration_v1
+```
+
+### Match identity
+
+`MatchSpec` deterministically binds at least:
+
+- evaluation suite version;
+- policy identifiers and versions;
+- setup-bank version and setup-pair identifier;
+- candidate color;
+- replicate;
+- root seed;
+- complete rules configuration.
+
+Worker number, schedule position, process identity, and wall-clock time must not affect match identity.
+
+### Pair identity
+
+The accepted paired mode is `color_swap_same_board`. The two games share a `paired_unit_id` and use the same physical red and blue setups, while the candidate/opponent policy assignment swaps colors.
+
+The paired unit is the statistical resampling unit.
+
+### MatchResult
+
+A raw match result includes enough information to diagnose and reproduce the match, including:
+
+- `match_id` and `paired_unit_id`;
+- policy identifiers/versions;
+- candidate color;
+- setup-pair identifier;
+- both resolved setup strings;
+- rules payload/token;
+- policy seeds;
+- result/winner/draw;
+- terminal reason;
+- ply count;
+- replay digest;
+- timing and policy-error fields.
+
+The engine replay remains the authority for the action sequence and final state.
+
+### Replay sidecar
+
+Phase 4 supports compact result rows plus a replay JSONL sidecar keyed by `match_id`. Agent 3 measured this split as substantially smaller and easier to summarize than embedding action histories in every result row.
+
+The accepted final 44,544-game Phase 4 calibration league retained full raw rows and replay digests but did **not** archive all action histories. Because the estimated history archive is only on the order of 100 MB, the preferred preservation policy is to regenerate and retain the final calibration histories when convenient. This is a preservation improvement, not a Phase 4 correctness blocker.
+
+For future accepted/citable evaluation leagues, retain complete action histories when practical.
+
+### Evaluation setup bank
+
+`evaluation_setup_bank_v1` contains 1,024 deterministic `structured_v1` setup pairs. It is an evaluation artifact only and must not be treated as the Phase 7 training setup generator.
 
 ## 20. Acceptance criteria
 

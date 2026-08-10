@@ -6,6 +6,10 @@ This document records the Stratego rules that form the source baseline for the p
 
 This document is intentionally separate from the project's implemented rules. See `02_project_ruleset.md` for deliberate project deviations.
 
+## Project status note
+
+Phases 3 and 4 did not alter any Stratego rule summarized in this source-rules document. Phase 4 added observer-safe evaluation policies, reproducible paired evaluation, statistical reporting, and a hidden-information audit. The implemented project rules remain defined separately in `02_project_ruleset.md`.
+
 ---
 
 ## 1. Board

@@ -16,20 +16,20 @@ The engine must store **facts and event records**, not model-ready channel value
 
 ### Frozen implementation status
 
-Phase 2.1 validated this state contract in `phase2_1_reference_1.1.0`, including:
+Phase 2.1 validated this state contract in `phase2_1_reference_1.1.0`.
 
-- 600 snapshot/restore cases with zero mismatches;
-- 1,045,111 invariant-checked transitions with zero violations;
-- exact deterministic replay over 10,000 complete games;
-- zero public-information leaks in 103,625 valid hidden-type permutations.
+Phase 3 then validated that persistent worker-owned game states can be wrapped, transported, reconstructed, and reset without changing their behavioral meaning:
 
-Phase 3 preserved the same state semantics while adding batching, multiprocessing, shared-memory transport, compact snapshots, model decisions, and trajectory reconstruction:
+- workers own disjoint environment ranges;
+- the coordinator never owns privileged `GameState` objects;
+- `(environment_id, generation)` identifies one game instance;
+- finished slots reset independently;
+- only acting-player observations and model-facing metadata enter shared transport;
+- belief targets and true hidden state remain privileged;
+- 10,048 integrated end-to-end differential steps produced zero mismatches;
+- the two-hour soak completed 123,718 independent resets with zero state/reconstruction errors.
 
-- 10,048 integrated end-to-end comparisons, zero mismatches;
-- 11,251 integrated reconstructed decisions, zero mismatches;
-- two-hour soak with no invariant failure, state/reconstruction mismatch, worker error, or memory-growth trend.
-
-The Python reference state remains authoritative. Phase 3 infrastructure may wrap/transport/reconstruct it but must not redefine its behavioral meaning.
+The frozen Python state remains authoritative. Shared-memory fields and Phase 4 policy inputs are derived transport/view products, not a second source of game truth.
 
 ---
 
@@ -381,7 +381,7 @@ For each hidden opponent piece visible as an unresolved identity to the acting p
 - current square;
 - true piece type.
 
-The observation builder must not use the target to construct channels 0-127.
+The observation builder must not use the target to construct channels 0-126.
 
 A test must verify that permuting true types among still-hidden opponent pieces changes the belief target but does not change the player observation when public history remains identical.
 
@@ -447,3 +447,47 @@ This specification is ready for implementation when:
 - snapshot contents are sufficient to reproduce observations exactly;
 - public event schemas have been defined;
 - validation tests cover state consistency, information security, behavior reconstruction, and replay.
+
+
+## 20. Phase 4 evaluation-state boundary
+
+Phase 4 formalized an observer-safe policy boundary above the engine state.
+
+### Policy inputs must not expose state authority
+
+A policy input must contain no reachable:
+
+- `GameState`;
+- `PieceRecord`;
+- privileged replay object;
+- true unresolved opponent type;
+- belief-learning target;
+- closure or lazy object that captures privileged state.
+
+Materialized observer-safe products are allowed, including `PublicView`, legal actions, observation tensors, and legal masks.
+
+The accepted `PolicyInput` structure is immutable/frozen at the interface level, and engine-derived arrays are read-only when handed to policies.
+
+### PublicView
+
+`PublicView` is a derived observer-safe product containing public/own information needed by rule policies, such as:
+
+- board occupancy;
+- legally known identities;
+- unresolved opponent inventory counts;
+- own pieces known to the opponent;
+- public recent-move information;
+- battleless/absolute clocks.
+
+It is not authoritative state and must remain invariant under valid permutations of still-hidden opponent identities.
+
+### Accepted security evidence
+
+Phase 4 policy audit:
+
+- 100,000 valid privileged-state permutations;
+- 1,000,000 policy comparisons;
+- 0 public-view/action/diagnostic/score-vector/legal-action mismatches;
+- 100,000 successful positive controls proving the hidden state actually changed.
+
+The coordinator/evaluator may use privileged state internally to advance the game and perform offline validation, but it must never hand privileged state to the active policy decision function.

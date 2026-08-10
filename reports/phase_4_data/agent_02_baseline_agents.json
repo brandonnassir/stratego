@@ -1,0 +1,1282 @@
+{
+  "agent": "phase_4_agent_02_baseline_opponents",
+  "baseline_suite_version": "phase4_baseline_suite_v1",
+  "behavior_summary": {
+    "basic_heuristic": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.21393989220791085,
+          "battleless_draw_rate": 0.046875,
+          "draw_rate": 0.0546875,
+          "draws": 7,
+          "effective_win_rate": 0.86328125,
+          "flag_capture_win_rate": 0.75,
+          "games": 128,
+          "losses": 14,
+          "mean_game_plies": 341.7421875,
+          "mean_move_distance": 1.1377089613592766,
+          "miner_attack_rate": 0.027724490728053348,
+          "miner_move_rate": 0.15173106787247648,
+          "moves": 21894,
+          "own_reveal_rate": 0.6703125,
+          "piece_type_entropy_bits": 3.1995326145557965,
+          "scout_move_rate": 0.11551109893121403,
+          "scout_run_rate": 0.06581711884534576,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 6,
+            "both_no_legal_move_draw": 1,
+            "flag_capture": 98,
+            "opponent_no_legal_move": 23
+          },
+          "wins": 107
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.20131607491503362,
+          "battleless_draw_rate": 0.0,
+          "draw_rate": 0.0,
+          "draws": 0,
+          "effective_win_rate": 0.2109375,
+          "flag_capture_win_rate": 0.2109375,
+          "games": 128,
+          "losses": 101,
+          "mean_game_plies": 216.3671875,
+          "mean_move_distance": 1.1242316870344928,
+          "miner_attack_rate": 0.017788704895509436,
+          "miner_move_rate": 0.13992334948297058,
+          "moves": 13829,
+          "own_reveal_rate": 0.82421875,
+          "piece_type_entropy_bits": 3.2257333926173346,
+          "scout_move_rate": 0.09935642490418685,
+          "scout_run_rate": 0.060886542772434736,
+          "terminal_reasons": {
+            "flag_capture": 76,
+            "opponent_no_legal_move": 52
+          },
+          "wins": 27
+        }
+      },
+      "combined": {
+        "attack_rate": 0.20905299107017888,
+        "battleless_draw_rate": 0.0234375,
+        "draw_rate": 0.02734375,
+        "draws": 7,
+        "effective_win_rate": 0.537109375,
+        "flag_capture_win_rate": 0.48046875,
+        "games": 256,
+        "losses": 115,
+        "mean_game_plies": 279.0546875,
+        "mean_move_distance": 1.1324916720320242,
+        "miner_attack_rate": 0.023878173725610952,
+        "miner_move_rate": 0.1471600929373233,
+        "moves": 35723,
+        "own_reveal_rate": 0.747265625,
+        "piece_type_entropy_bits": 3.2131774142611618,
+        "scout_move_rate": 0.10925734120874507,
+        "scout_run_rate": 0.06390840634885088,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 6,
+          "both_no_legal_move_draw": 1,
+          "flag_capture": 174,
+          "opponent_no_legal_move": 75
+        },
+        "wins": 134
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "ladder"
+    },
+    "random_legal": {
+      "by_reference": {
+        "strategic_rule_based": {
+          "attack_rate": 0.0476768221443336,
+          "battleless_draw_rate": 0.0234375,
+          "draw_rate": 0.0234375,
+          "draws": 3,
+          "effective_win_rate": 0.02734375,
+          "flag_capture_win_rate": 0.015625,
+          "games": 128,
+          "losses": 123,
+          "mean_game_plies": 348.1875,
+          "mean_move_distance": 1.0772445403073605,
+          "miner_attack_rate": 0.0045385099307989575,
+          "miner_move_rate": 0.13143704502561337,
+          "moves": 22254,
+          "own_reveal_rate": 0.8001953125,
+          "piece_type_entropy_bits": 3.2184670425026116,
+          "scout_move_rate": 0.11966388065066955,
+          "scout_run_rate": 0.04574458524310236,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 3,
+            "flag_capture": 110,
+            "opponent_no_legal_move": 15
+          },
+          "wins": 2
+        }
+      },
+      "combined": {
+        "attack_rate": 0.0476768221443336,
+        "battleless_draw_rate": 0.0234375,
+        "draw_rate": 0.0234375,
+        "draws": 3,
+        "effective_win_rate": 0.02734375,
+        "flag_capture_win_rate": 0.015625,
+        "games": 128,
+        "losses": 123,
+        "mean_game_plies": 348.1875,
+        "mean_move_distance": 1.0772445403073605,
+        "miner_attack_rate": 0.0045385099307989575,
+        "miner_move_rate": 0.13143704502561337,
+        "moves": 22254,
+        "own_reveal_rate": 0.8001953125,
+        "piece_type_entropy_bits": 3.2184670425026116,
+        "scout_move_rate": 0.11966388065066955,
+        "scout_run_rate": 0.04574458524310236,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 3,
+          "flag_capture": 110,
+          "opponent_no_legal_move": 15
+        },
+        "wins": 2
+      },
+      "references": [
+        "strategic_rule_based"
+      ],
+      "role": "ladder"
+    },
+    "strategic_rule_based": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.19138421371625716,
+          "battleless_draw_rate": 0.015625,
+          "draw_rate": 0.015625,
+          "draws": 2,
+          "effective_win_rate": 0.984375,
+          "flag_capture_win_rate": 0.875,
+          "games": 128,
+          "losses": 1,
+          "mean_game_plies": 334.65625,
+          "mean_move_distance": 1.2160939903958226,
+          "miner_attack_rate": 0.02219217679145881,
+          "miner_move_rate": 0.18122056972353023,
+          "moves": 21449,
+          "own_reveal_rate": 0.584375,
+          "piece_type_entropy_bits": 3.139899283504716,
+          "scout_move_rate": 0.16975150356659985,
+          "scout_run_rate": 0.12681243880833606,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 2,
+            "flag_capture": 113,
+            "opponent_no_legal_move": 13
+          },
+          "wins": 125
+        }
+      },
+      "combined": {
+        "attack_rate": 0.19138421371625716,
+        "battleless_draw_rate": 0.015625,
+        "draw_rate": 0.015625,
+        "draws": 2,
+        "effective_win_rate": 0.984375,
+        "flag_capture_win_rate": 0.875,
+        "games": 128,
+        "losses": 1,
+        "mean_game_plies": 334.65625,
+        "mean_move_distance": 1.2160939903958226,
+        "miner_attack_rate": 0.02219217679145881,
+        "miner_move_rate": 0.18122056972353023,
+        "moves": 21449,
+        "own_reveal_rate": 0.584375,
+        "piece_type_entropy_bits": 3.139899283504716,
+        "scout_move_rate": 0.16975150356659985,
+        "scout_run_rate": 0.12681243880833606,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 2,
+          "flag_capture": 113,
+          "opponent_no_legal_move": 13
+        },
+        "wins": 125
+      },
+      "references": [
+        "random_legal"
+      ],
+      "role": "ladder"
+    },
+    "stress_berserker": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.3157746320004512,
+          "battleless_draw_rate": 0.0,
+          "draw_rate": 0.0,
+          "draws": 0,
+          "effective_win_rate": 0.4375,
+          "flag_capture_win_rate": 0.421875,
+          "games": 128,
+          "losses": 72,
+          "mean_game_plies": 277.109375,
+          "mean_move_distance": 1.1615250126896397,
+          "miner_attack_rate": 0.040381253172409905,
+          "miner_move_rate": 0.17201511477074052,
+          "moves": 17731,
+          "own_reveal_rate": 0.717578125,
+          "piece_type_entropy_bits": 3.190403332886602,
+          "scout_move_rate": 0.09452371552647905,
+          "scout_run_rate": 0.06361739326603125,
+          "terminal_reasons": {
+            "flag_capture": 55,
+            "opponent_no_legal_move": 73
+          },
+          "wins": 56
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.275978461785743,
+          "battleless_draw_rate": 0.0,
+          "draw_rate": 0.0,
+          "draws": 0,
+          "effective_win_rate": 0.1796875,
+          "flag_capture_win_rate": 0.1796875,
+          "games": 128,
+          "losses": 105,
+          "mean_game_plies": 194.7421875,
+          "mean_move_distance": 1.1487583380213775,
+          "miner_attack_rate": 0.025797637225749417,
+          "miner_move_rate": 0.15124969862573334,
+          "moves": 12443,
+          "own_reveal_rate": 0.7966796875,
+          "piece_type_entropy_bits": 3.2116391484832145,
+          "scout_move_rate": 0.10455677891183798,
+          "scout_run_rate": 0.06855259985534035,
+          "terminal_reasons": {
+            "flag_capture": 66,
+            "opponent_no_legal_move": 62
+          },
+          "wins": 23
+        }
+      },
+      "combined": {
+        "attack_rate": 0.2993636905945516,
+        "battleless_draw_rate": 0.0,
+        "draw_rate": 0.0,
+        "draws": 0,
+        "effective_win_rate": 0.30859375,
+        "flag_capture_win_rate": 0.30078125,
+        "games": 256,
+        "losses": 177,
+        "mean_game_plies": 235.92578125,
+        "mean_move_distance": 1.156260356598396,
+        "miner_attack_rate": 0.03436733611718698,
+        "miner_move_rate": 0.16345197852455756,
+        "moves": 30174,
+        "own_reveal_rate": 0.75712890625,
+        "piece_type_entropy_bits": 3.201376152821575,
+        "scout_move_rate": 0.09866109895936899,
+        "scout_run_rate": 0.06565254855173328,
+        "terminal_reasons": {
+          "flag_capture": 121,
+          "opponent_no_legal_move": 135
+        },
+        "wins": 79
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "stress_chaos": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.07150508444731397,
+          "battleless_draw_rate": 0.421875,
+          "draw_rate": 0.421875,
+          "draws": 54,
+          "effective_win_rate": 0.5234375,
+          "flag_capture_win_rate": 0.0859375,
+          "games": 128,
+          "losses": 34,
+          "mean_game_plies": 1064.7109375,
+          "mean_move_distance": 1.0578878633582298,
+          "miner_attack_rate": 0.006573830870592379,
+          "miner_move_rate": 0.12823372316541695,
+          "moves": 68149,
+          "own_reveal_rate": 0.73984375,
+          "piece_type_entropy_bits": 3.2359595414440365,
+          "scout_move_rate": 0.06968554197420358,
+          "scout_run_rate": 0.029435501621447122,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 54,
+            "flag_capture": 22,
+            "opponent_no_legal_move": 52
+          },
+          "wins": 40
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.09449801963147925,
+          "battleless_draw_rate": 0.0390625,
+          "draw_rate": 0.0390625,
+          "draws": 5,
+          "effective_win_rate": 0.05859375,
+          "flag_capture_win_rate": 0.0390625,
+          "games": 128,
+          "losses": 118,
+          "mean_game_plies": 363.375,
+          "mean_move_distance": 1.0979421387980024,
+          "miner_attack_rate": 0.006974341312209403,
+          "miner_move_rate": 0.07861201997589116,
+          "moves": 23228,
+          "own_reveal_rate": 0.819140625,
+          "piece_type_entropy_bits": 3.219830363054554,
+          "scout_move_rate": 0.10844670225589806,
+          "scout_run_rate": 0.051403478560358186,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 5,
+            "flag_capture": 100,
+            "opponent_no_legal_move": 23
+          },
+          "wins": 5
+        }
+      },
+      "combined": {
+        "attack_rate": 0.07734988016678157,
+        "battleless_draw_rate": 0.23046875,
+        "draw_rate": 0.23046875,
+        "draws": 59,
+        "effective_win_rate": 0.291015625,
+        "flag_capture_win_rate": 0.0625,
+        "games": 256,
+        "losses": 152,
+        "mean_game_plies": 714.04296875,
+        "mean_move_distance": 1.0680696455344343,
+        "miner_attack_rate": 0.00667564047845738,
+        "miner_move_rate": 0.11561990435229871,
+        "moves": 91377,
+        "own_reveal_rate": 0.7794921875,
+        "piece_type_entropy_bits": 3.246518784676577,
+        "scout_move_rate": 0.07953861474988236,
+        "scout_run_rate": 0.035019753329612484,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 59,
+          "flag_capture": 122,
+          "opponent_no_legal_move": 75
+        },
+        "wins": 45
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "stress_draw_seeker": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.0,
+          "battleless_draw_rate": 0.9140625,
+          "draw_rate": 0.9140625,
+          "draws": 117,
+          "effective_win_rate": 0.46484375,
+          "flag_capture_win_rate": 0.0,
+          "games": 128,
+          "losses": 10,
+          "mean_game_plies": 1217.3359375,
+          "mean_move_distance": 1.0865584632373713,
+          "miner_attack_rate": 0.0,
+          "miner_move_rate": 0.10900382649785562,
+          "moves": 77878,
+          "own_reveal_rate": 0.494140625,
+          "piece_type_entropy_bits": 3.007441380808456,
+          "scout_move_rate": 0.20435809856442128,
+          "scout_run_rate": 0.05280053416882817,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 117,
+            "flag_capture": 10,
+            "opponent_no_legal_move": 1
+          },
+          "wins": 1
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.0,
+          "battleless_draw_rate": 0.0625,
+          "draw_rate": 0.0625,
+          "draws": 8,
+          "effective_win_rate": 0.03125,
+          "flag_capture_win_rate": 0.0,
+          "games": 128,
+          "losses": 120,
+          "mean_game_plies": 356.828125,
+          "mean_move_distance": 1.0549002411751809,
+          "miner_attack_rate": 0.0,
+          "miner_move_rate": 0.09037491778118834,
+          "moves": 22805,
+          "own_reveal_rate": 0.7482421875,
+          "piece_type_entropy_bits": 3.1066407404587877,
+          "scout_move_rate": 0.15321201490901118,
+          "scout_run_rate": 0.03617627713220785,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 8,
+            "flag_capture": 118,
+            "opponent_no_legal_move": 2
+          },
+          "wins": 0
+        }
+      },
+      "combined": {
+        "attack_rate": 0.0,
+        "battleless_draw_rate": 0.48828125,
+        "draw_rate": 0.48828125,
+        "draws": 125,
+        "effective_win_rate": 0.248046875,
+        "flag_capture_win_rate": 0.0,
+        "games": 256,
+        "losses": 130,
+        "mean_game_plies": 787.08203125,
+        "mean_move_distance": 1.0793877814526782,
+        "miner_attack_rate": 0.0,
+        "miner_move_rate": 0.10478432307340863,
+        "moves": 100683,
+        "own_reveal_rate": 0.62119140625,
+        "piece_type_entropy_bits": 3.0379798655777037,
+        "scout_move_rate": 0.19277335796509837,
+        "scout_run_rate": 0.04903509033302544,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 125,
+          "flag_capture": 128,
+          "opponent_no_legal_move": 3
+        },
+        "wins": 1
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "stress_information_miser": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.0,
+          "battleless_draw_rate": 0.5078125,
+          "draw_rate": 0.5078125,
+          "draws": 65,
+          "effective_win_rate": 0.65234375,
+          "flag_capture_win_rate": 0.0,
+          "games": 128,
+          "losses": 12,
+          "mean_game_plies": 1308.8671875,
+          "mean_move_distance": 1.0,
+          "miner_attack_rate": 0.0,
+          "miner_move_rate": 0.058583350246534785,
+          "moves": 83761,
+          "own_reveal_rate": 0.61875,
+          "piece_type_entropy_bits": 3.1269833688054667,
+          "scout_move_rate": 0.07563185730829383,
+          "scout_run_rate": 0.0,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 65,
+            "flag_capture": 12,
+            "opponent_no_legal_move": 51
+          },
+          "wins": 51
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.0,
+          "battleless_draw_rate": 0.0546875,
+          "draw_rate": 0.0546875,
+          "draws": 7,
+          "effective_win_rate": 0.02734375,
+          "flag_capture_win_rate": 0.0,
+          "games": 128,
+          "losses": 121,
+          "mean_game_plies": 423.9375,
+          "mean_move_distance": 1.0,
+          "miner_attack_rate": 0.0,
+          "miner_move_rate": 0.03922509225092251,
+          "moves": 27100,
+          "own_reveal_rate": 0.8017578125,
+          "piece_type_entropy_bits": 2.9188350438075457,
+          "scout_move_rate": 0.026420664206642068,
+          "scout_run_rate": 0.0,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 7,
+            "flag_capture": 119,
+            "opponent_no_legal_move": 2
+          },
+          "wins": 0
+        }
+      },
+      "combined": {
+        "attack_rate": 0.0,
+        "battleless_draw_rate": 0.28125,
+        "draw_rate": 0.28125,
+        "draws": 72,
+        "effective_win_rate": 0.33984375,
+        "flag_capture_win_rate": 0.0,
+        "games": 256,
+        "losses": 133,
+        "mean_game_plies": 866.40234375,
+        "mean_move_distance": 1.0,
+        "miner_attack_rate": 0.0,
+        "miner_move_rate": 0.053851219094181,
+        "moves": 110861,
+        "own_reveal_rate": 0.71025390625,
+        "piece_type_entropy_bits": 3.0952292477943635,
+        "scout_move_rate": 0.0636021684812513,
+        "scout_run_rate": 0.0,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 72,
+          "flag_capture": 131,
+          "opponent_no_legal_move": 53
+        },
+        "wins": 51
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "stress_miner_rush": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.06308950431466988,
+          "battleless_draw_rate": 0.2890625,
+          "draw_rate": 0.2890625,
+          "draws": 37,
+          "effective_win_rate": 0.83203125,
+          "flag_capture_win_rate": 0.578125,
+          "games": 128,
+          "losses": 3,
+          "mean_game_plies": 622.5703125,
+          "mean_move_distance": 1.0359221352598835,
+          "miner_attack_rate": 0.01412301826209111,
+          "miner_move_rate": 0.8530002006823199,
+          "moves": 39864,
+          "own_reveal_rate": 0.451953125,
+          "piece_type_entropy_bits": 1.0467244879766426,
+          "scout_move_rate": 0.025260887015853904,
+          "scout_run_rate": 0.01602950030102348,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 37,
+            "flag_capture": 76,
+            "opponent_no_legal_move": 15
+          },
+          "wins": 88
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.05877207597467511,
+          "battleless_draw_rate": 0.3203125,
+          "draw_rate": 0.3203125,
+          "draws": 41,
+          "effective_win_rate": 0.26171875,
+          "flag_capture_win_rate": 0.09375,
+          "games": 128,
+          "losses": 74,
+          "mean_game_plies": 375.4375,
+          "mean_move_distance": 1.0396117960679774,
+          "miner_attack_rate": 0.0057897367544151946,
+          "miner_move_rate": 0.8219760079973342,
+          "moves": 24008,
+          "own_reveal_rate": 0.6796875,
+          "piece_type_entropy_bits": 1.2250705587113027,
+          "scout_move_rate": 0.023450516494501833,
+          "scout_run_rate": 0.01766077974008664,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 41,
+            "flag_capture": 63,
+            "opponent_no_legal_move": 24
+          },
+          "wins": 13
+        }
+      },
+      "combined": {
+        "attack_rate": 0.061466683366733464,
+        "battleless_draw_rate": 0.3046875,
+        "draw_rate": 0.3046875,
+        "draws": 78,
+        "effective_win_rate": 0.546875,
+        "flag_capture_win_rate": 0.3359375,
+        "games": 256,
+        "losses": 77,
+        "mean_game_plies": 499.00390625,
+        "mean_move_distance": 1.037308992985972,
+        "miner_attack_rate": 0.010990731462925852,
+        "miner_move_rate": 0.8413389278557114,
+        "moves": 63872,
+        "own_reveal_rate": 0.5658203125,
+        "piece_type_entropy_bits": 1.115917284114674,
+        "scout_move_rate": 0.024580410821643285,
+        "scout_run_rate": 0.01664266032064128,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 78,
+          "flag_capture": 139,
+          "opponent_no_legal_move": 39
+        },
+        "wins": 101
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "stress_scout_rush": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.04837019369760046,
+          "battleless_draw_rate": 0.515625,
+          "draw_rate": 0.515625,
+          "draws": 66,
+          "effective_win_rate": 0.609375,
+          "flag_capture_win_rate": 0.296875,
+          "games": 128,
+          "losses": 17,
+          "mean_game_plies": 864.8671875,
+          "mean_move_distance": 1.1117013587742122,
+          "miner_attack_rate": 0.004643683145417751,
+          "miner_move_rate": 0.026145562301243135,
+          "moves": 55344,
+          "own_reveal_rate": 0.5927734375,
+          "piece_type_entropy_bits": 1.1706477632486296,
+          "scout_move_rate": 0.8309301821335646,
+          "scout_run_rate": 0.06864339404452154,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 66,
+            "flag_capture": 44,
+            "opponent_no_legal_move": 18
+          },
+          "wins": 45
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.08766126364538537,
+          "battleless_draw_rate": 0.1328125,
+          "draw_rate": 0.1328125,
+          "draws": 17,
+          "effective_win_rate": 0.20703125,
+          "flag_capture_win_rate": 0.140625,
+          "games": 128,
+          "losses": 93,
+          "mean_game_plies": 330.9921875,
+          "mean_move_distance": 1.1965880629459855,
+          "miner_attack_rate": 0.006426917442464912,
+          "miner_move_rate": 0.047540286375880154,
+          "moves": 21161,
+          "own_reveal_rate": 0.7640625,
+          "piece_type_entropy_bits": 1.8358622008960686,
+          "scout_move_rate": 0.692878408392798,
+          "scout_run_rate": 0.09791597750578895,
+          "terminal_reasons": {
+            "battleless_move_limit_draw": 17,
+            "flag_capture": 79,
+            "opponent_no_legal_move": 32
+          },
+          "wins": 18
+        }
+      },
+      "combined": {
+        "attack_rate": 0.059237958303378864,
+        "battleless_draw_rate": 0.32421875,
+        "draw_rate": 0.32421875,
+        "draws": 83,
+        "effective_win_rate": 0.408203125,
+        "flag_capture_win_rate": 0.21875,
+        "games": 256,
+        "losses": 110,
+        "mean_game_plies": 597.9296875,
+        "mean_move_distance": 1.135180707143324,
+        "miner_attack_rate": 0.005136919155610744,
+        "miner_move_rate": 0.032063263838964774,
+        "moves": 76505,
+        "own_reveal_rate": 0.67841796875,
+        "piece_type_entropy_bits": 1.3715503054776976,
+        "scout_move_rate": 0.7927455721848246,
+        "scout_run_rate": 0.07674008234755898,
+        "terminal_reasons": {
+          "battleless_move_limit_draw": 83,
+          "flag_capture": 123,
+          "opponent_no_legal_move": 50
+        },
+        "wins": 63
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "stress"
+    },
+    "tactical_rule_based": {
+      "by_reference": {
+        "random_legal": {
+          "attack_rate": 0.21057310186153524,
+          "battleless_draw_rate": 0.0,
+          "draw_rate": 0.0,
+          "draws": 0,
+          "effective_win_rate": 0.9921875,
+          "flag_capture_win_rate": 0.9375,
+          "games": 128,
+          "losses": 1,
+          "mean_game_plies": 298.3203125,
+          "mean_move_distance": 1.1280589834762602,
+          "miner_attack_rate": 0.02300773896674336,
+          "miner_move_rate": 0.1856829115247856,
+          "moves": 19124,
+          "own_reveal_rate": 0.53671875,
+          "piece_type_entropy_bits": 3.172031127708477,
+          "scout_move_rate": 0.13590253085128634,
+          "scout_run_rate": 0.06531060447605104,
+          "terminal_reasons": {
+            "flag_capture": 121,
+            "opponent_no_legal_move": 7
+          },
+          "wins": 127
+        },
+        "strategic_rule_based": {
+          "attack_rate": 0.14776898815986764,
+          "battleless_draw_rate": 0.0,
+          "draw_rate": 0.0,
+          "draws": 0,
+          "effective_win_rate": 0.546875,
+          "flag_capture_win_rate": 0.5390625,
+          "games": 128,
+          "losses": 58,
+          "mean_game_plies": 302.15625,
+          "mean_move_distance": 1.112869034693139,
+          "miner_attack_rate": 0.011685021457008428,
+          "miner_move_rate": 0.16627888940592522,
+          "moves": 19341,
+          "own_reveal_rate": 0.72890625,
+          "piece_type_entropy_bits": 3.1855059831824226,
+          "scout_move_rate": 0.12729434879272014,
+          "scout_run_rate": 0.05702910914637299,
+          "terminal_reasons": {
+            "flag_capture": 123,
+            "opponent_no_legal_move": 5
+          },
+          "wins": 70
+        }
+      },
+      "combined": {
+        "attack_rate": 0.17899389054985052,
+        "battleless_draw_rate": 0.0,
+        "draw_rate": 0.0,
+        "draws": 0,
+        "effective_win_rate": 0.76953125,
+        "flag_capture_win_rate": 0.73828125,
+        "games": 256,
+        "losses": 59,
+        "mean_game_plies": 300.23828125,
+        "mean_move_distance": 1.1204211620954114,
+        "miner_attack_rate": 0.01731444170024698,
+        "miner_move_rate": 0.17592616664500196,
+        "moves": 38465,
+        "own_reveal_rate": 0.6328125,
+        "piece_type_entropy_bits": 3.181185651730601,
+        "scout_move_rate": 0.13157415832575067,
+        "scout_run_rate": 0.061146496815286625,
+        "terminal_reasons": {
+          "flag_capture": 244,
+          "opponent_no_legal_move": 12
+        },
+        "wins": 197
+      },
+      "references": [
+        "random_legal",
+        "strategic_rule_based"
+      ],
+      "role": "ladder"
+    }
+  },
+  "catalogue": {
+    "ladder_policy_ids": [
+      "random_legal",
+      "basic_heuristic",
+      "tactical_rule_based",
+      "strategic_rule_based"
+    ],
+    "policies": [
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Uniform random legal move; performance floor and stochastic control.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "random_legal",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": false
+        },
+        "role": "ladder",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Known captures, forward progress, anti-shuffling. No threat model.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "basic_heuristic",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "ladder",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Expected-value combat, threat and evasion, Flag and Miner tactics.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "tactical_rule_based",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "ladder",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Tactical plus material preservation, Scout information, territorial pressure, Flag defence and draw-counter awareness.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "strategic_rule_based",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "ladder",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Scout-heavy aggression: long Scout runs and constant probing.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_scout_rush",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Miner rush at never-moved blocks; aggressive Bomb hunting.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_miner_rush",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Defensive draw-seeker: avoids all combat and stays in its own half.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_draw_seeker",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Attacks on sight and charges forward; no risk assessment at all.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_berserker",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Hoards information: avoids combat, Scout runs and fresh reveals.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_information_miser",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      },
+      {
+        "baseline_suite_version": "phase4_baseline_suite_v1",
+        "description": "Draws a fresh random objective each ply; maximum behavioural entropy.",
+        "interface_version": "policy_interface_v1",
+        "policy_id": "stress_chaos",
+        "policy_version": "1.0.0",
+        "requirements": {
+          "legal_action_mask": false,
+          "observation": false,
+          "public_events": false,
+          "public_setup": false,
+          "public_view": true
+        },
+        "role": "stress",
+        "stochastic": true
+      }
+    ],
+    "problems": [],
+    "stress_policy_ids": [
+      "stress_scout_rush",
+      "stress_miner_rush",
+      "stress_draw_seeker",
+      "stress_berserker",
+      "stress_information_miser",
+      "stress_chaos"
+    ]
+  },
+  "determinism": {
+    "failure_detail": [],
+    "failures": 0,
+    "positions_per_policy": 400,
+    "positions_where_the_seed_changed_the_action": {
+      "basic_heuristic": 159,
+      "random_legal": 400,
+      "strategic_rule_based": 93,
+      "stress_berserker": 104,
+      "stress_chaos": 400,
+      "stress_draw_seeker": 395,
+      "stress_information_miser": 300,
+      "stress_miner_rush": 120,
+      "stress_scout_rush": 84,
+      "tactical_rule_based": 131
+    },
+    "positions_with_a_near_tie": {
+      "basic_heuristic": 159,
+      "random_legal": 0,
+      "strategic_rule_based": 93,
+      "stress_berserker": 104,
+      "stress_chaos": 0,
+      "stress_draw_seeker": 395,
+      "stress_information_miser": 300,
+      "stress_miner_rush": 120,
+      "stress_scout_rush": 84,
+      "tactical_rule_based": 131
+    },
+    "repeats_per_position": 3,
+    "trials": 20000
+  },
+  "determinism_failures": 0,
+  "determinism_trials": 20000,
+  "environment": {
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2"
+  },
+  "evaluation_suite_version": "phase4_evaluation_suite_v1",
+  "files_created": [
+    "stratego/evaluation/heuristics.py",
+    "stratego/evaluation/baselines.py",
+    "stratego/evaluation/stress.py",
+    "stratego/evaluation/registry.py",
+    "tests/evaluation/test_baselines.py",
+    "tests/evaluation/test_baseline_information_safety.py",
+    "scripts/run_phase4_agent02.py",
+    "reports/phase_4_data/agent_02_baseline_agents.json",
+    "reports/phase_4_data/agent_02_behavior_profile.csv"
+  ],
+  "files_modified": [
+    "stratego/evaluation/__init__.py",
+    "reports/phase_4_implementation_report.md"
+  ],
+  "frozen_contracts": {
+    "implementation_version": "phase2_1_reference_1.1.0",
+    "observation_version": "observation_v2_1_127ch",
+    "phase_3_backend_decision": "KEEP_PYTHON",
+    "rules_version": "stratego_project_v1"
+  },
+  "heuristics_version": "phase4_heuristics_v1",
+  "hidden_permutation": {
+    "leak_detector_failures": 0,
+    "mismatch_detail": [],
+    "mismatches": 0,
+    "note": "Local sweep. Agent 4 owns the >= 100,000 trial audit across the whole suite.",
+    "plies_covered": {
+      "6": 238,
+      "15": 233,
+      "30": 225,
+      "55": 219,
+      "85": 207,
+      "125": 195,
+      "175": 183
+    },
+    "policies": [
+      "random_legal",
+      "basic_heuristic",
+      "tactical_rule_based",
+      "strategic_rule_based",
+      "stress_scout_rush",
+      "stress_miner_rush",
+      "stress_draw_seeker",
+      "stress_berserker",
+      "stress_information_miser",
+      "stress_chaos"
+    ],
+    "policy_comparisons": 15000,
+    "positions_skipped_unchanged": 0,
+    "positive_control_failures": 0,
+    "trials": 1500
+  },
+  "illegal_actions": 0,
+  "ladder_policy_ids": [
+    "random_legal",
+    "basic_heuristic",
+    "tactical_rule_based",
+    "strategic_rule_based"
+  ],
+  "ladder_screen": {
+    "matchups": [
+      {
+        "approximate_95_interval": [
+          0.08434379432703308,
+          0.1448228723396336
+        ],
+        "candidate": "random_legal",
+        "candidate_effective_win_rate": 0.11458333333333333,
+        "draws": 8,
+        "games": 384,
+        "losses": 336,
+        "mean_plies": 318.9401041666667,
+        "opponent": "basic_heuristic",
+        "paired_unit_standard_error": 0.015428336227704209,
+        "paired_units": 192,
+        "separated_from_even": true,
+        "wins": 40
+      },
+      {
+        "approximate_95_interval": [
+          0.01113998218690074,
+          0.0409433511464326
+        ],
+        "candidate": "random_legal",
+        "candidate_effective_win_rate": 0.026041666666666668,
+        "draws": 4,
+        "games": 384,
+        "losses": 372,
+        "mean_plies": 313.0833333333333,
+        "opponent": "tactical_rule_based",
+        "paired_unit_standard_error": 0.007602900244778535,
+        "paired_units": 192,
+        "separated_from_even": true,
+        "wins": 8
+      },
+      {
+        "approximate_95_interval": [
+          0.0029537753449800936,
+          0.023087891321686572
+        ],
+        "candidate": "random_legal",
+        "candidate_effective_win_rate": 0.013020833333333334,
+        "draws": 4,
+        "games": 384,
+        "losses": 377,
+        "mean_plies": 340.5364583333333,
+        "opponent": "strategic_rule_based",
+        "paired_unit_standard_error": 0.005136254075690429,
+        "paired_units": 192,
+        "separated_from_even": true,
+        "wins": 3
+      },
+      {
+        "approximate_95_interval": [
+          0.23511485113736783,
+          0.3117601488626322
+        ],
+        "candidate": "basic_heuristic",
+        "candidate_effective_win_rate": 0.2734375,
+        "draws": 6,
+        "games": 384,
+        "losses": 276,
+        "mean_plies": 199.12760416666666,
+        "opponent": "tactical_rule_based",
+        "paired_unit_standard_error": 0.01955237186868989,
+        "paired_units": 192,
+        "separated_from_even": true,
+        "wins": 102
+      },
+      {
+        "approximate_95_interval": [
+          0.16523384897010748,
+          0.2436203176965592
+        ],
+        "candidate": "basic_heuristic",
+        "candidate_effective_win_rate": 0.20442708333333334,
+        "draws": 3,
+        "games": 384,
+        "losses": 304,
+        "mean_plies": 218.72135416666666,
+        "opponent": "strategic_rule_based",
+        "paired_unit_standard_error": 0.019996548144502992,
+        "paired_units": 192,
+        "separated_from_even": true,
+        "wins": 77
+      },
+      {
+        "approximate_95_interval": [
+          0.4965667114253468,
+          0.5867666219079865
+        ],
+        "candidate": "tactical_rule_based",
+        "candidate_effective_win_rate": 0.5416666666666666,
+        "draws": 10,
+        "games": 384,
+        "losses": 171,
+        "mean_plies": 305.7578125,
+        "opponent": "strategic_rule_based",
+        "paired_unit_standard_error": 0.023010181245571342,
+        "paired_units": 192,
+        "separated_from_even": false,
+        "wins": 203
+      }
+    ],
+    "matchups_where_the_lower_tier_scored_below_even": 5,
+    "note": "Informational only. Agent 4 owns baseline calibration, the strength-tier gate and any weight revision. Intervals are normal approximations over paired units and are not the interval method Agent 3 will implement.",
+    "resampling_unit": "paired_unit",
+    "units_per_matchup": 192
+  },
+  "legality": {
+    "empty_legal_sets": 0,
+    "illegal_action_detail": [],
+    "illegal_actions": 0,
+    "plies_covered": [
+      6,
+      15,
+      30,
+      55,
+      85,
+      125,
+      175
+    ],
+    "positions_in_pool": 5000,
+    "positions_tested_per_policy": {
+      "basic_heuristic": 5000,
+      "random_legal": 5000,
+      "strategic_rule_based": 5000,
+      "stress_berserker": 5000,
+      "stress_chaos": 5000,
+      "stress_draw_seeker": 5000,
+      "stress_information_miser": 5000,
+      "stress_miner_rush": 5000,
+      "stress_scout_rush": 5000,
+      "tactical_rule_based": 5000
+    }
+  },
+  "local_hidden_permutation_comparisons": 15000,
+  "local_hidden_permutation_failures": 0,
+  "local_hidden_permutation_trials": 1500,
+  "policy_ids": [
+    "random_legal",
+    "basic_heuristic",
+    "tactical_rule_based",
+    "strategic_rule_based",
+    "stress_scout_rush",
+    "stress_miner_rush",
+    "stress_draw_seeker",
+    "stress_berserker",
+    "stress_information_miser",
+    "stress_chaos"
+  ],
+  "policy_interface_version": "policy_interface_v1",
+  "policy_versions": {
+    "basic_heuristic": "1.0.0",
+    "random_legal": "1.0.0",
+    "strategic_rule_based": "1.0.0",
+    "stress_berserker": "1.0.0",
+    "stress_chaos": "1.0.0",
+    "stress_draw_seeker": "1.0.0",
+    "stress_information_miser": "1.0.0",
+    "stress_miner_rush": "1.0.0",
+    "stress_scout_rush": "1.0.0",
+    "tactical_rule_based": "1.0.0"
+  },
+  "positions_tested_per_policy": {
+    "basic_heuristic": 5000,
+    "random_legal": 5000,
+    "strategic_rule_based": 5000,
+    "stress_berserker": 5000,
+    "stress_chaos": 5000,
+    "stress_draw_seeker": 5000,
+    "stress_information_miser": 5000,
+    "stress_miner_rush": 5000,
+    "stress_scout_rush": 5000,
+    "tactical_rule_based": 5000
+  },
+  "quick_mode": false,
+  "status": "PASS",
+  "status_checks": {
+    "at_least_four_stress_policies": true,
+    "catalogue_complete": true,
+    "determinism_clean": true,
+    "ladder_has_four_tiers": true,
+    "leak_detector_fired": true,
+    "no_empty_legal_sets": true,
+    "no_hidden_information_mismatch": true,
+    "no_illegal_actions": true,
+    "permutation_trials_met_target": true,
+    "positive_control_fired": true,
+    "tests_green": true
+  },
+  "stress_policy_ids": [
+    "stress_scout_rush",
+    "stress_miner_rush",
+    "stress_draw_seeker",
+    "stress_berserker",
+    "stress_information_miser",
+    "stress_chaos"
+  ],
+  "test_failed": 0,
+  "test_passed": 1779,
+  "test_total": 1781,
+  "tests": {
+    "errors": 0,
+    "exit_code": 0,
+    "expected_failures": 0,
+    "failed": 0,
+    "failure_lines": [],
+    "passed": 1779,
+    "seconds": 52.55345437499636,
+    "skipped": 2,
+    "total": 1781
+  },
+  "total_seconds": 382.6672795409977
+}

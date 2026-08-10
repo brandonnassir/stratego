@@ -12,21 +12,45 @@ Any future change to channel meaning, normalization, ordering, or perspective co
 
 Phase 2.1 froze this observation contract against reference implementation `phase2_1_reference_1.1.0`.
 
-Phase 2.1 evidence includes:
+Acceptance evidence for this exact version includes:
 
 - 1,804 mirrored position pairs / 3,608 observer comparisons with zero mismatches across all 127 channels;
 - 103,625 valid hidden-information permutations with zero observation mismatches;
-- 10,000 deterministic replay games / 5,078,406 plies with zero observation mismatches.
+- 10,000 complete deterministic replay games / 5,078,406 plies with zero observation mismatches.
 
-Phase 3 preserved the same observation semantics through batching, shared memory, model input, trajectory recording, and historical reconstruction:
+Phase 3 may optimize transport or reconstruction, but it must not alter these channel semantics without a new observation identifier.
 
-- 10,048 integrated end-to-end state/observation comparisons, 0 mismatches;
-- 11,251 integrated stored-decision reconstructions, 0 mismatches;
-- 411,818 sampled reconstruction checks during the two-hour soak, 0 mismatches.
+### Phase 3 transport confirmation
 
-Transport/layout optimization does not authorize changing channel semantics. Any such change still requires a new observation identifier.
+Phase 3 carried `observation_v2_1_127ch` through multiprocessing shared memory and real Metal model inference without changing channel semantics.
+
+Accepted integrated evidence includes:
+
+- 10,048 end-to-end pipeline differential row comparisons with zero observation mismatches;
+- 11,251 model-generated stored decisions reconstructed with zero observation mismatches;
+- 411,818 additional reconstructed decisions checked during the two-hour soak with zero mismatches.
+
+Only the acting player's observation is published into the model-facing shared buffer. Privileged belief targets remain inside the engine/reconstruction path.
 
 > **Note on the file name.** This file is still called `06_observation_v2_127ch.md` so that the cross-references in the other Phase 1 documents remain valid. The identifier it defines is `observation_v2_1_127ch`.
+
+### Phase 4 evaluation confirmation
+
+Phase 4 validated the observation contract at the evaluation-policy boundary without changing any channel semantics.
+
+A checkpoint-shaped policy declared that it required:
+
+- `observation_v2_1_127ch`;
+- the legal-action mask.
+
+It was then driven through the complete match scheduling, policy, engine, statistics, and reproduction path with:
+
+- 0 illegal actions;
+- 0 reproduction mismatches.
+
+The probe used a fixed seeded projection rather than a neural network, so its playing strength is not meaningful. Its purpose was to verify that a future tensor-consuming checkpoint can enter the permanent evaluation harness through the same observer-safe policy interface.
+
+The Phase 4 hidden-information audit primarily exercised `PublicView`-based rule policies, not the 127-channel tensor itself. The tensor's hidden-information safety remains anchored by the Phase 2.1 observation permutation suite and Phase 3 reconstruction/transport tests.
 
 ### 1.1 Version history
 

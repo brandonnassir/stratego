@@ -8,16 +8,18 @@ It deliberately differs from the full competitive rules described in the Ataraxo
 
 ### Current implementation status
 
-This rules contract remains frozen and unchanged after Phase 3:
+As of the completion of Phase 4:
 
-- implementation oracle: `phase2_1_reference_1.1.0`;
+- frozen reference implementation: `phase2_1_reference_1.1.0`;
 - rules version: `stratego_project_v1`;
 - observation version: `observation_v2_1_127ch`;
-- action encoding: fixed 10,000-entry source-destination space.
+- action encoding: fixed 10,000-entry source-destination space;
+- production simulator decision: **KEEP_PYTHON**;
+- Phase 3 simulation/model ratio: **R = 6.50**;
+- automated evaluation uses the project evaluation rules configuration, including the 200-move battleless draw limit;
+- Phase 4 evaluation harness: **accepted**.
 
-Phase 2.1 established rule correctness, replay determinism, information security, snapshot correctness, and state invariants. Phase 3 then wrapped the same engine in a multiprocess/shared-memory/model pipeline and completed 10,048 integrated end-to-end comparisons plus a two-hour soak without changing `stratego/engine/`.
-
-Phase 3 selected the frozen Python engine as the production simulation backend (`KEEP_PYTHON`, measured \(R=6.50\)). This is a systems decision, not a rule change. Future changes to game semantics still require explicit versioning and differential comparison against the frozen reference engine.
+Phase 4 did not change any game rule. It validated that baseline and future checkpoint policies can be evaluated reproducibly using observer-legal information only. Changes to policy heuristics, evaluation statistics, setup-bank contents, or policy versions are not rule changes. Any future change to game mechanics still requires explicit rules versioning and differential comparison against the frozen reference engine.
 
 ---
 

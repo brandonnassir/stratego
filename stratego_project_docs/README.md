@@ -1,6 +1,6 @@
 # Stratego Artificial Intelligence Project Documentation
 
-This folder contains the current planning, specification, validation, and systems-architecture documents for the reduced-scale Stratego artificial intelligence project inspired by *Superhuman AI for Stratego Using Self-Play Reinforcement Learning and Test-Time Search* (Sokota et al., 2025).
+This folder contains the current planning and specification documents for the reduced-scale Stratego artificial intelligence project inspired by *Superhuman AI for Stratego Using Self-Play Reinforcement Learning and Test-Time Search* (Sokota et al., 2025).
 
 ## Documents
 
@@ -8,178 +8,142 @@ This folder contains the current planning, specification, validation, and system
    Source-faithful summary of the core Stratego rules and the additional competitive/online rules described in the paper.
 
 2. [`02_project_ruleset.md`](02_project_ruleset.md)  
-   The exact rules this project implements, including deliberate deviations from the competitive rules described in the paper.
+   The exact rules this project will implement, including deliberate deviations from the competitive rules described in the paper.
 
 3. [`03_game_engine_spec.md`](03_game_engine_spec.md)  
-   Requirements and accepted contracts for the frozen Python reference engine, batch/self-play interface, deterministic replay, and backend-replacement policy.
+   Requirements for the Python reference game engine, its training-facing interface, deterministic replay, data contracts, and future optimized backend.
 
 4. [`04_engine_validation_plan.md`](04_engine_validation_plan.md)  
-   Validation suite, accepted Phase 2/2.1 gates, accepted Phase 3 production-readiness gate, and future differential requirements.
+   Validation suite and acceptance gates that the game engine must pass before model training begins.
 
 5. [`05_project_plan.md`](05_project_plan.md)  
-   High-level collaborative development plan from rules/engine work through the final 168-hour training run and human evaluation.
+   High-level collaborative development plan from engine specification through the final 168-hour training run and human evaluation.
 
 6. [`06_observation_v2_127ch.md`](06_observation_v2_127ch.md)  
-   Authoritative 127-channel player-observation specification. The current identifier is `observation_v2_1_127ch`.
+   Authoritative 127-channel player-observation specification, including perspective normalization, setup memory, unresolved inventory, and formal behavioral-event semantics. The current identifier is `observation_v2_1_127ch`; the file name is retained so the cross-references in the other documents stay valid.
 
 7. [`07_observation_validation_matrix.md`](07_observation_validation_matrix.md)  
-   Channel-by-channel acceptance tests, mirror-equivalence requirements, hidden-information anti-leak tests, and replay/reconstruction validation.
+   Channel-by-channel and behavior-by-behavior acceptance tests, hidden-information anti-leak tests, replay reconstruction tests, and optimized-backend differential requirements.
 
 8. [`08_internal_state_spec.md`](08_internal_state_spec.md)  
-   Authoritative compact internal-state contract: piece records, knowledge flags, recent history, active threats, behavioral memory, snapshots, and belief-target separation.
+   Authoritative compact internal-state contract: piece records, knowledge flags, recent history, active threats, behavioral memory, snapshot requirements, and belief-target separation.
 
 9. [`09_public_event_and_replay_schema.md`](09_public_event_and_replay_schema.md)  
-   Privileged replay, derived events, browser-safe observer events, training metadata, versioning, ordering, and storage policy.
+   Privileged replay, derived engine-event, browser-safe observer-event, versioning, ordering, and hidden-information filtering contracts.
 
-10. [`10_phase_3_architecture.md`](10_phase_3_architecture.md)  
-    Accepted high-throughput self-play architecture and Phase 3 performance/backend decision.
+10. [`11_batch_simulation_spec.md`](11_batch_simulation_spec.md)  
+    Batch simulation and shared-memory contract: slot identity, deterministic seeding, worker partitioning, buffer layout and stale-publication safety, the hidden-information boundary, model ownership, and decision-record ordering.
 
-11. [`11_batch_simulation_spec.md`](11_batch_simulation_spec.md)  
-    Accepted batch, worker, shared-memory, synchronization, failure, and model-decision transport contracts.
+11. [`12_trajectory_buffer_spec.md`](12_trajectory_buffer_spec.md)  
+    Compact training-trajectory and reconstruction contract: game/decision records, probability precision, snapshot design, the serialization codec, retention policy, and reconstruction throughput planning.
 
-12. [`12_trajectory_buffer_spec.md`](12_trajectory_buffer_spec.md)  
-    Accepted compact trajectory, sparse policy-record, snapshot, reconstruction, and retention/storage contracts.
+### Note on document numbering
+
+There is no `10_`. The former `10_phase_3_architecture.md` was folded into `03_game_engine_spec.md` sections 16, 17 and 20 during the Phase 4 documentation update, and was removed to avoid a second authoritative statement of the Phase 3 architecture and the `KEEP_PYTHON` decision.
+
+`11_batch_simulation_spec.md` and `12_trajectory_buffer_spec.md` were **not** folded in. They remain the only written contracts for several behaviours the Phase 3 code implements directly — deterministic slot seeding, shared-buffer alignment and stale-publication detection, worker thread pinning, the "workers must not import PyTorch" rule, and the trajectory serialization codec. They keep their original numbers so that no existing reference needs rewriting.
 
 ## Project objective
 
-Build a local Stratego system on an Apple M4 Pro Mac mini that uses a compact Transformer, a shared belief head, a diverse setup generator, population self-play, dynamically damped policy improvement, and decision-time search.
-
-Primary empirical target:
-
-\[
-\text{effective win rate against casual human players} \ge 0.85.
-\]
-
-A draw counts as one-half of a win.
+Build a local Stratego system on an Apple M4 Pro Mac mini that uses a compact Transformer, a shared belief head, a diverse setup generator, population self-play, dynamically damped policy improvement, and decision-time search. The final target is at least an 85 percent effective win rate against casual human Stratego players, with a draw counted as one-half of a win.
 
 ## Source hierarchy
 
 - **Primary research source:** Sokota et al. (2025), especially Appendix A for rules and Sections 2 and D for architecture/training.
-- **Official publisher reference:** Hasbro's official Stratego instruction page was checked as an external reference for the classic game instructions.
-- **Project-specific decisions:** Explicitly identified as such in these documents and are not presented as claims from the paper.
-- **Implementation evidence:** Phase 2/2.1 and Phase 3 implementation reports and their machine-readable metrics are the basis for accepted project-performance and validation statements.
+- **Official publisher reference:** Hasbro's official Stratego instruction page was checked as an external reference for the existence of the classic game instructions.
+- **Project-specific decisions:** Explicitly identified in `02_project_ruleset.md`; they are not presented as rules from the paper.
 
-Documentation baseline: **version 0.5**
+## Documentation synchronization note
 
-## Current frozen behavioral contracts
+This package incorporates the accepted Phase 4 implementation results in addition to the frozen Phase 2.1 and Phase 3 decisions.
 
-The following are frozen entering Phase 4:
+It now records:
 
-- reference implementation: `phase2_1_reference_1.1.0`;
+- the observer-safe `policy_interface_v1`;
+- deterministic `match_spec_v1` and `color_swap_same_board` pairing;
+- the 1,024-pair `evaluation_setup_bank_v1`;
+- the permanent parallel match runner/statistics/reporting stack;
+- 95% paired bootstrap confidence intervals over `paired_unit_id`;
+- the calibrated four-tier baseline ladder;
+- six distinct stress opponents;
+- the 100,000-trial / 1,000,000-comparison hidden-information audit with zero mismatches;
+- the 44,544-game final calibration league with zero illegal actions and zero policy errors;
+- 256 paired units as screening scale and 1,024 paired units as the default important/citable scale;
+- checkpoint-shaped consumption of `observation_v2_1_127ch` through the full evaluation path;
+- the recommendation to retain complete action histories for accepted evaluation leagues when practical.
+
+No Phase 4 result changed `stratego_project_v1`, `observation_v2_1_127ch`, the 10,000-entry action encoding, or the Phase 3 `KEEP_PYTHON` backend decision.
+
+## Status
+
+Planning baseline: **version 0.6**
+
+### Completed
+
+- **Phase 1:** rules, observation, internal-state, replay, and validation contracts.
+- **Phase 2:** Python reference engine.
+- **Phase 2.1:** perspective-symmetry correction and terminal-precedence clarification.
+- **Phase 3:** high-throughput production pipeline, compact trajectories, representative Metal inference, end-to-end scaling, and production-backend decision.
+- **Phase 4:** baseline/stress policies, reproducible paired evaluation, statistics/reporting, security audit, and calibration.
+
+Frozen behavioral contracts:
+
+- implementation: `phase2_1_reference_1.1.0`;
 - rules: `stratego_project_v1`;
 - observation: `observation_v2_1_127ch`;
-- action encoding: `action_id = 100 * source + destination`, 10,000 entries;
-- replay/state semantics: frozen Phase 2.1 reference behavior.
+- action encoding: 10,000 source-destination identifiers;
+- production simulator: Python reference engine (`KEEP_PYTHON`, Phase 3 `R = 6.50`).
 
-The reference engine remains the behavioral correctness oracle.
+### Phase 4 accepted evaluation stack
 
-## Completed phases
+```text
+policy interface: policy_interface_v1
+match specification: match_spec_v1
+evaluation setup bank: evaluation_setup_bank_v1
+pairing: color_swap_same_board
+match runner: match_runner_v1
+match result: match_result_v1
+scheduler: evaluation_scheduler_v1
+statistics: evaluation_statistics_v1
+reporting: evaluation_reporting_v1
+calibration: phase4_calibration_v1
+```
 
-| Phase | Status |
-|---|---|
-| Phase 1 — rules/specification | **Complete** |
-| Phase 2 — Python reference engine | **Complete** |
-| Phase 2.1 — symmetry + terminal-precedence correction | **Complete** |
-| Phase 3 — high-throughput self-play architecture and backend decision | **Complete** |
-| Phase 4 — baseline opponents and evaluation harness | **Next** |
+Calibrated core ladder:
 
-### Phase 2.1 reference-engine acceptance
+```text
+Tier 1 — strategic_rule_based@1.1.0
+Tier 2 — tactical_rule_based@1.0.0
+Tier 3 — basic_heuristic@1.0.0
+Tier 4 — random_legal@1.0.0
+```
 
-Recorded evidence includes:
+Final Phase 4 acceptance evidence:
 
-- 1,255 automated tests passed at the Phase 2.1 freeze;
-- 120 combat cases, 0 failures;
-- 1,804 mirrored position pairs / 3,608 observation comparisons, 0 mismatches;
-- 103,625 valid hidden-information permutations, 0 public-information mismatches;
-- 10,000 replay games / 5,078,406 plies, 0 state/observation/event/result mismatches;
-- 600 snapshot/restore cases, 0 mismatches;
-- 1,045,111 invariant-checked transitions, 0 violations.
+- 100,000 valid hidden-information permutation trials;
+- 1,000,000 policy comparisons;
+- 0 hidden-information mismatches;
+- 44,544 final calibration games;
+- 22,272 paired units;
+- 45 matchups;
+- 0 illegal actions;
+- 0 policy errors;
+- exact reproduction across serial/parallel/shuffled executions.
 
-### Phase 3 production-readiness acceptance
+Evaluation guidance:
 
-The complete repository suite reached **1,497 passing tests**.
+- effective win rate is the primary metric;
+- use 95% bootstrap intervals over the paired unit;
+- 256 paired units are suitable for screening;
+- 1,024 paired units are the default for important/citable comparisons;
+- Bradley-Terry/Elo-like ratings are secondary convenience rankings.
 
-Integrated Phase 3 evidence includes:
+The fixed evaluation bank is not the later training setup generator.
 
-- 10,048 end-to-end worker/shared-memory/model environment-step comparisons, 0 mismatches;
-- 11,251 stored decisions reconstructed through the compact trajectory path, 0 mismatches;
-- 2.00-hour continuous production-style soak;
-- 63,871,488 positions and 123,718 completed games during the soak;
-- 411,818 reconstruction checks during the soak, 0 mismatches;
-- 0 worker errors/restarts;
-- 0 unexplained coordinator memory growth;
-- 0 bytes of swap at start and end;
-- throughput drift of only -0.76 percent from first to last quarter.
+### Next
 
-## Phase 3 backend decision
+**Phase 5 — integration confirmation of the frozen state/action representation.**
 
-**Decision: `KEEP_PYTHON`. Agent 6 / a second optimized engine is not required.**
+Phase 5 should plug the future model/training interfaces into the already frozen observation/action/evaluation contracts without redefining them. It is an integration confirmation, not a new representation-design phase.
 
-Measured decision inputs:
-
-\[
-R =
-\frac{96{,}963\ \text{simulation-pipeline positions/s}}
-{14{,}922\ \text{representative-model positions/s}}
-=
-6.50.
-\]
-
-The decision threshold to retain Python was \(R \ge 2.0\).
-
-The integrated profile independently supports the same conclusion: the representative model/Metal path dominated the step while simulation workers spent most of their time waiting.
-
-A future real model must re-measure this ratio before assuming the same headroom, but the current simulator should not be replaced merely for theoretical speed.
-
-## Accepted Phase 3 starting configuration
-
-For future model-backed collection benchmarks with a similarly sized model, start from:
-
-- 10 simulation workers;
-- 1,536 simultaneous environments;
-- inference batch 1,536;
-- `float16` representative inference;
-- **dense** live legality;
-- snapshot interval 32 plies.
-
-Measured representative-probe rates:
-
-- best 60-second integrated finalist without full trajectory recording: **12,838 positions/s**;
-- two-hour trajectory-recording soak: **8,871 positions/s**.
-
-These are system-engineering baselines, not strength or final-model performance guarantees.
-
-## Storage planning note
-
-The Phase 3 soak generated approximately:
-
-- 96,965 encoded bytes per game;
-- 187.8 bytes per decision;
-- **5.59 GiB/hour** of encoded trajectory at the measured collecting rate.
-
-At that unchanged rate, retaining every trajectory for 168 hours would be approximately **939 GiB**, before checkpoints, logs, evaluations, filesystem overhead, or other artifacts.
-
-Therefore the final training system should use a **rolling trajectory/replay buffer** and selectively archive important samples rather than permanently retaining every generated decision.
-
-## Important sampler regression
-
-Phase 3 exposed a rare bug in the representative Gumbel-max sampler: a boundary uniform draw could create non-finite Gumbel noise, which could combine with an illegal action's `-inf` mask and produce `NaN` before `argmax`.
-
-The frozen engine rejected the resulting illegal move before state mutation.
-
-The representative sampler was corrected, regression-tested, and a coordinator-side legality check was added. This is now a general validation requirement for any future action sampler using masked infinities.
-
-## Next phase
-
-**Phase 4 — Baseline opponents and evaluation harness**
-
-Build and validate:
-
-- random legal agent;
-- elementary heuristic agent;
-- stronger rule-based agent;
-- unusual/adversarial style agents;
-- checkpoint league/evaluation runner;
-- balanced, reproducible evaluation protocols.
-
-Do not begin self-play training merely because the Phase 3 representative model can run. The Phase 3 network is an untrained systems benchmark probe, not the final playing model.
+The Markdown files in this folder are project specifications/documentation. Implementations, tests, reports, and raw Phase 3/4 measurement artifacts live elsewhere in the repository.

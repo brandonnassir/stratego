@@ -13,9 +13,9 @@ Build a Stratego simulation layer that is:
 - usable by a browser interface through a higher-level service;
 - replaceable by a faster backend without changing the model or training logic.
 
-The first implementation is a **readable Python reference engine**. Phase 3 profiling demonstrated that this engine is sufficiently fast for the current model scale, so it is also the selected production simulation backend. A separate optimized backend remains a future option only if a later real-model benchmark changes the bottleneck decision.
+The first implementation is a **readable Python reference engine**. After it is validated and profiled, an optimized production backend may be introduced behind the same interface if required by the 168-hour training budget.
 
-### Frozen reference implementation and production decision
+### Frozen reference implementation
 
 Phase 2.1 accepted and froze:
 
@@ -23,15 +23,9 @@ Phase 2.1 accepted and froze:
 - rules: `stratego_project_v1`;
 - observation: `observation_v2_1_127ch`;
 - action encoding: `action_id = 100 * source + destination`, 10,000 entries;
-- deterministic replay semantics defined by the replay/event contracts.
+- deterministic replay semantics defined by the current replay/event contracts.
 
-Phase 3 left `stratego/engine/` unchanged and selected this same Python implementation as the production simulation backend:
-
-- backend decision: `KEEP_PYTHON`;
-- measured simulation/model ratio: \(R=6.50\);
-- conditional optimized-backend Agent 6: **not required**.
-
-The reference engine remains the behavioral oracle. It must not be optimized in place. If a separate faster backend is introduced later, it must remain interchangeable and pass differential testing against this frozen implementation.
+Phase 3 validated this engine inside the complete multiprocessing, shared-memory, trajectory-recording, and Metal-inference pipeline. The production-backend decision is **KEEP_PYTHON**. Phase 4 then validated the same frozen engine under the permanent evaluation harness: reproducible paired matches, observer-safe policies, raw replay/result records, and large hidden-information differential audits. The frozen Python engine remains both the behavioral oracle and the production simulator for the current model scale. A separate optimized backend is deferred unless future model changes materially alter the measured throughput ratio.
 
 ---
 
@@ -355,217 +349,181 @@ These labels must never be included in the policy observation.
 
 ---
 
-## 16. Batch simulation and production self-play interface
+## 16. Batch simulation interface
 
-Phase 3 implemented and accepted a **bulk-synchronous** multiprocess collection architecture:
+Phase 3 implemented and validated the production batch interface.
+
+### Production architecture
 
 ```text
 CPU simulation workers
         |
-        | worker-published shared-memory state
-        v
-persistent shared-memory block
+persistent shared-memory buffers
         |
-        v
 single coordinator process
         |
-        v
 PyTorch model on Apple Metal
-        |
-        | coordinator-written decisions
-        v
-persistent shared-memory block
-        |
-        v
-CPU simulation workers
 ```
 
-### 16.1 Ownership
+The system is bulk-synchronous:
 
-- exactly one coordinator process owns/invokes the PyTorch/Metal model;
-- simulation workers remain central-processing-unit-only;
-- each worker owns a fixed, disjoint range of environment slots;
-- the coordinator owns no `GameState`;
-- game objects, observations, and legality masks are never sent as per-step Python object payloads through pipes.
+1. workers publish acting-player observations, legality, and slot metadata;
+2. the coordinator waits for the worker phase;
+3. the coordinator performs model inference over all active rows, possibly in inference-batch chunks;
+4. the coordinator applies legality and samples one legal action per row;
+5. actions and model outputs needed for trajectory recording are written back to shared memory;
+6. workers record the decision, apply the action, seal terminal games, and independently reset finished slots;
+7. the next global step begins.
 
-### 16.2 Environment identity
+Only the coordinator may own or invoke the Metal-backed model.
 
-Each persistent slot has:
+### Environment identity
+
+Every persistent slot has:
 
 - fixed `environment_id`;
-- monotonically increasing `generation`;
-- trajectory identity `(environment_id, generation)`.
+- monotonically increasing `generation`.
 
-A reset increments `generation` exactly once and does not affect neighboring slots.
+The pair `(environment_id, generation)` uniquely identifies one game instance. Worker simulators own disjoint global environment-identifier ranges.
 
-Slot seed derivation is deterministic from:
+### Shared-memory contract
+
+Worker-published model-facing fields include at minimum:
 
 ```text
-(root_seed, environment_id, generation)
+observations      [N, 127, 10, 10] float32
+legal_mask        [N, 10000]       uint8
+legal_count       [N]              int32
+acting_player     [N]              int8
+environment_id    [N]              int32
+generation        [N]              int32
+status/terminal/counters
 ```
-
-so any generation can be rebuilt independently.
-
-### 16.3 Worker-published shared-memory fields
-
-The accepted production transport includes model-facing/public control data such as:
-
-- `observations`: `(N, 127, 10, 10)` `float32`, acting-player perspective only;
-- `legal_mask`: `(N, 10000)` `uint8`;
-- `legal_count`;
-- `acting_player`;
-- `environment_id`;
-- `generation`;
-- `ply`;
-- `battleless_moves`;
-- `terminal` / `status`;
-- worker ownership and publish-sequence/staleness metadata;
-- last-finished-game terminal/result metadata.
-
-Privileged belief targets and true hidden identities are not present in model-facing shared memory.
-
-### 16.4 Coordinator-written shared-memory fields
 
 The coordinator writes:
 
-- selected `actions`;
-- `reset_request`;
-- `policy_probabilities`: one `float32` probability for each ascending legal-action entry, zero-padded to an implementation capacity of 128;
-- `value_prediction`: win/draw/loss;
-- `decision_valid`.
-
-The worker already owns the exact ascending legal-action list, so policy probabilities can be aligned without transmitting action identifiers back to the worker.
-
-The padding capacity of 128 is an implementation capacity, **not a game-rule bound**. A position exceeding it must fail loudly or use a future correctness-preserving fallback; legal actions must never be truncated.
-
-### 16.5 Synchronization
-
-One production step is:
-
 ```text
-workers publish observations/legal state
--> barrier
--> coordinator gathers ready rows
--> observation layout conversion/tokenization
--> host-to-device transfer
--> model inference
--> legality + action sampling
--> coordinator validates sampled actions against legality
--> action/policy/value write-back
--> workers record the decision before mutation
--> workers apply actions
--> completed games are sealed
--> completed slots independently reset
--> workers publish next state
+actions                    [N]          int32
+reset_request              [N]          uint8
+policy_probabilities       [N, 128]     float32
+value_prediction           [N, 3]       float32
+decision_valid             [N]          uint8
 ```
 
-`publish_sequence` is the stale-buffer contract. The coordinator must not consume a row that its owning worker failed to republish.
+`policy_probabilities` aligns with the engine's deterministic ascending legal-action order and is zero-padded. It exists for in-worker trajectory recording and does not replace the authoritative dense legality mask.
 
-### 16.6 Accepted Phase 3 scaling result
+The coordinator holds no game object and no privileged game state is transported to the model process.
 
-The accepted starting configuration for similarly sized model-backed collection is:
+### Measured Phase 3 starting point
+
+With the representative compact Transformer probe, the strongest sustained integrated configuration was:
 
 - 10 simulation workers;
 - 1,536 simultaneous environments;
 - inference batch 1,536;
-- `float16` representative inference;
-- dense live legality;
-- 32-ply trajectory snapshots.
+- float16 inference;
+- dense legality;
+- snapshot interval 32.
 
-Phase 3 screened all required worker/environment/batch dimensions and measured the full end-to-end path. These values remain tunable and must be re-benchmarked for the final model.
+Measured throughput:
 
-Detailed Phase 3 architecture and transport requirements are also summarized in:
+- **12,838 positions/second** without full trajectory recording;
+- **8,871 positions/second** during the two-hour collecting soak.
 
-- `10_phase_3_architecture.md`;
-- `11_batch_simulation_spec.md`.
+These are measured starting values, not frozen training constants. Re-benchmark when the actual model architecture changes.
+
+### Legality representation
+
+Dense legality is the accepted production default.
+
+Compact legality was proven equivalent, but in the integrated pipeline it was slower because the shared transport naturally publishes the dense mask and the coordinator then had to build the compact form.
+
+Measured comparison:
+
+- float16 dense: about 11,592 positions/second;
+- float16 compact: about 10,548 positions/second.
+
+Compact legality may be revisited only if a future transport publishes compact legal actions directly or another architectural change removes the conversion cost.
 
 ---
 
 ## 17. Training trajectory record
 
-Training storage is compact, versioned, and reconstructible. The full `127 x 10 x 10` observation tensor and dense 10,000-entry policy vector are **not** stored per decision.
+Phase 3 implemented `trajectory_v1`, a compact versioned trajectory schema.
 
-The accepted trajectory schema is documented in `12_trajectory_buffer_spec.md`.
+The system does not store the full 127 by 10 by 10 observation tensor or a dense 10,000-entry policy distribution for every decision.
 
-### 17.1 Game-level record
+### Game record
 
-Minimum game metadata includes:
+Minimum game-level fields include:
 
 - `game_id`;
 - `environment_id`;
 - `generation`;
-- rules version;
-- observation version;
-- both true setups in the privileged record;
+- rules and observation versions;
+- red and blue setups;
 - first player;
-- setup-generator/family identifiers when available;
-- terminal result;
-- terminal reason;
+- setup-family/setup identifiers when available;
+- ordered action sequence;
+- periodic compact snapshots;
+- terminal result and reason;
 - final ply;
-- collection policy/checkpoint identifiers.
+- collection checkpoint/policy metadata.
 
-### 17.2 Decision-level record
+### Decision record
 
-Each decision stores at least:
+Each decision stores:
 
 - game identifier;
 - ply;
 - acting player;
 - selected action identifier;
-- ascending legal action identifiers;
-- old/behavior-policy probabilities over exactly those legal actions;
-- win/draw/loss prediction;
+- legal action identifiers in deterministic ascending order;
+- behavior-policy probability for each legal action;
+- win/draw/loss value prediction;
 - collection-policy version;
 - snapshot reference.
 
-Probabilities are stored as `float32` in the accepted Phase 3 baseline.
+Policy probabilities are currently stored as `float32`.
 
-### 17.3 Snapshot cadence
+### Snapshot cadence and reconstruction
 
-Phase 3 measured snapshot intervals 16, 32, and 64 plies.
+Supported intervals are 16, 32, and 64 plies. Phase 3 selected **32** as the default compromise.
 
-Accepted initial default:
+At interval 32, measured random-access reconstruction was approximately **1,681 positions/second per process**.
 
-- **32 plies**.
-
-Measured tradeoff on the controlled comparison corpus:
-
-| Interval | Raw bytes/game | Compressed bytes/game | Reconstruction positions/s |
-|---:|---:|---:|---:|
-| 16 | 101,421 | 62,668 | 2,095 |
-| **32** | **87,155** | **60,682** | **1,681** |
-| 64 | 80,072 | 59,450 | 1,149 |
-
-Interval 32 was selected as the initial storage/reconstruction balance.
-
-### 17.4 Reconstruction contract
-
-A historical decision reconstructs from:
+Historical positions reconstruct from:
 
 ```text
 game metadata
-+ nearest earlier compact snapshot
++ nearest prior snapshot
 + subsequent actions
 -> frozen reference engine
--> exact state
 -> observation_v2_1_127ch
 -> legal actions/mask
+-> public knowledge
 -> privileged belief target
 ```
 
-Phase 3 reconstructed 1,000,162 historical decisions in the dedicated trajectory gate with zero required-field mismatches, then reconstructed another 11,251 decisions through the integrated pipeline and 411,818 sampled decisions during the two-hour soak with zero mismatches.
+Phase 3 reconstructed **1,000,162 historical decisions** in the dedicated trajectory gate with zero unexplained mismatches, then reconstructed additional model-generated decisions during integration and soak testing with zero mismatches.
 
-Belief targets remain privileged and separate from policy inputs/serialized model-facing data.
+The belief target remains a privileged training target and is not serialized as model input.
 
-### 17.5 Measured storage
+### Storage measurements
 
-With real model-generated policy rows during the Phase 3 soak:
+At 32-ply snapshots, Agent 3 measured approximately:
 
-- 187.8 encoded bytes/decision;
-- 96,965 encoded bytes/game;
-- approximately 5.59 GiB/hour at the measured collecting rate.
+- 93 KB raw/game;
+- 65 KB compressed/game;
+- 64.7 GB compressed per million games on its synthetic-policy corpus.
 
-The final training system should therefore use a rolling replay/trajectory buffer and selective archival rather than retaining every generated trajectory for the full 168-hour run.
+The integrated model-backed soak measured approximately:
+
+- 187.8 bytes/decision;
+- 96,965 bytes/game;
+- **5.59 GiB/hour** encoded trajectory at the accepted collection rate.
+
+The production training system must therefore use a rolling/managed replay-storage policy rather than assuming every generated trajectory can be retained throughout the full 168-hour run.
 
 ---
 
@@ -584,7 +542,7 @@ The rules themselves contain no random combat results.
 
 ## 19. Error behavior
 
-The engine and production self-play path must fail loudly for:
+The engine should fail loudly during development for:
 
 - illegal setup;
 - illegal move;
@@ -592,102 +550,94 @@ The engine and production self-play path must fail loudly for:
 - impossible piece count;
 - inconsistent board occupancy;
 - invalid acting player;
-- transition after terminal state without reset;
-- stale shared-memory publication;
-- non-finite action-sampling values;
-- sampled action not present in the engine-published legal set;
-- hidden-information leakage.
+- transition after terminal state without reset.
 
-Correctness failures are global-stop errors during development/validation. Ordinary infrastructure failures may later support controlled recovery, but recovery must never silently discard or reinterpret a correctness failure.
+The training coordinator may later choose a controlled error-recovery policy, but the reference engine must prioritize detectability over silent recovery.
 
-### Action-sampling regression from Phase 3
+Phase 3 development/production policy:
 
-Phase 3 found a rare boundary bug in the representative Gumbel-max sampler. A uniform draw at an endpoint could create non-finite Gumbel noise; combined with an illegal action's `-inf` mask, this could produce `NaN` before `argmax`.
+- any invariant failure, observation mismatch, illegal transition, or hidden-information leak is a global-stop error and must preserve a reproducible crash package;
+- ordinary infrastructure failure such as a worker process exiting may be recoverable by restarting that worker from known coordinator state;
+- infrastructure recovery must never convert a correctness failure into a silently discarded game;
+- the coordinator must independently verify that every sampled model action is legal before workers receive it.
 
-The frozen engine rejected the resulting illegal action before any batch state was mutated.
+Phase 3 discovered a rare Gumbel-max sampling boundary bug in the representative model probe. Non-finite sampling noise combined with `-inf` legality masking could produce `NaN` and lead `argmax` to select an illegal action. The frozen engine rejected the action before mutation. The sampler was corrected and regression tests now require finite noise and legal sampled actions.
 
-Required regression policy:
-
-1. random noise used with `-inf` legality masking must be finite;
-2. uniform draws used in Gumbel transforms must be bounded away from mathematical singularities;
-3. the coordinator must check every selected action against the exact engine legality before workers apply it;
-4. an illegal sampled action is a hard correctness failure, not a fallback-to-another-move condition.
-
-The corrected representative sampler is not a frozen game-semantic component; the engine legality contract remains authoritative.
+This is a permanent argument for preserving engine-side illegal-action rejection even when coordinator-side legality checks also exist.
 
 ---
 
-## 20. Performance instrumentation and accepted backend decision
+## 20. Performance instrumentation and Phase 3 decision
 
-Phase 3 measured the production pipeline rather than extrapolating from single-process component rates.
+Phase 3 measured the complete production path.
 
-### 20.1 Accepted measurements
+### Simulation pipeline
 
-Key measured rates:
+Measured no-model CPU/shared-memory simulation rate at 10 workers and 1,536 environments:
 
-- standalone multiprocess simulation pipeline at the selected worker/environment configuration: **96,963 positions/s**;
-- representative model sustainable inference rate used for the decision denominator: **14,922 positions/s**;
-- best 60-second integrated finalist without full trajectory recording: **12,838 positions/s**;
-- two-hour production-style collection soak with trajectory recording: **8,871 positions/s**.
+- **96,963 positions/second**.
 
-Decision ratio:
+With full trajectory recording enabled, the simulation side still measured:
+
+- **67,209 positions/second**.
+
+### Representative Metal model
+
+Sustainable uncontended representative-model inference used for the production ratio:
+
+- **14,922 positions/second**.
+
+### Decision ratio
 
 \[
 R =
-\frac{\text{sustainable simulation-pipeline positions/second}}
-{\text{sustainable representative-model inference positions/second}}
-=
 \frac{96{,}963}{14{,}922}
 =
 6.50.
 \]
 
-Decision thresholds remain:
+Using the pre-registered decision rule:
 
-- `R >= 2.0`: retain Python as production simulator;
-- `1.25 <= R < 2.0`: retain Python initially; optimized backend optional;
-- `R < 1.25`: design/evaluate a separate optimized backend.
+- `R >= 2.0`: retain Python;
+- `1.25 <= R < 2.0`: retain Python initially;
+- `R < 1.25`: optimized backend required.
 
-**Accepted Phase 3 result: `KEEP_PYTHON`.**
+Phase 3 result:
 
-A recording-inclusive simulation numerator still gave \(R=4.50\), above the retention threshold.
+```text
+backend decision = KEEP_PYTHON
+R = 6.50
+optimized Agent 6 = NOT REQUIRED
+```
 
-### 20.2 Bottleneck profile
+The recording-inclusive ratio remains approximately 4.50.
 
-At the best integrated finalist, approximate step-time shares were:
+The integrated profile independently agrees:
 
-- Metal inference: 80.87%;
-- worker/barrier phase: 10.31%;
-- legality + action sampling: 5.60%;
-- host-to-device transfer: 3.12%;
-- trajectory write-back: 0.07%;
-- observation gather: 0.01%.
+- Metal inference ≈ 80.9% of the best step;
+- workers active ≈ 9.7% of wall time;
+- workers waiting ≈ 90.4%;
+- coordinator active ≈ 89.7%.
 
-Workers waited most of the time while the coordinator/model path was active. A faster simulator therefore would not materially improve the current end-to-end system.
+The current pipeline is model-bound, not simulation-bound.
 
-### 20.3 Dense versus compact legality
+### Two-hour production soak
 
-The production transport publishes the engine's dense legality mask.
+Accepted soak result:
 
-Although compact legality was cheaper once already constructed on the coordinator/device benchmark, constructing compact legality from the dense shared-memory transport made the integrated compact path approximately **9% slower** than float16+dense in the measured baseline.
+- duration ≈ 7,200 seconds;
+- 63,871,488 positions;
+- 123,718 games;
+- 123,718 independent resets;
+- 8,871 positions/second with trajectory recording;
+- 411,818 reconstructed decisions checked;
+- zero reconstruction mismatches;
+- zero worker errors/restarts;
+- zero swap use;
+- zero measured coordinator-memory growth;
+- about -0.76% first-vs-last-quarter throughput drift.
 
-Accepted production choice:
-
-- **dense live legality**.
-
-Compact legality remains a validated optional representation only if a future transport publishes it directly or later profiling changes the cost.
-
-### 20.4 Future remeasurement
-
-The Phase 3 model is an untrained representative systems probe. When the final model architecture is selected, re-measure:
-
-- model inference/training throughput;
-- worker/environment/batch optimum;
-- precision;
-- memory;
-- ratio \(R\).
-
-The current `KEEP_PYTHON` decision should be revisited only if the real model changes the bottleneck materially.
+This passed the Phase 3 production-training readiness gate.
 
 ---
 
@@ -713,16 +663,13 @@ Training control is handled by the training-control service, not by direct brows
 
 ## 22. Backend replacement contract
 
-Phase 3 selected the frozen Python reference engine as both:
+Phase 3 decision: **no optimized backend is required for the current system**.
 
-- behavioral source of truth;
-- current production simulation backend.
+The frozen Python reference engine is both the behavioral oracle and the production simulator for the current model scale.
 
-No separate optimized backend should be built for the current system merely because native code could be faster in isolation.
+A future optimized backend remains an architectural option only if later profiling changes the bottleneck. If introduced, it must match the frozen reference engine on the full differential validation suite, and the model/training layer must not need semantic changes to switch between backends.
 
-A future optimized backend may be reconsidered only after profiling demonstrates that simulation has become a material end-to-end bottleneck. The preferred trigger remains the measured ratio \(R\) in section 20.
-
-If introduced, backend choice must remain configuration behind the same external interface, and the optimized backend must pass the full differential suite against `phase2_1_reference_1.1.0` before producing training data.
+Backend choice remains configuration, not architecture.
 
 ---
 
@@ -748,3 +695,80 @@ These documents are authoritative for:
 - event ordering and hidden-information filtering.
 
 The engine must store enough compact factual state to reconstruct `observation_v2_1_127ch`; it must not store model-ready observation channels as a second source of truth.
+
+
+## 24. Evaluation-harness compatibility
+
+Phase 4 introduced an evaluation layer above the frozen engine. It does not alter engine semantics.
+
+Accepted versions:
+
+```text
+policy interface: policy_interface_v1
+match specification: match_spec_v1
+evaluation setup bank: evaluation_setup_bank_v1
+match runner: match_runner_v1
+match result: match_result_v1
+evaluation scheduler: evaluation_scheduler_v1
+evaluation statistics: evaluation_statistics_v1
+evaluation reporting: evaluation_reporting_v1
+calibration: phase4_calibration_v1
+```
+
+### Observer-safe policy boundary
+
+A policy must not receive a `GameState`, privileged replay, true unresolved opponent identities, belief target, or any object from which those values can be recovered.
+
+Policy inputs are materialized observer-safe products only. Policies may request the products they require, including:
+
+- legal action identifiers;
+- `observation_v2_1_127ch`;
+- legal-action mask;
+- observer-safe `PublicView`;
+- match and policy seed metadata.
+
+Phase 4's ten catalogued baseline/stress policies use only `PublicView` plus legal actions. A checkpoint-shaped probe additionally consumed the 127-channel observation and legal-action mask through the same contract with zero illegal actions and zero reproduction mismatches.
+
+### Evaluation setup bank and pairing
+
+The accepted fixed evaluation-only bank is:
+
+- `evaluation_setup_bank_v1`;
+- generation family `structured_v1`;
+- 1,024 deterministic setup pairs.
+
+It is a reproducible evaluation instrument, **not** the Phase 7 training setup generator.
+
+The accepted pairing mode is `color_swap_same_board`:
+
+```text
+Game A: candidate plays Red on fixed red/blue setups
+Game B: candidate plays Blue on the same physical board setups
+```
+
+Each policy therefore receives one first-move game and one second-move game on the same board pair.
+
+### Policy versions and calibration
+
+Policy identity is versioned and included in match identity. A heuristic or weight change requires a policy-version bump before new results are considered comparable.
+
+The calibrated core ladder after Phase 4 is:
+
+1. `strategic_rule_based@1.1.0`;
+2. `tactical_rule_based@1.0.0`;
+3. `basic_heuristic@1.0.0`;
+4. `random_legal@1.0.0`.
+
+Strategic version 1.1.0 corrected the exposure heuristic to price publicly inferred vulnerability rather than raw material value. This was a policy implementation correction, not an engine/rule change.
+
+### Engine authority during evaluation
+
+The evaluation runner must still:
+
+1. request legality from the frozen engine;
+2. validate policy results;
+3. submit the selected action to the frozen engine;
+4. allow the engine to reject any illegal action atomically;
+5. preserve the engine's terminal result and terminal reason without reinterpretation.
+
+The evaluation layer must never replace an illegal or failed policy decision with a fallback legal move.

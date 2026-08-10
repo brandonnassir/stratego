@@ -1,0 +1,1101 @@
+{
+  "acceptance_statistics": {
+    "note": "Informational. The sweep exists to prove reproducibility, and its matchups were chosen for statistical variety rather than to measure the ladder. Agent 4 owns baseline calibration and the strength-tier gate.",
+    "pooled": {
+      "draws": 7,
+      "effective_win_rate": 0.4580078125,
+      "errors": 0,
+      "games": 512,
+      "losses": 274,
+      "wins": 231
+    },
+    "summary": {
+      "bootstrap": {
+        "base_seed": 20260403,
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "paired_unit"
+      },
+      "illegal_policy_actions": 0,
+      "league": {
+        "converged": true,
+        "elo_anchor": 1500.0,
+        "elo_scale": 400.0,
+        "games": {
+          "basic_heuristic@1.0.0": 128,
+          "random_legal@1.0.0": 128,
+          "strategic_rule_based@1.0.0": 384,
+          "stress_draw_seeker@1.0.0": 128,
+          "tactical_rule_based@1.0.0": 256
+        },
+        "iterations": 91,
+        "method": "bradley_terry_mm_elo_scale",
+        "prior_draws": 1.0,
+        "ranking": [
+          "tactical_rule_based@1.0.0",
+          "strategic_rule_based@1.0.0",
+          "basic_heuristic@1.0.0",
+          "random_legal@1.0.0",
+          "stress_draw_seeker@1.0.0"
+        ],
+        "ratings": {
+          "basic_heuristic@1.0.0": 1653.3534277098404,
+          "random_legal@1.0.0": 1198.0452040491643,
+          "strategic_rule_based@1.0.0": 1795.9852127211389,
+          "stress_draw_seeker@1.0.0": 1024.217642435483,
+          "tactical_rule_based@1.0.0": 1828.3985130843735
+        },
+        "strengths": {
+          "basic_heuristic@1.0.0": 2.4175951139729825,
+          "random_legal@1.0.0": 0.17583811123193954,
+          "strategic_rule_based@1.0.0": 5.4949409759961165,
+          "stress_draw_seeker@1.0.0": 0.06464636442350655,
+          "tactical_rule_based@1.0.0": 6.622108355670367
+        },
+        "tolerance": 1e-12
+      },
+      "matches": 512,
+      "matchups": 4,
+      "paired_units": 256,
+      "per_matchup": {
+        "basic_heuristic@1.0.0 vs tactical_rule_based@1.0.0": {
+          "candidate": "basic_heuristic@1.0.0",
+          "color_split": {
+            "blue": {
+              "draws": 2,
+              "effective_win_rate": 0.25,
+              "errors": 0,
+              "games": 64,
+              "losses": 47,
+              "moves_first": false,
+              "wins": 15
+            },
+            "difference_red_minus_blue": 0.03125,
+            "red": {
+              "draws": 0,
+              "effective_win_rate": 0.28125,
+              "errors": 0,
+              "games": 64,
+              "losses": 46,
+              "moves_first": true,
+              "wins": 18
+            }
+          },
+          "confidence_interval": {
+            "confidence": 0.95,
+            "engine": "numpy_pcg64",
+            "lower": 0.19921875,
+            "method": "paired_unit_percentile_bootstrap",
+            "resamples": 10000,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": 2458182330899504820,
+            "upper": 0.33203125,
+            "width": 0.1328125
+          },
+          "draws": 2,
+          "effective_win_rate": 0.265625,
+          "games": 128,
+          "losses": 93,
+          "normal_interval": {
+            "confidence": 0.95,
+            "engine": null,
+            "lower": 0.1975828486209591,
+            "method": "normal_approximation",
+            "resamples": null,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": null,
+            "upper": 0.3336671513790409,
+            "width": 0.1360843027580818
+          },
+          "opponent": "tactical_rule_based@1.0.0",
+          "paired_unit_score_histogram": {
+            "0.0": 31,
+            "0.25": 2,
+            "0.5": 29,
+            "0.75": 0,
+            "1.0": 2
+          },
+          "paired_units": 64,
+          "plies": {
+            "games": 128,
+            "maximum": 544,
+            "mean": 197.625,
+            "median": 191.5,
+            "minimum": 19,
+            "total": 25296
+          },
+          "policy_errors": 0,
+          "separated_from_even": true,
+          "setup_pair_stratification": {
+            "best_pairs": [
+              6,
+              1,
+              62,
+              58,
+              57
+            ],
+            "games_per_pair_maximum": 2,
+            "games_per_pair_minimum": 2,
+            "pair_effective_win_rate_maximum": 1.0,
+            "pair_effective_win_rate_mean": 0.265625,
+            "pair_effective_win_rate_median": 0.25,
+            "pair_effective_win_rate_minimum": 0.0,
+            "pairs_candidate_lost_outright": 31,
+            "pairs_candidate_won_outright": 2,
+            "setup_pairs": 64,
+            "worst_pairs": [
+              3,
+              4,
+              9,
+              10,
+              11
+            ]
+          },
+          "statistics_version": "evaluation_statistics_v1",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 2,
+              "flag_capture": 84,
+              "opponent_no_legal_move": 42
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.015625,
+              "flag_capture": 0.65625,
+              "opponent_no_legal_move": 0.328125
+            }
+          },
+          "wins": 33
+        },
+        "random_legal@1.0.0 vs strategic_rule_based@1.0.0": {
+          "candidate": "random_legal@1.0.0",
+          "color_split": {
+            "blue": {
+              "draws": 1,
+              "effective_win_rate": 0.0078125,
+              "errors": 0,
+              "games": 64,
+              "losses": 63,
+              "moves_first": false,
+              "wins": 0
+            },
+            "difference_red_minus_blue": 0.0390625,
+            "red": {
+              "draws": 2,
+              "effective_win_rate": 0.046875,
+              "errors": 0,
+              "games": 64,
+              "losses": 60,
+              "moves_first": true,
+              "wins": 2
+            }
+          },
+          "confidence_interval": {
+            "confidence": 0.95,
+            "engine": "numpy_pcg64",
+            "lower": 0.0078125,
+            "method": "paired_unit_percentile_bootstrap",
+            "resamples": 10000,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": 7566761806397753970,
+            "upper": 0.0546875,
+            "width": 0.046875
+          },
+          "draws": 3,
+          "effective_win_rate": 0.02734375,
+          "games": 128,
+          "losses": 123,
+          "normal_interval": {
+            "confidence": 0.95,
+            "engine": null,
+            "lower": 0.0026573079773733917,
+            "method": "normal_approximation",
+            "resamples": null,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": null,
+            "upper": 0.05203019202262661,
+            "width": 0.049372884045253224
+          },
+          "opponent": "strategic_rule_based@1.0.0",
+          "paired_unit_score_histogram": {
+            "0.0": 59,
+            "0.25": 3,
+            "0.5": 2,
+            "0.75": 0,
+            "1.0": 0
+          },
+          "paired_units": 64,
+          "plies": {
+            "games": 128,
+            "maximum": 1061,
+            "mean": 348.1875,
+            "median": 319.5,
+            "minimum": 57,
+            "total": 44568
+          },
+          "policy_errors": 0,
+          "separated_from_even": true,
+          "setup_pair_stratification": {
+            "best_pairs": [
+              22,
+              19,
+              60,
+              57,
+              7
+            ],
+            "games_per_pair_maximum": 2,
+            "games_per_pair_minimum": 2,
+            "pair_effective_win_rate_maximum": 0.5,
+            "pair_effective_win_rate_mean": 0.02734375,
+            "pair_effective_win_rate_median": 0.0,
+            "pair_effective_win_rate_minimum": 0.0,
+            "pairs_candidate_lost_outright": 59,
+            "pairs_candidate_won_outright": 0,
+            "setup_pairs": 64,
+            "worst_pairs": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          },
+          "statistics_version": "evaluation_statistics_v1",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 3,
+              "flag_capture": 110,
+              "opponent_no_legal_move": 15
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.0234375,
+              "flag_capture": 0.859375,
+              "opponent_no_legal_move": 0.1171875
+            }
+          },
+          "wins": 2
+        },
+        "strategic_rule_based@1.0.0 vs stress_draw_seeker@1.0.0": {
+          "candidate": "strategic_rule_based@1.0.0",
+          "color_split": {
+            "blue": {
+              "draws": 2,
+              "effective_win_rate": 0.984375,
+              "errors": 0,
+              "games": 64,
+              "losses": 0,
+              "moves_first": false,
+              "wins": 62
+            },
+            "difference_red_minus_blue": 0.015625,
+            "red": {
+              "draws": 0,
+              "effective_win_rate": 1.0,
+              "errors": 0,
+              "games": 64,
+              "losses": 0,
+              "moves_first": true,
+              "wins": 64
+            }
+          },
+          "confidence_interval": {
+            "confidence": 0.95,
+            "engine": "numpy_pcg64",
+            "lower": 0.98046875,
+            "method": "paired_unit_percentile_bootstrap",
+            "resamples": 10000,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": 8973318386084618533,
+            "upper": 1.0,
+            "width": 0.01953125
+          },
+          "draws": 2,
+          "effective_win_rate": 0.9921875,
+          "games": 128,
+          "losses": 0,
+          "normal_interval": {
+            "confidence": 0.95,
+            "engine": null,
+            "lower": 0.9814464016406429,
+            "method": "normal_approximation",
+            "resamples": null,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": null,
+            "upper": 1.0029285983593572,
+            "width": 0.02148219671871432
+          },
+          "opponent": "stress_draw_seeker@1.0.0",
+          "paired_unit_score_histogram": {
+            "0.0": 0,
+            "0.25": 0,
+            "0.5": 0,
+            "0.75": 2,
+            "1.0": 62
+          },
+          "paired_units": 64,
+          "plies": {
+            "games": 128,
+            "maximum": 829,
+            "mean": 347.875,
+            "median": 317.5,
+            "minimum": 14,
+            "total": 44528
+          },
+          "policy_errors": 0,
+          "separated_from_even": true,
+          "setup_pair_stratification": {
+            "best_pairs": [
+              63,
+              62,
+              61,
+              60,
+              59
+            ],
+            "games_per_pair_maximum": 2,
+            "games_per_pair_minimum": 2,
+            "pair_effective_win_rate_maximum": 1.0,
+            "pair_effective_win_rate_mean": 0.9921875,
+            "pair_effective_win_rate_median": 1.0,
+            "pair_effective_win_rate_minimum": 0.75,
+            "pairs_candidate_lost_outright": 0,
+            "pairs_candidate_won_outright": 62,
+            "setup_pairs": 64,
+            "worst_pairs": [
+              34,
+              49,
+              0,
+              1,
+              2
+            ]
+          },
+          "statistics_version": "evaluation_statistics_v1",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 2,
+              "flag_capture": 125,
+              "opponent_no_legal_move": 1
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.015625,
+              "flag_capture": 0.9765625,
+              "opponent_no_legal_move": 0.0078125
+            }
+          },
+          "wins": 126
+        },
+        "tactical_rule_based@1.0.0 vs strategic_rule_based@1.0.0": {
+          "candidate": "tactical_rule_based@1.0.0",
+          "color_split": {
+            "blue": {
+              "draws": 0,
+              "effective_win_rate": 0.46875,
+              "errors": 0,
+              "games": 64,
+              "losses": 34,
+              "moves_first": false,
+              "wins": 30
+            },
+            "difference_red_minus_blue": 0.15625,
+            "red": {
+              "draws": 0,
+              "effective_win_rate": 0.625,
+              "errors": 0,
+              "games": 64,
+              "losses": 24,
+              "moves_first": true,
+              "wins": 40
+            }
+          },
+          "confidence_interval": {
+            "confidence": 0.95,
+            "engine": "numpy_pcg64",
+            "lower": 0.4609375,
+            "method": "paired_unit_percentile_bootstrap",
+            "resamples": 10000,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": 5343190366441609303,
+            "upper": 0.6251953124999972,
+            "width": 0.16425781249999716
+          },
+          "draws": 0,
+          "effective_win_rate": 0.546875,
+          "games": 128,
+          "losses": 58,
+          "normal_interval": {
+            "confidence": 0.95,
+            "engine": null,
+            "lower": 0.46313975489997794,
+            "method": "normal_approximation",
+            "resamples": null,
+            "resampling_unit": "paired_unit",
+            "sample_size": 64,
+            "seed": null,
+            "upper": 0.6306102451000221,
+            "width": 0.16747049020004412
+          },
+          "opponent": "strategic_rule_based@1.0.0",
+          "paired_unit_score_histogram": {
+            "0.0": 12,
+            "0.25": 0,
+            "0.5": 34,
+            "0.75": 0,
+            "1.0": 18
+          },
+          "paired_units": 64,
+          "plies": {
+            "games": 128,
+            "maximum": 719,
+            "mean": 302.15625,
+            "median": 298.0,
+            "minimum": 29,
+            "total": 38676
+          },
+          "policy_errors": 0,
+          "separated_from_even": false,
+          "setup_pair_stratification": {
+            "best_pairs": [
+              61,
+              56,
+              49,
+              45,
+              44
+            ],
+            "games_per_pair_maximum": 2,
+            "games_per_pair_minimum": 2,
+            "pair_effective_win_rate_maximum": 1.0,
+            "pair_effective_win_rate_mean": 0.546875,
+            "pair_effective_win_rate_median": 0.5,
+            "pair_effective_win_rate_minimum": 0.0,
+            "pairs_candidate_lost_outright": 12,
+            "pairs_candidate_won_outright": 18,
+            "setup_pairs": 64,
+            "worst_pairs": [
+              0,
+              4,
+              7,
+              11,
+              14
+            ]
+          },
+          "statistics_version": "evaluation_statistics_v1",
+          "terminal_reasons": {
+            "counts": {
+              "flag_capture": 123,
+              "opponent_no_legal_move": 5
+            },
+            "games": 128,
+            "shares": {
+              "flag_capture": 0.9609375,
+              "opponent_no_legal_move": 0.0390625
+            }
+          },
+          "wins": 70
+        }
+      },
+      "per_opponent": {
+        "basic_heuristic@1.0.0": {
+          "draws": 2,
+          "effective_win_rate": 0.265625,
+          "errors": 0,
+          "games": 128,
+          "losses": 93,
+          "wins": 33
+        },
+        "random_legal@1.0.0": {
+          "draws": 3,
+          "effective_win_rate": 0.02734375,
+          "errors": 0,
+          "games": 128,
+          "losses": 123,
+          "wins": 2
+        },
+        "strategic_rule_based@1.0.0": {
+          "draws": 5,
+          "effective_win_rate": 0.8059895833333334,
+          "errors": 0,
+          "games": 384,
+          "losses": 72,
+          "wins": 307
+        },
+        "stress_draw_seeker@1.0.0": {
+          "draws": 2,
+          "effective_win_rate": 0.0078125,
+          "errors": 0,
+          "games": 128,
+          "losses": 126,
+          "wins": 0
+        },
+        "tactical_rule_based@1.0.0": {
+          "draws": 2,
+          "effective_win_rate": 0.640625,
+          "errors": 0,
+          "games": 256,
+          "losses": 91,
+          "wins": 163
+        }
+      },
+      "plies": {
+        "games": 512,
+        "maximum": 1061,
+        "mean": 298.9609375,
+        "median": 271.5,
+        "minimum": 14,
+        "total": 153068
+      },
+      "policies": [
+        "basic_heuristic@1.0.0",
+        "random_legal@1.0.0",
+        "strategic_rule_based@1.0.0",
+        "stress_draw_seeker@1.0.0",
+        "tactical_rule_based@1.0.0"
+      ],
+      "policy_errors": 0,
+      "problems": [],
+      "statistics_version": "evaluation_statistics_v1",
+      "terminal_reasons": {
+        "counts": {
+          "battleless_move_limit_draw": 7,
+          "flag_capture": 442,
+          "opponent_no_legal_move": 63
+        },
+        "games": 512,
+        "shares": {
+          "battleless_move_limit_draw": 0.013671875,
+          "flag_capture": 0.86328125,
+          "opponent_no_legal_move": 0.123046875
+        }
+      }
+    }
+  },
+  "agent": "phase_4_agent_03_match_runner_statistics",
+  "artefacts": {
+    "digest_stable_without_histories": true,
+    "replays_jsonl": "reports/phase_4_data/agent_03_acceptance_replays.jsonl",
+    "replays_jsonl_bytes": 1161942,
+    "replays_written": 512,
+    "reproducibility_csv": "reports/phase_4_data/agent_03_reproducibility_raw.csv",
+    "reproducibility_csv_rows": 2560,
+    "results_csv": "reports/phase_4_data/agent_03_acceptance_results.csv",
+    "results_csv_bytes": 343193,
+    "sidecar_round_trip_ok": true
+  },
+  "bootstrap_method": "paired_unit_percentile_bootstrap",
+  "bootstrap_resamples_acceptance": 10000,
+  "bootstrap_seed": 20260403,
+  "environment": {
+    "cpu_count": 14,
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2"
+  },
+  "evaluation_suite_version": "phase4_evaluation_suite_v1",
+  "files_created": [
+    "stratego/evaluation/match_runner.py",
+    "stratego/evaluation/scheduler.py",
+    "stratego/evaluation/statistics.py",
+    "stratego/evaluation/reporting.py",
+    "tests/evaluation/test_match_runner.py",
+    "tests/evaluation/test_statistics.py",
+    "tests/evaluation/test_parallel_reproducibility.py",
+    "scripts/run_phase4_agent03.py",
+    "reports/phase_4_data/agent_03_match_runner_statistics.json",
+    "reports/phase_4_data/agent_03_reproducibility_raw.csv",
+    "reports/phase_4_data/agent_03_acceptance_results.csv",
+    "reports/phase_4_data/agent_03_acceptance_replays.jsonl"
+  ],
+  "files_modified": [
+    "stratego/evaluation/__init__.py",
+    "reports/phase_4_implementation_report.md"
+  ],
+  "frozen_contracts": {
+    "implementation_version": "phase2_1_reference_1.1.0",
+    "observation_version": "observation_v2_1_127ch",
+    "phase_3_backend_decision": "KEEP_PYTHON",
+    "rules_version": "stratego_project_v1"
+  },
+  "illegal_policy_actions": 0,
+  "league_method": "bradley_terry_mm_elo_scale",
+  "league_ranking": [
+    "tactical_rule_based@1.0.0",
+    "strategic_rule_based@1.0.0",
+    "basic_heuristic@1.0.0",
+    "random_legal@1.0.0",
+    "stress_draw_seeker@1.0.0"
+  ],
+  "league_ratings": {
+    "basic_heuristic@1.0.0": 1653.3534277098404,
+    "random_legal@1.0.0": 1198.0452040491643,
+    "strategic_rule_based@1.0.0": 1795.9852127211389,
+    "stress_draw_seeker@1.0.0": 1024.217642435483,
+    "tactical_rule_based@1.0.0": 1828.3985130843735
+  },
+  "match_result_schema_version": "match_result_v1",
+  "matches_run": 512,
+  "paired_units_run": 256,
+  "parallel_reproducibility_mismatches": 0,
+  "parallel_sweep": {
+    "distinct_results_digests": 1,
+    "mismatches": 0,
+    "problems": [],
+    "runs": [
+      {
+        "chunk_count": 1,
+        "illegal_policy_actions": 0,
+        "matches_per_second": 16.2437721495783,
+        "matches_run": 512,
+        "mismatches": 0,
+        "paired_units_run": 256,
+        "policy_errors": 0,
+        "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+        "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+        "speedup": 1.0,
+        "total_plies": 153068,
+        "wall_clock_seconds": 31.519772333995206,
+        "worker_count": 1
+      },
+      {
+        "chunk_count": 8,
+        "illegal_policy_actions": 0,
+        "matches_per_second": 30.228861858214657,
+        "matches_run": 512,
+        "mismatches": 0,
+        "paired_units_run": 256,
+        "policy_errors": 0,
+        "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+        "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+        "speedup": 1.8609508665756196,
+        "total_plies": 153068,
+        "wall_clock_seconds": 16.937455416002194,
+        "worker_count": 2
+      },
+      {
+        "chunk_count": 16,
+        "illegal_policy_actions": 0,
+        "matches_per_second": 58.57091123458739,
+        "matches_run": 512,
+        "mismatches": 0,
+        "paired_units_run": 256,
+        "policy_errors": 0,
+        "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+        "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+        "speedup": 3.6057456787281965,
+        "total_plies": 153068,
+        "wall_clock_seconds": 8.741540624992922,
+        "worker_count": 4
+      },
+      {
+        "chunk_count": 32,
+        "illegal_policy_actions": 0,
+        "matches_per_second": 105.57214742823336,
+        "matches_run": 512,
+        "mismatches": 0,
+        "paired_units_run": 256,
+        "policy_errors": 0,
+        "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+        "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+        "speedup": 6.499238382322057,
+        "total_plies": 153068,
+        "wall_clock_seconds": 4.849763999998686,
+        "worker_count": 8
+      }
+    ],
+    "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+    "schedule_fingerprint": "e15ad4cb59bc0735f41add694d8b5c31b2bc16ca88f4a5bd6bd5cc66973723d5",
+    "shuffled_run": {
+      "mismatches": 0,
+      "note": "recorded in the raw CSV with a negative worker_count",
+      "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+      "seed": 4242,
+      "worker_count": 4
+    },
+    "worker_counts": [
+      1,
+      2,
+      4,
+      8
+    ]
+  },
+  "policy_errors": 0,
+  "policy_failure_handling": {
+    "cases": [
+      {
+        "category": "illegal_action",
+        "expected_category": "illegal_action",
+        "ply": 0,
+        "policy": "acceptance_broken_illegal",
+        "quarantine_category": "illegal_action",
+        "quarantine_score": null,
+        "quarantine_terminal_reason": "policy_error",
+        "quarantined": true,
+        "raised": true,
+        "role": "candidate",
+        "statistics_refused_silent_error": true
+      },
+      {
+        "category": "policy_exception",
+        "expected_category": "policy_exception",
+        "ply": 0,
+        "policy": "acceptance_broken_exploding",
+        "quarantine_category": "policy_exception",
+        "quarantine_score": null,
+        "quarantine_terminal_reason": "policy_error",
+        "quarantined": true,
+        "raised": true,
+        "role": "candidate",
+        "statistics_refused_silent_error": true
+      },
+      {
+        "category": "contract_violation",
+        "expected_category": "contract_violation",
+        "ply": 0,
+        "policy": "acceptance_broken_seed",
+        "quarantine_category": "contract_violation",
+        "quarantine_score": null,
+        "quarantine_terminal_reason": "policy_error",
+        "quarantined": true,
+        "raised": true,
+        "role": "candidate",
+        "statistics_refused_silent_error": true
+      },
+      {
+        "category": "contract_violation",
+        "expected_category": "contract_violation",
+        "ply": 0,
+        "policy": "acceptance_broken_type",
+        "quarantine_category": "contract_violation",
+        "quarantine_score": null,
+        "quarantine_terminal_reason": "policy_error",
+        "quarantined": true,
+        "raised": true,
+        "role": "candidate",
+        "statistics_refused_silent_error": true
+      }
+    ],
+    "correctly_classified": 4,
+    "quarantined_without_score": 4,
+    "raised": 4,
+    "statistics_refusals": 4,
+    "substituted_legal_moves": 0
+  },
+  "policy_interface_version": "policy_interface_v1",
+  "prerequisites": {
+    "agent_01_status": "PASS",
+    "agent_02_status": "PASS",
+    "problems": [],
+    "setup_bank_digest_matches": true,
+    "setup_bank_digest_regenerated": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "setup_bank_digest_stored": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "setup_bank_pairs": 1024
+  },
+  "quick_mode": false,
+  "reporting_version": "evaluation_reporting_v1",
+  "rules_context": "evaluation",
+  "run_manifest": {
+    "reporting_version": "evaluation_reporting_v1",
+    "run": {
+      "chunk_count": 1,
+      "illegal_policy_actions": 0,
+      "match_result_schema_version": "match_result_v1",
+      "matches_run": 512,
+      "paired_units_run": 256,
+      "policy_errors": 0,
+      "results_digest": "dc824f4619b9d127014d5a4c77ce37911f193809919662303391900f42db74dc",
+      "runner_version": "match_runner_v1",
+      "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+      "total_plies": 153068,
+      "wall_clock_seconds": 31.513981041003717,
+      "worker_count": 1
+    },
+    "schedule": {
+      "match_count": 512,
+      "matchups": [
+        "basic_heuristic@1.0.0 vs tactical_rule_based@1.0.0",
+        "random_legal@1.0.0 vs strategic_rule_based@1.0.0",
+        "strategic_rule_based@1.0.0 vs stress_draw_seeker@1.0.0",
+        "tactical_rule_based@1.0.0 vs strategic_rule_based@1.0.0"
+      ],
+      "name": "agent_03_reproducibility_sweep",
+      "paired_unit_count": 256,
+      "pairing_modes": [
+        "color_swap_same_board"
+      ],
+      "policies": [
+        "basic_heuristic@1.0.0",
+        "random_legal@1.0.0",
+        "strategic_rule_based@1.0.0",
+        "stress_draw_seeker@1.0.0",
+        "tactical_rule_based@1.0.0"
+      ],
+      "rules": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+      "schedule_digest": "10658d5451eeffb6ed4d16f2bec983d27adfc773ec0e8f03c714127690ecde83",
+      "scheduler_version": "evaluation_scheduler_v1",
+      "setup_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+      "setup_bank_pairs": 1024,
+      "setup_bank_version": "evaluation_setup_bank_v1",
+      "setup_pair_count": 64,
+      "suite_version": "phase4_evaluation_suite_v1"
+    }
+  },
+  "runner_correctness": {
+    "checks": {
+      "engine_replay_problems": 0,
+      "engine_replays": 64,
+      "final_state_mismatches": 0,
+      "final_state_rebuilds": 64,
+      "paired_board_mismatches": 0,
+      "reproduced_identically": 64,
+      "reproduction_mismatches": 0,
+      "row_only_mismatches": 0,
+      "row_only_reproductions": 64,
+      "schema_incomplete": 0,
+      "serialisation_mismatches": 0
+    },
+    "matches": 64,
+    "paired_units": 32,
+    "plies": 19006,
+    "problem_count": 0,
+    "problems": [],
+    "required_result_fields": [
+      "match_id",
+      "paired_unit_id",
+      "candidate_policy_id",
+      "candidate_policy_version",
+      "opponent_policy_id",
+      "opponent_policy_version",
+      "candidate_color",
+      "setup_pair_id",
+      "replicate",
+      "root_seed",
+      "candidate_seed",
+      "opponent_seed",
+      "winner",
+      "draw",
+      "candidate_result",
+      "terminal_reason",
+      "plies",
+      "replay_digest",
+      "wall_clock_seconds",
+      "policy_error"
+    ]
+  },
+  "runner_version": "match_runner_v1",
+  "scheduler_version": "evaluation_scheduler_v1",
+  "setup_bank_version": "evaluation_setup_bank_v1",
+  "statistical_validation": {
+    "checks": [
+      {
+        "check": "all_wins_give_1.0",
+        "detail": "1.0",
+        "passed": true
+      },
+      {
+        "check": "all_wins_give_1.0_reports_wdl",
+        "detail": "64/0/0",
+        "passed": true
+      },
+      {
+        "check": "all_losses_give_0.0",
+        "detail": "0.0",
+        "passed": true
+      },
+      {
+        "check": "all_losses_give_0.0_reports_wdl",
+        "detail": "0/0/64",
+        "passed": true
+      },
+      {
+        "check": "all_draws_give_0.5",
+        "detail": "0.5",
+        "passed": true
+      },
+      {
+        "check": "all_draws_give_0.5_reports_wdl",
+        "detail": "0/64/0",
+        "passed": true
+      },
+      {
+        "check": "colour_split_gives_0.5",
+        "detail": "0.5",
+        "passed": true
+      },
+      {
+        "check": "colour_split_gives_0.5_reports_wdl",
+        "detail": "32/0/32",
+        "passed": true
+      },
+      {
+        "check": "mixed_outcomes",
+        "detail": "0.46875",
+        "passed": true
+      },
+      {
+        "check": "mixed_outcomes_reports_wdl",
+        "detail": "25/10/29",
+        "passed": true
+      },
+      {
+        "check": "paired_bootstrap_is_not_a_game_bootstrap",
+        "detail": "paired width 0.0000; game-level width 0.2500 against a normal-theory expectation of 0.2450",
+        "passed": true
+      },
+      {
+        "check": "same_seed_gives_an_identical_interval",
+        "detail": "[0.296875, 0.617188]",
+        "passed": true
+      },
+      {
+        "check": "different_seeds_move_the_interval",
+        "detail": "5 distinct",
+        "passed": true
+      },
+      {
+        "check": "the_interval_contains_the_point_estimate",
+        "detail": "0.4531",
+        "passed": true
+      },
+      {
+        "check": "more_units_narrow_the_interval",
+        "detail": "reference width 0.0000",
+        "passed": true
+      },
+      {
+        "check": "colour_split_separates_red_from_blue",
+        "detail": "red 1.0, blue 0.0",
+        "passed": true
+      },
+      {
+        "check": "colour_split_records_first_player",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "a_clean_table_reports_no_problems",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "a_duplicate_row_is_detected",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "a_half_unit_is_detected",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "two_games_of_the_same_colour_are_detected",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "a_broken_table_cannot_be_summarised",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "aggregation_is_invariant_to_row_order",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "run_aggregation_is_invariant_to_row_order",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "the_unit_histogram_separates_sweeps_from_splits",
+        "detail": "{'0.0': 4, '0.25': 0, '0.5': 0, '0.75': 0, '1.0': 4}",
+        "passed": true
+      },
+      {
+        "check": "league_ratings_recover_the_true_order",
+        "detail": "('a@1', 'b@1', 'c@1')",
+        "passed": true
+      },
+      {
+        "check": "league_ratings_are_deterministic",
+        "detail": "",
+        "passed": true
+      },
+      {
+        "check": "equal_policies_receive_equal_ratings",
+        "detail": "1500.000 vs 1500.000",
+        "passed": true
+      },
+      {
+        "check": "the_prior_keeps_an_undefeated_policy_finite",
+        "detail": "{'a@1': 1803.7027879755774, 'b@1': 1196.2972120244226}",
+        "passed": true
+      },
+      {
+        "check": "invalid_inputs_are_rejected",
+        "detail": "6/6",
+        "passed": true
+      }
+    ],
+    "failed": 0,
+    "passed": 30,
+    "resamples": 2000,
+    "total": 30
+  },
+  "statistics_unit_tests": 30,
+  "statistics_unit_tests_failed": 0,
+  "statistics_unit_tests_passed": 30,
+  "statistics_version": "evaluation_statistics_v1",
+  "status": "PASS",
+  "status_checks": {
+    "digest_survives_dropping_histories": true,
+    "exact_reproduction_works": true,
+    "no_policy_errors_in_the_sweep": true,
+    "no_substituted_legal_moves": true,
+    "one_results_digest_across_worker_counts": true,
+    "paired_units_share_a_board": true,
+    "parallel_results_identical": true,
+    "policy_failures_are_classified": true,
+    "policy_failures_are_loud": true,
+    "prerequisites_pass": true,
+    "raw_result_schema_complete": true,
+    "replay_records_rebuild_the_final_state": true,
+    "replay_sidecar_round_trips": true,
+    "row_only_reproduction_works": true,
+    "statistics_checks_pass": true,
+    "statistics_refuse_silent_errors": true,
+    "stored_rows_replay_through_the_engine": true,
+    "tests_green": true,
+    "worker_counts_tested": true
+  },
+  "test_failed": 0,
+  "test_passed": 1931,
+  "test_total": 1933,
+  "tests": {
+    "errors": 0,
+    "exit_code": 0,
+    "expected_failures": 0,
+    "failed": 0,
+    "failure_lines": [],
+    "passed": 1931,
+    "seconds": 62.98018275000504,
+    "skipped": 2,
+    "total": 1933
+  },
+  "total_matches_played": 2760,
+  "total_seconds": 147.15734912500193,
+  "worker_counts_tested": [
+    1,
+    2,
+    4,
+    8
+  ]
+}

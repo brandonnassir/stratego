@@ -10,38 +10,39 @@ The Python reference engine is the behavioral source of truth. Any later optimiz
 
 ### Current acceptance status
 
-The project has passed both the reference-engine correctness gate and the Phase 3 production-training readiness gate.
+The project has passed both engine-readiness layers.
 
-Frozen reference:
+#### Reference-engine correctness gate — PASSED in Phase 2.1
+
+Frozen:
 
 - `phase2_1_reference_1.1.0`;
 - `stratego_project_v1`;
 - `observation_v2_1_127ch`;
 - 10,000-entry source-destination action encoding.
 
-Phase 2.1 evidence:
+#### Production-training readiness gate — PASSED in Phase 3
 
-- 1,255 automated tests passed at the freeze;
-- 120 combat cases, 0 failures;
-- 1,804 mirrored position pairs / 3,608 observation comparisons, 0 mismatches;
-- 103,625 valid hidden-information permutations, 0 public-information mismatches;
-- 10,000 deterministic replay games / 5,078,406 plies, 0 mismatches;
-- 600 snapshot/restore cases, 0 mismatches;
-- 1,045,111 invariant-checked transitions, 0 violations.
+Accepted Phase 3 evidence includes:
 
-Phase 3 production evidence:
+- 1,497 repository tests passing after integration;
+- 10,048 integrated end-to-end differential environment steps, 0 mismatches;
+- 11,251 stored decisions reconstructed in the integrated gate, 0 mismatches;
+- 2-hour continuous soak;
+- 63,871,488 soak positions;
+- 411,818 soak-time reconstructed decisions, 0 mismatches;
+- zero deadlock;
+- zero worker errors/restarts;
+- zero swap usage;
+- zero measured coordinator-memory growth;
+- measured `R = 6.50`;
+- production backend decision: **KEEP_PYTHON**.
 
-- repository suite reached 1,497 passing tests;
-- 10,048 integrated end-to-end environment-step comparisons, 0 mismatches;
-- 11,251 integrated stored-decision reconstructions, 0 mismatches;
-- two-hour soak: 63,871,488 positions, 123,718 games, 0 errors/restarts;
-- 411,818 reconstruction checks during the soak, 0 mismatches;
-- 0 bytes swap at start/end;
-- 0 unexplained coordinator memory growth;
-- first-to-last-quarter throughput drift: -0.76%;
-- backend decision: `KEEP_PYTHON`, measured \(R=6.50\).
+Agent 6 / optimized-backend implementation is not required.
 
-Agent 6 / a separate optimized backend was not triggered.
+#### Evaluation-harness readiness gate — PASSED in Phase 4
+
+Phase 4 established a reproducible observer-safe evaluation system, including a 100,000-trial policy hidden-information audit, a 44,544-game calibration league, and exact cross-worker reproduction.
 
 ---
 
@@ -303,34 +304,23 @@ Across large numbers of randomly generated legal states verify invariants:
 
 ## 17. Long-run stability test — PASSED in Phase 3
 
-Run the integrated batch/shared-memory/Metal/trajectory pipeline continuously while monitoring:
-
-- memory growth;
-- state corruption;
-- exceptions;
-- impossible piece counts;
-- terminal-reason proportions;
-- throughput drift;
-- worker liveness;
-- swap usage;
-- trajectory reconstruction.
+The production multiprocess + shared-memory + Metal pipeline must run continuously for at least two hours while monitoring memory, swap, throughput, worker liveness, reconstruction correctness, and reset behavior.
 
 Accepted Phase 3 soak:
 
-- duration: 7,200.1 seconds;
-- positions: 63,871,488;
-- games completed/resets: 123,718;
-- workers alive: 10/10 throughout;
-- errors/restarts: 0/0;
-- reconstruction checks: 411,818;
-- reconstruction mismatches: 0;
-- coordinator memory growth: 0 bytes;
-- system swap: 0 -> 0 bytes;
-- first-vs-last-quarter throughput change: -0.76%.
+- 7,200.1 seconds;
+- 63,871,488 positions;
+- 123,718 games and resets;
+- 8,871 positions/second;
+- 0 bytes coordinator-memory growth;
+- 0 -> 0 bytes swap;
+- -0.76% first-vs-last-quarter throughput change;
+- 10/10 workers alive for all samples;
+- 0 errors/restarts;
+- 411,818 reconstructed decisions checked;
+- 0 reconstruction mismatches.
 
-Four terminal reasons occurred naturally at scale: Flag capture, battleless-limit draw, opponent-no-legal-move win, and both-no-legal-move draw. The absolute-move-limit draw did not occur naturally because the battleless limit ordinarily preempts it.
-
-**Gate status:** passed.
+**Status:** PASS.
 
 ---
 
@@ -357,73 +347,77 @@ Any mismatch blocks the optimized backend from training use.
 
 ---
 
-## 19. Performance gate before model integration — PASSED in Phase 3
+## 19. Performance gate before model integration — PASSED
 
-The accepted decision is based on measured end-to-end-relevant rates, not core-count extrapolation.
+Measured simulation numerator:
 
-Measured:
+- 96,963 positions/second.
 
-- simulation pipeline: 96,963 positions/s;
-- representative model sustainable rate used for denominator: 14,922 positions/s;
-- ratio: \(R=6.50\);
-- integrated finalist: 12,838 positions/s;
-- production-style collecting soak: 8,871 positions/s.
+Measured representative-model denominator:
 
-Decision rule:
+- 14,922 positions/second.
 
-- `R >= 2.0`: retain Python;
-- `1.25 <= R < 2.0`: retain Python initially, optimization optional;
-- `R < 1.25`: evaluate separate optimized backend.
+\[
+R =
+\frac{96{,}963}{14{,}922}
+=
+6.50.
+\]
 
-**Result:** `KEEP_PYTHON`.
+Decision:
 
-The end-to-end profile independently supports this result: Metal inference dominates the integrated step and workers have substantial idle headroom.
+```text
+KEEP_PYTHON
+```
 
-This decision must be re-measured for the final model architecture rather than assumed permanently.
+The integrated profile confirms that the system is model-bound. Agent 6 is not required.
 
 ---
 
 ## 20. Engine readiness gates
 
-### 20.1 Reference-engine correctness gate — PASSED in Phase 2.1
+### 20.1 Reference-engine correctness gate — PASSED
 
-The Python reference engine passed:
+`phase2_1_reference_1.1.0` remains frozen and authoritative.
 
-- rule unit tests;
-- exhaustive combat tests;
-- legal-action list/mask consistency;
-- observation and mirror equivalence;
-- hidden-information anti-leak tests;
-- 10,000-game deterministic replay;
-- snapshot/restore;
-- randomized invariant stress;
-- frozen rules/observation/action versions.
+### 20.2 Production-training readiness gate — PASSED
 
-Frozen implementation:
+Phase 3 established:
 
-- `phase2_1_reference_1.1.0`.
-
-### 20.2 Production-training readiness gate — PASSED in Phase 3
-
-The integrated simulator pipeline passed:
-
-- batched equivalence to the frozen engine;
-- independent reset/generation validation;
-- persistent shared-memory transport;
-- representative Metal model integration;
-- worker/environment/batch scaling;
+- batched equivalence to the frozen reference engine;
+- correct independent environment reset;
+- correct persistent shared-memory transport;
+- representative Metal inference benchmarks;
+- measured worker/environment/batch scaling;
 - exact compact trajectory reconstruction;
-- two-hour continuous soak;
-- memory/swap stability;
-- explicit backend-ratio measurement.
+- successful two-hour production soak;
+- no sustained swapping or unexplained memory growth;
+- `R = 6.50`;
+- backend decision `KEEP_PYTHON`.
 
-Backend decision:
+The Python simulator is approved for later model/training integration.
 
-- `KEEP_PYTHON`;
-- \(R=6.50\);
-- optimized backend not required.
+A materially different final model must re-measure the throughput relationship before assuming the same headroom.
 
-**Status:** production simulation infrastructure is accepted for subsequent project phases. The final model and training loop still require their own future validation gates.
+---
+
+## 20A. Sampler legality regression
+
+Phase 3 discovered a rare failure mode in the representative model's Gumbel-max sampler:
+
+- illegal logits were masked with `-inf`;
+- a boundary random value could create non-finite Gumbel noise;
+- combining that noise with a masked logit could yield `NaN`;
+- `argmax` could then select an illegal action.
+
+Permanent validation requirements:
+
+1. sampling noise used with masked logits must be finite;
+2. the coordinator must verify every sampled action against the legal mask;
+3. the engine must still reject any illegal action atomically;
+4. regression tests must cover the original boundary mechanism.
+
+A model-side sampler bug must never silently corrupt engine state.
 
 ---
 
@@ -523,23 +517,109 @@ For each player perspective:
 - no privileged type, belief target, or opponent setup identity appears in browser payloads before legal revelation.
 
 A single unexplained hidden-information leak blocks model integration.
----
 
-## 22. Model action-sampling safety regression
 
-Any model/action sampler used with the frozen engine must satisfy:
+## 22. Phase 4 evaluation-harness validation — PASSED
 
-1. sampled action is in the exact engine-generated legal set;
-2. sampler intermediate values used for ranking/selection are finite where required;
-3. masking with `-inf` cannot combine with non-finite random noise to produce a `NaN` winner;
-4. uniform random draws passed through singular transforms are clamped/bounded away from singular endpoints;
-5. coordinator performs an explicit sampled-action legality check before worker application;
-6. illegal sampled action causes a loud correctness failure and no state mutation.
+Phase 4 adds a separate validation layer above the engine.
 
-### Phase 3 regression basis
+### 22.1 Policy information-security gate
 
-The representative Gumbel-max sampler originally allowed a boundary uniform draw to create non-finite Gumbel noise. Combined with an illegal action's `-inf` logit, this could create `NaN` before `argmax`.
+Accepted audit:
 
-The frozen engine caught the illegal action before mutation. The sampler was corrected and regression tests were added.
+- 100,000 valid hidden-state permutation trials;
+- 1,000,000 policy comparisons across all 10 catalogued policies;
+- 800,000 full score-vector comparisons for the 8 scoring policies;
+- 0 action mismatches;
+- 0 diagnostic mismatches;
+- 0 score-vector mismatches;
+- 0 `PublicView` mismatches;
+- 0 legal-action-list mismatches;
+- 100,000 positive-control trials with 0 failures.
 
-This validation requirement applies to future samplers even if they do not use Gumbel-max: model-side legality is never trusted over engine legality.
+The audit splits positions between random-walk states and states reached by baseline play and spans multiple game phases. A hidden-information audit is valid only when the privileged state actually changed; unchanged permutations do not count.
+
+This audit is a **standing regression**. Any newly registered evaluation policy must enter the policy catalogue and pass the same observer-information boundary before being trusted.
+
+### 22.2 Policy legality gate
+
+Final calibration league:
+
+- 44,544 games;
+- 22,272 paired units;
+- 45 matchups;
+- 0 illegal policy actions;
+- 0 policy errors.
+
+Policy failure must remain loud. No evaluator may substitute a legal move for a failed or illegal decision.
+
+### 22.3 Reproducibility gate
+
+A representative final subset was rerun:
+
+- serially;
+- with 2 workers;
+- with 4 workers;
+- with 8 workers;
+- with 4 workers and shuffled match order.
+
+All five runs produced:
+
+- 1 distinct results digest;
+- 1 distinct replay-digest set;
+- 0 field-level mismatches.
+
+Match identity must be assigned before worker dispatch and must never depend on worker index, schedule order, process identity, or wall-clock time.
+
+### 22.4 Statistical gate
+
+Primary metric:
+
+\[
+\mathrm{EWR}=\frac{W+0.5D}{N}.
+\]
+
+Headline uncertainty uses a 95% percentile bootstrap over the **paired evaluation unit**, not individual games.
+
+For important/citable comparisons, the Phase 4 operating recommendation is:
+
+- 256 paired units: screening only;
+- 1,024 paired units: important model-selection or citable comparison.
+
+Reason: policies are stochastic and policy seeds derive from match identity. At 256 paired units, behavior-identical policy versions could differ by several percentage points from seed realization alone; at 1,024 units the measured replica spread fell to about 0.011 or less.
+
+Bradley-Terry/Elo-like ratings are secondary ranking aids and must not replace the direct paired interval when deciding whether policies are statistically distinguishable.
+
+### 22.5 Strength-tier gate
+
+Accepted four-tier core ladder:
+
+```text
+strategic_rule_based@1.1.0
+    > tactical_rule_based@1.0.0
+    > basic_heuristic@1.0.0
+    > random_legal@1.0.0
+```
+
+All 6 cross-tier core comparisons separated in the correct direction.
+
+The direct Strategic-vs-Tactical result was:
+
+- Strategic effective win rate: 0.5354;
+- 95% paired interval: [0.5168, 0.5540];
+- 1,024 paired units.
+
+Tier assignment must use direct paired comparisons and direction. A scalar league rating alone is insufficient.
+
+### 22.6 Stress-policy gate
+
+All 6 stress policies were behaviorally distinct from the Strategic baseline on multiple measured metrics, including attack rate, piece-type usage, game length, draw rate, reveal behavior, and movement/piece entropy.
+
+Stress policies need not form a strength ladder. Their purpose is diagnostic coverage.
+
+### 22.7 Phase 4 gate
+
+```text
+Phase 4 = COMPLETE
+Evaluation harness ready for future checkpoints = YES
+```

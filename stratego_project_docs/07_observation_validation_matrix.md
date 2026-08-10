@@ -10,19 +10,15 @@ All tests apply first to the Python reference engine. Any optimized backend must
 
 ### Current status
 
-The frozen reference implementation `phase2_1_reference_1.1.0` passed the Phase 2.1 observation acceptance suite:
+The frozen Phase 2.1 observation suite remains passed.
 
-- 1,804 mirrored position pairs, zero mismatches across all 127 channels;
-- 103,625 valid hidden-information permutations, zero unexplained observation differences;
-- 10,000 complete replay games / 5,078,406 plies, zero observation mismatches.
+Phase 3 additionally validated transport and reconstruction under the production multiprocessing + shared-memory + Metal path:
 
-Phase 3 then passed the transport/reconstruction integration gate without changing the observation definition:
+- 10,048 integrated pipeline environment-step comparisons, zero observation mismatches;
+- 11,251 stored model-generated decisions reconstructed in the integrated gate, zero mismatches;
+- 411,818 soak-time reconstructed decisions, zero mismatches.
 
-- 10,048 end-to-end worker/shared-memory/model comparisons, zero observation/state mismatches;
-- 11,251 integrated trajectory reconstructions, zero mismatches;
-- 411,818 sampled soak reconstructions, zero mismatches.
-
-The observation representation remains frozen. A future optimized backend, if ever introduced, must still reproduce these tensors exactly.
+The observation remains frozen. No Phase 3 optimization or Phase 4 evaluation work changed its 127 channels or hidden-information semantics.
 
 ---
 
@@ -548,3 +544,36 @@ The observation representation is considered frozen for initial model developmen
 - no unresolved interpretation remains for any behavioral event.
 
 At that point, changing the observation requires a new version identifier rather than silently altering `observation_v2_1_127ch`.
+
+
+## 15. Phase 4 policy-boundary validation
+
+Phase 4 adds a policy-level privacy layer on top of the observation/public-view contracts.
+
+### 15.1 Public-view audit
+
+Across all 10 catalogued baseline/stress policies:
+
+- 100,000 valid hidden-state permutations;
+- 1,000,000 policy comparisons;
+- 0 action mismatches;
+- 0 diagnostic mismatches;
+- 800,000 scoring-policy move-vector comparisons with 0 mismatches;
+- 0 `PublicView` mismatches;
+- 0 legal-action-list mismatches;
+- 100,000 positive-control trials with 0 failures.
+
+This is not a replacement for the channel-by-channel observation anti-leak suite. It is an additional proof that the observer-safe products actually consumed by the Phase 4 rule policies do not vary with unresolved true opponent identity.
+
+### 15.2 Tensor-consuming checkpoint-shaped probe
+
+A non-neural checkpoint-shaped policy consumed the full `observation_v2_1_127ch` tensor plus legal-action mask through `policy_interface_v1` and completed its evaluation gauntlet with:
+
+- 0 illegal actions;
+- 0 reproduction mismatches.
+
+This validates integration shape and policy-boundary plumbing, not playing strength.
+
+### 15.3 Standing regression rule
+
+Any future policy that is added to the evaluation catalogue must enter the hidden-information audit. An uncatalogued policy is not covered by the standing Phase 4 security result.

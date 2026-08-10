@@ -1,0 +1,82 @@
+{
+  "action_mismatches": 0,
+  "calibration_version": "phase4_calibration_v1",
+  "chunk_count": 32,
+  "chunks_requested": 32,
+  "diagnostic_mismatches": 0,
+  "games_sampled": 12076,
+  "hidden_pieces_permuted": 3410571,
+  "leak_detector_failures": 0,
+  "legal_action_mismatches": 0,
+  "mismatch_detail": [],
+  "passed": true,
+  "plies": [
+    4,
+    8,
+    15,
+    24,
+    40,
+    60,
+    85,
+    115,
+    150,
+    200
+  ],
+  "policies_audited": [
+    "random_legal",
+    "basic_heuristic",
+    "tactical_rule_based",
+    "strategic_rule_based",
+    "stress_scout_rush",
+    "stress_miner_rush",
+    "stress_draw_seeker",
+    "stress_berserker",
+    "stress_information_miser",
+    "stress_chaos"
+  ],
+  "policy_comparisons": 1000000,
+  "positions_skipped_unchanged": 5,
+  "positive_control_failures": 0,
+  "positive_control_trials": 100000,
+  "problems": [],
+  "public_view_mismatches": 0,
+  "root_seed": 20260407,
+  "score_vector_comparisons": 800000,
+  "score_vector_mismatches": 0,
+  "sources": [
+    "random_walk",
+    "baseline_play"
+  ],
+  "target_trials": 100000,
+  "total_mismatches": 0,
+  "trials": 100000,
+  "trials_by_ply": {
+    "115": 8807,
+    "15": 11377,
+    "150": 8116,
+    "200": 7167,
+    "24": 11081,
+    "4": 11774,
+    "40": 10592,
+    "60": 10034,
+    "8": 11613,
+    "85": 9439
+  },
+  "trials_by_policy": {
+    "basic_heuristic": 100000,
+    "random_legal": 100000,
+    "strategic_rule_based": 100000,
+    "stress_berserker": 100000,
+    "stress_chaos": 100000,
+    "stress_draw_seeker": 100000,
+    "stress_information_miser": 100000,
+    "stress_miner_rush": 100000,
+    "stress_scout_rush": 100000,
+    "tactical_rule_based": 100000
+  },
+  "trials_by_source": {
+    "baseline_play": 50000,
+    "random_walk": 50000
+  },
+  "wall_clock_seconds": 120.15831341700687
+}

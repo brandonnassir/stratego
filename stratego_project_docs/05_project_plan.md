@@ -35,7 +35,7 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 - PyTorch for neural-network training;
 - Apple graphics processor through the supported PyTorch Metal backend;
 - readable Python reference game engine first;
-- frozen Python reference engine selected as the current production simulator after Phase 3 profiling; a separate optimized backend only if a later model changes the bottleneck;
+- optimized engine backend only if profiling shows it is needed;
 - browser-based interface;
 - browser training controls are allowed through a training-control service.
 
@@ -46,8 +46,9 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 | Phase 1 — rules/specification | **Complete** |
 | Phase 2 — Python reference engine | **Complete** |
 | Phase 2.1 — symmetry + terminal-precedence correction | **Complete** |
-| Phase 3 — high-throughput self-play architecture and backend decision | **Complete** |
-| Phase 4 — baseline opponents and evaluation harness | **Next** |
+| Phase 3 — high-throughput training architecture | **Complete** |
+| Phase 4 — baseline opponents and evaluation harness | **Complete** |
+| Phase 5 — integration confirmation of frozen state/action representation | **Next** |
 | Later phases | Planned |
 
 Frozen behavioral contracts:
@@ -55,19 +56,44 @@ Frozen behavioral contracts:
 - reference implementation: `phase2_1_reference_1.1.0`;
 - rules: `stratego_project_v1`;
 - observation: `observation_v2_1_127ch`;
-- action encoding: 10,000 source-destination identifiers;
-- replay/state semantics: frozen Phase 2.1 reference implementation.
+- action encoding: 10,000 source-destination identifiers.
 
-Phase 3 production decision:
+Phase 3 production result:
 
-- backend: `KEEP_PYTHON`;
-- measured \(R=6.50\);
-- Agent 6 / optimized backend: not required;
-- accepted initial integrated configuration: 10 workers, 1,536 environments, batch 1,536, float16 representative inference, dense legality, 32-ply snapshots;
-- two-hour collecting rate: 8,871 positions/s;
-- measured trajectory generation: approximately 5.59 GiB/hour.
+```text
+backend decision: KEEP_PYTHON
+R: 6.50
+Agent 6: not required
+```
 
-The representative Phase 3 Transformer is an untrained systems probe, not the final playing model.
+Phase 4 evaluation result:
+
+```text
+policy interface: policy_interface_v1
+match spec: match_spec_v1
+setup bank: evaluation_setup_bank_v1
+pairing: color_swap_same_board
+calibration: phase4_calibration_v1
+hidden-information audit: 100,000 trials / 0 mismatches
+final calibration league: 44,544 games / 0 illegal actions / 0 policy errors
+baseline strength tiers: 4
+```
+
+Calibrated ladder:
+
+1. `strategic_rule_based@1.1.0`;
+2. `tactical_rule_based@1.0.0`;
+3. `basic_heuristic@1.0.0`;
+4. `random_legal@1.0.0`.
+
+Evaluation operating recommendation:
+
+- 256 paired units for screening;
+- 1,024 paired units for important/citable comparisons;
+- 95% bootstrap confidence interval over `paired_unit_id`;
+- Bradley-Terry/Elo-like ratings are secondary only.
+
+Phase 3 measured collection settings remain benchmark starting points, not frozen final-training hyperparameters. Re-measure when the actual model architecture changes.
 
 ---
 
@@ -110,7 +136,7 @@ Game-engine interface
       +----------------------+
       |                      |
       v                      v
-Python reference engine   Optimized backend (future only if re-profiling justifies it)
+Python reference engine   Optimized backend (optional after profiling)
 ```
 
 The interface consumes stable records and service endpoints rather than model internals.
@@ -372,34 +398,45 @@ Use for:
 - current checkpoints;
 - hot training logs;
 - temporary batches/caches;
-- current evaluation outputs.
+- current evaluation outputs;
+- short-lived replay/reconstruction working sets.
 
 ### External 1 terabyte drive
 
 Use for:
 
 - archived checkpoints;
-- game/replay archives;
+- selected game/replay archives;
 - evaluation leagues;
 - long-term metrics;
-- packaged experiment snapshots.
+- packaged experiment snapshots;
+- sampled/diagnostic trajectories rather than an unbounded complete self-play archive.
 
 ### Trajectory storage principle
 
-Store compact setups + action histories + essential model outputs rather than full 127 by 10 by 10 observations for every move. Reconstruct observations when practical.
+Store compact setups + action histories + sparse behavior-policy probabilities + essential model outputs rather than full observation tensors.
 
-Phase 3 measured approximately **5.59 GiB/hour** of encoded trajectory at the representative collecting configuration. At the same rate for 168 hours, retaining everything would be about 939 GiB before other run artifacts.
+Phase 3 measured approximately **5.59 GiB/hour** of encoded trajectory at the accepted collecting configuration. At that rate, retaining every trajectory for all 168 hours would approach the capacity of the external drive before checkpoints, logs, evaluation artifacts, and filesystem overhead.
 
-Therefore the production training system should use:
+Therefore use a rolling/managed trajectory buffer:
 
-- a rolling trajectory/replay buffer sized to the training algorithm's consumption needs;
-- selective archival of evaluation games, diagnostic/unusual games, and representative training samples;
-- checkpoint/log storage independent from bulk trajectory retention;
-- explicit deletion/expiration policy for consumed bulk trajectories.
+```text
+self-play
+   -> rolling training buffer
+   -> consume/reconstruct selected positions for learning
+   -> retain selected diagnostic/evaluation/sample games
+   -> expire bulk trajectories no longer required
+```
 
-Do not plan to retain every generated self-play decision for the entire final run.
+The exact retention window is a later training-system decision.
 
----
+### Evaluation-game archival
+
+Phase 4 showed that evaluation replay histories are tiny compared with training trajectories. Agent 3 measured roughly 2-3 KB of action-history replay data per evaluation game, and Agent 4 estimated that retaining the final 44,544-game calibration league's histories would cost only on the order of 100 MB.
+
+The accepted Phase 4 calibration rows retain both setups and a replay digest, but the final league action histories were not archived. This does not invalidate Phase 4 because the games are reproducible from the frozen policy/setup/version records. However, the preferred long-term archival policy is to **retain complete action histories for accepted final evaluation leagues** whenever practical. If convenient, regenerate and archive the Phase 4 calibration histories later as a preservation improvement.
+
+This is consistent with the project preference to preserve most generated games on the external drive when storage permits, while still using managed retention for high-volume training trajectories.
 
 # 13. Collaborative development phases
 
@@ -438,66 +475,97 @@ Frozen implementation:
 
 **Gate:** passed.
 
-## Phase 3 — High-throughput self-play architecture and optimization decision — COMPLETE
+## Phase 3 — High-throughput training architecture and optimization decision — COMPLETE
 
-Implemented:
+Implemented and validated:
 
 1. bulk-synchronous collection;
 2. one Metal-owning coordinator plus multiple CPU simulation workers;
-3. persistent preallocated shared-memory transport;
+3. persistent shared-memory buffers;
 4. compact trajectories with periodic snapshots;
-5. representative PyTorch/Metal inference benchmark;
-6. integrated worker/model/trajectory pipeline;
-7. two-hour production-style soak.
+5. representative Metal model benchmark;
+6. integrated end-to-end benchmark;
+7. two-hour production soak.
 
-Accepted results:
+Accepted measurements:
 
-- standalone simulation pipeline: 96,963 positions/s;
-- representative model denominator: 14,922 positions/s;
-- measured \(R=6.50\);
-- backend decision: `KEEP_PYTHON`;
-- Agent 6 / optimized backend: not required;
-- integrated finalist without full recording: 12,838 positions/s;
-- trajectory-recording soak: 8,871 positions/s;
-- zero integrated correctness/reconstruction mismatches;
-- zero unexplained memory growth;
-- zero swap use.
+- no-model simulation pipeline: **96,963 positions/second**;
+- sustainable representative-model inference: **14,922 positions/second**;
+- `R = 6.50`;
+- collecting soak: **8,871 positions/second**;
+- zero soak swap;
+- zero measured coordinator-memory growth;
+- zero soak reconstruction mismatches;
+- accepted representative configuration: 10 workers, 1,536 environments, batch 1,536, float16, dense legality, 32-ply snapshots.
 
-Accepted initial configuration for similarly sized model-backed collection:
+Decision:
 
-- 10 workers;
-- 1,536 environments;
-- inference batch 1,536;
-- float16 representative inference;
-- dense legality;
-- snapshot interval 32.
-
-Important conclusions:
-
-- the current system is model/Metal-bound, not simulator-bound;
-- compact legality is slower end to end on the current dense-mask transport and is not the production default;
-- the final model must re-measure throughput and \(R\);
-- the Phase 3 representative model is not a strength/model-design decision.
+```text
+KEEP_PYTHON
+Agent 6 not required
+```
 
 **Gate:** passed.
 
-## Phase 4 — Baseline opponents and evaluation harness — NEXT
+## Phase 4 — Baseline opponents and evaluation harness — COMPLETE
 
-Build:
+Implemented and accepted:
 
-- random legal agent;
-- elementary heuristic agent;
-- stronger rule-based agent;
-- unusual/adversarial style agents;
-- checkpoint league runner;
-- balanced color/setup assignment;
-- reproducible match manifests and result summaries.
+- observer-safe `policy_interface_v1`;
+- deterministic `match_spec_v1`;
+- 1,024-pair `evaluation_setup_bank_v1` using the fixed `structured_v1` family;
+- `color_swap_same_board` paired evaluation;
+- 4-level calibrated baseline ladder;
+- 6 unusual/stress policies;
+- `match_runner_v1` and `match_result_v1`;
+- `evaluation_scheduler_v1`;
+- `evaluation_statistics_v1`;
+- `evaluation_reporting_v1`;
+- `phase4_calibration_v1`;
+- parallel evaluation reproducible across worker counts and shuffled scheduling;
+- checkpoint-shaped tensor-consuming policy compatibility.
 
-The Phase 3 representative model is not used as a training-strength baseline; it is an untrained systems probe.
+Final core ladder:
 
-**Gate:** reproducible balanced evaluation and self-play sanity checks suitable for later warm-start and self-play phases.
+```text
+Tier 1 — strategic_rule_based@1.1.0
+Tier 2 — tactical_rule_based@1.0.0
+Tier 3 — basic_heuristic@1.0.0
+Tier 4 — random_legal@1.0.0
+```
 
-## Phase 5 — Integration confirmation of frozen state/action representation
+Strategic 1.1.0 corrected the exposure heuristic to price publicly inferred vulnerability rather than material value. The policy version was bumped before final audit and calibration.
+
+Final information-security audit:
+
+- 100,000 valid hidden-state permutations;
+- 1,000,000 policy comparisons;
+- 0 action, diagnostic, score-vector, `PublicView`, or legal-action mismatches;
+- 100,000 positive controls, 0 failures.
+
+Final calibration league:
+
+- 44,544 games;
+- 22,272 paired units;
+- 45 matchups;
+- 0 illegal actions;
+- 0 policy errors.
+
+Direct Strategic-vs-Tactical result at 1,024 paired units:
+
+- Strategic EWR = 0.5354;
+- 95% paired interval = [0.5168, 0.5540].
+
+Evaluation sampling guidance established by Phase 4:
+
+- 256 paired units = screening;
+- 1,024 paired units = important/citable comparison.
+
+The paired unit is the resampling unit. Confidence intervals condition on the realized policy seeds; they do not measure all possible seed realizations. Seed-only replica variation was several percentage points at 256 units and <= 0.011 at 1,024 units.
+
+**Gate:** passed. The evaluation harness is ready to serve as the permanent ruler for future checkpoints.
+
+## Phase 5 — Integration confirmation of frozen state/action representation — NEXT
 
 The semantic freeze was completed early in Phase 2.1:
 
@@ -521,6 +589,8 @@ Measure:
 - batch-size scaling.
 
 **Gate:** choose final first-run model size based on throughput/quality tradeoff.
+
+Because Phase 3's `R = 6.50` used an untrained representative probe rather than the final architecture, Phase 6 must re-measure end-to-end inference throughput for candidate real models and confirm that the Python simulator still has sufficient headroom.
 
 ## Phase 7 — Setup generator
 
