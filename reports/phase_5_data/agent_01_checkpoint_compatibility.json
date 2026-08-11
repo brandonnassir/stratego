@@ -1,0 +1,176 @@
+{
+  "all_incompatibilities_rejected": true,
+  "checkpoint_bytes": 526910,
+  "checkpoint_file_digest": "268c0a27b20218be0cd6c10539b561916e238733954a953b8eea6812a1eb35de",
+  "checkpoint_format_version": 1,
+  "checkpoint_path": "checkpoints/integration_model_v1.pt",
+  "corrupted_files": {
+    "bare_state_dict_file": {
+      "error": "CheckpointCompatibilityError",
+      "rejected": true
+    },
+    "empty_file": {
+      "error": "CheckpointFormatError",
+      "rejected": true
+    },
+    "missing_file": {
+      "error": "CheckpointFormatError",
+      "rejected": true
+    },
+    "random_bytes_file": {
+      "error": "CheckpointFormatError",
+      "rejected": true
+    },
+    "truncated_file": {
+      "error": "CheckpointFormatError",
+      "rejected": true
+    }
+  },
+  "metadata": {
+    "action_encoding_version": "source_destination_10000_v1",
+    "checkpoint_file_digest": "268c0a27b20218be0cd6c10539b561916e238733954a953b8eea6812a1eb35de",
+    "checkpoint_format_version": 1,
+    "checkpoint_path": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v1.pt",
+    "creation_timestamp": "2026-08-11T12:39:35+00:00",
+    "has_ema_state": false,
+    "has_optimizer_state": false,
+    "has_training_metrics": true,
+    "loaded_device": "cpu",
+    "loaded_dtype": "torch.float32",
+    "model_architecture_id": "integration_model_v1",
+    "model_configuration": {
+      "belief_types": 12,
+      "feedforward_width": 256,
+      "input_features": 127,
+      "num_blocks": 2,
+      "num_heads": 4,
+      "num_tokens": 100,
+      "value_classes": 3,
+      "width": 64
+    },
+    "model_contract_version": "model_contract_v1",
+    "observation_version": "observation_v2_1_127ch",
+    "parameter_tensor_count": 39,
+    "policy_action_frame": "absolute_engine_squares",
+    "rules_version": "stratego_project_v1",
+    "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+    "training_iteration": 0,
+    "training_step": 0
+  },
+  "negative_cases": {
+    "incompatible_configuration": {
+      "error": "CheckpointCompatibilityError",
+      "message": "incompatible_configuration: weight 'position_embedding' has shape (1, 100, 64), the configuration implies (1, 100, 128)",
+      "rejected": true
+    },
+    "missing_creation_timestamp": {
+      "error": "CheckpointCompatibilityError",
+      "message": "missing_creation_timestamp: checkpoint is missing required metadata: creation_timestamp",
+      "rejected": true
+    },
+    "missing_model_configuration": {
+      "error": "CheckpointCompatibilityError",
+      "message": "missing_model_configuration: checkpoint is missing required metadata: model_configuration",
+      "rejected": true
+    },
+    "missing_rules_version": {
+      "error": "CheckpointCompatibilityError",
+      "message": "missing_rules_version: checkpoint is missing required metadata: rules_version",
+      "rejected": true
+    },
+    "missing_state_dict": {
+      "error": "CheckpointCompatibilityError",
+      "message": "missing_state_dict: checkpoint is missing required metadata: state_dict",
+      "rejected": true
+    },
+    "missing_weight": {
+      "error": "CheckpointCompatibilityError",
+      "message": "missing_weight: checkpoint is missing weights: belief_head.bias",
+      "rejected": true
+    },
+    "negative_training_step": {
+      "error": "CheckpointCompatibilityError",
+      "message": "negative_training_step: training_step must be a non-negative integer, got -1",
+      "rejected": true
+    },
+    "newer_format_version": {
+      "error": "CheckpointCompatibilityError",
+      "message": "newer_format_version: checkpoint format version 2 was written by newer code; this build understands up to 1. Refusing to guess at its semantics.",
+      "rejected": true
+    },
+    "superseded_observation": {
+      "error": "CheckpointCompatibilityError",
+      "message": "superseded_observation: checkpoint observation_version is 'observation_v2_127ch' but this build requires 'observation_v2_1_127ch'. The weights may load, but the",
+      "rejected": true
+    },
+    "unexpected_weight": {
+      "error": "CheckpointCompatibilityError",
+      "message": "unexpected_weight: checkpoint carries unexpected weights: ghost.weight",
+      "rejected": true
+    },
+    "unknown_configuration_field": {
+      "error": "CheckpointCompatibilityError",
+      "message": "unknown_configuration_field: model_configuration is not compatible with this build: unknown model configuration field(s): mystery",
+      "rejected": true
+    },
+    "unknown_field": {
+      "error": "CheckpointCompatibilityError",
+      "message": "unknown_field: checkpoint carries unknown field(s): mystery_field",
+      "rejected": true
+    },
+    "wrong_action_encoding": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_action_encoding: checkpoint action_encoding_version is 'source_destination_10000_v2' but this build requires 'source_destination_10000_v1'. The weights ma",
+      "rejected": true
+    },
+    "wrong_architecture": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_architecture: checkpoint model_architecture_id is 'ataraxos_full_v1' but this build requires 'integration_model_v1'. The weights may load, but they would ",
+      "rejected": true
+    },
+    "wrong_model_contract": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_model_contract: checkpoint model_contract_version is 'model_contract_v2' but this build requires 'model_contract_v1'. The weights may load, but they would",
+      "rejected": true
+    },
+    "wrong_policy_frame": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_policy_frame: checkpoint policy_action_frame is 'perspective_normalized_squares', this build uses 'absolute_engine_squares'; the 10,000 policy indices wou",
+      "rejected": true
+    },
+    "wrong_rules": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_rules: checkpoint rules_version is 'stratego_project_v2' but this build requires 'stratego_project_v1'. The weights may load, but they would be interprete",
+      "rejected": true
+    },
+    "wrong_weight_shape": {
+      "error": "CheckpointCompatibilityError",
+      "message": "wrong_weight_shape: weight 'belief_head.bias' has shape (5, 5), the configuration implies (12,)",
+      "rejected": true
+    },
+    "zero_format_version": {
+      "error": "CheckpointCompatibilityError",
+      "message": "zero_format_version: unknown checkpoint format version 0",
+      "rejected": true
+    }
+  },
+  "negative_cases_rejected": 19,
+  "negative_cases_total": 19,
+  "provenance": {
+    "initialisation_seed": 20250501,
+    "note": "integration_model_v1 is a Phase 5 integration fixture. It is untrained, its playing strength is meaningless, and it is not the final/production/Ataraxos model. Phase 6 selects the real architecture.",
+    "parameter_count": 128143,
+    "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+    "torch_version": "2.13.0"
+  },
+  "round_trip_all_identical": true,
+  "round_trip_identity": {
+    "belief_logits_bit_identical": true,
+    "greedy_action_identical": true,
+    "policy_logits_bit_identical": true,
+    "state_dict_digest_stable": true,
+    "value_logits_bit_identical": true
+  },
+  "schema_version": "phase_5_acceptance_v1",
+  "seconds": 0.02704274997813627
+}

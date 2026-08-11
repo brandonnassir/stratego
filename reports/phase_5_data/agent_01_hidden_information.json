@@ -1,0 +1,51 @@
+{
+  "deterministic_cpu_inference": true,
+  "hidden_pieces_permuted": {
+    "max": 40,
+    "mean": 32.044,
+    "min": 17
+  },
+  "hidden_types_unchanged": 0,
+  "mismatches": {
+    "belief_logits_mismatch": 0,
+    "diagnostics_mismatch": 0,
+    "greedy_action_mismatch": 0,
+    "legal_action_mismatch": 0,
+    "observation_mismatch": 0,
+    "policy_logits_mismatch": 0,
+    "value_logits_mismatch": 0
+  },
+  "permutation_seed": 90210,
+  "plies_sampled": [
+    15,
+    30,
+    55,
+    85,
+    125,
+    180,
+    240
+  ],
+  "ply_histogram": {
+    "125": 1420,
+    "15": 1440,
+    "180": 1420,
+    "240": 1420,
+    "30": 1440,
+    "55": 1440,
+    "85": 1420
+  },
+  "positive_control_failures": 0,
+  "positive_control_valid_on_every_trial": true,
+  "schema_version": "phase_5_acceptance_v1",
+  "seconds": 28.247192332986742,
+  "skipped": {
+    "invalid": 0,
+    "too_few_hidden_pieces": 0,
+    "unchanged": 0
+  },
+  "source_positions": 500,
+  "target_trials": 10000,
+  "total_mismatches": 0,
+  "trial_sources": "seeded random games, permute_hidden_identities per position",
+  "trials": 10000
+}

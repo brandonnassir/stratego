@@ -1,0 +1,27 @@
+{
+  "action_space_size": 10000,
+  "adapter_positions": 12,
+  "adapter_selection_mismatches": 0,
+  "adapter_selections_checked": 264,
+  "arithmetic_mismatches": 0,
+  "bijection_ok": true,
+  "distinct_square_pairs": 10000,
+  "engine_illegal_guard_inert": true,
+  "engine_illegal_guard_raised": true,
+  "move_families_covered": [
+    "attack",
+    "lateral",
+    "long_scout",
+    "quiet",
+    "single_step",
+    "vertical"
+  ],
+  "policy_action_frame": "absolute_engine_squares",
+  "round_trip_actions_checked": 10000,
+  "round_trip_mismatches": 0,
+  "schema_version": "phase_5_acceptance_v1",
+  "seconds": 0.05794920798507519,
+  "tokenization_inverse_exact": true,
+  "tokenization_mismatches": 0,
+  "tokenization_positions_checked": 200
+}

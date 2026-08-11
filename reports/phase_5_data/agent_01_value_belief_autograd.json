@@ -1,0 +1,94 @@
+{
+  "acting_player_perspective_mismatches": 0,
+  "acting_player_perspective_pairs": 2,
+  "autograd": {
+    "all_losses_finite": true,
+    "backward_passes": 1,
+    "gradient_groups": {
+      "belief_head": {
+        "all_nonzero": true,
+        "max_gradient_norm": 2.66390276,
+        "tensors": 2
+      },
+      "policy_head": {
+        "all_nonzero": true,
+        "max_gradient_norm": 0.55941039,
+        "tensors": 4
+      },
+      "shared_encoder": {
+        "all_nonzero": true,
+        "max_gradient_norm": 6.43914366,
+        "tensors": 29
+      },
+      "value_head": {
+        "all_nonzero": true,
+        "max_gradient_norm": 0.49800089,
+        "tensors": 4
+      }
+    },
+    "losses": {
+      "belief": 2.866166830062866,
+      "belief_weight": 1.0,
+      "policy": 2.6477339267730713,
+      "total": 6.636538028717041,
+      "value": 1.1226372718811035,
+      "value_weight": 1.0
+    },
+    "non_finite_gradients": [],
+    "optimizer_steps": 0,
+    "parameters_without_gradient": []
+  },
+  "belief": {
+    "excluded_squares_mean": 67.625,
+    "exclusion_violations": {
+      "empty_squares": 0,
+      "label_mask_disagreements": 0,
+      "lakes": 0,
+      "own_pieces": 0,
+      "revealed_opponent_pieces": 0,
+      "sparse_target_disagreements": 0
+    },
+    "exclusions_all_clean": true,
+    "logits_shape": [
+      100,
+      12
+    ],
+    "positions_sampled": 8,
+    "supervised_squares_max": 40,
+    "supervised_squares_mean": 32.375,
+    "supervised_squares_min": 24,
+    "target_contract": {
+      "belief_target_version": "dense_belief_target_v1",
+      "excluded_squares": [
+        "own pieces",
+        "legally revealed opponent pieces",
+        "empty squares",
+        "lakes",
+        "captured pieces"
+      ],
+      "ignore_index": -100,
+      "labels_shape": [
+        100
+      ],
+      "privileged": true,
+      "reachable_from_model_input": false,
+      "square_frame": "perspective_normalized_squares",
+      "supervised_squares": "live opponent pieces whose type the observer cannot legally know",
+      "type_count": 12
+    }
+  },
+  "schema_version": "phase_5_acceptance_v1",
+  "seconds": 0.06040662500890903,
+  "value": {
+    "class_order": [
+      "WIN",
+      "DRAW",
+      "LOSS"
+    ],
+    "draw_row_expected_value": 0.0,
+    "expected_value_matches_win_minus_loss": true,
+    "loss_row_expected_value": -0.997515,
+    "probabilities_sum_to_one": true,
+    "win_row_expected_value": 0.997515
+  }
+}

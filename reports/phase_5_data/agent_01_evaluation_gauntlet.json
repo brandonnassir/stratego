@@ -1,0 +1,355 @@
+{
+  "all_clean": true,
+  "baselines": [
+    "random_legal",
+    "basic_heuristic",
+    "tactical_rule_based",
+    "strategic_rule_based"
+  ],
+  "modes": {
+    "greedy": {
+      "checkpoint_identity": {
+        "action_encoding_version": "source_destination_10000_v1",
+        "checkpoint_file_digest": "268c0a27b20218be0cd6c10539b561916e238733954a953b8eea6812a1eb35de",
+        "checkpoint_path": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v1.pt",
+        "creation_timestamp": "2026-08-11T12:39:35+00:00",
+        "model_contract_version": "model_contract_v1",
+        "observation_version": "observation_v2_1_127ch",
+        "rules_version": "stratego_project_v1",
+        "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+        "training_iteration": 0,
+        "training_step": 0
+      },
+      "colour_swap_correct": true,
+      "illegal_actions": 0,
+      "matches": 512,
+      "paired_units": 256,
+      "per_opponent": {
+        "basic_heuristic": {
+          "draws": 16,
+          "effective_win_rate": 0.1094,
+          "illegal_actions": 0,
+          "losses": 106,
+          "matches": 128,
+          "mean_plies": 370.6953125,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "b30bab99c861f1a0d7b8b777d8b8861214e3151d69d9266d1f4dd58443f4292e",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 16,
+              "flag_capture": 103,
+              "opponent_no_legal_move": 9
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.125,
+              "flag_capture": 0.8046875,
+              "opponent_no_legal_move": 0.0703125
+            }
+          },
+          "wall_clock_seconds": 25.104,
+          "wins": 6
+        },
+        "random_legal": {
+          "draws": 108,
+          "effective_win_rate": 0.4844,
+          "illegal_actions": 0,
+          "losses": 12,
+          "matches": 128,
+          "mean_plies": 1336.953125,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "9690b95f7cc3098b4b5cb733131f3356b1e249e8b8d0b63a09cb6ddce051c00c",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 108,
+              "flag_capture": 12,
+              "opponent_no_legal_move": 8
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.84375,
+              "flag_capture": 0.09375,
+              "opponent_no_legal_move": 0.0625
+            }
+          },
+          "wall_clock_seconds": 73.873,
+          "wins": 8
+        },
+        "strategic_rule_based": {
+          "draws": 30,
+          "effective_win_rate": 0.125,
+          "illegal_actions": 0,
+          "losses": 97,
+          "matches": 128,
+          "mean_plies": 400.7265625,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "d526c6bb5ded699f18ee79276f54151a76eb6bcf9b266c42aecc6885ba1e9acb",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 30,
+              "flag_capture": 96,
+              "opponent_no_legal_move": 2
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.234375,
+              "flag_capture": 0.75,
+              "opponent_no_legal_move": 0.015625
+            }
+          },
+          "wall_clock_seconds": 28.465,
+          "wins": 1
+        },
+        "tactical_rule_based": {
+          "draws": 32,
+          "effective_win_rate": 0.125,
+          "illegal_actions": 0,
+          "losses": 96,
+          "matches": 128,
+          "mean_plies": 373.171875,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "7267c50bc90215fb2db42d93f1b9e3ad2b917d5a19c1eeb064d67bf0e845bd27",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 32,
+              "flag_capture": 92,
+              "opponent_no_legal_move": 4
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.25,
+              "flag_capture": 0.71875,
+              "opponent_no_legal_move": 0.03125
+            }
+          },
+          "wall_clock_seconds": 25.892,
+          "wins": 0
+        }
+      },
+      "policy_errors": 0,
+      "policy_id": "integration_model_v1_greedy",
+      "policy_version": "0.1.0",
+      "replay_problems": [],
+      "replayed_rows": 32,
+      "rerun_differences": [],
+      "rerun_digest": "203d1608ded44b0bf404bf4f39b2dfbdf11172886ae172c3f4c4a1280306ae27",
+      "rerun_identical": true,
+      "results_digest": "203d1608ded44b0bf404bf4f39b2dfbdf11172886ae172c3f4c4a1280306ae27",
+      "row_only_reproduction_problems": [],
+      "stochastic": false
+    },
+    "seeded_categorical": {
+      "checkpoint_identity": {
+        "action_encoding_version": "source_destination_10000_v1",
+        "checkpoint_file_digest": "268c0a27b20218be0cd6c10539b561916e238733954a953b8eea6812a1eb35de",
+        "checkpoint_path": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v1.pt",
+        "creation_timestamp": "2026-08-11T12:39:35+00:00",
+        "model_contract_version": "model_contract_v1",
+        "observation_version": "observation_v2_1_127ch",
+        "rules_version": "stratego_project_v1",
+        "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+        "training_iteration": 0,
+        "training_step": 0
+      },
+      "colour_swap_correct": true,
+      "illegal_actions": 0,
+      "matches": 512,
+      "paired_units": 256,
+      "per_opponent": {
+        "basic_heuristic": {
+          "draws": 3,
+          "effective_win_rate": 0.1211,
+          "illegal_actions": 0,
+          "losses": 111,
+          "matches": 128,
+          "mean_plies": 333.640625,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "b6ca35ad6593aeeff2b81e5aa10787d58db0193a841b9eb8cf8f32fe70f1d74a",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 3,
+              "flag_capture": 94,
+              "opponent_no_legal_move": 31
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.0234375,
+              "flag_capture": 0.734375,
+              "opponent_no_legal_move": 0.2421875
+            }
+          },
+          "wall_clock_seconds": 22.757,
+          "wins": 14
+        },
+        "random_legal": {
+          "draws": 42,
+          "effective_win_rate": 0.4219,
+          "illegal_actions": 0,
+          "losses": 53,
+          "matches": 128,
+          "mean_plies": 1312.40625,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "6c769b2c4a403455da2435c0cc233adc611a09d0c7ea8b05822111acb08e692f",
+          "terminal_reasons": {
+            "counts": {
+              "battleless_move_limit_draw": 41,
+              "both_no_legal_move_draw": 1,
+              "flag_capture": 20,
+              "opponent_no_legal_move": 66
+            },
+            "games": 128,
+            "shares": {
+              "battleless_move_limit_draw": 0.3203125,
+              "both_no_legal_move_draw": 0.0078125,
+              "flag_capture": 0.15625,
+              "opponent_no_legal_move": 0.515625
+            }
+          },
+          "wall_clock_seconds": 72.777,
+          "wins": 33
+        },
+        "strategic_rule_based": {
+          "draws": 0,
+          "effective_win_rate": 0.0156,
+          "illegal_actions": 0,
+          "losses": 126,
+          "matches": 128,
+          "mean_plies": 293.78125,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "6eb356a18e025afb083c029e6657b9baab4ac274b8ddba35e4b117839cbb102a",
+          "terminal_reasons": {
+            "counts": {
+              "flag_capture": 125,
+              "opponent_no_legal_move": 3
+            },
+            "games": 128,
+            "shares": {
+              "flag_capture": 0.9765625,
+              "opponent_no_legal_move": 0.0234375
+            }
+          },
+          "wall_clock_seconds": 21.337,
+          "wins": 2
+        },
+        "tactical_rule_based": {
+          "draws": 0,
+          "effective_win_rate": 0.0312,
+          "illegal_actions": 0,
+          "losses": 124,
+          "matches": 128,
+          "mean_plies": 296.390625,
+          "paired_units": 64,
+          "policy_errors": 0,
+          "results_digest": "a78a2d58c3d77d6941131ab3a0c327d2bc9e0d3b642507e01750124359c44a99",
+          "terminal_reasons": {
+            "counts": {
+              "flag_capture": 116,
+              "opponent_no_legal_move": 12
+            },
+            "games": 128,
+            "shares": {
+              "flag_capture": 0.90625,
+              "opponent_no_legal_move": 0.09375
+            }
+          },
+          "wall_clock_seconds": 20.995,
+          "wins": 4
+        }
+      },
+      "policy_errors": 0,
+      "policy_id": "integration_model_v1_sampled",
+      "policy_version": "0.1.0",
+      "replay_problems": [],
+      "replayed_rows": 32,
+      "rerun_differences": [],
+      "rerun_digest": "9a8351da7f75a3cfb39cfb790f65eaa94f4ebf8d1310af11ecbaa8a955a4dacb",
+      "rerun_identical": true,
+      "results_digest": "9a8351da7f75a3cfb39cfb790f65eaa94f4ebf8d1310af11ecbaa8a955a4dacb",
+      "row_only_reproduction_problems": [],
+      "stochastic": true
+    }
+  },
+  "paired_units_per_matchup": 64,
+  "pairing_mode": "color_swap_same_board",
+  "schema_version": "phase_5_acceptance_v1",
+  "seconds": 601.0708711670013,
+  "setup_bank_version": "evaluation_setup_bank_v1",
+  "setup_pair_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    44,
+    45,
+    46,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62,
+    63
+  ],
+  "suite_version": "phase4_evaluation_suite_v1",
+  "total_matches": 1024,
+  "total_plies": 603874,
+  "worker_count": 1,
+  "worker_count_note": "serial by design: run_schedule rebuilds policies from the Phase 4 catalogue inside worker processes, and the neural policy is deliberately not in that catalogue"
+}
