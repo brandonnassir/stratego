@@ -278,6 +278,28 @@ def test_the_same_seed_gives_the_same_sample_and_different_seeds_spread():
     assert spread <= set(legal)
 
 
+@pytest.mark.skipif(
+    not torch.backends.mps.is_available(), reason="Metal is not available on this machine"
+)
+def test_the_sampler_runs_on_metal_logits():
+    """Regression, Phase 6 Agent 5.
+
+    The cumulative sum is walked in float64 for exactness, and Metal has no
+    float64 dtype, so `.to(torch.float64)` on an MPS tensor raises `TypeError`.
+    Phase 5 only ever sampled from a CPU model, so the seeded-categorical policy
+    could not run on the device it was meant to run on. The widening now names
+    the CPU explicitly; this test is what stops it from drifting back.
+    """
+    legal = list(range(0, 1000, 3))
+    logits = torch.randn(ACTION_SPACE_SIZE, generator=torch.Generator().manual_seed(11))
+    on_metal = logits.to("mps")
+    action, probabilities = categorical_action(on_metal, legal, random.Random(99))
+    assert action in legal
+    assert abs(sum(probabilities) - 1.0) < 1e-9
+    # Same weights, same seed, same draw: the device must not change the choice.
+    assert action == categorical_action(logits, legal, random.Random(99))[0]
+
+
 # ---------------------------------------------------------------------------
 # The engine remains the final authority
 # ---------------------------------------------------------------------------

@@ -1,0 +1,173 @@
+{
+ "agent": "agent_04",
+ "benchmark_version": "agent_04_integrated_pipeline_0.1.0",
+ "captured_batch": {
+  "blue_rows": 775,
+  "capture_note": "half the rows from one global step and half from the next, interleaved, so the acting-colour mix matches the average a bulk-synchronous run pays",
+  "mean_legal_actions": 12.004557291666666,
+  "red_rows": 761,
+  "rows": 1536
+ },
+ "chain": [
+  "engine publishes absolute legal product",
+  "coordinator permutes it into normalized model legality on the device",
+  "candidate forward pass in the normalized frame",
+  "masked categorical selection over normalized identifiers",
+  "inverse perspective conversion to an absolute engine action",
+  "coordinator re-checks the action against the published absolute mask",
+  "worker applies the action through the frozen engine",
+  "an independently rebuilt reference game validates the whole step"
+ ],
+ "finiteness_probe": {
+  "C0": {
+   "all_finite": true,
+   "candidate_id": "C0",
+   "logits_checked": 5735936,
+   "nonfinite_by_head": {
+    "belief": 0,
+    "policy": 0,
+    "value": 0
+   },
+   "nonfinite_outputs": 0,
+   "precision": "float16",
+   "rows_checked": 512
+  },
+  "C1": {
+   "all_finite": true,
+   "candidate_id": "C1",
+   "logits_checked": 5735936,
+   "nonfinite_by_head": {
+    "belief": 0,
+    "policy": 0,
+    "value": 0
+   },
+   "nonfinite_outputs": 0,
+   "precision": "float16",
+   "rows_checked": 512
+  },
+  "C2": {
+   "all_finite": true,
+   "candidate_id": "C2",
+   "logits_checked": 5735936,
+   "nonfinite_by_head": {
+    "belief": 0,
+    "policy": 0,
+    "value": 0
+   },
+   "nonfinite_outputs": 0,
+   "precision": "float16",
+   "rows_checked": 512
+  },
+  "C3": {
+   "all_finite": true,
+   "candidate_id": "C3",
+   "logits_checked": 5735936,
+   "nonfinite_by_head": {
+    "belief": 0,
+    "policy": 0,
+    "value": 0
+   },
+   "nonfinite_outputs": 0,
+   "precision": "float16",
+   "rows_checked": 512
+  }
+ },
+ "gates": {
+  "C0": {
+   "action_frame_mismatches": 0,
+   "blue_decisions": 384,
+   "both_colors_exercised": true,
+   "elapsed_seconds": 2.315,
+   "environment_steps": 6016,
+   "games_completed": 11,
+   "global_steps": 94,
+   "illegal_selections": 0,
+   "mismatch_details": [],
+   "model_errors": 0,
+   "nonfinite_outputs": 0,
+   "normalized_legal_list_comparisons": 752,
+   "normalized_mask_comparisons": 752,
+   "red_decisions": 368,
+   "resets_observed": 11,
+   "round_trip_checks": 752,
+   "rows_checked": 752,
+   "state_replay_mismatches": 0,
+   "terminal_reason_counts": {
+    "flag_capture": 11
+   },
+   "total_mismatches": 0
+  },
+  "C1": {
+   "action_frame_mismatches": 0,
+   "blue_decisions": 392,
+   "both_colors_exercised": true,
+   "elapsed_seconds": 2.34,
+   "environment_steps": 6016,
+   "games_completed": 13,
+   "global_steps": 94,
+   "illegal_selections": 0,
+   "mismatch_details": [],
+   "model_errors": 0,
+   "nonfinite_outputs": 0,
+   "normalized_legal_list_comparisons": 752,
+   "normalized_mask_comparisons": 752,
+   "red_decisions": 360,
+   "resets_observed": 13,
+   "round_trip_checks": 752,
+   "rows_checked": 752,
+   "state_replay_mismatches": 0,
+   "terminal_reason_counts": {
+    "flag_capture": 13
+   },
+   "total_mismatches": 0
+  },
+  "C2": {
+   "action_frame_mismatches": 0,
+   "blue_decisions": 382,
+   "both_colors_exercised": true,
+   "elapsed_seconds": 2.871,
+   "environment_steps": 6016,
+   "games_completed": 13,
+   "global_steps": 94,
+   "illegal_selections": 0,
+   "mismatch_details": [],
+   "model_errors": 0,
+   "nonfinite_outputs": 0,
+   "normalized_legal_list_comparisons": 752,
+   "normalized_mask_comparisons": 752,
+   "red_decisions": 370,
+   "resets_observed": 13,
+   "round_trip_checks": 752,
+   "rows_checked": 752,
+   "state_replay_mismatches": 0,
+   "terminal_reason_counts": {
+    "flag_capture": 13
+   },
+   "total_mismatches": 0
+  },
+  "C3": {
+   "action_frame_mismatches": 0,
+   "blue_decisions": 395,
+   "both_colors_exercised": true,
+   "elapsed_seconds": 2.918,
+   "environment_steps": 6016,
+   "games_completed": 15,
+   "global_steps": 94,
+   "illegal_selections": 0,
+   "mismatch_details": [],
+   "model_errors": 0,
+   "nonfinite_outputs": 0,
+   "normalized_legal_list_comparisons": 752,
+   "normalized_mask_comparisons": 752,
+   "red_decisions": 357,
+   "resets_observed": 15,
+   "round_trip_checks": 752,
+   "rows_checked": 752,
+   "state_replay_mismatches": 0,
+   "terminal_reason_counts": {
+    "flag_capture": 15
+   },
+   "total_mismatches": 0
+  }
+ }
+}

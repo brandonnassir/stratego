@@ -33,20 +33,30 @@ value logits    ``(B, 3)``             WIN, DRAW, LOSS for the acting player
 belief logits   ``(B, 100, 12)``       per-square opponent piece-type logits
 ==============  =====================  ==============================================
 
-Two frames meet here, on purpose
---------------------------------
+One model frame, one engine frame
+---------------------------------
 The observation is **perspective-normalized** (blue's board is rotated 180
-degrees, see `06_observation_v2_127ch.md` section 3), while the action space is
-in **absolute engine squares** (`actions.py`). Phase 5 keeps the literal reading
-of the instruction: policy logit ``a`` is the engine move ``decode_action(a)``,
-with no remapping anywhere in the adapter, so the engine's legality mask applies
-to the logits with zero transformation. The consequence is that a single network
-playing blue reads a normalized board and must emit absolute-frame actions.
-That asymmetry is recorded as :data:`POLICY_ACTION_FRAME` and flagged for Phase
-6 rather than silently resolved here; the engine already ships
-:func:`stratego.engine.actions.action_to_perspective` if Phase 6 chooses the
-other convention, which would require a new
-:data:`MODEL_CONTRACT_VERSION`.
+degrees, see `06_observation_v2_127ch.md` section 3). Under
+`model_contract_v1` the action space was not: policy logit ``a`` was the engine
+move ``decode_action(a)`` in absolute squares, so a single network playing blue
+read a rotated board and had to emit unrotated actions, and every strategic
+concept had to be learned once per colour.
+
+`model_contract_v2` puts the policy head in the *same* frame as the tokens.
+:data:`TOKEN_SQUARE_FRAME` and :data:`POLICY_ACTION_FRAME` are now both
+``perspective_normalized_squares``, while the engine keeps its frozen absolute
+identifiers, recorded separately as :data:`ENGINE_ACTION_FRAME`. The single
+conversion between the two lives in :mod:`stratego.model.action_frame` and is
+built from the frozen engine helper
+:func:`stratego.engine.actions.action_to_perspective`; no other module may
+convert between frames.
+
+The action *encoding* is untouched: :data:`ACTION_ENCODING_VERSION` is still
+``source_destination_10000_v1`` and the engine's 10,000 identifiers mean exactly
+what they always did. What changed is which frame the model's 10,000 logits are
+indexed in, which is a semantic change to the weights, so it carries a new
+:data:`MODEL_CONTRACT_VERSION` and old checkpoints are refused rather than
+reinterpreted.
 """
 
 from __future__ import annotations
@@ -72,22 +82,49 @@ from ..engine.constants import (
 # Versions
 # ---------------------------------------------------------------------------
 
-#: The Phase 5 model-boundary contract. Bumped only when a shape, an ordering or
-#: a frame convention changes -- never for a weight change or a new architecture.
-MODEL_CONTRACT_VERSION = "model_contract_v1"
+#: The model-boundary contract. Bumped only when a shape, an ordering or a frame
+#: convention changes -- never for a weight change or a new architecture. Phase 6
+#: moved the policy head into the normalized frame, hence v2.
+MODEL_CONTRACT_VERSION = "model_contract_v2"
 
 #: The action encoding this contract is written against. The engine owns the
 #: encoding itself; this constant only records which one a checkpoint assumes.
+#: Unchanged by v2: the encoding is frozen, only the frame moved.
 ACTION_ENCODING_VERSION = "source_destination_10000_v1"
 
-#: Which frame the 10,000 policy logits live in. `absolute_engine_squares` means
-#: logit `a` is exactly `decode_action(a)` in absolute engine squares, so no
-#: remapping table exists anywhere between the model and `apply_action`.
-POLICY_ACTION_FRAME = "absolute_engine_squares"
+#: The two frame names. A "frame" is which square numbering an identifier is
+#: written in; the encoding `100 * source + destination` is the same in both.
+FRAME_ABSOLUTE_ENGINE = "absolute_engine_squares"
+FRAME_PERSPECTIVE_NORMALIZED = "perspective_normalized_squares"
 
-#: The frame the 100 input tokens live in. Deliberately *different* from
-#: `POLICY_ACTION_FRAME`; see the module docstring.
-TOKEN_SQUARE_FRAME = "perspective_normalized_squares"
+#: Which frame the 10,000 policy logits live in. Under v2, logit `a` names the
+#: move `decode_action(a)` read in the *acting player's normalized* squares, so
+#: `stratego.model.action_frame` must convert before the engine sees it.
+POLICY_ACTION_FRAME = FRAME_PERSPECTIVE_NORMALIZED
+
+#: The frame the 100 input tokens live in. Deliberately the *same* as
+#: `POLICY_ACTION_FRAME` under v2; see the module docstring.
+TOKEN_SQUARE_FRAME = FRAME_PERSPECTIVE_NORMALIZED
+
+#: The frame the engine's own action identifiers live in. Frozen, and never
+#: equal to `POLICY_ACTION_FRAME` under v2 -- the gap between these two constants
+#: is precisely what `stratego.model.action_frame` bridges.
+ENGINE_ACTION_FRAME = FRAME_ABSOLUTE_ENGINE
+
+#: Alias used when describing an action identifier rather than a logit index.
+#: The frame is one thing under two readings, so this is deliberately not an
+#: independent constant that could drift away from `POLICY_ACTION_FRAME`.
+MODEL_ACTION_FRAME = POLICY_ACTION_FRAME
+
+#: What `model_contract_v1` claimed, kept as a frozen historical record so a v1
+#: checkpoint can be *recognised* and refused with an accurate message. There is
+#: no v1 loading path: recognising a frame is not the same as supporting it.
+LEGACY_CONTRACT_V1: dict[str, str] = {
+    "model_contract_version": "model_contract_v1",
+    "policy_action_frame": FRAME_ABSOLUTE_ENGINE,
+    "token_square_frame": FRAME_PERSPECTIVE_NORMALIZED,
+    "action_encoding_version": ACTION_ENCODING_VERSION,
+}
 
 # ---------------------------------------------------------------------------
 # Shapes
@@ -379,6 +416,7 @@ def contract_summary() -> dict:
         "action_encoding_version": ACTION_ENCODING_VERSION,
         "policy_action_frame": POLICY_ACTION_FRAME,
         "token_square_frame": TOKEN_SQUARE_FRAME,
+        "engine_action_frame": ENGINE_ACTION_FRAME,
         "observation_shape": list(OBSERVATION_SHAPE),
         "token_shape": [TOKEN_COUNT, TOKEN_FEATURES],
         "policy_logits": [POLICY_LOGIT_COUNT],
@@ -403,6 +441,11 @@ __all__ = [
     "ACTION_ENCODING_VERSION",
     "BELIEF_IGNORE_INDEX",
     "BELIEF_TYPE_COUNT",
+    "ENGINE_ACTION_FRAME",
+    "FRAME_ABSOLUTE_ENGINE",
+    "FRAME_PERSPECTIVE_NORMALIZED",
+    "LEGACY_CONTRACT_V1",
+    "MODEL_ACTION_FRAME",
     "MODEL_CONTRACT_VERSION",
     "OBSERVATION_SHAPE",
     "POLICY_ACTION_FRAME",

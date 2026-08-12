@@ -7,6 +7,8 @@ by any test: every test either reads weights or builds its own model.
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import numpy as np
 import pytest
 import torch
@@ -20,6 +22,12 @@ from stratego.model.policy_adapter import (
 )
 
 TEST_SEED = 20250501
+
+
+@pytest.fixture(scope="session")
+def repository_root() -> Path:
+    """The repository root, for the tests that read a real shipped artifact."""
+    return Path(__file__).resolve().parents[2]
 
 
 @pytest.fixture(scope="session")
@@ -83,7 +91,7 @@ class StubOutputPolicy(NeuralCheckpointPolicy):
     without needing a model that happens to produce the desired logits.
     """
 
-    policy_id = "integration_model_v1_stub"
+    policy_id = "integration_model_v2_stub"
 
     def __init__(self, model, policy_logits: torch.Tensor, *, mode: str, **kwargs):
         super().__init__(model, **kwargs)

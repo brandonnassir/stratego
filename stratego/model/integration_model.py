@@ -51,6 +51,7 @@ from typing import Any, Mapping
 import torch
 from torch import nn
 
+from .base import StrategoModel
 from .contract import (
     BELIEF_TYPE_COUNT,
     MODEL_CONTRACT_VERSION,
@@ -183,8 +184,14 @@ class _EncoderBlock(nn.Module):
         return hidden + self.feedforward(self.feedforward_norm(hidden))
 
 
-class IntegrationModel(nn.Module):
-    """The Phase 5 fixture network. Untrained, and intended to stay untrained."""
+class IntegrationModel(StrategoModel):
+    """The Phase 5 fixture network. Untrained, and intended to stay untrained.
+
+    Implements :class:`~stratego.model.base.StrategoModel` so that the Phase 6
+    checkpoint registry and policy adapter can be written against an interface
+    rather than against this class. The network itself is unchanged: the Phase 5
+    fixture's weights, shapes and architecture id are all exactly as accepted.
+    """
 
     is_integration_fixture = IS_INTEGRATION_FIXTURE
     architecture_id = MODEL_ARCHITECTURE_ID

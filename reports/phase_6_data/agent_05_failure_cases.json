@@ -1,0 +1,69 @@
+{
+  "corrupted_checkpoint": {
+    "detail": "CheckpointFormatError: /Users/brandonwashington/Documents/Github/stratego/gpt_agent/reports/phase_6_data/_agent_05_tmp/corrupted.pt: checkpoint could not be read (corrupted, truncated or not a checkpoint): RuntimeError: PytorchStreamReader failed reading zip archive: failed finding central directory. This is an internal miniz error. If you are seeing this error, there is a high likelihood that you",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "crossed_response": {
+    "detail": "policy phase6_c1_greedy@0.2.0+float32 raised RemoteInferenceError at ply 0: the inference owner answered 'm-somewhere-else#0' while this worker asked about 'm-b1d32b7b34becf32e978fbfd#0'",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "incompatible_checkpoint_contract_v1": {
+    "detail": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v1.pt: checkpoint is missing required metadata: engine_action_frame This is a model_contract_v1 checkpoint: its policy head is indexed in absolute_engine_squares, while this build indexes the same 10,000 outputs in perspective_normalized_squares. The weights would load and the network would play the 180-degr",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "incompatible_checkpoint_wrong_candidate": {
+    "detail": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/phase6_c1.pt: checkpoint configuration does not match the expected one (blocks: checkpoint 4 vs expected 6, candidate_id: checkpoint 'C1' vs expected 'C3', feed_forward_width: checkpoint 512 vs expected 768, heads: checkpoint 4 vs expected 6, width: checkpoint 128 vs expected 192). Tensor shapes may still be compatible; the w",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "inference_coordinator_failure": {
+    "detail": "2 of 2 game workers failed; worker 0 reported PolicyFailure: policy phase6_c1_greedy@0.2.0+float32 raised RemoteInferenceError at ply 4: the inference owner refused decision 'm-b1d32b7b34becf32e978fbfd#4' (RuntimeError): simulated inference coordinator failure\nTraceback (most recent call last):\n  File \"/Users/brandonwashington/Documents/Github/stratego/gpt_agent/stratego/evaluation/match_runner.py",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "malformed_request": {
+    "detail": "{\"empty_legal_actions\": {\"error_type\": \"NeuralEvaluationError\", \"refused\": true, \"returned_an_action\": false}, \"mask_disagrees_with_list\": {\"error_type\": \"NeuralPolicyError\", \"refused\": true, \"returned_an_action\": false}, \"negative_decision_seed\": {\"error_type\": \"NeuralEvaluationError\", \"refused\": true, \"returned_an_action\": false}, \"non_finite_observation\": {\"error_type\": \"NeuralEvaluationError\",",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "missing_checkpoint": {
+    "detail": "CheckpointFormatError: /Users/brandonwashington/Documents/Github/stratego/gpt_agent/reports/phase_6_data/_agent_05_tmp/not_here.pt: checkpoint file does not exist",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "non_finite_model_output": {
+    "detail": "the model produced a non-finite logit on a legal action (first offending action ids: [101, 202, 303]); refusing to choose a move from an untrustworthy distribution",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "normalized_selection_converts_to_illegal_action": {
+    "detail": "the normalized action 101 converted to absolute action 9999, which the engine did not declare legal; refusing to submit it",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "owner_survives_a_malformed_request": {
+    "detail": "a well-formed request is still answered after seven refusals",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "phase4_quarantine_semantics_preserved": {
+    "detail": "result=error score=None terminal=policy_error decisions=0",
+    "passed": true,
+    "substituted_a_move": false
+  },
+  "summary": {
+    "any_substituted_move": false,
+    "cases": 12,
+    "failed": [],
+    "passed": 12,
+    "substitution_policy": "no random legal, first legal or previous action is ever returned after a failure; every failure path raises or quarantines"
+  },
+  "timeout_or_disconnect": {
+    "detail": "policy phase6_c1_greedy@0.2.0+float32 raised RemoteInferenceError at ply 0: the inference owner did not answer request 'm-b1d32b7b34becf32e978fbfd#0' within 0.01s; refusing to continue this match",
+    "passed": true,
+    "substituted_a_move": false
+  }
+}

@@ -58,6 +58,7 @@ from __future__ import annotations
 
 import multiprocessing as mp
 import os
+import random
 import signal
 import time
 import traceback
@@ -269,6 +270,30 @@ def select_actions(
     return out
 
 
+def offer_to_reservoir(
+    rng: random.Random, retained: list, item, *, capacity: int, seen: int
+) -> None:
+    """Standard reservoir sampling: keep `capacity` of `seen` items, uniformly.
+
+    Used for the sample of encoded records a run hands back. The obvious
+    alternative -- keep the first `capacity` and drop the rest -- looks harmless
+    and is not: a pool starts with every slot at ply 0, so the first games to
+    seal are the shortest games of the whole run. A caller asking for six sample
+    records to reconstruct, or to measure bytes on, would get six ten-ply games
+    when a production game runs to about five hundred plies.
+
+    `seen` is the total number of items offered so far, this one included.
+    """
+    if capacity <= 0:
+        return
+    if len(retained) < capacity:
+        retained.append(item)
+        return
+    index = rng.randrange(seen)
+    if index < capacity:
+        retained[index] = item
+
+
 # ---------------------------------------------------------------------------
 # Worker side
 # ---------------------------------------------------------------------------
@@ -394,10 +419,19 @@ class _WorkerRuntime:
         # slot -> live digests, only for games selected for verification.
         self._live_digests: dict[int, list] = {}
         self.retained_records: list[bytes] = []
+        # Games sealed so far, and the generator that decides which of them the
+        # retained sample keeps. Seeded from the pool's root seed and this
+        # worker's identity, so the sample is reproducible for a given run
+        # without depending on global randomness.
+        self.games_sealed = 0
+        self._retention_rng = random.Random(
+            (int(root_seed) << 16) ^ (assignment.worker_id + 1)
+        )
         self.decisions_recorded = 0
         self.games_recorded = 0
         self.record_bytes = 0
         self.snapshot_bytes = 0
+        self.snapshot_count = 0
         self.verified_games = 0
         self.verified_decisions = 0
         self.reconstruction_mismatches = 0
@@ -580,7 +614,9 @@ class _WorkerRuntime:
         config = self.recording
         record = entry[1].finish(self.simulator.game_state(local))
         self.games_recorded += 1
+        self.games_sealed += 1
         self.snapshot_bytes += record.snapshot_bytes
+        self.snapshot_count += len(record.snapshots)
 
         payload: bytes | None = None
         if config.encode_records:
@@ -590,8 +626,13 @@ class _WorkerRuntime:
                 else encode_game_record(record)
             )
             self.record_bytes += len(payload)
-            if len(self.retained_records) < config.retain_games:
-                self.retained_records.append(payload)
+            offer_to_reservoir(
+                self._retention_rng,
+                self.retained_records,
+                payload,
+                capacity=config.retain_games,
+                seen=self.games_sealed,
+            )
         self.recording_seconds += time.perf_counter() - started
 
         if digests:
@@ -668,6 +709,7 @@ class _WorkerRuntime:
             "total_games_recorded": self.games_recorded,
             "total_record_bytes": self.record_bytes,
             "total_snapshot_bytes": self.snapshot_bytes,
+            "total_snapshot_count": self.snapshot_count,
             "total_verified_games": self.verified_games,
             "total_verified_decisions": self.verified_decisions,
             "total_reconstruction_mismatches": self.reconstruction_mismatches,
@@ -1040,6 +1082,7 @@ class WorkerPool:
             "total_games_recorded": 0,
             "total_record_bytes": 0,
             "total_snapshot_bytes": 0,
+            "total_snapshot_count": 0,
             "total_verified_games": 0,
             "total_verified_decisions": 0,
             "total_reconstruction_mismatches": 0,
@@ -1199,6 +1242,7 @@ class WorkerPool:
             "total_games_recorded",
             "total_record_bytes",
             "total_snapshot_bytes",
+            "total_snapshot_count",
             "total_verified_games",
             "total_verified_decisions",
             "total_reconstruction_mismatches",
@@ -1424,6 +1468,7 @@ __all__ = [
     "WorkerPoolError",
     "WorkerTimeoutError",
     "collect_finished",
+    "offer_to_reservoir",
     "partition_environments",
     "result_for_player",
     "select_action",

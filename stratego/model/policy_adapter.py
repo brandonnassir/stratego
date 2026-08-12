@@ -11,12 +11,29 @@ The path, in order
 .. code-block:: text
 
     PolicyInput (observation + legal action product, nothing privileged)
-        -> [1, 127, 10, 10] float tensor
+        -> [1, 127, 10, 10] float tensor            normalized observation
         -> tokenization -> [1, 100, 127]
-        -> model -> policy / value / belief logits
-        -> authoritative engine legality mask
-        -> greedy or seeded categorical choice
+        -> model -> policy / value / belief logits  normalized action frame
+        -> engine legality, converted to that frame
+        -> greedy or seeded categorical choice      normalized action
+        -> model_action_to_absolute                 absolute engine action
         -> PolicyResult -> the engine validates it independently
+
+Where the frame change happens
+------------------------------
+Under `model_contract_v2` the model's 10,000 logits are indexed in the acting
+player's *normalized* squares while the engine's legality products are in
+absolute squares, so exactly two conversions bracket the decision: the engine's
+legal actions and dense mask are converted into the model frame before anything
+is scored, and the single chosen identifier is converted back before it leaves
+this module. Nothing in between knows about absolute squares, and nothing
+outside `stratego.model.action_frame` performs the conversion.
+
+Selection is therefore done entirely in the model frame, including the
+tie-break. "Lowest identifier among the maximal logits" now means the lowest
+*normalized* identifier, which for blue is a different move than v1 would have
+picked -- and that is the intended consequence: the tie-break, like everything
+else the network sees, must not depend on which colour it is playing.
 
 Two rules dominate the design
 -----------------------------
@@ -39,6 +56,7 @@ from __future__ import annotations
 import math
 import random
 from collections.abc import Mapping, Sequence
+from dataclasses import dataclass
 from typing import Any, ClassVar
 
 import numpy as np
@@ -53,14 +71,21 @@ from ..evaluation.policy import (
     PolicyRequirements,
     PolicyResult,
 )
+from .action_frame import (
+    absolute_legal_actions_to_model,
+    absolute_legal_mask_to_model,
+    model_action_to_absolute,
+)
 from .checkpoint import load_checkpoint
 from .contract import (
+    MODEL_CONTRACT_VERSION,
+    POLICY_ACTION_FRAME,
     ModelOutputs,
     expected_value,
     numpy_observation_is_canonical,
     value_probabilities,
 )
-from .integration_model import IntegrationModel
+from .base import StrategoModel
 from .tokenization import observation_batch_from_numpy, observation_to_tokens
 
 #: Selection modes. Both are reproducible; only the second consumes randomness.
@@ -69,8 +94,11 @@ DECISION_MODE_CATEGORICAL = "seeded_categorical"
 
 #: Version of the *adapter behaviour* (selection rule, tie-break, seeding), not
 #: of the weights. A change here changes decisions, so it changes the policy
-#: identity a match was recorded under.
-NEURAL_POLICY_VERSION = "0.1.0"
+#: identity a match was recorded under. `0.2.0` is the move to the normalized
+#: action frame: the same weights on the same position now select a different
+#: move for blue, so results recorded under `0.1.0` cannot be reproduced here
+#: and must not be attributed to the same policy.
+NEURAL_POLICY_VERSION = "0.2.0"
 
 
 class NeuralPolicyError(PolicyContractError):
@@ -213,7 +241,13 @@ def categorical_action(
     the decision stream once per decision, never once per draw.
     """
     ordered = validate_legality(legal_actions)
-    values = usable_logits(policy_logits, ordered).to(torch.float64)
+    # float64 for the cumulative sum, and the move to the CPU happens *before*
+    # the widening rather than in one `.to(...)` call: Metal has no float64
+    # dtype at all, and a combined move-and-cast is performed on the source
+    # device, so it raises on an MPS tensor. Nothing numerical changes for a CPU
+    # model -- the values are already exact float32 by this point, and a device
+    # copy is a copy, not a rounding.
+    values = usable_logits(policy_logits, ordered).to("cpu").to(torch.float64)
     # Subtracting the maximum before exponentiating keeps `exp` in range; it does
     # not change the distribution.
     weights = torch.exp(values - values.max())
@@ -235,6 +269,123 @@ def categorical_action(
     # ulps below the draw. Falling to the last legal action keeps the result inside
     # the legal set, which is the property that matters.
     return int(ordered[-1]), probabilities
+
+
+# ---------------------------------------------------------------------------
+# The two halves of one decision
+# ---------------------------------------------------------------------------
+#
+# A decision is "check the engine's legality products and put them in the model
+# frame", then a forward pass, then "select in the model frame and convert the
+# single choice back". Both halves are pure functions of their arguments, which
+# is what lets the serial adapter below and Phase 6's remote inference owner run
+# *the same* legality, frame-conversion, tie-break and sampling rules instead of
+# two implementations that agree until they do not.
+
+
+@dataclass(frozen=True)
+class LegalityProducts:
+    """The engine's legality for one decision, in both frames.
+
+    `absolute` is what the engine will accept; `model` and `model_mask` are the
+    same set expressed in the acting player's normalized squares, which is the
+    only frame anything downstream of here is allowed to think in.
+    """
+
+    acting_player: int
+    absolute: tuple[int, ...]
+    model: tuple[int, ...]
+    model_mask: np.ndarray
+
+
+@dataclass(frozen=True)
+class ActionSelection:
+    """One chosen move, named in both frames, with its decode already done."""
+
+    absolute_action_id: int
+    model_action_id: int
+    source_square: int
+    destination_square: int
+    selected_logit: float
+    legal_action_count: int
+
+
+def prepare_legality(
+    legal_actions: "Sequence[int]", mask: np.ndarray, acting_player: int
+) -> LegalityProducts:
+    """Cross-check the engine's two legality products and convert them.
+
+    The absolute products are compared in their own frame first, so a
+    disagreement is reported as what it is rather than as a confusing mismatch
+    between two converted objects. The mask is then converted independently of
+    the list and the two are compared again: a conversion that dropped or
+    collided an entry would otherwise be invisible, since a permuted mask still
+    has the right shape and the right number of ones.
+    """
+    absolute = validate_legality(legal_actions, mask)
+    model = absolute_legal_actions_to_model(absolute, acting_player)
+    model_mask = absolute_legal_mask_to_model(mask, acting_player)
+    validate_legality(model, model_mask)
+    return LegalityProducts(
+        acting_player=int(acting_player),
+        absolute=absolute,
+        model=model,
+        model_mask=model_mask,
+    )
+
+
+def select_action(
+    policy_logits: torch.Tensor,
+    legality: LegalityProducts,
+    *,
+    decision_mode: str,
+    rng: "random.Random | None" = None,
+) -> ActionSelection:
+    """Choose one action from one row of normalized policy logits.
+
+    `rng` is required for -- and only used by -- the seeded categorical mode, and
+    must be a stream created once for this decision. The chosen normalized
+    identifier is converted back exactly once, here, and is then checked against
+    the engine's own absolute legal set rather than trusted.
+    """
+    if decision_mode == DECISION_MODE_GREEDY:
+        selected = greedy_action(policy_logits, legality.model)
+    elif decision_mode == DECISION_MODE_CATEGORICAL:
+        if rng is None:
+            raise NeuralPolicyError(
+                f"decision mode {decision_mode!r} needs a per-decision random stream"
+            )
+        selected = categorical_action(policy_logits, legality.model, rng)[0]
+    else:
+        raise NeuralPolicyError(f"unknown decision mode {decision_mode!r}")
+
+    absolute_selected = model_action_to_absolute(selected, legality.acting_player)
+    if absolute_selected not in legality.absolute:
+        raise NeuralPolicyError(  # pragma: no cover - unreachable via a bijection
+            f"the normalized action {selected} converted to absolute action "
+            f"{absolute_selected}, which the engine did not declare legal; refusing "
+            "to submit it"
+        )
+    source, destination = decode_action(absolute_selected)
+    return ActionSelection(
+        absolute_action_id=int(absolute_selected),
+        model_action_id=int(selected),
+        source_square=int(source),
+        destination_square=int(destination),
+        selected_logit=float(policy_logits[selected].to(torch.float32)),
+        legal_action_count=len(legality.model),
+    )
+
+
+def value_diagnostics(value_logits: torch.Tensor, row: int = 0) -> dict:
+    """The WIN/DRAW/LOSS diagnostics a decision carries, for one batch row."""
+    probabilities = value_probabilities(value_logits)[row]
+    return {
+        "value_win": float(probabilities[0]),
+        "value_draw": float(probabilities[1]),
+        "value_loss": float(probabilities[2]),
+        "expected_value": float(expected_value(value_logits)[row]),
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -264,15 +415,19 @@ class NeuralCheckpointPolicy(Policy):
 
     def __init__(
         self,
-        model: IntegrationModel,
+        model: StrategoModel,
         *,
         metadata: "Mapping[str, Any] | None" = None,
         device: "torch.device | str" = "cpu",
         dtype: torch.dtype = torch.float32,
     ):
-        if not isinstance(model, IntegrationModel):
+        # Any architecture implementing the model boundary, not one named class.
+        # Phase 6 candidates must reach Phase 4 evaluation through *this*
+        # decision path; a second adapter would be a second set of legality and
+        # frame-conversion rules to keep in step.
+        if not isinstance(model, StrategoModel):
             raise NeuralPolicyError(
-                f"expected an IntegrationModel, got {type(model).__name__}"
+                f"expected a StrategoModel, got {type(model).__name__}"
             )
         self.device = torch.device(device)
         self.dtype = dtype
@@ -315,39 +470,38 @@ class NeuralCheckpointPolicy(Policy):
     def decide(self, request: PolicyInput) -> PolicyResult:
         observation = request.require_observation()
         mask = request.require_legal_action_mask()
-        legal = validate_legality(request.legal_actions, mask)
+        # Legality first, in both frames, before a single kernel runs: a
+        # malformed request should fail without ever reaching the device.
+        legality = prepare_legality(request.legal_actions, mask, request.acting_player)
 
         outputs = self.evaluate(observation)
         policy_logits = outputs.policy_logits[0]
 
+        # One stream per decision, created once and drawn from once.
+        rng = (
+            request.random_stream()
+            if self.decision_mode == DECISION_MODE_CATEGORICAL
+            else None
+        )
+        selection = select_action(
+            policy_logits, legality, decision_mode=self.decision_mode, rng=rng
+        )
+
         diagnostics: dict[str, Any] = {
             "mode": self.decision_mode,
-            "legal_action_count": len(legal),
+            "legal_action_count": selection.legal_action_count,
             "model_architecture_id": self.model.architecture_id,
+            "model_contract_version": MODEL_CONTRACT_VERSION,
+            "policy_action_frame": POLICY_ACTION_FRAME,
+            # Absolute squares: these describe the move the engine will apply
+            # and the replay will record.
+            "source_square": selection.source_square,
+            "destination_square": selection.destination_square,
+            "model_action_id": selection.model_action_id,
+            "selected_logit": selection.selected_logit,
         }
-
-        if self.decision_mode == DECISION_MODE_GREEDY:
-            selected = greedy_action(policy_logits, legal)
-        elif self.decision_mode == DECISION_MODE_CATEGORICAL:
-            # One stream per decision, created once and drawn from once.
-            selected = categorical_action(policy_logits, legal, request.random_stream())[0]
-        else:  # pragma: no cover - guarded by the subclass definitions
-            raise NeuralPolicyError(f"unknown decision mode {self.decision_mode!r}")
-
-        source, destination = decode_action(selected)
-        probabilities = value_probabilities(outputs.value_logits)[0]
-        diagnostics.update(
-            {
-                "source_square": source,
-                "destination_square": destination,
-                "selected_logit": float(policy_logits[selected].to(torch.float32)),
-                "value_win": float(probabilities[0]),
-                "value_draw": float(probabilities[1]),
-                "value_loss": float(probabilities[2]),
-                "expected_value": float(expected_value(outputs.value_logits)[0]),
-            }
-        )
-        return self.result(request, selected, diagnostics)
+        diagnostics.update(value_diagnostics(outputs.value_logits))
+        return self.result(request, selection.absolute_action_id, diagnostics)
 
     # -- description -------------------------------------------------------
 
@@ -356,6 +510,8 @@ class NeuralCheckpointPolicy(Policy):
         description.update(
             {
                 "decision_mode": self.decision_mode,
+                "model_contract_version": MODEL_CONTRACT_VERSION,
+                "policy_action_frame": POLICY_ACTION_FRAME,
                 "device": str(self.device),
                 "dtype": str(self.dtype),
                 "model_architecture_id": self.model.architecture_id,
@@ -382,26 +538,33 @@ class NeuralCheckpointPolicy(Policy):
 
 
 class GreedyNeuralPolicy(NeuralCheckpointPolicy):
-    """Deterministic: the highest-scoring legal action, ties to the lowest id."""
+    """Deterministic: the highest-scoring legal action, ties to the lowest id.
 
-    policy_id = "integration_model_v1_greedy"
+    The identifier says `v2` because the decision rule changed frames, not
+    because the network did: these weights are still the Phase 5 fixture. A
+    Phase 5 result row recorded under `integration_model_v1_greedy` describes a
+    genuinely different policy and must not be compared with this one.
+    """
+
+    policy_id = "integration_model_v2_greedy"
     decision_mode = DECISION_MODE_GREEDY
     stochastic = False
     description = (
-        "Phase 5 integration fixture, greedy over the masked policy logits. "
-        "Untrained; playing strength is not meaningful."
+        "Integration fixture under model_contract_v2, greedy over the masked "
+        "normalized policy logits. Untrained; playing strength is not meaningful."
     )
 
 
 class SeededCategoricalNeuralPolicy(NeuralCheckpointPolicy):
     """Stochastic: one seeded categorical draw from the masked policy softmax."""
 
-    policy_id = "integration_model_v1_sampled"
+    policy_id = "integration_model_v2_sampled"
     decision_mode = DECISION_MODE_CATEGORICAL
     stochastic = True
     description = (
-        "Phase 5 integration fixture, seeded categorical draw over the masked "
-        "policy logits. Untrained; playing strength is not meaningful."
+        "Integration fixture under model_contract_v2, seeded categorical draw over "
+        "the masked normalized policy logits. Untrained; playing strength is not "
+        "meaningful."
     )
 
 
@@ -432,7 +595,9 @@ __all__ = [
     "DECISION_MODE_GREEDY",
     "NEURAL_POLICY_CLASSES",
     "NEURAL_POLICY_VERSION",
+    "ActionSelection",
     "GreedyNeuralPolicy",
+    "LegalityProducts",
     "NeuralCheckpointPolicy",
     "NeuralPolicyError",
     "SeededCategoricalNeuralPolicy",
@@ -440,6 +605,9 @@ __all__ = [
     "categorical_action",
     "greedy_action",
     "legal_actions_from_mask",
+    "prepare_legality",
+    "select_action",
     "usable_logits",
     "validate_legality",
+    "value_diagnostics",
 ]

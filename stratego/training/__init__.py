@@ -10,10 +10,11 @@ they are transported, stored and rebuilt.
 - compact storage: :mod:`serialization`, :mod:`trajectory`
 - historical positions: :mod:`reconstruction`
 
-:mod:`representative_model` and :mod:`mps_benchmark` are deliberately *not*
-re-exported here. They require PyTorch, which is a Phase 3 benchmark dependency
+:mod:`representative_model`, :mod:`mps_benchmark`, :mod:`coordinator`,
+:mod:`end_to_end_benchmark` and :mod:`phase6_pipeline_benchmark` are deliberately
+*not* re-exported here. They require PyTorch, which is a benchmark dependency
 (`requirements-training.txt`) rather than an engine dependency, and importing
-this package must keep working with `requirements.txt` alone. Import those two
+this package must keep working with `requirements.txt` alone. Import those
 modules directly.
 """
 

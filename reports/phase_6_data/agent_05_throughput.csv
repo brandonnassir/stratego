@@ -1,0 +1,4 @@
+instrument,dtype,batch_policy,worker_count,matches_per_second,positions_per_second,decisions_per_second,wall_clock_seconds,results_digest,speedup_vs_float32,policy_identity,gate_eligible,note,max_batch_size_configured,max_batch_size_seen,mean_batch_size,speedup_vs_single_request
+baseline,float32,single_request,8,1.118,362.961,181.248,21.468,a95da67b86a7e588c9a0c2568a4f9665c3c38f021e23405e7bdaebca07d26b33,,,,,,,,
+float16,float16,single_request,8,1.0696,362.253,180.859,22.437,,0.9568,phase6_c1_greedy@0.2.0+float16,False,a separate policy identity because a half-precision forward is a different decision rule; not used for any reproducibility gate,,,,
+arrival_batched,float32,arrival_batched,8,1.9199,623.332,311.266,12.501,,,,False,"batch membership depends on which workers happened to be waiting, so this path is a measurement only. The agreement figure is measured, not assumed, and does not make the path gate-eligible.",8,7,3.2025,1.7174

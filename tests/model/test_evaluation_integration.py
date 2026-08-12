@@ -158,8 +158,11 @@ def test_a_schedule_run_reports_zero_illegal_actions(greedy_policy, bank):
 def test_the_result_rows_name_the_checkpoint_policy_and_version(greedy_policy, bank):
     _, results = _run(greedy_policy, bank)
     for result in results:
-        assert result.candidate.policy_id == "integration_model_v1_greedy"
+        assert result.candidate.policy_id == "integration_model_v2_greedy"
         assert result.candidate.policy_version == greedy_policy.policy_version
+        # The frame change altered which move these weights pick, so it had to
+        # take the identity with it: a v1 row and a v2 row are different policies.
+        assert result.candidate.policy_version == "0.2.0"
         assert result.opponent.token == policy_ref(BASELINE).token
 
 
@@ -180,3 +183,5 @@ def test_the_neural_policy_is_not_in_the_phase_4_catalogue():
 
     assert "integration_model_v1_greedy" not in ALL_POLICY_IDS
     assert "integration_model_v1_sampled" not in ALL_POLICY_IDS
+    assert "integration_model_v2_greedy" not in ALL_POLICY_IDS
+    assert "integration_model_v2_sampled" not in ALL_POLICY_IDS

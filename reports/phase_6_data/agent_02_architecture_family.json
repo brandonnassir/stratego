@@ -1,0 +1,1668 @@
+{
+  "agent": "agent_02",
+  "architecture_family": "stratego_transformer_v1",
+  "architecture_family_digest": "5b57dd3a0c1ae6fd0e0323315e768139a4e0d2b8b8000ba288d4e8876864397d",
+  "architecture_family_version": "architecture_family_v1",
+  "backward_smoke": {
+    "C0": {
+      "candidate_id": "C0",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 42,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0125
+    },
+    "C1": {
+      "candidate_id": "C1",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 66,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0063
+    },
+    "C2": {
+      "candidate_id": "C2",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 66,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0109
+    },
+    "C3": {
+      "candidate_id": "C3",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 90,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0151
+    },
+    "C4": {
+      "candidate_id": "C4",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 90,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0181
+    },
+    "C5": {
+      "candidate_id": "C5",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 114,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0235
+    },
+    "C6": {
+      "candidate_id": "C6",
+      "connected": true,
+      "loss_finite": true,
+      "parameters": 114,
+      "parameters_with_non_finite_gradient": [],
+      "parameters_with_zero_gradient": [],
+      "parameters_without_gradient": [],
+      "smoke_seconds": 0.0304
+    }
+  },
+  "candidate_configs": {
+    "C0": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 2,
+      "board_tokens": 100,
+      "candidate_id": "C0",
+      "dropout": 0.0,
+      "feed_forward_width": 256,
+      "heads": 4,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 64
+    },
+    "C1": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 4,
+      "board_tokens": 100,
+      "candidate_id": "C1",
+      "dropout": 0.0,
+      "feed_forward_width": 512,
+      "heads": 4,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 128
+    },
+    "C2": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 4,
+      "board_tokens": 100,
+      "candidate_id": "C2",
+      "dropout": 0.0,
+      "feed_forward_width": 768,
+      "heads": 6,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 192
+    },
+    "C3": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 6,
+      "board_tokens": 100,
+      "candidate_id": "C3",
+      "dropout": 0.0,
+      "feed_forward_width": 768,
+      "heads": 6,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 192
+    },
+    "C4": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 6,
+      "board_tokens": 100,
+      "candidate_id": "C4",
+      "dropout": 0.0,
+      "feed_forward_width": 1024,
+      "heads": 8,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 256
+    },
+    "C5": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 8,
+      "board_tokens": 100,
+      "candidate_id": "C5",
+      "dropout": 0.0,
+      "feed_forward_width": 1024,
+      "heads": 8,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 256
+    },
+    "C6": {
+      "architecture_family_version": "architecture_family_v1",
+      "belief_classes": 12,
+      "blocks": 8,
+      "board_tokens": 100,
+      "candidate_id": "C6",
+      "dropout": 0.0,
+      "feed_forward_width": 1536,
+      "heads": 8,
+      "input_channels": 127,
+      "normalization": "pre_layernorm",
+      "policy_size": 10000,
+      "position_encoding": "learned_row_column_v1",
+      "value_classes": 3,
+      "width": 384
+    }
+  },
+  "candidate_table": [
+    {
+      "blocks": 2,
+      "candidate_id": "C0",
+      "config_digest": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+      "feed_forward_width": 256,
+      "head_dimension": 16,
+      "heads": 4,
+      "role": "small control",
+      "width": 64
+    },
+    {
+      "blocks": 4,
+      "candidate_id": "C1",
+      "config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "feed_forward_width": 512,
+      "head_dimension": 32,
+      "heads": 4,
+      "role": "small practical",
+      "width": 128
+    },
+    {
+      "blocks": 4,
+      "candidate_id": "C2",
+      "config_digest": "3f49fc3a7c345b7a0a43b683861dd33e3cb82d59b322386e4fe1089ef945dba3",
+      "feed_forward_width": 768,
+      "head_dimension": 32,
+      "heads": 6,
+      "role": "wider",
+      "width": 192
+    },
+    {
+      "blocks": 6,
+      "candidate_id": "C3",
+      "config_digest": "62cffd75b6f958d70d95691126c180f7f29ac092c21ee62c771ad6e4d634d58e",
+      "feed_forward_width": 768,
+      "head_dimension": 32,
+      "heads": 6,
+      "role": "deeper",
+      "width": 192
+    },
+    {
+      "blocks": 6,
+      "candidate_id": "C4",
+      "config_digest": "9b321597c19dbd5aabf992e5c77b07c2dd9969f8b89ce91825976533fad33aeb",
+      "feed_forward_width": 1024,
+      "head_dimension": 32,
+      "heads": 8,
+      "role": "medium-large",
+      "width": 256
+    },
+    {
+      "blocks": 8,
+      "candidate_id": "C5",
+      "config_digest": "e482a9ab65b734be9b69a5a4735c44c5a2bb6b6a6a6c660b555aa2b7f86fd226",
+      "feed_forward_width": 1024,
+      "head_dimension": 32,
+      "heads": 8,
+      "role": "deeper medium-large",
+      "width": 256
+    },
+    {
+      "blocks": 8,
+      "candidate_id": "C6",
+      "config_digest": "088175c5fa4701a22beea4e4d08786322a11b672ef970dfd3235ce6811fa8adf",
+      "feed_forward_width": 1536,
+      "head_dimension": 48,
+      "heads": 8,
+      "role": "paper-width/depth ceiling reference",
+      "width": 384
+    }
+  ],
+  "checkpoint_bytes": {
+    "C0": 504965,
+    "C1": 3473613,
+    "C2": 7707853,
+    "C3": 11272469,
+    "C4": 19937173,
+    "C5": 26261035,
+    "C6": 58840619
+  },
+  "checkpoint_rejection": {
+    "cases": {
+      "candidate_checkpoint_as_fixture": {
+        "as_expected": true,
+        "expectation": "candidate weights refused by integration_model_v1",
+        "message": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase6_agent02_li1nezqu/reject_c2.pt: checkpoint is 'stratego_transformer_v1' but the caller expected 'integration_model_v1'",
+        "rejected": true
+      },
+      "candidate_id_misstated": {
+        "as_expected": true,
+        "expectation": "a payload claiming C3 while carrying C2's shape is refused",
+        "message": "<memory>: checkpoint claims candidate 'C3' but its configuration is C3 192w x 4 blocks x 6 heads, ff 768, while this build's C3 is C3 192w x 6 blocks x 6 heads, ff 768",
+        "rejected": true
+      },
+      "different_depth_candidate": {
+        "as_expected": true,
+        "expectation": "C2 weights refused by a C3 model",
+        "message": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase6_agent02_li1nezqu/reject_c2.pt: checkpoint configuration does not match the expected one (blocks: checkpoint 4 vs expected 6, candidate_id: check",
+        "rejected": true
+      },
+      "expected_configuration_mismatch": {
+        "as_expected": true,
+        "expectation": "load_checkpoint refuses a candidate the caller did not ask for",
+        "message": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase6_agent02_li1nezqu/reject_c2.pt: checkpoint configuration does not match the expected one (blocks: checkpoint 4 vs expected 6, candidate_id: check",
+        "rejected": true
+      },
+      "fixture_checkpoint_as_candidate": {
+        "as_expected": true,
+        "expectation": "integration_model_v1 weights refused by a candidate",
+        "message": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase6_agent02_li1nezqu/reject_fixture.pt: checkpoint is 'integration_model_v1' but the caller expected 'stratego_transformer_v1'",
+        "rejected": true
+      },
+      "shape_compatible_different_head_count": {
+        "as_expected": true,
+        "expectation": "identical shapes, different configuration, refused",
+        "message": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase6_agent02_li1nezqu/reject_six.pt: checkpoint configuration does not match the expected one (candidate_id: checkpoint 'C2_six_heads' vs expected 'C",
+        "rejected": true
+      },
+      "unregistered_architecture_id": {
+        "as_expected": true,
+        "expectation": "an unknown architecture id is refused",
+        "message": "<memory>: unknown model_architecture_id 'ataraxos_full_v1'; this build can load integration_model_v1, stratego_transformer_v1. The weights may load, but they would be interpreted under different seman",
+        "rejected": true
+      }
+    },
+    "cases_as_expected": 7,
+    "cases_total": 7,
+    "shape_compatible_pair_confirmed": true
+  },
+  "checkpoint_round_trips": {
+    "C0": {
+      "candidate_id": "C0",
+      "checkpoint_bytes": 504965,
+      "checkpoint_megabytes": 0.482,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "01627edaed0042e36b4fb4642624d25cffab445cc04c7f508eb45a983d338cf8",
+      "weights_identical": true
+    },
+    "C1": {
+      "candidate_id": "C1",
+      "checkpoint_bytes": 3473613,
+      "checkpoint_megabytes": 3.313,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "46b6ae8f2c007904aced82227a087e2728926a7113c63bae17366d8d53f43f33",
+      "weights_identical": true
+    },
+    "C2": {
+      "candidate_id": "C2",
+      "checkpoint_bytes": 7707853,
+      "checkpoint_megabytes": 7.351,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "0a32e3069fc4e94d9d36a6431ac3dea81d8ef1cbbf09d316c8c6007b6ed3704c",
+      "weights_identical": true
+    },
+    "C3": {
+      "candidate_id": "C3",
+      "checkpoint_bytes": 11272469,
+      "checkpoint_megabytes": 10.75,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "66567ddde75e3cc52ad4e08047335f7db95637a241fcc137da071dabac6e7cca",
+      "weights_identical": true
+    },
+    "C4": {
+      "candidate_id": "C4",
+      "checkpoint_bytes": 19937173,
+      "checkpoint_megabytes": 19.014,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "7ed9efcca6f626d076a536cae01656c8e9e930fb31c12314261c00bc736b1afc",
+      "weights_identical": true
+    },
+    "C5": {
+      "candidate_id": "C5",
+      "checkpoint_bytes": 26261035,
+      "checkpoint_megabytes": 25.044,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "312f9522b842fe7f7a4f74da780a173a991949170acb632b1d8ba41801e07927",
+      "weights_identical": true
+    },
+    "C6": {
+      "candidate_id": "C6",
+      "checkpoint_bytes": 58840619,
+      "checkpoint_megabytes": 56.115,
+      "configuration_recorded": true,
+      "engine_action_frame": "absolute_engine_squares",
+      "model_architecture_id": "stratego_transformer_v1",
+      "model_contract_version": "model_contract_v2",
+      "outputs_identical": true,
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "c877cd27d1537a873e4b0b3804b947c9e60fe3320640b925543513b11079f43a",
+      "weights_identical": true
+    }
+  },
+  "commands": [
+    "python scripts/run_phase6_agent02.py",
+    "python -m pytest -q",
+    "python -m pytest tests/model/test_architecture_family.py -q"
+  ],
+  "commit": "8f4f5e39dea0ef6bd1e7fbf6f62c82a74d1e1628",
+  "completion_gates": {
+    "agent_01_pass_verified": true,
+    "backward_connectivity_passes": true,
+    "candidate_configs_explicit_and_serializable": true,
+    "checkpoint_mismatch_rejection_works": true,
+    "construction_is_deterministic": true,
+    "cpu_smoke_passes_for_all_candidates": true,
+    "exact_parameter_counts_recorded": true,
+    "full_suite_green": true,
+    "mps_float16_honestly_attempted": true,
+    "mps_float32_smoke_passes": true,
+    "no_privileged_inputs": true,
+    "one_family_implements_all_candidates": true,
+    "outputs_match_model_contract_v2": true,
+    "policy_logits_perspective_normalized": true,
+    "preexisting_suite_green": true
+  },
+  "config_digests": {
+    "C0": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+    "C1": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "C2": "3f49fc3a7c345b7a0a43b683861dd33e3cb82d59b322386e4fe1089ef945dba3",
+    "C3": "62cffd75b6f958d70d95691126c180f7f29ac092c21ee62c771ad6e4d634d58e",
+    "C4": "9b321597c19dbd5aabf992e5c77b07c2dd9969f8b89ce91825976533fad33aeb",
+    "C5": "e482a9ab65b734be9b69a5a4735c44c5a2bb6b6a6a6c660b555aa2b7f86fd226",
+    "C6": "088175c5fa4701a22beea4e4d08786322a11b672ef970dfd3235ce6811fa8adf"
+  },
+  "cpu_forward_positions": [
+    {
+      "acting_player": 0,
+      "ply": 0,
+      "seed": 0
+    },
+    {
+      "acting_player": 1,
+      "ply": 15,
+      "seed": 13
+    },
+    {
+      "acting_player": 0,
+      "ply": 46,
+      "seed": 26
+    },
+    {
+      "acting_player": 1,
+      "ply": 91,
+      "seed": 39
+    }
+  ],
+  "cpu_forward_results": {
+    "C0": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C0",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0015,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C1": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C1",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0035,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C2": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C2",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0049,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C3": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C3",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0066,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C4": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C4",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0083,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C5": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C5",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0096,
+      "value_shape": [
+        4,
+        3
+      ]
+    },
+    "C6": {
+      "all_finite": true,
+      "batch": 4,
+      "belief_shape": [
+        4,
+        100,
+        12
+      ],
+      "candidate_id": "C6",
+      "contract_validated": true,
+      "input": "real engine positions, tokenized",
+      "policy_shape": [
+        4,
+        10000
+      ],
+      "shapes_exact": true,
+      "smoke_seconds": 0.0132,
+      "value_shape": [
+        4,
+        3
+      ]
+    }
+  },
+  "determinism_checks": {
+    "C0": {
+      "candidate_id": "C0",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 123223,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "01627edaed0042e36b4fb4642624d25cffab445cc04c7f508eb45a983d338cf8"
+    },
+    "C1": {
+      "candidate_id": "C1",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 863959,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "46b6ae8f2c007904aced82227a087e2728926a7113c63bae17366d8d53f43f33"
+    },
+    "C2": {
+      "candidate_id": "C2",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 1922519,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "0a32e3069fc4e94d9d36a6431ac3dea81d8ef1cbbf09d316c8c6007b6ed3704c"
+    },
+    "C3": {
+      "candidate_id": "C3",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 2812247,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "66567ddde75e3cc52ad4e08047335f7db95637a241fcc137da071dabac6e7cca"
+    },
+    "C4": {
+      "candidate_id": "C4",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 4978391,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "7ed9efcca6f626d076a536cae01656c8e9e930fb31c12314261c00bc736b1afc"
+    },
+    "C5": {
+      "candidate_id": "C5",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 6557911,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "312f9522b842fe7f7a4f74da780a173a991949170acb632b1d8ba41801e07927"
+    },
+    "C6": {
+      "candidate_id": "C6",
+      "config_digest_stable": true,
+      "config_round_trips": true,
+      "different_seed_differs": true,
+      "dropout_modules_active": false,
+      "eval_forward_deterministic": true,
+      "parameter_count": 14702807,
+      "parameter_count_reproducible": true,
+      "reconstructed_from_config_and_seed": true,
+      "same_seed_bit_identical": true,
+      "same_seed_digests_match": true,
+      "same_seed_state_dict_digest": "c877cd27d1537a873e4b0b3804b947c9e60fe3320640b925543513b11079f43a"
+    }
+  },
+  "durations": {
+    "backward": 0.247,
+    "checkpoint_rejection": 0.123,
+    "checkpoints": 0.748,
+    "cpu_forward": 0.131,
+    "determinism": 0.772,
+    "mps_float16": 0.327,
+    "mps_float32": 0.401,
+    "parameters": 0.084,
+    "prerequisites": 0.0,
+    "pytest": 95.001,
+    "real_positions": 0.004
+  },
+  "environment": {
+    "commit": "8f4f5e39dea0ef6bd1e7fbf6f62c82a74d1e1628",
+    "cpu_threads": 10,
+    "cuda_available": false,
+    "machine": "arm64",
+    "mps_available": true,
+    "mps_built": true,
+    "numpy_version": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "processor": "arm",
+    "python_version": "3.13.2",
+    "torch_version": "2.13.0"
+  },
+  "family_constants": {
+    "activation": "gelu",
+    "architecture_family": "stratego_transformer_v1",
+    "architecture_family_version": "architecture_family_v1",
+    "attention_implementation": "torch.nn.MultiheadAttention(batch_first=True, need_weights=False)",
+    "attention_mask": "none",
+    "belief_head": "per_token_linear",
+    "initialization": "uniform_fan_in_linear_zero_bias_normal_0.02_embeddings",
+    "layer_norm_eps": 1e-05,
+    "linear_bias": true,
+    "model_contract_version": "model_contract_v2",
+    "normalization": "pre_layernorm",
+    "policy_head": "source_query_destination_key_scaled_with_source_and_destination_biases",
+    "position_encoding": "learned_row_column_v1",
+    "value_head": "mean_pool_tokens_then_two_layer_mlp"
+  },
+  "family_summary": {
+    "architecture_family": "stratego_transformer_v1",
+    "architecture_family_digest": "5b57dd3a0c1ae6fd0e0323315e768139a4e0d2b8b8000ba288d4e8876864397d",
+    "architecture_family_version": "architecture_family_v1",
+    "candidate_configs": {
+      "C0": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 2,
+        "board_tokens": 100,
+        "candidate_id": "C0",
+        "dropout": 0.0,
+        "feed_forward_width": 256,
+        "heads": 4,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 64
+      },
+      "C1": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 4,
+        "board_tokens": 100,
+        "candidate_id": "C1",
+        "dropout": 0.0,
+        "feed_forward_width": 512,
+        "heads": 4,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 128
+      },
+      "C2": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 4,
+        "board_tokens": 100,
+        "candidate_id": "C2",
+        "dropout": 0.0,
+        "feed_forward_width": 768,
+        "heads": 6,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 192
+      },
+      "C3": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 6,
+        "board_tokens": 100,
+        "candidate_id": "C3",
+        "dropout": 0.0,
+        "feed_forward_width": 768,
+        "heads": 6,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 192
+      },
+      "C4": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 6,
+        "board_tokens": 100,
+        "candidate_id": "C4",
+        "dropout": 0.0,
+        "feed_forward_width": 1024,
+        "heads": 8,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 256
+      },
+      "C5": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 8,
+        "board_tokens": 100,
+        "candidate_id": "C5",
+        "dropout": 0.0,
+        "feed_forward_width": 1024,
+        "heads": 8,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 256
+      },
+      "C6": {
+        "architecture_family_version": "architecture_family_v1",
+        "belief_classes": 12,
+        "blocks": 8,
+        "board_tokens": 100,
+        "candidate_id": "C6",
+        "dropout": 0.0,
+        "feed_forward_width": 1536,
+        "heads": 8,
+        "input_channels": 127,
+        "normalization": "pre_layernorm",
+        "policy_size": 10000,
+        "position_encoding": "learned_row_column_v1",
+        "value_classes": 3,
+        "width": 384
+      }
+    },
+    "candidate_ids": [
+      "C0",
+      "C1",
+      "C2",
+      "C3",
+      "C4",
+      "C5",
+      "C6"
+    ],
+    "candidate_table": [
+      {
+        "blocks": 2,
+        "candidate_id": "C0",
+        "config_digest": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+        "feed_forward_width": 256,
+        "head_dimension": 16,
+        "heads": 4,
+        "role": "small control",
+        "width": 64
+      },
+      {
+        "blocks": 4,
+        "candidate_id": "C1",
+        "config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+        "feed_forward_width": 512,
+        "head_dimension": 32,
+        "heads": 4,
+        "role": "small practical",
+        "width": 128
+      },
+      {
+        "blocks": 4,
+        "candidate_id": "C2",
+        "config_digest": "3f49fc3a7c345b7a0a43b683861dd33e3cb82d59b322386e4fe1089ef945dba3",
+        "feed_forward_width": 768,
+        "head_dimension": 32,
+        "heads": 6,
+        "role": "wider",
+        "width": 192
+      },
+      {
+        "blocks": 6,
+        "candidate_id": "C3",
+        "config_digest": "62cffd75b6f958d70d95691126c180f7f29ac092c21ee62c771ad6e4d634d58e",
+        "feed_forward_width": 768,
+        "head_dimension": 32,
+        "heads": 6,
+        "role": "deeper",
+        "width": 192
+      },
+      {
+        "blocks": 6,
+        "candidate_id": "C4",
+        "config_digest": "9b321597c19dbd5aabf992e5c77b07c2dd9969f8b89ce91825976533fad33aeb",
+        "feed_forward_width": 1024,
+        "head_dimension": 32,
+        "heads": 8,
+        "role": "medium-large",
+        "width": 256
+      },
+      {
+        "blocks": 8,
+        "candidate_id": "C5",
+        "config_digest": "e482a9ab65b734be9b69a5a4735c44c5a2bb6b6a6a6c660b555aa2b7f86fd226",
+        "feed_forward_width": 1024,
+        "head_dimension": 32,
+        "heads": 8,
+        "role": "deeper medium-large",
+        "width": 256
+      },
+      {
+        "blocks": 8,
+        "candidate_id": "C6",
+        "config_digest": "088175c5fa4701a22beea4e4d08786322a11b672ef970dfd3235ce6811fa8adf",
+        "feed_forward_width": 1536,
+        "head_dimension": 48,
+        "heads": 8,
+        "role": "paper-width/depth ceiling reference",
+        "width": 384
+      }
+    ],
+    "config_digests": {
+      "C0": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+      "C1": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "C2": "3f49fc3a7c345b7a0a43b683861dd33e3cb82d59b322386e4fe1089ef945dba3",
+      "C3": "62cffd75b6f958d70d95691126c180f7f29ac092c21ee62c771ad6e4d634d58e",
+      "C4": "9b321597c19dbd5aabf992e5c77b07c2dd9969f8b89ce91825976533fad33aeb",
+      "C5": "e482a9ab65b734be9b69a5a4735c44c5a2bb6b6a6a6c660b555aa2b7f86fd226",
+      "C6": "088175c5fa4701a22beea4e4d08786322a11b672ef970dfd3235ce6811fa8adf"
+    },
+    "family_constants": {
+      "activation": "gelu",
+      "architecture_family": "stratego_transformer_v1",
+      "architecture_family_version": "architecture_family_v1",
+      "attention_implementation": "torch.nn.MultiheadAttention(batch_first=True, need_weights=False)",
+      "attention_mask": "none",
+      "belief_head": "per_token_linear",
+      "initialization": "uniform_fan_in_linear_zero_bias_normal_0.02_embeddings",
+      "layer_norm_eps": 1e-05,
+      "linear_bias": true,
+      "model_contract_version": "model_contract_v2",
+      "normalization": "pre_layernorm",
+      "policy_head": "source_query_destination_key_scaled_with_source_and_destination_biases",
+      "position_encoding": "learned_row_column_v1",
+      "value_head": "mean_pool_tokens_then_two_layer_mlp"
+    },
+    "initialization_seed": 20250601,
+    "ladder_adjustments": [],
+    "model_contract_version": "model_contract_v2"
+  },
+  "files_created": [
+    "stratego/model/architecture_configs.py",
+    "stratego/model/base.py",
+    "stratego/model/production_model.py",
+    "tests/model/test_architecture_family.py",
+    "scripts/run_phase6_agent02.py",
+    "reports/phase_6_data/agent_02_architecture_family.json"
+  ],
+  "files_modified": [
+    "stratego/model/__init__.py",
+    "stratego/model/checkpoint.py",
+    "stratego/model/integration_model.py",
+    "stratego/model/policy_adapter.py",
+    "reports/phase_6_implementation_report.md"
+  ],
+  "initialization_seed": 20250601,
+  "ladder_adjustments": [],
+  "mps_available": true,
+  "mps_built": true,
+  "mps_float16_smoke": {
+    "C0": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C0",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C1": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C1",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C2": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C2",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C3": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C3",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C4": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C4",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C5": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C5",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C6": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C6",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float16",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    }
+  },
+  "mps_float32_smoke": {
+    "C0": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C0",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C1": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C1",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C2": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C2",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C3": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C3",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C4": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C4",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C5": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C5",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    },
+    "C6": {
+      "all_finite": true,
+      "attempted": true,
+      "candidate_id": "C6",
+      "constructed": true,
+      "device": "mps:0",
+      "dtype": "torch.float32",
+      "error": null,
+      "forward": true,
+      "ok": true,
+      "shapes_exact": true
+    }
+  },
+  "parameter_breakdowns": {
+    "C0": {
+      "belief_head_parameters": 780,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C0",
+      "encoder_parameters": 109568,
+      "float16_parameter_bytes": 246446,
+      "float32_parameter_bytes": 492892,
+      "float32_parameter_megabytes": 0.47,
+      "policy_head_parameters": 8520,
+      "role": "small control",
+      "total_parameters": 123223,
+      "trainable_parameters": 123223,
+      "value_head_parameters": 4355
+    },
+    "C1": {
+      "belief_head_parameters": 1548,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C1",
+      "encoder_parameters": 812288,
+      "float16_parameter_bytes": 1727918,
+      "float32_parameter_bytes": 3455836,
+      "float32_parameter_megabytes": 3.296,
+      "policy_head_parameters": 33224,
+      "role": "small practical",
+      "total_parameters": 863959,
+      "trainable_parameters": 863959,
+      "value_head_parameters": 16899
+    },
+    "C2": {
+      "belief_head_parameters": 2316,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C2",
+      "encoder_parameters": 1808256,
+      "float16_parameter_bytes": 3845038,
+      "float32_parameter_bytes": 7690076,
+      "float32_parameter_megabytes": 7.334,
+      "policy_head_parameters": 74312,
+      "role": "wider",
+      "total_parameters": 1922519,
+      "trainable_parameters": 1922519,
+      "value_head_parameters": 37635
+    },
+    "C3": {
+      "belief_head_parameters": 2316,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C3",
+      "encoder_parameters": 2697984,
+      "float16_parameter_bytes": 5624494,
+      "float32_parameter_bytes": 11248988,
+      "float32_parameter_megabytes": 10.728,
+      "policy_head_parameters": 74312,
+      "role": "deeper",
+      "total_parameters": 2812247,
+      "trainable_parameters": 2812247,
+      "value_head_parameters": 37635
+    },
+    "C4": {
+      "belief_head_parameters": 3084,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C4",
+      "encoder_parameters": 4776960,
+      "float16_parameter_bytes": 9956782,
+      "float32_parameter_bytes": 19913564,
+      "float32_parameter_megabytes": 18.991,
+      "policy_head_parameters": 131784,
+      "role": "medium-large",
+      "total_parameters": 4978391,
+      "trainable_parameters": 4978391,
+      "value_head_parameters": 66563
+    },
+    "C5": {
+      "belief_head_parameters": 3084,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C5",
+      "encoder_parameters": 6356480,
+      "float16_parameter_bytes": 13115822,
+      "float32_parameter_bytes": 26231644,
+      "float32_parameter_megabytes": 25.016,
+      "policy_head_parameters": 131784,
+      "role": "deeper medium-large",
+      "total_parameters": 6557911,
+      "trainable_parameters": 6557911,
+      "value_head_parameters": 66563
+    },
+    "C6": {
+      "belief_head_parameters": 4620,
+      "breakdown_sums_to_total": true,
+      "candidate_id": "C6",
+      "encoder_parameters": 14253312,
+      "float16_parameter_bytes": 29405614,
+      "float32_parameter_bytes": 58811228,
+      "float32_parameter_megabytes": 56.087,
+      "policy_head_parameters": 295880,
+      "role": "paper-width/depth ceiling reference",
+      "total_parameters": 14702807,
+      "trainable_parameters": 14702807,
+      "value_head_parameters": 148995
+    }
+  },
+  "parameter_counts": {
+    "C0": 123223,
+    "C1": 863959,
+    "C2": 1922519,
+    "C3": 2812247,
+    "C4": 4978391,
+    "C5": 6557911,
+    "C6": 14702807
+  },
+  "phase": "phase_6",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisite_status": {
+    "agent_01_commit": null,
+    "agent_01_gates_total": 16,
+    "agent_01_gates_true": 16,
+    "agent_01_pass": true,
+    "agent_01_status": "PASS",
+    "family_is_not_the_fixture": true,
+    "live_contract": {
+      "action_encoding_version": {
+        "actual": "source_destination_10000_v1",
+        "ok": true,
+        "required": "source_destination_10000_v1"
+      },
+      "engine_action_frame": {
+        "actual": "absolute_engine_squares",
+        "ok": true,
+        "required": "absolute_engine_squares"
+      },
+      "model_contract_version": {
+        "actual": "model_contract_v2",
+        "ok": true,
+        "required": "model_contract_v2"
+      },
+      "policy_action_frame": {
+        "actual": "perspective_normalized_squares",
+        "ok": true,
+        "required": "perspective_normalized_squares"
+      },
+      "token_square_frame": {
+        "actual": "perspective_normalized_squares",
+        "ok": true,
+        "required": "perspective_normalized_squares"
+      }
+    },
+    "observation_version": "observation_v2_1_127ch",
+    "preexisting_suite": {
+      "commit": "8f4f5e3",
+      "failed": 0,
+      "passed": 2301,
+      "skipped": 2
+    },
+    "problems": [],
+    "registered_architectures": [
+      "integration_model_v1",
+      "stratego_transformer_v1"
+    ],
+    "rules_version": "stratego_project_v1"
+  },
+  "problems": [],
+  "python_version": "3.13.2",
+  "seeds": {
+    "benchmark_input_seeds": [
+      77,
+      99,
+      808,
+      1234
+    ],
+    "determinism_alternate_seed": 20250602,
+    "family_initialization_seed": 20250601
+  },
+  "status": "PASS",
+  "test_failed": 0,
+  "test_passed": 2383,
+  "test_skipped": 2,
+  "test_total": 2385,
+  "tests_after": {
+    "command": "python -m pytest -q",
+    "errors": 0,
+    "exit_code": 0,
+    "failed": 0,
+    "passed": 2383,
+    "per_module": {
+      "tests/engine/test_action_encoding.py": {
+        "failed": 0,
+        "passed": 64,
+        "skipped": 0
+      },
+      "tests/engine/test_combat.py": {
+        "failed": 0,
+        "passed": 165,
+        "skipped": 0
+      },
+      "tests/engine/test_determinism.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/engine/test_geometry.py": {
+        "failed": 0,
+        "passed": 417,
+        "skipped": 0
+      },
+      "tests/engine/test_invariants.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      },
+      "tests/engine/test_movement.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/engine/test_rule_exclusions.py": {
+        "failed": 0,
+        "passed": 5,
+        "skipped": 0
+      },
+      "tests/engine/test_scout.py": {
+        "failed": 0,
+        "passed": 13,
+        "skipped": 0
+      },
+      "tests/engine/test_setup.py": {
+        "failed": 0,
+        "passed": 69,
+        "skipped": 0
+      },
+      "tests/engine/test_snapshot.py": {
+        "failed": 0,
+        "passed": 15,
+        "skipped": 0
+      },
+      "tests/engine/test_terminal_conditions.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/engine/test_transition.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/evaluation/test_baseline_information_safety.py": {
+        "failed": 0,
+        "passed": 37,
+        "skipped": 2
+      },
+      "tests/evaluation/test_baselines.py": {
+        "failed": 0,
+        "passed": 112,
+        "skipped": 0
+      },
+      "tests/evaluation/test_match_runner.py": {
+        "failed": 0,
+        "passed": 56,
+        "skipped": 0
+      },
+      "tests/evaluation/test_match_spec.py": {
+        "failed": 0,
+        "passed": 47,
+        "skipped": 0
+      },
+      "tests/evaluation/test_parallel_reproducibility.py": {
+        "failed": 0,
+        "passed": 21,
+        "skipped": 0
+      },
+      "tests/evaluation/test_phase4_acceptance.py": {
+        "failed": 0,
+        "passed": 32,
+        "skipped": 0
+      },
+      "tests/evaluation/test_policy_contract.py": {
+        "failed": 0,
+        "passed": 45,
+        "skipped": 0
+      },
+      "tests/evaluation/test_setup_bank.py": {
+        "failed": 0,
+        "passed": 41,
+        "skipped": 0
+      },
+      "tests/evaluation/test_statistics.py": {
+        "failed": 0,
+        "passed": 75,
+        "skipped": 0
+      },
+      "tests/information_security/test_anti_leak.py": {
+        "failed": 0,
+        "passed": 23,
+        "skipped": 0
+      },
+      "tests/information_security/test_belief_targets.py": {
+        "failed": 0,
+        "passed": 8,
+        "skipped": 0
+      },
+      "tests/information_security/test_browser_privacy.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/information_security/test_knowledge.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/model/test_action_frame.py": {
+        "failed": 0,
+        "passed": 43,
+        "skipped": 0
+      },
+      "tests/model/test_architecture_family.py": {
+        "failed": 0,
+        "passed": 82,
+        "skipped": 0
+      },
+      "tests/model/test_autograd.py": {
+        "failed": 0,
+        "passed": 8,
+        "skipped": 0
+      },
+      "tests/model/test_checkpoint.py": {
+        "failed": 0,
+        "passed": 57,
+        "skipped": 0
+      },
+      "tests/model/test_contract.py": {
+        "failed": 0,
+        "passed": 23,
+        "skipped": 0
+      },
+      "tests/model/test_device_batch_equivalence.py": {
+        "failed": 0,
+        "passed": 17,
+        "skipped": 0
+      },
+      "tests/model/test_evaluation_integration.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/model/test_hidden_information.py": {
+        "failed": 0,
+        "passed": 9,
+        "skipped": 0
+      },
+      "tests/model/test_legality.py": {
+        "failed": 0,
+        "passed": 36,
+        "skipped": 0
+      },
+      "tests/model/test_policy_mapping.py": {
+        "failed": 0,
+        "passed": 10,
+        "skipped": 0
+      },
+      "tests/model/test_symmetry.py": {
+        "failed": 0,
+        "passed": 90,
+        "skipped": 0
+      },
+      "tests/model/test_tokenization.py": {
+        "failed": 0,
+        "passed": 11,
+        "skipped": 0
+      },
+      "tests/model/test_value_belief.py": {
+        "failed": 0,
+        "passed": 22,
+        "skipped": 0
+      },
+      "tests/observation/test_behavior_channels.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/observation/test_global_channels.py": {
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0
+      },
+      "tests/observation/test_identity_planes.py": {
+        "failed": 0,
+        "passed": 42,
+        "skipped": 0
+      },
+      "tests/observation/test_movement_and_origin.py": {
+        "failed": 0,
+        "passed": 16,
+        "skipped": 0
+      },
+      "tests/observation/test_perspective.py": {
+        "failed": 0,
+        "passed": 70,
+        "skipped": 0
+      },
+      "tests/observation/test_recent_moves.py": {
+        "failed": 0,
+        "passed": 9,
+        "skipped": 0
+      },
+      "tests/observation/test_setup_memory.py": {
+        "failed": 0,
+        "passed": 11,
+        "skipped": 0
+      },
+      "tests/observation/test_shape_and_ranges.py": {
+        "failed": 0,
+        "passed": 25,
+        "skipped": 0
+      },
+      "tests/observation/test_unresolved_inventory.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      },
+      "tests/replay/test_event_stream.py": {
+        "failed": 0,
+        "passed": 13,
+        "skipped": 0
+      },
+      "tests/replay/test_replay.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/training/test_batch_simulation.py": {
+        "failed": 0,
+        "passed": 37,
+        "skipped": 0
+      },
+      "tests/training/test_coordinator.py": {
+        "failed": 0,
+        "passed": 29,
+        "skipped": 0
+      },
+      "tests/training/test_end_to_end_pipeline.py": {
+        "failed": 0,
+        "passed": 15,
+        "skipped": 0
+      },
+      "tests/training/test_reconstruction.py": {
+        "failed": 0,
+        "passed": 27,
+        "skipped": 0
+      },
+      "tests/training/test_representative_model.py": {
+        "failed": 0,
+        "passed": 29,
+        "skipped": 0
+      },
+      "tests/training/test_shared_buffers.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/training/test_trajectory.py": {
+        "failed": 0,
+        "passed": 57,
+        "skipped": 0
+      },
+      "tests/training/test_worker_pool.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      }
+    },
+    "seconds": 95.0,
+    "skipped": 2,
+    "summary_line": "2383 passed, 2 skipped in 94.64s (0:01:34)"
+  },
+  "tests_before": {
+    "commit": "8f4f5e3",
+    "failed": 0,
+    "passed": 2301,
+    "skipped": 2
+  },
+  "timestamp": "2026-08-11T19:05:33-0400",
+  "torch_version": "2.13.0",
+  "total_seconds": 98.06
+}

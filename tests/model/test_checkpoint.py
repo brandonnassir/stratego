@@ -1,7 +1,8 @@
 """Checkpoint identity on reload, and every incompatibility failing loudly.
 
 Covers Phase 5 gates 15 (`checkpoint_cpu_roundtrip_identity`) and 16
-(`checkpoint_incompatibilities_fail_loudly`).
+(`checkpoint_incompatibilities_fail_loudly`), and the Phase 6 Agent 1 gate
+`checkpoint_compatibility` (the v1/v2 boundary, at the end of the file).
 """
 
 from __future__ import annotations
@@ -17,13 +18,16 @@ from stratego.model.checkpoint import (
     CheckpointCompatibilityError,
     CheckpointError,
     CheckpointFormatError,
+    accepted_under_contract_v1,
     build_checkpoint_payload,
+    file_digest,
     load_checkpoint,
     read_checkpoint_payload,
     save_checkpoint,
     state_dict_digest,
     validate_checkpoint_payload,
 )
+from stratego.model.contract import LEGACY_CONTRACT_V1
 from stratego.model.integration_model import (
     IntegrationModel,
     IntegrationModelConfig,
@@ -80,11 +84,14 @@ def test_the_stored_metadata_names_every_frozen_contract(tmp_path, model):
     path = save_checkpoint(model, tmp_path / "metadata.pt")
     _, metadata = load_checkpoint(path)
     assert metadata["model_architecture_id"] == "integration_model_v1"
-    assert metadata["model_contract_version"] == "model_contract_v1"
+    assert metadata["model_contract_version"] == "model_contract_v2"
     assert metadata["rules_version"] == "stratego_project_v1"
     assert metadata["observation_version"] == "observation_v2_1_127ch"
     assert metadata["action_encoding_version"] == "source_destination_10000_v1"
-    assert metadata["policy_action_frame"] == "absolute_engine_squares"
+    # Both frames are stored, and stored separately: a file that recorded only
+    # one of them could not be checked for the mismatch that matters.
+    assert metadata["policy_action_frame"] == "perspective_normalized_squares"
+    assert metadata["engine_action_frame"] == "absolute_engine_squares"
     assert metadata["checkpoint_file_digest"]
     assert metadata["creation_timestamp"]
 
@@ -158,9 +165,11 @@ def test_a_nonsense_format_version_is_refused():
         ("observation_version", "observation_v2_127ch"),  # the superseded one
         ("observation_version", "observation_v3_200ch"),
         ("action_encoding_version", "source_destination_10000_v2"),
-        ("model_contract_version", "model_contract_v2"),
+        ("model_contract_version", "model_contract_v1"),
+        ("model_contract_version", "model_contract_v3"),
         ("model_architecture_id", "ataraxos_full_v1"),
-        ("policy_action_frame", "perspective_normalized_squares"),
+        ("policy_action_frame", "absolute_engine_squares"),
+        ("engine_action_frame", "perspective_normalized_squares"),
     ],
 )
 def test_wrong_semantics_are_refused_even_though_the_weights_would_load(field, wrong):
@@ -307,3 +316,100 @@ def test_the_configuration_round_trips_through_its_dictionary_form():
     config = IntegrationModelConfig()
     assert IntegrationModelConfig.from_dict(config.to_dict()) == config
     assert IntegrationModel(config).config == config
+
+
+# ---------------------------------------------------------------------------
+# The v1/v2 boundary
+# ---------------------------------------------------------------------------
+#
+# Covers the Phase 6 Agent 1 gate `checkpoint_compatibility`. The requirement is
+# symmetric and both halves matter: a v1 file must not load here, and a v2 file
+# must not have loaded there. The second half is the one that is easy to leave
+# untested, because the v1 build no longer exists to try it with.
+
+
+def _contract_v1_payload(model=None) -> dict:
+    """A payload exactly as `model_contract_v1` wrote them.
+
+    Built by editing a current payload rather than by copying a stored file, so
+    it stays in step with the architecture and the weights while differing from
+    v2 in precisely the two things the migration changed.
+    """
+    payload = _payload(model)
+    payload["model_contract_version"] = LEGACY_CONTRACT_V1["model_contract_version"]
+    payload["policy_action_frame"] = LEGACY_CONTRACT_V1["policy_action_frame"]
+    del payload["engine_action_frame"]
+    return payload
+
+
+def test_a_contract_v1_payload_is_refused_under_v2():
+    payload = _contract_v1_payload()
+    with pytest.raises(CheckpointCompatibilityError) as failure:
+        validate_checkpoint_payload(payload)
+    # The message must name the frame, not merely the version: the frame is what
+    # would have made the weights play mirrored moves.
+    assert "model_contract_v1" in str(failure.value)
+    assert "absolute_engine_squares" in str(failure.value)
+
+
+def test_the_shipped_v1_checkpoint_file_is_refused(repository_root):
+    """A real file on disk, not a synthetic payload.
+
+    `checkpoints/integration_model_v1.pt` is kept in the repository precisely so
+    this case is exercised against a genuine artifact.
+    """
+    path = repository_root / "checkpoints" / "integration_model_v1.pt"
+    assert path.exists(), "the v1 rejection fixture must stay in the repository"
+    with pytest.raises(CheckpointError, match="model_contract_v1"):
+        load_checkpoint(path)
+
+
+def test_refusing_a_v1_file_does_not_modify_it(repository_root):
+    """A rejected load must leave the artifact byte-identical."""
+    path = repository_root / "checkpoints" / "integration_model_v1.pt"
+    before = file_digest(path)
+    with pytest.raises(CheckpointError):
+        load_checkpoint(path)
+    assert file_digest(path) == before
+
+
+def test_a_v2_payload_would_have_been_refused_under_v1():
+    """The other direction, through the frozen v1 acceptance rule."""
+    assert accepted_under_contract_v1(_payload()) is False
+
+
+def test_the_v1_rule_still_accepts_what_v1_accepted():
+    """Otherwise the check above would pass for the wrong reason."""
+    assert accepted_under_contract_v1(_contract_v1_payload()) is True
+
+
+def test_a_frameless_checkpoint_is_refused_rather_than_assumed():
+    """v1 defaulted a missing frame to its own; v2 refuses to guess."""
+    payload = _payload()
+    del payload["policy_action_frame"]
+    with pytest.raises(CheckpointCompatibilityError, match="policy_action_frame"):
+        validate_checkpoint_payload(payload)
+
+
+def test_the_frame_is_checked_before_the_weights():
+    """A frame mismatch must not be reported as a confusing shape error.
+
+    The payload below is wrong in two ways at once -- retired frame, and a
+    configuration whose weights do not match. The frame is the failure a reader
+    needs to see, so it must be the one that is raised.
+    """
+    payload = _contract_v1_payload()
+    payload["model_configuration"] = dict(payload["model_configuration"], width=128)
+    with pytest.raises(CheckpointCompatibilityError) as failure:
+        validate_checkpoint_payload(payload)
+    assert "shape" not in str(failure.value)
+    assert "frame" in str(failure.value) or "model_contract_v1" in str(failure.value)
+
+
+def test_a_v2_file_loads_and_reports_both_frames(tmp_path, model):
+    """The positive case, so none of the above passes vacuously."""
+    path = save_checkpoint(model, tmp_path / "v2.pt")
+    _, metadata = load_checkpoint(path)
+    assert metadata["model_contract_version"] == "model_contract_v2"
+    assert metadata["policy_action_frame"] == "perspective_normalized_squares"
+    assert metadata["engine_action_frame"] == "absolute_engine_squares"

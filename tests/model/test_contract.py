@@ -14,6 +14,7 @@ from stratego.engine.constants import OBSERVATION_VERSION, RULES_VERSION
 from stratego.model.contract import (
     ACTION_ENCODING_VERSION,
     BELIEF_TYPE_COUNT,
+    LEGACY_CONTRACT_V1,
     MODEL_CONTRACT_VERSION,
     POLICY_ACTION_FRAME,
     POLICY_LOGIT_COUNT,
@@ -57,11 +58,27 @@ def test_the_declared_shapes_are_the_phase_5_shapes():
 
 
 def test_the_policy_frame_is_recorded_explicitly():
-    # The observation is perspective-normalized while actions are absolute. That
-    # asymmetry is a documented Phase 5 decision, so it is asserted rather than
-    # left implicit for Phase 6 to rediscover.
-    assert POLICY_ACTION_FRAME == "absolute_engine_squares"
-    assert contract_summary()["token_square_frame"] == "perspective_normalized_squares"
+    # Under model_contract_v2 the tokens and the policy logits share one frame,
+    # while the engine keeps its absolute identifiers. All three are asserted:
+    # the whole point of v2 is that the first two agree and the third does not,
+    # so an accidental "simplification" that collapsed them must fail here.
+    assert POLICY_ACTION_FRAME == "perspective_normalized_squares"
+    summary = contract_summary()
+    assert summary["token_square_frame"] == "perspective_normalized_squares"
+    assert summary["policy_action_frame"] == summary["token_square_frame"]
+    assert summary["engine_action_frame"] == "absolute_engine_squares"
+    assert summary["policy_action_frame"] != summary["engine_action_frame"]
+
+
+def test_the_contract_version_moved_with_the_frame():
+    # A frame change is a semantic change to every weight in the policy head, so
+    # it must never ship under the version that meant something else.
+    assert MODEL_CONTRACT_VERSION == "model_contract_v2"
+    assert LEGACY_CONTRACT_V1["model_contract_version"] == "model_contract_v1"
+    assert LEGACY_CONTRACT_V1["policy_action_frame"] == "absolute_engine_squares"
+    # The action *encoding* is frozen and did not move with the frame.
+    assert ACTION_ENCODING_VERSION == "source_destination_10000_v1"
+    assert LEGACY_CONTRACT_V1["action_encoding_version"] == ACTION_ENCODING_VERSION
 
 
 # ---------------------------------------------------------------------------

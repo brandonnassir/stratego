@@ -1,0 +1,1062 @@
+{
+  "action_encoding_version": "source_destination_10000_v1",
+  "action_frame_audit": {
+    "action_encoding_preserved": true,
+    "bijection_ok": true,
+    "blue_actions_moved": 10000,
+    "collisions": 0,
+    "forward_cases": 20000,
+    "forward_mismatches": 0,
+    "frames": {
+      "action_index_rule": "action_id = 100 * source + destination",
+      "action_space_size": 10000,
+      "blue_transform": "square -> 99 - square, applied to source and destination",
+      "engine_action_frame": "absolute_engine_squares",
+      "implementation": "stratego.engine.actions.action_to_perspective",
+      "model_action_frame": "perspective_normalized_squares",
+      "red_transform": "identity"
+    },
+    "pinned_geometry": [
+      {
+        "absolute": "a1->a2",
+        "absolute_action_id": 10,
+        "blue_model_action_id": 9989,
+        "blue_reads_as": "j10->j9",
+        "note": "single step, first square",
+        "red_model_action_id": 10
+      },
+      {
+        "absolute": "j10->j9",
+        "absolute_action_id": 9989,
+        "blue_model_action_id": 10,
+        "blue_reads_as": "a1->a2",
+        "note": "single step, last square",
+        "red_model_action_id": 9989
+      },
+      {
+        "absolute": "a1->b1",
+        "absolute_action_id": 1,
+        "blue_model_action_id": 9998,
+        "blue_reads_as": "j10->i10",
+        "note": "lateral, first row",
+        "red_model_action_id": 1
+      },
+      {
+        "absolute": "j10->i10",
+        "absolute_action_id": 9998,
+        "blue_model_action_id": 1,
+        "blue_reads_as": "a1->b1",
+        "note": "lateral, last row",
+        "red_model_action_id": 9998
+      },
+      {
+        "absolute": "a1->a10",
+        "absolute_action_id": 90,
+        "blue_model_action_id": 9909,
+        "blue_reads_as": "j10->j1",
+        "note": "full-column scout run",
+        "red_model_action_id": 90
+      },
+      {
+        "absolute": "a5->j5",
+        "absolute_action_id": 4049,
+        "blue_model_action_id": 5950,
+        "blue_reads_as": "j6->a6",
+        "note": "full-row scout run",
+        "red_model_action_id": 4049
+      },
+      {
+        "absolute": "a10->a9",
+        "absolute_action_id": 9080,
+        "blue_model_action_id": 919,
+        "blue_reads_as": "j1->j2",
+        "note": "first column, last row",
+        "red_model_action_id": 9080
+      },
+      {
+        "absolute": "j1->j2",
+        "absolute_action_id": 919,
+        "blue_model_action_id": 9080,
+        "blue_reads_as": "a10->a9",
+        "note": "last column, first row",
+        "red_model_action_id": 919
+      },
+      {
+        "absolute": "e5->e6",
+        "absolute_action_id": 4454,
+        "blue_model_action_id": 5545,
+        "blue_reads_as": "f6->f5",
+        "note": "centre, beside the lakes",
+        "red_model_action_id": 4454
+      },
+      {
+        "absolute": "d4->d7",
+        "absolute_action_id": 3363,
+        "blue_model_action_id": 6636,
+        "blue_reads_as": "g7->g4",
+        "note": "long scout past a lake column",
+        "red_model_action_id": 3363
+      },
+      {
+        "absolute": "a1->j10",
+        "absolute_action_id": 99,
+        "blue_model_action_id": 9900,
+        "blue_reads_as": "j10->a1",
+        "note": "corner to corner",
+        "red_model_action_id": 99
+      }
+    ],
+    "pinned_geometry_mismatches": 0,
+    "red_is_identity": true,
+    "reverse_cases": 20000,
+    "reverse_mismatches": 0,
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 0.031
+  },
+  "action_round_trip_cases": 20000,
+  "action_round_trip_mismatches": 0,
+  "agent": "agent_01",
+  "checkpoint_compatibility": {
+    "cases": {
+      "current_v2_file": {
+        "as_expected": true,
+        "error": null,
+        "expected_rejected": false,
+        "message": "ACCEPTED",
+        "rejected": false
+      },
+      "current_v2_payload": {
+        "as_expected": true,
+        "error": null,
+        "expected_rejected": false,
+        "message": "ACCEPTED",
+        "rejected": false
+      },
+      "missing_engine_action_frame": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint is missing required metadata: engine_action_frame",
+        "rejected": true
+      },
+      "missing_policy_action_frame": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint is missing required metadata: policy_action_frame",
+        "rejected": true
+      },
+      "shipped_v1_file_on_disk": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v1.pt: checkpoint is missing required metadata: engine_action_frame This is a model_contract_v1 checkpoint: its policy head is indexed in absolute_en",
+        "rejected": true
+      },
+      "synthetic_v1_payload": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint is missing required metadata: engine_action_frame This is a model_contract_v1 checkpoint: its policy head is indexed in absolute_engine_squares, while this build indexes the same 10,000 outputs in perspective_normalized",
+        "rejected": true
+      },
+      "wrong_engine_action_frame_perspective_normalized_squares": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint engine_action_frame is 'perspective_normalized_squares', this build uses 'absolute_engine_squares'; the 10,000 policy indices would mean different moves.",
+        "rejected": true
+      },
+      "wrong_model_contract_version_model_contract_v1": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint model_contract_version is 'model_contract_v1' but this build requires 'model_contract_v2'. The weights may load, but they would be interpreted under different semantics. This is a model_contract_v1 checkpoint: its polic",
+        "rejected": true
+      },
+      "wrong_model_contract_version_model_contract_v3": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint model_contract_version is 'model_contract_v3' but this build requires 'model_contract_v2'. The weights may load, but they would be interpreted under different semantics.",
+        "rejected": true
+      },
+      "wrong_policy_action_frame_absolute_engine_squares": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint policy_action_frame is 'absolute_engine_squares', this build uses 'perspective_normalized_squares'; the 10,000 policy indices would mean different moves. This is a model_contract_v1 checkpoint: its policy head is indexe",
+        "rejected": true
+      },
+      "wrong_policy_action_frame_something_else_entirely": {
+        "as_expected": true,
+        "error": "CheckpointCompatibilityError",
+        "expected_rejected": true,
+        "message": "<memory>: checkpoint policy_action_frame is 'something_else_entirely', this build uses 'perspective_normalized_squares'; the 10,000 policy indices would mean different moves.",
+        "rejected": true
+      }
+    },
+    "cases_as_expected": 11,
+    "cases_total": 11,
+    "rejection_failures": 0,
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 0.017,
+    "v1_file_digest": "268c0a27b20218be0cd6c10539b561916e238733954a953b8eea6812a1eb35de",
+    "v1_file_unmodified_by_refused_load": true,
+    "v1_rule_still_accepts_v1": true,
+    "v2_checkpoint": {
+      "engine_action_frame": "absolute_engine_squares",
+      "file_digest": "42a132689275396130911e4eb2dbb34a71218b513d12c0bb63c64d9209c68f11",
+      "model_contract_version": "model_contract_v2",
+      "path": "checkpoints/integration_model_v2.pt",
+      "policy_action_frame": "perspective_normalized_squares",
+      "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768"
+    },
+    "v2_would_be_refused_under_v1": true
+  },
+  "checkpoint_compatibility_tests": 11,
+  "checkpoint_rejection_failures": 0,
+  "commands": [
+    "python -m pytest -q",
+    "python scripts/run_phase6_agent01.py"
+  ],
+  "commit": "8f4f5e39dea0ef6bd1e7fbf6f62c82a74d1e1628",
+  "completion_gates": {
+    "absolute_round_trips_clean": true,
+    "action_frame_is_a_bijection": true,
+    "engine_action_semantics_unchanged": true,
+    "evaluation_regression_clean": true,
+    "full_suite_green": true,
+    "greedy_and_seeded_reproduce": true,
+    "hidden_information_zero_mismatch": true,
+    "legal_list_and_mask_exact": true,
+    "model_contract_v2_explicit": true,
+    "phase_5_accepted": true,
+    "pinned_geometry_correct": true,
+    "positive_controls_succeed": true,
+    "preexisting_suite_green": true,
+    "reverse_round_trips_clean": true,
+    "symmetry_regression_passes": true,
+    "v1_and_v2_checkpoints_fail_loudly": true
+  },
+  "contract_summary": {
+    "action_encoding_version": "source_destination_10000_v1",
+    "action_index_rule": "action_id = 100 * source + destination",
+    "belief_ignore_index": -100,
+    "belief_logits": [
+      100,
+      12
+    ],
+    "engine_action_frame": "absolute_engine_squares",
+    "model_contract_version": "model_contract_v2",
+    "observation_shape": [
+      127,
+      10,
+      10
+    ],
+    "observation_version": "observation_v2_1_127ch",
+    "policy_action_frame": "perspective_normalized_squares",
+    "policy_logits": [
+      10000
+    ],
+    "rules_version": "stratego_project_v1",
+    "token_shape": [
+      100,
+      127
+    ],
+    "token_square_frame": "perspective_normalized_squares",
+    "value_class_order": [
+      "WIN",
+      "DRAW",
+      "LOSS"
+    ],
+    "value_logits": [
+      3
+    ]
+  },
+  "cpu_threads": 10,
+  "cuda_available": false,
+  "durations": {
+    "action_frame_seconds": 0.031,
+    "checkpoint_seconds": 0.017,
+    "evaluation_seconds": 166.959,
+    "hidden_information_seconds": 29.893,
+    "legality_seconds": 0.006,
+    "suite_seconds": 94.6,
+    "symmetry_seconds": 0.668
+  },
+  "engine_action_frame": "absolute_engine_squares",
+  "evaluation_regression": {
+    "both_colours_played": true,
+    "greedy_reproducible": true,
+    "illegal_actions": 0,
+    "match_semantics_unchanged": true,
+    "matches": 256,
+    "modes": {
+      "greedy": {
+        "checkpoint_identity": {
+          "action_encoding_version": "source_destination_10000_v1",
+          "checkpoint_file_digest": "42a132689275396130911e4eb2dbb34a71218b513d12c0bb63c64d9209c68f11",
+          "checkpoint_path": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v2.pt",
+          "creation_timestamp": "2026-08-11T22:15:37+00:00",
+          "model_contract_version": "model_contract_v2",
+          "observation_version": "observation_v2_1_127ch",
+          "rules_version": "stratego_project_v1",
+          "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+          "training_iteration": 0,
+          "training_step": 0
+        },
+        "colour_swap_correct": true,
+        "colours_played": [
+          0,
+          1
+        ],
+        "illegal_actions": 0,
+        "matches": 128,
+        "paired_units": 64,
+        "per_opponent": {
+          "basic_heuristic": {
+            "draws": 3,
+            "effective_win_rate": 0.2031,
+            "illegal_actions": 0,
+            "losses": 24,
+            "matches": 32,
+            "mean_plies": 347.5625,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "0e4a54d9f7079d662276b4e1df36b0c5dc337526f0423c12631a6f76aba777b2",
+            "wins": 5
+          },
+          "random_legal": {
+            "draws": 32,
+            "effective_win_rate": 0.5,
+            "illegal_actions": 0,
+            "losses": 0,
+            "matches": 32,
+            "mean_plies": 1206.53125,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "2a160c4da50368eebcbba1e13c350bd166d01933f3c76da6508e8805fe409119",
+            "wins": 0
+          },
+          "strategic_rule_based": {
+            "draws": 7,
+            "effective_win_rate": 0.1094,
+            "illegal_actions": 0,
+            "losses": 25,
+            "matches": 32,
+            "mean_plies": 350.8125,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "62cce9b0d152d862de4dade75b9065f1d398bc940f09c055b25fbebd4ae7157e",
+            "wins": 0
+          },
+          "tactical_rule_based": {
+            "draws": 8,
+            "effective_win_rate": 0.125,
+            "illegal_actions": 0,
+            "losses": 24,
+            "matches": 32,
+            "mean_plies": 361.84375,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "bd42d51524c26ebe8363f76ae7dc83e41f18b19f5c0bcd8623de6a6400ec4a8a",
+            "wins": 0
+          }
+        },
+        "policy_errors": 0,
+        "policy_id": "integration_model_v2_greedy",
+        "policy_version": "0.2.0",
+        "replay_problems": [],
+        "replayed_rows": 32,
+        "reproduction_problems": [],
+        "rerun_differences": [],
+        "rerun_digest": "9efbf4064d74c54debcbc2460d7c20381d2d43240d5609da84948679495030d6",
+        "rerun_identical": true,
+        "results_digest": "9efbf4064d74c54debcbc2460d7c20381d2d43240d5609da84948679495030d6",
+        "stochastic": false
+      },
+      "seeded_categorical": {
+        "checkpoint_identity": {
+          "action_encoding_version": "source_destination_10000_v1",
+          "checkpoint_file_digest": "42a132689275396130911e4eb2dbb34a71218b513d12c0bb63c64d9209c68f11",
+          "checkpoint_path": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/checkpoints/integration_model_v2.pt",
+          "creation_timestamp": "2026-08-11T22:15:37+00:00",
+          "model_contract_version": "model_contract_v2",
+          "observation_version": "observation_v2_1_127ch",
+          "rules_version": "stratego_project_v1",
+          "state_dict_digest": "5b3a8dda202a7041d7241db9bae965ffce53b2ae30ba281cc2351ad3c8825768",
+          "training_iteration": 0,
+          "training_step": 0
+        },
+        "colour_swap_correct": true,
+        "colours_played": [
+          0,
+          1
+        ],
+        "illegal_actions": 0,
+        "matches": 128,
+        "paired_units": 64,
+        "per_opponent": {
+          "basic_heuristic": {
+            "draws": 3,
+            "effective_win_rate": 0.0469,
+            "illegal_actions": 0,
+            "losses": 29,
+            "matches": 32,
+            "mean_plies": 344.59375,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "95348ccdb2936c9415a78ad34214caff99302cea3481dc9d6055852c5a4388f8",
+            "wins": 0
+          },
+          "random_legal": {
+            "draws": 9,
+            "effective_win_rate": 0.4219,
+            "illegal_actions": 0,
+            "losses": 14,
+            "matches": 32,
+            "mean_plies": 1222.96875,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "f18ec9c89c22638f3a0e504fc871f24228cf0e0cb430b8b7be252e439880a769",
+            "wins": 9
+          },
+          "strategic_rule_based": {
+            "draws": 0,
+            "effective_win_rate": 0.0,
+            "illegal_actions": 0,
+            "losses": 32,
+            "matches": 32,
+            "mean_plies": 298.5625,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "d146bfc99eb9cf3adec4a4e1da362a5628bfdedbbd195e806a6b81a11367285d",
+            "wins": 0
+          },
+          "tactical_rule_based": {
+            "draws": 0,
+            "effective_win_rate": 0.0312,
+            "illegal_actions": 0,
+            "losses": 31,
+            "matches": 32,
+            "mean_plies": 309.03125,
+            "paired_units": 16,
+            "policy_errors": 0,
+            "results_digest": "b835daa736c45fffdb0f17a6c5d20cabc88bbce4de7d801a01f00ca6b317877b",
+            "wins": 1
+          }
+        },
+        "policy_errors": 0,
+        "policy_id": "integration_model_v2_sampled",
+        "policy_version": "0.2.0",
+        "replay_problems": [],
+        "replayed_rows": 32,
+        "reproduction_problems": [],
+        "rerun_differences": [],
+        "rerun_digest": "fcd37044989c0f432ad50f5681f0f63f32eef53b6b031129a1c9ac75295a617c",
+        "rerun_identical": true,
+        "results_digest": "fcd37044989c0f432ad50f5681f0f63f32eef53b6b031129a1c9ac75295a617c",
+        "stochastic": true
+      }
+    },
+    "note": "the network is untrained; win rates are recorded to show the matches ran clean and carry no information about playing strength",
+    "plies": 142141,
+    "policy_errors": 0,
+    "replay_problems": 0,
+    "reproduction_problems": 0,
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 166.959,
+    "seeded_categorical_reproducible": true,
+    "setup_pair_ids": 16
+  },
+  "files_created": [
+    "stratego/model/action_frame.py",
+    "tests/model/test_action_frame.py",
+    "tests/model/test_symmetry.py",
+    "scripts/run_phase6_agent01.py",
+    "checkpoints/integration_model_v2.pt",
+    "reports/phase_6_data/agent_01_model_contract_v2.json",
+    "reports/phase_6_implementation_report.md"
+  ],
+  "files_modified": [
+    "stratego/model/__init__.py",
+    "stratego/model/contract.py",
+    "stratego/model/checkpoint.py",
+    "stratego/model/policy_adapter.py",
+    "tests/model/conftest.py",
+    "tests/model/test_contract.py",
+    "tests/model/test_checkpoint.py",
+    "tests/model/test_evaluation_integration.py",
+    "scripts/run_phase5.py"
+  ],
+  "frozen_contracts": {
+    "observation_version": "observation_v2_1_127ch",
+    "reference_engine": "phase2_1_reference_1.1.0",
+    "rules_version": "stratego_project_v1"
+  },
+  "gates_total": 16,
+  "gates_true": 16,
+  "hidden_information_audit": {
+    "hidden_pieces_permuted": {
+      "max": 40,
+      "mean": 32.044,
+      "min": 17
+    },
+    "mismatches": {
+      "absolute_action_mismatch": 0,
+      "belief_logits_mismatch": 0,
+      "diagnostics_mismatch": 0,
+      "model_action_mismatch": 0,
+      "normalized_legal_mismatch": 0,
+      "normalized_mask_mismatch": 0,
+      "observation_mismatch": 0,
+      "policy_logits_mismatch": 0,
+      "value_logits_mismatch": 0
+    },
+    "plies_sampled": [
+      15,
+      30,
+      55,
+      85,
+      125,
+      180,
+      240
+    ],
+    "ply_histogram": {
+      "125": 1420,
+      "15": 1440,
+      "180": 1420,
+      "240": 1420,
+      "30": 1440,
+      "55": 1440,
+      "85": 1420
+    },
+    "positive_control_failures": 0,
+    "positive_controls": {
+      "belief_targets_changed_failures": 0,
+      "hidden_types_changed_failures": 0
+    },
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 29.893,
+    "skipped": {
+      "invalid": 0,
+      "too_few_hidden_pieces": 0,
+      "unchanged": 0
+    },
+    "source_positions": 500,
+    "target_trials": 10000,
+    "total_mismatches": 0,
+    "trials": 10000
+  },
+  "hidden_information_mismatches": 0,
+  "hidden_information_trials": 10000,
+  "legal_action_comparisons": 356,
+  "legal_mask_mismatches": 0,
+  "legal_positions_tested": 16,
+  "legality_audit": {
+    "absolute_round_trip_mismatches": 0,
+    "action_comparisons": 356,
+    "both_colours_covered": true,
+    "legal_action_count": {
+      "max": 37,
+      "mean": 22.25,
+      "min": 6,
+      "note": "observed, not an assumed maximum; nothing here caps the count"
+    },
+    "list_mask_mismatches": 0,
+    "mask_dtype_changes": 0,
+    "mask_round_trip_mismatches": 0,
+    "per_position": [
+      {
+        "acting_player": 0,
+        "legal_actions": 6,
+        "model_frame_differs": false,
+        "ply": 0
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 9,
+        "model_frame_differs": true,
+        "ply": 7
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 16,
+        "model_frame_differs": false,
+        "ply": 18
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 19,
+        "model_frame_differs": true,
+        "ply": 25
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 19,
+        "model_frame_differs": false,
+        "ply": 40
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 22,
+        "model_frame_differs": true,
+        "ply": 61
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 21,
+        "model_frame_differs": true,
+        "ply": 75
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 31,
+        "model_frame_differs": false,
+        "ply": 96
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 23,
+        "model_frame_differs": false,
+        "ply": 120
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 18,
+        "model_frame_differs": true,
+        "ply": 155
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 25,
+        "model_frame_differs": false,
+        "ply": 190
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 37,
+        "model_frame_differs": true,
+        "ply": 233
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 33,
+        "model_frame_differs": false,
+        "ply": 260
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 29,
+        "model_frame_differs": true,
+        "ply": 301
+      },
+      {
+        "acting_player": 0,
+        "legal_actions": 26,
+        "model_frame_differs": false,
+        "ply": 44
+      },
+      {
+        "acting_player": 1,
+        "legal_actions": 22,
+        "model_frame_differs": true,
+        "ply": 89
+      }
+    ],
+    "positions_tested": 16,
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 0.006
+  },
+  "machine": "arm64",
+  "model_contract_version": "model_contract_v2",
+  "mps_available": true,
+  "mps_built": true,
+  "numpy_version": "2.5.1",
+  "phase": "phase_6",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "policy_action_frame": "perspective_normalized_squares",
+  "positive_control_failures": 0,
+  "prerequisite_status": {
+    "integration_model_is_integration_only": true,
+    "phase_5_accepted": true,
+    "phase_5_architecture_id": null,
+    "phase_5_commit": "1d8e7cb4473e4bb037aff6a70d162effe3457c68",
+    "phase_5_gates": "22/22",
+    "phase_5_headline_numbers": {
+      "action_round_trip_mismatches": 0,
+      "actions_round_tripped": 10000,
+      "adapter_selections_checked": 264,
+      "checkpoint_negative_cases": 19,
+      "gauntlet_illegal_actions": 0,
+      "gauntlet_matches": 1024,
+      "gauntlet_plies": 603874,
+      "gauntlet_policy_errors": 0,
+      "hidden_information_mismatches": 0,
+      "hidden_information_positive_control_failures": 0,
+      "hidden_information_trials": 10000,
+      "tests_failed": 0,
+      "tests_passed": 2155,
+      "tests_skipped": 2
+    },
+    "phase_5_model_contract_version": null,
+    "phase_5_quick_mode": false,
+    "phase_5_status": "PASS",
+    "preexisting_suite": {
+      "command": "python -m pytest -q",
+      "commit": "8f4f5e39dea0ef6bd1e7fbf6f62c82a74d1e1628",
+      "errors": 0,
+      "failed": 0,
+      "note": "identical to the totals recorded by the accepted Phase 5 run",
+      "passed": 2155,
+      "recorded_before_any_phase_6_edit": true,
+      "seconds": 102.29,
+      "skipped": 2
+    },
+    "problems": []
+  },
+  "problems": [],
+  "processor": "arm",
+  "python_version": "3.13.2",
+  "quick_mode": false,
+  "reverse_round_trip_cases": 20000,
+  "reverse_round_trip_mismatches": 0,
+  "schema_version": "phase_6_agent_01_v1",
+  "seeds": {
+    "bootstrap": 17,
+    "evaluation_policy_seed": 13,
+    "hidden_information": 90210,
+    "model_initialisation": 20250501,
+    "position_corpus": 0,
+    "symmetry": 0
+  },
+  "status": "PASS",
+  "symmetry_audit": {
+    "absolute_actions_not_mirrored": 0,
+    "construction": "colour-swapped 180-degree-rotated twin games advanced through mirrored actions; the twin's first player is blue so the ply counts match and the acting colours are opposite",
+    "normalized_action_mismatches": 0,
+    "normalized_legal_set_mismatches": 0,
+    "normalized_mask_mismatches": 0,
+    "observation_mismatches": 0,
+    "schema_version": "phase_6_agent_01_v1",
+    "seconds": 0.668,
+    "skipped_terminal_pairs": 11,
+    "total_mismatches": 0,
+    "trials": 200,
+    "v1_absolute_frame_disagreements": 189,
+    "v1_control_proves_the_migration_changed_something": true
+  },
+  "symmetry_mismatches": 0,
+  "symmetry_trials": 200,
+  "test_failed": 0,
+  "test_passed": 2301,
+  "test_total": 2303,
+  "tests_after": {
+    "command": "python -m pytest -q",
+    "errors": 0,
+    "exit_code": 0,
+    "failed": 0,
+    "passed": 2301,
+    "per_module": {
+      "tests/engine/test_action_encoding.py": {
+        "failed": 0,
+        "passed": 64,
+        "skipped": 0
+      },
+      "tests/engine/test_combat.py": {
+        "failed": 0,
+        "passed": 165,
+        "skipped": 0
+      },
+      "tests/engine/test_determinism.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/engine/test_geometry.py": {
+        "failed": 0,
+        "passed": 417,
+        "skipped": 0
+      },
+      "tests/engine/test_invariants.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      },
+      "tests/engine/test_movement.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/engine/test_rule_exclusions.py": {
+        "failed": 0,
+        "passed": 5,
+        "skipped": 0
+      },
+      "tests/engine/test_scout.py": {
+        "failed": 0,
+        "passed": 13,
+        "skipped": 0
+      },
+      "tests/engine/test_setup.py": {
+        "failed": 0,
+        "passed": 69,
+        "skipped": 0
+      },
+      "tests/engine/test_snapshot.py": {
+        "failed": 0,
+        "passed": 15,
+        "skipped": 0
+      },
+      "tests/engine/test_terminal_conditions.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/engine/test_transition.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/evaluation/test_baseline_information_safety.py": {
+        "failed": 0,
+        "passed": 37,
+        "skipped": 2
+      },
+      "tests/evaluation/test_baselines.py": {
+        "failed": 0,
+        "passed": 112,
+        "skipped": 0
+      },
+      "tests/evaluation/test_match_runner.py": {
+        "failed": 0,
+        "passed": 56,
+        "skipped": 0
+      },
+      "tests/evaluation/test_match_spec.py": {
+        "failed": 0,
+        "passed": 47,
+        "skipped": 0
+      },
+      "tests/evaluation/test_parallel_reproducibility.py": {
+        "failed": 0,
+        "passed": 21,
+        "skipped": 0
+      },
+      "tests/evaluation/test_phase4_acceptance.py": {
+        "failed": 0,
+        "passed": 32,
+        "skipped": 0
+      },
+      "tests/evaluation/test_policy_contract.py": {
+        "failed": 0,
+        "passed": 45,
+        "skipped": 0
+      },
+      "tests/evaluation/test_setup_bank.py": {
+        "failed": 0,
+        "passed": 41,
+        "skipped": 0
+      },
+      "tests/evaluation/test_statistics.py": {
+        "failed": 0,
+        "passed": 75,
+        "skipped": 0
+      },
+      "tests/information_security/test_anti_leak.py": {
+        "failed": 0,
+        "passed": 23,
+        "skipped": 0
+      },
+      "tests/information_security/test_belief_targets.py": {
+        "failed": 0,
+        "passed": 8,
+        "skipped": 0
+      },
+      "tests/information_security/test_browser_privacy.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/information_security/test_knowledge.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/model/test_action_frame.py": {
+        "failed": 0,
+        "passed": 43,
+        "skipped": 0
+      },
+      "tests/model/test_autograd.py": {
+        "failed": 0,
+        "passed": 8,
+        "skipped": 0
+      },
+      "tests/model/test_checkpoint.py": {
+        "failed": 0,
+        "passed": 57,
+        "skipped": 0
+      },
+      "tests/model/test_contract.py": {
+        "failed": 0,
+        "passed": 23,
+        "skipped": 0
+      },
+      "tests/model/test_device_batch_equivalence.py": {
+        "failed": 0,
+        "passed": 17,
+        "skipped": 0
+      },
+      "tests/model/test_evaluation_integration.py": {
+        "failed": 0,
+        "passed": 12,
+        "skipped": 0
+      },
+      "tests/model/test_hidden_information.py": {
+        "failed": 0,
+        "passed": 9,
+        "skipped": 0
+      },
+      "tests/model/test_legality.py": {
+        "failed": 0,
+        "passed": 36,
+        "skipped": 0
+      },
+      "tests/model/test_policy_mapping.py": {
+        "failed": 0,
+        "passed": 10,
+        "skipped": 0
+      },
+      "tests/model/test_symmetry.py": {
+        "failed": 0,
+        "passed": 90,
+        "skipped": 0
+      },
+      "tests/model/test_tokenization.py": {
+        "failed": 0,
+        "passed": 11,
+        "skipped": 0
+      },
+      "tests/model/test_value_belief.py": {
+        "failed": 0,
+        "passed": 22,
+        "skipped": 0
+      },
+      "tests/observation/test_behavior_channels.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/observation/test_global_channels.py": {
+        "failed": 0,
+        "passed": 20,
+        "skipped": 0
+      },
+      "tests/observation/test_identity_planes.py": {
+        "failed": 0,
+        "passed": 42,
+        "skipped": 0
+      },
+      "tests/observation/test_movement_and_origin.py": {
+        "failed": 0,
+        "passed": 16,
+        "skipped": 0
+      },
+      "tests/observation/test_perspective.py": {
+        "failed": 0,
+        "passed": 70,
+        "skipped": 0
+      },
+      "tests/observation/test_recent_moves.py": {
+        "failed": 0,
+        "passed": 9,
+        "skipped": 0
+      },
+      "tests/observation/test_setup_memory.py": {
+        "failed": 0,
+        "passed": 11,
+        "skipped": 0
+      },
+      "tests/observation/test_shape_and_ranges.py": {
+        "failed": 0,
+        "passed": 25,
+        "skipped": 0
+      },
+      "tests/observation/test_unresolved_inventory.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      },
+      "tests/replay/test_event_stream.py": {
+        "failed": 0,
+        "passed": 13,
+        "skipped": 0
+      },
+      "tests/replay/test_replay.py": {
+        "failed": 0,
+        "passed": 46,
+        "skipped": 0
+      },
+      "tests/training/test_batch_simulation.py": {
+        "failed": 0,
+        "passed": 37,
+        "skipped": 0
+      },
+      "tests/training/test_coordinator.py": {
+        "failed": 0,
+        "passed": 29,
+        "skipped": 0
+      },
+      "tests/training/test_end_to_end_pipeline.py": {
+        "failed": 0,
+        "passed": 15,
+        "skipped": 0
+      },
+      "tests/training/test_reconstruction.py": {
+        "failed": 0,
+        "passed": 27,
+        "skipped": 0
+      },
+      "tests/training/test_representative_model.py": {
+        "failed": 0,
+        "passed": 29,
+        "skipped": 0
+      },
+      "tests/training/test_shared_buffers.py": {
+        "failed": 0,
+        "passed": 18,
+        "skipped": 0
+      },
+      "tests/training/test_trajectory.py": {
+        "failed": 0,
+        "passed": 57,
+        "skipped": 0
+      },
+      "tests/training/test_worker_pool.py": {
+        "failed": 0,
+        "passed": 30,
+        "skipped": 0
+      }
+    },
+    "seconds": 94.6,
+    "skipped": 2,
+    "summary_line": "2301 passed, 2 skipped in 94.26s (0:01:34)"
+  },
+  "tests_before": {
+    "command": "python -m pytest -q",
+    "commit": "8f4f5e39dea0ef6bd1e7fbf6f62c82a74d1e1628",
+    "errors": 0,
+    "failed": 0,
+    "note": "identical to the totals recorded by the accepted Phase 5 run",
+    "passed": 2155,
+    "recorded_before_any_phase_6_edit": true,
+    "seconds": 102.29,
+    "skipped": 2
+  },
+  "timestamp": "2026-08-11T18:20:29-0400",
+  "token_square_frame": "perspective_normalized_squares",
+  "torch_version": "2.13.0",
+  "total_seconds": 292.28
+}

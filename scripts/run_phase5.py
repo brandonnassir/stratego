@@ -417,8 +417,11 @@ def audit_checkpoint(model, checkpoint_path: Path) -> dict:
             lambda p: p.__setitem__("action_encoding_version", "source_destination_10000_v2"),
         ),
         mutate(
+            # Phase 6 moved the contract to v2, so the "wrong" version here is
+            # the retired v1 one. The case still asserts the same property: a
+            # checkpoint written under different semantics must not load.
             "wrong_model_contract",
-            lambda p: p.__setitem__("model_contract_version", "model_contract_v2"),
+            lambda p: p.__setitem__("model_contract_version", "model_contract_v1"),
         ),
         mutate(
             "wrong_architecture",
@@ -426,7 +429,11 @@ def audit_checkpoint(model, checkpoint_path: Path) -> dict:
         ),
         mutate(
             "wrong_policy_frame",
-            lambda p: p.__setitem__("policy_action_frame", "perspective_normalized_squares"),
+            lambda p: p.__setitem__("policy_action_frame", "absolute_engine_squares"),
+        ),
+        mutate(
+            "wrong_engine_frame",
+            lambda p: p.__setitem__("engine_action_frame", "perspective_normalized_squares"),
         ),
         mutate(
             "incompatible_configuration",
@@ -1314,6 +1321,16 @@ def parse_arguments() -> argparse.Namespace:
     parser.add_argument(
         "--pair-ids", type=int, default=64, help="setup pairs per gauntlet matchup"
     )
+    parser.add_argument(
+        "--data-directory",
+        type=Path,
+        default=DATA_DIRECTORY,
+        help=(
+            "where to write the artifacts; defaults to reports/phase_5_data/. Point "
+            "this elsewhere to smoke-test the harness without overwriting the "
+            "accepted Phase 5 evidence."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -1324,7 +1341,8 @@ def main() -> int:
         options.pair_ids = min(options.pair_ids, 4)
 
     started = time.perf_counter()
-    DATA_DIRECTORY.mkdir(parents=True, exist_ok=True)
+    data_directory = Path(options.data_directory)
+    data_directory.mkdir(parents=True, exist_ok=True)
     CHECKPOINT_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
     print("Phase 5 acceptance harness")
@@ -1338,12 +1356,17 @@ def main() -> int:
     print(f"[1/7] frozen contracts verified: {contracts['all_ok']}")
 
     model = build_integration_model(seed=MODEL_SEED)
+    # `integration_model_v2.pt` since Phase 6 Agent 1. The weights are the same
+    # seeded fixture as the accepted Phase 5 run (identical state-dict digest);
+    # only the recorded contract and action frame moved. The v1 file stays in
+    # `checkpoints/` untouched, as the rejection fixture for the v1/v2 boundary
+    # tests -- it must not be overwritten here.
     checkpoint_path = save_checkpoint(
         model,
-        CHECKPOINT_DIRECTORY / "integration_model_v1.pt",
+        CHECKPOINT_DIRECTORY / "integration_model_v2.pt",
         training_iteration=0,
         training_step=0,
-        training_metrics={"note": "untrained Phase 5 integration fixture"},
+        training_metrics={"note": "untrained integration fixture, model_contract_v2"},
     )
     print(f"      checkpoint written: {checkpoint_path.name} "
           f"({checkpoint_path.stat().st_size / 1024:.0f} KB)")
@@ -1560,14 +1583,14 @@ def main() -> int:
         "total_seconds": round(time.perf_counter() - started, 2),
     }
 
-    write_json(DATA_DIRECTORY / "agent_01_action_mapping.json", mapping)
-    write_json(DATA_DIRECTORY / "agent_01_hidden_information.json", hidden)
-    write_json(DATA_DIRECTORY / "agent_01_checkpoint_compatibility.json", checkpoint_audit)
-    write_json(DATA_DIRECTORY / "agent_01_numerical_batch_performance.json", numerical)
-    write_json(DATA_DIRECTORY / "agent_01_value_belief_autograd.json", value_belief)
-    write_json(DATA_DIRECTORY / "agent_01_evaluation_gauntlet.json", gauntlet)
-    write_results_csv(DATA_DIRECTORY / "agent_01_evaluation_gauntlet.csv", gauntlet_rows)
-    write_json(DATA_DIRECTORY / "agent_01_phase5_acceptance.json", acceptance)
+    write_json(data_directory / "agent_01_action_mapping.json", mapping)
+    write_json(data_directory / "agent_01_hidden_information.json", hidden)
+    write_json(data_directory / "agent_01_checkpoint_compatibility.json", checkpoint_audit)
+    write_json(data_directory / "agent_01_numerical_batch_performance.json", numerical)
+    write_json(data_directory / "agent_01_value_belief_autograd.json", value_belief)
+    write_json(data_directory / "agent_01_evaluation_gauntlet.json", gauntlet)
+    write_results_csv(data_directory / "agent_01_evaluation_gauntlet.csv", gauntlet_rows)
+    write_json(data_directory / "agent_01_phase5_acceptance.json", acceptance)
 
     print()
     print(f"status                  {status}")
@@ -1576,7 +1599,7 @@ def main() -> int:
         if not value:
             print(f"  FAILED GATE           {name}")
     print(f"total seconds           {acceptance['total_seconds']}")
-    print(f"written                 {DATA_DIRECTORY.relative_to(REPOSITORY_ROOT)}/")
+    print(f"written                 {data_directory}/")
     return 0 if status == "PASS" else 1
 
 
