@@ -1,0 +1,157 @@
+{
+ "agent": "agent_06",
+ "architecture_family": "stratego_transformer_v1",
+ "architecture_family_digest": "5b57dd3a0c1ae6fd0e0323315e768139a4e0d2b8b8000ba288d4e8876864397d",
+ "architecture_family_version": "architecture_family_v1",
+ "commit": "7001f75f8cc16cdbede052ee239459c61ce55551",
+ "coordinator_version": "coordinator_v1",
+ "engine_implementation_version": "phase2_1_reference_1.1.0",
+ "initialization_seed": 20250601,
+ "machine": "arm64",
+ "model_contract_version": "model_contract_v2",
+ "mps_available": true,
+ "mps_built": true,
+ "numpy_version": "2.5.1",
+ "observation_version": "observation_v2_1_127ch",
+ "phase": "phase_6",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "processor": "arm",
+ "projection": {
+  "all_candidates_for_reference": {
+   "C0": {
+    "games_168h": 13769203.9968,
+    "positions_168h": 7079641586.236799,
+    "recording_positions_per_second": 11705.756591,
+    "source": "Agent 4 sustained storage run",
+    "trajectory_gib_168h": 1226.957856712825
+   },
+   "C1": {
+    "games_168h": 10484376.134399999,
+    "positions_168h": 5415504994.1664,
+    "recording_positions_per_second": 8954.207993,
+    "source": "Agent 4 sustained storage run",
+    "trajectory_gib_168h": 949.4125822063412
+   },
+   "C2": {
+    "games_168h": 7569925.3728,
+    "positions_168h": 3768691693.9392,
+    "recording_positions_per_second": 6231.302404,
+    "source": "Agent 4 sustained storage run",
+    "trajectory_gib_168h": 652.6899949650877
+   },
+   "C3": {
+    "games_168h": 5709410.5824,
+    "positions_168h": 2863929838.0896,
+    "recording_positions_per_second": 4735.333727,
+    "source": "Agent 4 sustained storage run",
+    "trajectory_gib_168h": 498.8873343554286
+   }
+  },
+  "candidate_id": "C1",
+  "extrapolated": {
+   "checkpoint_storage": {
+    "daily": {
+     "bytes": 24315291,
+     "checkpoints_retained": 7,
+     "gib": 0.022645379416644573,
+     "interval_hours": 24.0
+    },
+    "every_12_hours": {
+     "bytes": 48630582,
+     "checkpoints_retained": 14,
+     "gib": 0.045290758833289146,
+     "interval_hours": 12.0
+    },
+    "every_4_hours": {
+     "bytes": 145891746,
+     "checkpoints_retained": 42,
+     "gib": 0.13587227649986744,
+     "interval_hours": 4.0
+    },
+    "hourly": {
+     "bytes": 583566984,
+     "checkpoints_retained": 168,
+     "gib": 0.5434891059994698,
+     "interval_hours": 1.0
+    }
+   },
+   "decisions": 5121865010.977545,
+   "games": 9996679.045647759,
+   "games_per_24_hours": 1428097.0065211083,
+   "positions": 5121865010.977545,
+   "positions_per_24_hours": 731695001.5682206,
+   "training_step_opportunities": {
+    "epochs_over_the_projected_corpus": 0.35964821330744673,
+    "examples_if_training_ran_for_the_whole_week": 1842069600.0,
+    "examples_per_second": 3045.75,
+    "note": "Agent 3 measured this backward-pass rate standalone, with no simulator running. Collection and training contend for the same single Metal device, so these are opportunity ceilings for a training process that had the device to itself, not a concurrent-throughput prediction."
+   },
+   "trajectory_bytes": 966556698705.4615,
+   "trajectory_gib": 900.1760731502078,
+   "trajectory_gib_per_24_hours": 128.5965818786011
+  },
+  "extrapolation_is_not_a_learning_claim": "These totals follow from a measured cost rate on random weights. They say how much data the machine can produce, not how strong the resulting network will be, and a trained network's game lengths will differ from the random-weight lengths these rates were measured at.",
+  "fallback_projection": {
+   "candidate_id": "C0",
+   "games_168h": 13769203.9968,
+   "gib_per_hour": 7.303320575671577,
+   "positions_168h": 7079641586.236799,
+   "recording_positions_per_second": 11705.756591,
+   "source": "Agent 4 sustained storage run, not soaked",
+   "trajectory_gib_168h": 1226.957856712825
+  },
+  "final_run_hours": 168.0,
+  "final_run_seconds": 604800.0,
+  "measured": {
+   "bytes_per_decision": 188.71186504015017,
+   "checkpoint_bytes": 3473613,
+   "games_per_second": 16.528900538438755,
+   "measured_seconds": 3039.8271127080006,
+   "recording_inclusive_positions_per_second": 8468.692147780332,
+   "source": "Agent 6 one-hour production soak, steady-state window (3040s, 16760 global steps)",
+   "training_step_examples_per_second": 3045.75,
+   "trajectory_bytes_per_second": 1598142.6896585012,
+   "trajectory_gib_per_hour": 5.3581909116083795
+  }
+ },
+ "python_version": "3.13.2",
+ "rules_version": "stratego_project_v1",
+ "soak_version": "agent_06_soak_0.1.0",
+ "storage_analysis": {
+  "candidate_id": "C1",
+  "compressed": {
+   "fits_external": true,
+   "fits_internal": false,
+   "fraction_of_external": 0.6621857619525787,
+   "is_measured_not_assumed": true,
+   "ratio": 0.6850976904298155,
+   "source": "Agent 4 compression probe on 60 real sealed games of production length (25,015 decisions); the pipeline still writes uncompressed records, so this is a measured option and not the current path",
+   "trajectory_bytes_168h": 662185761952.5787,
+   "trajectory_gb_168h": 662.1857619525788,
+   "trajectory_gib_168h": 616.708548695388
+  },
+  "declared_capacity": {
+   "external_free_bytes": 1000000000000,
+   "external_free_gb": 1000.0,
+   "internal_free_bytes": 150000000000,
+   "internal_free_gb": 150.0,
+   "preference": "preserve most games externally when practical"
+  },
+  "measured_production": {
+   "bytes_per_decision": 188.71186504015017,
+   "checkpoint_bytes": 3473613,
+   "trajectory_bytes_168h": 966556698705.4615,
+   "trajectory_gb_168h": 966.5566987054616,
+   "trajectory_gib_168h": 900.1760731502078
+  },
+  "uncompressed": {
+   "fits_external": true,
+   "fits_internal": false,
+   "fraction_of_external": 0.9665566987054616,
+   "fraction_of_internal": 6.443711324703077
+  }
+ },
+ "timestamp": "2026-08-12T12:44:48-0400",
+ "torch_version": "2.13.0",
+ "trajectory_version": "trajectory_v1"
+}

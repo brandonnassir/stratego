@@ -2422,3 +2422,790 @@ knob, and out of scope for both Agent 5 and Agent 6.
 
 **Do not move inference into a worker.** The owner holds the only Metal context,
 and a test enforces that game workers import neither torch nor `stratego.model`.
+
+---
+
+## 6. Agent 6 — Stability Soak, 168-Hour Projection, and Architecture Decision
+
+**Status: PASS** — 21 / 21 completion gates true, 0 problems. Recommended Phase 6
+status: **PASS**, subject to the reviewing chat's acceptance.
+
+C1 ran continuously for one hour through Agent 4's production-recording pipeline:
+30,351,360 positions, 58,741 games, 19,760 global steps, **zero** illegal
+actions, action-frame mismatches, reconstruction mismatches, worker failures,
+model/MPS failures and non-finite production outputs, and **zero swap**. The
+primary architecture is **C1**; the fallback is **C0**. One real limitation is
+carried forward and is stated plainly in §6.16: host resident memory rose ~191
+MiB per hour and did not visibly decelerate within the hour. A follow-up probe
+localized it to the trajectory-recording path — with recording off the
+coordinator is flat at +0.8 MiB/hour — which tells Phase 7 where to look.
+
+### 6.1 Prerequisite verification
+
+Read from the repository rather than assumed:
+
+| Agent | Status | Commit | Suite at that point |
+|---|---|---|---|
+| 1 — `model_contract_v2` | `PASS` | `8f4f5e3` | 2,301 passed, 0 failed |
+| 2 — candidate family | `PASS` | `8f4f5e3` | 2,383 passed, 0 failed |
+| 3 — MPS benchmark | `PASS` | `8f4f5e3` | 2,445 passed, 0 failed |
+| 4 — integrated pipeline | `PASS` | `8f4f5e3` | 2,491 passed, 0 failed |
+| 5 — parallel evaluation | `PASS` | `8f4f5e3` | 2,558 passed, 0 failed |
+
+Full suite before any Agent 6 edit, at commit `7001f75`:
+
+```text
+python -m pytest -q
+2558 passed, 2 skipped, 0 failed in 149.78s
+```
+
+That matches Agent 5's recorded end state exactly. The two skips are the
+pre-existing Phase 4 capability skips.
+
+The architecture family digest is `5b57dd3a0c1a…`, unchanged since Agents 2 and
+3. Every candidate in the comparison was rebuilt from `(candidate id, 20250601)`
+and checked against Agent 2's recorded parameter count **and** configuration
+digest before anything was measured:
+
+| Candidate | Parameters | Matches Agent 2 | Configuration digest | Matches |
+|---|---:|---|---|---|
+| C0 | 123,223 | yes | `057d6c9242e3…` | yes |
+| C1 | 863,959 | yes | `31ca84ab140c…` | yes |
+| C2 | 1,922,519 | yes | `3f49fc3a7c34…` | yes |
+| C3 | 2,812,247 | yes | `62cffd75b6f9…` | yes |
+
+**Architecture modifications: NONE.**
+
+### 6.2 Which candidate was soaked, and why that one
+
+The instruction requires the leading soak candidate to be chosen from Agents 3–4
+measured evidence alone. That choice is made by
+`stratego.training.phase6_soak.select_architectures`, whose complete input list is
+`SELECTION_INPUT_KEYS` — capacity proxy and measured cost, nothing else — and the
+rule was written before its output was read. It runs *before* the soak, so the
+soak candidate is a derived result rather than a preference.
+
+Walking the ladder in parameter order, each step is scored by
+
+\[
+\text{score}=\frac{\log(1+\Delta\text{parameters})}{-\log(1+\Delta\text{recording throughput})}
+\]
+
+— capacity bought per unit of sustained production throughput given up:
+
+| Step | Parameters | Recording throughput | Collection | Training step | float16 inference | Storage rate | Score |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| C0 → C1 | **+601.1%** (7.01×) | **−23.5%** | −32.0% | −66.5% | −45.1% | −22.6% | **6.54** |
+| C1 → C2 | +122.5% (2.23×) | −30.4% | −36.9% | −39.1% | −42.1% | −31.3% | 2.21 |
+| C2 → C3 | +46.3% (1.46×) | −24.0% | −26.7% | −30.2% | −29.7% | −23.6% | 1.39 |
+
+The first rung buys seven times the capacity for less than a quarter of the
+sustained throughput. The very next rung buys 2.2× capacity for a *larger*
+proportional throughput loss — a 66% collapse in efficiency — and the one after
+that is worse again. **The knee is C1**, and the declared floor of 0.5 is not
+load-bearing: any floor above ≈0.35 selects C1, and a test asserts it across
+0.4–1.0.
+
+Memory is not a differentiator anywhere on this ladder (process RSS 4.19–4.31
+GiB, Metal 3.15–3.61 GiB), and every candidate is numerically stable at float16
+in the real pipeline, so neither axis breaks the tie. Storage argues against C0
+and mildly for the larger candidates; §6.13 shows it does not overturn the knee.
+
+C1 is therefore the leading finalist and was soaked first. No random-weight game
+result was consulted; a test adds a `win_rate`, an `elo` and a `match_score` to
+every row and asserts the selection does not move.
+
+### 6.3 What was built
+
+```text
+stratego/training/phase6_soak.py       the soak loop, the growth/drift statistics,
+                                       the 168-hour projection, the storage
+                                       analysis and the selection rule
+scripts/run_phase6_agent06.py          the acceptance harness
+scripts/run_phase6_agent06_memory.py   the memory-localization probe of §6.16
+tests/training/test_phase6_soak.py     74 tests
+```
+
+Nothing in `stratego/engine/`, `stratego_project_docs/`, the Phase 4 evaluation
+semantics or the trajectory schema was touched. The soak drives Agent 4's
+pipeline; it does not re-implement any part of it.
+
+### 6.4 The one-hour soak
+
+Agent 4's best defensible production point, adopted unchanged:
+
+```text
+candidate            C1, real weights from (C1, 20250601)
+contract             model_contract_v2, perspective_normalized_squares
+workers              10                 environments      1,536
+inference batch      2,048              precision         float16
+live legality        dense              MPS owner         coordinator only
+recording            production trajectory_v1, uncompressed
+snapshot interval    32                 backend           KEEP_PYTHON
+duration             3,600.7 s continuous, 60 samples at 60 s
+```
+
+**Why not `run_neural_schedule`.** Agent 5's ~449 positions/s is *evaluation*
+throughput — whole games played to termination through `play_match`, one forward
+pass per decision at batch 1. The 168-hour run is a collection run, and the
+machine it will use is the bulk-synchronous coordinator. Agent 5's figure appears
+nowhere in this section's collection or training arithmetic.
+
+**Why not `worker_count=1`.** That recommendation is Agent 5's, and it is about
+deterministic Phase 4 evaluation, where every decision crosses one serial
+inference owner and extra game workers only add queue latency. Collection is a
+different shape: the workers build observations and advance environments in
+parallel between barriers. Agent 4's 10-worker topology is the right one here and
+is what was soaked.
+
+**Two independent legality authorities ran on every single decision.** The
+coordinator checks each sampled action against the very mask it was drawn from
+before the workers see it (`verify_sampled_legality`), and the frozen engine
+validates every action in `apply_actions` before applying any of them. That is
+**30,351,360** action-legality checks, one per position, over the hour.
+
+**Reconstruction ran for the whole hour, not as an opening budget.** Each worker
+carries live digests through one game at a time, continuously; a sealed record is
+round-tripped through the codec and every decision rebuilt from the nearest
+snapshot plus replayed actions, then compared field by field. The budget is set
+so it cannot exhaust inside the hour, and a gate asserts the verified count was
+still rising at the last sample.
+
+**Non-finite outputs.** `ModelOutputs.validated` refuses a non-finite value or
+belief head inside *every* forward pass, so those two heads were checked
+continuously and for free across all 19,760 steps. The contract deliberately does
+not finiteness-check the policy head — a model may score an illegal index
+arbitrarily — so a probe covers it explicitly every 60 s, on real published
+positions, through the live model at pipeline precision.
+
+### 6.5 Hard soak targets
+
+| Required | Measured | |
+|---|---:|---|
+| illegal actions | **0** | over 30,351,360 checks |
+| action-frame mismatches | **0** | |
+| trajectory reconstruction mismatches | **0** | over 195,686 decisions in 399 games |
+| worker failures | **0** | 600 liveness checks, 10/10 alive throughout |
+| MPS/model failures | **0** | |
+| non-finite production outputs | **0** | 344,156,160 logits probed across all three heads |
+| swap | **0** | start, end and every one of the 60 samples |
+| unexplained persistent memory growth | see §6.6 | gate passed; a real trend is reported |
+
+`games_joined_late` was 0: no game was recorded from a partial trajectory. The
+finiteness probe cost 2.49 s of 3,600.7 s — **0.069%** of wall clock — and is
+counted inside the reported throughput rather than subtracted from it.
+
+Terminal reasons over the hour: flag capture 32,155; battleless move-limit draw
+25,488; opponent has no legal move 1,097; both players have no legal move 1.
+These come from **random weights** and are a cost measurement, not a statement
+about how Stratego games end.
+
+### 6.6 Throughput, drift and memory
+
+Two windows, never averaged together. Correctness covers the whole hour; the
+sustained rates come from the steps after the warmup.
+
+```text
+warmup            3,000 global steps = 560.3 s
+measured window   16,760 global steps = 3,039.8 s, 51 samples
+```
+
+The warmup is longer than Agent 4's 1,100 steps for a reason the calibration
+pilot measured: a pool starts with all 1,536 slots at ply 0 and grows their
+trajectory builders in lockstep, so resident memory climbs toward the envelope of
+a fully synchronised population before the slots spread out. That climb was still
+converging at step ~1,300. Six mean game lengths puts the measurement window past
+it.
+
+| Sustained (measured window) | |
+|---|---:|
+| recording-inclusive positions/s | **8,468.7** |
+| games/s | **16.53** |
+| trajectory production | **5.358 GiB/hour** |
+| bytes/decision | 188.71 |
+| mean game length | 512.4 |
+| whole-hour positions/s including warmup | 8,430.7 |
+
+**Drift is negligible and slightly negative**: −16.4 positions/s per hour, which
+is **−0.19% per hour**, with R² = 0.0017 — the fit explains essentially none of
+the variance, so this is scatter rather than decay. Coefficient of variation
+across the 51 windows is 1.14% (min 8,295, max 8,649), and the second half of the
+window averaged **0.20% faster** than the first. The pipeline did not degrade.
+
+Memory, over the measured window:
+
+| Quantity | First half | Second half | Change | Slope | Within 2%? |
+|---|---:|---:|---:|---:|---|
+| Metal current allocated | 2,051,072 B | 2,051,072 B | **0.0000%** | 0 | yes |
+| Shared memory | 94,288,896 B | 94,288,896 B | **0.0000%** | 0 | yes |
+| Metal driver allocated | 2.031 GiB | 2.031 GiB | +0.0007% | +50 KiB/h | yes |
+| Coordinator RSS | 4.011 GiB | 4.051 GiB | +1.00% | +95 MiB/h | yes |
+| Worker RSS (10 total) | 4.498 GiB | 4.539 GiB | +0.92% | +96 MiB/h | yes |
+| **Total RSS** | **8.508 GiB** | **8.590 GiB** | **+0.96%** | **+191 MiB/h** | yes |
+
+Swap was zero at start, at end, and at every sample.
+
+The two device-side quantities are *exactly* constant, to the byte, for the whole
+hour — the Metal allocator and the shared-memory block do not move. The growth is
+entirely host RSS, and it is discussed as a limitation rather than dismissed in
+§6.16.
+
+### 6.7 A correction to Agent 4's recording headline
+
+Agent 4 reported C1 recording at **9,420 positions/s**. That figure comes from a
+30-second row on a cold pool: it pays the recording cost of every decision while
+almost no game has sealed yet, so it never pays the sealing and encoding cost a
+steady-state run pays continuously. Agent 4's own warmed storage run gives
+**8,954 positions/s** for the same candidate, and this soak — 3,040 measured
+seconds — gives **8,468.7**.
+
+This is exactly the correction Agent 4 made for trajectory *bytes* in its §4.10,
+applied to positions/s. Both figures are carried in the artifacts, the selection
+rule and the projection read the sustained one, and a test asserts the knee lands
+on C1 under either. Agent 4's collection-only and standalone numbers are
+unaffected — nothing there depends on sealing.
+
+### 6.8 The finalist comparison
+
+All four measured candidates. **C2 is retained** even though Agent 4's formal
+finalists were C0/C1/C3: it is on the measured frontier, it was measured on every
+axis, and the knee argument turns on the C1 → C2 step.
+
+| | C0 | **C1** | C2 | C3 |
+|---|---:|---:|---:|---:|
+| configuration | 64w × 2b × 4h, ff 256 | **128w × 4b × 4h, ff 512** | 192w × 4b × 6h, ff 768 | 192w × 6b × 6h, ff 768 |
+| parameters | 123,223 | **863,959** | 1,922,519 | 2,812,247 |
+| checkpoint | 0.48 MiB | **3.31 MiB** | 7.35 MiB | 10.75 MiB |
+| standalone float32 | 25,363 | **12,304** | 6,785 | 4,812 |
+| standalone float16 | 27,156 | **14,919** | 8,636 | 6,071 |
+| training step examples/s | 9,084 | **3,046** | 1,854 | 1,294 |
+| training step memory | 2.14 GiB / 1.12 GiB | **2.14 GiB / 1.09 GiB** | 2.14 GiB / 2.12 GiB | 2.14 GiB / 2.12 GiB |
+| integrated collection | 17,451 | **11,875** | 7,495 | 5,496 |
+| recording, Agent 4 headline (cold) | 12,689 | 9,420 | 6,486 | 4,886 |
+| recording, Agent 4 sustained | 11,706 | 8,954 | 6,231 | 4,735 |
+| recording, Agent 6 one-hour soak | — | **8,468.7** | — | — |
+| games/s (Agent 4 sustained) | 22.77 | 17.34 | 12.52 | 9.44 |
+| games/s (soak) | — | **16.53** | — | — |
+| MPS utilisation | 0.677 | **0.797** | 0.873 | 0.906 |
+| worker wait fraction | 0.863 | **0.911** | 0.944 | 0.959 |
+| process / shared / Metal (Agent 4) | 4.19 G / 89.9 M / 3.61 G | **4.28 G / 89.9 M / 3.15 G** | 4.31 G / 89.9 M / 3.15 G | 4.31 G / 89.9 M / 3.15 G |
+| GiB/hour (Agent 4 sustained) | 7.30 | 5.651 | 3.89 | 2.97 |
+| GiB/hour (soak) | — | **5.358** | — | — |
+| bottleneck ratio R | 4.11 | **6.92** | 11.42 | 16.15 |
+| soak status | not soaked | **one hour, 12/12 gates** | not soaked | not soaked |
+
+Every row states its own source. Agent 4's sustained figures come from warmed
+storage runs of 125–308 seconds; the soak rows are this agent's 3,040-second
+measured window. C1 is the only candidate with a soak row because it is the only
+candidate that was soaked — see §6.16 item 4. The coordinator's own resident
+memory during the soak is reported separately in §6.6, because the soak measures
+current RSS across the coordinator and all ten workers while Agent 4's column is
+a peak-RSS figure for the parent alone; the two are not the same quantity and are
+deliberately not merged into one row.
+
+**Parameter count is a capacity proxy, not a proven strength measurement.** Every
+candidate here carries the family's fixed random initialization. Nothing in Phase
+6 has measured playing strength, and nothing in this decision claims to.
+
+### 6.9 The capacity/compute knee
+
+The knee is C1, for the reasons tabulated in §6.2. Stated as the instruction
+frames it — the largest useful capacity increase before additional size costs
+disproportionately:
+
+- **C0 → C1 is clearly worth taking.** 7.01× the capacity for 23.5% of the
+  sustained recording throughput. C0 is also the candidate furthest below its own
+  hardware ceiling (64% of standalone), which means its throughput advantage is
+  partly an artifact of the pipeline's fixed per-step costs rather than of the
+  model being cheap.
+- **C1 → C2 is not.** 2.23× capacity costs 30.4% of recording throughput, 39.1%
+  of training-step throughput and 42.1% of standalone inference — a larger
+  proportional loss than the previous step, for less than a third of the capacity
+  gain. Efficiency falls by 66%.
+- **C2 → C3 is worse still.** 1.46× capacity for another 24.0%.
+
+This is not "pick the fastest" (that would be C0, and it is the fallback, not the
+primary) and not "pick the largest" (that would be C3). It is the last rung whose
+price the measurements justify.
+
+### 6.10 Primary architecture
+
+```text
+candidate_id                 C1
+architecture_family          stratego_transformer_v1
+architecture_family_version  architecture_family_v1
+model_contract_version       model_contract_v2
+configuration_digest         31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d
+initialization_seed          20250601
+
+width                        128
+blocks                       4
+heads                        4                (head dimension 32)
+feed_forward_width           512
+position encoding            learned_row_column_v1
+normalization                pre_layernorm
+policy head                  source_query_destination_key_scaled_with_source_and_destination_biases
+value head                   mean_pool_tokens_then_two_layer_mlp
+belief head                  per_token_linear
+parameters                   863,959
+checkpoint                   3,473,613 bytes
+
+recommended MPS precision    float16 for collection, float32 for evaluation
+recommended inference batch  2,048 for collection; 1 with single_request for evaluation
+recommended topology         10 workers x 1,536 environments, dense legality,
+                             snapshot interval 32, coordinator is the only MPS owner;
+                             evaluation at worker_count=1
+```
+
+The two precisions are not an inconsistency. Agent 4 measured 0 non-finite
+outputs across 5.7 M logits per candidate at float16 in the real pipeline, and
+float16 is faster at collection batch sizes; Agent 5 measured float16 to be
+*slower* than float32 at batch 1, where the forward pass is kernel-launch-bound,
+and gated evaluation at float32. A half-precision forward is a different decision
+rule, and Agent 5 gave it a distinct policy identity for exactly that reason.
+
+**The measured tradeoff.** C1 gives up 27.6% of C0's sustained recording
+throughput and two-thirds of its training-step throughput, and buys 7.01× the
+parameters. It keeps the simulator at R = 6.92 — the model, not the engine, sets
+the pace, with the simulator holding roughly seven times the headroom the model
+needs. It produces 1.94 GiB/hour less trajectory than C0, which is what makes a
+full week fit the external volume at all (§6.13). It sustained an hour with every
+hard gate clean.
+
+### 6.11 Fallback architecture
+
+```text
+candidate_id                 C0
+architecture_family          stratego_transformer_v1
+architecture_family_version  architecture_family_v1
+model_contract_version       model_contract_v2
+configuration_digest         057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd
+initialization_seed          20250601
+
+width                        64
+blocks                       2
+heads                        4                (head dimension 16)
+feed_forward_width           256
+position encoding            learned_row_column_v1
+normalization                pre_layernorm
+policy head                  source_query_destination_key_scaled_with_source_and_destination_biases
+value head                   mean_pool_tokens_then_two_layer_mlp
+belief head                  per_token_linear
+parameters                   123,223
+checkpoint                   504,965 bytes
+
+recommended MPS precision    float16 for collection, float32 for evaluation
+recommended inference batch  2,048 for collection; 1 with single_request for evaluation
+recommended topology         identical to the primary
+```
+
+This is a frozen exact configuration, reproducible from `(C0, 20250601)`, not an
+informal idea. It qualifies on every required ground:
+
+- **Full correctness.** Agent 4's `model_contract_v2` gate: 6,016 environment
+  steps, 752 frame rows, 0 illegal selections, 0 frame mismatches, 0 model errors,
+  0 state/replay mismatches, both colours exercised; 3,081 stored decisions
+  reconstructed with 0 mismatches.
+- **Stable MPS behaviour.** Numerically clean at float16 in the real pipeline,
+  stable to inference batch 2,048, 0 non-finite outputs.
+- **Materially better throughput.** 38.1% more sustained recording throughput
+  (11,706 vs 8,954) and 2.98× the training-step rate (9,084 vs 3,046 examples/s).
+  The instruction asks for materially better throughput *and/or* memory headroom;
+  C0 qualifies on throughput alone. It does **not** qualify on memory: its
+  training step uses 1.12 GiB of Metal against C1's 1.09 GiB, and its integrated
+  process RSS is 4.19 GiB against 4.28 GiB — the two are within noise of each
+  other, and C0's Metal figure is marginally the larger. Memory does not separate
+  any candidate on this ladder, and claiming otherwise for the fallback would
+  misread the measurements.
+- **The same model contract**, so a checkpoint of either loads through the same
+  strict path and plays under the same normalized action frame.
+
+Its cost is capacity — 123,223 parameters is 14% of C1's — and storage: 7.30
+GiB/hour, which is the one candidate whose raw week does not fit the external
+volume (§6.13).
+
+### 6.12 The 168-hour projection
+
+The user's official final run is exactly \(168\ \mathrm{h}=604{,}800\ \mathrm{s}\).
+The measured input is this soak's own sustained rate; everything below the line
+is arithmetic on it.
+
+**Measured** (C1, 3,039.8 s steady-state window of the one-hour soak):
+
+```text
+recording-inclusive throughput   8,468.7 positions/s
+games                            16.53 games/s
+trajectory production            1,598,143 bytes/s = 5.358 GiB/hour
+bytes/decision                   188.71
+checkpoint                       3,473,613 bytes
+training step (Agent 3)          3,045.75 examples/s
+```
+
+**Extrapolated to 604,800 s:**
+
+| | 24 hours | 168 hours |
+|---|---:|---:|
+| positions | 731,695,002 | **5,121,865,011** |
+| games | 1,428,097 | **9,996,679** |
+| trajectory | 128.60 GiB | **900.18 GiB** (966.6 GB) |
+
+Checkpoint storage is negligible at any plausible frequency:
+
+| Frequency | Retained | Total |
+|---|---:|---:|
+| hourly | 168 | 557 MiB |
+| every 4 hours | 42 | 139 MiB |
+| every 12 hours | 14 | 46 MiB |
+| daily | 7 | 23 MiB |
+
+**Training-step opportunities.** Agent 3 measured C1's backward pass at 3,045.75
+examples/s *standalone, with no simulator running*. If a training process had the
+device entirely to itself for the whole week it could consume 1.84 × 10⁹
+examples — about **0.36 epochs** over the 5.12 × 10⁹ positions the same week
+would produce. Collection and training contend for one Metal device, so the real
+concurrent figure is lower. The useful reading is structural rather than
+numerical: **this pipeline produces data considerably faster than a single M4 Pro
+can learn from it**, so the final run's design question is sampling and retention,
+not how to collect more.
+
+None of this is a claim about learning. These totals follow from a cost rate
+measured on random weights; a trained network's game lengths — and therefore its
+games/s and its byte rate — will differ.
+
+### 6.13 Storage analysis
+
+Against the user's declared capacity of ~150 GB internal and ~1 TB external:
+
+| Candidate | GiB/hour | 168 h raw | vs internal | vs external | Compressed (×0.685) | vs external |
+|---|---:|---:|---:|---:|---:|---:|
+| C0 | 7.30 | 1,227 GiB | 878% | **132% — no** | 841 GiB | 90% — yes |
+| **C1** | **5.358** ‡ | **900 GiB** | 644% | **96.7% — yes, barely** | **617 GiB** | **66% — yes** |
+| C2 | 3.89 | 653 GiB | 467% | 70% — yes | 447 GiB | 48% — yes |
+| C3 | 2.97 | 499 GiB | 358% | 54% — yes | 342 GiB | 37% — yes |
+
+‡ measured by this soak; the others are Agent 4's sustained runs.
+
+**The headline result is better than Agent 4's projection suggested.** On Agent
+4's 5.651 GiB/hour, C1's raw week came to 1,019 GB — 102% of the external volume,
+overflowing it. This soak's longer measurement gives 5.358 GiB/hour and therefore
+966.6 GB, which **fits the 1 TB external volume uncompressed, with about 3%
+spare**. That is a thin margin and should not be relied on alone.
+
+**No candidate's uncompressed week fits internal storage.** 150 GB holds roughly
+26 hours of C1's raw trajectory.
+
+The compression figure is Agent 4's **measured** ratio — 0.685 on 60 real sealed
+games of production length, 25,015 decisions, 186 → 127 bytes/decision — not an
+assumption. Compressed, C1's week is 662 GB, 66% of the external volume, leaving
+room for a second week. The pipeline still writes uncompressed records;
+`RecordingConfig.compress_records` already exists and already has a decode path,
+so this is a flag rather than new work, and Phase 6 did not enable it.
+
+**Recommended retention approach**, not finalized here:
+
+```text
+internal (~150 GB):
+  active checkpoint and the current checkpoint ladder   ~0.6 GB even hourly
+  hot logs and metrics
+  the live replay buffer / current shard being written
+
+external (~1 TB):
+  compressed full trajectories for the whole run        ~662 GB at C1
+  evaluation and human games
+  diagnostic and unusual games
+  headroom                                              ~340 GB
+```
+
+**Deleting most games is not necessary and is not recommended.** The user's stated
+preference to preserve most games externally is achievable in full: every game of
+the 168-hour run fits on the external volume, uncompressed with a 3% margin or
+compressed with a 34% margin. Phase 3's rolling retention was designed under a
+different measurement and should not be carried over by default. If the run is
+extended beyond one week, or if the trained network's games run longer than the
+random-weight games these rates were measured on, compression should be enabled
+before tiering or deletion is considered.
+
+### 6.14 Parallel evaluation readiness
+
+Checked, not asserted. A checkpoint was written for each of C1 and C0 and
+reloaded through the same strict path Agent 5 gated on — `load_checkpoint` with
+`expected_architecture_id` **and** `expected_configuration`, which refuses a file
+that is merely self-consistent — and an `InferenceOwner` was constructed on Metal
+in both decision modes for each.
+
+| | C1 (primary) | C0 (fallback) |
+|---|---|---|
+| loads under expected configuration | yes | yes |
+| checkpoint `model_contract_version` | `model_contract_v2` | `model_contract_v2` |
+| checkpoint format version | 1 | 1 |
+| `policy_action_frame` | `perspective_normalized_squares` | `perspective_normalized_squares` |
+| `engine_action_frame` | `absolute_engine_squares` | `absolute_engine_squares` |
+| parameters after reload | 863,959 | 123,223 |
+| greedy owner | constructs, 1 checkpoint load | constructs, 1 checkpoint load |
+| seeded categorical owner | constructs, 1 checkpoint load | constructs, 1 checkpoint load |
+
+**Future checkpoints of either architecture are ready for deterministic 1/2/4/8-worker
+evaluation, in greedy mode and in seeded categorical mode.** Agent 5 reproduced
+one results digest and one replay-digest set across 1, 2, 4, 8 and shuffled-input
+runs with zero field-level mismatches, and nothing in Agent 6 changed the
+evaluation path, the batch policy or the model contract those results depend on.
+
+The accepted evaluation reference is unchanged: **float32** with the
+**`single_request`** batch policy, `worker_count=1` for speed unless process
+isolation is wanted. `arrival_batched` remains experimental performance evidence
+only and was not used, extended or redesigned here.
+
+### 6.15 Backend decision
+
+```text
+KEEP_PYTHON remains supported
+```
+
+Agent 4 measured R per candidate against a candidate-independent simulator
+numerator of 91,778 positions/s: C0 4.11, C1 6.92, C2 11.42, C3 16.15, all far
+above the 2.0 threshold. For the selected primary the simulator holds roughly
+seven times the headroom the model needs. The soak sustained that same regime for
+an hour — workers idle ~91% of each step, the model setting the pace — with no
+sign of the balance moving. **No simulator bottleneck has appeared, and no
+optimized backend is required.** None was built.
+
+### 6.16 Deviations and limitations
+
+1. **Resident memory grew ~180 MiB/hour and did not visibly decelerate within the
+   hour. This is the highest-risk remaining limitation.** The declared gate — the
+   second half of the measurement window against the first, tolerance 2% — passed
+   at +0.96%, and the absolute rise over 50 measured minutes was 157 MiB on an 8.5
+   GiB base. But the trend is monotone with R² = 0.96, and split into thirds it
+   reads +178, +233, +176 MiB/hour: roughly constant, not decaying. The device
+   side is exactly flat — Metal current allocated and the shared-memory block did
+   not move by a single byte — so this is host RSS, split about evenly between the
+   coordinator and the ten workers.
+
+   **The growth was localized rather than left as a guess.** A follow-up probe
+   (`scripts/run_phase6_agent06_memory.py`) reran the identical topology, candidate
+   and seed with production recording switched *off*:
+
+   | Settled slope | Recording on | Recording off | Attributable to recording |
+   |---|---:|---:|---:|
+   | coordinator RSS | +95.1 MiB/h | **+0.8 MiB/h** | +94.3 MiB/h |
+   | worker RSS (10 total) | +95.9 MiB/h | +25.9 MiB/h | +70.0 MiB/h |
+   | total RSS | +191.1 MiB/h | +26.7 MiB/h | +164.4 MiB/h |
+
+   With recording off the coordinator is flat — **+0.8 MiB/hour** across a
+   ten-minute settled window, against +95.1 MiB/hour with recording on — so **the
+   collection path is not what grows**, and 164 of the soak's 191 MiB/hour belong
+   to the production trajectory path. That is consistent with the
+   mechanism: recording is what allocates and frees a ~96 KiB encoded record 16.5
+   times a second, plus the per-decision builder objects and the coordinator-side
+   compact-legality and probability blocks that exist only when recording is on.
+   Churn of that shape produces allocator arena growth, which is bounded in
+   principle — the move limit caps a game, and records are dropped immediately
+   after encoding — but can creep for a long time before it plateaus.
+
+   This narrows the question without closing it. One hour still cannot prove the
+   arena plateaus, and extrapolated naively 191 MiB/hour over 168 hours is ~31 GiB
+   on top of the pipeline's 8.6 GiB, which on this 48 GiB machine would approach
+   the point where swap becomes a risk — and swap was a zero-tolerance gate for
+   good reason. **Recommended mitigations for the final run, in order of cost:**
+   monitor RSS and swap continuously; restart the collection process at a
+   checkpoint boundary every 24 hours, which the checkpoint-based design already
+   makes cheap and which resets the arena outright; and, if Phase 7 wants the
+   question settled, run a multi-hour probe against the recording path
+   specifically, now that it is known to be the right place to look. Nothing here
+   blocks Phase 6 — the hour was clean and swap was zero — but it should not be
+   carried into an unattended 168-hour commitment unexamined.
+
+2. **The warmup is longer than Agent 4's.** 3,000 steps rather than 1,100, chosen
+   from the calibration pilot because the memory question needs a settled window
+   and the pilot showed resident memory still converging at step ~1,300. This only
+   makes the sustained rates *more* settled than Agent 4's; the storage figures
+   remain directly comparable and land at 188.71 bytes/decision against Agent 4's
+   188.24.
+
+3. **Agent 4's recording headline is superseded for C1**, per §6.7. The 9,420
+   positions/s figure is a cold-pool number; the sustained rate is 8,468.7. Both
+   are in the artifacts. This does not change any finalist, any classification or
+   the knee.
+
+4. **Only C1 was soaked.** The instruction requires the leading finalist to
+   complete the hour and provides for soaking the next finalist only if it fails.
+   C1 passed 12/12, so C0, C2 and C3 carry Agent 4's shorter measurements and are
+   marked "not soaked" in the comparison. The fallback's suitability rests on
+   Agent 4's correctness gate and benchmarks, not on a soak of its own.
+
+5. **Random weights throughout.** Game lengths, terminal-reason mixes, games/s and
+   therefore the storage rate all come from untrained networks and will change as a
+   real model learns. No playing-strength claim is made or used anywhere.
+
+6. **Trajectory bytes are produced, not written to disk.** The recording path
+   encodes every sealed record and measures its length, then drops it —
+   `retain_games` is 0 and the worker pool performs no file I/O. The GiB/hour
+   figure is therefore a *production* rate, which is the right input for a storage
+   projection, but the final run will additionally pay real write bandwidth and
+   filesystem overhead that this soak did not measure.
+
+7. **Compression is measured but not enabled**, exactly as Agent 4 left it. §6.13
+   uses Agent 4's measured 0.685 ratio; the pipeline still writes uncompressed
+   records.
+
+8. **The stage-timing fractions in the soak are not attributable.**
+   `detailed_timing` is off, because a soak should measure what production
+   sustains rather than pay for its own instrumentation. Where the time goes comes
+   from Agent 4's synchronised grid, not from here.
+
+9. **A harness ordering defect was found and fixed.** The acceptance script
+   originally ran its post-change suite *before* writing the artifacts, so the nine
+   tests that validate the published numbers skipped silently — they are written to
+   skip when the files are absent. The script now writes the artifacts, runs the
+   suite, and rewrites the decision with the result. The reported 2,632-passing
+   figure is from a run in which those nine tests actually executed.
+
+### 6.17 Completion gates
+
+| Gate | Result |
+|---|---|
+| Agents 1–5 all PASS | **true** |
+| Finalist configurations and parameter counts reproduced | **true** |
+| `model_contract_v2` with normalized model actions | **true** |
+| One-hour soak completed continuously | **true** |
+| Soak illegal actions = 0 | **true** |
+| Soak action-frame mismatches = 0 | **true** |
+| Soak reconstruction mismatches = 0 | **true** |
+| Soak worker failures = 0 | **true** |
+| Soak model/MPS failures = 0 | **true** |
+| Soak non-finite production outputs = 0 | **true** |
+| Swap = 0 | **true** |
+| No unexplained persistent memory growth | **true** (declared rule; see §6.16) |
+| One exact primary architecture selected | **true** |
+| One exact fallback architecture selected | **true** |
+| Decision justified from the measured frontier | **true** |
+| 168-hour positions/games/storage projection produced | **true** |
+| Storage constraints analysed | **true** |
+| Backend status explicitly reassessed | **true** |
+| Parallel evaluation readiness verified | **true** |
+| No playing-strength input to the selection | **true** |
+| Full suite green | **true** |
+
+21 / 21.
+
+### 6.18 Files, tests and commands
+
+Created:
+
+```text
+stratego/training/phase6_soak.py
+scripts/run_phase6_agent06.py
+scripts/run_phase6_agent06_memory.py        (the §6.16 localization probe)
+tests/training/test_phase6_soak.py          (74 tests)
+```
+
+Modified:
+
+```text
+reports/phase_6_implementation_report.md    (this section only)
+```
+
+No existing test was changed or removed. No file under `stratego/engine/`,
+`stratego/evaluation/`, `stratego/model/` or `stratego_project_docs/` was touched.
+
+```text
+python -m pytest -q                                  ->  2558 passed, 2 skipped, 0 failed   (before)
+python scripts/run_phase6_agent06.py                 ->  PASS, 3,922 s
+python scripts/run_phase6_agent06_memory.py          ->  the §6.16 localization probe
+python -m pytest -q                                  ->  2632 passed, 2 skipped, 0 failed   (after)
+```
+
+The 74 added tests cover the soak configuration against the required topology,
+the growth and drift statistics, each hard gate wired to the counter it names, the
+604,800-second projection, the storage analysis, the knee rule and its robustness,
+the strength-exclusion guarantee, the exact architecture records, one real short
+soak through the actual pipeline, and the published artifacts themselves.
+
+### 6.19 Data files
+
+```text
+reports/phase_6_data/agent_06_soak.json
+reports/phase_6_data/agent_06_soak_timeseries.csv          60 samples
+reports/phase_6_data/agent_06_weekly_projection.json
+reports/phase_6_data/agent_06_architecture_decision.json
+reports/phase_6_data/agent_06_memory_localization.json     the §6.16 probe
+```
+
+Every headline number in this section also exists in those files.
+
+### 6.20 Handoff to the reviewing chat
+
+```text
+Agent 6 status            PASS (21/21 gates)
+Phase 6 recommendation    PASS
+
+primary architecture      C1  stratego_transformer_v1 / architecture_family_v1
+                              width 128, blocks 4, heads 4, feed-forward 512
+                              learned_row_column_v1, pre_layernorm
+                              863,959 parameters, model_contract_v2
+                              digest 31ca84ab140c...
+                              float16 collection @ batch 2,048; float32 evaluation @ single_request
+                              10 workers x 1,536 environments, dense legality, snapshot 32
+
+fallback architecture     C0  stratego_transformer_v1 / architecture_family_v1
+                              width 64, blocks 2, heads 4, feed-forward 256
+                              123,223 parameters, model_contract_v2
+                              digest 057d6c9242e3...
+                              same precisions, batches and topology
+
+one-hour soak             C1, 3,600.7 s continuous, 19,760 global steps
+                          30,351,360 positions, 58,741 games
+                          sustained 8,468.7 positions/s, 16.53 games/s, 5.358 GiB/hour
+                          0 illegal actions over 30,351,360 legality checks
+                          0 frame mismatches, 0 reconstruction mismatches over
+                            195,686 verified decisions in 399 games
+                          0 worker failures, 0 model/MPS failures
+                          0 non-finite outputs over 344,156,160 logits
+                          0 swap; drift -0.19%/hour (R2 = 0.002)
+                          12/12 soak gates
+
+168-hour compute          5,121,865,011 positions
+                          9,996,679 games
+                          training ceiling 1.84e9 examples standalone = 0.36 epochs
+
+168-hour storage          900.18 GiB (966.6 GB) raw  -> fits 1 TB external with ~3% spare
+                          616.71 GiB (662.2 GB) compressed at Agent 4's measured 0.685
+                          does not fit ~150 GB internal at any point
+                          checkpoints 557 MiB even hourly
+
+backend                   KEEP_PYTHON remains supported
+
+parallel evaluation       ready; C1 and C0 both load under the strict path and
+                          construct greedy and seeded-categorical owners on Metal.
+                          Deterministic 1/2/4/8-worker evaluation unchanged.
+                          Reference remains float32 + single_request.
+
+full test totals          before 2,558 passed / 2 skipped / 0 failed
+                          after  2,632 passed / 2 skipped / 0 failed
+
+artifacts                 reports/phase_6_data/agent_06_soak.json
+                          reports/phase_6_data/agent_06_soak_timeseries.csv
+                          reports/phase_6_data/agent_06_weekly_projection.json
+                          reports/phase_6_data/agent_06_architecture_decision.json
+                          reports/phase_6_data/agent_06_memory_localization.json
+
+highest-risk limitation   Host resident memory rose ~191 MiB/hour through the soak
+                          and did not decelerate within the hour (device memory was
+                          exactly flat, to the byte). The declared gate passed at
+                          +0.96% and swap was zero. A follow-up probe localized it:
+                          with production recording off the coordinator is flat
+                          (+0.8 MiB/hour) and total growth falls to +26.7 MiB/hour,
+                          so ~164 MiB/hour belongs to the trajectory-recording path,
+                          most likely allocator arena growth from encoding and
+                          dropping a ~96 KiB record 16.5 times a second. Bounded in
+                          principle, unproven in one hour; naive extrapolation over
+                          168 hours is ~31 GiB. Monitor RSS and swap during the final
+                          run and restart collection at a checkpoint boundary daily
+                          (which resets the arena); settle it with a multi-hour probe
+                          against the recording path before relying on an unattended
+                          week.
+```
+
+No meaningful training occurred. No architecture was invented, no frozen contract
+was altered, and Phase 7 has not been started. Only the reviewing chat may
+formally accept Phase 6 and freeze the architecture.

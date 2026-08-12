@@ -1,0 +1,262 @@
+{
+ "agent": "agent_06",
+ "attribution_mib_per_hour": {
+  "coordinator_rss_bytes": {
+   "attributable_to_recording_mib_per_hour": 94.33978464771086,
+   "with_recording_mib_per_hour": 95.14937128519747,
+   "without_recording_mib_per_hour": 0.8095866374866154
+  },
+  "total_rss_bytes": {
+   "attributable_to_recording_mib_per_hour": 164.37445294106948,
+   "with_recording_mib_per_hour": 191.08368927999666,
+   "without_recording_mib_per_hour": 26.70923633892717
+  },
+  "worker_rss_bytes": {
+   "attributable_to_recording_mib_per_hour": 70.03466829335864,
+   "with_recording_mib_per_hour": 95.93431799479919,
+   "without_recording_mib_per_hour": 25.899649701440556
+  }
+ },
+ "candidate_id": "C1",
+ "gates_nothing": true,
+ "method": "Same topology, same candidate, same seed, with production recording switched off, sampled the same way; the settled slope is compared against the soak's. The recording-on arm is read from the soak artifact rather than re-measured.",
+ "phase": "phase_6",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "probe": "memory_growth_localization",
+ "python_version": "3.13.2",
+ "question": "The one-hour soak passed its memory gate but showed a monotone host RSS trend that did not decelerate. Device memory was exactly flat. Which part of the pipeline does the growth belong to?",
+ "timestamp": "2026-08-12T12:37:36-0400",
+ "torch_version": "2.13.0",
+ "with_recording": {
+  "half_over_half": {
+   "coordinator_rss_bytes": 0.009987893590015095,
+   "metal_current_allocated_bytes": 0.0,
+   "metal_driver_allocated_bytes": 7.211752993792865e-06,
+   "shared_memory_bytes": 0.0,
+   "total_rss_bytes": 0.009583107273531451,
+   "worker_rss_bytes": 0.009222128891995307
+  },
+  "measured_seconds": 3039.8271127080006,
+  "slopes_bytes_per_hour": {
+   "coordinator_rss_bytes": 99771347.14474723,
+   "total_rss_bytes": 200365770.57046178,
+   "worker_rss_bytes": 100594423.42571455
+  },
+  "source": "agent_06_soak.json, the one-hour production soak"
+ },
+ "without_recording": {
+  "configuration": {
+   "action_frame": "perspective_normalized_squares",
+   "compact_capacity": 128,
+   "detailed_timing": false,
+   "inference_batch_size": 2048,
+   "label": "w10_e1536_b2048_float16_dense",
+   "legality": "dense",
+   "num_environments": 1536,
+   "num_workers": 10,
+   "precision": "float16",
+   "record_trajectories": false,
+   "snapshot_interval": 32
+  },
+  "first_settled": {
+   "coordinator_rss_bytes": 2978676736,
+   "total_rss_bytes": 5883658240,
+   "worker_rss_bytes": 2904981504
+  },
+  "last_settled": {
+   "coordinator_rss_bytes": 2978791424,
+   "total_rss_bytes": 5888917504,
+   "worker_rss_bytes": 2910126080
+  },
+  "samples": [
+   {
+    "coordinator_rss_bytes": 1413251072,
+    "elapsed_seconds": 60.023065625005984,
+    "global_step": 421,
+    "positions_per_second": 10773.458390812333,
+    "total_rss_bytes": 4160192512,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2746941440
+   },
+   {
+    "coordinator_rss_bytes": 2277097472,
+    "elapsed_seconds": 120.05490675000328,
+    "global_step": 839,
+    "positions_per_second": 10734.288459225885,
+    "total_rss_bytes": 5145870336,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2868772864
+   },
+   {
+    "coordinator_rss_bytes": 2849095680,
+    "elapsed_seconds": 180.0153641249999,
+    "global_step": 1261,
+    "positions_per_second": 10759.614932951219,
+    "total_rss_bytes": 5732270080,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2883174400
+   },
+   {
+    "coordinator_rss_bytes": 2962309120,
+    "elapsed_seconds": 240.13121395800408,
+    "global_step": 1708,
+    "positions_per_second": 10925.226907230874,
+    "total_rss_bytes": 5852971008,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2890661888
+   },
+   {
+    "coordinator_rss_bytes": 2962358272,
+    "elapsed_seconds": 300.0237902500012,
+    "global_step": 2145,
+    "positions_per_second": 10981.529155586644,
+    "total_rss_bytes": 5860376576,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2898018304
+   },
+   {
+    "coordinator_rss_bytes": 2962374656,
+    "elapsed_seconds": 360.01310250000097,
+    "global_step": 2595,
+    "positions_per_second": 11071.59703999937,
+    "total_rss_bytes": 5866717184,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2904342528
+   },
+   {
+    "coordinator_rss_bytes": 2962391040,
+    "elapsed_seconds": 420.06749725000554,
+    "global_step": 3063,
+    "positions_per_second": 11200.028640159062,
+    "total_rss_bytes": 5867028480,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2904637440
+   },
+   {
+    "coordinator_rss_bytes": 2962407424,
+    "elapsed_seconds": 480.1209882910043,
+    "global_step": 3523,
+    "positions_per_second": 11270.759104411742,
+    "total_rss_bytes": 5867274240,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2904866816
+   },
+   {
+    "coordinator_rss_bytes": 2973073408,
+    "elapsed_seconds": 540.1289584580009,
+    "global_step": 3974,
+    "positions_per_second": 11301.123378806282,
+    "total_rss_bytes": 5877940224,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2904866816
+   },
+   {
+    "coordinator_rss_bytes": 2978676736,
+    "elapsed_seconds": 600.0190911660029,
+    "global_step": 4422,
+    "positions_per_second": 11319.959814613389,
+    "total_rss_bytes": 5883658240,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2904981504
+   },
+   {
+    "coordinator_rss_bytes": 2978660352,
+    "elapsed_seconds": 660.0658790000016,
+    "global_step": 4871,
+    "positions_per_second": 11335.014031228211,
+    "total_rss_bytes": 5886050304,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2907389952
+   },
+   {
+    "coordinator_rss_bytes": 2978676736,
+    "elapsed_seconds": 720.1156883750009,
+    "global_step": 5317,
+    "positions_per_second": 11341.111062903372,
+    "total_rss_bytes": 5886148608,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2907471872
+   },
+   {
+    "coordinator_rss_bytes": 2978693120,
+    "elapsed_seconds": 780.0057417080025,
+    "global_step": 5764,
+    "positions_per_second": 11350.56260049216,
+    "total_rss_bytes": 5886164992,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2907471872
+   },
+   {
+    "coordinator_rss_bytes": 2978709504,
+    "elapsed_seconds": 840.0395865410028,
+    "global_step": 6213,
+    "positions_per_second": 11360.37890701737,
+    "total_rss_bytes": 5886181376,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2907471872
+   },
+   {
+    "coordinator_rss_bytes": 2978725888,
+    "elapsed_seconds": 900.0245647500051,
+    "global_step": 6663,
+    "positions_per_second": 11371.20963230903,
+    "total_rss_bytes": 5886558208,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2907832320
+   },
+   {
+    "coordinator_rss_bytes": 2978742272,
+    "elapsed_seconds": 960.1263132910026,
+    "global_step": 7112,
+    "positions_per_second": 11377.702963431915,
+    "total_rss_bytes": 5888360448,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2909618176
+   },
+   {
+    "coordinator_rss_bytes": 2978758656,
+    "elapsed_seconds": 1020.0554925830002,
+    "global_step": 7563,
+    "positions_per_second": 11388.36865686968,
+    "total_rss_bytes": 5888409600,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2909650944
+   },
+   {
+    "coordinator_rss_bytes": 2978775040,
+    "elapsed_seconds": 1080.061622041001,
+    "global_step": 8026,
+    "positions_per_second": 11414.104295923227,
+    "total_rss_bytes": 5888475136,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2909700096
+   },
+   {
+    "coordinator_rss_bytes": 2978791424,
+    "elapsed_seconds": 1140.0963473750016,
+    "global_step": 8481,
+    "positions_per_second": 11426.065902231338,
+    "total_rss_bytes": 5888901120,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2910109696
+   },
+   {
+    "coordinator_rss_bytes": 2978791424,
+    "elapsed_seconds": 1200.0964465409998,
+    "global_step": 8938,
+    "positions_per_second": 11439.72056543455,
+    "total_rss_bytes": 5888917504,
+    "worker_processes": 11,
+    "worker_rss_bytes": 2910126080
+   }
+  ],
+  "settled_after_seconds": 600.0,
+  "settled_samples": 11,
+  "settled_window_seconds": 600.0773553749968,
+  "slopes_bytes_per_hour": {
+   "coordinator_rss_bytes": 848913.1179891652,
+   "total_rss_bytes": 28006664.203326896,
+   "worker_rss_bytes": 27157751.085337732
+  }
+ }
+}
