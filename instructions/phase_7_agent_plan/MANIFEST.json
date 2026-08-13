@@ -1,0 +1,39 @@
+{
+  "files": [
+    {
+      "name": "00_PHASE_7_SEQUENCE_AND_COMMON_CONTRACT.md",
+      "bytes": 19297,
+      "sha256": "58a9fa29ebeb5b2f1fabfe36cc3546b3d3f8aa6428cc2151ac696aee8535a9aa"
+    },
+    {
+      "name": "01_AGENT_1_SETUP_CONTRACT_AND_TAXONOMY.md",
+      "bytes": 14099,
+      "sha256": "12f95fa46df8a3a1c624cee8e9c56641430e2bb784a799627eb3c13da7d47022"
+    },
+    {
+      "name": "02_AGENT_2_BASE_LIBRARY_GENERATOR.md",
+      "bytes": 10100,
+      "sha256": "df7067ba6317bfeb6d4c37cfa82e76e8167c89fa178a1eefbe6015a6acbd2d54"
+    },
+    {
+      "name": "03_AGENT_3_LIBRARY_AUDIT.md",
+      "bytes": 8277,
+      "sha256": "12191a2614e1036530da4729b42a09ff5b9ea00ed5b415e1021b2796a1f26a6f"
+    },
+    {
+      "name": "04_AGENT_4_REFLECTION_AND_PERTURBATION.md",
+      "bytes": 9039,
+      "sha256": "7c560551999da5b2f56cc9d9f3424e059f945bf8b7d54005daab9a2bba5e5c68"
+    },
+    {
+      "name": "05_AGENT_5_PIPELINE_INTEGRATION.md",
+      "bytes": 9637,
+      "sha256": "a699a1f76f265d36e16b458cd0b5acb9568b4f656363a32dd572efea51c9a6cf"
+    },
+    {
+      "name": "06_AGENT_6_FINAL_ACCEPTANCE_AND_FREEZE.md",
+      "bytes": 10168,
+      "sha256": "9f96a996b8850aab945665eee8c6568f430882c8348e0cec0b364aea11dc139c"
+    }
+  ]
+}

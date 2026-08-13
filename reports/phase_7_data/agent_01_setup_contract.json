@@ -1,0 +1,1866 @@
+{
+ "agent": "agent_01",
+ "assignment": "Setup Contract, Taxonomy, and Diversity Standard",
+ "commands": [
+  "python scripts/run_phase7_agent01.py --run-pytest"
+ ],
+ "commit": "9d8a9508d50ca48276e2ca2869390f730ad6b0ed",
+ "completion_gates": {
+  "all_family_fixtures_executable": true,
+  "canonicalization_stable": true,
+  "class_fingerprint_reflection_invariant": true,
+  "diversity_standard_executable": true,
+  "library_counts_exact": true,
+  "phase_6_accepted": true,
+  "reference_engine_is_1_2_0": true,
+  "reflection_involution_clean": true,
+  "sixteen_family_contracts_explicit": true,
+  "split_rule_exact": true,
+  "thresholds_frozen_before_generation": true
+ },
+ "contract": {
+  "canonical_representation": {
+   "frame": "canonical own-orientation: rank 0 = own back row (furthest from the lakes), rank 3 = own front row (nearest the lakes), file 0..9 left to right, canonical index = rank * 10 + file",
+   "serialization": "the engine's 40-character piece-code string (stratego.engine.setup.serialize_setup / deserialize_setup)",
+   "storage": "40 engine piece types in canonical row-major order; the frozen engine's orient map (identity for red, rank-row reversal for blue) produces per-player setup tuples"
+  },
+  "contract_version": "setup_generator_contract_v1",
+  "family_contract_version": "setup_family_v1",
+  "family_contracts": {
+   "families": [
+    {
+     "allowed_ranges": {
+      "flag_edge_distance": [
+       0,
+       0
+      ],
+      "flag_orth_bomb_guards": [
+       2,
+       2
+      ],
+      "flag_rank": [
+       0,
+       0
+      ]
+     },
+     "display_name": "Corner Flag fortress",
+     "family_id": "F00",
+     "forbidden": [],
+     "key": "corner_flag_fortress",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_rank",
+      "flag_edge_distance",
+      "flag_orth_bomb_guards"
+     ],
+     "purpose": "the Flag sits in a board corner of the back rank, sealed behind a complete Bomb wall on both of its orthogonal neighbours",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits on the back rank",
+       "expression": {
+        "op": "==",
+        "trait": "flag_rank",
+        "value": 0
+       },
+       "formula": "flag_rank == 0",
+       "name": "flag_on_back_rank"
+      },
+      {
+       "description": "the Flag occupies a corner file",
+       "expression": {
+        "op": "==",
+        "trait": "flag_edge_distance",
+        "value": 0
+       },
+       "formula": "flag_edge_distance == 0",
+       "name": "flag_in_corner"
+      },
+      {
+       "description": "both orthogonal neighbours of the corner Flag are Bombs",
+       "expression": {
+        "op": "==",
+        "trait": "flag_orth_bomb_guards",
+        "value": 2
+       },
+       "formula": "flag_orth_bomb_guards == 2",
+       "name": "corner_fully_sealed"
+      }
+     ],
+     "secondary_expectations": [
+      "remaining Bombs tend toward the Flag's corner and back ranks",
+      "the diagonal cell behind the guard wall is often a third Bomb"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_edge_distance": [
+       1,
+       2
+      ],
+      "flag_orth_bomb_guards": [
+       2,
+       3
+      ],
+      "flag_rank": [
+       0,
+       0
+      ]
+     },
+     "display_name": "Near-corner Flag fortress",
+     "family_id": "F01",
+     "forbidden": [],
+     "key": "near_corner_flag_fortress",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_rank",
+      "flag_edge_distance",
+      "flag_orth_bomb_guards"
+     ],
+     "purpose": "the Flag sits on the back rank one or two files off a corner, guarded by at least two orthogonally adjacent Bombs",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits on the back rank",
+       "expression": {
+        "op": "==",
+        "trait": "flag_rank",
+        "value": 0
+       },
+       "formula": "flag_rank == 0",
+       "name": "flag_on_back_rank"
+      },
+      {
+       "description": "the Flag is at least one file off the corner",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_edge_distance",
+        "value": 1
+       },
+       "formula": "flag_edge_distance >= 1",
+       "name": "flag_off_corner"
+      },
+      {
+       "description": "the Flag is within two files of the edge",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_edge_distance",
+        "value": 2
+       },
+       "formula": "flag_edge_distance <= 2",
+       "name": "flag_near_edge"
+      },
+      {
+       "description": "at least two orthogonal neighbours of the Flag are Bombs",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_orth_bomb_guards",
+        "value": 2
+       },
+       "formula": "flag_orth_bomb_guards >= 2",
+       "name": "fortress_guards"
+      }
+     ],
+     "secondary_expectations": [
+      "the corner cell beside the Flag often holds a Bomb or a sacrifice piece"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_edge_distance": [
+       3,
+       4
+      ],
+      "flag_orth_bomb_guards": [
+       2,
+       3
+      ],
+      "flag_rank": [
+       0,
+       0
+      ]
+     },
+     "display_name": "Central/back-row Flag fortress",
+     "family_id": "F02",
+     "forbidden": [],
+     "key": "central_back_flag_fortress",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_rank",
+      "flag_edge_distance",
+      "flag_orth_bomb_guards"
+     ],
+     "purpose": "the Flag hides in the central files of the back rank, guarded by at least two orthogonally adjacent Bombs",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits on the back rank",
+       "expression": {
+        "op": "==",
+        "trait": "flag_rank",
+        "value": 0
+       },
+       "formula": "flag_rank == 0",
+       "name": "flag_on_back_rank"
+      },
+      {
+       "description": "the Flag is at least three files from the nearer edge",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_edge_distance",
+        "value": 3
+       },
+       "formula": "flag_edge_distance >= 3",
+       "name": "flag_central"
+      },
+      {
+       "description": "at least two orthogonal neighbours of the Flag are Bombs",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_orth_bomb_guards",
+        "value": 2
+       },
+       "formula": "flag_orth_bomb_guards >= 2",
+       "name": "fortress_guards"
+      }
+     ],
+     "secondary_expectations": [
+      "central fortresses often keep a spare Bomb within Chebyshev distance 2"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_orth_bomb_guards": [
+       1,
+       1
+      ],
+      "flag_rank": [
+       0,
+       1
+      ],
+      "flag_zone_bomb_count_r2": [
+       1,
+       3
+      ]
+     },
+     "display_name": "Partially bombed Flag",
+     "family_id": "F03",
+     "forbidden": [
+      {
+       "description": "four or more Bombs within Chebyshev distance 2 of the Flag would make the defense heavy, not partial",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_zone_bomb_count_r2",
+        "value": 4
+       },
+       "formula": "flag_zone_bomb_count_r2 >= 4",
+       "name": "dense_bomb_field_near_flag"
+      }
+     ],
+     "key": "partially_bombed_flag",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_orth_bomb_guards",
+      "flag_zone_bomb_count_r2",
+      "flag_rank"
+     ],
+     "purpose": "the Flag has exactly one orthogonal Bomb guard: real protection exists but the wall is deliberately incomplete",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "exactly one orthogonal neighbour of the Flag is a Bomb",
+       "expression": {
+        "op": "==",
+        "trait": "flag_orth_bomb_guards",
+        "value": 1
+       },
+       "formula": "flag_orth_bomb_guards == 1",
+       "name": "single_orthogonal_guard"
+      }
+     ],
+     "secondary_expectations": [
+      "the unguarded Flag sides are often covered by movable mid ranks"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_diag_bomb_guards": [
+       0,
+       0
+      ],
+      "flag_orth_bomb_guards": [
+       0,
+       0
+      ],
+      "flag_rank": [
+       0,
+       1
+      ],
+      "flag_zone_bomb_count_r2": [
+       0,
+       2
+      ]
+     },
+     "display_name": "Lightly defended / deceptive Flag",
+     "family_id": "F04",
+     "forbidden": [
+      {
+       "description": "three or more Bombs within Chebyshev distance 2 of the Flag would still advertise the location",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_zone_bomb_count_r2",
+        "value": 3
+       },
+       "formula": "flag_zone_bomb_count_r2 >= 3",
+       "name": "local_bomb_presence"
+      }
+     ],
+     "key": "lightly_defended_deceptive_flag",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_orth_bomb_guards",
+      "flag_diag_bomb_guards",
+      "flag_zone_bomb_count_r2"
+     ],
+     "purpose": "no Bomb touches the Flag orthogonally or diagonally, so the Flag square looks like an ordinary piece rather than a fortress",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "no orthogonal neighbour of the Flag is a Bomb",
+       "expression": {
+        "op": "==",
+        "trait": "flag_orth_bomb_guards",
+        "value": 0
+       },
+       "formula": "flag_orth_bomb_guards == 0",
+       "name": "no_orthogonal_guards"
+      },
+      {
+       "description": "no diagonal neighbour of the Flag is a Bomb",
+       "expression": {
+        "op": "==",
+        "trait": "flag_diag_bomb_guards",
+        "value": 0
+       },
+       "formula": "flag_diag_bomb_guards == 0",
+       "name": "no_diagonal_guards"
+      }
+     ],
+     "secondary_expectations": [
+      "Bombs are typically spent elsewhere as lane blockers or decoys"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "decoy_pocket_bombs": [
+       2,
+       4
+      ],
+      "flag_orth_bomb_guards": [
+       0,
+       1
+      ],
+      "flag_rank": [
+       0,
+       1
+      ]
+     },
+     "display_name": "False fortress / Bomb decoy",
+     "family_id": "F05",
+     "forbidden": [],
+     "key": "false_fortress_bomb_decoy",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "decoy_pocket_bombs",
+      "flag_orth_bomb_guards",
+      "flag_rank"
+     ],
+     "purpose": "a convincing Bomb pocket surrounds a movable decoy piece far from the Flag, while the Flag itself is at most lightly guarded",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at most one orthogonal neighbour of the Flag is a Bomb",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_orth_bomb_guards",
+        "value": 1
+       },
+       "formula": "flag_orth_bomb_guards <= 1",
+       "name": "flag_lightly_guarded"
+      },
+      {
+       "description": "some movable piece in the back two ranks, at Manhattan distance >= 4 from the Flag, has at least two orthogonal Bomb neighbours",
+       "expression": {
+        "op": ">=",
+        "trait": "decoy_pocket_bombs",
+        "value": 2
+       },
+       "formula": "decoy_pocket_bombs >= 2",
+       "name": "decoy_pocket_exists"
+      }
+     ],
+     "secondary_expectations": [
+      "the decoy pocket often sits near the opposite corner from the Flag"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "bomb_adjacent_pairs": [
+       0,
+       0
+      ],
+      "bomb_distinct_files": [
+       5,
+       6
+      ],
+      "flag_orth_bomb_guards": [
+       0,
+       1
+      ],
+      "flag_rank": [
+       0,
+       1
+      ]
+     },
+     "display_name": "Distributed Bomb defense",
+     "family_id": "F06",
+     "forbidden": [
+      {
+       "description": "two or more orthogonal Bomb guards on the Flag would concentrate the defense this family distributes",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_orth_bomb_guards",
+        "value": 2
+       },
+       "formula": "flag_orth_bomb_guards >= 2",
+       "name": "concentrated_flag_fortress"
+      }
+     ],
+     "key": "distributed_bomb_defense",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "bomb_distinct_files",
+      "bomb_adjacent_pairs",
+      "flag_orth_bomb_guards"
+     ],
+     "purpose": "Bombs are spread across the board as independent lane blockers: no two Bombs touch and no concentrated Flag fortress exists",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "Bombs occupy at least five distinct files",
+       "expression": {
+        "op": ">=",
+        "trait": "bomb_distinct_files",
+        "value": 5
+       },
+       "formula": "bomb_distinct_files >= 5",
+       "name": "bombs_spread_across_files"
+      },
+      {
+       "description": "no two Bombs are orthogonally adjacent",
+       "expression": {
+        "op": "==",
+        "trait": "bomb_adjacent_pairs",
+        "value": 0
+       },
+       "formula": "bomb_adjacent_pairs == 0",
+       "name": "no_adjacent_bomb_pairs"
+      }
+     ],
+     "secondary_expectations": [
+      "mean pairwise Bomb Manhattan distance is high for this family"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "bomb_front2_count": [
+       4,
+       6
+      ],
+      "flag_rank": [
+       0,
+       1
+      ]
+     },
+     "display_name": "High Bomb placement",
+     "family_id": "F07",
+     "forbidden": [],
+     "key": "high_bomb_placement",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "bomb_front2_count",
+      "bomb_front_rank_count",
+      "flag_zone_bomb_count_r2"
+     ],
+     "purpose": "most Bombs are pushed into the front half of the setup zone as forward lane blockers and early-attack punishment",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least four Bombs sit in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "bomb_front2_count",
+        "value": 4
+       },
+       "formula": "bomb_front2_count >= 4",
+       "name": "bombs_pushed_forward"
+      }
+     ],
+     "secondary_expectations": [
+      "the Flag zone is often thinly bombed as a consequence"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "general_rank": [
+       2,
+       3
+      ],
+      "high_front2_count": [
+       5,
+       7
+      ],
+      "marshal_rank": [
+       2,
+       3
+      ]
+     },
+     "display_name": "Aggressive high-rank front",
+     "family_id": "F08",
+     "forbidden": [],
+     "key": "aggressive_high_rank_front",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "high_front2_count",
+      "marshal_rank",
+      "general_rank"
+     ],
+     "purpose": "the heavy pieces, including both the Marshal and the General, start in the front half ready for immediate contact",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least five of the seven rank>=7 pieces sit in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "high_front2_count",
+        "value": 5
+       },
+       "formula": "high_front2_count >= 5",
+       "name": "high_ranks_forward"
+      },
+      {
+       "description": "the Marshal sits in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "marshal_rank",
+        "value": 2
+       },
+       "formula": "marshal_rank >= 2",
+       "name": "marshal_forward"
+      },
+      {
+       "description": "the General sits in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "general_rank",
+        "value": 2
+       },
+       "formula": "general_rank >= 2",
+       "name": "general_forward"
+      }
+     ],
+     "secondary_expectations": [
+      "front-rank mobility stays high because Bombs stay back"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "general_rank": [
+       0,
+       1
+      ],
+      "high_back2_count": [
+       5,
+       7
+      ],
+      "marshal_rank": [
+       0,
+       1
+      ]
+     },
+     "display_name": "Conservative high-rank rear",
+     "family_id": "F09",
+     "forbidden": [],
+     "key": "conservative_high_rank_rear",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "high_back2_count",
+      "marshal_rank",
+      "general_rank"
+     ],
+     "purpose": "the heavy pieces, including both the Marshal and the General, are held in the back half as a late-game reserve",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least five of the seven rank>=7 pieces sit in the back two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "high_back2_count",
+        "value": 5
+       },
+       "formula": "high_back2_count >= 5",
+       "name": "high_ranks_rear"
+      },
+      {
+       "description": "the Marshal sits in the back two ranks",
+       "expression": {
+        "op": "<=",
+        "trait": "marshal_rank",
+        "value": 1
+       },
+       "formula": "marshal_rank <= 1",
+       "name": "marshal_back"
+      },
+      {
+       "description": "the General sits in the back two ranks",
+       "expression": {
+        "op": "<=",
+        "trait": "general_rank",
+        "value": 1
+       },
+       "formula": "general_rank <= 1",
+       "name": "general_back"
+      }
+     ],
+     "secondary_expectations": [
+      "the front ranks are manned by expendable mid and low ranks"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "scout_front2_count": [
+       6,
+       8
+      ],
+      "scout_front_rank_count": [
+       3,
+       8
+      ]
+     },
+     "display_name": "Scout-forward information",
+     "family_id": "F10",
+     "forbidden": [],
+     "key": "scout_forward_information",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "scout_front2_count",
+      "scout_front_rank_count"
+     ],
+     "purpose": "Scouts mass in the front half, including a strong front-rank presence, to buy early information with cheap probes",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least six of the eight Scouts sit in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "scout_front2_count",
+        "value": 6
+       },
+       "formula": "scout_front2_count >= 6",
+       "name": "scouts_forward"
+      },
+      {
+       "description": "at least three Scouts sit on the front rank",
+       "expression": {
+        "op": ">=",
+        "trait": "scout_front_rank_count",
+        "value": 3
+       },
+       "formula": "scout_front_rank_count >= 3",
+       "name": "front_rank_scout_presence"
+      }
+     ],
+     "secondary_expectations": [
+      "initial mobility is very high because Scouts man open files"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "scout_back2_count": [
+       5,
+       8
+      ],
+      "scout_front_rank_count": [
+       0,
+       0
+      ]
+     },
+     "display_name": "Scout-preservation",
+     "family_id": "F11",
+     "forbidden": [],
+     "key": "scout_preservation",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "scout_back2_count",
+      "scout_front_rank_count"
+     ],
+     "purpose": "Scouts are held in the back half with none exposed on the front rank, preserving late-game information and chase power",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least five of the eight Scouts sit in the back two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "scout_back2_count",
+        "value": 5
+       },
+       "formula": "scout_back2_count >= 5",
+       "name": "scouts_held_back"
+      },
+      {
+       "description": "no Scout sits on the front rank",
+       "expression": {
+        "op": "==",
+        "trait": "scout_front_rank_count",
+        "value": 0
+       },
+       "formula": "scout_front_rank_count == 0",
+       "name": "no_front_rank_scouts"
+      }
+     ],
+     "secondary_expectations": [
+      "the front rank is manned by mid ranks and Miners instead"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "miner_front2_count": [
+       3,
+       5
+      ]
+     },
+     "display_name": "Miner-forward",
+     "family_id": "F12",
+     "forbidden": [],
+     "key": "miner_forward",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "miner_front2_count",
+      "miner_front_rank_count"
+     ],
+     "purpose": "a majority of Miners start in the front half, ready to clear forward Bomb lanes early",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least three of the five Miners sit in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "miner_front2_count",
+        "value": 3
+       },
+       "formula": "miner_front2_count >= 3",
+       "name": "miners_forward"
+      }
+     ],
+     "secondary_expectations": [
+      "early Miner losses are accepted in exchange for tempo"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       1
+      ],
+      "miner_back2_count": [
+       4,
+       5
+      ],
+      "miner_front_rank_count": [
+       0,
+       0
+      ]
+     },
+     "display_name": "Miner-preservation",
+     "family_id": "F13",
+     "forbidden": [],
+     "key": "miner_preservation",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "miner_back2_count",
+      "miner_front_rank_count"
+     ],
+     "purpose": "Miners are protected in the back half with none exposed on the front rank, guaranteeing endgame Bomb clearance",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits in the back two ranks of the setup zone",
+       "expression": {
+        "op": "<=",
+        "trait": "flag_rank",
+        "value": 1
+       },
+       "formula": "flag_rank <= 1",
+       "name": "flag_in_back_two_ranks"
+      },
+      {
+       "description": "at least four of the five Miners sit in the back two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "miner_back2_count",
+        "value": 4
+       },
+       "formula": "miner_back2_count >= 4",
+       "name": "miners_held_back"
+      },
+      {
+       "description": "no Miner sits on the front rank",
+       "expression": {
+        "op": "==",
+        "trait": "miner_front_rank_count",
+        "value": 0
+       },
+       "formula": "miner_front_rank_count == 0",
+       "name": "no_front_rank_miners"
+      }
+     ],
+     "secondary_expectations": [
+      "Scouts and mid ranks absorb the early exchanges instead"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "bomb_front_rank_count": [
+       0,
+       2
+      ],
+      "flag_orth_bomb_guards": [
+       2,
+       3
+      ],
+      "flag_rank": [
+       0,
+       0
+      ],
+      "general_rank": [
+       0,
+       2
+      ],
+      "marshal_rank": [
+       0,
+       2
+      ],
+      "miner_back2_count": [
+       2,
+       5
+      ],
+      "movable_front_rank_count": [
+       8,
+       10
+      ],
+      "scout_front2_count": [
+       3,
+       8
+      ]
+     },
+     "display_name": "Balanced conventional",
+     "family_id": "F14",
+     "forbidden": [],
+     "key": "balanced_conventional",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "flag_orth_bomb_guards",
+      "marshal_rank",
+      "scout_front2_count",
+      "movable_front_rank_count"
+     ],
+     "purpose": "a textbook tournament shape: back-rank guarded Flag, heavies out of the first line, forward Scouts, reserved Miners, mobile front",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "the Flag sits on the back rank",
+       "expression": {
+        "op": "==",
+        "trait": "flag_rank",
+        "value": 0
+       },
+       "formula": "flag_rank == 0",
+       "name": "flag_on_back_rank"
+      },
+      {
+       "description": "at least two orthogonal neighbours of the Flag are Bombs",
+       "expression": {
+        "op": ">=",
+        "trait": "flag_orth_bomb_guards",
+        "value": 2
+       },
+       "formula": "flag_orth_bomb_guards >= 2",
+       "name": "fortress_guards"
+      },
+      {
+       "description": "the Marshal stays off the front rank",
+       "expression": {
+        "op": "<=",
+        "trait": "marshal_rank",
+        "value": 2
+       },
+       "formula": "marshal_rank <= 2",
+       "name": "marshal_not_front"
+      },
+      {
+       "description": "the General stays off the front rank",
+       "expression": {
+        "op": "<=",
+        "trait": "general_rank",
+        "value": 2
+       },
+       "formula": "general_rank <= 2",
+       "name": "general_not_front"
+      },
+      {
+       "description": "at least three Scouts sit in the front two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "scout_front2_count",
+        "value": 3
+       },
+       "formula": "scout_front2_count >= 3",
+       "name": "some_forward_scouts"
+      },
+      {
+       "description": "at most two Bombs sit on the front rank",
+       "expression": {
+        "op": "<=",
+        "trait": "bomb_front_rank_count",
+        "value": 2
+       },
+       "formula": "bomb_front_rank_count <= 2",
+       "name": "limited_front_rank_bombs"
+      },
+      {
+       "description": "at least two Miners sit in the back two ranks",
+       "expression": {
+        "op": ">=",
+        "trait": "miner_back2_count",
+        "value": 2
+       },
+       "formula": "miner_back2_count >= 2",
+       "name": "miners_reserved"
+      },
+      {
+       "description": "at least eight of the ten front-rank pieces are movable",
+       "expression": {
+        "op": ">=",
+        "trait": "movable_front_rank_count",
+        "value": 8
+       },
+       "formula": "movable_front_rank_count >= 8",
+       "name": "mobile_front_rank"
+      }
+     ],
+     "secondary_expectations": [
+      "this family most closely resembles the Phase 4 structured_v1 profile"
+     ]
+    },
+    {
+     "allowed_ranges": {
+      "flag_rank": [
+       0,
+       3
+      ],
+      "unconventional_feature_count": [
+       2,
+       8
+      ]
+     },
+     "display_name": "Deliberately irregular / high-entropy",
+     "family_id": "F15",
+     "forbidden": [
+      {
+       "description": "a back-rank Flag with a two-Bomb orthogonal guard wall is the conventional signature this family must not carry",
+       "expression": {
+        "all_of": [
+         {
+          "op": "==",
+          "trait": "flag_rank",
+          "value": 0
+         },
+         {
+          "op": ">=",
+          "trait": "flag_orth_bomb_guards",
+          "value": 2
+         }
+        ]
+       },
+       "formula": "flag_rank == 0 and flag_orth_bomb_guards >= 2",
+       "name": "conventional_fortress_signature"
+      }
+     ],
+     "key": "irregular_high_entropy",
+     "perturbation_invariants": "a perturbed descendant must keep the Flag on its base cell, re-satisfy every required clause, avoid every forbidden clause, and obey the library-wide perturbation invariants in stratego.setups.contracts",
+     "primary_diagnostics": [
+      "unconventional_feature_count",
+      "flag_rank",
+      "flag_orth_bomb_guards"
+     ],
+     "purpose": "deliberately unconventional structure drawn from a high-entropy distribution, so the move learner also sees setups that break textbook assumptions",
+     "reflection_invariance_rule": "every clause references only reflection-invariant traits, so the family holds for a setup exactly when it holds for its reflection",
+     "required": [
+      {
+       "description": "at least two of the eight fixed unconventional-structure features hold (see setup_trait_vector_v1 UNCONVENTIONAL_FEATURES)",
+       "expression": {
+        "op": ">=",
+        "trait": "unconventional_feature_count",
+        "value": 2
+       },
+       "formula": "unconventional_feature_count >= 2",
+       "name": "unconventional_structure"
+      }
+     ],
+     "secondary_expectations": [
+      "per-square entropy for this family is the highest in the library",
+      "the Flag may legally appear on any rank, including the front"
+     ]
+    }
+   ],
+   "family_contract_version": "setup_family_v1",
+   "family_count": 16
+  },
+  "frozen_stack": {
+   "reference_engine": "phase2_1_reference_1.2.0",
+   "rules_version": "stratego_project_v1"
+  },
+  "identity": {
+   "base_setup_id": "setup_library_v1:<family_id>:<base_index %03d>",
+   "class_fingerprint": "SHA-256 over 'stratego_setup_class_v1:' + serialized class representative",
+   "content_fingerprint": "SHA-256 over 'stratego_setup_content_v1:' + serialized specific orientation",
+   "process_hash_forbidden": "Python's process-randomized built-in hash is never used"
+  },
+  "isolated_rebuild_sample": {
+   "per_family_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    395,
+    396,
+    397,
+    398,
+    399,
+    400,
+    401,
+    402,
+    403,
+    404,
+    445,
+    446,
+    447,
+    448,
+    449,
+    450,
+    451,
+    452,
+    453,
+    454,
+    490,
+    491,
+    492,
+    493,
+    494,
+    495,
+    496,
+    497,
+    498,
+    499
+   ],
+   "total_rebuilds": 640
+  },
+  "library_target": {
+   "base_setup_count": 8000,
+   "bases_per_family": 500,
+   "family_count": 16,
+   "test_per_family": 50,
+   "test_total": 800,
+   "train_per_family": 400,
+   "train_total": 6400,
+   "validation_per_family": 50,
+   "validation_total": 800
+  },
+  "library_version": "setup_library_v1",
+  "perturbation_invariants": {
+   "immutable": "Flag cell, split, primary family, inventory, orientation semantics",
+   "invariants": [
+    "exact piece inventory is preserved (engine validate_setup passes)",
+    "occupancy stays inside the 40 canonical setup cells (representation guarantees this)",
+    "canonical own-orientation semantics are unchanged",
+    "the descendant inherits the base setup's split verbatim",
+    "the descendant inherits the base setup's primary family verbatim",
+    "every required family clause still holds and every forbidden clause still fails",
+    "the Flag occupies the same canonical cell as in the base setup",
+    "the descendant has initial mobility under the frozen engine",
+    "canonical Hamming distance from the base is in [2, 12]",
+    "the descendant is a pure function of (base_setup_id, sampler_version, perturbation_seed)",
+    "provenance records base_setup_id, split, family, reflection flag and perturbation seed",
+    "a descendant never becomes a new base-library identity"
+   ],
+   "max_hamming": 12,
+   "min_hamming": 2,
+   "mutable": "any non-Flag placement may change, within the Hamming bound, provided every family clause, the inventory, and initial mobility are preserved"
+  },
+  "prohibitions": {
+   "no_outcome_based_selection": "win rates, Elo, game outcomes, value/policy scores and human preference are forbidden inputs to setup acceptance, rejection, weighting or split assignment",
+   "no_setup_neural_network": "no learned generator, selector, value or entropy model is authorized in Phase 7",
+   "observer_safety": "setup provenance (family, base id, seeds, fingerprints) is training/debug metadata and must never cross the observer-safe model input boundary; observation_v2_1_127ch is unchanged"
+  },
+  "quality": {
+   "engine_validation": "every accepted setup passes engine validate_setup and constructs a game via create_game",
+   "initial_mobility_rule": "every accepted base setup and every generated descendant must have at least one legal move for its owner in initial board geometry, verified through the frozen engine (create_game + has_legal_action); stranded candidates are rejected and counted; this is a library acceptance criterion, not an engine or ruleset change"
+  },
+  "reflection": {
+   "class_rule": "a base setup and its reflection are one library identity; the stored representative is the lexicographically smaller piece-type tuple; no legal setup equals its own reflection, so every class has exactly two members",
+   "definition": "file f -> 9 - f within every rank (engine reflect_setup)",
+   "involution": "reflect(reflect(setup)) == setup"
+  },
+  "seeding": {
+   "attempt_seed": "blake2b(person='strat-at7') over 'base_seed:attempt'; generation draws attempts 0,1,2,... and accepts the first candidate satisfying the contract, so rejection is local to the base identity",
+   "base_seed": "blake2b(person='strat-lb7') over 'contract:library:master_seed:family_id:base_index'",
+   "cross_base_independence": "generation of one base must never condition on any other base's outcome; global uniqueness/distance requirements are acceptance gates, and violating them under the frozen contract is a BLOCKED outcome, not a licence to reroll",
+   "isolated_regeneration": "contract + library version + master seed + family id + base index -> exact same base setup and metadata, without generating any preceding setup",
+   "master_seed_default": 20260813
+  },
+  "serialization_contract": {
+   "entry_fields": [
+    "base_setup_id",
+    "library_version",
+    "contract_version",
+    "family_contract_version",
+    "trait_schema_version",
+    "family_id",
+    "family_key",
+    "base_index",
+    "split",
+    "canonical_setup",
+    "fingerprint",
+    "generation_seed",
+    "generation_attempts",
+    "trait_vector"
+   ],
+   "entry_line_format": "json.dumps(entry, sort_keys=True, separators=(',', ':'))",
+   "file_order": "families F00..F15, base index ascending within each family",
+   "library_digest": "SHA-256 over newline-joined 'base_setup_id:fingerprint' lines in file order",
+   "library_jsonl_path": "data/setups/setup_library_v1.jsonl",
+   "library_manifest_path": "data/setups/setup_library_v1_manifest.json"
+  },
+  "split_rule": {
+   "assignment": "base_index 0..399 train, 400..449 validation, 450..499 test",
+   "permanence": "split is a pure function of base_index, fixed before generation; reflections and perturbed descendants inherit the base split; no outcome-based reassignment is permitted"
+  },
+  "trait_schema": {
+   "decoy_min_flag_distance": 4,
+   "fields": [
+    {
+     "description": "rank of the Flag (0 = back row)",
+     "kind": "int",
+     "name": "flag_rank",
+     "reflection_invariant": true,
+     "units": "canonical rank 0..3"
+    },
+    {
+     "description": "file of the Flag in the stored representative orientation",
+     "kind": "int",
+     "name": "flag_file",
+     "reflection_invariant": false,
+     "units": "canonical file 0..9"
+    },
+    {
+     "description": "min(flag_file, 9 - flag_file)",
+     "kind": "int",
+     "name": "flag_edge_distance",
+     "reflection_invariant": true,
+     "units": "files 0..4"
+    },
+    {
+     "description": "Bombs orthogonally adjacent to the Flag",
+     "kind": "int",
+     "name": "flag_orth_bomb_guards",
+     "reflection_invariant": true,
+     "units": "bombs 0..4"
+    },
+    {
+     "description": "Bombs diagonally adjacent to the Flag",
+     "kind": "int",
+     "name": "flag_diag_bomb_guards",
+     "reflection_invariant": true,
+     "units": "bombs 0..4"
+    },
+    {
+     "description": "Bombs within Chebyshev distance 2 of the Flag",
+     "kind": "int",
+     "name": "flag_zone_bomb_count_r2",
+     "reflection_invariant": true,
+     "units": "bombs 0..6"
+    },
+    {
+     "description": "Bomb count on ranks 0..3",
+     "kind": "int_list4",
+     "name": "bomb_rank_histogram",
+     "reflection_invariant": true,
+     "units": "bombs per rank, sums to 6"
+    },
+    {
+     "description": "Bombs on ranks 2..3",
+     "kind": "int",
+     "name": "bomb_front2_count",
+     "reflection_invariant": true,
+     "units": "bombs 0..6"
+    },
+    {
+     "description": "Bombs on ranks 0..1",
+     "kind": "int",
+     "name": "bomb_back2_count",
+     "reflection_invariant": true,
+     "units": "bombs 0..6"
+    },
+    {
+     "description": "Bombs on rank 3",
+     "kind": "int",
+     "name": "bomb_front_rank_count",
+     "reflection_invariant": true,
+     "units": "bombs 0..6"
+    },
+    {
+     "description": "distinct files occupied by Bombs",
+     "kind": "int",
+     "name": "bomb_distinct_files",
+     "reflection_invariant": true,
+     "units": "files 1..6"
+    },
+    {
+     "description": "unordered orthogonally adjacent Bomb pairs",
+     "kind": "int",
+     "name": "bomb_adjacent_pairs",
+     "reflection_invariant": true,
+     "units": "pairs 0..15"
+    },
+    {
+     "description": "mean Manhattan distance over the 15 Bomb pairs",
+     "kind": "float6",
+     "name": "bomb_mean_pairwise_manhattan",
+     "reflection_invariant": true,
+     "units": "squares"
+    },
+    {
+     "description": "Scout count on ranks 0..3",
+     "kind": "int_list4",
+     "name": "scout_rank_histogram",
+     "reflection_invariant": true,
+     "units": "scouts per rank, sums to 8"
+    },
+    {
+     "description": "Scouts on ranks 2..3",
+     "kind": "int",
+     "name": "scout_front2_count",
+     "reflection_invariant": true,
+     "units": "scouts 0..8"
+    },
+    {
+     "description": "Scouts on ranks 0..1",
+     "kind": "int",
+     "name": "scout_back2_count",
+     "reflection_invariant": true,
+     "units": "scouts 0..8"
+    },
+    {
+     "description": "Scouts on rank 3",
+     "kind": "int",
+     "name": "scout_front_rank_count",
+     "reflection_invariant": true,
+     "units": "scouts 0..8"
+    },
+    {
+     "description": "Miner count on ranks 0..3",
+     "kind": "int_list4",
+     "name": "miner_rank_histogram",
+     "reflection_invariant": true,
+     "units": "miners per rank, sums to 5"
+    },
+    {
+     "description": "Miners on ranks 2..3",
+     "kind": "int",
+     "name": "miner_front2_count",
+     "reflection_invariant": true,
+     "units": "miners 0..5"
+    },
+    {
+     "description": "Miners on ranks 0..1",
+     "kind": "int",
+     "name": "miner_back2_count",
+     "reflection_invariant": true,
+     "units": "miners 0..5"
+    },
+    {
+     "description": "Miners on rank 3",
+     "kind": "int",
+     "name": "miner_front_rank_count",
+     "reflection_invariant": true,
+     "units": "miners 0..5"
+    },
+    {
+     "description": "combat rank >= 7 pieces on ranks 0..3",
+     "kind": "int_list4",
+     "name": "high_rank_histogram",
+     "reflection_invariant": true,
+     "units": "pieces per rank, sums to 7"
+    },
+    {
+     "description": "combat rank >= 7 pieces on ranks 2..3",
+     "kind": "int",
+     "name": "high_front2_count",
+     "reflection_invariant": true,
+     "units": "pieces 0..7"
+    },
+    {
+     "description": "combat rank >= 7 pieces on ranks 0..1",
+     "kind": "int",
+     "name": "high_back2_count",
+     "reflection_invariant": true,
+     "units": "pieces 0..7"
+    },
+    {
+     "description": "rank of the Marshal",
+     "kind": "int",
+     "name": "marshal_rank",
+     "reflection_invariant": true,
+     "units": "canonical rank 0..3"
+    },
+    {
+     "description": "rank of the General",
+     "kind": "int",
+     "name": "general_rank",
+     "reflection_invariant": true,
+     "units": "canonical rank 0..3"
+    },
+    {
+     "description": "rank of the Spy",
+     "kind": "int",
+     "name": "spy_rank",
+     "reflection_invariant": true,
+     "units": "canonical rank 0..3"
+    },
+    {
+     "description": "movable pieces on rank 3",
+     "kind": "int",
+     "name": "movable_front_rank_count",
+     "reflection_invariant": true,
+     "units": "pieces 0..10"
+    },
+    {
+     "description": "Flag/Bomb pieces on rank 3",
+     "kind": "int",
+     "name": "front_rank_immovable_count",
+     "reflection_invariant": true,
+     "units": "pieces 0..10"
+    },
+    {
+     "description": "movable rank-3 pieces on files {0,1,4,5,8,9}",
+     "kind": "int",
+     "name": "open_file_movable_front_count",
+     "reflection_invariant": true,
+     "units": "pieces 0..6"
+    },
+    {
+     "description": "max orthogonal Bombs around a movable back-half piece at Manhattan >= 4 from the Flag",
+     "kind": "int",
+     "name": "decoy_pocket_bombs",
+     "reflection_invariant": true,
+     "units": "bombs 0..4"
+    },
+    {
+     "description": "Shannon entropy of the Bomb rank histogram",
+     "kind": "float6",
+     "name": "bomb_rank_entropy_bits",
+     "reflection_invariant": true,
+     "units": "bits"
+    },
+    {
+     "description": "Shannon entropy of the Scout rank histogram",
+     "kind": "float6",
+     "name": "scout_rank_entropy_bits",
+     "reflection_invariant": true,
+     "units": "bits"
+    },
+    {
+     "description": "Shannon entropy of the Miner rank histogram",
+     "kind": "float6",
+     "name": "miner_rank_entropy_bits",
+     "reflection_invariant": true,
+     "units": "bits"
+    },
+    {
+     "description": "count of true UNCONVENTIONAL_FEATURES predicates",
+     "kind": "int",
+     "name": "unconventional_feature_count",
+     "reflection_invariant": true,
+     "units": "features 0..8"
+    }
+   ],
+   "float_rounding": "float6 fields are rounded to 6 decimal places at computation time",
+   "frame": "canonical own-orientation (rank 0 = back row, rank 3 = front row)",
+   "high_rank_threshold": 7,
+   "high_rank_types": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "open_front_files": [
+    0,
+    1,
+    4,
+    5,
+    8,
+    9
+   ],
+   "trait_schema_version": "setup_trait_vector_v1",
+   "unconventional_features": [
+    {
+     "description": "Flag on rank 2 or 3 (front half of the setup zone)",
+     "name": "flag_forward"
+    },
+    {
+     "description": "no Bomb orthogonally adjacent to the Flag",
+     "name": "flag_unguarded"
+    },
+    {
+     "description": "3 or more Bombs on the front rank",
+     "name": "bombs_on_front_rank"
+    },
+    {
+     "description": "Marshal on the front rank",
+     "name": "marshal_on_front_rank"
+    },
+    {
+     "description": "General on the front rank",
+     "name": "general_on_front_rank"
+    },
+    {
+     "description": "no Scout on the front rank",
+     "name": "no_front_rank_scouts"
+    },
+    {
+     "description": "3 or more Miners on the front rank",
+     "name": "miners_on_front_rank"
+    },
+    {
+     "description": "Spy on the front rank",
+     "name": "spy_on_front_rank"
+    }
+   ]
+  },
+  "trait_schema_version": "setup_trait_vector_v1"
+ },
+ "contract_exercise": {
+  "all_fixtures_pass": true,
+  "canonical_class_failures": 0,
+  "class_fingerprint_failures": 0,
+  "diversity_standard_executed_checks": 43,
+  "diversity_synthetic_non_family_failures": [],
+  "duration_seconds": 0.023,
+  "fixtures": {
+   "F00": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F01": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F02": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F03": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F04": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F05": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F06": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F07": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F08": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F09": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F10": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F11": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F12": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F13": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F14": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   },
+   "F15": {
+    "negative_rejected": true,
+    "positive_mobile": true,
+    "positive_satisfies": true,
+    "positive_violations": [],
+    "reflection_satisfies": true
+   }
+  },
+  "identity_sample_size": 200,
+  "reflection_involution_failures": 0
+ },
+ "contract_version": "setup_generator_contract_v1",
+ "deviations": [
+  "canonical-frame helpers are reimplemented in stratego/setups/identity.py rather than imported from the frozen Phase 4 evaluation fixture; tests/setups/test_identity.py pins both implementations together exhaustively so one convention exists",
+  "the F15 irregular family deliberately permits any Flag rank, including the front rank; every other family constrains the Flag to the back rank(s) as part of its contract"
+ ],
+ "durations": {
+  "total_seconds": 178.3
+ },
+ "family_contract_version": "setup_family_v1",
+ "family_counts": {
+  "F00": 500,
+  "F01": 500,
+  "F02": 500,
+  "F03": 500,
+  "F04": 500,
+  "F05": 500,
+  "F06": 500,
+  "F07": 500,
+  "F08": 500,
+  "F09": 500,
+  "F10": 500,
+  "F11": 500,
+  "F12": 500,
+  "F13": 500,
+  "F14": 500,
+  "F15": 500
+ },
+ "files_created": [
+  "stratego/setups/__init__.py",
+  "stratego/setups/identity.py",
+  "stratego/setups/mobility.py",
+  "stratego/setups/traits.py",
+  "stratego/setups/families.py",
+  "stratego/setups/contracts.py",
+  "stratego/setups/diversity.py",
+  "tests/setups/__init__.py",
+  "tests/setups/family_fixtures.py",
+  "tests/setups/test_identity.py",
+  "tests/setups/test_mobility.py",
+  "tests/setups/test_traits.py",
+  "tests/setups/test_families.py",
+  "tests/setups/test_contracts.py",
+  "tests/setups/test_diversity.py",
+  "scripts/run_phase7_agent01.py",
+  "reports/phase_7_data/agent_01_setup_contract.json",
+  "reports/phase_7_data/agent_01_diversity_thresholds.json",
+  "reports/phase_7_implementation_report.md"
+ ],
+ "files_modified": [],
+ "frozen_versions": {
+  "contract_version": "setup_generator_contract_v1",
+  "diversity_standard_version": "setup_diversity_standard_v1",
+  "family_contract_version": "setup_family_v1",
+  "library_version": "setup_library_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "rules": "stratego_project_v1",
+  "trait_schema_version": "setup_trait_vector_v1"
+ },
+ "gates_total": 11,
+ "gates_true": 11,
+ "isolated_rebuild_indices_per_family": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  395,
+  396,
+  397,
+  398,
+  399,
+  400,
+  401,
+  402,
+  403,
+  404,
+  445,
+  446,
+  447,
+  448,
+  449,
+  450,
+  451,
+  452,
+  453,
+  454,
+  490,
+  491,
+  492,
+  493,
+  494,
+  495,
+  496,
+  497,
+  498,
+  499
+ ],
+ "library_version": "setup_library_v1",
+ "master_seed": 20260813,
+ "mps_available": true,
+ "mps_built": true,
+ "phase": "phase_7",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "prerequisite_status": {
+  "phase_6_accepted": true,
+  "phase_6_final_decision_gates": null,
+  "phase_6_final_decision_status": "PASS",
+  "phase_6_report_recommends_close": true,
+  "production_library_absent": true,
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "reference_engine_is_1_2_0": true,
+  "rules_version": "stratego_project_v1"
+ },
+ "problems": [],
+ "python_version": "3.13.2",
+ "schema_version": "phase_7_agent_01_v1",
+ "seeds": {
+  "example_base_seed_F00_0": 1891327319493559558,
+  "fixture_exercise_seed": 20260813,
+  "master_seed": 20260813
+ },
+ "setup_count": 8000,
+ "split_counts": {
+  "test": 800,
+  "train": 6400,
+  "validation": 800
+ },
+ "status": "PASS",
+ "tests_after": {
+  "command": "python -m pytest -q",
+  "duration_seconds": 178.3,
+  "errors": 0,
+  "exit_code": 0,
+  "failed": 0,
+  "passed": 2898,
+  "skipped": 3,
+  "summary_line": "2898 passed, 3 skipped in 177.87s (0:02:57)"
+ },
+ "tests_before": {
+  "command": "python -m pytest -q",
+  "errors": 0,
+  "failed": 0,
+  "note": "recorded before any Phase 7 edit; identical to the Phase 6 accepted totals",
+  "passed": 2732,
+  "skipped": 3
+ },
+ "timestamp": "2026-08-13T10:54:19-0400",
+ "torch_version": "2.13.0",
+ "working_tree_state": "dirty"
+}

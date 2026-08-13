@@ -1,0 +1,85 @@
+{
+ "agent": "agent_01",
+ "artifact": "diversity_thresholds",
+ "commit": "9d8a9508d50ca48276e2ca2869390f730ad6b0ed",
+ "contract_version": "setup_generator_contract_v1",
+ "diversity_standard_version": "setup_diversity_standard_v1",
+ "frozen_before_generation": true,
+ "library_version": "setup_library_v1",
+ "metric_definitions": {
+  "class_distance": "min(Hamming(a, b), Hamming(a, reflect(b))) over the 40 canonical squares; symmetric and well-defined on reflection classes",
+  "cross_split_nn_distance": "minimum class distance over every pair of bases in different splits, across the whole library",
+  "distinct_trait_vectors": "count of distinct full setup_trait_vector_v1 values among a family's bases",
+  "family_overlap_matrix": "matrix[i][j] = fraction of family i bases satisfying family j's contract; diagonal must be exactly 1.0; off-diagonal is report-only",
+  "folded_support": "count of distinct reflection-invariant folded cells (rank, min(file, 9-file)) \u2014 20 possible \u2014 occupied by the named piece group anywhere in the family",
+  "global_min_pairwise_distance": "minimum class distance over every unordered pair of bases in the library",
+  "near_duplicate_pair_fraction": "fraction of unordered within-family pairs with class distance strictly below the declared near-duplicate distance",
+  "per_square_entropy_bits": "Shannon entropy (base 2) of the piece-type distribution at each of the 40 canonical cells across a family's 500 bases; the family metric is the mean over the 40 cells",
+  "procedural_stress_targets": "the same identity/quality/family/split rules apply to every procedural output: >= 100,000 samples with zero legality, inventory, stranded, family, or split-leak failures, and perturbation class distance within [2, 12] of the base",
+  "within_family_nn_distance": "per base setup, the minimum class distance to any other base in the same family (all 500, any split)"
+ },
+ "phase": "phase_7",
+ "statistical_rationale": "independent structured draws over the residual 30+ free squares concentrate near class distance 30/40; the floors (6/8/4) are far below that concentration, so a correct generator passes with overwhelming margin while template repetition with cosmetic swaps fails immediately; entropy/support floors are likewise set well below honest-generation values but far above degenerate repetition",
+ "status": "PASS",
+ "thresholds": {
+  "distance": {
+   "max_within_family_near_duplicate_fraction": 0.001,
+   "min_cross_split_nn_distance": 8,
+   "min_global_pairwise_distance": 4,
+   "min_within_family_nn_distance": 6,
+   "within_family_near_duplicate_distance": 10
+  },
+  "diversity_standard_version": "setup_diversity_standard_v1",
+  "entropy": {
+   "min_family_mean_per_square_entropy_bits": 1.0,
+   "min_global_mean_per_square_entropy_bits": 1.5
+  },
+  "family_overlap": {
+   "off_diagonal": "report-only",
+   "required_self_satisfaction": 1.0
+  },
+  "identity": {
+   "max_cross_split_class_duplicate_groups": 0,
+   "max_exact_duplicate_groups": 0,
+   "max_fingerprint_collisions": 0,
+   "max_non_canonical_entries": 0,
+   "max_reflection_class_duplicate_groups": 0,
+   "max_stable_id_collisions": 0
+  },
+  "positional_support": {
+   "min_bomb_folded_support": 10,
+   "min_flag_folded_support": {
+    "F00": 1,
+    "F01": 2,
+    "F02": 2,
+    "F03": 4,
+    "F04": 4,
+    "F05": 4,
+    "F06": 4,
+    "F07": 4,
+    "F08": 4,
+    "F09": 4,
+    "F10": 4,
+    "F11": 4,
+    "F12": 4,
+    "F13": 4,
+    "F14": 3,
+    "F15": 8
+   },
+   "min_high_rank_folded_support": 6,
+   "min_miner_folded_support": 6,
+   "min_scout_folded_support": 8
+  },
+  "quality": {
+   "max_engine_invalid_bases": 0,
+   "max_family_contract_violations": 0,
+   "max_stranded_bases": 0
+  },
+  "trait_diversity": {
+   "min_distinct_bomb_rank_histograms_per_family": 8,
+   "min_distinct_scout_rank_histograms_per_family": 8,
+   "min_distinct_trait_vectors_per_family": 250
+  }
+ },
+ "timestamp": "2026-08-13T10:54:19-0400"
+}
