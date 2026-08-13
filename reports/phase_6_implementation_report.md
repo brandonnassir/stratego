@@ -2,10 +2,19 @@
 
 Production model architecture selection and M4 Pro benchmarking.
 
-Frozen throughout Phase 6: rules `stratego_project_v1`, reference engine
-`phase2_1_reference_1.1.0`, observation `observation_v2_1_127ch`, engine action
-encoding `source_destination_10000_v1` in absolute engine squares, Phase 3
-backend `KEEP_PYTHON`, and Phase 4 match/evaluation semantics.
+Original Phase 6 Agents 1–6 were executed against the then-frozen stack:
+rules `stratego_project_v1`, reference engine `phase2_1_reference_1.1.0`,
+observation `observation_v2_1_127ch`, engine action encoding
+`source_destination_10000_v1` in absolute engine squares, Phase 3 backend
+`KEEP_PYTHON`, and Phase 4 match/evaluation semantics.
+
+The authorized Phase 6B correctness correction (§6B-2, §6B-3) advances the
+reference implementation to `phase2_1_reference_1.2.0` while retaining rules
+`stratego_project_v1`; every other element above is unchanged.
+`phase2_1_reference_1.2.0` is the reference implementation frozen going
+forward after formal Phase 6 acceptance. The Agent 1–6 sections below are the
+historical record of the `1.1.0` runs and are not restated against `1.2.0`;
+the differential validation in §6B-3.3 is what connects the two.
 
 ## 1. Agent 1 — Model Contract v2 and Perspective-Normalized Actions
 
@@ -4166,3 +4175,69 @@ highest-risk limitation    the 6-hour soak bounds but does not directly
                            6-hour rate 28-fold with ~341 GiB of headroom
                            absorbing drift
 ```
+
+## 6B-4. Final Acceptance Cleanup — Anti-Leak Threshold for 1.2.0
+
+**Status: PASS.** After Phase 6B's acceptance, one quantitative Phase 2 gate
+remained for the corrected engine: the accepted requirement is at least
+100,000 valid hidden-identity permutation trials, and the first
+`phase2_1_reference_1.2.0` validation run recorded 86,500 (its default
+workload, 2,000 sampled positions, lost 270 to terminal states). The valid
+count is a deterministic function of the workload, so the required size was
+computed in advance — position indices 0..2316 yield exactly 100,000 — and
+the workload was rerun at 2,500 positions for margin, as **one self-contained
+superseding run** (indices 0..1999 of the earlier run are a strict subset,
+re-executed, not added; nothing is combined or double-counted):
+
+```text
+command                    python scripts/run_phase2_validation.py
+                             --antileak-trials 125000
+                             --antileak-trials-per-position 50
+                             --output reports/phase_2_data/
+                                      phase_2_metrics_reference_1_2_0.json
+workload                   position indices 0..2499; game seed 2,000,000 + i;
+                           target ply Random(i).choice([8,20,35,55,80,110,
+                           150,200,260]); permutation rng Random(i·7919+13);
+                           50 trials per non-terminal position
+valid trials               107,750   (2,155 valid positions × 50; 345
+                                      terminal positions skipped, exactly as
+                                      pre-computed)   >= 100,000  ✅
+observation mismatches     0
+legal-action mismatches    0
+public-event mismatches    0
+board/setup-view mismatches 0
+positive controls          107,750 / 107,750 changed trials altered the
+                           privileged belief targets; 0 failures — no
+                           invalid, unchanged or ineffective trial counted
+legal-mask coverage        the mask is a pure function of the action list;
+                           list-vs-mask exact agreement is independently
+                           gated in the same run's legality stage (9,285
+                           positions, 0 discrepancies), so identical lists
+                           under permutation imply identical masks
+```
+
+Every other stage of the harness re-verified identically in the same run —
+10,000 replays / 5,078,406 plies with zero mismatches, identical random-game
+tallies, 1,045,111 invariant transitions with zero violations, 1,804 mirror
+pairs clean, and the embedded full pytest at 2,732 passed / 3 skipped / 0
+failed. The harness's own verdict: unexplained mismatches across every gate,
+zero.
+
+Version lineage, stated once and recorded in the artifact:
+
+```text
+phase2_1_reference_1.1.0   historical accepted engine used by original
+                           Phase 6 Agents 1–6; its evidence
+                           (reports/phase_2_data/phase_2_metrics.json) is
+                           preserved unmodified
+phase2_1_reference_1.2.0   corrected reference implementation established by
+                           the authorized Phase 6B work; frozen going forward
+                           after formal Phase 6 acceptance
+rules_version              stratego_project_v1, unchanged across both
+```
+
+Nothing else changed in this cleanup: no engine edit, no trajectory change,
+no model or recycling change, no soak rerun. The only modified files are the
+`1.2.0` validation artifact (superseding counts plus additive reproducibility
+and lineage documentation), the report header (which now states the lineage
+instead of implying `1.1.0` remained final), and this section.
