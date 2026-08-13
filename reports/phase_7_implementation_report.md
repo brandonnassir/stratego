@@ -978,3 +978,477 @@ Agent 2's acceptance counters are reported for transparency but are not needed
 to audit anything: every claim in this section is recomputable from the
 materialized JSONL plus Agent 1's frozen contracts. Agent 2 does not declare
 diversity acceptance, and does not declare Phase 7 complete.
+
+## 3. Agent 3 — Exhaustive Library Audit
+
+**Status: PASS** — 25 / 25 completion gates true. Machine-readable record:
+`reports/phase_7_data/agent_03_library_audit.json` (every stage, every gate,
+the full overlap matrix and attributions), with
+`reports/phase_7_data/agent_03_family_metrics.csv` (275 rows: every frozen
+per-family threshold plus descriptive context) and
+`reports/phase_7_data/agent_03_similarity_audit.csv` (68 rows: global,
+within-family, and all cross-split scopes). The production library and its
+manifest were not modified: byte-identity before/after the audit is itself a
+recorded gate.
+
+### 3.1 Prerequisite verification
+
+Verified from artifacts and live code before any audit stage ran:
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 status | `PASS` | `agent_01_setup_contract.json` and `agent_01_diversity_thresholds.json` both `PASS`, thresholds `frozen_before_generation: true` |
+| Agent 2 status | `PASS` | `agent_02_generation_summary.json` `PASS`, 22/22 gates |
+| Live contract == artifact | identical | digest `4c25724e…` both sides |
+| Live thresholds == artifact | identical | digest `189f4dbe…` both sides |
+| Library digest before audit | `7b8a6660…` | recomputed from JSONL bytes: match |
+| Metadata digest before audit | `d86f4861…` | recomputed: match |
+| Manifest digest before audit | `53139ab7…` | recomputed: match |
+| Reference engine | `phase2_1_reference_1.2.0` | unchanged |
+
+A handoff-digest mismatch would have been `BLOCKED` (wrong input), not
+`FAIL`; none occurred.
+
+Pre-existing suite, measured at commit `974e5e9` **before any Agent 3 edit**:
+
+```text
+python -m pytest -q
+2976 passed, 3 skipped, 0 failed in 179.04s
+```
+
+Identical to Agent 2's post-edit totals; the three skips pre-date Phase 7.
+
+### 3.2 Audit design
+
+`stratego/setups/audit.py` recomputes every fact from the materialized JSONL
+plus the frozen engine and the frozen Agent 1 contracts. Agent 2's counters,
+preflight values and manifest are audit subjects, never inputs. Reuse of
+Agent 1's authoritative family/trait/identity definitions is per instruction;
+similarity carries an additional audit-side implementation:
+
+```text
+distance matrix     dense 8,000 x 8,000 class-distance matrix built in
+                    audit.py (blocked numpy uint8, matches-complement
+                    formulation), independent of Agent 1's
+                    diversity._pairwise_class_distances
+cross-check 1       2,000 deterministically sampled pairs re-verified
+                    against Agent 1's scalar class_distance: 0 mismatches,
+                    matrix exactly symmetric
+cross-check 2       every thresholded reduction (per-family min NN and
+                    near-duplicate fraction, cross-split minimum, global
+                    minimum) reconciled against the frozen distance_metrics:
+                    exact agreement
+```
+
+Per-entry checks are exception-guarded: a malformed entry becomes a recorded
+finding with its id, never an auditor crash and never a repair.
+
+### 3.3 Exhaustive legality audit
+
+For each of the 8,000 bases and each of the 8,000 reflected forms: engine
+validation for both colours in both the row-major tuple form and the
+square-oriented placement form (`validate_setup` + `validate_setup_placement`
+— 32,000 placement validations in total), exact inventory recount, initial
+mobility through the frozen engine (`create_game` + `has_legal_action`,
+16,000 probes), independently recomputed trait vector, primary-family
+predicate on base and reflection, serialization round trip, reflection round
+trips, canonicalization, all three fingerprints, and identity/split/seed
+re-derivation from the base index alone.
+
+```text
+base engine validation failures          0 / 8,000
+reflected validation failures            0 / 8,000
+inventory failures                       0
+placement failures                       0
+initial-mobility failures (base)         0
+initial-mobility failures (reflected)    0
+family-predicate failures (base)         0
+family-predicate failures (reflected)    0
+serialization failures                   0
+reflection round-trip failures           0
+canonicalization failures                0
+fingerprint mismatches                   0   (class, content, reflected)
+trait-vector mismatches                  0
+identity / split-rule mismatches         0
+seed re-derivation mismatches            0   (generation_seed and
+                                              accepted_attempt_seed rebuilt
+                                              from identity alone)
+version-field mismatches                 0
+```
+
+The JSONL bytes themselves were audited line-by-line: all 8,000 lines parse,
+carry the frozen required fields, deserialize to valid setups, and are
+byte-identical to the frozen canonical serialization of their own payload.
+
+### 3.4 Count audit
+
+Recomputed independently and exact:
+
+```text
+total bases                     8,000
+per family                      500 x 16
+train / validation / test       6,400 / 800 / 800
+per family per split            400 / 50 / 50 x 16
+distinct stable ids             8,000
+distinct class fingerprints     8,000
+distinct arrangements           8,000
+```
+
+### 3.5 Duplicate audit
+
+Groups were formed over the whole library — never within-family only:
+
+```text
+exact duplicate arrangements             0
+reflection-equivalent duplicates         0   (recomputed class fingerprints)
+stored ∩ mirrored arrangements           0
+same stable id, different setup          0
+different stable id, same class          0
+cross-split class duplicates             0
+```
+
+### 3.6 Cross-split leakage audit
+
+Distances are Agent 1's frozen reflection-class metric
+`min(H(a,b), H(a,reflect(b)))`, so mirrored near-copies cannot hide. All
+three split pairs, globally and within every family:
+
+| Scope | Pairs | min | p1 | median | NN min A→B / B→A | pairs < 8 | pairs < 10 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| train ↔ validation | 5,120,000 | 21 | 29 | 34 | 21 / 21 | 0 | 0 |
+| train ↔ test | 5,120,000 | 22 | 29 | 34 | 22 / 22 | 0 | 0 |
+| validation ↔ test | 640,000 | 22 | 29 | 34 | 22 / 22 | 0 | 0 |
+
+Per-family cross-split minima (worst of the three split pairs): F00 23,
+F01 22, F02 22, F03 24, F04 23, F05 24, F06 23, F07 22, F08 23, F09 22,
+F10 24, F11 23, F12 24, F13 22, F14 22, F15 25.
+
+```text
+cross-split NN distance, whole library    21      floor 8      PASS
+pairs below the near-duplicate distance    0
+offending pairs                            none
+```
+
+Agent 1 declared no percentile thresholds; the p1/p5/p25/median columns here
+and in the similarity CSV are nearest-rank descriptive context. Only the
+frozen minima and ceilings gate.
+
+### 3.7 Within-family diversity against the frozen thresholds
+
+Every Agent 1 metric, recomputed from raw setups. All 199 frozen checks pass;
+the full per-family table is `agent_03_family_metrics.csv`.
+
+| Family | min NN (≥6) | near-dup frac (≤0.001) | entropy bits (≥1.0) | Flag support | Bomb (≥10) | Scout (≥8) | Miner (≥6) | high (≥6) | vectors (≥250) | NN med/max |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| F00 | 22 | 0.0 | 2.937 | 1 (≥1) | 20 | 20 | 20 | 20 | 500 | 25 / 27 |
+| F01 | 22 | 0.0 | 3.014 | 2 (≥2) | 20 | 20 | 20 | 20 | 500 | 26 / 28 |
+| F02 | 22 | 0.0 | 3.015 | 2 (≥2) | 20 | 20 | 20 | 20 | 500 | 25 / 28 |
+| F03 | 24 | 0.0 | 3.136 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 29 |
+| F04 | 22 | 0.0 | 3.155 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 30 |
+| F05 | 21 | 0.0 | 3.126 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 29 |
+| F06 | 22 | 0.0 | 3.166 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 30 |
+| F07 | 22 | 0.0 | 3.112 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 29 |
+| F08 | 22 | 0.0 | 3.031 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 29 |
+| F09 | 22 | 0.0 | 3.029 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 29 |
+| F10 | 24 | 0.0 | 3.081 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 26 / 29 |
+| F11 | 22 | 0.0 | 3.014 | 10 (≥4) | 20 | 15 | 20 | 20 | 500 | 26 / 28 |
+| F12 | 24 | 0.0 | 3.101 | 10 (≥4) | 20 | 20 | 20 | 20 | 500 | 27 / 30 |
+| F13 | 22 | 0.0 | 3.060 | 10 (≥4) | 20 | 20 | 15 | 20 | 500 | 26 / 29 |
+| F14 | 20 | 0.0 | 3.038 | 5 (≥3) | 20 | 20 | 20 | 20 | 500 | 26 / 28 |
+| F15 | 25 | 0.0 | 3.244 | 20 (≥8) | 20 | 20 | 20 | 20 | 500 | 28 / 30 |
+
+```text
+global mean per-square entropy      3.184683 bits     floor 1.5    PASS
+global minimum pairwise distance    20                floor 4      PASS
+distinct Bomb rank histograms       30–65 per family  floor 8      PASS
+distinct Scout rank histograms      18–85 per family  floor 8      PASS
+near-duplicate pairs (< 10), any family      0
+```
+
+Constrained families leave exactly the signatures their contracts pin, and
+nothing more: F11's Scout folded support is 15/20 (its clause bars Scouts
+from the five front-rank folded cells), F13's Miner support is likewise
+15/20, F10's distinct Scout histograms drop to 18 (Scouts concentrated
+forward by contract), F00/F01/F02/F14 pin Flag support at 1/2/2/5, and F15 —
+the only family whose Flag may go anywhere — reaches 20/20. Every value sits
+at or above its family-specific floor; low entropy appears only where
+Agent 1 explicitly allowed it.
+
+### 3.8 Between-family overlap / confusion matrix
+
+`matrix[i][j]` = fraction of family `i` bases whose recomputed trait vector
+satisfies family `j`'s frozen contract. The diagonal is the hard gate and is
+exactly 1.0 for all 16 families. Off-diagonal overlap is **report-only**
+under Agent 1's frozen standard (families are not required to be disjoint);
+the full 16 × 16 matrix (fractions and integer counts) is in the audit
+artifact, and every off-diagonal cell at or above 0.25 carries a clause-level
+attribution.
+
+```text
+family self-satisfaction diagonal        1.0 x 16      required   PASS
+off-diagonal cells > 0                   150 of 240    report-only
+off-diagonal cells >= 0.25                67           report-only
+largest                                  F11 -> F15    0.772  (386 / 500)
+```
+
+**The F11 → F15 overlap of 0.772, recomputed and attributed exactly.** The
+audit reproduces Agent 2's preflight value independently: 386 of F11's 500
+bases also satisfy F15. The mechanism is definitional, not accidental:
+
+```text
+F11 requires   scout_front_rank_count == 0
+F15 requires   unconventional_feature_count >= 2, where feature #6 of the
+               frozen eight is no_front_rank_scouts
+               (scout_front_rank_count == 0)
+```
+
+F11's own defining clause **is** one of F15's eight unconventional features,
+so every F11 base starts one feature toward F15's two-feature requirement —
+the audit confirms feature-count ≥ 1 for all 500 (histogram over the eight
+features: 1× 90, 2× 200, 3× 158, 4× 46, 5× 6; zero bases at 0). The exact
+arithmetic of the cell:
+
+```text
+F11 bases with >= 2 features                    410 / 500   (0.820)
+F11 bases with the forbidden fortress
+signature (flag_rank 0 and >= 2 guards)          35 / 500   (0.070)
+bases with both                                  24
+satisfy F15  =  410 - 24  =                     386 / 500   (0.772)
+```
+
+Among the 386, the second feature is mostly `flag_unguarded` (63.5 %),
+`marshal_on_front_rank` (32.9 %), `spy_on_front_rank` (32.1 %) or
+`general_on_front_rank` (28.0 %): holding five-plus Scouts in the back two
+ranks crowds the rear, so heavier pieces man the front rank and fortress
+walls are rarer. The same crowding drives the second-largest F11 coupling,
+F11 → F12 = 0.682 (Miners pushed forward). The direction is sharply
+asymmetric — F15 → F11 is 0.034, because a high-entropy draw rarely holds
+five Scouts back with none forward — and the F15 column as a whole confirms
+the family's catch-all role: F07 → F15 = 0.574 (forward Bombs strip fortress
+walls), F08 → F15 = 0.522 (Marshal and General forward are two features by
+themselves).
+
+None of this is content leakage: predicate co-satisfaction is a taxonomy
+property. The nearest any two bases come to each other anywhere in the
+library is class distance 20 of 40, every base satisfies its declared
+primary family exactly, and every identity is unique. The matrix's
+structural zeros land precisely where the contracts are arithmetically
+exclusive — F08 ↔ F09 (≥5 of 7 heavies forward vs. rear), F12 ↔ F13 (≥3 of
+5 Miners forward vs. ≥4 rear), F10 → F11 (≥3 front-rank Scouts vs. 0),
+F00/F01/F02 mutually (Flag edge-distance partition {0}, {1,2}, {3,4}),
+F03–F06 → F14 and F15 → F00/F01/F02/F14 (guard-count and fortress-signature
+exclusions) — which is independent evidence the matrix measures the
+contracts, not the generator. Column means show F05 (0.355) and F10 (0.413)
+are the contracts most often satisfied incidentally, F11 (0.005) and
+F00 (0.009) the most exclusive.
+
+Observation, no action taken: if a later phase ever needs mutually exclusive
+family labels (e.g. as classification targets), F15's permissive two-feature
+contract — and this one definitional feature-sharing with F11 — would need a
+new family-contract version. Under the frozen `setup_family_v1`, 0.772 is a
+described property, not a defect; primary labels remain unambiguous.
+
+### 3.9 Reflection audit
+
+For every one of the 8,000 bases:
+
+```text
+reflect(reflect(s)) == s                    8,000 / 8,000
+reflection inventory preserved              8,000 / 8,000   (engine-validated)
+reflection engine-legal, both colours       8,000 / 8,000
+reflection initial mobility                 8,000 / 8,000
+reflection satisfies the primary family     8,000 / 8,000
+class_fingerprint(reflect(s)) == stored     8,000 / 8,000
+canonicalize(reflect(s)) == stored base     8,000 / 8,000
+exactly reflection-symmetric bases          0
+```
+
+Zero symmetric bases is the only possible result — the single Flag would
+need file `f == 9 - f`, which has no integer solution — and the audit
+confirms the theorem holds on the data. Reflection changes no identity
+semantics: every reflected form folds back to its stored representative and
+fingerprint, so splits and family labels are inherited exactly as the
+contract requires.
+
+### 3.10 Independent metric implementation
+
+```text
+audit-side matrix vs frozen scalar metric      2,000 sampled pairs, 0 mismatches
+audit-side matrix symmetry                     exact
+audit-side reductions vs frozen reductions     exact agreement on every
+                                               thresholded value
+trait vectors                                  recomputed for all 8,000,
+                                               0 mismatches vs stored
+fingerprints                                   recomputed for all 8,000 bases
+                                               and reflections, 0 mismatches
+```
+
+Agent 2's cached values were compared against, never consumed: the manifest
+stage recomputed all three digests from entry content and matched the
+handoff (`7b8a6660…`, `d86f4861…`, `53139ab7…`).
+
+### 3.11 Performance
+
+```text
+audit wall time                    8.067 s   (full harness incl. artifacts)
+peak RSS                           1,420 MB
+similarity method                  dense blocked numpy uint8 class-distance
+                                   matrix, direct + mirrored orientations
+matrix build                       1.364 s
+ordered pair comparisons           63,992,000   (31,996,000 unordered)
+cell comparisons                   5,119,360,000
+placement validations              32,000   (both colours, base + reflection)
+mobility probes (create_game)      16,000
+stage times                        per_base 2.435 s · similarity 2.053 s ·
+                                   thresholds 2.825 s · overlap 0.113 s ·
+                                   duplicates 0.062 s · line format 0.189 s ·
+                                   manifest 0.108 s
+```
+
+Nothing was sampled or weakened: the full 8,000² comparison ran exactly as
+the instructions intend for a library this size.
+
+### 3.12 Tests
+
+`tests/setups/test_audit.py` adds 42 tests. Positive controls prove the
+auditor reports zero findings on clean isolated rebuilds of real production
+entries and that both similarity implementations agree. Each
+instruction-mandated defect class is deliberately injected and caught by the
+named detector:
+
+```text
+wrong inventory              inventory_failures + engine_failures
+illegal placement            engine placement validator + undeserializable line
+stranded setup               mobility_failures, base and reflected,
+                             with legality/family clean (isolated)
+wrong family label           family_failures with the violated clause named,
+                             and a broken overlap diagonal
+exact duplicate              exact_duplicate_groups, cross-family too
+reflected duplicate          reflection_class_duplicate_groups +
+                             stored_mirror_overlap + canonicalization finding
+stable-ID collision          stable_id_collisions + same_id_different_setup
+split-count mismatch         count checks + identity_failures
+cross-split near duplicate   distance-2 pair found, offenders named,
+                             frozen threshold check fails
+threshold failure            F00 min-NN floor and near-duplicate fraction
+                             fail as findings while self-satisfaction passes
+bad serialization            noncanonical / missing-field / unparseable lines
+bad reflection               corrupted class and reflected fingerprints caught
+altered manifest digest      manifest_digest_matches false; tampered counts
+                             and forged handoff digests also caught
+```
+
+Plus: tampered generation seeds and trait vectors are caught, `audit_library`
+on a forged mini-library returns FAIL with named gates, and — once the
+production artifacts exist — artifact-gated tests pin the recorded PASS,
+digests, zero-finding lists, 199/199 threshold checks, and both CSVs
+(including zero cross-split pairs below 8 in every scope) against the files
+on disk.
+
+```text
+python -m pytest -q       (before edits)   2976 passed, 3 skipped, 0 failed
+python -m pytest -q       (after edits)    3018 passed, 3 skipped, 0 failed
+                                           (+42, none removed or weakened)
+```
+
+### 3.13 Files
+
+Created: `stratego/setups/audit.py`, `tests/setups/test_audit.py`,
+`scripts/run_phase7_agent03.py`,
+`reports/phase_7_data/agent_03_library_audit.json`,
+`reports/phase_7_data/agent_03_family_metrics.csv`,
+`reports/phase_7_data/agent_03_similarity_audit.csv`.
+
+Modified: `stratego/setups/__init__.py` (docstring + audit re-exports), this
+report (section 3 appended).
+
+Untouched: `stratego/engine/`, every Agent 1 contract module and threshold,
+Agent 2's generator/library modules, the production library and manifest
+(byte-verified before and after the audit), the Phase 4 bank, and all prior
+report sections and artifacts.
+
+### 3.14 Deviations and observations
+
+- Agent 1 defined no percentile thresholds, so the similarity report's
+  p1/p5/p25/median columns are nearest-rank descriptive context; every
+  gating comparison uses exactly the frozen minima/ceilings/exacts.
+- In the canonical 40-tuple representation, placement illegality cannot be
+  expressed while inventory holds; the audit therefore also runs the
+  engine's square-oriented placement validator on every oriented form
+  (32,000 validations), and the injected-placement proof exercises that
+  validator directly plus the malformed-line path.
+- Reflection invariance of family membership and mobility is a theorem
+  Agent 1 tested; the audit still evaluated both on all 8,000 reflected
+  forms directly, per the instruction to recompute rather than trust.
+- The F11 → F15 = 0.772 overlap is fully attributed in §3.8 and in the
+  artifact; it is definitional under the frozen contracts, report-only under
+  the frozen standard, and no threshold, contract or library content was
+  touched in response. The observation about a hypothetical future
+  disjoint-label need is recorded for the reviewing chat, not acted on.
+- The audit went beyond the letter in one place: `generation_seed` and
+  `accepted_attempt_seed` were re-derived from identity inputs alone for all
+  8,000 entries (0 mismatches), pinning recorded provenance without
+  regenerating anything.
+
+### 3.15 Completion gates
+
+```text
+agent_01_pass_verified                       true
+agent_02_pass_verified                       true
+contract_and_thresholds_frozen               true
+handoff_digests_verified_before_audit        true
+counts_exact                                 true   (8,000 / 500 x 16 / 6,400-800-800)
+all_bases_engine_valid                       true   (0 / 8,000 failures)
+all_reflections_engine_valid                 true   (0 / 8,000 failures)
+zero_stranded_bases                          true   (base + reflected)
+zero_family_contract_failures                true   (base + reflected)
+zero_exact_duplicates                        true
+zero_reflection_equivalent_duplicates        true
+zero_stable_id_collisions                    true
+zero_cross_split_equivalent_leakage          true
+cross_split_nn_floor_met                     true   (21 >= 8)
+all_diversity_thresholds_pass                true   (199 / 199)
+serialization_exact                          true   (entries + JSONL lines)
+reflection_roundtrips_exact                  true
+canonicalization_exact                       true
+fingerprints_and_traits_recomputed_exact     true
+identity_split_seed_rederived_exact          true
+independent_similarity_agrees                true   (0 mismatches)
+family_self_satisfaction_diagonal_one        true   (1.0 x 16)
+manifest_digests_verified                    true
+production_library_untouched                 true   (byte-identical)
+full_repository_suite_green                  true   (3018 / 3 / 0)
+                                             25 / 25
+```
+
+No outcome, win rate, Elo, value or policy signal participated in any audit
+decision. No frozen engine/evaluation/model/replay semantic changed, no
+threshold moved, and no library content was repaired or regenerated.
+
+### 3.16 Handoff to Agent 4
+
+```text
+audited library digest    7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+entry metadata digest     d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980
+manifest digest           53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31
+family metrics            agent_03_family_metrics.csv (every floor met)
+similarity / leakage      agent_03_similarity_audit.csv (0 pairs < 10 across
+                          splits; global min pairwise 20; cross-split min 21)
+overlap matrix            audit artifact + §3.8 (largest F11 -> F15 = 0.772,
+                          report-only, fully attributed)
+reflection semantics      confirmed exact on all 8,000 (involution, class
+                          fingerprints, family, mobility, split inheritance)
+trait/family APIs         compute_trait_vector, evaluate_family,
+                          class_fingerprint, reflect_canonical,
+                          setup_has_initial_mobility, validate_perturbation —
+                          all recomputation-verified against the library
+```
+
+Margins Agent 4 inherits: the minimum class distance between any two bases is
+20 and the frozen perturbation bound is Hamming ≤ 12, so by the triangle
+inequality no compliant descendant can come within class distance 8 of any
+other base's equivalence class — perturbation cannot manufacture a duplicate
+or a cross-split near-neighbour below the frozen floor. Agent 4 may not
+change the 8,000-base library; the sampler must preserve base identity,
+split, family, Flag cell, inventory, mobility, and the Hamming window
+`[2, 12]` exactly as frozen.

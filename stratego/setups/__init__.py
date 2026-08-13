@@ -15,8 +15,27 @@ construction framework driven by 16 declarative family plans, the frozen
 acceptance stack (engine validation, family predicate, initial mobility), and
 the materialized 8,000-base library with its manifest. Agent 3 audits the
 result independently through the same public API.
+
+`audit` is Phase 7 Agent 3's independent exhaustive auditor: it recomputes
+legality, mobility, identity, splits, family contracts, duplicates,
+cross-split leakage, the frozen diversity thresholds and the family overlap
+matrix from the materialized JSONL plus the frozen engine and contracts,
+never from Agent 2's counters. It reports findings; it repairs nothing.
 """
 
+from .audit import (
+    AUDIT_VERSION,
+    audit_library,
+    count_audit,
+    duplicate_audit,
+    line_format_audit,
+    manifest_audit,
+    overlap_audit,
+    per_base_audit,
+    similarity_audit,
+    similarity_cross_check,
+    threshold_audit,
+)
 from .contracts import (
     BASE_ENTRY_REQUIRED_FIELDS,
     BASE_SETUP_COUNT,

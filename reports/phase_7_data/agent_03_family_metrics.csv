@@ -1,0 +1,276 @@
+family_id,metric,measured,required,threshold_kind,pass
+F00,min_within_family_nn_distance,22,>= 6,floor,true
+F00,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F00,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F00,mean_per_square_entropy_bits,2.93722,>= 1.0,floor,true
+F00,flag_folded_support,1,>= 1,floor,true
+F00,bomb_folded_support,20,>= 10,floor,true
+F00,scout_folded_support,20,>= 8,floor,true
+F00,miner_folded_support,20,>= 6,floor,true
+F00,high_rank_folded_support,20,>= 6,floor,true
+F00,distinct_trait_vectors,500,>= 250,floor,true
+F00,distinct_bomb_rank_histograms,33,>= 8,floor,true
+F00,distinct_scout_rank_histograms,66,>= 8,floor,true
+F00,family_self_satisfaction,1.0,== 1.0,exact,true
+F00,within_family_nn_median,25,report-only,descriptive,
+F00,within_family_nn_max,27,report-only,descriptive,
+F00,within_family_pairwise_median,32,report-only,descriptive,
+F00,largest_secondary_overlap,F14:0.626,report-only,descriptive,
+F01,min_within_family_nn_distance,22,>= 6,floor,true
+F01,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F01,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F01,mean_per_square_entropy_bits,3.013954,>= 1.0,floor,true
+F01,flag_folded_support,2,>= 2,floor,true
+F01,bomb_folded_support,20,>= 10,floor,true
+F01,scout_folded_support,20,>= 8,floor,true
+F01,miner_folded_support,20,>= 6,floor,true
+F01,high_rank_folded_support,20,>= 6,floor,true
+F01,distinct_trait_vectors,500,>= 250,floor,true
+F01,distinct_bomb_rank_histograms,33,>= 8,floor,true
+F01,distinct_scout_rank_histograms,72,>= 8,floor,true
+F01,family_self_satisfaction,1.0,== 1.0,exact,true
+F01,within_family_nn_median,26,report-only,descriptive,
+F01,within_family_nn_max,28,report-only,descriptive,
+F01,within_family_pairwise_median,33,report-only,descriptive,
+F01,largest_secondary_overlap,F14:0.612,report-only,descriptive,
+F02,min_within_family_nn_distance,22,>= 6,floor,true
+F02,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F02,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F02,mean_per_square_entropy_bits,3.015193,>= 1.0,floor,true
+F02,flag_folded_support,2,>= 2,floor,true
+F02,bomb_folded_support,20,>= 10,floor,true
+F02,scout_folded_support,20,>= 8,floor,true
+F02,miner_folded_support,20,>= 6,floor,true
+F02,high_rank_folded_support,20,>= 6,floor,true
+F02,distinct_trait_vectors,500,>= 250,floor,true
+F02,distinct_bomb_rank_histograms,38,>= 8,floor,true
+F02,distinct_scout_rank_histograms,71,>= 8,floor,true
+F02,family_self_satisfaction,1.0,== 1.0,exact,true
+F02,within_family_nn_median,25,report-only,descriptive,
+F02,within_family_nn_max,28,report-only,descriptive,
+F02,within_family_pairwise_median,32,report-only,descriptive,
+F02,largest_secondary_overlap,F14:0.628,report-only,descriptive,
+F03,min_within_family_nn_distance,24,>= 6,floor,true
+F03,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F03,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F03,mean_per_square_entropy_bits,3.1362,>= 1.0,floor,true
+F03,flag_folded_support,10,>= 4,floor,true
+F03,bomb_folded_support,20,>= 10,floor,true
+F03,scout_folded_support,20,>= 8,floor,true
+F03,miner_folded_support,20,>= 6,floor,true
+F03,high_rank_folded_support,20,>= 6,floor,true
+F03,distinct_trait_vectors,500,>= 250,floor,true
+F03,distinct_bomb_rank_histograms,57,>= 8,floor,true
+F03,distinct_scout_rank_histograms,74,>= 8,floor,true
+F03,family_self_satisfaction,1.0,== 1.0,exact,true
+F03,within_family_nn_median,27,report-only,descriptive,
+F03,within_family_nn_max,29,report-only,descriptive,
+F03,within_family_pairwise_median,34,report-only,descriptive,
+F03,largest_secondary_overlap,F05:0.566,report-only,descriptive,
+F04,min_within_family_nn_distance,22,>= 6,floor,true
+F04,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F04,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F04,mean_per_square_entropy_bits,3.154928,>= 1.0,floor,true
+F04,flag_folded_support,10,>= 4,floor,true
+F04,bomb_folded_support,20,>= 10,floor,true
+F04,scout_folded_support,20,>= 8,floor,true
+F04,miner_folded_support,20,>= 6,floor,true
+F04,high_rank_folded_support,20,>= 6,floor,true
+F04,distinct_trait_vectors,500,>= 250,floor,true
+F04,distinct_bomb_rank_histograms,58,>= 8,floor,true
+F04,distinct_scout_rank_histograms,76,>= 8,floor,true
+F04,family_self_satisfaction,1.0,== 1.0,exact,true
+F04,within_family_nn_median,27,report-only,descriptive,
+F04,within_family_nn_max,30,report-only,descriptive,
+F04,within_family_pairwise_median,34,report-only,descriptive,
+F04,largest_secondary_overlap,F05:0.684,report-only,descriptive,
+F05,min_within_family_nn_distance,21,>= 6,floor,true
+F05,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F05,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F05,mean_per_square_entropy_bits,3.125984,>= 1.0,floor,true
+F05,flag_folded_support,10,>= 4,floor,true
+F05,bomb_folded_support,20,>= 10,floor,true
+F05,scout_folded_support,20,>= 8,floor,true
+F05,miner_folded_support,20,>= 6,floor,true
+F05,high_rank_folded_support,20,>= 6,floor,true
+F05,distinct_trait_vectors,500,>= 250,floor,true
+F05,distinct_bomb_rank_histograms,45,>= 8,floor,true
+F05,distinct_scout_rank_histograms,74,>= 8,floor,true
+F05,family_self_satisfaction,1.0,== 1.0,exact,true
+F05,within_family_nn_median,27,report-only,descriptive,
+F05,within_family_nn_max,29,report-only,descriptive,
+F05,within_family_pairwise_median,33,report-only,descriptive,
+F05,largest_secondary_overlap,F03:0.64,report-only,descriptive,
+F06,min_within_family_nn_distance,22,>= 6,floor,true
+F06,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F06,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F06,mean_per_square_entropy_bits,3.166294,>= 1.0,floor,true
+F06,flag_folded_support,10,>= 4,floor,true
+F06,bomb_folded_support,20,>= 10,floor,true
+F06,scout_folded_support,20,>= 8,floor,true
+F06,miner_folded_support,20,>= 6,floor,true
+F06,high_rank_folded_support,20,>= 6,floor,true
+F06,distinct_trait_vectors,500,>= 250,floor,true
+F06,distinct_bomb_rank_histograms,57,>= 8,floor,true
+F06,distinct_scout_rank_histograms,76,>= 8,floor,true
+F06,family_self_satisfaction,1.0,== 1.0,exact,true
+F06,within_family_nn_median,27,report-only,descriptive,
+F06,within_family_nn_max,30,report-only,descriptive,
+F06,within_family_pairwise_median,34,report-only,descriptive,
+F06,largest_secondary_overlap,F05:0.518,report-only,descriptive,
+F07,min_within_family_nn_distance,22,>= 6,floor,true
+F07,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F07,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F07,mean_per_square_entropy_bits,3.111706,>= 1.0,floor,true
+F07,flag_folded_support,10,>= 4,floor,true
+F07,bomb_folded_support,20,>= 10,floor,true
+F07,scout_folded_support,20,>= 8,floor,true
+F07,miner_folded_support,20,>= 6,floor,true
+F07,high_rank_folded_support,20,>= 6,floor,true
+F07,distinct_trait_vectors,500,>= 250,floor,true
+F07,distinct_bomb_rank_histograms,30,>= 8,floor,true
+F07,distinct_scout_rank_histograms,85,>= 8,floor,true
+F07,family_self_satisfaction,1.0,== 1.0,exact,true
+F07,within_family_nn_median,27,report-only,descriptive,
+F07,within_family_nn_max,29,report-only,descriptive,
+F07,within_family_pairwise_median,33,report-only,descriptive,
+F07,largest_secondary_overlap,F15:0.574,report-only,descriptive,
+F08,min_within_family_nn_distance,22,>= 6,floor,true
+F08,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F08,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F08,mean_per_square_entropy_bits,3.031125,>= 1.0,floor,true
+F08,flag_folded_support,10,>= 4,floor,true
+F08,bomb_folded_support,20,>= 10,floor,true
+F08,scout_folded_support,20,>= 8,floor,true
+F08,miner_folded_support,20,>= 6,floor,true
+F08,high_rank_folded_support,20,>= 6,floor,true
+F08,distinct_trait_vectors,500,>= 250,floor,true
+F08,distinct_bomb_rank_histograms,57,>= 8,floor,true
+F08,distinct_scout_rank_histograms,65,>= 8,floor,true
+F08,family_self_satisfaction,1.0,== 1.0,exact,true
+F08,within_family_nn_median,27,report-only,descriptive,
+F08,within_family_nn_max,29,report-only,descriptive,
+F08,within_family_pairwise_median,33,report-only,descriptive,
+F08,largest_secondary_overlap,F05:0.562,report-only,descriptive,
+F09,min_within_family_nn_distance,22,>= 6,floor,true
+F09,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F09,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F09,mean_per_square_entropy_bits,3.02937,>= 1.0,floor,true
+F09,flag_folded_support,10,>= 4,floor,true
+F09,bomb_folded_support,20,>= 10,floor,true
+F09,scout_folded_support,20,>= 8,floor,true
+F09,miner_folded_support,20,>= 6,floor,true
+F09,high_rank_folded_support,20,>= 6,floor,true
+F09,distinct_trait_vectors,500,>= 250,floor,true
+F09,distinct_bomb_rank_histograms,55,>= 8,floor,true
+F09,distinct_scout_rank_histograms,75,>= 8,floor,true
+F09,family_self_satisfaction,1.0,== 1.0,exact,true
+F09,within_family_nn_median,27,report-only,descriptive,
+F09,within_family_nn_max,29,report-only,descriptive,
+F09,within_family_pairwise_median,33,report-only,descriptive,
+F09,largest_secondary_overlap,F05:0.542,report-only,descriptive,
+F10,min_within_family_nn_distance,24,>= 6,floor,true
+F10,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F10,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F10,mean_per_square_entropy_bits,3.080749,>= 1.0,floor,true
+F10,flag_folded_support,10,>= 4,floor,true
+F10,bomb_folded_support,20,>= 10,floor,true
+F10,scout_folded_support,20,>= 8,floor,true
+F10,miner_folded_support,20,>= 6,floor,true
+F10,high_rank_folded_support,20,>= 6,floor,true
+F10,distinct_trait_vectors,500,>= 250,floor,true
+F10,distinct_bomb_rank_histograms,57,>= 8,floor,true
+F10,distinct_scout_rank_histograms,18,>= 8,floor,true
+F10,family_self_satisfaction,1.0,== 1.0,exact,true
+F10,within_family_nn_median,26,report-only,descriptive,
+F10,within_family_nn_max,29,report-only,descriptive,
+F10,within_family_pairwise_median,33,report-only,descriptive,
+F10,largest_secondary_overlap,F05:0.56,report-only,descriptive,
+F11,min_within_family_nn_distance,22,>= 6,floor,true
+F11,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F11,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F11,mean_per_square_entropy_bits,3.013669,>= 1.0,floor,true
+F11,flag_folded_support,10,>= 4,floor,true
+F11,bomb_folded_support,20,>= 10,floor,true
+F11,scout_folded_support,15,>= 8,floor,true
+F11,miner_folded_support,20,>= 6,floor,true
+F11,high_rank_folded_support,20,>= 6,floor,true
+F11,distinct_trait_vectors,500,>= 250,floor,true
+F11,distinct_bomb_rank_histograms,57,>= 8,floor,true
+F11,distinct_scout_rank_histograms,24,>= 8,floor,true
+F11,family_self_satisfaction,1.0,== 1.0,exact,true
+F11,within_family_nn_median,26,report-only,descriptive,
+F11,within_family_nn_max,28,report-only,descriptive,
+F11,within_family_pairwise_median,33,report-only,descriptive,
+F11,largest_secondary_overlap,F15:0.772,report-only,descriptive,
+F12,min_within_family_nn_distance,24,>= 6,floor,true
+F12,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F12,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F12,mean_per_square_entropy_bits,3.101205,>= 1.0,floor,true
+F12,flag_folded_support,10,>= 4,floor,true
+F12,bomb_folded_support,20,>= 10,floor,true
+F12,scout_folded_support,20,>= 8,floor,true
+F12,miner_folded_support,20,>= 6,floor,true
+F12,high_rank_folded_support,20,>= 6,floor,true
+F12,distinct_trait_vectors,500,>= 250,floor,true
+F12,distinct_bomb_rank_histograms,55,>= 8,floor,true
+F12,distinct_scout_rank_histograms,70,>= 8,floor,true
+F12,family_self_satisfaction,1.0,== 1.0,exact,true
+F12,within_family_nn_median,27,report-only,descriptive,
+F12,within_family_nn_max,30,report-only,descriptive,
+F12,within_family_pairwise_median,33,report-only,descriptive,
+F12,largest_secondary_overlap,F10:0.528,report-only,descriptive,
+F13,min_within_family_nn_distance,22,>= 6,floor,true
+F13,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F13,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F13,mean_per_square_entropy_bits,3.060117,>= 1.0,floor,true
+F13,flag_folded_support,10,>= 4,floor,true
+F13,bomb_folded_support,20,>= 10,floor,true
+F13,scout_folded_support,20,>= 8,floor,true
+F13,miner_folded_support,15,>= 6,floor,true
+F13,high_rank_folded_support,20,>= 6,floor,true
+F13,distinct_trait_vectors,500,>= 250,floor,true
+F13,distinct_bomb_rank_histograms,55,>= 8,floor,true
+F13,distinct_scout_rank_histograms,77,>= 8,floor,true
+F13,family_self_satisfaction,1.0,== 1.0,exact,true
+F13,within_family_nn_median,26,report-only,descriptive,
+F13,within_family_nn_max,29,report-only,descriptive,
+F13,within_family_pairwise_median,33,report-only,descriptive,
+F13,largest_secondary_overlap,F10:0.54,report-only,descriptive,
+F14,min_within_family_nn_distance,20,>= 6,floor,true
+F14,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F14,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F14,mean_per_square_entropy_bits,3.038288,>= 1.0,floor,true
+F14,flag_folded_support,5,>= 3,floor,true
+F14,bomb_folded_support,20,>= 10,floor,true
+F14,scout_folded_support,20,>= 8,floor,true
+F14,miner_folded_support,20,>= 6,floor,true
+F14,high_rank_folded_support,20,>= 6,floor,true
+F14,distinct_trait_vectors,500,>= 250,floor,true
+F14,distinct_bomb_rank_histograms,36,>= 8,floor,true
+F14,distinct_scout_rank_histograms,65,>= 8,floor,true
+F14,family_self_satisfaction,1.0,== 1.0,exact,true
+F14,within_family_nn_median,26,report-only,descriptive,
+F14,within_family_nn_max,28,report-only,descriptive,
+F14,within_family_pairwise_median,33,report-only,descriptive,
+F14,largest_secondary_overlap,F01:0.452,report-only,descriptive,
+F15,min_within_family_nn_distance,25,>= 6,floor,true
+F15,near_duplicate_pair_fraction,0.0,<= 0.001,ceiling,true
+F15,near_duplicate_pairs_below_10,0,report-only,descriptive,
+F15,mean_per_square_entropy_bits,3.243872,>= 1.0,floor,true
+F15,flag_folded_support,20,>= 8,floor,true
+F15,bomb_folded_support,20,>= 10,floor,true
+F15,scout_folded_support,20,>= 8,floor,true
+F15,miner_folded_support,20,>= 6,floor,true
+F15,high_rank_folded_support,20,>= 6,floor,true
+F15,distinct_trait_vectors,500,>= 250,floor,true
+F15,distinct_bomb_rank_histograms,65,>= 8,floor,true
+F15,distinct_scout_rank_histograms,83,>= 8,floor,true
+F15,family_self_satisfaction,1.0,== 1.0,exact,true
+F15,within_family_nn_median,28,report-only,descriptive,
+F15,within_family_nn_max,30,report-only,descriptive,
+F15,within_family_pairwise_median,34,report-only,descriptive,
+F15,largest_secondary_overlap,F12:0.23,report-only,descriptive,
+ALL,global_mean_per_square_entropy_bits,3.184683,>= 1.5,floor,true
+ALL,global_min_pairwise_distance,20,>= 4,floor,true
+ALL,cross_split_min_nn_distance,21,>= 8,floor,true
