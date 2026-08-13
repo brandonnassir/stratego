@@ -36,6 +36,16 @@ generation)`. The whole batch is therefore reproducible from `root_seed` alone,
 neighbours -- which is what lets Agent 2 rebuild an arbitrary slot inside an
 arbitrary worker process.
 
+Setups
+------
+Phase 7 makes the setup generator an *input* at game creation. `setup_source`
+is the only hook: it receives the logical game identity `(root_seed,
+environment_id, generation)` plus the derived slot seed and returns the two
+engine-order setups. Leaving it `None` keeps the accepted Phase 6 behaviour
+exactly -- `make_random_setups(slot_seed)`, the same call in the same place.
+Nothing after game creation consults the source, so a setup source cannot
+change how a game plays.
+
 Illegal actions
 ---------------
 :meth:`BatchSimulator.step` validates every submitted action before it applies
@@ -45,6 +55,7 @@ atomicity guarantee and it is what makes a rejected batch step inert.
 """
 
 import hashlib
+import time
 from bisect import bisect_left
 from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
@@ -80,6 +91,11 @@ NO_ACTING_PLAYER = -1
 
 # A dense action vector uses any negative entry to mean "do not step this slot".
 SKIP_ACTION = -1
+
+# How many per-call setup-generation latencies one simulator keeps. Enough for
+# exact quantiles over a long integration campaign, bounded so a week-long run
+# cannot accumulate an unbounded list.
+SETUP_LATENCY_SAMPLE_LIMIT = 50_000
 
 
 class BatchSimulationError(ValueError):
@@ -138,6 +154,11 @@ class EnvironmentSlot:
     # Legal actions for the current state, generated at most once per state.
     # Invalidated by every transition and by every reset.
     cached_legal_actions: list[int] | None = field(default=None, repr=False)
+    # Phase 7 setup provenance for this game, or `None` for the uniform random
+    # source. Training/debug metadata: it is written to a sidecar when the game
+    # is sealed and is never published to the shared buffers, so it cannot
+    # reach the coordinator or the model.
+    setup_provenance: dict | None = field(default=None, repr=False)
 
     @property
     def trajectory_key(self) -> tuple[int, int]:
@@ -196,6 +217,7 @@ class BatchSimulator:
         root_seed: int = 0,
         rules: RulesConfig = TRAINING_RULES,
         first_environment_id: int = 0,
+        setup_source=None,
     ) -> None:
         """`num_environments` slots seeded from `root_seed`.
 
@@ -206,6 +228,10 @@ class BatchSimulator:
         what makes `derive_slot_seed(root_seed, environment_id, generation)`
         unique across the whole run and independent of which process owns the
         slot.
+
+        `setup_source` is the Phase 7 injection point. `None` is the accepted
+        Phase 6 behaviour; a source is asked for the setups of every game this
+        batch creates and for nothing else.
         """
         if num_environments < 1:
             raise ValueError("a batch needs at least one environment")
@@ -215,6 +241,12 @@ class BatchSimulator:
         self.root_seed = int(root_seed)
         self.rules = rules
         self.first_environment_id = int(first_environment_id)
+        self.setup_source = setup_source
+        # Cost of the injected source, measured rather than assumed. Only the
+        # generation call is timed; the game construction around it is not.
+        self.setup_source_calls = 0
+        self.setup_source_seconds = 0.0
+        self.setup_source_latencies: list[float] = []
         self._slots: list[EnvironmentSlot] = [
             self._build_slot(self.first_environment_id + offset, 0)
             for offset in range(self.num_environments)
@@ -222,10 +254,38 @@ class BatchSimulator:
 
     # -- construction ------------------------------------------------------
 
+    def _generate_setups(
+        self, environment_id: int, generation: int, seed: int, game_id: str
+    ) -> tuple[tuple[int, ...], tuple[int, ...], dict | None]:
+        """`(red_setup, blue_setup, provenance)` for one new game.
+
+        With no source injected this is exactly the accepted Phase 6 call, in
+        the same place, on the same slot seed.
+        """
+        if self.setup_source is None:
+            red_setup, blue_setup = make_random_setups(seed)
+            return red_setup, blue_setup, None
+        started = time.perf_counter()
+        assignment = self.setup_source.assign(
+            root_seed=self.root_seed,
+            environment_id=environment_id,
+            generation=generation,
+            slot_seed=seed,
+            game_id=game_id,
+        )
+        elapsed = time.perf_counter() - started
+        self.setup_source_calls += 1
+        self.setup_source_seconds += elapsed
+        if len(self.setup_source_latencies) < SETUP_LATENCY_SAMPLE_LIMIT:
+            self.setup_source_latencies.append(elapsed)
+        return assignment.red_setup, assignment.blue_setup, assignment.provenance
+
     def _build_slot(self, environment_id: int, generation: int) -> EnvironmentSlot:
         seed = derive_slot_seed(self.root_seed, environment_id, generation)
-        red_setup, blue_setup = make_random_setups(seed)
         game_id = slot_game_id(self.root_seed, environment_id, generation)
+        red_setup, blue_setup, provenance = self._generate_setups(
+            environment_id, generation, seed, game_id
+        )
         state = create_game(red_setup, blue_setup, rules=self.rules, game_id=game_id)
         return EnvironmentSlot(
             environment_id=environment_id,
@@ -235,7 +295,24 @@ class BatchSimulator:
             red_setup=red_setup,
             blue_setup=blue_setup,
             state=state,
+            setup_provenance=provenance,
         )
+
+    def setup_provenance(self, slot: int) -> dict | None:
+        """Phase 7 provenance of the game currently in `slot`, if any."""
+        return self._slot(slot).setup_provenance
+
+    def setup_source_stats(self) -> dict:
+        """How much the injected setup source cost this batch."""
+        latencies = sorted(self.setup_source_latencies)
+        return {
+            "setup_source_calls": self.setup_source_calls,
+            "setup_source_seconds": self.setup_source_seconds,
+            "setup_source_latency_samples": len(latencies),
+            "setup_source_latency_micros": tuple(
+                int(round(value * 1e6)) for value in self.setup_source_latencies
+            ),
+        }
 
     # -- slot addressing ---------------------------------------------------
 
@@ -595,6 +672,7 @@ class BatchSimulator:
 __all__ = [
     "BATCH_INTERFACE_VERSION",
     "NO_ACTING_PLAYER",
+    "SETUP_LATENCY_SAMPLE_LIMIT",
     "SKIP_ACTION",
     "BatchIllegalActionError",
     "BatchSimulationError",

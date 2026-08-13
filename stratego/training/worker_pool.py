@@ -52,6 +52,17 @@ No process-local randomness exists. Every game is built from
 depends on its identity and not on which worker holds it, how many workers there
 are, or the order in which phases complete. The benchmark policy in this module
 is likewise a pure function of `(root_seed, environment_id, generation, ply)`.
+
+Setup sources (Phase 7)
+-----------------------
+An optional `setup_source` is handed to every worker at spawn and reaches the
+worker's own `BatchSimulator`. It is a small frozen configuration object, so
+each worker rebuilds the identical source and the assignment it produces
+depends only on `(root_seed, environment_id, generation)` -- not on the worker
+count, the partitioning or the arrival order. When the source produces setup
+provenance and an output directory is configured, each worker appends that
+provenance to its own sidecar file as it seals a game. Provenance never enters
+the shared buffers, so it cannot reach the coordinator or the model.
 """
 
 from __future__ import annotations
@@ -90,6 +101,7 @@ from .shared_buffers import (
     terminal_reason_name,
 )
 from .trajectory import (
+    BATCH_RANDOM_SETUP_FAMILY,
     DEFAULT_SNAPSHOT_INTERVAL,
     GameTrajectoryBuilder,
     builder_for_slot,
@@ -405,6 +417,7 @@ class _WorkerRuntime:
         root_seed: int,
         rules: RulesConfig,
         recording: RecordingConfig | None = None,
+        setup_source=None,
     ) -> None:
         self.assignment = assignment
         self.root_seed = int(root_seed)
@@ -417,6 +430,16 @@ class _WorkerRuntime:
             root_seed=root_seed,
             rules=rules,
             first_environment_id=assignment.start,
+            setup_source=setup_source,
+        )
+        self.setup_source = setup_source
+        # The `trajectory_v1` `setup_family` label for this worker's records.
+        # Defaults to the uniform random label, so a run without a source
+        # writes exactly the bytes Phase 6 wrote.
+        self.setup_family = (
+            BATCH_RANDOM_SETUP_FAMILY
+            if setup_source is None
+            else getattr(setup_source, "setup_family", BATCH_RANDOM_SETUP_FAMILY)
         )
         self.observation_builds = 0
         self.transitions = 0
@@ -470,6 +493,34 @@ class _WorkerRuntime:
                 target_bytes=self.recording.shard_target_bytes,
                 collection_policy_version=self.recording.collection_policy_version,
             )
+        # Phase 7 provenance sidecar. Created only when a source that produces
+        # provenance is in use *and* records are being persisted, so neither the
+        # Phase 6 encode-and-drop path nor the uniform random source touches an
+        # extra file. It is a sibling of the shards, never part of them:
+        # `trajectory_v1` and the shard container are unchanged.
+        self.provenance_writer = None
+        if (
+            self.recording.enabled
+            and self.recording.output_directory
+            and setup_source is not None
+            and getattr(setup_source, "describe", None) is not None
+            and setup_source.describe().get("produces_provenance")
+        ):
+            from .setup_source import SetupProvenanceWriter
+
+            self.provenance_writer = SetupProvenanceWriter(
+                self.recording.output_directory,
+                run_id=self.recording.run_id,
+                worker_id=assignment.worker_id,
+            )
+        self.provenance_records = 0
+        self.provenance_bytes = 0
+        self.provenance_seconds = 0.0
+        self.provenance_write_errors = 0
+        # A completed game whose source produced no provenance record at all.
+        # Zero for the uniform random source (nothing to produce) and zero for
+        # the library source (every game carries one); anything else is a bug.
+        self.provenance_missing = 0
         # A game that was already in progress when recording began cannot be
         # recorded from ply 0, so it is skipped and counted rather than stored
         # as a partial trajectory. Enabling recording at pool start keeps this 0.
@@ -607,6 +658,7 @@ class _WorkerRuntime:
                     snapshot_interval=config.snapshot_interval,
                     collection_policy_version=config.collection_policy_version,
                     collection_checkpoint_id=config.collection_checkpoint_id,
+                    setup_family=self.setup_family,
                 )
                 self._builders[local] = (key, builder)
                 if self._wants_verification():
@@ -686,9 +738,33 @@ class _WorkerRuntime:
                 snapshot_interval=self.recording.snapshot_interval,
                 collection_policy_version=self.recording.collection_policy_version,
                 collection_checkpoint_id=self.recording.collection_checkpoint_id,
+                setup_family=self.setup_family,
             ),
         )
         self.finalise_recording(local)
+
+    def _write_setup_provenance(self, local: int, game_id: str) -> None:
+        """Append the finished game's setup provenance to this worker's sidecar.
+
+        Called while the slot still holds the finished game, before any reset
+        can replace it. A game whose source produces provenance but arrives
+        without it is counted rather than silently written as an incomplete
+        record.
+        """
+        if self.provenance_writer is None:
+            return
+        provenance = self.simulator.setup_provenance(local)
+        if provenance is None:
+            self.provenance_missing += 1
+            return
+        started = time.perf_counter()
+        written = self.provenance_writer.write(provenance, game_id=game_id)
+        self.provenance_seconds += time.perf_counter() - started
+        if written:
+            self.provenance_records += 1
+            self.provenance_bytes += written
+        else:  # pragma: no cover - filesystem failure
+            self.provenance_write_errors += 1
 
     def finalise_recording(self, local: int) -> None:
         """Seal, optionally verify, and discard the record of a finished game."""
@@ -703,6 +779,7 @@ class _WorkerRuntime:
         self.games_sealed += 1
         self.snapshot_bytes += record.snapshot_bytes
         self.snapshot_count += len(record.snapshots)
+        self._write_setup_provenance(local, record.game_id)
 
         payload: bytes | None = None
         if self.shard_writer is not None:
@@ -834,11 +911,21 @@ class _WorkerRuntime:
                 "total_pending_records": 0,
                 "total_pending_bytes": 0,
             }
+        provenance = {}
+        if self.provenance_writer is not None:
+            provenance = {
+                "total_provenance_records": self.provenance_records,
+                "total_provenance_bytes": self.provenance_bytes,
+                "total_provenance_seconds": self.provenance_seconds,
+                "total_provenance_write_errors": self.provenance_write_errors,
+                "total_provenance_missing": self.provenance_missing,
+            }
         return {
             "total_decisions_recorded": self.decisions_recorded,
             "total_games_recorded": self.games_recorded,
             "total_record_bytes": self.record_bytes,
             **persistence,
+            **provenance,
             "total_snapshot_bytes": self.snapshot_bytes,
             "total_snapshot_count": self.snapshot_count,
             "total_verified_games": self.verified_games,
@@ -858,6 +945,12 @@ class _WorkerRuntime:
         cumulative `total_*` values let the coordinator reconcile a whole run
         without summing every phase.
         """
+        setup_counters = {}
+        if self.setup_source is not None:
+            setup_counters = {
+                "total_setup_source_calls": self.simulator.setup_source_calls,
+                "total_setup_source_seconds": self.simulator.setup_source_seconds,
+            }
         return {
             "observation_builds": self.observation_builds - observation_builds_before,
             "total_observation_builds": self.observation_builds,
@@ -865,6 +958,7 @@ class _WorkerRuntime:
             "total_terminals": self.terminals,
             "total_resets": self.resets,
             "total_stillborn_games": self.stillborn_games,
+            **setup_counters,
             **self.recording_counters(),
         }
 
@@ -936,6 +1030,11 @@ class _WorkerRuntime:
                 self.shard_writer.close()
             except Exception:  # pragma: no cover - shutdown must not mask a fault
                 pass
+        if self.provenance_writer is not None:
+            try:
+                self.provenance_writer.close()
+            except Exception:  # pragma: no cover - shutdown must not mask a fault
+                pass
         # Every view has to be dropped before the mapping, or the exported
         # buffers keep the shared block alive.
         self.view = {}
@@ -949,12 +1048,15 @@ def _worker_main(
     root_seed: int,
     rules: RulesConfig,
     recording: RecordingConfig | None = None,
+    setup_source=None,
 ) -> None:
     """Entry point of a simulation worker process."""
     runtime: _WorkerRuntime | None = None
     started = time.perf_counter()
     try:
-        runtime = _WorkerRuntime(descriptor, assignment, root_seed, rules, recording)
+        runtime = _WorkerRuntime(
+            descriptor, assignment, root_seed, rules, recording, setup_source
+        )
         runtime.publish()
         connection.send(
             {
@@ -988,6 +1090,8 @@ def _worker_main(
                 # idempotent, so the `finally` below is still safe.
                 if runtime.shard_writer is not None:
                     runtime.shard_writer.close()
+                if runtime.provenance_writer is not None:
+                    runtime.provenance_writer.close()
                 connection.send(
                     {
                         "kind": "shutdown_ack",
@@ -995,6 +1099,13 @@ def _worker_main(
                         "sequence": command["sequence"],
                         "process_seconds": time.process_time(),
                         "max_rss_bytes": max_resident_bytes(),
+                        # Phase 7: the per-call setup-generation latencies, so
+                        # the overhead can be quantified exactly rather than
+                        # from a per-worker mean. Bounded by the simulator's own
+                        # sample limit and empty unless a source is injected.
+                        "setup_source_latency_micros": runtime.simulator.setup_source_stats()[
+                            "setup_source_latency_micros"
+                        ],
                         # The only phase in which a worker may return bulk data,
                         # and only the handful of records `retain_games` asked
                         # for. Everything else recorded this run was encoded,
@@ -1118,6 +1229,7 @@ class WorkerPool:
         start_method: str = "spawn",
         limit_worker_threads: bool = True,
         recording: RecordingConfig | None = None,
+        setup_source=None,
     ) -> None:
         self.num_environments = int(num_environments)
         self.num_workers = int(num_workers)
@@ -1128,6 +1240,9 @@ class WorkerPool:
         self.start_method = start_method
         self.limit_worker_threads = limit_worker_threads
         self.recording = recording or RecordingConfig()
+        # `None` is the frozen Phase 6 behaviour. A source is configuration
+        # only; it is pickled to every worker at spawn and never afterwards.
+        self.setup_source = setup_source
 
         self.assignments = partition_environments(num_environments, num_workers)
         self.buffers: SharedEnvironmentBuffers | None = None
@@ -1170,6 +1285,7 @@ class WorkerPool:
                         self.root_seed,
                         self.rules,
                         self.recording,
+                        self.setup_source,
                     ),
                     name=f"stratego-worker-{assignment.worker_id}",
                     daemon=True,
@@ -1260,9 +1376,18 @@ class WorkerPool:
             "total_write_errors": 0,
             "total_pending_records": 0,
             "total_pending_bytes": 0,
+            # Phase 7 setup source; stay 0 when no source is injected.
+            "total_setup_source_calls": 0,
+            "total_setup_source_seconds": 0.0,
+            "total_provenance_records": 0,
+            "total_provenance_bytes": 0,
+            "total_provenance_seconds": 0.0,
+            "total_provenance_write_errors": 0,
+            "total_provenance_missing": 0,
         }
         retained: list[bytes] = []
         mismatch_details: list[dict] = []
+        setup_latencies: list[int] = []
         if self._started:
             self._sequence += 1
             for worker in self._workers:
@@ -1287,6 +1412,9 @@ class WorkerPool:
                                 totals[key] += reply.get(key, 0)
                             retained.extend(reply.get("retained_records", ()))
                             mismatch_details.extend(reply.get("mismatch_details", ()))
+                            setup_latencies.extend(
+                                reply.get("setup_source_latency_micros", ())
+                            )
                 except (EOFError, OSError):  # pragma: no cover - already gone
                     pass
 
@@ -1306,6 +1434,7 @@ class WorkerPool:
             self.buffers = None
         totals["retained_records"] = tuple(retained)
         totals["mismatch_details"] = tuple(mismatch_details)
+        totals["setup_source_latency_micros"] = tuple(setup_latencies)
         return totals
 
     def __enter__(self) -> "WorkerPool":
@@ -1436,6 +1565,15 @@ class WorkerPool:
             "total_write_errors",
             "total_pending_records",
             "total_pending_bytes",
+            # Phase 7 setup source. Absent from every reply unless a source is
+            # injected, in which case `sum` over a missing key already yields 0.
+            "total_setup_source_calls",
+            "total_setup_source_seconds",
+            "total_provenance_records",
+            "total_provenance_bytes",
+            "total_provenance_seconds",
+            "total_provenance_write_errors",
+            "total_provenance_missing",
         )
         return {
             key: sum(reply.get(key, 0) for reply in self.last_replies) for key in keys

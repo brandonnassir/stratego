@@ -1452,3 +1452,1458 @@ or a cross-split near-neighbour below the frozen floor. Agent 4 may not
 change the 8,000-base library; the sampler must preserve base identity,
 split, family, Flag cell, inventory, mobility, and the Hamming window
 `[2, 12]` exactly as frozen.
+
+## 4. Agent 4 — Reflection and Procedural Perturbation
+
+**Status: PASS** — 25 / 25 completion gates true. Machine-readable record:
+`reports/phase_7_data/agent_04_procedural_stress.json` (every stage, every
+gate, the full distance decomposition and the procedural overlap matrix),
+with `reports/phase_7_data/agent_04_sampler_contract.json` (the frozen
+`setup_sampler_v1` / `setup_perturbation_v1` contract, provenance schema and
+candidate profiles) and
+`reports/phase_7_data/agent_04_procedural_family_metrics.csv` (16 rows × 32
+columns: every per-family procedural metric beside its base-library value).
+The production library and its manifest were not modified: `git status` on
+`data/` is clean and both digests recompute unchanged.
+
+### 4.1 Prerequisite verification
+
+Verified from artifacts and live recomputation before any corpus output
+existed:
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 status | `PASS` | `agent_01_setup_contract.json`, `agent_01_diversity_thresholds.json` both `PASS` |
+| Agent 2 status | `PASS` | `agent_02_base_library_manifest.json` `PASS` |
+| Agent 3 status | `PASS` | `agent_03_library_audit.json` `PASS`, 25 / 25 gates |
+| Library digest | Agent 3's audited value | `7b8a6660…02777` recomputed from the JSONL, equal |
+| Entry metadata digest | Agent 3's audited value | `d86f4861…c8c64980`, equal |
+| Manifest digest | Agent 3's audited value | `53139ab7…63488f31`, equal and self-consistent |
+| Suite before edits | green | `3018 passed, 3 skipped` at commit `974e5e9` |
+
+### 4.2 Perturbation contract — `setup_perturbation_v1`
+
+A perturbation is a sequence of `k` **disjoint piece swaps** on the base's
+canonical 40-tuple. Every swap exchanges two cells holding *different* piece
+types and the Flag cell is excluded from every operator, so three of Agent 1's
+frozen invariants hold by construction rather than by repair:
+
+```text
+exact engine inventory      a swap is a permutation of pieces already present
+Flag fixed                  the Flag cell is never eligible
+Hamming exactly 2k          disjoint cells, differing types, no cell reused
+```
+
+`k ∈ 1..6` therefore covers the frozen window `[2, 12]` exactly, and a
+descendant's distance from its base is always even.
+
+Seven operators propose swaps; they realize the techniques the assignment
+names and they decide nothing:
+
+| Operator | Technique | Weight |
+|---|---|---:|
+| `within_rank_swap` | bounded within-rank swaps | 0.30 |
+| `cross_rank_swap` | bounded cross-rank swaps | 0.25 |
+| `fortress_variation` | local fortress variation (Bomb in/out of the Flag's Chebyshev-2 zone) | 0.12 |
+| `decoy_variation` | controlled decoy variation (Bomb relocation at Manhattan ≥ 4 from the Flag) | 0.10 |
+| `scout_relocation` | controlled Scout relocation | 0.10 |
+| `miner_relocation` | controlled Miner relocation | 0.08 |
+| `high_rank_relocation` | role-compatible piece swaps (combat rank ≥ 7) | 0.05 |
+
+The weights are **structural-coverage** choices and nothing else. Within-rank
+swaps preserve every per-rank trait a family clause can reference (rank
+histograms, front/back counts, Marshal/General/Spy rank, front-rank
+mobility), so they are the highest-acceptance proposal and carry the largest
+weight; cross-rank swaps are the only proposals that move mass between ranks,
+so they carry the second largest weight because they are the ones that expand
+support in the rank dimension. The five targeted operators exist so Bomb
+structure, Scout placement and Miner placement — the traits the family
+contracts most often pin — are varied directly rather than only incidentally.
+No game outcome, win rate, Elo, value or policy signal entered the choice.
+
+Acceptance is Agent 1's frozen `validate_perturbation`, unmodified and
+imported, not reimplemented: engine inventory/legality, the Flag cell, the
+`[2, 12]` window, every required family clause satisfied and every forbidden
+clause failed, and initial mobility. Attempts `0, 1, 2, …` are drawn from
+`derive_stream_seed('setup_perturbation_v1:attempt', perturbation_seed,
+swap_count, attempt)` and the first accepted candidate wins, so the retry
+process is as reproducible as the result. Exhausting the 64-attempt budget
+returns the **unmodified base** — legal, mobile, family-correct and
+split-correct by Agent 3's audit — recorded as `perturbation_applied: false`
+with `perturbation_exhausted: true`. No invalid setup is ever returned as a
+fallback.
+
+### 4.3 Sampler contract — `setup_sampler_v1`
+
+```text
+sample_setup(split, seed, profile=NEUTRAL_PROFILE) -> SampledSetup
+rebuild_from_provenance(provenance)               -> SampledSetup
+build_descendant(base_entry, ...)                 -> SampledSetup
+SampledSetup.oriented(player)                     -> engine setup tuple
+```
+
+Decision order: split (caller-supplied, never re-chosen) → family (uniform
+over 16) → base (uniform over that family's bases *inside the split*) →
+perturbation coin → intensity → constrained perturbation with deterministic
+retry → reflection (applied last) → final validation from scratch.
+
+Each decision draws from its own domain-separated stream,
+`random.Random(derive_stream_seed('setup_sampler_v1:<field>', profile, split,
+seed))`, so decisions are independent and no mutable global RNG state is
+consumed anywhere. A regression test seeds the global `random` differently
+between two identical draws and requires identical provenance.
+
+Reflection is applied after perturbation. Family membership, legality and
+mobility are all reflection-invariant under the frozen contracts, so the order
+cannot change a verdict; it keeps the perturbation identity independent of the
+orientation bit, which is what lets provenance record them separately.
+
+Every finished output is revalidated from scratch — not trusted from the path
+that produced it — against all seven required checks: exact inventory, engine
+setup validation, initial mobility, base split unchanged, base primary family
+unchanged, family required predicates, and serialization/fingerprint round
+trip. `build_descendant` raises rather than returning an output that fails any
+of them.
+
+Three profiles are registered. `neutral_v1` is the default candidate:
+perturbation probability 0.5, reflection probability 0.5, and a **uniform**
+intensity mix over the whole frozen swap window, so the default asserts
+nothing that has not been frozen. `reflection_only_v1` and
+`perturbation_only_v1` are single-branch instruments. **Agent 6 makes the
+final sampler-profile freeze**; this section proposes candidates and supplies
+the per-intensity evidence for that decision (§4.8).
+
+### 4.4 Provenance and deterministic rebuild
+
+27 fields, JSON-round-trip stable, superset of the required schema:
+
+```text
+setup_library_version  contract_version  family_contract_version
+trait_schema_version   sampler_version   sampler_profile
+perturbation_version   split             primary_family_id
+family_key             base_setup_id     base_index
+base_fingerprint       reflection_applied
+perturbation_requested perturbation_applied  perturbation_exhausted
+perturbation_swap_count  perturbation_seed  perturbation_id
+perturbation_max_attempts  perturbation_attempts
+perturbation_accepted_attempt_index  perturbation_hamming_from_base
+draw_seed  final_setup  final_setup_fingerprint
+final_setup_class_fingerprint
+```
+
+`perturbation_id` is `setup_perturbation_v1:k<swaps>:<seed hex>`. No field
+name matches the frozen forbidden-token list (`win`, `loss`, `elo`, `rating`,
+`outcome`, `result`, `reward`, `score`, `policy`, `value_`, `strength`,
+`preference`); the check reuses `library.FORBIDDEN_ENTRY_FIELD_TOKENS` so the
+package keeps one such list rather than two. Provenance names hidden setup
+truth by design and is training/debug metadata only — Agent 5 owns proving it
+does not cross the observer-safe model boundary.
+
+All 100,000 stress outputs were rebuilt from their serialized provenance
+alone through the same `build_descendant` path: **0 rebuild failures**, setups
+and provenance identical in every case.
+
+### 4.5 Family/base sampling and orientation
+
+32,000 `neutral_v1` draws on `train`:
+
+```text
+family counts            1,910 .. 2,069     expected 2,000
+family chi-square        15.229             15 dof, 0.999 critical ~37.7
+distinct bases drawn     6,368 of 6,400
+reflection fraction      0.495375
+perturbation fraction    0.497125
+swap counts 1..6         2,656 2,637 2,620 2,622 2,686 2,687
+```
+
+Because each family holds the same base count per split, uniform family plus
+uniform base within the split also gives uniform base mass across the split —
+no family gains weight because its generator needed more candidates.
+
+### 4.6 The 100,000-output stress corpus
+
+`setup_stress_corpus_v1` is a deterministic balanced acceptance instrument,
+not the Phase 8 profile. Exact coverage achieved:
+
+```text
+outputs                 100,000
+per family                6,250   (16 families, exact)
+per family / split        5,000 train · 625 validation · 625 test
+bases used                8,000 of 8,000   12 or 13 outputs per base
+```
+
+Every decision is a pure function of `(family_id, split, position)`, so any
+single output is reproducible in isolation:
+
+```text
+lap                     position // len(eligible)
+base index              eligible[position % len(eligible)]
+ordinal                 position + lap
+reflection              ordinal % 2 == 1
+perturbation requested  (ordinal // 2) % 2 == 1
+swap count              1 + (ordinal // 4) % 6
+perturbation seed       derive_stream_seed(corpus, family, split,
+                                           position, base id, swap count)
+```
+
+Achieved branch balance, all four combinations exercised:
+
+```text
+neither (base, unreflected)            25,024
+reflection only                        24,992
+perturbation only                      24,992
+reflection and perturbation            24,992
+reflected outputs                      49,984  (0.49984)
+perturbed outputs                      49,984
+```
+
+The 625-output validation and test segments are odd-length, so they cannot
+split exactly evenly; the counts above are the achieved ones, not the nominal
+ones. Perturbation Hamming distances are spread across the whole frozen
+window: 8,336 / 8,416 / 8,336 / 8,304 / 8,320 / 8,272 outputs at Hamming
+2 / 4 / 6 / 8 / 10 / 12.
+
+The `lap` term is not cosmetic and is recorded here because the first version
+of this instrument did not have it — see §4.16.
+
+### 4.7 Hard stress requirements
+
+Every requirement recomputed independently per output from the frozen engine
+and the frozen contracts, never inherited from the sampler's own acceptance:
+
+```text
+engine-invalid setups                0 / 100,000
+incorrect inventories                0
+stranded outputs                     0
+primary-family violations            0
+split changes                        0
+family changes                       0
+serialization failures               0
+reflection failures                  0
+deterministic rebuild failures       0
+stable provenance failures           0
+perturbation-invariant violations    0
+Hamming-window violations            0
+Flag moves                           0
+```
+
+Reflection was checked on both orientations of every output: involution,
+class-fingerprint invariance, engine validity of the mirror, and mobility of
+the mirror — 200,000 mobility probes in total.
+
+Perturbation accounting across the 49,984 requested perturbations:
+
+```text
+acceptance rate                 1.000000   (49,984 / 49,984)
+exhaustions                     0
+candidates drawn                72,490
+rejected candidates             22,506
+attempts per accepted           1.450264
+rejections: family_predicate    21,657
+            construction_infeasible  849
+            engine_invalid / stranded / hamming / flag_moved   0
+acceptance by swap count 1..6   1.0 at every intensity
+```
+
+Zero `engine_invalid` and zero `stranded` rejections is the expected
+signature of construction-by-swap, not evidence those branches are dead: both
+are exercised directly by crafted arrangements in
+`tests/setups/test_perturbation.py` (§4.14).
+
+### 4.8 Effective diversity
+
+```text
+outputs                                100,000
+distinct final setups (exact)           65,981
+distinct reflection classes             57,981
+static base classes                      8,000
+procedural support multiple              7.25x
+class repeat rate                      0.42019
+exact repeat rate                      0.34019
+```
+
+The repeat rate is honest and structural: 50,016 outputs are unperturbed, and
+those collapse onto the 8,000 base classes by design. `65,981 = 57,981 +
+8,000` exactly, which is the arithmetic signature of every base appearing in
+both orientations while every perturbed descendant appears in one.
+
+Per base (all 8,000 bases):
+
+```text
+unique classes per base       min 6   median 7   mean 7.25   max 8
+distance from base            min 2   median 6   mean 6.99   max 12
+within-base pairwise min      min 2   median 2   mean 2.47   max 6
+within-base pairwise mean     min 7.43  median 11.0  mean 10.95  max 14.48
+```
+
+Per family (full table in the CSV): 3,623–3,624 distinct classes from 500
+bases each, 3,864–3,930 distinct trait vectors against 500 in the base
+library, and mean per-square entropy up in every family (global 3.184683 →
+3.208406 bits). Folded positional support is unchanged in all 16 families and
+all five piece groups — the descendants occupy the same folded cells the
+contracts allow, at higher density, rather than reaching new ones.
+
+Procedural support therefore exceeds static support by 7.25× under Agent 1's
+own class-identity metric. **This is a support-size statement and nothing
+more. No claim is made, or measurable here, about playing strength.**
+
+### 4.9 Descendant-vs-descendant duplicates and distance
+
+Agent 3's handoff argued from the triangle inequality that a compliant
+descendant cannot come within class distance 8 of another **base**'s class
+(base-base minimum 20, perturbation bound 12). That argument does not extend
+to descendant-vs-descendant: two descendants of *different* bases may each
+move up to 12 squares toward the other, so the bound it yields is
+
+```text
+20 - 12 - 12  =  -4      vacuous; it forbids nothing at all
+```
+
+and two descendants of the *same* base are not constrained by it in any way.
+This section therefore measures the relation directly rather than inheriting
+the argument. All 57,981 distinct classes were compared exhaustively —
+**1,680,869,190 unordered pairs, nothing sampled and nothing pruned** — under
+Agent 1's frozen class distance `min(H(a,b), H(a,reflect(b)))`.
+
+Exact and reflection-equivalent duplicates, by construction of the class
+fingerprint:
+
+```text
+classes shared by two different bases          0
+exact setups shared by two different bases     0
+classes shared by two different families       0
+classes shared by two different splits         0
+exact setups shared by two different splits    0
+classes with repeats                       8,003   (all single-base, expected)
+```
+
+Distances, decomposed into the two relations the triangle-inequality argument
+conflates:
+
+| Relation | min | pairs < 10 | pairs < 8 |
+|---|---:|---:|---:|
+| same base (descendant ↔ descendant of one base) | 2 | 62,768 | 39,775 |
+| different base (descendant ↔ descendant) | **18** | 0 | 0 |
+| cross-split (descendant ↔ descendant) | **19** | 0 | 0 |
+| whole corpus | 2 | 62,768 | 39,775 |
+
+The close tail belongs entirely to same-base pairs, which is exactly what the
+design predicts: two 1-swap descendants of one base can sit 2 apart, and the
+frozen invariants place no floor there — they bound a descendant against *its
+own base*, not against its siblings. Those pairs are same-base and therefore
+same-split and same-family by construction, so they are diversity texture, not
+leakage.
+
+The cross-base relation is where Agent 3's margin genuinely erodes, and the
+measurement quantifies it precisely:
+
+```text
+base-library minimum class distance                   20   (Agent 3)
+triangle-inequality lower bound for descendants       -4   (no protection)
+measured cross-base descendant minimum                18
+cross-base pairs below the base-library minimum        8   of 1.68 billion
+cross-base pairs below 23                          1,913
+cross-base pairs below the near-duplicate distance     0
+cross-base pairs below the cross-split floor           0
+```
+
+So descendants do close on each other slightly more than bases do — 18 rather
+than 20 — but by 2 squares, not by the 24 the bound permits, and the nearest
+cross-base descendant pair in the entire corpus still sits **8 squares above
+the near-duplicate distance and 10 above the frozen cross-split floor**. The
+frozen gates are met with margin; the erosion is reported because it is real,
+not because it threatens anything.
+
+### 4.10 Split isolation
+
+Descendants inherit their base's split verbatim; the sampler never reassigns
+one. Two independent instruments:
+
+**Structural probe** — 4,000 `neutral_v1` draws per split:
+
+```text
+base-index range violations                    0
+split-label violations                         0
+base-id overlap train|validation               0
+base-id overlap train|test                     0
+base-id overlap validation|test                0
+same-seed train/validation identical base      0
+distinct bases reached      2,949 train · 794 validation · 794 test
+eligible population           400/family train · 50 · 50
+```
+
+Changing `split="train"` to `"validation"` changes the **eligible base
+population**, not a label: the frozen split rule partitions base indices
+`0..399 / 400..449 / 450..499`, the sampler draws only inside that range, and
+the reachable base identities across the three splits are disjoint sets.
+
+**Corpus search** — the exhaustive sweep of §4.9 over all 100,000 outputs:
+
+```text
+exact/reflection-equivalent cross-split descendant leakage      0    HARD GATE
+cross-split descendant NN class distance                       19    floor 8
+cross-split pairs below the near-duplicate distance (10)        0
+```
+
+### 4.11 Agent 1 family metrics recomputed on the descendants
+
+Recomputed on the 100,000 descendants and reported beside the base-library
+value for the same metric (full 16 × 32 table in
+`agent_04_procedural_family_metrics.csv`):
+
+```text
+family self-satisfaction diagonal       1.0 x 16      required     PASS
+mean per-square entropy, global         3.184683 -> 3.208406 bits  (up)
+mean per-square entropy, per family     up in all 16 families
+Flag/Bomb/Scout/Miner/high folded support   unchanged in all 16 families
+distinct trait vectors per family       500 -> 3,864 .. 3,930
+distinct classes per family             500 -> 3,623 .. 3,624
+```
+
+Family structure has not collapsed: every descendant satisfies its inherited
+primary family (0 violations in 100,000), the diagonal is exactly 1.0, entropy
+rose rather than fell, and the constrained families still show exactly the
+signatures their contracts pin — F11's Scout folded support stays 15/20 and
+F13's Miner support stays 15/20, unchanged from the base library, because
+those clauses still bar the same folded cells.
+
+Agent 1's per-500 count floors (distinct trait vectors ≥ 250, and so on) are
+declared for 500-member families. They are **not** treated as gates on a
+6,250-per-family corpus; the per-family counts above are reported as
+descriptive comparisons against the base library, and the frozen gates applied
+to the corpus are the hard zeros of §4.7 and §4.9. No threshold was moved,
+reinterpreted or extrapolated into a gate.
+
+### 4.12 Procedural family-overlap matrix
+
+`matrix[i][j]` = fraction of family `i` **descendants** whose recomputed trait
+vector satisfies family `j`'s frozen contract. The diagonal is the hard gate
+and is exactly 1.0 for all 16. Off-diagonal overlap is report-only under
+Agent 1's frozen standard, exactly as it was for the base library.
+
+```text
+diagonal                                 1.0 x 16       required   PASS
+off-diagonal cells                       240
+off-diagonal cells >= 0.25                66   (base library: 67)
+largest off-diagonal            F11 -> F15   0.78176
+largest absolute movement vs. base        0.0576
+```
+
+**The F11 → F15 overlap does not materially change under perturbation.** It
+moves from Agent 3's audited 0.772 to 0.78176, a change of **+0.0098** — under
+one percentage point, and still the largest cell in the matrix. That is the
+expected result given Agent 3's attribution: the overlap is *definitional*,
+because F11's own defining clause (`scout_front_rank_count == 0`) is literally
+feature #6 of F15's eight unconventional-structure features, so every F11
+setup starts one feature toward F15's two-feature requirement. Perturbation
+preserves F11's required clauses by contract, so it necessarily preserves the
+shared feature too; only the second feature can move, and it moves slightly in
+F15's favour. The mechanism is unchanged by perturbation, so the value is
+unchanged by perturbation.
+
+No cell anywhere in the matrix moves by more than 0.0576 (F05 → F03, downward).
+The largest movements are a cluster of small *decreases* into F10 — F08 → F10
+−0.0562, F02 → F10 −0.0557, F05 → F10 −0.0554 — consistent with perturbation
+occasionally pulling a third Scout off the front rank, which is F10's
+threshold. The count of off-diagonal cells at or above 0.25 falls from 67 to
+66. These values are descriptive: no frozen hard gate is stated over
+off-diagonal overlap, none was violated, and nothing was changed in response
+to them.
+
+### 4.13 Performance
+
+```text
+corpus generation (100,000 outputs, validated + rebuilt)   115.2 s   868 /s
+equivalence-class analysis                                   0.1 s
+exhaustive pairwise sweep (1.68e9 pairs)                     30.4 s
+within-base spread                                            0.7 s
+Agent 1 family metrics on 100,000 descendants                10.6 s
+split-isolation and uniformity probes                        24.1 s
+total                                                       181.7 s
+peak RSS                                                    3.08 GB
+```
+
+The exhaustive sweep is affordable because class distance is computed as
+`40 - matches` with one-hot rows, turning a block of the distance matrix into
+a single GEMM; that is what made a full 1.68-billion-pair comparison
+preferable to a sampled one.
+
+### 4.14 Tests
+
+```text
+before Agent 4      3,018 passed, 3 skipped, 0 failed, 0 errors
+after  Agent 4      3,325 passed, 3 skipped, 0 failed, 0 errors
+added                 307   (236 perturbation, 71 sampler)
+```
+
+Coverage of the required regressions:
+
+| Requirement | Where |
+|---|---|
+| uniform family/base selection | `test_family_selection_is_uniform`, `test_base_selection_is_uniform_inside_a_split` |
+| split-restricted base selection | `TestLibraryIndex`, `test_the_split_index_ranges_partition_the_family` |
+| deterministic reflection | `test_reflection_is_deterministic_and_correct` |
+| 50/50 orientation instrument | `test_orientation_is_a_fair_seeded_coin`, `test_the_full_train_segment_is_exactly_balanced` |
+| deterministic perturbation | `TestDeterminism` (7 tests) |
+| deterministic rejection/retry | `test_rejection_and_retry_are_themselves_reproducible` |
+| family-preserving positive examples | `TestInvariants`, all 16 families × 6 intensities |
+| rejection of family-breaking perturbations | `test_a_family_breaking_candidate_is_rejected` (16 families) |
+| rejection of stranded perturbations | `test_a_stranded_candidate_is_rejected_and_classified` |
+| inventory preservation | `test_inventory_is_preserved_exactly` |
+| provenance rebuild exactness | `TestProvenance` (11 tests) |
+| no split migration | `TestSplitIsolation` (5 tests) |
+| no model/outcome dependency | `TestNoOutcomeDependency` in both files |
+| stress artifact consistency | `TestStressArtifacts` (9 artifact-gated tests) |
+
+The stranded branch never fires in production, so it is forced: a legal
+arrangement with all six Bombs on the open front-rank files (0, 1, 4, 5, 8, 9)
+leaves only lake-facing movable pieces in a full setup zone, the engine
+confirms it has no legal move, and the frozen validator reports the `stranded`
+violation, which the classifier buckets. The construction-infeasible branch is
+forced the same way, with a six-swap decoy-only proposal on F00 whose corner
+Bomb guards are inside the operator's Manhattan-4 exclusion.
+
+### 4.15 Files
+
+Created:
+
+```text
+stratego/setups/perturbation.py
+stratego/setups/sampler.py
+tests/setups/test_perturbation.py
+tests/setups/test_sampler.py
+scripts/run_phase7_agent04.py
+reports/phase_7_data/agent_04_sampler_contract.json
+reports/phase_7_data/agent_04_procedural_stress.json
+reports/phase_7_data/agent_04_procedural_family_metrics.csv
+```
+
+Modified: `stratego/setups/__init__.py` (exports only) and this report.
+Not touched: `stratego/engine/`, `data/setups/`, every Agent 1–3 module and
+artifact, `observation_v2_1_127ch`, `trajectory_v1`, and the Phase 4
+evaluation bank.
+
+### 4.16 Deviations and observations
+
+- **Bug found and fixed: the attempt budget was not part of the recorded
+  identity.** `perturb_setup` accepts the first candidate the budget reaches,
+  so the budget is part of the perturbation identity, but provenance did not
+  record it and `rebuild_from_provenance` silently used the default. A
+  descendant produced under a truncated budget therefore rebuilt to a
+  *different* setup. Fixed by recording `perturbation_max_attempts` and
+  replaying it; regression tests
+  `test_the_attempt_budget_is_part_of_the_recorded_identity` and
+  `test_an_exhausted_perturbation_is_recorded_honestly_and_rebuilds` pin both
+  directions. Found by the test, not by the stress run — the stress corpus
+  uses the default budget throughout, so it would never have surfaced there.
+- **Bug found and fixed: the stress corpus aliased its branch bits onto the
+  base index.** The base round robin has period `len(eligible)` — 400, 50, 50
+  — and every one of those is a multiple of 4, the period of the branch
+  counter. Keying reflection and perturbation on `position` alone therefore
+  gave every output of a given base the *same* orientation and the *same*
+  branch: no base ever appeared in both orientations, and a mirror-image
+  duplicate between two descendants of one base could not arise even in
+  principle — precisely the case this agent was asked to test hardest. The
+  corpus-wide branch counts looked perfectly balanced throughout, which is why
+  it was invisible in the totals; it surfaced because distinct exact setups
+  and distinct classes came out *equal* (54,755) when reflection guarantees
+  the former must exceed the latter. Fixed with an odd `lap` stride; the
+  corrected run reports 65,981 exact against 57,981 classes, a difference of
+  exactly 8,000. Regression:
+  `test_each_base_is_exercised_in_both_orientations_and_both_branches`.
+- Operator weights are recovered from the recorded profile name on rebuild
+  rather than stored per record, to keep provenance small for the sidecars
+  Agent 5 will write. An unregistered profile carrying a custom mix therefore
+  fails the fingerprint check and raises; it never returns a different
+  descendant silently. Pinned by
+  `test_a_custom_operator_mix_rebuilds_or_raises_but_never_lies`.
+- A `k`-swap descendant sits at Hamming exactly `2k` from its base, so
+  descendants never occupy odd distances from their base. This is a
+  consequence of swap-based construction, reported rather than hidden.
+- Agent 1 declared no thresholds over descendant corpora. The cross-split
+  floor (8) and near-duplicate distance (10) are applied to descendants where
+  relevant and reported in §4.9–§4.10; the per-500 family count floors are
+  reported descriptively and are not treated as gates at 6,250 per family.
+- The exhaustive 1.68-billion-pair sweep exceeds what the assignment requires
+  (it asks for a search, not a complete one). It was affordable, and a
+  complete answer to the descendant-vs-descendant question is worth more than
+  a sampled one given that the theoretical bound is vacuous.
+
+### 4.17 Completion gates
+
+```text
+agents_1_3_pass_verified                      true
+audited_library_digest_unchanged              true
+stress_outputs_at_least_100000                true   (100,000)
+zero_engine_invalid_setups                    true
+zero_incorrect_inventories                    true
+zero_stranded_outputs                         true
+zero_primary_family_violations                true
+zero_split_changes                            true
+zero_family_changes                           true
+zero_serialization_failures                   true
+zero_reflection_failures                      true
+zero_deterministic_rebuild_failures           true
+zero_stable_provenance_failures               true
+zero_perturbation_invariant_violations        true
+zero_hamming_window_violations                true
+zero_flag_moves                               true
+zero_cross_split_class_duplicates             true
+zero_cross_split_exact_duplicates             true
+zero_cross_family_class_duplicates            true
+cross_split_descendant_floor_met              true   (19 >= 8)
+split_isolation_probe_clean                   true
+family_self_satisfaction_diagonal_one         true   (1.0 x 16)
+procedural_support_exceeds_static             true   (57,981 > 8,000)
+no_outcome_or_strength_input                  true
+full_repository_suite_green                   true   (3,325 / 3 / 0)
+                                              25 / 25
+```
+
+No outcome, win rate, Elo, value or policy signal participated in any decision
+above. No frozen engine/evaluation/model/replay semantic changed, no threshold
+moved, no family contract was weakened, no split assignment changed, and no
+byte of the 8,000-base library was modified.
+
+### 4.18 Handoff to Agent 5
+
+```text
+sampler version         setup_sampler_v1
+perturbation version    setup_perturbation_v1
+corpus version          setup_stress_corpus_v1   (acceptance instrument only)
+library digest          7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+
+public API              sample_setup(split, seed, profile=NEUTRAL_PROFILE)
+                        rebuild_from_provenance(provenance)
+                        build_descendant(base_entry, ...)
+                        SampledSetup.oriented(player) -> engine setup tuple
+                        load_library_index(path) -> cached, read-only
+
+provenance schema       27 fields, JSON-stable, superset of the required set;
+                        agent_04_sampler_contract.json carries the full list
+
+candidate profiles      neutral_v1 (default candidate; uniform intensity mix)
+                        reflection_only_v1, perturbation_only_v1 (instruments)
+                        Agent 6 owns the final profile freeze
+
+stress results          100,000 outputs, 25/25 gates, all hard counts 0;
+                        57,981 distinct classes (7.25x static support);
+                        cross-split leakage 0, cross-base duplicates 0;
+                        cross-split NN 19, cross-base NN 18 (floor 8)
+
+observer-safety
+expectations            provenance names hidden setup truth (base id, family,
+                        seeds, fingerprints) and is training/debug metadata
+                        only; it must reach sidecars/manifests and never a
+                        move-policy input. observation_v2_1_127ch and
+                        trajectory_v1 are unchanged and must stay unchanged.
+                        provenance_is_observer_safe() checks the forbidden
+                        outcome/strength tokens; the hidden-truth boundary is
+                        Agent 5's to prove.
+```
+
+Agent 5 must integrate the sampler without changing its semantics: the
+decision order, the stream derivation, the acceptance stack, the Hamming
+window and the provenance schema are the contract. Agent 4 does not declare
+Phase 7 complete.
+
+### 4.19 Continuation — Perturbation Identity Contract Resolution
+
+**Status: PASS.** This section resolves the frozen-contract issue raised in
+review after §4.18; the historical account above (in particular §4.2, §4.4
+and §4.16) is preserved unedited, and where its description of the identity
+inputs conflicts with this section, this section is authoritative.
+Machine-readable record: `reports/phase_7_data/agent_04_identity_correction.json`;
+`agent_04_sampler_contract.json` and `agent_04_procedural_stress.json` were
+regenerated under the corrected semantics.
+
+```text
+issue:
+frozen perturbation identity mismatch — Agent 1's §1.12 invariant makes the
+descendant a pure function of (base_setup_id, sampler_version,
+perturbation_seed), but the initial Agent 4 implementation accepted
+swap_count, max_attempts and profile operator weights as additional
+result-affecting inputs; the attempt stream also consumed swap_count as an
+explicit companion argument
+
+resolution:
+exact final identity semantics — perturbation_seed is now the complete
+versioned perturbation identity. It is a seed_encoding_v1 composite:
+
+    perturbation_seed = (raw_seed << 3) | (swap_count - 1)
+
+low bits 0..5 encode swap counts 1..6; low bits 6 and 7 are invalid and are
+rejected. encode_perturbation_seed / decode_perturbation_seed are the exact,
+bijective, tested mapping. The sampler chooses intensity and raw randomness,
+encodes both into the one effective seed, and from that point the result is
+caller-independent. Agent 1's contract was not edited.
+
+production perturbation function depends on:
+    base_setup_id            (the base's canonical arrangement and family)
+    sampler_version          (frozen constants: operator mix, retry budget,
+                              attempt-stream derivation, seed encoding)
+    perturbation_seed        (seed_encoding_v1 composite)
+
+independently configurable result-affecting inputs:
+    NONE — perturb_setup(base_canonical, family_id, perturbation_seed) is the
+    entire production signature, pinned by inspect.signature in a regression
+
+swap-count status:
+    derived from perturbation_seed (encoded in its low three bits); recorded
+    in provenance as derived metadata only; rebuild_from_provenance rejects a
+    record whose recorded value disagrees with the seed's encoding
+
+max-attempt status:
+    version constant — MAX_PERTURBATION_ATTEMPTS = 64, frozen with
+    setup_perturbation_v1; recorded in provenance as descriptive/integrity
+    metadata; rebuild rejects a record whose value disagrees with the
+    constant rather than honouring it; tests force exhaustion through a
+    private diagnostic mechanism (_perturb_setup_diagnostic plus a transient
+    test-local patch), and a record produced under a truncated budget is
+    provably rejected by the unpatched production rebuild
+
+sampler-profile status:
+    sampler decision only; not a perturbation identity input — the profile
+    decides whether to perturb, how the intensity is drawn and how often
+    reflection applies, then emits the effective seed; the same
+    (base_setup_id, sampler_version, perturbation_seed) produces the same
+    canonical descendant from every caller context, pinned by regression
+
+old-vs-new corpus comparison:
+    100,000 / 100,000 identical (Case A — identity-only correction)
+
+stress corpus rerun:
+    YES
+    reason: the machine-readable artifacts had to be regenerated so no
+    artifact claims max_attempts or operator weights as identity inputs; the
+    rerun is evidence regeneration, not a behavioral change — every headline
+    number reproduced exactly (57,981 distinct classes, cross-split min 19,
+    cross-base min 18, 0 duplicates/leaks, acceptance 1.0, F11→F15 0.78176)
+
+final setup mismatches:
+    0 — the complete deterministic 100,000-output corpus was enumerated under
+    the pre-correction code and again under the corrected code; final_setup,
+    final_setup_fingerprint and final_setup_class_fingerprint were compared
+    line by line in plan order; both dumps hash to the same SHA-256
+    (9206faf45bddc86133e3385c408795c5071a41a918b1e79be778dc0e3b243eea)
+
+provenance rebuild mismatches:
+    0 — all 100,000 regenerated outputs rebuilt from provenance alone,
+    setups and provenance identical in every case
+
+focused tests:
+    passed — 244 perturbation + 77 sampler (321 focused; 14 added by this
+    continuation, including: swap count derivable from the seed; identical
+    identity triples produce identical descendants; profile context cannot
+    change the descendant; global RNG state cannot change it; the production
+    budget is a version constant absent from every production signature;
+    tampered max-attempt and tampered swap-count provenance are rejected;
+    equal identities cannot rebuild differently; exhaustion still returns
+    the base marked perturbation_applied=false and rebuilds honestly)
+
+complete repository suite:
+    3,339 passed / 3 skipped / 0 failed
+```
+
+The preserved-behavior preference was met exactly: the old attempt stream was
+`derive_stream_seed('setup_perturbation_v1:attempt', raw_seed, swap_count,
+attempt)`, and the corrected code decodes `(swap_count, raw_seed)` from the
+composite and derives the identical stream, so every stress-corpus descendant
+is byte-identical to the accepted one. Nothing else changed: the 8,000-base
+library digest remains `7b8a6660…02777` with `data/` clean, the sixteen-family
+uniform sampling, 50/50 seeded reflection, `neutral_v1` candidate profile,
+seven operators and their frozen weights, the `[2, 12]` Hamming window, the
+fixed Flag, split inheritance and observer-safety expectations are all as
+accepted in §4.1–§4.18, and Agent 6's profile decision remains untaken. The
+provenance schema keeps its 27 field names; `perturbation_swap_count` and
+`perturbation_max_attempts` remain serialized as derived/integrity metadata
+with rebuild-time verification, and `perturbation_id` now derives its swap
+count by decoding the composite seed.
+
+
+## 5. Agent 5 — Production Pipeline Integration
+
+**Status: PASS** — 37 / 37 completion gates true. Machine-readable record:
+`reports/phase_7_data/agent_05_pipeline_integration.json` (prerequisites, the
+setup-source API, the whole campaign, every correctness counter, the split
+smoke requests, the determinism design and its results, performance, and the
+Phase 4 before/after bank identity), with
+`reports/phase_7_data/agent_05_setup_provenance.csv` (8,189 rows × 34 columns:
+one row per completed campaign game, both players' provenance beside the
+game's trajectory identity).
+
+The frozen Phase 6 collection architecture was not redesigned. One MPS
+coordinator, CPU simulation workers, bulk-synchronous collection, dense
+legality, perspective-normalized model actions, absolute engine actions,
+`trajectory_v1`, compressed shard persistence, streaming verification and
+process recycling are all exactly as accepted. The Phase 7 change is a single
+optional input at game creation.
+
+### 5.1 Prerequisite verification
+
+Verified from artifacts and live recomputation before any integration code ran:
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 status | `PASS` | `agent_01_setup_contract.json` `PASS` |
+| Agent 2 status | `PASS` | `agent_02_base_library_manifest.json` `PASS` |
+| Agent 3 status | `PASS` | `agent_03_library_audit.json` `PASS` |
+| Agent 4 status | `PASS` | `agent_04_sampler_contract.json`, `agent_04_procedural_stress.json` both `PASS` |
+| Library digest | Agent 3/4's value | `7b8a6660…02777` recomputed from the JSONL, equal |
+| Manifest digest | Agent 3/4's value | `53139ab7…63488f31`, equal |
+| Entry count | 8,000 | 8,000 |
+| Sampler version | `setup_sampler_v1` | `setup_sampler_v1` |
+| Reference engine | `phase2_1_reference_1.2.0` | unchanged, `stratego/engine/` untouched |
+| Primary model | `C1`, 863,959 parameters | `C1`, 863,959 parameters |
+| Model contract | `model_contract_v2` | `model_contract_v2` |
+| Trajectory | `trajectory_v1` | `trajectory_v1` |
+| Backend | `KEEP_PYTHON` | `KEEP_PYTHON` |
+| Suite before edits | green | `3,339 passed, 3 skipped, 0 failed` |
+
+### 5.2 The setup-source API
+
+The integration is one narrow injectable interface, `setup_source_v1`, in
+`stratego/training/setup_source.py`:
+
+```text
+assign(root_seed, environment_id, generation, slot_seed, game_id)
+    -> SetupAssignment(red_setup, blue_setup, provenance)
+```
+
+Two implementations exist:
+
+```text
+UniformRandomSetupSource   the accepted Phase 6 generator, wrapped
+LibrarySetupSource         setup_library_v1 + setup_sampler_v1
+```
+
+The injection point is `BatchSimulator._build_slot`, which is the only place
+the batch layer ever creates a game. `setup_source=None` is the default and
+takes the identical `make_random_setups(slot_seed)` branch in the identical
+place, so a caller that does not ask for Phase 7 setups gets the accepted
+Phase 6 games byte for byte — pinned by a regression comparing whole batch
+fingerprints with and without an explicitly injected uniform source.
+
+Plumbing, in full:
+
+```text
+CoordinatorConfig.setup_source
+    -> SelfPlayCoordinator -> WorkerPool(setup_source=...)
+    -> WorkerPool.start -> _worker_main(..., setup_source)
+    -> _WorkerRuntime -> BatchSimulator(setup_source=...)
+```
+
+The source is a frozen dataclass of strings, so it crosses the `spawn`
+boundary cheaply and every worker rebuilds an identical one; the 8,000-entry
+library itself is loaded lazily per process through the sampler's own cached,
+read-only index. Nothing family-specific exists inside a worker: the worker
+knows only that it has *a* setup source.
+
+Family and base selection, perturbation, reflection and final-output
+validation are Agent 4's, unmodified and imported. A regression requires that
+`LibrarySetupSource.sample_for_player` and a direct `sample_setup(split,
+seed, profile)` call produce identical provenance, so the integration cannot
+reinterpret the frozen sampler.
+
+### 5.3 Setup-pair sampling and logical game identity
+
+A setup pair belongs to a **logical game**, not to a worker, a slot position
+or an arrival order. The identity is the triple the Phase 3 batch layer
+already made sufficient to rebuild any game in isolation:
+
+```text
+game identity   (root_seed, environment_id, generation)
+    -> red seed   derive_stream_seed('setup_source_v1:side', split, profile,
+                                     root_seed, environment_id, generation, 'red')
+    -> blue seed  ... 'blue'
+```
+
+Red and blue therefore draw from independent domain-separated streams, and
+**no global setup RNG is consumed in worker-arrival order** — there is no
+shared cursor to consume. `environment_id` is the global slot index whatever
+the partitioning is, and `generation` counts that slot's own games, so worker
+count, slot-to-worker mapping, scheduling order and recycle boundaries are all
+absent from the derivation. §5.11 measures that rather than asserting it.
+
+### 5.4 Split behaviour
+
+The production training entry point takes no split argument:
+
+```text
+training_setup_source(profile) -> LibrarySetupSource(split='train',
+                                                     purpose='training')
+```
+
+The rule is enforced at *construction*, not at sampling time:
+
+```text
+purpose='training'      locked to split='train'
+purpose='evaluation_audit' + non-empty access_justification
+                        the only way to reach validation or test
+```
+
+so there is no code path from routine collection to a held-out base — a
+training caller cannot even build the object. The regression the assignment
+asks for sweeps 24 environments × 6 generations of the default production
+source and requires every sampled base on both sides to carry `split='train'`
+and `base_index < 400`, and the campaign's own 16,378 sampled player-setups
+are re-checked the same way from the persisted sidecars.
+
+Validation and test access were exercised as **separate explicit requests**,
+in their own directories, never merged into the training campaign:
+
+| Split | Justification recorded | Games | Distinct bases | Split violations |
+|---|---|---:|---:|---:|
+| validation | explicit Agent 5 smoke request | 11 | 22 | 0 |
+| test | explicit Agent 5 smoke request | 12 | 24 | 0 |
+
+Every base drawn in those runs had `base_index >= 400`, and every provenance
+record on both sides names the requested split.
+
+### 5.5 Provenance
+
+`trajectory_v1` is unchanged. Provenance is written to a per-worker JSONL
+sidecar next to that worker's shards:
+
+```text
+<output_directory>/<run_id>_w<NN>_setup_provenance.jsonl
+```
+
+one line per completed game, keyed by `game_id`. Per game the record carries
+the schema/source/library/sampler versions, the profile, the split, the run
+and worker identity, the logical identity `(environment_id, generation,
+root_seed)`, and a `red` and a `blue` sub-record. Each sub-record is the
+**complete frozen 27-field `setup_sampler_v1` provenance record stored
+verbatim**, plus four integration fields:
+
+```text
+player, player_name, side_seed, engine_setup
+```
+
+so it is a superset of the minimum the assignment names
+(`setup_library_version`, `sampler_version`, `primary_family_id`,
+`base_setup_id`, `split`, `reflection_applied`, `perturbation_applied`,
+`perturbation_id_or_seed`, `final_setup_fingerprint`) and it feeds
+`rebuild_from_provenance` directly rather than being a lossy projection of it.
+
+The setup stored inside the trajectory remains the replay authority.
+Provenance is diagnostic/training metadata, and the verification in §5.9 is
+what ties the two together.
+
+Two design points worth stating plainly. First, the sidecar is a *sibling* of
+the shards and never part of one, so a Phase 6 shard remains readable by
+everything that could read it before and no prior Phase 6 trajectory byte is
+invalidated. Second, `trajectory_v1`'s existing `setup_family` string field —
+whose stated purpose is to tell a later curriculum apart from uniform random
+placement — is set to `setup_library_v1_setup_sampler_v1_train` for
+library-sourced games and stays `batch_random_uniform_v1` otherwise. That is
+the field being used as intended, not a schema change: it is one interned
+string naming the *generator*, and a regression requires that it names no
+family, no base and no fingerprint.
+
+Writes are synchronous, per game, inside the worker that sealed it, so there
+is no queue and no coordinator traffic. A completed game whose source produces
+provenance but arrives without it is counted (`total_provenance_missing`)
+rather than written as an incomplete record; the campaign's count is 0.
+
+### 5.6 Observer-safety
+
+Regression: `tests/information_security/test_setup_provenance_boundary.py`.
+The proof has three independent legs, and a positive control that makes the
+negative results non-vacuous.
+
+**Transport.** The shared buffers are the only channel between a worker and
+the coordinator. Their field list is fixed and numeric, and none of
+`primary_family_id`, `family_key`, `base_setup_id`, `base_index`,
+`base_fingerprint`, `perturbation_seed`, `perturbation_id`,
+`reflection_applied`, `final_setup*`, `setup_provenance`, `red_setup`,
+`blue_setup`, `engine_setup` or `side_seed` appears in it. The published
+observation of every slot of a real library-sourced run is byte-identical to
+`build_observation(state, mover)` for a locally rebuilt game.
+
+**The neural request.** The model is called with exactly one positional
+tensor and no keyword arguments, and that tensor is the transported
+observation block element for element (`(rows, 100, 127)`, token-major,
+compared with `torch.equal` against the buffer the step read). No setup
+provenance is added to Agent 5's observer-safe neural inference request
+because the request has no field to add it to.
+
+**Reachability.** A bounded object-graph walk over data edges — containers,
+dictionaries and instance attributes, deliberately never following a class,
+function, module or code object — finds no live provenance value reachable
+from the captured model inputs, and none reachable from the
+`SelfPlayCoordinator` object itself. The coordinator holds the source's
+*configuration* (it can see the string `train`); it holds no sampled identity,
+because provenance is produced inside the workers and never crosses a pipe.
+
+**Positive control.** The same walk, over the same inputs with one provenance
+record deliberately attached, recovers every family id, base id, fingerprint
+and setup string it reported absent.
+
+`observation_v2_1_127ch` gained no channel (127, `(127, 10, 10)`, no channel
+name containing `family` or `provenance`), and `GameRecord` gained no
+provenance field. Provenance also carries no outcome or strength signal:
+`provenance_is_observer_safe` returns empty for both players.
+
+### 5.7 Phase 4 evaluation-bank isolation
+
+`evaluation_setup_bank_v1` was not touched, not regenerated from
+`setup_library_v1`, and not made a training source. Its identity was captured
+from its own generator before the campaign and again afterwards:
+
+| Quantity | Before | After |
+|---|---|---|
+| bank version | `evaluation_setup_bank_v1` | `evaluation_setup_bank_v1` |
+| generation family | `structured_v1` | `structured_v1` |
+| pairs | 1,024 | 1,024 |
+| distinct positions | 1,024 | 1,024 |
+| root seed | 20260101 | 20260101 |
+| digest | `5fe5f987…674266` | `5fe5f987…674266` |
+| validation failures | 0 | 0 |
+
+Existing Phase 4 evaluation tests pass unmodified; nothing in
+`stratego/evaluation/` was changed.
+
+### 5.8 The integration campaign
+
+One deterministic campaign through the real collection/persistence path:
+
+```text
+candidate               C1, 863,959 parameters, weights fixed
+workers                 10 CPU simulation workers
+environments            1,536
+inference batch         2,048
+precision               float16, dense legality, normalized action frame
+recording               on, snapshot interval 32
+persistence             compressed shards, 128 MiB rollover
+streaming verification  on, 100,000-decision per-worker budget
+setup source            setup_library_v1 + setup_sampler_v1, split=train,
+                        profile neutral_v1
+root seed               70,005            run id  p7a05
+```
+
+The loop stops when it has enough completed games **and** enough family-pair
+coverage, checked from the sidecars every 250 steps:
+
+```text
+global steps                        4,250
+wall time                           803 s
+completed games persisted           8,189
+decisions recorded                  6,528,000
+decisions inside persisted records  5,863,422
+shards                              10, all closed, 0 unclosed
+compressed bytes on disk            763,783,696  (0.711 GiB)
+provenance sidecar bytes            24,003,380
+stop reason                         targets met
+```
+
+The 664,578-decision difference between decisions recorded and decisions
+inside persisted records is the games still in flight when the campaign
+stopped; an unfinished game is never sealed, which is the accepted Phase 6
+behaviour.
+
+Coverage of the 16 × 16 ordered Red-family / Blue-family combinations:
+
+```text
+ordered pairs possible              256
+ordered pairs represented           256
+ordered pairs missing                 0
+minimum games per ordered pair       17     (target 16)
+maximum games per ordered pair       47
+mean games per ordered pair       31.99
+pairs below the 16-game target        0
+```
+
+Branch coverage over the 16,378 sampled player-setups:
+
+```text
+player-setups sampled    16,378      (8,189 games x 2 sides)
+reflection applied        8,145      not applied     8,233
+perturbation applied      8,165      not applied     8,213
+distinct train bases used 5,887      of the 6,400 available
+split of every sample     train      16,378 / 16,378
+per-family samples        981 – 1,108 across the 16 families
+```
+
+Game length over the persisted corpus: mean 716.0 plies, minimum 1, maximum
+1,776. Terminal reasons: 6,086 battleless-move-limit draws, 1,682 flag
+captures, 421 `opponent_no_legal_move`. Zero-decision games: **0 encountered**, which is
+expected rather than a gap — Agent 1's curated initial-mobility rule
+guarantees every library setup leaves its owner a legal move, so the
+stranded-at-creation case the frozen engine supports cannot arise from
+`setup_library_v1`. The path is still covered: a regression drives a real
+worker pool over a stranded fixture with a provenance-producing source and
+requires the zero-decision game to be sealed *and* to have a sidecar record.
+
+No optimizer step, no loss evaluation, no gradient: the C1 parameters have
+`requires_grad=False` and the parameter checksum is identical before and
+after the campaign. No playing-strength interpretation is made anywhere in
+this section.
+
+### 5.9 Correctness results
+
+Every number below is recomputed from the bytes on disk — the shards and the
+sidecars — not from the run's own counters. Every persisted record was
+decoded, structurally validated, and checked against its provenance by
+rebuilding both players' descendants through `rebuild_from_provenance` and
+re-orienting them for the engine.
+
+```text
+setup engine-validation failures        0
+setup provenance mismatches             0
+provenance records missing              0
+provenance schema failures              0
+wrong split samples                     0
+family identity mismatches              0
+base identity mismatches                0
+final-setup fingerprint mismatches      0
+
+illegal actions                         0
+active-zero-legal anomalies             0
+action-frame mismatches                 0
+model / MPS failures                    0
+non-finite output failures              0
+worker failures                         0
+
+trajectory decode failures              0
+record validation failures              0
+persisted-record corruption             0   (10/10 shards verified against
+                                             their manifests and SHA-256)
+duplicate game ids                      0
+orphan provenance records               0
+shard write errors                      0
+provenance write errors                 0
+streaming-verification mismatches       0   (51 games, 37,044 decisions)
+```
+
+The fingerprint check is the strong form: for each player the descendant is
+rebuilt from provenance alone, oriented for that player, and required to equal
+the setup serialized inside the trajectory; the recorded `engine_setup` string
+and the recorded `final_setup_fingerprint` must both agree with it as well. A
+provenance record therefore cannot agree with a trajectory by naming it while
+disagreeing about which library entry produced it.
+
+### 5.10 Reconstruction sample
+
+Games were taken evenly across the corpus (a stride over every persisted
+record, so the sample is not one worker's shard), decoded from the shard bytes
+and reconstructed through the frozen Phase 3 reconstruction path:
+
+```text
+games reconstructed                    14
+decisions reconstructed            10,312     (requirement: >= 10,000)
+legal-set mismatches                    0
+acting-player mismatches                0
+stored actions found illegal            0
+setup / provenance mismatches           0
+zero-decision games in the sample       0     (none exist in this campaign)
+```
+
+Every sampled game's trajectory setup was re-verified against its provenance
+fingerprint and its family/base/split metadata rebuilt from the sampler — and
+so was every one of the other 8,175 games, since §5.9 runs that check over the
+whole corpus rather than over a sample.
+
+### 5.11 Determinism
+
+The exact comparison design, recorded so it can be repeated:
+
+```text
+baseline   4 workers, 32 environments, root seed 70,205, 1,400 phases,
+           a finished slot reset in the phase it finished in
+variant A  8 workers -- a different slot-to-worker partitioning and a
+           different arrival interleaving; everything else identical
+variant B  4 workers, resets deferred to every 7th phase, so a slot sits
+           terminal for several phases before its next generation starts:
+           the same games created in a different scheduling order
+variant C  the recycle boundary. A recycled segment restarts the process
+           under segment_root_seed(70,205, 1) = 1,070,208; one run at 4
+           workers and a cold replay at 2 workers
+```
+
+The gate is that for every logical game identity `(environment_id,
+generation)` present in both runs, the two runs assigned the same engine
+setups, the same fingerprints, the same base ids, the same reflection bits and
+the same perturbation seeds. Model action histories are deliberately **not**
+compared: this gate is about setup-assignment identity, not about float16
+batch-shape effects.
+
+| Comparison | Game identities compared | Setup-assignment mismatches |
+|---|---:|---:|
+| worker count 4 → 8 | 53 | 0 |
+| reset cadence immediate → every 7 phases | 53 | 0 |
+| recycle segment, cold replay at a different worker count | 51 | 0 |
+
+Isolated regeneration was checked separately: generation `g` of a slot,
+rebuilt from a cold `BatchSimulator` without replaying the generations before
+it, matched the source's own assignment for all nine `(environment, g)` probes
+— 0 mismatches. A restarted worker therefore does not need the history it
+missed.
+
+Finally, the whole harness was run twice end to end from the same seeds. Both
+runs reached the stop condition at global step 4,250 with 8,189 persisted
+games, 5,887 distinct bases and 763,783,696 compressed bytes, and produced
+byte-identical correctness counters, family-pair counts, coverage summary and
+reconstruction counts. Only wall-clock timings differed.
+
+### 5.12 Performance
+
+Setup generation is operationally negligible.
+
+```text
+setup sample calls                       9,725   (1,536 initial slots + 8,189
+                                                  resets; one call per game)
+setup calls / s (across 10 workers)      795.7
+mean setup latency                     1.257 ms
+median setup latency                   0.920 ms
+p95 setup latency                      2.517 ms
+p99 setup latency                      3.976 ms
+max setup latency                    166.2   ms  (a worker's first call: the
+                                                  one-time library parse)
+setup-sampling fraction of wall time    1.52 %
+setup-sampling fraction of worker CPU   1.55 %
+
+cold library load                      118 ms, once per worker process
+provenance sidecar write               0.635 s total, 0.079 % of wall time
+```
+
+An isolated in-process microbenchmark of 2,000 draws agrees: 965.5 calls/s,
+mean 1.036 ms, median 0.774 ms, p95 2.234 ms.
+
+Pipeline-level rates for the campaign:
+
+```text
+positions / s                        8,127.2
+games / s                               10.19
+compressed GiB / hour                    3.19
+compression ratio                      0.6698
+coordinator RSS                       4.27 GB   (peak 4.36 GB)
+worker RSS, summed across 10          5.96 GB
+system memory in use                  50.3 %
+swap growth during the run                  0 bytes
+disk consumed                          799 MiB
+```
+
+The comparison with Phase 6B (8,334.8 positions/s, 3.572 written GiB/hour)
+is deliberately labelled as *not* like-for-like: Phase 6B reports a settled
+window after a 3,000-step warmup, while the figures above cover the whole
+campaign including its cold start, and the two runs completed different
+numbers of games per position because library setups produce a different
+terminal-reason mix. The claim being made is only the one that is measured
+directly: the sampler itself costs 1.52 % of wall time and the provenance
+sidecar 0.079 %. No optimization was attempted, because none is warranted.
+
+### 5.13 Tests
+
+Two new files, 49 tests, all passing:
+
+```text
+tests/training/test_phase7_setup_integration.py               36 tests
+tests/information_security/test_setup_provenance_boundary.py  13 tests
+```
+
+The regressions worth naming:
+
+```text
+no source reproduces the accepted Phase 6 games (whole batch fingerprints)
+the library digest is the one Agent 4 handed over
+a training source cannot be built on validation or test
+a held-out split needs an explicit non-empty justification
+the default production path never samples a base with index >= 400
+the two sides are sampled independently
+the side seed depends only on the logical game identity
+assignment is independent of the slot window and of the worker count
+assignment survives a recycle boundary and isolated regeneration
+every completed game has exactly one provenance record, ids unique
+provenance rebuilds the setup stored in the persisted trajectory
+a zero-decision game still gets provenance
+a run without a source writes the uniform label and no sidecar
+trajectory_v1 / observation_v2_1_127ch versions unchanged
+the Phase 4 bank digest, count and version are unchanged
+the transport, the neural request and the coordinator carry no provenance
+the reachability walk finds provenance when it is deliberately planted
+```
+
+Full repository suite after all changes: **3,388 passed, 3 skipped, 0 failed**
+(3,339 before, plus the 49 added here).
+
+### 5.14 Files
+
+Created:
+
+```text
+stratego/training/setup_source.py
+tests/training/test_phase7_setup_integration.py
+tests/information_security/test_setup_provenance_boundary.py
+scripts/run_phase7_agent05.py
+reports/phase_7_data/agent_05_pipeline_integration.json
+reports/phase_7_data/agent_05_setup_provenance.csv   4.2 MB, 8,189 rows
+```
+
+The provenance CSV is deliberately complete rather than sampled: it is the
+campaign artifact Agent 6 needs in order to re-derive any headline number in
+this section without rerunning the campaign, and every row is independently
+checkable against the library through `rebuild_from_provenance`.
+
+Modified:
+
+```text
+stratego/training/batch_simulation.py   optional setup_source at slot build;
+                                        per-slot provenance; call/latency
+                                        counters
+stratego/training/worker_pool.py        setup_source through spawn; the
+                                        provenance sidecar writer; counters
+stratego/training/coordinator.py        CoordinatorConfig.setup_source
+stratego/training/trajectory.py         builder_for_slot gained a
+                                        setup_family argument defaulting to
+                                        the existing uniform label
+stratego/training/__init__.py           re-exports
+```
+
+Not modified: `stratego/engine/`, `stratego/evaluation/`, `stratego/model/`,
+`stratego/setups/`, `data/setups/`.
+
+### 5.15 Deviations and observations
+
+1. **The campaign is 8,189 games, not exactly 4,096.** The assignment's
+   headline target is 4,096 games *and* at least 16 games per ordered family
+   pair. Those two are in tension: with uniform family selection, 4,096 games
+   put a mean of 16 in each of the 256 cells, so roughly half the cells would
+   land below 16 by ordinary sampling variance. Rather than weight family
+   selection — which would change the sampler's semantics — the campaign was
+   allowed to run until the per-pair floor was actually met, which took 8,189
+   games (mean 32.0, minimum 17). The 4,096 floor is exceeded by 2×.
+
+2. **`trajectory_v1`'s `setup_family` field is now set for library games.**
+   This is the existing string field being used for its documented purpose,
+   not a schema change; no field was added, removed or reinterpreted, and
+   default callers still record `batch_random_uniform_v1`. Per-game Phase 7
+   identity lives only in the sidecar.
+
+3. **Zero-decision games did not occur.** The curated initial-mobility rule
+   makes them impossible from `setup_library_v1`. The path is exercised by a
+   regression rather than by the campaign, and that is stated rather than
+   quietly counted as coverage.
+
+4. **The provenance sidecar exists only when records are persisted.** A run
+   that encodes and drops (the Phase 6 default) writes no sidecar, because
+   provenance is keyed to a persisted game. This is a deliberate scope choice,
+   not an omission.
+
+5. **Provenance is written at seal time, just before the shard write.** A
+   shard write error aborts the run loudly, so a sidecar record can never
+   outlive a lost trajectory in a run that is allowed to continue.
+
+6. **`positions/s` is not directly comparable to Phase 6B's figure** for the
+   reasons given in §5.12. The sampler-overhead measurement, which is what
+   this section actually claims, is direct.
+
+No frozen engine, rules, observation, model-contract, replay or Phase 4
+evaluation semantic was changed. No threshold was moved, no family contract
+weakened, no split assignment changed, and no byte of the 8,000-base library
+modified.
+
+### 5.16 Completion gates
+
+```text
+agents_1_4_pass_verified                        true
+library_and_sampler_digests_unchanged           true
+sampler_integrated_into_the_real_reset_path     true
+train_split_is_the_default                      true
+held_out_splits_need_an_explicit_request        true
+campaign_games_at_least_4096                    true   (8,189)
+all_256_ordered_family_pairs_present            true   (256 / 256)
+at_least_16_games_per_ordered_pair              true   (min 17)
+both_reflection_branches_exercised              true   (8,145 / 8,233)
+both_perturbation_branches_exercised            true   (8,165 / 8,213)
+zero_setup_engine_validation_failures           true
+zero_provenance_mismatches                      true
+zero_provenance_missing                         true
+zero_wrong_split_samples                        true
+zero_family_identity_mismatches                 true
+zero_base_identity_mismatches                   true
+zero_fingerprint_mismatches                     true
+zero_illegal_actions                            true
+zero_action_frame_mismatches                    true
+zero_model_failures                             true
+zero_nonfinite_outputs                          true
+zero_worker_failures                            true
+zero_trajectory_decode_failures                 true
+zero_record_validation_failures                 true
+zero_persisted_record_corruption                true
+zero_duplicate_game_ids                         true
+streaming_verification_clean                    true   (37,044 decisions)
+reconstructed_decisions_at_least_10000          true   (10,312)
+zero_reconstruction_mismatches                  true
+setup_assignment_deterministic                  true
+phase_4_bank_unchanged                          true
+trajectory_v1_semantics_unchanged               true
+observation_contract_unchanged                  true
+no_meaningful_training                          true
+performance_measured                            true
+campaign_completed_without_error                true
+full_repository_suite_green                     true   (3,388 / 3 / 0)
+                                                37 / 37
+```
+
+No game outcome, win rate, Elo, value or policy signal participated in any
+decision above; the campaign's terminal-reason mix is reported as a
+descriptive property of the run and was used to select nothing.
+
+### 5.17 Handoff to Agent 6
+
+```text
+library version         setup_library_v1
+library digest          7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+manifest digest         53139ab7…63488f31
+sampler version         setup_sampler_v1
+perturbation version    setup_perturbation_v1
+setup source version    setup_source_v1
+provenance schema       setup_provenance_v1
+
+integration API         BatchSimulator(setup_source=...)   the one hook
+                        CoordinatorConfig.setup_source     the production path
+                        training_setup_source(profile)     split='train', locked
+                        audit_setup_source(split, justification)
+                        assign(root_seed, environment_id, generation, ...)
+                            -> SetupAssignment(red_setup, blue_setup, provenance)
+
+default behaviour       setup_source=None reproduces Phase 6 exactly;
+                        training is train-split only, and validation/test
+                        require purpose='evaluation_audit' plus a written
+                        justification recorded in every provenance record
+
+provenance sidecar      <output>/<run_id>_w<NN>_setup_provenance.jsonl,
+                        one JSON object per completed game, keyed by game_id,
+                        carrying the full 27-field setup_sampler_v1 record per
+                        player plus player/player_name/side_seed/engine_setup;
+                        trajectory_v1 unchanged, prior Phase 6 bytes valid
+
+campaign artifact       8,189 games, 4,250 steps, 803 s, root seed 70,005,
+                        run id p7a05, C1, 10 workers / 1,536 environments /
+                        batch 2,048, compressed shards, streaming verification;
+                        agent_05_pipeline_integration.json and
+                        agent_05_setup_provenance.csv (8,189 rows)
+
+family-pair coverage    256 / 256 ordered pairs; min 17, mean 32.0, max 47
+
+observer safety         proved on three legs (transport, neural request,
+                        object-graph reachability) with a positive control;
+                        observation_v2_1_127ch and trajectory_v1 gained no
+                        provenance field
+
+reconstruction          whole corpus: 8,189 games verified setup-vs-provenance,
+                        0 mismatches; sample: 14 games / 10,312 decisions
+                        reconstructed, 0 mismatches
+
+Phase 4 unchanged       evaluation_setup_bank_v1, structured_v1, 1,024 pairs,
+                        digest 5fe5f987…674266, identical before and after
+
+sampler overhead        795.7 calls/s across 10 workers, median 0.920 ms,
+                        p95 2.517 ms, 1.52 % of wall time; provenance 0.079 %;
+                        118 ms one-time library parse per worker process
+```
+
+Agent 6 owns the final sampler-profile freeze; `neutral_v1` was used
+throughout this integration as Agent 4's default candidate and nothing here
+decides it. Agent 5 does not declare Phase 7 complete.

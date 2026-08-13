@@ -1114,15 +1114,23 @@ def builder_for_slot(
     snapshot_interval: int = DEFAULT_SNAPSHOT_INTERVAL,
     collection_policy_version: str = SYNTHETIC_POLICY_VERSION,
     collection_checkpoint_id: str | None = None,
+    setup_family: str | None = BATCH_RANDOM_SETUP_FAMILY,
 ) -> GameTrajectoryBuilder:
     """Builder for the game currently sitting in a `BatchSimulator` slot.
 
     Everything the header needs is already on the slot, including the identity
     triple `(root_seed, environment_id, generation)` that Agent 1 made
     sufficient to regenerate the game from scratch.
+
+    `setup_family` names the generator behind the setups, which is what the
+    existing `trajectory_v1` string field is for; it defaults to the uniform
+    random label so an existing caller records exactly what it recorded before.
+    Per-game Phase 7 identity (family, base, split, seeds) is *not* stored here
+    -- it lives in the provenance sidecar, so the record format is untouched.
     """
     red_setup, blue_setup = simulator.setups(slot)
     return GameTrajectoryBuilder(
+        setup_family=setup_family,
         game_id=simulator.game_id(slot),
         environment_id=simulator.environment_id(slot),
         generation=simulator.generation(slot),

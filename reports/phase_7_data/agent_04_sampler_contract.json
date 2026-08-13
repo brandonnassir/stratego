@@ -1,0 +1,278 @@
+{
+ "agent": 4,
+ "artifact": "agent_04_sampler_contract",
+ "commit": "44195160e2fec672929b5c73af9a171f2176b933",
+ "contract_version": "setup_generator_contract_v1",
+ "default_profile": "neutral_v1",
+ "family_contract_version": "setup_family_v1",
+ "final_output_validation": [
+  "exact inventory (engine validate_setup)",
+  "engine setup validation",
+  "initial-mobility quality check",
+  "base split unchanged",
+  "base primary family unchanged",
+  "family required predicates",
+  "serialization/fingerprint round-trip"
+ ],
+ "inheritance": "every descendant inherits base_setup_id, primary_family_id and split verbatim; a train-derived setup can never become a validation or test setup",
+ "library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+ "library_version": "setup_library_v1",
+ "perturbation": {
+  "acceptance_stack": "stratego.setups.contracts.validate_perturbation \u2014 engine inventory/legality, Flag cell fixed, canonical Hamming in [2, 12], every required family clause satisfied and every forbidden clause failed, initial mobility present",
+  "construction_note": "operators are proposal rules only; they are never consulted during acceptance, and a descendant is accepted solely by the frozen validator",
+  "hamming_per_swap": 2,
+  "identity": "the descendant is a pure function of (base_setup_id, sampler_version, perturbation_seed); the operator mix and the retry budget are frozen constants of this version, and no caller-configurable input can change the result",
+  "max_attempts": 64,
+  "max_attempts_status": "version constant of setup_perturbation_v1",
+  "max_hamming": 12,
+  "max_swap_count": 6,
+  "min_hamming": 2,
+  "min_swap_count": 1,
+  "operators": [
+   {
+    "default_weight": 0.3,
+    "description": "exchange two different piece types inside one canonical rank; every per-rank trait is preserved exactly, so only adjacency, file-spread and Flag-zone traits can move",
+    "name": "within_rank_swap",
+    "technique": "bounded within-rank swaps",
+    "weight": 0.3
+   },
+   {
+    "default_weight": 0.25,
+    "description": "exchange two different piece types across canonical ranks; the only proposal that moves a piece between ranks and therefore the one that expands rank-dimension support",
+    "name": "cross_rank_swap",
+    "technique": "bounded cross-rank swaps",
+    "weight": 0.25
+   },
+   {
+    "default_weight": 0.12,
+    "description": "relocate a Bomb into or out of the Flag's Chebyshev-2 zone, varying the fortress wall without moving the Flag",
+    "name": "fortress_variation",
+    "technique": "local fortress variation",
+    "weight": 0.12
+   },
+   {
+    "default_weight": 0.1,
+    "description": "relocate a Bomb between cells at Manhattan distance >= 4 from the Flag, varying a false fortress or lane block far from the real Flag",
+    "name": "decoy_variation",
+    "technique": "controlled decoy variation",
+    "weight": 0.1
+   },
+   {
+    "default_weight": 0.1,
+    "description": "exchange a Scout with a non-Scout piece",
+    "name": "scout_relocation",
+    "technique": "controlled Scout relocation",
+    "weight": 0.1
+   },
+   {
+    "default_weight": 0.08,
+    "description": "exchange a Miner with a non-Miner piece",
+    "name": "miner_relocation",
+    "technique": "controlled Miner relocation",
+    "weight": 0.08
+   },
+   {
+    "default_weight": 0.05,
+    "description": "exchange a combat-rank >= 7 piece with a piece below that threshold, varying where the heavies stand",
+    "name": "high_rank_relocation",
+    "technique": "role-compatible piece swaps",
+    "weight": 0.05
+   }
+  ],
+  "perturbation_version": "setup_perturbation_v1",
+  "rejection_reasons": [
+   "construction_infeasible",
+   "engine_invalid",
+   "hamming_window",
+   "flag_moved",
+   "family_predicate",
+   "stranded"
+  ],
+  "seed_encoding": "seed_encoding_v1",
+  "seed_encoding_rule": "perturbation_seed = (raw_seed << 3) | (swap_count - 1); low bits 0..5 encode swap counts 1..6, low bits 6 and 7 are invalid; swap_count is derived by decoding, never an independent input"
+ },
+ "perturbation_identity": "the descendant is a pure function of (base_setup_id, sampler_version, perturbation_seed); the seed is the seed_encoding_v1 composite carrying swap count and raw randomness, the retry budget is the setup_perturbation_v1 version constant, and no profile or caller input can change the result once the seed is emitted",
+ "phase": 7,
+ "profile_freeze_owner": "Agent 6 makes the final sampler-profile freeze",
+ "profiles": {
+  "neutral_v1": {
+   "base_selection": "uniform over the family's base indices inside the requested split",
+   "family_selection": "uniform over the 16 primary families",
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "name": "neutral_v1",
+   "perturbation_execution": "profile-independent: the profile chooses whether to perturb and encodes the intensity into the perturbation seed; the descendant is then a pure function of (base_setup_id, sampler_version, perturbation_seed)",
+   "perturbation_probability": 0.5,
+   "perturbation_version": "setup_perturbation_v1",
+   "rationale": "uniform family, uniform base within split, fair reflection coin, fair perturbation coin and a uniform intensity mix over the frozen Hamming window; no branch is weighted by any structural or strength argument, so the default asserts nothing Agent 6 has not frozen",
+   "reflection_probability": 0.5,
+   "sampler_version": "setup_sampler_v1",
+   "swap_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  "perturbation_only_v1": {
+   "base_selection": "uniform over the family's base indices inside the requested split",
+   "family_selection": "uniform over the 16 primary families",
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "name": "perturbation_only_v1",
+   "perturbation_execution": "profile-independent: the profile chooses whether to perturb and encodes the intensity into the perturbation seed; the descendant is then a pure function of (base_setup_id, sampler_version, perturbation_seed)",
+   "perturbation_probability": 1.0,
+   "perturbation_version": "setup_perturbation_v1",
+   "rationale": "acceptance instrument: exercises the perturbed path only",
+   "reflection_probability": 0.5,
+   "sampler_version": "setup_sampler_v1",
+   "swap_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  "reflection_only_v1": {
+   "base_selection": "uniform over the family's base indices inside the requested split",
+   "family_selection": "uniform over the 16 primary families",
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "name": "reflection_only_v1",
+   "perturbation_execution": "profile-independent: the profile chooses whether to perturb and encodes the intensity into the perturbation seed; the descendant is then a pure function of (base_setup_id, sampler_version, perturbation_seed)",
+   "perturbation_probability": 0.0,
+   "perturbation_version": "setup_perturbation_v1",
+   "rationale": "acceptance instrument: exercises the unperturbed path only",
+   "reflection_probability": 0.5,
+   "sampler_version": "setup_sampler_v1",
+   "swap_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ },
+ "provenance_schema": {
+  "derived_fields": {
+   "perturbation_max_attempts": "the setup_perturbation_v1 version constant; rebuild rejects a record whose value disagrees with it",
+   "perturbation_swap_count": "decoded from perturbation_seed; rebuild rejects a record whose value disagrees with the encoding",
+   "sampler_profile": "sampler decision metadata only; cannot alter reconstruction once the perturbation seed is fixed"
+  },
+  "full_fields": [
+   "setup_library_version",
+   "contract_version",
+   "family_contract_version",
+   "trait_schema_version",
+   "sampler_version",
+   "sampler_profile",
+   "perturbation_version",
+   "split",
+   "primary_family_id",
+   "family_key",
+   "base_setup_id",
+   "base_index",
+   "base_fingerprint",
+   "reflection_applied",
+   "perturbation_requested",
+   "perturbation_applied",
+   "perturbation_exhausted",
+   "perturbation_swap_count",
+   "perturbation_seed",
+   "perturbation_id",
+   "perturbation_max_attempts",
+   "perturbation_attempts",
+   "perturbation_accepted_attempt_index",
+   "perturbation_hamming_from_base",
+   "draw_seed",
+   "final_setup",
+   "final_setup_fingerprint",
+   "final_setup_class_fingerprint"
+  ],
+  "prohibited": "no game outcome, win rate, Elo, value, policy or strength field may appear; provenance is training/debug metadata and must not cross the observer-safe model boundary",
+  "required_fields": [
+   "setup_library_version",
+   "sampler_version",
+   "split",
+   "primary_family_id",
+   "base_setup_id",
+   "reflection_applied",
+   "perturbation_applied",
+   "perturbation_version",
+   "perturbation_id",
+   "perturbation_seed",
+   "final_setup_fingerprint"
+  ]
+ },
+ "public_api": {
+  "build_descendant": "build_descendant(base_entry, reflection_applied, perturbation_requested, perturbation_seed, ...) -> SampledSetup",
+  "engine_handoff": "SampledSetup.oriented(player) -> engine setup tuple",
+  "rebuild": "rebuild_from_provenance(provenance) -> SampledSetup",
+  "sample_setup": "sample_setup(split, seed, profile=DEFAULT_PROFILE) -> SampledSetup"
+ },
+ "sampler_version": "setup_sampler_v1",
+ "sampling_order": [
+  "split (caller-supplied, never re-chosen)",
+  "family (uniform over 16)",
+  "base (uniform over the family's bases inside the split)",
+  "perturbation requested (profile coin)",
+  "perturbation intensity (profile weights over swap counts 1..6)",
+  "intensity + raw randomness encoded into one perturbation seed",
+  "constrained perturbation with deterministic rejection/retry",
+  "reflection (profile coin, applied last)",
+  "final-output validation from scratch"
+ ],
+ "split_base_ranges": {
+  "test": [
+   450,
+   500
+  ],
+  "train": [
+   0,
+   400
+  ],
+  "validation": [
+   400,
+   450
+  ]
+ },
+ "status": "PASS",
+ "stream_derivation": "random.Random(derive_stream_seed('setup_sampler_v1:<field>', profile, split, seed)); one domain-separated stream per decision; no mutable global RNG state is consumed",
+ "stress_corpus": {
+  "corpus_version": "setup_stress_corpus_v1",
+  "note": "an acceptance instrument that deliberately balances every branch; not the Phase 8 default profile",
+  "outputs_per_family": 6250,
+  "split_outputs_per_family": {
+   "test": 625,
+   "train": 5000,
+   "validation": 625
+  },
+  "total_outputs": 100000
+ },
+ "timestamp": "2026-08-13T15:07:20-0400",
+ "trait_schema_version": "setup_trait_vector_v1"
+}

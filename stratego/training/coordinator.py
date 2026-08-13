@@ -53,6 +53,7 @@ import numpy as np
 import torch
 
 from ..engine.constants import ACTION_SPACE_SIZE, RulesConfig, TRAINING_RULES
+from .setup_source import describe_setup_source
 from .representative_model import (
     CompactLegality,
     RepresentativeConfig,
@@ -379,6 +380,11 @@ class CoordinatorConfig:
     #: point it happens instead of letting it surface as a worker fault.
     verify_sampled_legality: bool = True
     step_timeout: float = 300.0
+    #: Phase 7 setup source, handed to the workers at spawn. `None` is the
+    #: accepted Phase 6 behaviour: uniform random setups from the slot seed.
+    #: It is consulted only when a game is created, so it cannot change how a
+    #: game plays, and it is never read by the coordinator or by the model.
+    setup_source: object | None = None
 
     def __post_init__(self) -> None:
         if self.precision not in DTYPE_BY_NAME:
@@ -419,6 +425,7 @@ class CoordinatorConfig:
             "shard_target_bytes": self.shard_target_bytes,
             "run_id": self.run_id,
             "label": self.label,
+            "setup_source": describe_setup_source(self.setup_source),
         }
 
 
@@ -602,6 +609,7 @@ class SelfPlayCoordinator:
             rules=config.rules,
             step_timeout=config.step_timeout,
             recording=recording,
+            setup_source=config.setup_source,
         )
 
         # Either the Phase 3 representative probe (the default, so every Phase 3

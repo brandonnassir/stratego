@@ -1,0 +1,39 @@
+{
+ "agent": 4,
+ "artifact": "agent_04_identity_correction",
+ "commit": "44195160e2fec672929b5c73af9a171f2176b933",
+ "issue": "frozen perturbation identity mismatch: Agent 1 froze the descendant as a pure function of (base_setup_id, sampler_version, perturbation_seed), but the initial Agent 4 implementation accepted swap_count, max_attempts and profile operator weights as additional result-affecting inputs",
+ "old_vs_new_corpus_comparison": {
+  "case": "A",
+  "comparison_fields": [
+   "final_setup",
+   "final_setup_fingerprint",
+   "final_setup_class_fingerprint"
+  ],
+  "corpus_outputs": 100000,
+  "final_setup_mismatches": 0,
+  "final_setups_identical": 100000,
+  "method": "the complete deterministic setup_stress_corpus_v1 plan was enumerated under the pre-correction code and again under the corrected code; each output's final serialized setup, content fingerprint and class fingerprint were dumped in plan order and compared line by line",
+  "mismatch_examples": [],
+  "new_dump_sha256": "9206faf45bddc86133e3385c408795c5071a41a918b1e79be778dc0e3b243eea",
+  "old_dump_sha256": "9206faf45bddc86133e3385c408795c5071a41a918b1e79be778dc0e3b243eea"
+ },
+ "phase": 7,
+ "resolution": {
+  "final_identity_semantics": "descendant = f(base_setup_id, sampler_version, perturbation_seed) under the frozen setup_perturbation_v1 constants",
+  "independently_configurable_result_affecting_inputs": "NONE",
+  "max_attempts_status": "version constant MAX_PERTURBATION_ATTEMPTS = 64; recorded in provenance as descriptive/integrity metadata; rebuild rejects a record whose value disagrees with the constant",
+  "perturbation_version": "setup_perturbation_v1",
+  "production_perturbation_function_depends_on": [
+   "base_setup_id (via the base's canonical arrangement and family)",
+   "sampler_version / perturbation_version (frozen constants: operator mix, retry budget, attempt-stream derivation)",
+   "perturbation_seed (seed_encoding_v1 composite: swap count in the low 3 bits, raw randomness above)"
+  ],
+  "sampler_profile_status": "sampler decision only (whether to perturb, intensity choice, reflection frequency); once the effective perturbation_seed is emitted the result is profile-independent, and the recorded profile name cannot alter reconstruction",
+  "sampler_version": "setup_sampler_v1",
+  "seed_encoding": "seed_encoding_v1",
+  "seed_encoding_rule": "perturbation_seed = (raw_seed << 3) | (swap_count - 1); low bits 6 and 7 are invalid",
+  "swap_count_status": "derived from perturbation_seed by decode_perturbation_seed; encoded via encode_perturbation_seed; recorded in provenance as derived metadata; rebuild rejects a record whose value disagrees"
+ },
+ "timestamp": "2026-08-13T15:04:09-0400"
+}
