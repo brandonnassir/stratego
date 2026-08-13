@@ -1,0 +1,2128 @@
+{
+ "agent": "agent_02",
+ "assignment": "Deterministic Base Library Generator",
+ "commands": [
+  "python scripts/run_phase7_agent02.py --run-pytest"
+ ],
+ "commit": "3e54eae13af03f3a858249f8465e976b7a098ca8",
+ "completion_gates": {
+  "agent_01_contract_matches_live_code": true,
+  "agent_01_pass_verified": true,
+  "all_entries_canonical": true,
+  "eight_thousand_bases_materialized": true,
+  "entry_metadata_consistent": true,
+  "enumeration_order_independent": true,
+  "five_hundred_per_family": true,
+  "full_regeneration_digest_stable": true,
+  "full_repository_suite_green": true,
+  "isolated_rebuild_exact": true,
+  "library_and_manifest_written": true,
+  "master_seed_sensitive": true,
+  "no_outcome_or_strength_signal": true,
+  "reflection_roundtrip_clean": true,
+  "serialization_roundtrip_exact": true,
+  "split_counts_exact": true,
+  "zero_engine_invalid": true,
+  "zero_exact_duplicates": true,
+  "zero_family_violations": true,
+  "zero_reflection_duplicates": true,
+  "zero_stable_id_collisions": true,
+  "zero_stranded": true
+ },
+ "contract_version": "setup_generator_contract_v1",
+ "deviations": [
+  "global uniqueness is enforced as a hard acceptance gate that raises on collision, not as a cross-base regeneration filter: Agent 1's frozen contract forbids conditioning one base on another base's outcome, so a duplicate would be a BLOCKED finding; the frozen master seed produces zero duplicates across all 8,000 bases",
+  "entries carry five fields beyond the frozen minimum (generator_version, content_fingerprint, reflected_content_fingerprint, accepted_attempt_index, accepted_attempt_seed) as required by the Agent 2 metadata contract; the frozen entry field list, line format and file order are unchanged"
+ ],
+ "diversity_preflight": {
+  "all_pass": true,
+  "check_count": 199,
+  "diversity_standard_version": "setup_diversity_standard_v1",
+  "duration_seconds": 2.905,
+  "failed_checks": [],
+  "metrics": {
+   "distance": {
+    "cross_split_min_nn_distance": 21,
+    "global_min_pairwise_distance": 20,
+    "within_family": {
+     "F00": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F01": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F02": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F03": {
+      "min_nn_distance": 24,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F04": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F05": {
+      "min_nn_distance": 21,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F06": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F07": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F08": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F09": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F10": {
+      "min_nn_distance": 24,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F11": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F12": {
+      "min_nn_distance": 24,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F13": {
+      "min_nn_distance": 22,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F14": {
+      "min_nn_distance": 20,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     },
+     "F15": {
+      "min_nn_distance": 25,
+      "near_duplicate_pair_fraction": 0.0,
+      "pair_count": 124750
+     }
+    }
+   },
+   "entropy": {
+    "global_mean_per_square_entropy_bits": 3.184683,
+    "per_family": {
+     "F00": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 1,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 2.93722,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F01": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 2,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.013954,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F02": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 2,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.015193,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F03": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.1362,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F04": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.154928,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F05": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.125984,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F06": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.166294,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F07": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.111706,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F08": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.031125,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F09": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.02937,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F10": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.080749,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F11": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.013669,
+      "miner_folded_support": 20,
+      "scout_folded_support": 15
+     },
+     "F12": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.101205,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F13": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 10,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.060117,
+      "miner_folded_support": 15,
+      "scout_folded_support": 20
+     },
+     "F14": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 5,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.038288,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     },
+     "F15": {
+      "bomb_folded_support": 20,
+      "flag_folded_support": 20,
+      "high_rank_folded_support": 20,
+      "mean_per_square_entropy_bits": 3.243872,
+      "miner_folded_support": 20,
+      "scout_folded_support": 20
+     }
+    }
+   },
+   "family_overlap": {
+    "matrix": {
+     "F00": {
+      "F00": 1.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.0,
+      "F04": 0.0,
+      "F05": 0.0,
+      "F06": 0.0,
+      "F07": 0.01,
+      "F08": 0.064,
+      "F09": 0.146,
+      "F10": 0.548,
+      "F11": 0.0,
+      "F12": 0.368,
+      "F13": 0.2,
+      "F14": 0.626,
+      "F15": 0.0
+     },
+     "F01": {
+      "F00": 0.0,
+      "F01": 1.0,
+      "F02": 0.0,
+      "F03": 0.0,
+      "F04": 0.0,
+      "F05": 0.0,
+      "F06": 0.0,
+      "F07": 0.002,
+      "F08": 0.062,
+      "F09": 0.126,
+      "F10": 0.53,
+      "F11": 0.0,
+      "F12": 0.448,
+      "F13": 0.13,
+      "F14": 0.612,
+      "F15": 0.0
+     },
+     "F02": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 1.0,
+      "F03": 0.0,
+      "F04": 0.0,
+      "F05": 0.0,
+      "F06": 0.0,
+      "F07": 0.006,
+      "F08": 0.086,
+      "F09": 0.168,
+      "F10": 0.556,
+      "F11": 0.0,
+      "F12": 0.4,
+      "F13": 0.182,
+      "F14": 0.628,
+      "F15": 0.0
+     },
+     "F03": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 1.0,
+      "F04": 0.0,
+      "F05": 0.566,
+      "F06": 0.204,
+      "F07": 0.068,
+      "F08": 0.084,
+      "F09": 0.166,
+      "F10": 0.492,
+      "F11": 0.002,
+      "F12": 0.336,
+      "F13": 0.196,
+      "F14": 0.0,
+      "F15": 0.066
+     },
+     "F04": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.0,
+      "F04": 1.0,
+      "F05": 0.684,
+      "F06": 0.16,
+      "F07": 0.13,
+      "F08": 0.064,
+      "F09": 0.17,
+      "F10": 0.484,
+      "F11": 0.0,
+      "F12": 0.312,
+      "F13": 0.234,
+      "F14": 0.0,
+      "F15": 0.436
+     },
+     "F05": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.64,
+      "F04": 0.222,
+      "F05": 1.0,
+      "F06": 0.302,
+      "F07": 0.024,
+      "F08": 0.066,
+      "F09": 0.162,
+      "F10": 0.524,
+      "F11": 0.002,
+      "F12": 0.404,
+      "F13": 0.176,
+      "F14": 0.0,
+      "F15": 0.182
+     },
+     "F06": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.418,
+      "F04": 0.25,
+      "F05": 0.518,
+      "F06": 1.0,
+      "F07": 0.328,
+      "F08": 0.054,
+      "F09": 0.184,
+      "F10": 0.424,
+      "F11": 0.002,
+      "F12": 0.284,
+      "F13": 0.264,
+      "F14": 0.0,
+      "F15": 0.306
+     },
+     "F07": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.002,
+      "F03": 0.176,
+      "F04": 0.544,
+      "F05": 0.132,
+      "F06": 0.14,
+      "F07": 1.0,
+      "F08": 0.02,
+      "F09": 0.278,
+      "F10": 0.282,
+      "F11": 0.018,
+      "F12": 0.198,
+      "F13": 0.346,
+      "F14": 0.0,
+      "F15": 0.574
+     },
+     "F08": {
+      "F00": 0.004,
+      "F01": 0.032,
+      "F02": 0.03,
+      "F03": 0.348,
+      "F04": 0.26,
+      "F05": 0.562,
+      "F06": 0.144,
+      "F07": 0.074,
+      "F08": 1.0,
+      "F09": 0.0,
+      "F10": 0.534,
+      "F11": 0.0,
+      "F12": 0.374,
+      "F13": 0.188,
+      "F14": 0.01,
+      "F15": 0.522
+     },
+     "F09": {
+      "F00": 0.002,
+      "F01": 0.042,
+      "F02": 0.03,
+      "F03": 0.334,
+      "F04": 0.27,
+      "F05": 0.542,
+      "F06": 0.16,
+      "F07": 0.058,
+      "F08": 0.0,
+      "F09": 1.0,
+      "F10": 0.51,
+      "F11": 0.004,
+      "F12": 0.384,
+      "F13": 0.198,
+      "F14": 0.068,
+      "F15": 0.102
+     },
+     "F10": {
+      "F00": 0.012,
+      "F01": 0.028,
+      "F02": 0.03,
+      "F03": 0.316,
+      "F04": 0.29,
+      "F05": 0.56,
+      "F06": 0.146,
+      "F07": 0.088,
+      "F08": 0.04,
+      "F09": 0.244,
+      "F10": 1.0,
+      "F11": 0.0,
+      "F12": 0.298,
+      "F13": 0.25,
+      "F14": 0.044,
+      "F15": 0.202
+     },
+     "F11": {
+      "F00": 0.0,
+      "F01": 0.04,
+      "F02": 0.03,
+      "F03": 0.344,
+      "F04": 0.266,
+      "F05": 0.556,
+      "F06": 0.156,
+      "F07": 0.072,
+      "F08": 0.248,
+      "F09": 0.038,
+      "F10": 0.0,
+      "F11": 1.0,
+      "F12": 0.682,
+      "F13": 0.042,
+      "F14": 0.01,
+      "F15": 0.772
+     },
+     "F12": {
+      "F00": 0.006,
+      "F01": 0.044,
+      "F02": 0.042,
+      "F03": 0.364,
+      "F04": 0.26,
+      "F05": 0.52,
+      "F06": 0.136,
+      "F07": 0.078,
+      "F08": 0.018,
+      "F09": 0.278,
+      "F10": 0.528,
+      "F11": 0.002,
+      "F12": 1.0,
+      "F13": 0.0,
+      "F14": 0.006,
+      "F15": 0.294
+     },
+     "F13": {
+      "F00": 0.004,
+      "F01": 0.02,
+      "F02": 0.04,
+      "F03": 0.382,
+      "F04": 0.216,
+      "F05": 0.512,
+      "F06": 0.17,
+      "F07": 0.05,
+      "F08": 0.118,
+      "F09": 0.098,
+      "F10": 0.54,
+      "F11": 0.0,
+      "F12": 0.0,
+      "F13": 1.0,
+      "F14": 0.042,
+      "F15": 0.246
+     },
+     "F14": {
+      "F00": 0.1,
+      "F01": 0.452,
+      "F02": 0.448,
+      "F03": 0.0,
+      "F04": 0.0,
+      "F05": 0.0,
+      "F06": 0.0,
+      "F07": 0.008,
+      "F08": 0.13,
+      "F09": 0.046,
+      "F10": 0.226,
+      "F11": 0.008,
+      "F12": 0.224,
+      "F13": 0.432,
+      "F14": 1.0,
+      "F15": 0.0
+     },
+     "F15": {
+      "F00": 0.0,
+      "F01": 0.0,
+      "F02": 0.0,
+      "F03": 0.056,
+      "F04": 0.196,
+      "F05": 0.168,
+      "F06": 0.086,
+      "F07": 0.174,
+      "F08": 0.058,
+      "F09": 0.03,
+      "F10": 0.022,
+      "F11": 0.034,
+      "F12": 0.23,
+      "F13": 0.036,
+      "F14": 0.0,
+      "F15": 1.0
+     }
+    }
+   },
+   "identity": {
+    "cross_split_class_duplicate_groups": 0,
+    "distinct_class_fingerprints": 8000,
+    "entry_count": 8000,
+    "exact_duplicate_groups": 0,
+    "non_canonical_entries": 0,
+    "reflection_class_duplicate_groups": 0
+   },
+   "trait_diversity": {
+    "per_family": {
+     "F00": {
+      "distinct_bomb_rank_histograms": 33,
+      "distinct_scout_rank_histograms": 66,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F01": {
+      "distinct_bomb_rank_histograms": 33,
+      "distinct_scout_rank_histograms": 72,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F02": {
+      "distinct_bomb_rank_histograms": 38,
+      "distinct_scout_rank_histograms": 71,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F03": {
+      "distinct_bomb_rank_histograms": 57,
+      "distinct_scout_rank_histograms": 74,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F04": {
+      "distinct_bomb_rank_histograms": 58,
+      "distinct_scout_rank_histograms": 76,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F05": {
+      "distinct_bomb_rank_histograms": 45,
+      "distinct_scout_rank_histograms": 74,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F06": {
+      "distinct_bomb_rank_histograms": 57,
+      "distinct_scout_rank_histograms": 76,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F07": {
+      "distinct_bomb_rank_histograms": 30,
+      "distinct_scout_rank_histograms": 85,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F08": {
+      "distinct_bomb_rank_histograms": 57,
+      "distinct_scout_rank_histograms": 65,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F09": {
+      "distinct_bomb_rank_histograms": 55,
+      "distinct_scout_rank_histograms": 75,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F10": {
+      "distinct_bomb_rank_histograms": 57,
+      "distinct_scout_rank_histograms": 18,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F11": {
+      "distinct_bomb_rank_histograms": 57,
+      "distinct_scout_rank_histograms": 24,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F12": {
+      "distinct_bomb_rank_histograms": 55,
+      "distinct_scout_rank_histograms": 70,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F13": {
+      "distinct_bomb_rank_histograms": 55,
+      "distinct_scout_rank_histograms": 77,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F14": {
+      "distinct_bomb_rank_histograms": 36,
+      "distinct_scout_rank_histograms": 65,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     },
+     "F15": {
+      "distinct_bomb_rank_histograms": 65,
+      "distinct_scout_rank_histograms": 83,
+      "distinct_trait_vectors": 500,
+      "member_count": 500
+     }
+    }
+   }
+  },
+  "verdict_owner": "agent_03"
+ },
+ "durations": {
+  "diversity_preflight_seconds": 2.905,
+  "enumeration_order_seconds": 0.094,
+  "generation_seconds": 2.958,
+  "isolated_rebuild_seconds": 0.235,
+  "regeneration_seconds": 3.103,
+  "total_seconds": 11.402
+ },
+ "entry_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+ "enumeration_order": {
+  "duration_seconds": 0.094,
+  "mismatches": [],
+  "order_independent": true,
+  "sample_size": 256
+ },
+ "family_contract_version": "setup_family_v1",
+ "family_counts": {
+  "F00": 500,
+  "F01": 500,
+  "F02": 500,
+  "F03": 500,
+  "F04": 500,
+  "F05": 500,
+  "F06": 500,
+  "F07": 500,
+  "F08": 500,
+  "F09": 500,
+  "F10": 500,
+  "F11": 500,
+  "F12": 500,
+  "F13": 500,
+  "F14": 500,
+  "F15": 500
+ },
+ "family_split_counts": {
+  "F00": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F01": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F02": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F03": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F04": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F05": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F06": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F07": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F08": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F09": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F10": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F11": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F12": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F13": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F14": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  },
+  "F15": {
+   "test": 50,
+   "train": 400,
+   "validation": 50
+  }
+ },
+ "files_created": [
+  "stratego/setups/seed.py",
+  "stratego/setups/generator.py",
+  "stratego/setups/library.py",
+  "tests/setups/test_generator.py",
+  "tests/setups/test_library.py",
+  "scripts/run_phase7_agent02.py",
+  "data/setups/setup_library_v1.jsonl",
+  "data/setups/setup_library_v1_manifest.json",
+  "reports/phase_7_data/agent_02_base_library_manifest.json",
+  "reports/phase_7_data/agent_02_generation_summary.json"
+ ],
+ "files_modified": [
+  "stratego/setups/__init__.py",
+  "reports/phase_7_implementation_report.md"
+ ],
+ "frozen_versions": {
+  "contract_version": "setup_generator_contract_v1",
+  "diversity_standard_version": "setup_diversity_standard_v1",
+  "family_contract_version": "setup_family_v1",
+  "generator_version": "setup_base_generator_v1",
+  "library_version": "setup_library_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "rules": "stratego_project_v1",
+  "trait_schema_version": "setup_trait_vector_v1"
+ },
+ "gates_total": 22,
+ "gates_true": 22,
+ "generation": {
+  "attempt_histogram": {
+   "1": 7796,
+   "2": 153,
+   "3": 39,
+   "4": 9,
+   "5": 2,
+   "9": 1
+  },
+  "attempts_per_accepted_base": 1.03425,
+  "duration_seconds": 2.958,
+  "generator_version": "setup_base_generator_v1",
+  "rejection_rate_by_family": {
+   "F00": 0.0,
+   "F01": 0.0,
+   "F02": 0.0,
+   "F03": 0.0,
+   "F04": 0.0,
+   "F05": 0.0,
+   "F06": 0.0,
+   "F07": 0.0,
+   "F08": 0.003984,
+   "F09": 0.005964,
+   "F10": 0.0,
+   "F11": 0.0,
+   "F12": 0.0,
+   "F13": 0.0,
+   "F14": 0.090909,
+   "F15": 0.30459
+  },
+  "rejections_by_family": {
+   "F08": {
+    "construction_infeasible": 2
+   },
+   "F09": {
+    "construction_infeasible": 3
+   },
+   "F14": {
+    "construction_infeasible": 50
+   },
+   "F15": {
+    "family_predicate": 219
+   }
+  },
+  "rejections_by_reason": {
+   "construction_infeasible": 55,
+   "engine_invalid": 0,
+   "family_predicate": 219,
+   "stranded": 0
+  },
+  "total_attempts": 8274
+ },
+ "isolated_rebuild": {
+  "duration_seconds": 0.235,
+  "exact": true,
+  "mismatches": [],
+  "rebuilt_count": 640,
+  "sample_indices_per_family": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   395,
+   396,
+   397,
+   398,
+   399,
+   400,
+   401,
+   402,
+   403,
+   404,
+   445,
+   446,
+   447,
+   448,
+   449,
+   450,
+   451,
+   452,
+   453,
+   454,
+   490,
+   491,
+   492,
+   493,
+   494,
+   495,
+   496,
+   497,
+   498,
+   499
+  ]
+ },
+ "library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+ "library_version": "setup_library_v1",
+ "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+ "master_seed": 20260813,
+ "mps_available": true,
+ "mps_built": true,
+ "performance": {
+  "full_library_generation_seconds": 2.958,
+  "harness_total_seconds": 11.402,
+  "library_bytes": 14110382,
+  "manifest_bytes": 4716,
+  "peak_rss_bytes": 1231749120,
+  "peak_rss_megabytes": 1231.7
+ },
+ "phase": "phase_7",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "prerequisite_status": {
+  "agent_01_gates_total": 11,
+  "agent_01_gates_true": 11,
+  "agent_01_pass": true,
+  "agent_01_status": "PASS",
+  "agent_01_thresholds_status": "PASS",
+  "artifact_contract_digest": "4c25724ea89d487c13ddd457fdeaa7fcd248a344cf9398a3013d64423a13bf80",
+  "artifact_thresholds_digest": "189f4dbe8e861117d602d3dba2bec08a44567bff02208ce1b719b4af22bbecd8",
+  "contract_matches_artifact": true,
+  "live_contract_digest": "4c25724ea89d487c13ddd457fdeaa7fcd248a344cf9398a3013d64423a13bf80",
+  "live_thresholds_digest": "189f4dbe8e861117d602d3dba2bec08a44567bff02208ce1b719b4af22bbecd8",
+  "master_seed_matches_artifact": true,
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "reference_engine_is_1_2_0": true,
+  "rules_version": "stratego_project_v1",
+  "thresholds_frozen_before_generation": true,
+  "thresholds_match_artifact": true,
+  "versions_match_artifact": true
+ },
+ "problems": [],
+ "python_version": "3.13.2",
+ "regeneration": {
+  "duration_seconds": 3.103,
+  "entry_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+  "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "matches_first_run": true
+ },
+ "sampler_version": null,
+ "schema_version": "phase_7_agent_02_v1",
+ "seed_sensitivity": {
+  "alternative_master_seed": 20260814,
+  "changed": 128,
+  "duration_seconds": 0.049,
+  "library_content_changed": true,
+  "sample_size": 128,
+  "shared_with_production": 0
+ },
+ "seeds": {
+  "alternative_master_seed": 20260814,
+  "harness_seed": 20260813,
+  "master_seed": 20260813,
+  "seed_derivation": {
+   "attempt_seed_derivation": "blake2b(person='strat-at7', digest_size=8) over 'base_seed:attempt', big-endian, right-shifted one bit",
+   "base_seed_derivation": "blake2b(person='strat-lb7', digest_size=8) over 'contract_version:library_version:master_seed:family_id:base_index', big-endian, right-shifted one bit",
+   "candidate_rule": "attempts 0, 1, 2, ... are drawn from independent streams and the first candidate satisfying the frozen contract is accepted; rejection is local to the base identity",
+   "contract_version": "setup_generator_contract_v1",
+   "enumeration_independence": "no seed input names another base setup, another family, or any generation counter, so adding or removing a rejected candidate anywhere cannot change any other accepted base",
+   "library_version": "setup_library_v1",
+   "master_seed": 20260813,
+   "seed_context_version": "setup_library_seed_v1"
+  }
+ },
+ "serialization": {
+  "library_bytes": 14110382,
+  "manifest_bytes": 4716,
+  "read_back_exact": true,
+  "rewrite_byte_stable": true
+ },
+ "setup_count": 8000,
+ "split_counts": {
+  "test": 800,
+  "train": 6400,
+  "validation": 800
+ },
+ "status": "PASS",
+ "tests_after": {
+  "command": "python -m pytest -q",
+  "duration_seconds": 186.3,
+  "errors": 0,
+  "exit_code": 0,
+  "failed": 0,
+  "passed": 2976,
+  "skipped": 3,
+  "summary_line": "2976 passed, 3 skipped in 185.92s (0:03:05)"
+ },
+ "tests_before": {
+  "command": "python -m pytest -q",
+  "errors": 0,
+  "failed": 0,
+  "note": "recorded at commit 3e54eae before any Agent 2 edit",
+  "passed": 2898,
+  "skipped": 3
+ },
+ "timestamp": "2026-08-13T11:35:19-0400",
+ "torch_version": "2.13.0",
+ "verification": {
+  "all_pass": true,
+  "checks": {
+   "all_entries_canonical": true,
+   "entry_count_exact": true,
+   "entry_metadata_consistent": true,
+   "family_counts_exact": true,
+   "family_split_counts_exact": true,
+   "identity_and_split_rule_exact": true,
+   "no_content_fingerprint_collisions": true,
+   "no_engine_invalid": true,
+   "no_exact_duplicates": true,
+   "no_family_violations": true,
+   "no_outcome_or_strength_fields": true,
+   "no_reflection_duplicates": true,
+   "no_stable_id_collisions": true,
+   "no_stranded": true,
+   "reflection_roundtrip_clean": true
+  },
+  "content_fingerprint_collisions": 0,
+  "engine_invalid": [],
+  "entry_count": 8000,
+  "exact_duplicate_groups": 0,
+  "family_counts": {
+   "F00": 500,
+   "F01": 500,
+   "F02": 500,
+   "F03": 500,
+   "F04": 500,
+   "F05": 500,
+   "F06": 500,
+   "F07": 500,
+   "F08": 500,
+   "F09": 500,
+   "F10": 500,
+   "F11": 500,
+   "F12": 500,
+   "F13": 500,
+   "F14": 500,
+   "F15": 500
+  },
+  "family_split_counts": {
+   "F00": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F01": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F02": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F03": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F04": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F05": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F06": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F07": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F08": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F09": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F10": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F11": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F12": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F13": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F14": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F15": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   }
+  },
+  "family_violations": [],
+  "forbidden_entry_fields": [],
+  "identity_mismatches": [],
+  "metadata_mismatches": [],
+  "non_canonical_entries": [],
+  "reflection_duplicate_groups": 0,
+  "reflection_roundtrip_failures": [],
+  "split_counts": {
+   "test": 800,
+   "train": 6400,
+   "validation": 800
+  },
+  "stable_id_collisions": 0,
+  "stranded": [],
+  "trait_distributions": {
+   "F00": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.154,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 4,
+     "mean": 1.378,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     500,
+     0,
+     0,
+     0,
+     0
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 2,
+     "mean": 2.0,
+     "min": 2
+    },
+    "flag_rank_histogram": [
+     500,
+     0,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 3.244,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.196,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.532,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.842,
+     "min": 3
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.316,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.498,
+     "min": 0
+    }
+   },
+   "F01": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.152,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 4,
+     "mean": 1.184,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     0,
+     267,
+     233,
+     0,
+     0
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 2.56,
+     "min": 2
+    },
+    "flag_rank_histogram": [
+     500,
+     0,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.218,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.364,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.59,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.882,
+     "min": 3
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.334,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.53,
+     "min": 0
+    }
+   },
+   "F02": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.208,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 4,
+     "mean": 1.206,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     0,
+     0,
+     0,
+     252,
+     248
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 2.572,
+     "min": 2
+    },
+    "flag_rank_histogram": [
+     500,
+     0,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.252,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.254,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.612,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.872,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.35,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.508,
+     "min": 0
+    }
+   },
+   "F03": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.06,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.848,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     100,
+     86,
+     107,
+     114,
+     93
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 1,
+     "mean": 1.0,
+     "min": 1
+    },
+    "flag_rank_histogram": [
+     372,
+     128,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.148,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.088,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.398,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.734,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 6,
+     "mean": 3.228,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.522,
+     "min": 0
+    }
+   },
+   "F04": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.836,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 2.292,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     107,
+     92,
+     89,
+     113,
+     99
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 0,
+     "mean": 0.0,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     360,
+     140,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.102,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.01,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.124,
+     "min": 6
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.62,
+     "min": 1
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.268,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 5,
+     "mean": 1.518,
+     "min": 1
+    }
+   },
+   "F05": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.958,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 4,
+     "mean": 1.614,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     85,
+     98,
+     90,
+     102,
+     125
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 1,
+     "mean": 0.682,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     377,
+     123,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.176,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.248,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.594,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.686,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 6,
+     "mean": 3.332,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.802,
+     "min": 0
+    }
+   },
+   "F06": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.46,
+     "min": 5
+    },
+    "bomb_front2_count": {
+     "max": 6,
+     "mean": 3.038,
+     "min": 1
+    },
+    "flag_edge_distance_histogram": [
+     100,
+     100,
+     97,
+     104,
+     99
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 1,
+     "mean": 0.464,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     371,
+     129,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 2.944,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 4,
+     "mean": 1.922,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 8.37,
+     "min": 6
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.518,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.09,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 4,
+     "mean": 1.156,
+     "min": 0
+    }
+   },
+   "F07": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.074,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 6,
+     "mean": 5.022,
+     "min": 4
+    },
+    "flag_edge_distance_histogram": [
+     97,
+     97,
+     108,
+     97,
+     101
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 2,
+     "mean": 0.248,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     365,
+     135,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 2.54,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 1.668,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 7.474,
+     "min": 4
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.042,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 6,
+     "mean": 2.778,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 5,
+     "mean": 1.674,
+     "min": 0
+    }
+   },
+   "F08": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.928,
+     "min": 2
+    },
+    "bomb_front2_count": {
+     "max": 6,
+     "mean": 1.934,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     107,
+     92,
+     97,
+     109,
+     95
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.628,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     371,
+     129,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 6.038,
+     "min": 5
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.152,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.35,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.8,
+     "min": 3
+    },
+    "scout_front_rank_count": {
+     "max": 6,
+     "mean": 3.332,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 4,
+     "mean": 1.592,
+     "min": 0
+    }
+   },
+   "F09": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.016,
+     "min": 2
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.916,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     87,
+     110,
+     121,
+     88,
+     94
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.648,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     370,
+     130,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 2,
+     "mean": 1.038,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.192,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.32,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.736,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.358,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 3,
+     "mean": 0.704,
+     "min": 0
+    }
+   },
+   "F10": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.99,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.96,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     118,
+     95,
+     80,
+     89,
+     118
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.592,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     386,
+     114,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 2.844,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 1.958,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.36,
+     "min": 6
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 6.954,
+     "min": 6
+    },
+    "scout_front_rank_count": {
+     "max": 5,
+     "mean": 4.018,
+     "min": 3
+    },
+    "unconventional_feature_count": {
+     "max": 4,
+     "mean": 0.93,
+     "min": 0
+    }
+   },
+   "F11": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.002,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.862,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     96,
+     113,
+     96,
+     101,
+     94
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.618,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     370,
+     130,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 4.32,
+     "min": 1
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.962,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.372,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 3,
+     "mean": 1.462,
+     "min": 0
+    },
+    "scout_front_rank_count": {
+     "max": 0,
+     "mean": 0.0,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 5,
+     "mean": 2.356,
+     "min": 1
+    }
+   },
+   "F12": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.97,
+     "min": 2
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.956,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     102,
+     106,
+     91,
+     106,
+     95
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.666,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     384,
+     116,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 2.528,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 4.098,
+     "min": 3
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.35,
+     "min": 7
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.738,
+     "min": 2
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.278,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 4,
+     "mean": 1.108,
+     "min": 0
+    }
+   },
+   "F13": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.96,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 5,
+     "mean": 1.936,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     104,
+     103,
+     106,
+     103,
+     84
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 4,
+     "mean": 0.642,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     372,
+     128,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 6,
+     "mean": 3.662,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 1,
+     "mean": 0.516,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.316,
+     "min": 6
+    },
+    "scout_front2_count": {
+     "max": 8,
+     "mean": 5.776,
+     "min": 1
+    },
+    "scout_front_rank_count": {
+     "max": 7,
+     "mean": 3.3,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 4,
+     "mean": 1.008,
+     "min": 0
+    }
+   },
+   "F14": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 5.23,
+     "min": 3
+    },
+    "bomb_front2_count": {
+     "max": 4,
+     "mean": 1.192,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     50,
+     116,
+     110,
+     121,
+     103
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 2.524,
+     "min": 2
+    },
+    "flag_rank_histogram": [
+     500,
+     0,
+     0,
+     0
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 3.928,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 3,
+     "mean": 1.436,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 9.62,
+     "min": 8
+    },
+    "scout_front2_count": {
+     "max": 6,
+     "mean": 4.512,
+     "min": 3
+    },
+    "scout_front_rank_count": {
+     "max": 6,
+     "mean": 2.58,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 1,
+     "mean": 0.27,
+     "min": 0
+    }
+   },
+   "F15": {
+    "bomb_distinct_files": {
+     "max": 6,
+     "mean": 4.938,
+     "min": 2
+    },
+    "bomb_front2_count": {
+     "max": 6,
+     "mean": 3.04,
+     "min": 0
+    },
+    "flag_edge_distance_histogram": [
+     101,
+     94,
+     102,
+     100,
+     103
+    ],
+    "flag_orth_bomb_guards": {
+     "max": 3,
+     "mean": 0.318,
+     "min": 0
+    },
+    "flag_rank_histogram": [
+     92,
+     116,
+     146,
+     146
+    ],
+    "high_front2_count": {
+     "max": 7,
+     "mean": 3.43,
+     "min": 0
+    },
+    "member_count": 500,
+    "miner_front2_count": {
+     "max": 5,
+     "mean": 2.628,
+     "min": 0
+    },
+    "movable_front_rank_count": {
+     "max": 10,
+     "mean": 8.104,
+     "min": 5
+    },
+    "scout_front2_count": {
+     "max": 7,
+     "mean": 3.936,
+     "min": 0
+    },
+    "scout_front_rank_count": {
+     "max": 5,
+     "mean": 1.892,
+     "min": 0
+    },
+    "unconventional_feature_count": {
+     "max": 7,
+     "mean": 2.694,
+     "min": 2
+    }
+   }
+  }
+ },
+ "working_tree_state": "dirty"
+}

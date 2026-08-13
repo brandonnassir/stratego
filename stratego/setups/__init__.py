@@ -1,15 +1,20 @@
-"""Phase 7 setup-library contracts: taxonomy, identity, traits, diversity.
+"""Phase 7 setup library: contracts, taxonomy, identity, traits, generation.
 
-This package is the pre-generation contract for `setup_library_v1`, owned by
-Phase 7 Agent 1. It defines — and freezes — the canonical setup
-representation, reflection/canonicalization, stable identity, the 16 primary
-family contracts, the structural trait vector, the initial-mobility quality
-rule, the deterministic seeding/split rules, the perturbation invariants, and
-the diversity standard with its numeric thresholds.
+`identity`, `mobility`, `traits`, `families`, `contracts` and `diversity` are
+the pre-generation contract for `setup_library_v1`, owned by Phase 7 Agent 1.
+They define — and freeze — the canonical setup representation,
+reflection/canonicalization, stable identity, the 16 primary family
+contracts, the structural trait vector, the initial-mobility quality rule, the
+deterministic seeding/split rules, the perturbation invariants, and the
+diversity standard with its numeric thresholds. Those definitions are frozen:
+later agents implement against them and never weaken or reinterpret them.
 
-It deliberately contains no production generator: Agent 2 builds the 8,000
-base setups against these contracts, and Agent 3 audits them independently
-through the same public API.
+`seed`, `generator` and `library` are Phase 7 Agent 2's deterministic
+production generator, built strictly against those frozen contracts: one
+construction framework driven by 16 declarative family plans, the frozen
+acceptance stack (engine validation, family predicate, initial mobility), and
+the materialized 8,000-base library with its manifest. Agent 3 audits the
+result independently through the same public API.
 """
 
 from .contracts import (
@@ -65,6 +70,22 @@ from .families import (
     families_document,
     family_contract,
 )
+from .generator import (
+    FAMILY_PLANS,
+    GENERATOR_VERSION,
+    MAX_ATTEMPTS_PER_BASE,
+    REJECTION_REASONS,
+    BaseSetupEntry,
+    BombPlan,
+    FamilyPlan,
+    FlagPlan,
+    GroupPlan,
+    construct_candidate,
+    family_plan,
+    generate_base_setup,
+    plans_document,
+    rebuild_base_setup,
+)
 from .identity import (
     CANONICAL_CELLS,
     CANONICAL_FILES,
@@ -86,7 +107,26 @@ from .identity import (
     orient_setup,
     reflect_canonical,
 )
+from .library import (
+    LibraryGenerationResult,
+    build_manifest,
+    entry_metadata_digest,
+    generate_library,
+    library_content_digest,
+    library_order,
+    manifest_digest,
+    read_library_jsonl,
+    read_manifest,
+    verify_library,
+    write_library_jsonl,
+    write_manifest,
+)
 from .mobility import setup_has_initial_mobility
+from .seed import (
+    DEFAULT_SEED_CONTEXT,
+    SEED_CONTEXT_VERSION,
+    LibrarySeedContext,
+)
 from .traits import (
     TRAIT_NAMES,
     TRAIT_SCHEMA,

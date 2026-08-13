@@ -1,0 +1,2512 @@
+{
+ "agent": "agent_02",
+ "artifact": "base_library_manifest",
+ "commit": "3e54eae13af03f3a858249f8465e976b7a098ca8",
+ "generator_plans": {
+  "acceptance_order": [
+   "engine_validate_setup",
+   "family_predicate",
+   "initial_mobility"
+  ],
+  "construction_order": [
+   "flag",
+   "flag guard bombs",
+   "decoy pocket bombs",
+   "free bombs",
+   "scouts",
+   "miners",
+   "marshal",
+   "general",
+   "high_others",
+   "spy",
+   "uniform fill of the remaining pieces"
+  ],
+  "generator_version": "setup_base_generator_v1",
+  "max_attempts_per_base": 256,
+  "plans": [
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      2
+     ],
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F00",
+    "flag": {
+     "edge_distances": [
+      0
+     ],
+     "rank_weights": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "Flag pinned to a back-rank corner, whose two orthogonal neighbours are both Bombs, sealing the corner exactly as flag_orth_bomb_guards == 2 demands"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      2,
+      3
+     ],
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F01",
+    "flag": {
+     "edge_distances": [
+      1,
+      2
+     ],
+     "rank_weights": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "Flag one or two files off a back-rank corner with two or three of its three orthogonal neighbours bombed"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      2,
+      3
+     ],
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F02",
+    "flag": {
+     "edge_distances": [
+      3,
+      4
+     ],
+     "rank_weights": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "central back-rank Flag with the same two-or-three guard wall"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": 3,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      1
+     ],
+     "max_flag_orth_guards": 1,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F03",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "exactly one orthogonal guard, and the free Bombs are capped at three inside the Flag's Chebyshev-2 zone so the defense stays partial (the forbidden clause trips at four)"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": 2,
+     "forbid_flag_diagonal": true,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      0
+     ],
+     "max_flag_orth_guards": 0,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F04",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "no Bomb touches the Flag orthogonally or diagonally and at most two Bombs sit in its Chebyshev-2 zone, so the Flag square advertises nothing"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": [
+      2,
+      3
+     ],
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": [
+      0,
+      1
+     ],
+     "max_flag_orth_guards": 1,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F05",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "a two- or three-Bomb pocket is built around a reserved movable cell in the back half at Manhattan distance >= 4 from the Flag, while the Flag itself keeps at most one guard"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": true,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": 1,
+     "min_distinct_files": 5,
+     "rank_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "family_id": "F06",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "all six Bombs drawn as mutually non-adjacent lane blockers over at least five distinct files, with no concentrated Flag fortress"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": [
+      4,
+      5,
+      6
+     ],
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "family_id": "F07",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "four to six Bombs pushed into ranks 2-3 as forward lane blockers"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F08",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       1
+      ],
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       1
+      ],
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       3,
+       4,
+       5
+      ],
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "Marshal and General forward plus three to five of the remaining five heavies, giving high_front2_count 5..7"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F09",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       0
+      ],
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       0
+      ],
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": [
+       0,
+       1,
+       2
+      ],
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "the mirror of F08: Marshal and General held back with three to five of the remaining heavies, giving high_back2_count 5..7"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F10",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": [
+       6,
+       7,
+       8
+      ],
+      "front_rank_choices": [
+       3,
+       4,
+       5
+      ],
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "six to eight Scouts in ranks 2-3, three to five of them on the front rank"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F11",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "front_rank_choices": [
+       0
+      ],
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       1.0,
+       0.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "no Scout on the front rank and at most three on rank 2, leaving five to eight preserved in the back half"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F12",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": [
+       3,
+       4,
+       5
+      ],
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "three to five of the five Miners in ranks 2-3, ready to clear forward lanes"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F13",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      3.0,
+      1.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": [
+       0,
+       1
+      ],
+      "front_rank_choices": [
+       0
+      ],
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       1.0,
+       0.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "no Miner on the front rank and at least four held in ranks 0-1"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": 2,
+     "guard_choices": [
+      2,
+      3
+     ],
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      4.0,
+      3.0,
+      2.0,
+      1.0
+     ]
+    },
+    "family_id": "F14",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": [
+       3,
+       4,
+       5,
+       6
+      ],
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       2.0,
+       3.0,
+       4.0
+      ]
+     },
+     {
+      "front2_choices": [
+       0,
+       1,
+       2,
+       3
+      ],
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": [
+       0
+      ],
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": [
+       0
+      ],
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       2.0,
+       2.0,
+       2.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       3.0,
+       3.0,
+       2.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "the textbook shape: guarded back-rank Flag, at most two front-rank Bombs (which alone secures >= 8 movable front-rank pieces), Marshal and General off the front rank, three to six forward Scouts, at least two reserved Miners"
+   },
+   {
+    "bombs": {
+     "decoy_guard_choices": null,
+     "dispersed": false,
+     "flag_zone_cap": null,
+     "forbid_flag_diagonal": false,
+     "front2_choices": null,
+     "front_rank_cap": null,
+     "guard_choices": null,
+     "max_flag_orth_guards": null,
+     "min_distinct_files": null,
+     "rank_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "family_id": "F15",
+    "flag": {
+     "edge_distances": [
+      0,
+      1,
+      2,
+      3,
+      4
+     ],
+     "rank_weights": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+     ]
+    },
+    "groups": [
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "scouts",
+      "pieces": [
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1,
+       1
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "miners",
+      "pieces": [
+       2,
+       2,
+       2,
+       2,
+       2
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "marshal",
+      "pieces": [
+       9
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "general",
+      "pieces": [
+       8
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "high_others",
+      "pieces": [
+       7,
+       7,
+       6,
+       6,
+       6
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     },
+     {
+      "front2_choices": null,
+      "front_rank_choices": null,
+      "name": "spy",
+      "pieces": [
+       0
+      ],
+      "rank_weights": [
+       1.0,
+       1.0,
+       1.0,
+       1.0
+      ]
+     }
+    ],
+    "rationale": "deliberately unstructured: every group uniform over the whole zone including the Flag, so the unconventional-feature clause is met by high-entropy draws rather than by construction; the conventional fortress signature is filtered by the frozen forbidden clause"
+   }
+  ],
+  "rejection_reasons": [
+   "construction_infeasible",
+   "engine_invalid",
+   "family_predicate",
+   "stranded"
+  ]
+ },
+ "library_bytes": 14110382,
+ "library_jsonl_path": "data/setups/setup_library_v1.jsonl",
+ "library_manifest_path": "data/setups/setup_library_v1_manifest.json",
+ "manifest": {
+  "attempt_statistics": {
+   "attempt_histogram": {
+    "1": 7796,
+    "2": 153,
+    "3": 39,
+    "4": 9,
+    "5": 2,
+    "9": 1
+   },
+   "attempts_per_accepted_base": 1.03425,
+   "max_attempts_budget": 256,
+   "rejection_rate_by_family": {
+    "F00": 0.0,
+    "F01": 0.0,
+    "F02": 0.0,
+    "F03": 0.0,
+    "F04": 0.0,
+    "F05": 0.0,
+    "F06": 0.0,
+    "F07": 0.0,
+    "F08": 0.003984,
+    "F09": 0.005964,
+    "F10": 0.0,
+    "F11": 0.0,
+    "F12": 0.0,
+    "F13": 0.0,
+    "F14": 0.090909,
+    "F15": 0.30459
+   },
+   "total_attempts": 8274
+  },
+  "entry_count": 8000,
+  "entry_fields": [
+   "base_setup_id",
+   "library_version",
+   "contract_version",
+   "family_contract_version",
+   "trait_schema_version",
+   "family_id",
+   "family_key",
+   "base_index",
+   "split",
+   "canonical_setup",
+   "fingerprint",
+   "generation_seed",
+   "generation_attempts",
+   "trait_vector"
+  ],
+  "entry_line_format": "json.dumps(entry, sort_keys=True, separators=(\",\", \":\"))",
+  "entry_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+  "family_counts": {
+   "F00": 500,
+   "F01": 500,
+   "F02": 500,
+   "F03": 500,
+   "F04": 500,
+   "F05": 500,
+   "F06": 500,
+   "F07": 500,
+   "F08": 500,
+   "F09": 500,
+   "F10": 500,
+   "F11": 500,
+   "F12": 500,
+   "F13": 500,
+   "F14": 500,
+   "F15": 500
+  },
+  "family_split_counts": {
+   "F00": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F01": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F02": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F03": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F04": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F05": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F06": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F07": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F08": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F09": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F10": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F11": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F12": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F13": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F14": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   },
+   "F15": {
+    "test": 50,
+    "train": 400,
+    "validation": 50
+   }
+  },
+  "family_version": "setup_family_v1",
+  "file_order": "families F00..F15, base index ascending within each family",
+  "generation_run": {
+   "command": "python scripts/run_phase7_agent02.py --run-pytest",
+   "duration_seconds": 2.958,
+   "library_bytes": 14110382,
+   "peak_rss_bytes": 292667392,
+   "timestamp": "2026-08-13T11:35:19-0400"
+  },
+  "generator_contract_version": "setup_generator_contract_v1",
+  "generator_version": "setup_base_generator_v1",
+  "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "library_jsonl_path": "data/setups/setup_library_v1.jsonl",
+  "library_manifest_path": "data/setups/setup_library_v1_manifest.json",
+  "library_version": "setup_library_v1",
+  "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+  "master_seed": 20260813,
+  "rejection_counts": {
+   "by_family": {
+    "F08": {
+     "construction_infeasible": 2
+    },
+    "F09": {
+     "construction_infeasible": 3
+    },
+    "F14": {
+     "construction_infeasible": 50
+    },
+    "F15": {
+     "family_predicate": 219
+    }
+   },
+   "by_reason": {
+    "construction_infeasible": 55,
+    "engine_invalid": 0,
+    "family_predicate": 219,
+    "stranded": 0
+   },
+   "total": 274
+  },
+  "seed_derivation": {
+   "attempt_seed_derivation": "blake2b(person='strat-at7', digest_size=8) over 'base_seed:attempt', big-endian, right-shifted one bit",
+   "base_seed_derivation": "blake2b(person='strat-lb7', digest_size=8) over 'contract_version:library_version:master_seed:family_id:base_index', big-endian, right-shifted one bit",
+   "candidate_rule": "attempts 0, 1, 2, ... are drawn from independent streams and the first candidate satisfying the frozen contract is accepted; rejection is local to the base identity",
+   "contract_version": "setup_generator_contract_v1",
+   "enumeration_independence": "no seed input names another base setup, another family, or any generation counter, so adding or removing a rejected candidate anywhere cannot change any other accepted base",
+   "library_version": "setup_library_v1",
+   "master_seed": 20260813,
+   "seed_context_version": "setup_library_seed_v1"
+  },
+  "split_counts": {
+   "test": 800,
+   "train": 6400,
+   "validation": 800
+  },
+  "split_rule": "base_index 0..399 train, 400..449 validation, 450..499 test",
+  "trait_schema_version": "setup_trait_vector_v1"
+ },
+ "manifest_bytes": 4716,
+ "phase": "phase_7",
+ "status": "PASS",
+ "timestamp": "2026-08-13T11:35:19-0400"
+}

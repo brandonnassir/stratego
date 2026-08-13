@@ -471,3 +471,510 @@ entry; count and report every rejection (family, mobility) per family; and
 if any family cannot produce 500 acceptable canonical bases under this
 frozen contract, or any cross-base acceptance gate fails under the frozen
 master seed, report `BLOCKED` — do not weaken a contract and do not reroll.
+
+## 2. Agent 2 — Deterministic Base Library Generator
+
+**Status: PASS** — 22 / 22 completion gates true. Machine-readable record:
+`reports/phase_7_data/agent_02_generation_summary.json` (gates, verification,
+determinism proofs, performance) and
+`reports/phase_7_data/agent_02_base_library_manifest.json` (the materialized
+manifest plus the full generator-plan table). The production library itself is
+`data/setups/setup_library_v1.jsonl` with
+`data/setups/setup_library_v1_manifest.json`.
+
+### 2.1 Prerequisite verification
+
+Verified from the repository and the live code, not assumed:
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 status | `PASS` | `agent_01_setup_contract.json` status `PASS`, 11 / 11 gates |
+| Agent 1 thresholds artifact | `PASS`, frozen pre-generation | status `PASS`, `frozen_before_generation: true` |
+| Live contract == artifact | identical | `contract_document()` digest `4c25724e…` == artifact digest `4c25724e…` |
+| Live thresholds == artifact | identical | `DIVERSITY_THRESHOLDS_V1.to_dict()` digest `189f4dbe…` == artifact digest `189f4dbe…` |
+| Contract versions | 5 frozen ids | all match the artifact's `frozen_versions` |
+| Master seed | `20260813` | matches the artifact |
+| Reference engine | `phase2_1_reference_1.2.0` | unchanged |
+| Rules version | `stratego_project_v1` | unchanged |
+
+Pre-existing suite, measured at commit `3e54eae` **before any Agent 2 edit**:
+
+```text
+python -m pytest -q
+2898 passed, 3 skipped, 0 failed in 175.41s
+```
+
+Identical to the totals Agent 1 recorded after its own changes. The three
+skips are the two pre-existing Phase 4 capability skips plus the PASS-gated
+Phase 6B artifact check; all pre-date Phase 7.
+
+### 2.2 Master seed and seed derivation
+
+```text
+master seed        20260813          (Agent 1's frozen value, unchanged)
+seed context       setup_library_seed_v1   (stratego/setups/seed.py)
+
+base_seed          blake2b(person "strat-lb7") over
+                   "contract:library:master_seed:family_id:base_index"
+attempt_seed       blake2b(person "strat-at7") over "base_seed:attempt"
+candidate rng      random.Random(attempt_seed)   — the only randomness source
+```
+
+The master seed was not chosen from any game outcome; it is Agent 1's frozen
+date-seed, carried unchanged. `LibrarySeedContext` bundles the four identity
+inputs so no call site mixes them by hand, and serializes the derivation into
+the manifest. No seed input names another base, another family, or any
+enumeration counter, so a rejected candidate in F03 cannot move any other
+base setup — the property the enumeration-order regression pins directly.
+
+### 2.3 Generator architecture: one framework, sixteen plans
+
+There is exactly one construction procedure (`construct_candidate`), driven by
+a declarative `FamilyPlan` per family. No literal setups are hard-coded, and
+no family has its own generator program.
+
+```text
+FlagPlan     rank weights + permitted edge distances
+BombPlan     flag-guard count, guard/zone/diagonal caps, front-half quota,
+             front-rank cap, dispersion, distinct-file floor, decoy pocket
+GroupPlan    per piece group: permitted counts in ranks 2-3 and on rank 3,
+             plus rank weights
+
+construction order
+    flag -> flag guard bombs -> decoy pocket bombs -> free bombs
+         -> scouts -> miners -> marshal -> general -> high_others -> spy
+         -> uniform fill of every unnamed piece
+```
+
+Shared infrastructure — seed derivation, engine validation, family evaluation,
+mobility, canonicalization, fingerprints, metadata, serialization — is common
+to all sixteen. Every plan clause exists to realize a clause of Agent 1's
+frozen family contract, and each is stated in the machine-readable plan table
+with its rationale:
+
+| ID | Plan constraint (abridged) | Realizes |
+|---|---|---|
+| F00 | Flag rank 0, edge distance 0; both orthogonal neighbours bombed | `flag_orth_bomb_guards == 2` |
+| F01 | Flag rank 0, edge distance 1–2; 2–3 guards | `>= 2` guards near the corner |
+| F02 | Flag rank 0, edge distance 3–4; 2–3 guards | central fortress |
+| F03 | exactly 1 guard; free Bombs capped at 3 in the Chebyshev-2 zone | `== 1` guard, forbidden clause at 4 |
+| F04 | 0 guards; no Bomb on a Flag diagonal; zone cap 2 | 0 orthogonal / 0 diagonal guards |
+| F05 | ≤ 1 guard; 2–3 Bombs around a reserved movable back-half cell at Manhattan ≥ 4 | `decoy_pocket_bombs >= 2` |
+| F06 | Bombs mutually non-adjacent over ≥ 5 distinct files; guard cap 1 | dispersion clauses |
+| F07 | 4–6 Bombs drawn into ranks 2–3 | `bomb_front2_count >= 4` |
+| F08 | Marshal and General forward + 3–5 of the other five heavies | `high_front2_count 5..7` |
+| F09 | the mirror: heavies held in ranks 0–1 | `high_back2_count 5..7` |
+| F10 | 6–8 Scouts in ranks 2–3, 3–5 of them on rank 3 | Scout-forward clauses |
+| F11 | 0 Scouts on rank 3, ≤ 3 on rank 2 | `scout_back2_count >= 5` |
+| F12 | 3–5 Miners in ranks 2–3 | `miner_front2_count >= 3` |
+| F13 | 0 Miners on rank 3, ≤ 1 in the front half | `miner_back2_count >= 4` |
+| F14 | guarded back-rank Flag, ≤ 2 front-rank Bombs, Marshal/General off rank 3, 3–6 forward Scouts, ≤ 3 forward Miners | the eight balanced clauses |
+| F15 | every group uniform over the whole zone, Flag included | high-entropy draws, forbidden clause filters the fortress signature |
+
+F14's front-rank Bomb cap is what secures `movable_front_rank_count >= 8`:
+with the Flag on rank 0, Bombs are the only immovable pieces that can reach
+the front rank.
+
+### 2.4 Acceptance stack and rejection accounting
+
+Plans propose; Agent 1's frozen predicates dispose, in this order:
+
+```text
+engine validate_setup(candidate, 0)      official inventory, legal form
+family_contract(F).evaluate(traits)      the primary-family contract
+setup_has_initial_mobility(candidate)    the curated library-quality rule
+```
+
+Attempts `0, 1, 2, …` are drawn from the frozen attempt streams and the first
+candidate passing all three is accepted. A plan that drifted from its contract
+could therefore only waste attempts, never smuggle in an invalid setup.
+
+```text
+accepted bases                8,000
+total candidate attempts      8,274
+attempts per accepted base    1.03425
+
+rejections by reason
+    construction_infeasible      55      (a plan step ran out of legal cells)
+    engine_invalid                0
+    family_predicate            219
+    stranded                      0
+
+attempt histogram   1: 7,796 · 2: 153 · 3: 39 · 4: 9 · 5: 2 · 9: 1
+```
+
+Rejections by family — every other family accepted its first candidate every
+time:
+
+| Family | Rejections | Reason | Attempts/base | Rejection rate |
+|---|---:|---|---:|---:|
+| F08 | 2 | construction_infeasible | 1.004 | 0.40 % |
+| F09 | 3 | construction_infeasible | 1.006 | 0.60 % |
+| F14 | 50 | construction_infeasible | 1.100 | 9.09 % |
+| F15 | 219 | family_predicate | 1.438 | 30.46 % |
+
+F08/F09/F14 exhaust cells in a half-board when several quotas compete for the
+same twenty cells; F15 is pure rejection sampling against the frozen
+unconventional-feature clause, which is the honest way to keep that family
+high-entropy rather than constructing the features. No candidate was ever
+repaired: rejection draws the next attempt stream, never an edit.
+
+Production generation never exercised the `engine_invalid` or `stranded`
+branches, so both are pinned by crafted regressions instead — an
+inventory-corrupted arrangement and a legal, F07-satisfying arrangement whose
+six Bombs occupy all six open front files (`tests/setups/test_generator.py`).
+
+### 2.5 Global uniqueness and split handling
+
+Uniqueness is enforced over the whole 8,000-entry library, across families,
+before the library is materialized:
+
+```text
+distinct class fingerprints    8,000 / 8,000
+distinct arrangements          8,000 / 8,000
+distinct stable ids            8,000 / 8,000
+stored set ∩ mirrored set      empty
+```
+
+The gate **raises** on collision rather than regenerating the colliding base.
+That is Agent 1's frozen cross-base-independence rule: conditioning one base
+on another base's outcome would destroy isolated rebuild, so a duplicate is a
+BLOCKED finding for review. Under the frozen master seed there are none. The
+gate's ability to fail is tested with planted exact, mirrored and stable-id
+collisions.
+
+Splits come only from Agent 1's frozen index rule — `0–399` train, `400–449`
+validation, `450–499` test — never from acceptance order, and were never
+adjusted after generation:
+
+```text
+per family      400 train / 50 validation / 50 test     (all 16 families)
+library         6,400 train / 800 validation / 800 test
+cross-split class duplicates                            0
+```
+
+### 2.6 Canonical stored form
+
+Only the reflection-class representative is stored; the library is 8,000
+entries, not 16,000. Acceptance is decided before canonicalization, which is
+sound because legality, family membership and mobility are all
+reflection-invariant under the frozen contract. Every stored entry satisfies
+
+```text
+canonicalize(setup)          == setup      8,000 / 8,000
+canonicalize(reflect(setup)) == setup      8,000 / 8,000
+class_fingerprint(reflect(setup)) == stored fingerprint
+```
+
+and records both the stored-orientation fingerprint and the reflected one.
+Runtime orientation choice remains Agent 4's responsibility.
+
+### 2.7 Materialized library and manifest
+
+```text
+data/setups/setup_library_v1.jsonl            14,110,382 bytes, 8,000 lines
+data/setups/setup_library_v1_manifest.json         4,716 bytes
+
+library_content_digest   7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+entry_metadata_digest    d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980
+manifest_digest          53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31
+```
+
+`library_content_digest` is Agent 1's frozen identity digest over
+`base_setup_id:fingerprint` in file order. `entry_metadata_digest` is stronger:
+SHA-256 over the exact serialized lines, so a regeneration that changed any
+recorded seed, attempt index or trait is caught even when the setups match.
+`manifest_digest` covers the manifest minus its `generation_run` section, so
+timestamps, wall time and host measurements stay outside the hash domain and
+two independent regenerations agree exactly.
+
+Each entry carries the frozen fourteen fields plus five required by the Agent 2
+metadata contract:
+
+```text
+frozen      base_setup_id, library_version, contract_version,
+            family_contract_version, trait_schema_version, family_id,
+            family_key, base_index, split, canonical_setup (40-char),
+            fingerprint, generation_seed, generation_attempts, trait_vector
+added       generator_version, content_fingerprint,
+            reflected_content_fingerprint, accepted_attempt_index,
+            accepted_attempt_seed
+```
+
+`generation_seed` + `accepted_attempt_index` are exactly what an isolated
+rebuild needs to reproduce the accepted candidate. No entry field names a game
+outcome, win rate, Elo, value or policy score; the check is executable
+(`FORBIDDEN_ENTRY_FIELD_TOKENS`) and reports zero offending fields, and an AST
+scan of the three new modules reports zero offending identifiers.
+
+### 2.8 Determinism
+
+| Proof | Method | Result |
+|---|---|---|
+| Isolated rebuild | Agent 1's fixed sample `{0–9, 395–404, 445–454, 490–499}` × 16 families, rebuilt from identity alone and compared field-by-field | 640 / 640 exact, 0 mismatches |
+| Enumeration independence | 256 bases regenerated in a shuffled order | 0 mismatches |
+| Full regeneration | the entire library generated a second time | both digests identical |
+| Serialization | write → read → rewrite | read-back exact, bytes identical |
+| Master-seed sensitivity | 128 bases under master seed `20260814` | 128 / 128 changed, 0 shared fingerprints, ids and splits unchanged |
+
+Generation consumes no global RNG state: reseeding Python's global stream
+between two rebuilds of the same base yields the identical entry (tested).
+
+### 2.9 Generation-time correctness checks
+
+`verify_library` recomputes every check from stored content — re-validating
+through the frozen engine, re-evaluating the frozen family contracts,
+re-canonicalizing, re-fingerprinting, re-deriving identity and split — rather
+than trusting the generator's counters:
+
+```text
+entry count                          8,000     exact
+family counts                        500 × 16  exact
+family split counts                  400/50/50 × 16  exact
+engine-invalid bases                     0
+incorrect inventories                    0
+stranded bases                           0
+primary-family violations                0
+exact duplicate arrangements             0
+reflection-equivalent duplicates         0
+content-fingerprint collisions           0
+stable-ID collisions                     0
+stored non-canonical representatives     0
+reflection round-trip failures           0
+identity / split rule mismatches         0
+entry metadata mismatches                0
+outcome/strength fields                  0
+```
+
+Basic trait distributions are recorded per family in the summary artifact
+(Flag rank and edge-distance histograms; min/max/mean for guard count, Bomb
+front-half count, Bomb file dispersion, Scout front counts, Miner front count,
+high-rank front count, front-rank movability, unconventional-feature count).
+They confirm the plans did what they claim — for example F00's Flag rank
+histogram is `[500, 0, 0, 0]` while F15's is `[92, 116, 146, 146]`.
+
+### 2.10 Diversity preflight (Agent 3 owns the verdict)
+
+Agent 1's full standard was executed on the finished library as a preflight so
+a knowingly broken library is never handed on. **This is not a diversity
+acceptance declaration** — Agent 3 owns that independent verdict.
+
+```text
+checks executed          199
+failures                   0
+global minimum pairwise class distance     20   (floor 4)
+cross-split nearest-neighbour distance     21   (floor 8)
+global mean per-square entropy          3.185 bits (floor 1.5)
+family self-satisfaction                  1.0 on every diagonal cell
+largest off-diagonal overlap             0.772  (F11 → F15, report-only)
+```
+
+| Family | min within-family NN | mean entropy (bits) | Flag folded support | distinct trait vectors |
+|---|---:|---:|---:|---:|
+| F00 | 22 | 2.94 | 1 (floor 1) | 500 |
+| F01 | 22 | 3.01 | 2 (floor 2) | 500 |
+| F02 | 22 | 3.02 | 2 (floor 2) | 500 |
+| F03 | 24 | 3.14 | 10 | 500 |
+| F04 | 22 | 3.15 | 10 | 500 |
+| F05 | 21 | 3.13 | 10 | 500 |
+| F06 | 22 | 3.17 | 10 | 500 |
+| F07 | 22 | 3.11 | 10 | 500 |
+| F08 | 22 | 3.03 | 10 | 500 |
+| F09 | 22 | 3.03 | 10 | 500 |
+| F10 | 24 | 3.08 | 10 | 500 |
+| F11 | 22 | 3.01 | 10 | 500 |
+| F12 | 24 | 3.10 | 10 | 500 |
+| F13 | 22 | 3.06 | 10 | 500 |
+| F14 | 20 | 3.04 | 5 (floor 3) | 500 |
+| F15 | 25 | 3.24 | 20 (floor 8) | 500 |
+
+Within-family nearest-neighbour distances sit at 20–25 of 40 against a floor
+of 6, and every family's 500 bases have 500 distinct trait vectors against a
+floor of 250 — the margins expected of independent structured draws rather
+than template repetition.
+
+### 2.11 Performance
+
+```text
+full-library generation wall time        2.958 s   (8,000 bases)
+second full regeneration                 3.103 s
+candidate attempts per accepted base     1.03425
+peak RSS, generation only                   57 MB
+peak RSS, generation + materialization     106 MB
+peak RSS, full harness                   1,232 MB
+materialized library                14,110,382 bytes
+manifest                                 4,716 bytes
+harness total (all proofs + preflight)  11.402 s
+```
+
+The harness peak is dominated by the optional diversity preflight's 8,000 ×
+8,000 class-distance matrix and the `torch` import used only for environment
+recording; the generator itself regenerates the whole library in three seconds
+inside 60 MB, which makes routine regeneration during development practical.
+Nothing was traded away for that: no determinism shortcut, no relaxed check.
+
+### 2.12 Tests
+
+`scripts/run_phase7_agent02.py` runs the whole acceptance path — prerequisite
+verification, generation, materialization, all five determinism proofs,
+content re-verification and the diversity preflight — before writing the
+artifacts. The repository suite gained 78 tests in `tests/setups/`:
+
+```text
+test_generator.py    plan table completeness and validation, determinism from
+                     identity, pure-function construction, master-seed
+                     sensitivity, stream separation, isolated rebuild at both
+                     split boundaries, engine validity, mobility, family
+                     satisfaction, canonical storage, reflection round-trip,
+                     recorded-metadata agreement, attempt accounting, crafted
+                     engine-invalid / family-violating / stranded rejections,
+                     AST scan for outcome or strength identifiers, no global
+                     RNG consumption
+test_library.py      exact 8,000 / 500 / 400-50-50 counts, file order, no
+                     cross-split fingerprint, all fifteen verification checks,
+                     planted exact / mirrored / stable-ID collisions rejected,
+                     canonical JSON line form, write-read-rewrite byte
+                     stability, digest determinism and sensitivity, manifest
+                     fields and digest domain, shuffled-order regeneration,
+                     alternative-master-seed divergence, and — once the
+                     production files exist — the materialized library, its
+                     manifest and both Agent 2 artifacts against a fresh
+                     generation
+```
+
+```text
+python -m pytest -q       (before edits)   2898 passed, 3 skipped, 0 failed
+python -m pytest -q       (after edits)    2976 passed, 3 skipped, 0 failed
+                                           (+78, none removed or weakened)
+```
+
+The nine artifact-gated tests in `test_library.py` skip while the production
+library is absent and run once it exists, so they were green in the final run
+against the materialized artifacts. No pre-existing test was removed, weakened
+or re-scoped.
+
+### 2.13 Files
+
+Created: `stratego/setups/{seed,generator,library}.py`,
+`tests/setups/{test_generator,test_library}.py`,
+`scripts/run_phase7_agent02.py`, `data/setups/setup_library_v1.jsonl`,
+`data/setups/setup_library_v1_manifest.json`,
+`reports/phase_7_data/agent_02_base_library_manifest.json`,
+`reports/phase_7_data/agent_02_generation_summary.json`.
+
+Modified: `stratego/setups/__init__.py` (package docstring and re-exports for
+the three new modules; no Agent 1 definition changed), this report (section 2
+appended).
+
+Untouched: `stratego/engine/`, `stratego/evaluation/` and the Phase 4 bank,
+`observation_v2_1_127ch`, `trajectory_v1`, every Agent 1 contract module, and
+all prior report sections and artifacts.
+
+### 2.14 Deviations and design decisions
+
+- **Global uniqueness is a raising gate, not a regeneration filter.** The
+  Agent 2 instructions describe rejecting a candidate whose fingerprint
+  already exists anywhere in the library; Agent 1's frozen contract forbids
+  conditioning one base's acceptance on another base's outcome, because that
+  breaks isolated rebuild. The two are reconciled by enforcing uniqueness as a
+  hard pre-materialization gate that raises a BLOCKED finding on collision.
+  The observable requirement — zero exact and zero reflection-equivalent
+  duplicates across all 8,000 bases — is met exactly, and the frozen master
+  seed produces no collision to resolve.
+- **Entries carry five fields beyond Agent 1's frozen fourteen**
+  (`generator_version`, `content_fingerprint`,
+  `reflected_content_fingerprint`, `accepted_attempt_index`,
+  `accepted_attempt_seed`), as the Agent 2 metadata contract requires. The
+  frozen field list, line format and file order are unchanged, and the frozen
+  `base_entry_json_line` still validates every line.
+- **Acceptance is evaluated before canonicalization.** The three acceptance
+  predicates are reflection-invariant under the frozen contract, so the
+  verdict is identical either way; storing the representative afterwards keeps
+  the library at 8,000 entries. Both directions are re-checked per entry.
+- **Unconstrained piece groups share one mild rank preference** across all
+  sixteen families (Scouts forward, Spy and Miners rearward, heavies off the
+  very front — the accepted Phase 4 structural precedent), so families differ
+  from one another only in the dimensions their contracts actually name.
+- **F15 uses rejection sampling rather than feature construction.** Building
+  the unconventional features directly would have made the highest-entropy
+  family the most constructed one; drawing uniformly and letting the frozen
+  clause filter costs 219 extra attempts and keeps the distribution honest.
+- The library JSONL is 14.1 MB because Agent 1's frozen entry format stores
+  the full 35-field trait vector per entry. It is deterministic and
+  digest-checked, so it is a reproducible artifact rather than opaque data.
+
+### 2.15 Completion gates
+
+```text
+agent_01_pass_verified                    true
+agent_01_contract_matches_live_code       true
+eight_thousand_bases_materialized         true
+five_hundred_per_family                   true
+split_counts_exact                        true   (400/50/50 × 16)
+zero_engine_invalid                       true
+zero_stranded                             true
+zero_family_violations                    true
+zero_exact_duplicates                     true
+zero_reflection_duplicates                true
+zero_stable_id_collisions                 true
+all_entries_canonical                     true
+reflection_roundtrip_clean                true
+entry_metadata_consistent                 true
+isolated_rebuild_exact                    true   (640 / 640)
+enumeration_order_independent             true
+master_seed_sensitive                     true
+full_regeneration_digest_stable           true
+serialization_roundtrip_exact             true
+library_and_manifest_written              true
+no_outcome_or_strength_signal             true
+full_repository_suite_green               true   (2976 / 3 / 0)
+                                          22 / 22
+```
+
+No outcome, win rate, Elo, value or policy signal participated in any
+acceptance, rejection, weighting or split decision. No frozen
+engine/evaluation/model/replay semantic changed, and no neural training
+occurred.
+
+### 2.16 Handoff to Agent 3
+
+```text
+library path        data/setups/setup_library_v1.jsonl
+manifest path       data/setups/setup_library_v1_manifest.json
+library digest      7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+metadata digest     d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980
+manifest digest     53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31
+master seed         20260813
+generation command  python scripts/run_phase7_agent02.py
+
+contract versions   setup_generator_contract_v1 · setup_library_v1 ·
+                    setup_family_v1 · setup_trait_vector_v1 ·
+                    setup_diversity_standard_v1 · setup_base_generator_v1
+```
+
+APIs Agent 3 needs, all importable from `stratego.setups` and all recomputing
+from content rather than from Agent 2's counters:
+
+```text
+read the library      read_library_jsonl(path) -> [BaseSetupEntry]
+                      read_manifest(path)
+engine validation     stratego.engine.setup.validate_setup(setup, player)
+                      setup_has_initial_mobility(setup)
+identity              class_fingerprint, content_fingerprint,
+                      canonical_class_representative,
+                      is_canonical_representative, reflect_canonical,
+                      base_setup_id / parse_base_setup_id,
+                      split_for_base_index
+traits                compute_trait_vector(setup), TRAIT_SCHEMA
+families              evaluate_family(family_id, setup), FAMILY_CONTRACTS
+diversity             DIVERSITY_THRESHOLDS_V1, evaluate_against_thresholds
+                      (artifact: reports/phase_7_data/agent_01_diversity_thresholds.json)
+digests               library_content_digest, entry_metadata_digest,
+                      manifest_digest
+independent rebuild   rebuild_base_setup(family_id, base_index)
+```
+
+Agent 2's acceptance counters are reported for transparency but are not needed
+to audit anything: every claim in this section is recomputable from the
+materialized JSONL plus Agent 1's frozen contracts. Agent 2 does not declare
+diversity acceptance, and does not declare Phase 7 complete.
