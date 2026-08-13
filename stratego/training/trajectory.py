@@ -72,6 +72,18 @@ from .serialization import (
 
 TRAJECTORY_VERSION = "trajectory_v1"
 
+# Engine implementations whose records this layer accepts. 1.2.0 changed only
+# what `create_game` reports for an initial position whose first player is
+# stranded -- a state no persisted record can contain, because a record with at
+# least one action necessarily had a mobile first player and a 1.1.0 stillborn
+# game could never be collected at all (the pipeline aborted on it instead).
+# Records written under 1.1.0 therefore replay and reconstruct identically
+# under 1.2.0, which the Phase 6B differential validation proves rather than
+# assumes.
+COMPATIBLE_IMPLEMENTATION_VERSIONS = frozenset(
+    {"phase2_1_reference_1.1.0", IMPLEMENTATION_VERSION}
+)
+
 # Bumped only for a change that makes previously written bytes unreadable.
 TRAJECTORY_FORMAT_VERSION = 1
 
@@ -896,7 +908,7 @@ def validate_game_record(record: GameRecord) -> list[str]:
         problems.append(f"unexpected rules version {record.rules_version!r}")
     if record.observation_version != OBSERVATION_VERSION:
         problems.append(f"unexpected observation version {record.observation_version!r}")
-    if record.implementation_version != IMPLEMENTATION_VERSION:
+    if record.implementation_version not in COMPATIBLE_IMPLEMENTATION_VERSIONS:
         problems.append(f"unexpected implementation version {record.implementation_version!r}")
     if record.snapshot_interval <= 0:
         problems.append(f"non-positive snapshot interval {record.snapshot_interval}")
@@ -1049,6 +1061,20 @@ class GameTrajectoryBuilder:
             raise TrajectoryError(
                 f"game {self.game_id}: recorded {len(self._actions)} actions but the "
                 f"engine applied {len(state.action_history)}"
+            )
+        if not self._snapshots and state.total_moves == 0:
+            # A game terminal at creation (`phase2_1_reference_1.2.0`) has no
+            # decision to trigger the ply-0 snapshot, so it is taken here: the
+            # schema requires the first snapshot at ply 0, and it is what lets
+            # the record reconstruct its setups, winner and terminal reason
+            # from its own payload. This is the only zero-decision path --
+            # any other premature `finish` fails the action-history check
+            # above.
+            self._snapshots.append(
+                SnapshotEntry(
+                    ply=0,
+                    payload=encode_snapshot(create_snapshot(state), self.context),
+                )
             )
         return GameRecord(
             game_id=self.game_id,

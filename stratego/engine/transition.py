@@ -223,6 +223,50 @@ def apply_action(
     return generated
 
 
+def _evaluate_mobility_terminal(state: GameState, next_mover: int, other: int) -> bool:
+    """The mobility-termination rule, in one place for every call site.
+
+    A game ends when the player about to move has no legal action
+    (`01_official_rules.md` section 8): if the other player possesses a legal
+    move they win (`opponent_no_legal_move`), and if neither does the game is a
+    draw (`both_no_legal_move_draw`). Returns whether the game was finished.
+
+    After a transition, `next_mover` is the opponent of the player who just
+    moved; at game creation it is the configured first player. Both call sites
+    share this implementation so there is exactly one interpretation of the
+    rule.
+    """
+    if has_legal_action(state, next_mover):
+        return False
+    if has_legal_action(state, other):
+        _finish(state, TERMINAL_OPPONENT_NO_LEGAL_MOVE, winner=other)
+    else:
+        _finish(state, TERMINAL_BOTH_NO_LEGAL_MOVE_DRAW, winner=None)
+    return True
+
+
+def evaluate_initial_terminal(state: GameState) -> None:
+    """Evaluate the mobility rule for a freshly created ply-0 state.
+
+    `phase2_1_reference_1.2.0`: a uniformly shuffled legal setup can place
+    Flag and Bombs on all six front-row squares whose forward square is not a
+    lake, leaving the first player with no legal move before any action is
+    applied. Until 1.2.0 that rules-terminal position entered play labelled
+    active, because `_evaluate_terminal` runs only inside `apply_action`; the
+    Phase 6B production soak aborted on exactly such a state
+    (`batch60006-env000112-gen000098`). Flag capture cannot apply at ply 0 and
+    the draw counters are zero there, so mobility is the only condition that
+    can end a game at creation and the frozen precedence order is unchanged.
+
+    A game decided here still emits its `game_end` event, preserving the event
+    contract that every finished game carries exactly one, as its final event.
+    """
+    if _evaluate_mobility_terminal(
+        state, state.acting_player, opponent_of(state.acting_player)
+    ):
+        state.events.append(make_game_end_event(state))
+
+
 def _evaluate_terminal(
     state: GameState, player: int, opponent: int, flag_captured: bool
 ) -> None:
@@ -247,14 +291,9 @@ def _evaluate_terminal(
         _finish(state, TERMINAL_FLAG_CAPTURE, winner=player)
         return
 
-    if not has_legal_action(state, opponent):
-        # The opponent is stranded. If the player to move after them would also
-        # be stranded, neither player possesses a legal move and the game is a
-        # draw (`01_official_rules.md` section 8).
-        if has_legal_action(state, player):
-            _finish(state, TERMINAL_OPPONENT_NO_LEGAL_MOVE, winner=player)
-        else:
-            _finish(state, TERMINAL_BOTH_NO_LEGAL_MOVE_DRAW, winner=None)
+    if _evaluate_mobility_terminal(state, opponent, player):
+        # The player about to move (the opponent of the mover) is stranded, or
+        # both players are (`01_official_rules.md` section 8).
         return
 
     if state.battleless_moves >= rules.battleless_move_limit:

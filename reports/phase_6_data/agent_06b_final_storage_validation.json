@@ -1,0 +1,72 @@
+{
+ "agent": "agent_06b",
+ "base_root_seed": 70007,
+ "candidate_id": "C1",
+ "commit": "fb0b6e2feed7b65b38362620c0218d5b570c6693",
+ "configuration_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+ "coordinator_version": "coordinator_v1",
+ "phase": "phase_6b_final",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "projection": {
+  "extrapolated_168h": {
+   "basis": "whole-run wall rate (includes warmups and restarts)",
+   "bytes": 633228332348.725,
+   "gb": 633.228332348725,
+   "gib": 589.7398408024804,
+   "gib_per_24_hours": 84.24854868606864,
+   "settled_basis_gib": 600.1501564805419,
+   "shard_headroom_gib": 1.25
+  },
+  "measured_settled": {
+   "bytes_per_decision_written": 127.83648312563372,
+   "compression_ratio": 0.6773176076527218,
+   "produced_gib_per_hour": 5.273886646827258,
+   "window_seconds": 18599.860349709,
+   "write_throughput_bytes_per_second": 1065486.646318291,
+   "written_gib_per_hour": 3.5723223600032252
+  },
+  "measured_wall": {
+   "bytes_written": 22623421569,
+   "elapsed_wall_seconds": 21607.759264624998,
+   "note": "whole-run rate over wall clock including warmups and restarts; the honest projection basis for a 168-hour wall-clock budget",
+   "written_gib_per_hour_wall": 3.51035619525286
+  },
+  "overheads": {
+   "manifest_bytes": 12557420,
+   "state_files_bytes": 712138
+  },
+  "volume": {
+   "consumed_by_soak_bytes": 23491555328,
+   "fits_in_total": true,
+   "free_bytes_after": 738739470336,
+   "free_bytes_before": 762231025664,
+   "is_external": true,
+   "note": "the volume is cleared before the production run, so the operative capacity is the total; today's free space is reported alongside",
+   "path": "/Volumes/Brandon_Washington",
+   "remaining_after_168h_on_cleared_volume_gib": 341.5462538630469,
+   "total_bytes": 999960829952,
+   "total_gib": 931.2860946655273
+  }
+ },
+ "python_version": "3.13.2",
+ "recording_soak_version": "agent_06b_recording_soak_0.1.0",
+ "run_id": "p6bf601493",
+ "shard_format_version": 1,
+ "shard_verification": {
+  "directory": "/Volumes/Brandon_Washington/stratego_phase6b/final_soak",
+  "duplicate_game_ids": [],
+  "file_bytes": 22623421569,
+  "ok": true,
+  "problems": [],
+  "record_count": 349685,
+  "shard_count": 200,
+  "unclosed_shards": 0,
+  "verifier_peak_rss_bytes": 115392512,
+  "verifier_peak_rss_mib": 110.046875,
+  "verify_seconds": 3029.030939541997
+ },
+ "started_unix": 1786601493.141114,
+ "timestamp": "2026-08-13T09:05:07-0400",
+ "torch_version": "2.13.0",
+ "trajectory_version": "trajectory_v1"
+}

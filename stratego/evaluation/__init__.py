@@ -1,6 +1,6 @@
 """Phase 4 evaluation foundations: policy contract, match identity, setup bank.
 
-Built on the frozen `phase2_1_reference_1.1.0` engine, which remains the sole
+Built on the frozen `phase2_1_reference_1.2.0` engine, which remains the sole
 authority on legality, combat, terminal precedence and hidden information. This
 package adds no rules and reads no privileged state:
 

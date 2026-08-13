@@ -238,7 +238,13 @@ OBSERVATION_VERSION = "observation_v2_1_127ch"
 SUPERSEDED_OBSERVATION_VERSIONS = ("observation_v1_68ch", "observation_v2_127ch")
 REPLAY_VERSION = "replay_v1"
 EVENT_SCHEMA_VERSION = "event_schema_v1"
-IMPLEMENTATION_VERSION = "phase2_1_reference_1.1.0"
+#: 1.2.0 is a correctness bug fix to the reference implementation, not a rule
+#: change: `create_game` now applies the mobility-termination rule to the
+#: initial position, so a legal random setup that strands the first player at
+#: ply 0 produces a game that is terminal at creation instead of an active
+#: state with no legal move. Ruleset `stratego_project_v1` is unchanged, and no
+#: state reachable by at least one applied action behaves differently.
+IMPLEMENTATION_VERSION = "phase2_1_reference_1.2.0"
 
 # ---------------------------------------------------------------------------
 # Observation shape (`06_observation_v2_127ch.md` section 3)

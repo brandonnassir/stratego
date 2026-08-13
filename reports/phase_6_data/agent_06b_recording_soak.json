@@ -1,0 +1,174 @@
+{
+ "agent": "agent_06b",
+ "blocking_findings": [
+  {
+   "detail": "At t=8,981s (global step ~48,0xx) the coordinator's per-step sampled-legality check found slot 112 published as ACTIVE with legal_count 0 -- an all-zero legality mask -- and aborted the run. The engine's transition-time mobility check makes an active zero-mobility state impossible by construction, and code inspection of the engine, the worker publish path and the legality cache found no mechanism. Frequency: once in ~74,300,000 positions. The run is deterministic (root_seed 60006), so an instrumented replay reproduces it; a writer-side assertion now traps the contradiction at publish time with full state context.",
+   "finding": "soak_aborted_on_legality_anomaly",
+   "status": "open; diagnosis requires a deterministic replay (~1.7h)"
+  },
+  {
+   "detail": "The abort ended the soak at 2.49 hours against the 4-hour minimum, so the multi-hour memory question remains open. The 2.3-hour settled window showed +62.9 MiB/hour (R^2 0.85 on the parsed log series) with zero swap growth, which is evidence, not proof, and is explicitly not called bounded.",
+   "finding": "soak_duration_requirement_unmet",
+   "status": "open; requires a full-length soak after the anomaly is resolved"
+  },
+  {
+   "detail": "After the abort, the harness's shard verification held every decoded record of the 8.75 GiB corpus in memory at once, driving the 48 GB machine ~28.8 GiB into swap and wedging the process in uninterruptible page-in waits for ~45 minutes -- the stall observed externally. Fixed: the verifier now streams (decode, validate, drop; ~55 MiB peak RSS re-verifying the same corpus), with regression tests, and a machine-level watchdog aborts any future soak before swap-thrash.",
+   "finding": "verifier_retained_every_decoded_record",
+   "status": "fixed and regression-tested"
+  }
+ ],
+ "candidate_id": "C1",
+ "commit": "fb0b6e2feed7b65b38362620c0218d5b570c6693",
+ "completion_gates": {
+  "action_frame_mismatches_zero": true,
+  "compression_exercised": true,
+  "disk_persistence_exercised": true,
+  "external_volume_used": true,
+  "full_suite_green": true,
+  "illegal_actions_zero": false,
+  "memory_resolved": false,
+  "model_mps_failures_zero": true,
+  "no_duplicate_games": true,
+  "no_swap_growth": true,
+  "no_unclosed_shards": true,
+  "nonfinite_outputs_zero": true,
+  "reconstruction_mismatches_zero": true,
+  "recycling_proven_if_required": true,
+  "shards_all_decode": true,
+  "soak_completed": false,
+  "soak_ran_long_enough": false,
+  "worker_failures_zero": true,
+  "write_backlog_bounded": true,
+  "write_errors_zero": true
+ },
+ "configuration_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+ "full_suite": {
+  "after": {
+   "failed": 0,
+   "passed": 2697,
+   "skipped": 3,
+   "summary_line": "2697 passed, 3 skipped in 159.02s (0:02:39)"
+  },
+  "before": {
+   "failed": 0,
+   "passed": 2632,
+   "skipped": 2,
+   "summary_line": "2632 passed, 2 skipped in 161.46s"
+  }
+ },
+ "memory": {
+  "explicitly_not_called_bounded": "2.3 settled hours of +63 MiB/hour with zero swap growth is evidence from an aborted run, not proof of 168-hour safety. The session as a whole -- soak abort plus tooling swap-thrash -- demonstrates the operational risk is real, and Phase 6B remains BLOCKED.",
+  "rss_first_settled_gib": 8.43,
+  "rss_last_settled_gib": 8.61,
+  "settled_r_squared": 0.7735340969404821,
+  "settled_slope_mib_per_hour": 62.907008415780304,
+  "slope_logged_by_harness_mib_per_hour": 63.3,
+  "swap_distinct_values_all_samples": [
+   27724349
+  ],
+  "swap_growth_during_soak_bytes": 0
+ },
+ "model_contract_version": "model_contract_v2",
+ "persistence_design": {
+  "compression": "zlib level 6, the repository's existing record codec",
+  "container": "length-prefixed records plus a per-shard JSON manifest",
+  "shard_target_bytes": 134217728,
+  "writer": "per-worker synchronous"
+ },
+ "phase": "phase_6b",
+ "phase_6b_recommendation": "BLOCKED",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "preserved_data": {
+  "run_log": "phase6b_run.log (scratchpad)",
+  "shards": "/Volumes/Brandon_Washington/stratego_phase6b/soak (9.2 GiB, kept)",
+  "stall_snapshot": "stall_snapshot_1.txt (scratchpad)"
+ },
+ "python_version": "3.13.2",
+ "recording_soak_version": "agent_06b_recording_soak_0.1.0",
+ "restart_validation": {
+  "artifact": "reports/phase_6_data/agent_06b_restart_validation.json",
+  "baseline_drift_fraction": -0.0032,
+  "duplicate_game_ids": 0,
+  "mean_restart_overhead_seconds": 1.01,
+  "reconstruction_mismatches": 0,
+  "result": "PASS",
+  "rss_baselines_mib": [
+   197,
+   197,
+   196
+  ],
+  "segments": 3,
+  "unclosed_shards": 0
+ },
+ "sample_count": 149,
+ "samples_source": "reports/phase_6_data/agent_06b_recording_timeseries.csv, parsed from the run log's 149 per-minute progress lines. The full sample dicts (per-worker RSS split, encode/compress/write/flush stage seconds) were lost when the wedged harness was killed: the original harness wrote artifacts only after verification. The harness now writes them immediately after the soak.",
+ "shard_format_version": 1,
+ "shard_verification": {
+  "directory": "/Volumes/Brandon_Washington/stratego_phase6b/soak",
+  "duplicate_game_ids": [],
+  "file_bytes": 9392638629,
+  "ok": true,
+  "problem_shards": [],
+  "record_count": 144149,
+  "shard_count": 76,
+  "unclosed_shards": 0,
+  "verifier_max_rss_bytes": 73613312,
+  "verifier_peak_rss_bytes": 69959680,
+  "verifier_peak_rss_mib": 66.71875,
+  "verify_seconds": 1431.7641750000003
+ },
+ "soak": {
+  "error": "CoordinatorError: sampling returned 1 action(s) the published legality mask forbids: slot 112 action 0 (legal_count 0)",
+  "error_at_seconds": 8981.0,
+  "global_steps_at_last_sample": 48007,
+  "positions_estimate": 74306099,
+  "requested_seconds": 21600.0,
+  "status": "error",
+  "total_seconds": 8981.0,
+  "warmup_steps": 3000
+ },
+ "stall_postmortem": {
+  "cause_taxonomy": {
+   "allocator_fragmentation": "not the stall's cause; in-run growth was +63 MiB/h and swap-flat for 2.5h; its 168h behaviour remains unproven",
+   "compression_buffering": "NO -- per-record zlib with no retained buffers; ratio stable at 0.677",
+   "filesystem_backpressure": "NO -- disk rate was steady at ~3.53 GiB/h to the last sample; write/flush landed on every record",
+   "retained_live_objects_true_leak": "YES -- in the post-soak verifier (fixed), not in the collection pipeline",
+   "unbounded_write_queue": "NO -- writes are synchronous per worker; pending bytes are structurally zero"
+  },
+  "gpu_idle_observed": "from ~22:44, because the soak had ended; the wedged process was the post-soak verifier, which does no GPU work",
+  "in_memory_data_lost_at_shutdown": {
+   "full_sample_dicts": "lost with the killed process; per-minute log lines survive and are the published timeseries",
+   "in_flight_unsealed_games": "~1,536 (one per environment), never persisted by design; a partial trajectory is not a trajectory",
+   "run_counters": "headline values survive in the log",
+   "sealed_trajectory_records": "none -- every sealed record was on disk"
+  },
+  "last_collection_progress": {
+   "abort_at_elapsed_seconds": 8981.0,
+   "elapsed_seconds": 8940.1,
+   "global_step": 48007,
+   "wall_clock": "2026-08-12 ~22:43:41 EDT"
+  },
+  "last_successful_trajectory_write": "2026-08-12 22:43 EDT -- the fault-path shutdown closed all ten open shards and wrote their manifests (76/76 shards have manifests; file mtimes 22:43).",
+  "memory_at_stall_snapshot": {
+   "harness_rss_bytes": 11075846144,
+   "harness_state": "UN (uninterruptible page-in wait)",
+   "source": "scratchpad stall_snapshot_1.txt, taken before the kill",
+   "system_swap_used_bytes": 30213018746
+  }
+ },
+ "status": "BLOCKED",
+ "steady_state": {
+  "compression_ratio": 0.6773,
+  "positions_per_second": 8273.7,
+  "positions_per_second_series_mean": 8273.732857142857,
+  "produced_gib_per_hour": 5.235493872729957,
+  "samples_in_window": 140,
+  "window_seconds": 8340.1,
+  "write_throughput_bytes_per_second": 1057635.69664,
+  "written_gib_per_hour": 3.546,
+  "written_gib_per_hour_last20_mean": 3.5335
+ },
+ "timeseries_path": "reports/phase_6_data/agent_06b_recording_timeseries.csv",
+ "timestamp": "2026-08-12T23:57:36-0400",
+ "torch_version": "2.13.0"
+}

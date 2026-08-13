@@ -3209,3 +3209,960 @@ highest-risk limitation   Host resident memory rose ~191 MiB/hour through the so
 No meaningful training occurred. No architecture was invented, no frozen contract
 was altered, and Phase 7 has not been started. Only the reviewing chat may
 formally accept Phase 6 and freeze the architecture.
+
+---
+
+## 6B. Production Recording Stability Follow-Up
+
+**Status: BLOCKED** — the follow-up's own requirement stands unmet: no
+multi-hour persisted-recording soak has yet run to completion. The session
+produced three findings, one fixed and regression-tested, one hardened and
+awaiting a deterministic replay, one simply requiring the rerun it blocks.
+
+What this section is: the operational validation of the *frozen* Phase 6
+configuration — C1, `model_contract_v2`, 10 workers × 1,536 environments, batch
+2,048, float16, dense legality, snapshot 32, `KEEP_PYTHON` — with real disk
+persistence in place of Phase 6's encode-and-discard. No architecture, contract,
+topology, schema or engine decision was reopened, and none changed.
+
+### 6B.1 What was built
+
+Durable trajectory persistence, absent from the repository until now:
+
+```text
+stratego/training/shard_writer.py       append-only shard container + verifier
+stratego/training/phase6b_recording.py  the persisted-recording soak, the memory
+                                        outcome classifier, the machine watchdog
+stratego/training/phase6b_recycle.py    process recycling at shard boundaries
+scripts/run_phase6b_segment.py          one recycled collection segment
+scripts/run_phase6b.py                  the acceptance harness
+tests/training/test_phase6b_recording.py
+```
+
+The design decisions that matter:
+
+- **Per-worker synchronous writes.** Each of the ten workers compresses and
+  writes its own shard files inside the game-sealing call, so the bytes are on
+  the filesystem before the call returns. A write backlog is *structurally
+  impossible* — `pending_bytes` is identically zero by construction, not
+  monitored down to zero — and nothing large ever crosses a pipe. The workers
+  idle ~91% of each step, which is where the write latency goes.
+- **A container, not a format.** A shard is length-prefixed
+  `encode_game_record` payloads — optionally through the repository's existing
+  zlib level-6 helper — plus a JSON manifest carrying the record count, byte
+  totals, SHA-256 and every game id. `trajectory_v1` is untouched; a record
+  extracted from a shard is bit-identical to one the codec produces directly.
+  Container overhead is 4 bytes per record plus one preamble and one manifest
+  per 128 MiB shard.
+- **Crash-ordered.** Data is flushed per record; the manifest is written last,
+  at close. A shard without a manifest is an interrupted shard whose complete
+  records remain readable; the reader stops cleanly at a truncated tail.
+- **Off by default.** `RecordingConfig.output_directory = None` preserves the
+  accepted Phase 3/6 encode-and-drop behaviour exactly; every prior test passes
+  unmodified.
+
+### 6B.2 The run, and what actually happened
+
+One soak was launched for six hours writing compressed shards to the external
+volume. It ran healthily for two and a half:
+
+```text
+started            2026-08-12 ~20:14 EDT
+aborted            t = 8,981 s (2.49 h), global step ~48,0xx, ~22:43:41 EDT
+samples            149 at 60 s cadence
+positions          ~74.3 million
+sustained          8,273.7 positions/s (settled window; first/last third
+                   8,269 vs 8,263 — no drift)
+disk               3.546 GiB/hour written, steady to the last sample
+compression        0.6773 measured on 8.75 GiB of real persisted games
+write errors       0        pending bytes   0 (structural)
+swap               27,724,349 bytes at every one of 149 samples — the
+                   pre-existing baseline; zero growth attributable to the run
+RSS                8.43 → 8.61 GiB across the settled window,
+                   +62.9 MiB/hour, R² 0.85 (parsed log series)
+```
+
+The abort: the coordinator's per-step sampled-legality check found **slot 112
+published as ACTIVE with `legal_count 0`** — an all-zero legality mask — and
+raised, exactly as it is designed to. No illegal action reached the engine. The
+fault-path shutdown then closed all ten open shards and wrote their manifests
+(file mtimes 22:43), so the run ended loud, clean and fully persisted.
+
+**The stall observed from outside was not the soak.** It began *after* the
+abort, in the harness's post-soak verification step, whose original
+implementation decoded every record of every shard **and retained all of them
+in memory simultaneously**. On the dry run's 0.098 GiB that was invisible; on
+the real 8.75 GiB corpus it grew without bound: the harness reached 10.8 GiB
+RSS with a 566 GB virtual size, drove system swap from 27 MB to **28.8 GiB**,
+pushed macOS memory pressure to yellow, and wedged in uninterruptible page-in
+waits (`UN`) for ~45 minutes. GPU idleness and the absence of new disk writes
+during that window are both explained: the soak had already ended; the wedged
+process was a verifier, which uses neither.
+
+The process was killed with the machine at 37% free memory and swap files
+consuming internal disk; the system recovered fully within minutes (swap
+28.8 GiB → 1.8 GiB, 93% free).
+
+### 6B.3 Post-mortem, item by item
+
+**Last collection progress.** Sample 149: t = 8,940.1 s, global step 48,007,
+8,361.8 positions/s, ~22:43 EDT. The abort landed 41 s later, mid-step ~48,0xx.
+
+**Last successful trajectory write.** 22:43 EDT — the shutdown-close of all ten
+open shards. 76 shards, 76 manifests: nothing was left unclosed.
+
+**Lead-up series.** Published as
+`agent_06b_recording_timeseries.csv` (149 samples parsed from the run log):
+throughput flat, disk rate flat at ~3.53 GiB/hour, compression ratio asymptotic
+to 0.677, RSS +62.9 MiB/hour, swap bit-identical at every sample, shards
+closing on cadence through step 41,900 (the last 128 MiB rollover before the
+abort). There is no degradation of any quantity leading up to either failure.
+The per-worker RSS split and per-stage write timings were lost with the killed
+process — the original harness wrote artifacts only after verification, the
+step that wedged. The harness now writes all evidence immediately after the
+soak, before any post-processing (§6B.5).
+
+**Cause identification**, against the candidate list:
+
+| Candidate cause | Verdict |
+|---|---|
+| Retained live objects / true leak | **Yes — in the post-soak verifier**, not in the collection pipeline. Fixed, regression-tested. |
+| Allocator fragmentation | Not the stall's cause. In-run growth was +63 MiB/h, swap-flat, for 2.5 h. Its 168-hour behaviour remains **unproven** — explicitly not called bounded. |
+| Unbounded trajectory/write queue | No. Writes are synchronous per worker; there is no queue to grow. |
+| Filesystem / external-drive backpressure | No. Disk rate steady to the last sample; every record flushed on write; write errors 0. |
+| Compression buffering | No. Per-record zlib, no retained buffers, ratio stable at 0.677. |
+| The abort itself | A distinct finding: the published zero-legality row (§6B.4). |
+
+**Shard verification.** Every one of the 76 shards was re-read with the fixed
+streaming verifier: every record decoded and structurally validated, every
+manifest's SHA-256, record count and byte size confirmed, zero duplicate game
+ids, zero unclosed shards — **144,149** records, **8.75 GiB** (9.39 GB),
+verifier peak RSS **66.7 MiB** against the same corpus that
+took the old verifier past 40 GB.
+
+**In-memory data lost at shutdown.** Sealed trajectory records: **none** — the
+per-record write-and-flush design means everything sealed was already on disk.
+In-flight unsealed games (~1,536, one per environment): never persisted, by
+design; a partial trajectory is not a trajectory, and the same loss occurs at
+any process boundary including the planned recycling. The full sample dicts
+(per-worker RSS, stage timings): lost with the killed harness; the per-minute
+log lines survive and are the published timeseries. Run counters: headline
+values survive in the log.
+
+### 6B.4 The legality anomaly
+
+One row in ~74.3 million: an active slot published with zero legal actions.
+Inspection rules out every cheap explanation — `_evaluate_terminal` runs
+unconditionally after every applied action; `has_legal_action` and
+`generate_actions_for_player` are equivalent by construction (no
+history-dependent exclusions exist in this ruleset); the legality cache dies
+with the slot object on every reset; publish derives status, mask and count
+from the same state object microseconds apart; and the bulk-synchronous barrier
+leaves no concurrent writer. The mechanism is therefore not identifiable from
+code inspection, and this report does not guess.
+
+Two things were done instead:
+
+1. **A writer-side trap.** `publish()` now raises at the source if an active
+   slot would publish zero legal actions, with the full contradiction in hand:
+   game id, generation, ply, acting player, terminal fields, a fresh
+   `has_legal_action` evaluation, and the action-history tail. The next
+   occurrence is a complete diagnosis instead of a reader-side symptom.
+2. **A deterministic reproduction path.** The run is fully determined by
+   `(root_seed=60006, sampling_seed, model, topology)`; a replay reaches the
+   same state at the same step. That replay is ~1.7 h of saturated machine time
+   and is **proposed, not run** — it is a diagnostic soak and stays inside the
+   "no further multi-hour runs until the restart test passes" boundary.
+
+Until the anomaly is diagnosed, it is treated as what the evidence says it is:
+a once-per-74M-positions correctness event that the pipeline's independent
+checking caught before any illegal action reached the engine, and that ends a
+production run early. A 168-hour run producing ~5 × 10⁹ positions would expect
+~67 such events; **recycling with resume makes each one a segment boundary
+instead of a dead run**, which is an operational mitigation, not a diagnosis.
+
+### 6B.5 Fixes landed in this session
+
+1. **Streaming verifier** (`read_shard` / `verify_shard` /
+   `directory_summary`): records are decoded, validated and dropped;
+   `keep_records=True` exists for tests and small inspections. Digests are
+   chunked. Verified live: ~55 MiB peak RSS re-verifying the corpus that took
+   the retained-records version past 40 GB. Regression tests pin the
+   drop-by-default behaviour.
+2. **Machine-level watchdog** in the soak loop: aborts loudly if swap grows
+   more than 2 GiB over the run's own baseline or system available memory
+   falls below 8% — because a process that drives the machine into swap does
+   not fail, it wedges, and the only loud moment is beforehand. Unit-tested,
+   including the pre-existing-swap-baseline case.
+3. **Evidence-first harness ordering**: the soak JSON and full timeseries CSV
+   are written the moment the soak returns, before verification or any other
+   post-processing; the files are then updated with verification and gate
+   results. The samples that were lost this session cannot be lost again.
+4. **Write-failure classification**: a closed-handle write raises `ValueError`,
+   not `OSError`; the writer now treats both as the write error they are
+   (regression-tested), so a dead handle cannot masquerade as success.
+5. **Honest byte accounting**: `ShardStats.bytes_written` now includes shard
+   preambles and equals the bytes on disk exactly (regression-tested).
+6. **Publish-time zero-legality trap** (§6B.4), converting the anomaly's next
+   occurrence into a full diagnosis.
+
+### 6B.6 Restart / resume validation
+
+Run after the fixes above, on the recovered machine, exactly as mandated —
+before any further multi-hour soak. Three recycled segments of 1,200 global
+steps each (~233 s per segment), C1, the frozen topology, compressed shards to
+the external volume, in-worker verification active throughout:
+
+```text
+sequence per segment   run -> flush/close shards (manifests written)
+                       -> save segment state (JSON)
+                       -> orderly worker/coordinator shutdown
+                       -> process exit (memory + Metal context released)
+                       -> restart: fresh interpreter, candidate rebuilt,
+                          configuration digest re-checked
+                       -> resume on the next segment's own seed and run id
+```
+
+| Verified | Result |
+|---|---|
+| RSS returns near startup baseline | **yes** — segment baselines 197 / 197 / 196 MiB, drift −0.3% |
+| no corrupted trajectory records | **yes** — all 9,655 records across 30 shards decode and validate |
+| no missing completed shard | **yes** — 30 on disk vs 30 reported closed |
+| no duplicate shard | **yes** — unique names by construction, 0 collisions |
+| no duplicated games caused by restart | **yes** — 0 duplicate game ids; segment seeds 60006 / 1060009 / 2060012 |
+| run counters remain consistent | **yes** — per-segment totals sum to directory totals exactly |
+| configuration/checkpoint identity preserved | **yes** — one configuration digest across all segments |
+| elapsed-wall-clock accounting preserved | **yes** — restart overhead (3.04 s total, mean **1.01 s**) is inside the measured wall clock, 0.44% of it |
+| collection resumes without manual intervention | **yes** — supervisor launches every segment |
+| reconstruction remains exact | **yes** — 22,606 decisions verified in-worker, 0 mismatches |
+
+At the mean measured overhead, even hourly recycling would cost ~0.005% of the
+168-hour budget. The interval itself is deliberately **not** frozen here: the
+harness derives it from the measured settled slope against a 12 GiB growth
+budget (25% of system memory), and the aborted soak's provisional slope of
++63 MiB/hour implies ~194 hours — no restart needed for memory alone if that
+slope holds. The binding reason to recycle is the anomaly blast radius (§6B.4)
+until it is diagnosed, and segment boundaries are where a 24-hour checkpoint
+cadence would land anyway. A full-length recycled soak (§6B.8) settles the
+slope properly before any interval is committed.
+
+### 6B.7 Storage, from real persisted bytes — provisional
+
+Measured on the aborted soak's 2.3-hour settled window (stable throughout, but
+short of the required 4–6 hours — hence provisional):
+
+```text
+written to disk       3.546 GiB/hour compressed   (0.985 MB/s)
+produced              5.235 GiB/hour uncompressed
+compression ratio     0.6773  (Agent 4's probe predicted 0.685)
+container overhead    4 B/record + preamble/manifest per shard  (< 0.1%)
+```
+
+Projected to exactly 168 hours at the measured disk rate:
+
+| | GiB | GB |
+|---|---:|---:|
+| per hour | 3.546 | 3.81 |
+| per 24 hours | 85.1 | 91.4 |
+| **per 168 hours** | **595.7** | **639.7** |
+
+Against the external volume (931.3 GiB total, to be cleared before the
+production run): **64% of capacity, ~336 GiB (~360 GB) of headroom remaining**
+after a full week — versus the ~3% margin the raw path offered. Transient
+headroom for open shards is 10 × 128 MiB = 1.25 GiB. Every game of the week is
+retained; nothing is deleted or tiered.
+
+### 6B.8 What unblocks Phase 6B
+
+In order:
+
+1. The deterministic instrumented replay of the legality anomaly (~1.7 h), now
+   that the writer-side trap will catch it with full state context; then
+   whatever fix or erratum the diagnosis dictates — noting that if the defect
+   proves to live inside the frozen engine, the resolution belongs to the
+   reviewing chat, not to this follow-up.
+2. A full 4–6 hour persisted-recording soak run as **recycled segments** under
+   the supervisor, with the watchdog armed — which simultaneously satisfies the
+   duration requirement, exercises restart-in-anger, and bounds both the memory
+   question and the anomaly's blast radius.
+3. The completion gates as originally specified, including zero swap growth,
+   zero write errors, zero backlog, all shards decoding, no duplicate games —
+   plus a green full suite before and after.
+
+### 6B.9 Handoff
+
+```text
+Phase 6B status            BLOCKED
+soak duration              8,981 s continuous (2.49 h of a 6 h target; aborted
+                           by the legality anomaly, not by resources)
+disk persistence           EXERCISED — 9.2 GiB, 76 shards + 76 manifests, real
+                           external-drive writes, per-record flush
+compression                EXERCISED — zlib 6, measured ratio 0.6773
+sustained positions/s      8,273.7 (settled window, no drift)
+sustained disk GiB/hour    3.546 written / 5.235 produced
+RSS                        8.43 → 8.61 GiB settled window; +62.9 MiB/hour,
+                           R² 0.85; swap growth attributable to the soak: 0
+RSS plateaued?             NOT ESTABLISHED — window too short (2.3 h settled),
+                           and per instruction this growth is not called
+                           bounded without a plateau or tested recycling
+recycling required?        YES as operational posture: it bounds both the
+                           unresolved memory trend and the anomaly blast radius
+tested restart mechanics   PASS — 3 recycled segments, mean 1.01 s overhead,
+                           RSS to baseline (−0.3%), 0 duplicate/missing/corrupt
+                           records, resume automatic; interval to be derived
+                           from a full-length soak's measured slope
+168 h storage projection   595.7 GiB (639.7 GB) compressed, provisional
+external-drive headroom    ~336 GiB remaining on the cleared 931 GiB volume
+full test totals           before 2,632 passed / 2 skipped / 0 failed
+                           after  2,697 passed / 3 skipped / 0 failed
+                           (+65 Phase 6B tests; the extra skip is the
+                           PASS-gated artifact check, armed for a future
+                           passing soak)
+final recommendation       Phase 6 NOT yet safe to close on the recording
+                           path: still BLOCKED pending the anomaly diagnosis
+                           and a completed multi-hour recycled soak
+```
+
+Artifacts: `agent_06b_recording_soak.json` (BLOCKED, with the full post-mortem),
+`agent_06b_recording_timeseries.csv` (149 samples),
+`agent_06b_storage_validation.json` (provisional),
+`agent_06b_restart_validation.json`. The 8.75 GiB of verified soak shards are
+preserved at `/Volumes/Brandon_Washington/stratego_phase6b/soak` pending the
+user's disposition. Phase 7 has not been started, and every Phase 6 decision
+remains frozen exactly as accepted.
+
+## 6B-2. Phase 6B Continuation — Anomaly Diagnosis and Final Operational Soak
+
+**Status: BLOCKED — frozen engine semantic change appears necessary.** Gate 1's
+diagnosis is complete: the legality anomaly is deterministically reproduced,
+its root cause is identified with corpus-level corroboration, and the smallest
+correct fix lives inside the frozen engine — `create_game` never evaluates the
+no-legal-move terminal conditions, so a randomly generated setup can strand the
+first player at ply 0 and the engine labels that rules-terminal position
+active. Per this continuation's own mandate, a frozen-engine semantic change is
+not made unilaterally: the complete reproduction is handed to the reviewing
+chat, and Gate 2 (the final 4–6 hour recycled soak) was not started, because
+the assignment forbids starting it before Gate 1 passes and because the
+measured recurrence rate gives an unfixed six-hour soak roughly a coin-flip
+chance of aborting the same way.
+
+Nothing frozen was reopened: C1 remains primary (digest `31ca84ab140c…`,
+863,959 parameters), C0 remains fallback (digest `057d6c9242e3…`, 123,223
+parameters), and no engine, contract, topology, schema or evaluation semantic
+was modified. No source file was changed by this continuation; it added one
+diagnostic script and two evidence artifacts.
+
+### 6B-2.1 Starting state, verified
+
+Repository at commit `fb0b6e2` with the previous session's Phase 6B work
+uncommitted, exactly as handed off: modified `coordinator.py` (persistence
+configuration), modified `worker_pool.py` (shard-writer wiring plus the
+writer-side publish trap), new `shard_writer.py`, `phase6b_recording.py`,
+`phase6b_recycle.py`, the two run scripts and `test_phase6b_recording.py`.
+
+```text
+python -m pytest -q      (before any change of this continuation)
+2697 passed, 3 skipped, 0 failed in 159.14s
+```
+
+That matches the previous session's recorded ending totals exactly. The
+handoff's evidence was verified present rather than assumed: the BLOCKED soak
+artifact (149 samples, abort at t = 8,981 s), the restart validation (3
+segments, mean overhead 1.01 s, −0.3 % baseline drift, 0 duplicate/missing/
+corrupt records), the provisional storage projection (595.7 GiB / 168 h), the
+streaming verifier with its drop-by-default regression tests
+(`TestVerifierNeverRetainsRecords`), the machine watchdog and its
+pre-existing-swap-baseline test, and the preserved 8.75 GiB soak corpus — 76
+shards, 76 manifests — on the external volume. The frozen C1/C0 identities
+were re-read from `agent_06_architecture_decision.json` and match the handoff
+digest for digest.
+
+### 6B-2.2 Gate 1 — the anomaly reproduced, without the 1.7-hour replay
+
+The previous session proposed an instrumented ~1.7 h saturated replay to reach
+the failure again. That replay is unnecessary, because the failing state turns
+out to be a pure function of slot identity alone. Slot content is derived as
+`derive_slot_seed(root_seed, environment_id, generation)` →
+`make_random_setups(seed)` → `create_game(...)` — no model, sampler, worker
+count or wall-clock input anywhere. The aborted soak ran with `root_seed
+60006`; the abort named slot 112. Scanning that slot's generations directly:
+
+```text
+(root_seed 60006, environment 112, generation 98)
+game_id      batch60006-env000112-gen000098
+slot_seed    4213863571973875940
+terminal     False        legal actions for acting player   0
+acting       red (0)      has_legal_action(red)             False
+ply          0            has_legal_action(blue)            True
+```
+
+The board makes the mechanism visible — red's front row (row 4, the only row
+with anywhere to go at ply 0) is `rB rB r4 r7 rB rB r4 r8 rB rF`:
+
+```text
+     a  b  c  d  e  f  g  h  i  j
+ 10 b4 b6 b9 b7 b3 b8 bB b7 b1 b5
+  9 b5 bS bB b5 bB b9 b9 b3 b9 b4
+  8 b9 b7 b8 b8 b7 b9 bB b4 b6 b9
+  7 b5 b8 bB b6 bB b2 b9 bF b8 b6
+  6  .  . ~~ ~~  .  . ~~ ~~  .  .
+  5  .  . ~~ ~~  .  . ~~ ~~  .  .
+  4 rB rB r4 r7 rB rB r4 r8 rB rF
+  3 r5 r6 r6 r8 r9 r5 r7 r8 r7 r7
+  2 r9 r9 r9 r6 r4 rS r9 r9 r9 r2
+  1 r8 r3 r3 rB r8 r5 r6 r1 r5 r9
+```
+
+Every red front-row square on a non-lake column (a, b, e, f, i, j) holds a
+Bomb or the Flag — six of red's seven immovable pieces. The four movable
+front-row pieces (c, d, g, h) all face lakes. All thirty other red pieces are
+boxed in by red's own fully packed rows. Red, the first player, has zero legal
+moves at ply 0. Blue has five.
+
+The reproduction was then confirmed at every layer between the engine and the
+coordinator (`scripts/reproduce_phase6b_anomaly.py`, ~4 s, exit 0 only when
+every stage still reproduces):
+
+| Stage | Result |
+|---|---|
+| engine `create_game` | `terminal=False`, 0 legal actions, `has_legal_action(red)=False` |
+| `BatchSimulator` rebuild through 98 resets | bit-identical state (fingerprint compared), `legal_count 0`, dense mask all-zero |
+| real `WorkerPool`, slot 112 advanced to generation 98 | the writer-side publish trap raises: `publish would mark an active slot with zero legal actions: slot 112, game 'batch60006-env000112-gen000098', generation 98, ply 0, acting_player 0, terminal False ('not_terminal'), has_legal_action(acting)=False, battleless 0, last actions []` |
+| preserved corpus, all 76 manifests | env-112 generations **0..97 sealed exactly once each, no gaps, no duplicates; generation 98 absent** |
+| sum of env-112 sealed game lengths | **48,225** — generation 98 was created and published at global step 48,225 |
+| full-horizon scan, 1,536 envs × 120 generations | **exactly one** first-player-stranded setup exists: (112, 98); zero second-player-stranded setups |
+
+The step arithmetic closes the timeline: the soak's last sample was step
+48,007 at t = 8,940.1 s; the abort landed 41 s later, and at the measured
+5.39 steps/s that is ≈ step 48,227 — the coordinator raised while sampling
+from the all-zero mask published at step 48,225. The previous session's
+"deterministic, reproducible by replay" claim is confirmed in a strictly
+stronger form: the anomaly needs no replay at all.
+
+### 6B-2.3 Root cause
+
+`_evaluate_terminal` — flag capture, then opponent-no-legal-move, then
+both-no-legal-move draw, then the draw limits — runs **only inside
+`apply_action`** (`stratego/engine/transition.py`). After every applied move it
+guarantees the next acting player has at least one legal action, which is why
+74.3 million mid-game positions never produced this state. `create_game`
+(`stratego/engine/state.py`) performs no terminal evaluation of any kind: it
+validates setups, builds the board, sets `acting_player` and returns
+`terminal=False` unconditionally. `random_setup` is a uniform shuffle with no
+mobility guard. A setup that places Flag/Bomb on all six open front-row
+squares therefore produces a game that is already decided under the project
+ruleset — `02_project_ruleset.md`: "victory when the opponent has no legal
+move; draw if neither player can legally move" — but enters play labelled
+active. The engine's own random driver treats that state as an impossibility:
+`play_random_game` raises `RuntimeError("non-terminal state with no legal
+actions …")` with the comment "an empty list here would mean the terminal
+check missed a case". The terminal check misses exactly one case: ply 0.
+
+Every cheaper explanation is excluded by direct evidence:
+
+| Candidate | Verdict |
+|---|---|
+| legitimately terminal but published active | **YES — the root cause.** Rules-terminal at birth (red cannot move on its turn; blue can → blue wins, `opponent_no_legal_move`), engine reports `not_terminal` |
+| wrong legality computation for an active state | No — zero is correct; list, existence check and dense mask agree, and the board confirms it |
+| stale metadata after an independent reset | No — fresh `EnvironmentSlot`, correct game id, correct generation; `BatchSimulator` rebuilds the identical fingerprint |
+| generation/slot identity crossing | No — manifests show 0..97 sealed exactly once each; 98 is genuinely new |
+| shared-memory publication ordering | No — status, mask, count and metadata derive from one state object in one pass; the trap reproduces the contradiction writer-side, before any reader |
+| worker/coordinator divergence | No — the coordinator read what the worker published; the worker published what the engine reported |
+
+The frequency closes the quantitative loop. P(six specific setup squares all
+immovable, 7 immovables among 40) = 7·6·5·4·3·2 / (40·39·38·37·36·35) =
+**1.824 × 10⁻⁶ per game per side — exactly 1 in 548,340**. The aborted soak started
+~145,700 games: expected stranded-first-player games 0.266, probability of at
+least one ≈ 23 % — unlucky, not anomalous. The horizon scan's one hit in
+184,320 (env, generation) pairs (expected 0.336) is consistent. A
+second-player-stranded setup (same probability, none in this horizon) is
+already handled correctly today: the first player's opening move triggers
+`_evaluate_terminal` and the game ends at ply 1.
+
+At production scale the defect is not ignorable, exactly as the handoff
+suspected: a 6-hour soak at the measured ~57,900 games/hour expects 0.63
+stranded games (**47 % chance of an abort**), and a 168-hour run expects
+**~18**.
+
+### 6B-2.4 Why this is BLOCKED rather than fixed
+
+The assignment's Gate 1 protocol distinguishes a pipeline-lifecycle defect
+(fix it here) from a frozen-engine semantic defect (stop and report). This one
+is unambiguously the latter: the pipeline's publication, reset ordering,
+generation identity and legality transport were all verified correct — the
+state itself is wrong, and the only place it can be made right is
+`create_game`. The two non-engine fixes were considered and rejected:
+
+- **Marking the state terminal in the training layer** would duplicate the
+  terminal rule outside the engine (two sources of truth for game semantics, a
+  pattern this project has refused at every phase) and would leave the
+  engine's own `play_random_game` crashable on the same seeds.
+- **Screening or rerolling stranded setups** would change the
+  `(root_seed, environment_id, generation) → game` mapping and the collection
+  distribution, silently erase a rules-decided game, and break every
+  independent rebuild of slot content unless the reroll rule were replicated
+  everywhere. It would also fail the assignment's own acceptance test — the
+  formerly anomalous state must end up with *correct* status, not cease to
+  exist.
+
+Masking options — recycling on the anomaly, weakening the coordinator
+assertion, or converting the state to terminal ad hoc at publish time — are
+explicitly forbidden by the assignment, and both traps remain in place and
+unweakened: the reader-side `verify_sampled_legality` check that aborted the
+soak, and the writer-side publish trap that this continuation verified live.
+
+**The proposed fix, not applied**, recorded for the reviewing chat in
+`agent_06b_anomaly_diagnosis.json`: after constructing the state,
+`create_game` evaluates the initial position's mobility with the same
+precedence `_evaluate_terminal` already applies — if the acting player has no
+legal action, the game is terminal at ply 0 with `opponent_no_legal_move`
+(winner = the mobile opponent) or `both_no_legal_move_draw` (neither side
+mobile); flag capture cannot apply at ply 0 and the draw limits are zero
+there, so the frozen precedence order is untouched. The blast radius is empty
+for every playable game: any game with at least one applied action necessarily
+had a mobile first player, so no recorded trajectory, replay, snapshot,
+evaluation result or checkpoint changes meaning. The only states affected are
+the ones that today crash the pipeline. Downstream composition is already
+correct: `publish` reports a terminal slot as `STATUS_TERMINAL`, the
+coordinator skips it, auto-reset recycles it one step later, and no
+trajectory record is produced for a zero-decision game — the outcome is
+counted nowhere today, which the reviewing chat may also wish to address, but
+nothing breaks. One implementation note: `state.py` cannot import
+`legal_moves`/`transition` at module level (import cycle); a function-level
+import inside `create_game` — the pattern `worker_pool.publish` already uses —
+or a small `evaluate_initial_terminal` helper in `transition.py` both work.
+
+If the engine is reopened and the fix lands, Gate 1 acceptance is then
+mechanical: `scripts/reproduce_phase6b_anomaly.py` must show the trap **not**
+firing and (112, 98) terminal with reason `opponent_no_legal_move` and winner
+blue; a focused regression pins that game, a stress regression sweeps
+constructed stranded setups (both players, including the both-stranded draw),
+and Gate 2 — the full 4–6 hour recycled persisted soak — proceeds exactly as
+specified.
+
+### 6B-2.5 Gate 2 — not started, deliberately
+
+The assignment is explicit that Gate 2 must not begin until Gate 1 passes, and
+Gate 1 cannot pass without the engine decision. Running the soak anyway would
+have been a 47 % coin-flip against a known, diagnosed abort — burning six
+hours of machine time to re-measure a failure that is already fully
+characterized. The Gate 2 machinery itself was verified ready: the recycling
+supervisor and segment runner exist and passed their three-segment validation,
+the streaming verifier holds ~67 MiB against the 8.75 GiB corpus, the
+watchdog is armed, and the persistence path's write/flush/manifest behaviour
+was re-confirmed by the corpus forensics this diagnosis performed.
+
+### 6B-2.6 Files, tests and artifacts
+
+Created by this continuation (no source file was modified):
+
+| File | Purpose |
+|---|---|
+| `scripts/reproduce_phase6b_anomaly.py` | the deterministic five-stage reproduction and diagnosis generator; exits 0 only while every stage reproduces |
+| `reports/phase_6_data/agent_06b_anomaly_diagnosis.json` | machine-readable diagnosis: failing identity, all five reproduction stages, candidate-cause verdicts, probability model, proposed fix and rejected alternatives |
+| `reports/phase_6_data/agent_06b_final_decision.json` | the BLOCKED decision record and what unblocks Phase 6B |
+
+All previous Phase 6B evidence is preserved unmodified, including the BLOCKED
+soak artifacts and the external corpus (used read-only here, exactly for the
+forensic purpose it was kept for; it remains at
+`/Volumes/Brandon_Washington/stratego_phase6b/soak` pending formal
+acceptance).
+
+```text
+python -m pytest -q      before this continuation   2697 passed, 3 skipped, 0 failed in 159.14s
+python -m pytest -q      after all artifacts        2697 passed, 3 skipped, 0 failed in 155.78s
+```
+
+No test was added, removed, weakened or disabled; the three skips are the two
+pre-existing Phase 4 capability skips plus the PASS-gated Phase 6B artifact
+check, still correctly armed for a future passing soak.
+
+### 6B-2.7 Handoff
+
+```text
+Phase 6B status            BLOCKED — frozen engine semantic change appears
+                           necessary; reviewing chat decides
+
+starting repository state  commit fb0b6e2 + previous session's uncommitted
+                           Phase 6B work; suite 2697 / 3 / 0
+ending repository state    identical source; + 1 diagnostic script,
+                           + 2 evidence artifacts, + this report section;
+                           suite 2697 / 3 / 0
+
+Gate 1
+  reproduced?              YES — deterministically, in seconds, at four
+                           independent layers; the 1.7 h replay is unnecessary
+  root cause               create_game performs no terminal evaluation, so a
+                           1-in-548,340 random setup strands the first player
+                           at ply 0: rules-terminal, labelled active
+  exact failing identity   root_seed 60006, environment 112, generation 98,
+                           created at global step 48,225 (abort t = 8,981 s)
+  fix                      identified and specified, NOT applied — it changes
+                           frozen-engine semantics (stratego/engine/state.py)
+  formerly failing run     still fails, by design, until the engine ruling;
+                           the reproduction script pins the behaviour
+  regressions              reproduction script only; test regressions follow
+                           the fix, if authorized
+
+Gate 2                     NOT STARTED (mandated sequencing; 47 % abort risk
+                           per 6 h with the engine unfixed; 168 h expects ~18)
+
+correctness counters       illegal actions 0; the one active-with-zero-legal
+                           state is fully diagnosed; frame mismatches 0;
+                           reconstruction mismatches 0 (22,606 + 144,149
+                           records re-verified across the two sessions)
+
+full test totals           before 2697 / 3 / 0 — after 2697 / 3 / 0
+
+Phase 6 recommendation     NOT safe to close on the recording path. Phase 6B
+                           remains BLOCKED on one narrow, fully specified
+                           engine ruling; everything else — persistence,
+                           compression, recycling, streaming verification,
+                           storage projection machinery — is validated and
+                           waiting.
+
+highest-risk remaining     the stranded-at-birth defect itself: until the
+limitation                 engine ruling, every long collection run carries a
+                           per-game 1.824e-6 abort probability, and no
+                           mitigation short of the semantic fix is
+                           permissible under the assignment's rules
+```
+
+## 6B-3. Phase 6B Continuation — Authorized Engine Correction and Final Operational Soak
+
+**Status: PASS — both gates.** The reviewing chat authorized the engine
+correction diagnosed in §6B-2 as a correctness bug fix to the reference
+implementation — ruleset `stratego_project_v1` unchanged, implementation
+bumped to `phase2_1_reference_1.2.0` — under ten explicit conditions. This
+section records the fix, its differential validation, the zero-decision game
+accounting, the Phase 2 revalidation, and the final six-hour recycled
+persisted soak, which passed all 26 completion gates and — in the single most
+conclusive event of the run — survived, sealed and persisted a live
+stranded-at-birth game whose identity had been predicted from seed arithmetic
+before launch. The §6B-2 BLOCKED ruling stands as history; this section
+supersedes it.
+
+### 6B-3.1 The correction (conditions 1–4)
+
+`_evaluate_terminal`'s mobility rule was refactored into a single shared
+implementation, `_evaluate_mobility_terminal(state, next_mover, other)` in
+`stratego/engine/transition.py`, used by both call sites so there is exactly
+one interpretation of the rule:
+
+- **after every move**, exactly as before: the player about to move is the
+  mover's opponent (bit-identical behaviour, proven in §6B-3.3);
+- **at game creation**, through the new `evaluate_initial_terminal(state)`
+  called by `create_game`: if the first player has no legal action the game
+  is terminal at ply 0 — `opponent_no_legal_move` with the mobile opponent as
+  winner, or `both_no_legal_move_draw` if neither side can move. If the first
+  player can move, creation remains nonterminal even when the second player
+  currently cannot; that case is decided at ply 1 by the transition-time
+  evaluation, exactly as before. A game decided at creation emits its
+  `game_end` event, preserving the exactly-one-per-finished-game contract.
+
+Flag capture cannot apply at ply 0 and the draw counters are zero there, so
+the frozen precedence order is untouched. No setup restriction or reroll was
+added: a stranding setup is a legal setup that now simply produces a decided
+game. The probability stated in §6B-2 was corrected to the exact value:
+**1 in 548,340** per game per side (7·6·5·4·3·2 / 40·39·38·37·36·35 =
+5,040 / 2,763,633,600 exactly).
+
+Version plumbing: `IMPLEMENTATION_VERSION` moved to
+`phase2_1_reference_1.2.0` with the change documented at the constant;
+`run_phase5.py`'s frozen-contract pin was retargeted; and the trajectory
+validator accepts the declared compatibility set {1.1.0, 1.2.0} — records
+written under 1.1.0 replay and reconstruct identically under 1.2.0, which
+§6B-3.3 proves on the real corpus rather than asserts. Both zero-legality
+traps — the coordinator's `verify_sampled_legality` and the worker's
+publish-time trap — remain in place and unweakened (condition 10).
+
+### 6B-3.2 Zero-decision games are full citizens (condition 7)
+
+A game terminal at creation ("stillborn") previously would have vanished: no
+decision is ever recorded for it, so no builder existed, no outcome was
+written, and the reset erased it. `trajectory_v1` turned out to represent the
+empty game **without any schema change** — the wire format already permits
+zero decisions and actions, and the only gap was that the builder took its
+ply-0 snapshot lazily on the first decision. Two collection-layer changes
+closed this:
+
+- `GameTrajectoryBuilder.finish` takes the ply-0 snapshot itself for a
+  zero-decision game (the only path that can reach `finish` with no
+  decisions — any other premature seal fails the action-history check);
+- the worker seals a stillborn game at its reset boundary: `record_outcome`
+  feeds `episode_count` and the `last_*` fields exactly like any completed
+  game — so `collect_finished`, `games_finished` and the terminal-reason
+  tallies include it — and when recording is enabled its zero-decision record
+  is sealed through the ordinary `finalise_recording` path, persisted with
+  its setups, winner and terminal reason. A `total_stillborn_games` counter
+  flows through the worker replies, the recording totals and the segment
+  state files, so the count is reconciled against the persisted records
+  rather than trusted.
+
+The lifecycle preserves the coordinator's one-game-per-slot-per-phase
+accounting exactly: a stillborn created by a reset at step S is published
+terminal at S, skipped by the coordinator, and sealed-then-recycled at step
+S+1.
+
+### 6B-3.3 Differential validation of the corrected engine (condition 8)
+
+Captured with the 1.1.0 engine before any edit, re-run identically after:
+
+| Baseline | Cases | Differences |
+|---|---:|---|
+| initial-state fingerprints, all 1,536 × 120 slot identities of the aborted soak's horizon | 184,320 | **exactly one** — (112, 98): `not_terminal` → `opponent_no_legal_move`, winner blue |
+| complete `play_random_game` games, seeds 0–1999, full-history final fingerprints | 2,000 | **0** |
+
+The stored corpus — all 76 shards of the aborted soak, recorded under
+1.1.0 — was then verified under the corrected engine:
+
+- **full streaming decode + structural validation**: 144,149 records, 0
+  decode failures, 0 validation failures, 0 duplicate game ids, all digests
+  and manifests intact;
+- **dense sample reconstruction** (every 50th record of every shard plus all
+  98 env-112 records): **3,017 games** rebuilt from their stored setups with
+  the new engine, **1,589,012 actions replayed**, **51,167 stored snapshots**
+  compared fingerprint-for-fingerprint against the replayed states, terminal
+  outcome and final ply checked per game — **0 mismatches**. Snapshot 0 of
+  every sampled game also matches a fresh `create_game` from the stored
+  setups, closing the loop between storage and the corrected creation path.
+
+The anti-leak workload counters that differ between today's runs and the
+accepted Phase 2 metrics file (86,500 vs 103,625 valid trials) were traced to
+accepted-era harness parameters, not the engine: today's anti-leak stage run
+against the **old** engine in a clean worktree produces counters and
+mismatches (all zero) byte-identical to the new engine's.
+
+### 6B-3.4 Phase 2 acceptance suite, rerun in full (condition 9)
+
+`run_phase2_validation.py` at full scale, written to
+`reports/phase_2_data/phase_2_metrics_reference_1_2_0.json` — the accepted
+1.1.0 metrics file is preserved untouched:
+
+```text
+replay reconstruction     10,000 games, 5,078,406 plies — 0 state, 0 event,
+                          0 observation, 0 result mismatches
+random-game tallies       identical to the accepted run: 2,831 red wins,
+                          2,846 blue wins, 4,323 draws, longest 1,860 moves
+anti-leak                 0 mismatches in every category
+combat / legality /       120/120 combat cases; 9,285 legality positions,
+invariants / mirror       0 mismatches; 1,045,111 invariant transitions,
+                          0 violations; 1,804 mirror pairs, 0 mismatches
+embedded full pytest      2,722 passed, 3 skipped, 0 failed
+harness's own verdict     unexplained mismatches across every gate: 0
+```
+
+### 6B-3.5 The permanent regressions (condition 6)
+
+35 new tests across three files:
+
+- `tests/engine/test_initial_mobility.py` (12): constructed red-stranded /
+  blue-mobile → blue win at ply 0 with one `game_end` event; both stranded →
+  draw at ply 0; red mobile / blue stranded → nonterminal at creation and
+  decided at ply 1 as before; ordinary mobile positions unchanged across
+  four seeds; snapshot and replay round-trips of born-terminal states.
+- `tests/training/test_stillborn_games.py` (13): the exact
+  `(60006, 112, 98)` production case through `BatchSimulator` (terminal,
+  reason, winner, empty legality products, outcome, identity); the
+  reset-through-a-stillborn-generation lifecycle; terminal-slot step
+  refusal; the zero-decision `trajectory_v1` round-trip, validation and
+  reconstruction; and a real `WorkerPool` publishing the stillborn slot as
+  TERMINAL, sealing outcome and record on the first step, and persisting a
+  decodable zero-decision shard record. Fixture seeds (157345, 151139,
+  1032652) were located by exhaustive scan and are pinned forever.
+- `tests/training/test_phase6b_recording.py` (+10): the Gate 1
+  fix-validation artifact must show every stage correct and the exact
+  548,340 reciprocal; the Gate 2 artifacts must be internally consistent,
+  recycled, gate-complete on PASS, and stillborn-reconciled. All ten execute
+  rather than skip, because the artifacts exist before the final suite runs.
+
+Gate 1 acceptance is `scripts/reproduce_phase6b_anomaly.py`, repurposed: the
+exact deterministic sequence that aborted the first soak now runs to the
+correct result at every layer — engine (terminal at creation, blue win, one
+`game_end`), batch (bit-identical), production pool (slot 112 / generation 98
+published `STATUS_TERMINAL`, no trap, outcome sealed, slot recycled to
+generation 99), preserved corpus undisturbed, horizon scan unchanged. The
+pre-fix diagnosis artifact is frozen as history;
+`agent_06b_anomaly_fix_validation.json` records the passing rerun.
+
+### 6B-3.6 Gate 2 — the final recycled soak
+
+Run as `scripts/run_phase6b_final.py`: unlike the first attempt's continuous
+soak, the 6-hour logical run **is itself recycled** — five segments of 72
+minutes, each a fresh child process on its own root seed (base 70,007, a new
+family so no game identity can collide with either preserved corpus) and its
+own run id, with flush/close-manifests, state persistence, orderly shutdown,
+process exit, restart, configuration-digest recheck and automatic resume at
+every boundary. Restart time is wall clock spent from the budget.
+
+```text
+segments                   5 × 4,320 s        wall clock 21,607.8 s (6.002 h)
+restart overhead           5.44 s total       0.025 % of wall; 1.0–1.2 s each
+positions                  179,885,567        decisions recorded: identical
+games                      349,685            records persisted:  identical
+sustained (settled)        8,334.8 pos/s      mean game 511.6 plies
+disk (settled)             3.572 GiB/h        compression ratio 0.6773
+disk (whole-run wall)      3.510 GiB/h        includes warmups and restarts
+shards                     200 + 200 manifests, 21.07 GiB, zlib level 6
+in-worker verification     1,153,116 decisions reverified, 0 mismatches
+```
+
+**The stillborn event.** The pre-launch scan predicted exactly one
+first-player-stranded identity inside the reachable horizon:
+`batch3070016-env000259-gen000037` (segment 3, environment 259, generation
+37). Roughly an hour into segment 3 that game was created live, and the run
+did what §6B-3.1 and §6B-3.2 say it must: published the slot as TERMINAL —
+no trap, no anomaly — sealed the outcome (blue win, `opponent_no_legal_move`),
+persisted a zero-decision record (1 ply-0 snapshot, validates clean, shard
+`p6bf601493g003_w01_s000002` index 858), recycled the slot, and continued to
+the end. Worker-counted stillborn games: 1; persisted zero-decision records:
+1; the same game. Under `phase2_1_reference_1.1.0` this exact moment aborted
+the production soak at t = 8,981 s. The fix is validated in production, not
+only in tests. (The same horizon held one *second*-player-stranded setup —
+environment 517, generation 55 of the same segment — which is the
+already-handled case: a 1-ply red win by the transition-time evaluation.)
+
+**Memory (§15 acceptance rule).** No natural plateau is claimed; recycling
+demonstrably bounds memory instead:
+
+```text
+fresh-process baselines    196 / 197 / 196 / 196 / 197 MiB   drift +0.33 %
+within-segment RSS slopes  +192.6 / +121.1 / +105.4 / +164.7 / +85.4 MiB/h
+                           (settled windows, R² 0.89–0.92, total RSS
+                           6.75–7.07 GiB across coordinator + ten workers)
+swap growth                0 bytes — the system-wide maximum over all 360
+                           samples equals the pre-run baseline exactly
+watchdog                   armed throughout, never tripped
+```
+
+Every boundary returned the next process to the startup baseline; no
+cumulative drift exists after five fresh starts. **Recommended operational
+recycle interval: 12 hours**, derived rather than chosen: the 12 GiB growth
+budget (25 % of system memory) divided by the worst observed settled slope
+(192.6 MiB/h) is 63.8 h; halved for the Phase 7 learner/optimizer memory not
+yet present (~32 h); halved again as operating margin and rounded to a
+checkpoint-aligned cadence. At that cadence a 168-hour run performs 14
+restarts costing ~15 s total (0.0002 % of the budget).
+
+**Streaming verification.** The whole final corpus, decoded and structurally
+validated in a dedicated subprocess so its memory is its own:
+
+```text
+records verified           349,685 of 349,685 (the entire corpus)
+decode / validation fails  0            duplicate game ids   0
+unclosed shards            0            manifest mismatches  0
+verifier peak RSS          110.0 MiB    (vs 8.75 GiB corpus → 40 GB+ under
+                                        the retired pre-6B verifier)
+verifier swap caused       0            duration 3,029 s
+```
+
+**Storage, measured again (condition: do not reuse 0.6773 unmeasured — it
+was remeasured and reproduced).** Projected to 168 hours:
+
+| basis | GiB/h | 168-hour GiB | volume headroom |
+|---|---:|---:|---:|
+| whole-run wall (incl. warmups + restarts) | 3.510 | **589.7** | 341.5 GiB |
+| settled windows | 3.572 | 600.2 | 331.1 GiB |
+
+Against the 931.3 GiB external volume (cleared before production), a full
+week fits with roughly a third of the disk to spare; transient headroom for
+open shards is 10 × 128 MiB, and manifests/state files measure in megabytes.
+Preserving every game of the week remains the policy.
+
+**Hard failure conditions (§18):** all clean — 0 illegal actions, 0
+active-with-zero-legal anomalies, 0 frame mismatches, 0 reconstruction
+mismatches, 0 unhandled worker failures, 0 model/MPS failures, 0 non-finite
+outputs, 0 corrupt/missing/duplicate records, 0 write errors, backlog
+structurally zero, swap growth zero, baselines flat, resume automatic in all
+five launches. 26 / 26 completion gates true; recommendation **PASS**.
+
+### 6B-3.7 Files, tests and artifacts
+
+Source changes (the authorized correction and its accounting):
+
+| File | Change |
+|---|---|
+| `stratego/engine/transition.py` | shared `_evaluate_mobility_terminal`, new `evaluate_initial_terminal` |
+| `stratego/engine/state.py` | `create_game` evaluates initial mobility |
+| `stratego/engine/constants.py` | `IMPLEMENTATION_VERSION` → `phase2_1_reference_1.2.0` |
+| `stratego/training/trajectory.py` | implementation-version compatibility set; ply-0 snapshot for zero-decision `finish` |
+| `stratego/training/worker_pool.py` | stillborn sealing at reset boundaries; `total_stillborn_games` counter |
+| `scripts/run_phase5.py` | frozen-contract pin retargeted to 1.2.0 |
+| `scripts/run_phase6b_segment.py` | reports `stillborn_games` in segment state |
+| `stratego/evaluation/__init__.py` | docstring version reference |
+
+Created: `tests/engine/test_initial_mobility.py`,
+`tests/training/test_stillborn_games.py`, `scripts/run_phase6b_final.py`
+(the recycled-soak harness), and the artifacts
+`agent_06b_anomaly_fix_validation.json`, `agent_06b_final_soak.json`,
+`agent_06b_final_soak_timeseries.csv` (360 samples),
+`agent_06b_recycling_validation.json`,
+`agent_06b_final_storage_validation.json`,
+`reports/phase_2_data/phase_2_metrics_reference_1_2_0.json`, and the updated
+`agent_06b_final_decision.json`. All §6B-2 evidence — the BLOCKED soak
+artifacts, the frozen pre-fix diagnosis, and both earlier corpora — is
+preserved unmodified.
+
+```text
+python -m pytest -q    before this continuation       2697 passed, 3 skipped, 0 failed
+python -m pytest -q    after Gate 1, before Gate 2    2726 passed, 9 skipped, 0 failed
+python -m pytest -q    final                          2732 passed, 3 skipped, 0 failed
+```
+
+The final three skips are the two pre-existing Phase 4 capability skips plus
+the first soak artifact's BLOCKED-branch skip, which is correct: that
+artifact is preserved history. No test was removed, weakened or disabled.
+
+### 6B-3.8 Handoff
+
+```text
+Phase 6B status            PASS — both gates
+
+Gate 1                     anomaly deterministically reproduced (seconds, four
+                           layers); root cause create_game's missing initial
+                           mobility evaluation; fixed as authorized in
+                           phase2_1_reference_1.2.0 via one shared rule
+                           implementation; formerly failing sequence passes;
+                           35 permanent regressions; differential validation
+                           total (184,320 + 2,000 + 144,149-record corpus +
+                           full Phase 2 suite: only (112,98) differs, by
+                           design)
+
+Gate 2                     6.002 h recycled soak, 5 segments, 5.44 s restart
+                           overhead (0.025 %); 179,885,567 positions;
+                           349,685 games = 349,685 persisted records;
+                           8,334.8 positions/s sustained; 3.572 GiB/h
+                           settled disk rate at ratio 0.6773; one predicted
+                           stillborn game encountered live, sealed, persisted
+                           and reconciled; 26/26 gates; PASS
+
+memory                     baselines 196/197/196/196/197 MiB (+0.33 %); slopes
+                           +85 to +193 MiB/h within segments, fully reset at
+                           every boundary; swap growth 0; recommended
+                           production recycle interval 12 h (derived)
+
+persistence                200 shards + 200 manifests, 21.07 GiB, 0 write
+                           errors, 0 corrupt/missing/duplicate records
+
+streaming verifier         349,685/349,685 records, 0 mismatches, 110 MiB
+                           peak RSS, 0 swap
+
+168-hour storage           589.7 GiB (wall basis) / 600.2 GiB (settled) of
+                           931.3 GiB — ~341 GiB headroom; fits with margin
+
+correctness                0 illegal actions, 0 active-with-zero-legal, 0
+                           frame mismatches, 0 reconstruction mismatches
+                           (1,153,116 decisions reverified), 0 worker/MPS
+                           failures, 0 non-finite outputs
+
+full test totals           2697/3/0 → 2732/3/0 (+35, none removed/weakened)
+
+Phase 6 recommendation     SAFE TO FORMALLY CLOSE on the recording path
+
+highest-risk limitation    the 6-hour soak bounds but does not directly
+                           observe 168-hour behaviour: production depends on
+                           the recycling supervisor operating at ≤ 12 h
+                           cadence, and the storage projection extrapolates a
+                           6-hour rate 28-fold with ~341 GiB of headroom
+                           absorbing drift
+```

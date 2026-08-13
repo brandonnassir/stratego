@@ -211,7 +211,7 @@ def verify_frozen_contracts() -> dict:
     """Confirm every version Phase 5 inherits is exactly what it inherited."""
     expected = {
         "rules_version": (RULES_VERSION, "stratego_project_v1"),
-        "reference_engine": (IMPLEMENTATION_VERSION, "phase2_1_reference_1.1.0"),
+        "reference_engine": (IMPLEMENTATION_VERSION, "phase2_1_reference_1.2.0"),
         "observation_version": (OBSERVATION_VERSION, "observation_v2_1_127ch"),
         "action_encoding_version": (ACTION_ENCODING_VERSION, "source_destination_10000_v1"),
         "policy_interface_version": (POLICY_INTERFACE_VERSION, "policy_interface_v1"),

@@ -1,0 +1,146 @@
+{
+ "agent": "agent_06b",
+ "anomaly": "coordinator abort at t=8,981s: slot 112 published ACTIVE with legal_count 0",
+ "duration_seconds": 4.163910790997761,
+ "failing_identity": {
+  "acting_player": 0,
+  "environment_id": 112,
+  "game_id": "batch60006-env000112-gen000098",
+  "generation": 98,
+  "global_step_of_creation": 48225,
+  "ply": 0,
+  "root_seed": 60006,
+  "slot": 112,
+  "slot_seed": 4213863571973875940,
+  "worker_id_in_production_topology": 0
+ },
+ "instrumentation_in_place": {
+  "reader_side_check": "stratego/training/coordinator.py verify_sampled_legality (the check that aborted the soak) remains in place and unweakened",
+  "writer_side_trap": "stratego/training/worker_pool.py publish() raises at the source with game id, generation, ply, acting player, terminal fields, a fresh has_legal_action evaluation and the action-history tail (uncommitted change from the previous session, verified live by this reproduction)"
+ },
+ "phase": "phase_6b_gate_1",
+ "reproduction": {
+  "batch_layer": {
+   "environment_id": 112,
+   "game_id": "batch60006-env000112-gen000098",
+   "generation": 98,
+   "identical_to_engine_state": true,
+   "legal_count": 0,
+   "legal_mask_nonzero": 0,
+   "state_fingerprint_sha256": "faf277b79d2a737d1e6201c1f4552783db24ce5234c359b972fb76bbdd7479e7",
+   "terminal": false
+  },
+  "corpus_forensics": {
+   "anomalous_generation_present": false,
+   "available": true,
+   "directory": "/Volumes/Brandon_Washington/stratego_phase6b/soak",
+   "final_sealed_generation": {
+    "final_ply": 407,
+    "generation": 97,
+    "terminal_reason": "battleless_move_limit_draw"
+   },
+   "generation_max": 97,
+   "generation_min": 0,
+   "interpretation": "each global step applies one ply to every active slot and a finished slot is reset in the same step its game ends, so the sum of sealed game lengths for generations 0..97 is the global step at which generation 98 was created and published",
+   "manifests_read": 76,
+   "missing_generations_in_range": [],
+   "sealed_games_for_environment": 98,
+   "sum_of_game_lengths": 48225
+  },
+  "deterministic": true,
+  "engine_state": {
+   "acting_player": 0,
+   "action_history": [],
+   "battleless_moves": 0,
+   "blue_setup_serialized": "58B6B29F86978879B4695SB5B99394469738B715",
+   "board_rendering": "     a  b  c  d  e  f  g  h  i  j\n 10 b4 b6 b9 b7 b3 b8 bB b7 b1 b5\n  9 b5 bS bB b5 bB b9 b9 b3 b9 b4\n  8 b9 b7 b8 b8 b7 b9 bB b4 b6 b9\n  7 b5 b8 bB b6 bB b2 b9 bF b8 b6\n  6  .  . ~~ ~~  .  . ~~ ~~  .  .\n  5  .  . ~~ ~~  .  . ~~ ~~  .  .\n  4 rB rB r4 r7 rB rB r4 r8 rB rF\n  3 r5 r6 r6 r8 r9 r5 r7 r8 r7 r7\n  2 r9 r9 r9 r6 r4 rS r9 r9 r9 r2\n  1 r8 r3 r3 rB r8 r5 r6 r1 r5 r9",
+   "game_id": "batch60006-env000112-gen000098",
+   "generate_actions_blue": 5,
+   "generate_actions_red": 0,
+   "has_legal_action_blue": true,
+   "has_legal_action_red": false,
+   "legal_actions_for_acting_player": 0,
+   "ply": 0,
+   "red_front_row_open_all_immovable": true,
+   "red_front_row_open_piece_types": [
+    11,
+    11,
+    11,
+    11,
+    11,
+    10
+   ],
+   "red_setup_serialized": "833B85615999964S99925668957877BB47BB48BF",
+   "slot_seed": 4213863571973875940,
+   "state_fingerprint_sha256": "faf277b79d2a737d1e6201c1f4552783db24ce5234c359b972fb76bbdd7479e7",
+   "terminal": false,
+   "terminal_reason": "not_terminal",
+   "winner": null
+  },
+  "horizon_scan": {
+   "environments_scanned": 1536,
+   "first_player_stranded_setups": [
+    [
+     112,
+     98
+    ]
+   ],
+   "generations_scanned": 120,
+   "note": "a second-player stranded setup is handled today: the first player's opening move triggers _evaluate_terminal, which ends the game correctly at ply 1",
+   "root_seed": 60006,
+   "second_player_stranded_setups": []
+  },
+  "note": "slot content is a pure function of (root_seed, environment_id, generation); the previously proposed 1.7-hour instrumented replay is unnecessary",
+  "production_pool": {
+   "published_generation_97": {
+    "generation": 97,
+    "legal_count": 10,
+    "ply": 0,
+    "status_active": true
+   },
+   "trap_message": "worker 0 raised WorkerPoolError: publish would mark an active slot with zero legal actions: slot 112, game 'batch60006-env000112-gen000098', generation 98, ply 0, acting_player 0, terminal False ('not_terminal'), has_legal_action(acting)=False, battleless 0, last actions []",
+   "trap_raised": true
+  },
+  "requires_model_or_replay": false
+ },
+ "resolution": {
+  "alternatives_considered_and_rejected": {
+   "recycle_on_anomaly_or_weaken_assertion": "explicitly forbidden by the assignment; would mask a correctness defect and at the measured rate a six-hour soak has roughly a coin-flip chance of hitting one and a 168-hour run expects ~18",
+   "screen_or_reroll_stranded_setups": "changes the (root_seed, environment_id, generation) -> game mapping and the collection distribution, silently erases a rules-decided game, and breaks every independent rebuild of slot content unless the reroll rule is replicated everywhere",
+   "training_layer_marks_terminal_at_build": "duplicates terminal semantics outside the engine, leaves the engine's own play_random_game crashable, and creates two sources of truth for the terminal rule"
+  },
+  "proposed_fix_not_applied": {
+   "blast_radius": "empty for every playable game: any game with at least one applied action necessarily had a mobile first player, so no recorded trajectory, replay, snapshot or evaluation result changes; the only affected states are those that today crash the pipeline (or play_random_game) and are unplayable by construction. Downstream the pipeline already composes correctly: publish() reports STATUS_TERMINAL, the coordinator skips the slot, auto-reset recycles it the next step, and no trajectory record is produced for a zero-decision game.",
+   "implementation_note": "state.py cannot import legal_moves/transition at module level (import cycle); a function-level import inside create_game, as worker_pool.publish already does, or a small evaluate_initial_terminal helper in transition.py called from create_game via local import, both work",
+   "location": "stratego/engine/state.py:create_game",
+   "semantics": "after constructing the GameState, if the acting player has no legal action: winner = opponent if the opponent has one (terminal_reason opponent_no_legal_move), else a draw (both_no_legal_move_draw); flag_capture cannot apply at ply 0 and the draw limits are zero, so the existing precedence order is preserved"
+  },
+  "reason": "the smallest correct fix changes frozen-engine semantics: create_game must evaluate the initial position's mobility with the same precedence _evaluate_terminal already applies after every move. Per the Phase 6B continuation assignment, a frozen-engine semantic change is not made unilaterally; the reviewing chat decides whether the engine can be reopened.",
+  "status": "BLOCKED"
+ },
+ "root_cause": {
+  "candidate_causes_examined": {
+   "generation_or_slot_identity_crossing": "NO -- corpus manifests show env-112 generations 0..97 sealed exactly once each, no duplicates, no gaps; generation 98 is a genuinely new game",
+   "legal_action_computation_wrong_for_active_state": "NO -- zero is the correct count; generate_actions_for_player, has_legal_action and the dense mask all agree, and the board rendering confirms red has no move",
+   "legitimately_terminal_but_published_active": "YES -- the position is rules-terminal (red cannot move on its turn) but the engine reports terminal=False because no terminal evaluation runs at creation",
+   "shared_memory_publication_ordering": "NO -- publish derives status, mask, count and metadata from one state object in one pass; the writer-side trap reproduces the contradiction inside that single pass, before any reader is involved",
+   "stale_metadata_after_independent_reset": "NO -- the reset produced a brand-new EnvironmentSlot with fresh state, correct game_id, correct generation 98; BatchSimulator rebuilds the identical fingerprint",
+   "worker_coordinator_divergence": "NO -- the coordinator read exactly what the worker published, and the worker published exactly what the engine reported"
+  },
+  "defect_class": "frozen_engine_semantic_gap",
+  "defect_location": "stratego/engine/state.py:create_game",
+  "engine_internal_evidence": "stratego/engine/random_play.py:play_random_game raises RuntimeError('non-terminal state with no legal actions...') for exactly this condition, annotated 'an empty list here would mean the terminal check missed a case' -- the engine's own driver treats the state as a violated invariant",
+  "expected_events": {
+   "aborted_soak_expected": 0.26568552358026043,
+   "aborted_soak_games_started": 145686,
+   "aborted_soak_probability_at_least_one": 0.23331980756358384,
+   "hours_168_at_57900_games_per_hour": 17.739358791990373,
+   "probability_six_hour_soak_hits_one": 0.469294766814248,
+   "six_hour_soak_at_57900_games_per_hour": 0.6335485282853704
+  },
+  "probability_one_in": 548340,
+  "probability_per_game_per_side": 1.82368603421235e-06,
+  "summary": "The frozen engine never evaluates the no-legal-move terminal conditions at game creation. `_evaluate_terminal` runs only inside `apply_action`, so `create_game` returns terminal=False unconditionally. A uniformly shuffled setup can place Flag/Bomb on all six front-row squares whose forward square is not a lake; every other piece is boxed in at ply 0, so the first player is stranded at birth. Under the project ruleset ('victory when the opponent has no legal move; draw if neither player can legally move') that position is a decided game -- blue wins by opponent_no_legal_move -- but the engine labels it active. The pipeline then publishes the mislabelled state faithfully, and the coordinator's independent sampled-legality check catches the contradiction."
+ },
+ "timestamp": "2026-08-13T00:53:06-0400"
+}

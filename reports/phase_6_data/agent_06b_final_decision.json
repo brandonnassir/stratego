@@ -1,0 +1,122 @@
+{
+ "agent": "agent_06b",
+ "phase": "phase_6b_continuation",
+ "assignment": "Phase 6B Continuation -- Anomaly Diagnosis and Final Operational Soak",
+ "status": "PASS",
+ "history": {
+  "first_ruling": "BLOCKED -- frozen engine semantic change appears necessary (recorded 2026-08-13T00:53:52-0400; the pre-fix diagnosis is frozen in agent_06b_anomaly_diagnosis.json)",
+  "second_ruling": "the reviewing chat authorized the engine correction as a correctness bug fix under ten conditions; this record supersedes the BLOCKED status after both gates passed"
+ },
+ "gate_1": {
+  "status": "PASS",
+  "anomaly_reproduced": true,
+  "root_cause": "create_game never evaluated the no-legal-move terminal conditions; a 1-in-548,340 uniformly shuffled setup strands the first player at ply 0, producing a rules-terminal position labelled active",
+  "fix": "phase2_1_reference_1.2.0: the mobility-termination rule was refactored into one shared implementation (_evaluate_mobility_terminal in stratego/engine/transition.py) used by apply_action exactly as before and by the new evaluate_initial_terminal called from create_game; a game decided at creation emits its game_end event; ruleset stratego_project_v1 unchanged",
+  "conditions": {
+   "1_bug_fix_not_ruleset_change": "ruleset id unchanged; IMPLEMENTATION_VERSION bumped 1.1.0 -> 1.2.0 with the change documented at the constant",
+   "2_authorized_semantics": "acting player stranded + opponent mobile -> opponent_no_legal_move, opponent wins; neither mobile -> both_no_legal_move_draw; acting player mobile -> nonterminal even if the opponent currently cannot move (regression-tested)",
+   "3_single_interpretation": "one shared helper in transition.py; no second interpretation in state.py (create_game calls it via function-level import to avoid the module cycle)",
+   "4_no_setup_restrictions": "no screening, no reroll; a stranding setup is a legal setup that produces a decided game",
+   "5_probability_corrected": "1 in 548,340 exactly (5040/2,763,633,600) in the report and artifacts",
+   "6_permanent_regressions": "35 new tests: tests/engine/test_initial_mobility.py (12), tests/training/test_stillborn_games.py (13, including the exact (60006,112,98) case and the worker-publication regression on pinned fixture seed 157345), tests/training/test_phase6b_recording.py (+10 artifact-consistency tests that execute rather than skip)",
+   "7_zero_decision_accounting": "resolved without any trajectory-schema change: the wire format already represents empty games; GameTrajectoryBuilder.finish now takes the ply-0 snapshot for the zero-decision path, and the worker seals stillborn outcomes and records through the ordinary paths with a reconciled total_stillborn_games counter",
+   "8_differential_validation": "184,320 initial states -- only (112,98) differs; 2,000 complete games -- zero differences; the full 144,149-record 1.1.0 corpus decodes and validates under 1.2.0; dense sample reconstruction (3,017 games, 1,589,012 replayed plies, 51,167 snapshot comparisons) -- zero mismatches; anti-leak counters bit-identical old-vs-new under today's harness",
+   "9_phase2_suite_rerun": "run_phase2_validation.py at full scale to reports/phase_2_data/phase_2_metrics_reference_1_2_0.json (accepted 1.1.0 metrics preserved): 10,000 replays / 5,078,406 plies, 0 mismatches in every gate, random-game tallies identical to the accepted run, embedded pytest green",
+   "10_traps_intact": "coordinator verify_sampled_legality and the worker publish-time trap unchanged and unweakened"
+  },
+  "formerly_failing_sequence_passes": "scripts/reproduce_phase6b_anomaly.py exits 0: (60006,112,98) is terminal at creation with the authorized semantics at engine, batch and production-pool level; evidence in agent_06b_anomaly_fix_validation.json"
+ },
+ "gate_2": {
+  "status": "PASS",
+  "artifact": "reports/phase_6_data/agent_06b_final_soak.json",
+  "recommendation": "PASS",
+  "gates_true": 26,
+  "gates_total": 26,
+  "soak": {
+   "logical_plan": "5 recycled segments x 4,320 s = 6.00 h, C1 unchanged (digest 31ca84ab140c...), 10 workers x 1,536 environments, batch 2,048, float16, dense legality, snapshot 32, KEEP_PYTHON, compressed shards to the external volume, base seed 70007",
+   "elapsed_wall_seconds": 21607.8,
+   "recycle_boundaries": 5,
+   "restart_overhead_seconds": 5.44,
+   "restart_overhead_fraction": 0.000252,
+   "positions": 179885567,
+   "games": 349685,
+   "sustained_positions_per_second": 8334.8,
+   "mean_game_length": 511.6
+  },
+  "memory": {
+   "segment_baselines_mib": [196, 197, 196, 196, 197],
+   "baseline_drift_fraction": 0.003345,
+   "within_segment_slopes_mib_per_hour": [192.6, 121.1, 105.4, 164.7, 85.4],
+   "swap_growth_bytes": 0,
+   "budget_hours_at_worst_slope": 63.8,
+   "recommended_recycle_interval_hours": 12,
+   "interval_derivation": "12 GiB growth budget (25% of 48 GiB) / worst settled slope 192.6 MiB/h = 63.8 h; halved for Phase 7 learner/optimizer memory not yet present (~32 h); halved again as operating margin and rounded to a checkpoint-aligned cadence -> 12 h, a >5x safety factor costing ~15 s of restart overhead per 168 h"
+  },
+  "persistence": {
+   "shards": 200,
+   "manifests": 200,
+   "records": 349685,
+   "records_equal_completed_games": true,
+   "bytes_written": 22623421569,
+   "compression_ratio_settled": 0.6773,
+   "write_errors": 0,
+   "corrupt_records": 0,
+   "missing_sealed_records": 0,
+   "duplicate_records": 0,
+   "unclosed_shards": 0
+  },
+  "streaming_verifier": {
+   "records_verified": 349685,
+   "reconstruction_mismatches": 0,
+   "peak_rss_mib": 110.0,
+   "swap_caused": 0,
+   "seconds": 3029
+  },
+  "storage_168h": {
+   "wall_basis_gib": 589.7,
+   "settled_basis_gib": 600.2,
+   "volume_total_gib": 931.3,
+   "remaining_headroom_gib": 341.5,
+   "fits": true
+  },
+  "stillborn_in_production": {
+   "predicted_in_advance": "batch3070016-env000259-gen000037 (segment 3, environment 259, generation 37), forecast from seed arithmetic before launch",
+   "observed": "exactly the predicted game: sealed as a zero-decision blue win (opponent_no_legal_move), persisted in shard p6bf601493g003_w01_s000002 index 858, validates clean, reconciled 1:1 against the worker counter",
+   "significance": "the exact condition that aborted the first soak occurred live and the run completed; the fix is validated in production, not only in tests"
+  },
+  "correctness": {
+   "illegal_actions": 0,
+   "active_with_zero_legal_anomalies": 0,
+   "action_frame_mismatches": 0,
+   "reconstruction_mismatches": 0,
+   "in_worker_verified_decisions": 1153116,
+   "worker_failures": 0,
+   "model_mps_failures": 0,
+   "nonfinite_outputs": 0
+  }
+ },
+ "test_suite": {
+  "before_continuation": "2697 passed, 3 skipped, 0 failed in 159.14s",
+  "after_gate_1": "2726 passed, 9 skipped, 0 failed in 166.71s",
+  "final": "2732 passed, 3 skipped, 0 failed in 160.25s",
+  "final_skips": "the two pre-existing Phase 4 capability skips plus the first soak artifact's BLOCKED-branch skip (that artifact is preserved history)",
+  "tests_added": 35,
+  "tests_removed_or_weakened": 0
+ },
+ "frozen_decisions": {
+  "primary_architecture": "C1",
+  "primary_configuration_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+  "fallback_architecture": "C0",
+  "fallback_configuration_digest": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+  "reopened": false
+ },
+ "preserved_corpora": {
+  "aborted_soak": "/Volumes/Brandon_Washington/stratego_phase6b/soak (76 shards, 144,149 records, 8.75 GiB; used read-only for forensics and differential validation)",
+  "restart_test": "no longer on disk (absent at this continuation's start; its validation evidence survives in agent_06b_restart_validation.json)",
+  "final_soak": "/Volumes/Brandon_Washington/stratego_phase6b/final_soak (200 shards, 349,685 records, 21.07 GiB)",
+  "deletion_policy": "nothing deleted; disposition belongs to the reviewing chat after formal acceptance"
+ },
+ "phase_6_recommendation": "safe to formally close on the recording path",
+ "highest_risk_remaining_limitation": "the 6-hour soak bounds but does not directly observe 168-hour behaviour: within-segment RSS growth (85-193 MiB/h short-window) is reset by recycling, so the production run depends on the recycling supervisor operating on the recommended <= 12 h cadence; and the 168-hour storage projection extrapolates a 6-hour rate 28-fold, with ~341 GiB of measured headroom absorbing drift",
+ "timestamp": "2026-08-13T09:10:11-0400"
+}

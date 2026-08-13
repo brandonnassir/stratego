@@ -1,0 +1,88 @@
+{
+ "agent": "agent_06b",
+ "duration_seconds": 5.06134641600147,
+ "failing_identity": {
+  "environment_id": 112,
+  "game_id": "batch60006-env000112-gen000098",
+  "generation": 98,
+  "root_seed": 60006,
+  "slot_seed": 4213863571973875940
+ },
+ "formerly_failing_sequence_now_passes": true,
+ "implementation_version": "phase2_1_reference_1.2.0",
+ "phase": "phase_6b_gate_1_acceptance",
+ "pre_fix_diagnosis_artifact": "reports/phase_6_data/agent_06b_anomaly_diagnosis.json (frozen; documents the defect as it stood before the correction)",
+ "probability_one_in_exact": 548340,
+ "purpose": "re-run of the exact deterministic sequence that aborted the first persisted soak, under the authorized engine correction",
+ "stages": {
+  "batch_layer": {
+   "correct": true,
+   "game_id": "batch60006-env000112-gen000098",
+   "generation": 98,
+   "identical_to_engine_state": true,
+   "is_terminal": true,
+   "legal_count": 0,
+   "legal_mask_nonzero": 0
+  },
+  "corpus_forensics": {
+   "anomalous_generation_present": false,
+   "available": true,
+   "correct": true,
+   "directory": "/Volumes/Brandon_Washington/stratego_phase6b/soak",
+   "generation_max": 97,
+   "generation_min": 0,
+   "missing_generations_in_range": [],
+   "sealed_games_for_environment": 98
+  },
+  "engine_state": {
+   "correct": true,
+   "game_end_events": 1,
+   "game_end_is_final_event": true,
+   "game_id": "batch60006-env000112-gen000098",
+   "has_legal_action_blue": true,
+   "has_legal_action_red": false,
+   "is_draw": false,
+   "legal_actions_for_acting_player": 0,
+   "ply": 0,
+   "slot_seed": 4213863571973875940,
+   "state_fingerprint_sha256": "cd89c2406f9b31715f1dcc4ff254fe44643fa3fdf46b549855487a43617c3401",
+   "terminal": true,
+   "terminal_reason": "opponent_no_legal_move",
+   "winner": 1,
+   "winner_is_blue": true
+  },
+  "horizon_scan": {
+   "correct": true,
+   "environments_scanned": 1536,
+   "first_player_stranded_setups": [
+    [
+     112,
+     98
+    ]
+   ],
+   "generations_scanned": 120,
+   "second_player_stranded_setups": []
+  },
+  "production_pool": {
+   "after_sealing_step": {
+    "episode_count": 1,
+    "last_terminal_reason": "opponent_no_legal_move",
+    "last_total_moves": 0,
+    "last_winner_is_blue": true,
+    "next_generation": 99,
+    "next_generation_active": true,
+    "stillborn_counted": 1
+   },
+   "correct": true,
+   "published_generation_98": {
+    "acting_player_none": true,
+    "episode_count_before_seal": 0,
+    "generation": 98,
+    "legal_count": 0,
+    "status_terminal": true,
+    "terminal_flag": 1
+   }
+  }
+ },
+ "timestamp": "2026-08-13T01:32:50-0400"
+}

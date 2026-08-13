@@ -185,13 +185,24 @@ def create_game(
             raise ValueError(f"duplicate occupancy at square {square}")
         board[square] = record.piece_id
 
-    return GameState(
+    state = GameState(
         rules=rules,
         game_id=game_id,
         board=board,
         pieces=records,
         acting_player=rules.first_player,
     )
+
+    # `phase2_1_reference_1.2.0`: the mobility-termination rule applies to the
+    # initial position too -- a legal random setup can strand the first player
+    # at ply 0, and such a game is already decided (`01_official_rules.md`
+    # section 8). The evaluation lives in `transition.py` next to the per-move
+    # terminal logic so there is exactly one interpretation of the rule; the
+    # import is local because `transition` imports this module.
+    from .transition import evaluate_initial_terminal
+
+    evaluate_initial_terminal(state)
+    return state
 
 
 # ---------------------------------------------------------------------------

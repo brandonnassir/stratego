@@ -381,6 +381,18 @@ class RecordingConfig:
     #: list on every recorded decision. Cheap, and it is the check that would
     #: catch a coordinator reading a stale or misaligned row.
     check_shared_legality: bool = True
+    #: Phase 6B: where sealed records are *persisted*. `None` keeps the accepted
+    #: Phase 3/6 behaviour exactly -- records are encoded, measured and dropped,
+    #: and no worker touches the filesystem. When set, each worker appends its
+    #: own sealed records to its own shard files under this directory; see
+    #: `stratego.training.shard_writer` for why the writer is per-worker and
+    #: synchronous.
+    output_directory: str | None = None
+    #: Rollover size for one shard file. Ignored when `output_directory` is None.
+    shard_target_bytes: int = 128 * 1024 * 1024
+    #: Stamped into shard names so two runs writing to one directory cannot
+    #: collide and so a shard can be traced back to the run that produced it.
+    run_id: str = "run"
 
 
 class _WorkerRuntime:
@@ -410,6 +422,11 @@ class _WorkerRuntime:
         self.transitions = 0
         self.terminals = 0
         self.resets = 0
+        # Games that were terminal at creation (`phase2_1_reference_1.2.0`): a
+        # legal random setup can strand the first player at ply 0. Counted so a
+        # run can report them; their outcomes and records flow through the
+        # ordinary sealing paths.
+        self.stillborn_games = 0
 
         # -- recording state --------------------------------------------------
         self.recording = recording or RecordingConfig()
@@ -438,6 +455,21 @@ class _WorkerRuntime:
         self.mismatch_details: list[dict] = []
         self.recording_seconds = 0.0
         self.verification_seconds = 0.0
+        # Phase 6B persistence. Absent unless an output directory is configured,
+        # so the accepted encode-and-drop path is untouched by default and a
+        # worker still performs no file I/O.
+        self.shard_writer = None
+        if self.recording.enabled and self.recording.output_directory:
+            from .shard_writer import ShardWriter
+
+            self.shard_writer = ShardWriter(
+                self.recording.output_directory,
+                worker_id=assignment.worker_id,
+                run_id=self.recording.run_id,
+                compress_records=self.recording.compress_records,
+                target_bytes=self.recording.shard_target_bytes,
+                collection_policy_version=self.recording.collection_policy_version,
+            )
         # A game that was already in progress when recording began cannot be
         # recorded from ply 0, so it is skipped and counted rather than stored
         # as a partial trajectory. Enabling recording at pool start keeps this 0.
@@ -465,7 +497,30 @@ class _WorkerRuntime:
             else:
                 view["observations"][local] = simulator.observation(local)
                 view["legal_mask"][local] = simulator.legal_action_mask(local)
-                view["legal_count"][local] = len(simulator.legal_actions(local))
+                legal_count = len(simulator.legal_actions(local))
+                if legal_count == 0:
+                    # Phase 6B, first soak, t=8,981s: the coordinator sampled
+                    # from a published all-zero mask -- an active slot with no
+                    # legal action, which the engine's transition-time mobility
+                    # check should make impossible. The reader-side detection
+                    # saw only the symptom; this writer-side check captures the
+                    # contradiction with the state still in hand, so one
+                    # occurrence is a complete diagnosis rather than a mystery.
+                    from ..engine.legal_moves import has_legal_action
+
+                    raise WorkerPoolError(
+                        "publish would mark an active slot with zero legal "
+                        f"actions: slot {self.assignment.start + local}, game "
+                        f"{state.game_id!r}, generation "
+                        f"{simulator.generation(local)}, ply {state.total_moves}, "
+                        f"acting_player {state.acting_player}, terminal "
+                        f"{state.terminal} ({state.terminal_reason!r}), "
+                        f"has_legal_action(acting)="
+                        f"{has_legal_action(state, state.acting_player)}, "
+                        f"battleless {state.battleless_moves}, last actions "
+                        f"{list(state.action_history[-6:])}"
+                    )
+                view["legal_count"][local] = legal_count
                 view["acting_player"][local] = state.acting_player
                 view["terminal"][local] = 0
                 view["status"][local] = STATUS_ACTIVE
@@ -604,6 +659,37 @@ class _WorkerRuntime:
                 )
         self.recording_seconds += time.perf_counter() - started
 
+    def _record_stillborn(self, local: int) -> None:
+        """Count and seal a game that was terminal at creation.
+
+        `phase2_1_reference_1.2.0` can create a slot whose first player is
+        stranded: the game is decided before any decision exists. It is a
+        completed game all the same -- its outcome feeds `episode_count` and
+        the `last_*` fields exactly like any transition-terminal game, and when
+        recording is enabled its zero-decision record is sealed through the
+        ordinary path so the game is persisted with its setups, winner and
+        terminal reason rather than silently vanishing at the reset.
+        """
+        self.record_outcome(local)
+        self.stillborn_games += 1
+        if not self.recording.enabled:
+            return
+        key = (
+            self.simulator.environment_id(local),
+            self.simulator.generation(local),
+        )
+        self._builders[local] = (
+            key,
+            builder_for_slot(
+                self.simulator,
+                local,
+                snapshot_interval=self.recording.snapshot_interval,
+                collection_policy_version=self.recording.collection_policy_version,
+                collection_checkpoint_id=self.recording.collection_checkpoint_id,
+            ),
+        )
+        self.finalise_recording(local)
+
     def finalise_recording(self, local: int) -> None:
         """Seal, optionally verify, and discard the record of a finished game."""
         entry = self._builders.pop(local, None)
@@ -619,7 +705,32 @@ class _WorkerRuntime:
         self.snapshot_count += len(record.snapshots)
 
         payload: bytes | None = None
-        if config.encode_records:
+        if self.shard_writer is not None:
+            # Phase 6B: the writer owns the encode and the compress, so the
+            # record is serialised once and the produced/compressed/persisted
+            # byte totals all come from the same pass. `record_bytes` keeps
+            # meaning *uncompressed bytes produced*, so it stays comparable to
+            # every Phase 3/4/6 storage figure; what landed on disk is reported
+            # separately from the writer's own stats.
+            accounting = self.shard_writer.write(record)
+            self.record_bytes += accounting["uncompressed_bytes"]
+            if config.retain_games or digests:
+                # Only re-serialise when something actually needs the bytes: the
+                # retention reservoir, or a verification that has to round-trip
+                # the record through the codec.
+                payload = (
+                    encode_game_record_compressed(record)
+                    if config.compress_records
+                    else encode_game_record(record)
+                )
+                offer_to_reservoir(
+                    self._retention_rng,
+                    self.retained_records,
+                    payload,
+                    capacity=config.retain_games,
+                    seen=self.games_sealed,
+                )
+        elif config.encode_records:
             payload = (
                 encode_game_record_compressed(record)
                 if config.compress_records
@@ -704,10 +815,30 @@ class _WorkerRuntime:
         # reply stays a small fixed-shape dictionary either way.
         if not self.recording.enabled:
             return {}
+        persistence = {}
+        if self.shard_writer is not None:
+            stats = self.shard_writer.stats
+            persistence = {
+                "total_persisted_bytes": stats.bytes_written,
+                "total_compressed_bytes": stats.compressed_bytes,
+                "total_shards_opened": stats.shards_opened,
+                "total_shards_closed": stats.shards_closed,
+                "total_records_persisted": stats.records_written,
+                "total_encode_seconds": stats.encode_seconds,
+                "total_compress_seconds": stats.compress_seconds,
+                "total_write_seconds": stats.write_seconds,
+                "total_flush_seconds": stats.flush_seconds,
+                "total_write_errors": stats.write_errors,
+                # Synchronous per-worker writes: the bytes are on the filesystem
+                # before the sealing call returns, so there is no queue.
+                "total_pending_records": 0,
+                "total_pending_bytes": 0,
+            }
         return {
             "total_decisions_recorded": self.decisions_recorded,
             "total_games_recorded": self.games_recorded,
             "total_record_bytes": self.record_bytes,
+            **persistence,
             "total_snapshot_bytes": self.snapshot_bytes,
             "total_snapshot_count": self.snapshot_count,
             "total_verified_games": self.verified_games,
@@ -733,6 +864,7 @@ class _WorkerRuntime:
             "total_transitions": self.transitions,
             "total_terminals": self.terminals,
             "total_resets": self.resets,
+            "total_stillborn_games": self.stillborn_games,
             **self.recording_counters(),
         }
 
@@ -765,6 +897,17 @@ class _WorkerRuntime:
         if auto_reset:
             to_reset.update(self.simulator.finished_slots())
         if to_reset:
+            # A game terminal at creation reaches its reset having never been
+            # stepped: no decision exists and `record_outcome` never ran for
+            # it. Seal its outcome and (when recording) its zero-decision
+            # record now, before the reset replaces the state. Ply 0 is what
+            # identifies it -- a game that ended through a transition was
+            # sealed in the `newly_terminal` loop above, in an earlier step's
+            # loop, or at startup it cannot be (a stepped game has moves).
+            for local in sorted(to_reset):
+                state = self.simulator.game_state(local)
+                if state.terminal and state.total_moves == 0:
+                    self._record_stillborn(local)
             self.simulator.reset_slots(sorted(to_reset))
             self.resets += len(to_reset)
             if self.recording.enabled:
@@ -785,6 +928,14 @@ class _WorkerRuntime:
         }
 
     def close(self) -> None:
+        # The open shard is finished first, so its manifest exists and the run
+        # ends with no shard left unclosed. This runs in the worker's `finally`,
+        # so it happens on a clean shutdown and on a fault alike.
+        if self.shard_writer is not None:
+            try:
+                self.shard_writer.close()
+            except Exception:  # pragma: no cover - shutdown must not mask a fault
+                pass
         # Every view has to be dropped before the mapping, or the exported
         # buffers keep the shared block alive.
         self.view = {}
@@ -831,6 +982,12 @@ def _worker_main(
             command = connection.recv()
             kind = command["kind"]
             if kind == "shutdown":
+                # Finish the open shard *before* reporting, so the manifest for
+                # the last shard exists and `total_shards_closed` in this reply
+                # is the final number rather than one short. `close` is
+                # idempotent, so the `finally` below is still safe.
+                if runtime.shard_writer is not None:
+                    runtime.shard_writer.close()
                 connection.send(
                     {
                         "kind": "shutdown_ack",
@@ -1078,6 +1235,7 @@ class WorkerPool:
             "total_transitions": 0,
             "total_terminals": 0,
             "total_resets": 0,
+            "total_stillborn_games": 0,
             "total_decisions_recorded": 0,
             "total_games_recorded": 0,
             "total_record_bytes": 0,
@@ -1089,6 +1247,19 @@ class WorkerPool:
             "total_games_joined_late": 0,
             "recording_seconds": 0.0,
             "verification_seconds": 0.0,
+            # Phase 6B persistence; stay 0 when no output directory is set.
+            "total_persisted_bytes": 0,
+            "total_compressed_bytes": 0,
+            "total_shards_opened": 0,
+            "total_shards_closed": 0,
+            "total_records_persisted": 0,
+            "total_encode_seconds": 0.0,
+            "total_compress_seconds": 0.0,
+            "total_write_seconds": 0.0,
+            "total_flush_seconds": 0.0,
+            "total_write_errors": 0,
+            "total_pending_records": 0,
+            "total_pending_bytes": 0,
         }
         retained: list[bytes] = []
         mismatch_details: list[dict] = []
@@ -1240,6 +1411,7 @@ class WorkerPool:
         keys = (
             "total_decisions_recorded",
             "total_games_recorded",
+            "total_stillborn_games",
             "total_record_bytes",
             "total_snapshot_bytes",
             "total_snapshot_count",
@@ -1249,6 +1421,21 @@ class WorkerPool:
             "total_games_joined_late",
             "recording_seconds",
             "verification_seconds",
+            # Phase 6B persistence. Absent from every reply unless an output
+            # directory is configured, in which case `sum` over a missing key
+            # already yields 0.
+            "total_persisted_bytes",
+            "total_compressed_bytes",
+            "total_shards_opened",
+            "total_shards_closed",
+            "total_records_persisted",
+            "total_encode_seconds",
+            "total_compress_seconds",
+            "total_write_seconds",
+            "total_flush_seconds",
+            "total_write_errors",
+            "total_pending_records",
+            "total_pending_bytes",
         )
         return {
             key: sum(reply.get(key, 0) for reply in self.last_replies) for key in keys

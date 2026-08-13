@@ -355,6 +355,16 @@ class CoordinatorConfig:
     rules: RulesConfig = TRAINING_RULES
     record_trajectories: bool = False
     snapshot_interval: int = 32
+    #: Phase 6B durable persistence. `None` is the accepted Phase 3/6 behaviour:
+    #: sealed records are encoded, measured and dropped, and no worker touches
+    #: the filesystem. Setting a directory turns on per-worker shard writing.
+    trajectory_output_directory: str | None = None
+    #: Compress persisted records with the repository's existing zlib helper.
+    #: Only meaningful alongside `trajectory_output_directory`.
+    compress_trajectories: bool = False
+    #: Shard rollover size, and the run tag stamped into shard filenames.
+    shard_target_bytes: int = 128 * 1024 * 1024
+    run_id: str = "run"
     collection_policy_version: str = DEFAULT_COLLECTION_POLICY_VERSION
     collection_checkpoint_id: str | None = None
     verify_target_decisions: int = 0
@@ -404,6 +414,10 @@ class CoordinatorConfig:
             "record_trajectories": self.record_trajectories,
             "snapshot_interval": self.snapshot_interval,
             "detailed_timing": self.detailed_timing,
+            "trajectory_output_directory": self.trajectory_output_directory,
+            "compress_trajectories": self.compress_trajectories,
+            "shard_target_bytes": self.shard_target_bytes,
+            "run_id": self.run_id,
             "label": self.label,
         }
 
@@ -576,6 +590,10 @@ class SelfPlayCoordinator:
             verify_target_decisions=config.verify_target_decisions,
             max_concurrent_verifications=config.max_concurrent_verifications,
             retain_games=config.retain_games,
+            compress_records=config.compress_trajectories,
+            output_directory=config.trajectory_output_directory,
+            shard_target_bytes=config.shard_target_bytes,
+            run_id=config.run_id,
         )
         self.pool = WorkerPool(
             config.num_environments,
