@@ -1,0 +1,347 @@
+{
+ "agent": 6,
+ "phase": 7,
+ "artifact": "agent_06_sampler_profile",
+ "status": "PASS",
+ "timestamp": "2026-08-13T18:29:05-0400",
+ "commit": "77b6528af07280ffe9a21e14e32d085cb26dd81d",
+ "working_tree_state": "dirty",
+ "uncommitted_paths": [
+  ".phase6b_final_state/",
+  "reports/.Rhistory",
+  "reports/phase_7_data/agent_06_final_acceptance.json",
+  "reports/phase_7_data/agent_06_library_regeneration.json",
+  "reports/phase_7_data/agent_06_sampler_profile.json",
+  "scripts/run_phase7_agent06.py",
+  "tests/setups/test_phase7_final_acceptance.py"
+ ],
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "acceptance_version": "phase7_agent06_acceptance_0.1.0",
+ "decision": {
+  "sampler_version": "setup_sampler_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "library_version": "setup_library_v1",
+  "profile_name": "neutral_v1",
+  "split": "train",
+  "family_selection": "uniform over the 16 primary families",
+  "base_selection": "uniform over the family's bases inside the split",
+  "reflection_probability": 0.5,
+  "perturbation_probability": 0.5,
+  "swap_counts": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "intensity_weights": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "intensity_distribution": {
+   "1": 0.166667,
+   "2": 0.166667,
+   "3": 0.166667,
+   "4": 0.166667,
+   "5": 0.166667,
+   "6": 0.166667
+  },
+  "hamming_window": [
+   2,
+   12
+  ],
+  "perturbation_max_attempts": 64,
+  "phase_8_entry_point": "sample_setup(split='train', seed=...)",
+  "production_entry_point": "training_setup_source('neutral_v1')"
+ },
+ "evidence": {
+  "neutral_v1": {
+   "profile": "neutral_v1",
+   "draws": 16000,
+   "perturbation_probability": 0.5,
+   "reflection_probability": 0.5,
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "family_balance": {
+    "expected": 1000.0,
+    "minimum": 952,
+    "maximum": 1059,
+    "chi_square": 11.456,
+    "degrees_of_freedom": 15
+   },
+   "base_coverage": {
+    "distinct_bases_drawn": 5870,
+    "train_base_population": 6400,
+    "coverage_fraction": 0.917188
+   },
+   "reflection_fraction": 0.497,
+   "perturbation": {
+    "requested_fraction": 0.49675,
+    "applied_fraction": 0.49675,
+    "exhausted": 0,
+    "acceptance_rate": 1.0,
+    "attempts_per_accepted": 1.45999,
+    "swap_count_distribution": {
+     "1": 1335,
+     "2": 1351,
+     "3": 1283,
+     "4": 1321,
+     "5": 1356,
+     "6": 1302
+    },
+    "mean_hamming_from_base": 6.9859
+   },
+   "effective_support": {
+    "distinct_reflection_classes": 12501,
+    "distinct_exact_setups": 13883,
+    "distinct_classes_per_draw": 0.781312,
+    "observed_classes_vs_train_bases": 1.9533,
+    "novel_class_fraction": 0.49675,
+    "distinct_novel_classes": 7947,
+    "class_support_bounded_by_library": false,
+    "class_support_ceiling": null
+   },
+   "library_faithful_fraction": 0.50325,
+   "family_contract_preservation": {
+    "family_violations": 0,
+    "split_violations": 0,
+    "final_output_validation": "every output passed the frozen validator"
+   },
+   "runtime": {
+    "seconds": 7.591,
+    "milliseconds_per_draw": 0.4744,
+    "draws_per_second": 2107.7
+   }
+  },
+  "reflection_only_v1": {
+   "profile": "reflection_only_v1",
+   "draws": 16000,
+   "perturbation_probability": 0.0,
+   "reflection_probability": 0.5,
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "family_balance": {
+    "expected": 1000.0,
+    "minimum": 951,
+    "maximum": 1058,
+    "chi_square": 15.986,
+    "degrees_of_freedom": 15
+   },
+   "base_coverage": {
+    "distinct_bases_drawn": 5910,
+    "train_base_population": 6400,
+    "coverage_fraction": 0.923438
+   },
+   "reflection_fraction": 0.503313,
+   "perturbation": {
+    "requested_fraction": 0.0,
+    "applied_fraction": 0.0,
+    "exhausted": 0,
+    "acceptance_rate": 0.0,
+    "attempts_per_accepted": null,
+    "swap_count_distribution": {},
+    "mean_hamming_from_base": 0.0
+   },
+   "effective_support": {
+    "distinct_reflection_classes": 5910,
+    "distinct_exact_setups": 9150,
+    "distinct_classes_per_draw": 0.369375,
+    "observed_classes_vs_train_bases": 0.9234,
+    "novel_class_fraction": 0.0,
+    "distinct_novel_classes": 0,
+    "class_support_bounded_by_library": true,
+    "class_support_ceiling": 6400
+   },
+   "library_faithful_fraction": 1.0,
+   "family_contract_preservation": {
+    "family_violations": 0,
+    "split_violations": 0,
+    "final_output_validation": "every output passed the frozen validator"
+   },
+   "runtime": {
+    "seconds": 2.715,
+    "milliseconds_per_draw": 0.1697,
+    "draws_per_second": 5893.5
+   }
+  },
+  "perturbation_only_v1": {
+   "profile": "perturbation_only_v1",
+   "draws": 16000,
+   "perturbation_probability": 1.0,
+   "reflection_probability": 0.5,
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "family_balance": {
+    "expected": 1000.0,
+    "minimum": 966,
+    "maximum": 1037,
+    "chi_square": 7.45,
+    "degrees_of_freedom": 15
+   },
+   "base_coverage": {
+    "distinct_bases_drawn": 5874,
+    "train_base_population": 6400,
+    "coverage_fraction": 0.917813
+   },
+   "reflection_fraction": 0.499688,
+   "perturbation": {
+    "requested_fraction": 1.0,
+    "applied_fraction": 1.0,
+    "exhausted": 0,
+    "acceptance_rate": 1.0,
+    "attempts_per_accepted": 1.457688,
+    "swap_count_distribution": {
+     "1": 2619,
+     "2": 2528,
+     "3": 2647,
+     "4": 2724,
+     "5": 2713,
+     "6": 2769
+    },
+    "mean_hamming_from_base": 7.0864
+   },
+   "effective_support": {
+    "distinct_reflection_classes": 16000,
+    "distinct_exact_setups": 16000,
+    "distinct_classes_per_draw": 1.0,
+    "observed_classes_vs_train_bases": 2.5,
+    "novel_class_fraction": 1.0,
+    "distinct_novel_classes": 16000,
+    "class_support_bounded_by_library": false,
+    "class_support_ceiling": null
+   },
+   "library_faithful_fraction": 0.0,
+   "family_contract_preservation": {
+    "family_violations": 0,
+    "split_violations": 0,
+    "final_output_validation": "every output passed the frozen validator"
+   },
+   "runtime": {
+    "seconds": 12.382,
+    "milliseconds_per_draw": 0.7739,
+    "draws_per_second": 1292.2
+   }
+  }
+ },
+ "criteria": [
+  {
+   "criterion": "keeps the common-contract invariants (train split, uniform family, uniform base, 50/50 seeded reflection)",
+   "neutral_v1": true,
+   "reflection_only_v1": true,
+   "perturbation_only_v1": true,
+   "decisive": false,
+   "note": "all three profiles share the frozen selection rules; none alters them"
+  },
+  {
+   "criterion": "materially expands effective support beyond the static library",
+   "neutral_v1": true,
+   "reflection_only_v1": false,
+   "perturbation_only_v1": true,
+   "decisive": true,
+   "note": "measured as the fraction of draws whose reflection class differs from its base's own class fingerprint. Reflection is class-invariant, so the reflection-only profile scores exactly zero at any draw count and its class support is permanently ceilinged at the 6,400 train bases; this is a structural bound, not a sample-size artifact"
+  },
+  {
+   "criterion": "still emits pristine curated base setups",
+   "neutral_v1": true,
+   "reflection_only_v1": true,
+   "perturbation_only_v1": false,
+   "decisive": true,
+   "note": "a profile that perturbs every draw never shows Phase 8 the curated library it was built to teach; the curated setups would be out-of-distribution for the learner"
+  },
+  {
+   "criterion": "no frequent perturbation rejection",
+   "neutral_v1": true,
+   "reflection_only_v1": true,
+   "perturbation_only_v1": true,
+   "decisive": false,
+   "note": "acceptance is ~1.0 across the whole frozen intensity window"
+  },
+  {
+   "criterion": "no family erosion",
+   "neutral_v1": true,
+   "reflection_only_v1": true,
+   "perturbation_only_v1": true,
+   "decisive": false,
+   "note": "the frozen validator gates every output, so family identity holds in all three"
+  },
+  {
+   "criterion": "asserts no unfrozen structural preference",
+   "neutral_v1": true,
+   "reflection_only_v1": false,
+   "perturbation_only_v1": false,
+   "decisive": true,
+   "note": "a fair perturbation coin and a uniform intensity mix over the frozen [2, 12] window are the only settings that weight no branch; 0.0 and 1.0 are both structural claims Agent 7+ evidence has not earned"
+  }
+ ],
+ "eliminated": {
+  "reflection_only_v1": "cannot expand effective support: reflection is class-invariant, so it produced 0 reflection classes outside the library and is permanently ceilinged at the 6,400 train bases; Agent 4 designates it an acceptance instrument, not a training profile",
+  "perturbation_only_v1": "never emits a pristine curated base setup (0.000 library-faithful fraction), so the curated library Phase 7 exists to build would be absent from Phase 8's own training distribution; Agent 4 designates it an acceptance instrument, not a training profile"
+ },
+ "evidence_admissibility": {
+  "permitted_and_used": [
+   "family balance",
+   "base balance",
+   "reflection balance",
+   "procedural-diversity measurements",
+   "perturbation rejection rate",
+   "family-contract preservation",
+   "runtime overhead"
+  ],
+  "prohibited_and_unused": [
+   "game outcomes",
+   "win rate",
+   "Elo",
+   "model value",
+   "policy score",
+   "human strength judgment"
+  ]
+ },
+ "checks": {
+  "chosen_profile_is_an_accepted_agent_4_profile": true,
+  "chosen_profile_is_agent_4_default_candidate": true,
+  "split_is_train": true,
+  "family_selection_uniform": true,
+  "base_selection_uniform": true,
+  "reflection_is_fifty_fifty": true,
+  "no_common_contract_invariant_altered": true,
+  "decision_uses_structural_evidence_only": true,
+  "family_balance_within_chi_square_tolerance": true,
+  "support_expansion_confirmed": true,
+  "library_faithful_half_retained": true,
+  "no_frequent_rejection": true,
+  "runtime_overhead_acceptable": true
+ },
+ "all_pass": true,
+ "stage_seconds": 22.694,
+ "durations": {
+  "profile_evidence": 22.694
+ }
+}

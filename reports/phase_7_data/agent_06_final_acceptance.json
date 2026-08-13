@@ -1,0 +1,673 @@
+{
+ "agent": 6,
+ "phase": 7,
+ "artifact": "agent_06_final_acceptance",
+ "status": "PASS",
+ "timestamp": "2026-08-13T18:29:05-0400",
+ "commit": "77b6528af07280ffe9a21e14e32d085cb26dd81d",
+ "working_tree_state": "dirty",
+ "uncommitted_paths": [
+  ".phase6b_final_state/",
+  "reports/.Rhistory",
+  "reports/phase_7_data/agent_06_final_acceptance.json",
+  "reports/phase_7_data/agent_06_library_regeneration.json",
+  "reports/phase_7_data/agent_06_sampler_profile.json",
+  "scripts/run_phase7_agent06.py",
+  "tests/setups/test_phase7_final_acceptance.py"
+ ],
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "acceptance_version": "phase7_agent06_acceptance_0.1.0",
+ "prerequisite_status": {
+  "agent_01_setup_contract": "PASS",
+  "agent_01_diversity_thresholds": "PASS",
+  "agent_02_base_library_manifest": "PASS",
+  "agent_02_generation_summary": "PASS",
+  "agent_03_library_audit": "PASS",
+  "agent_04_sampler_contract": "PASS",
+  "agent_04_procedural_stress": "PASS",
+  "agent_05_pipeline_integration": "PASS"
+ },
+ "frozen_versions": {
+  "rules": "stratego_project_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "observation": "observation_v2_1_127ch",
+  "observation_channels": 127,
+  "model_contract": "model_contract_v2",
+  "trajectory": "trajectory_v1",
+  "phase_4_bank": "evaluation_setup_bank_v1",
+  "contract_version": "setup_generator_contract_v1",
+  "family_contract_version": "setup_family_v1",
+  "trait_schema_version": "setup_trait_vector_v1",
+  "library_version": "setup_library_v1",
+  "seed_context_version": "setup_library_seed_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "sampler_version": "setup_sampler_v1",
+  "setup_source_version": "setup_source_v1",
+  "provenance_schema_version": "setup_provenance_v1",
+  "stress_corpus_version": "setup_stress_corpus_v1",
+  "master_seed": 20260813
+ },
+ "frozen_models": {
+  "C1": {
+   "role": "primary",
+   "expected_parameters": 863959,
+   "observed_parameters": 863959,
+   "expected_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "observed_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "match": true
+  },
+  "C0": {
+   "role": "fallback",
+   "expected_parameters": 123223,
+   "observed_parameters": 123223,
+   "expected_config_digest": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+   "observed_config_digest": "057d6c9242e328900f923d4e4c265eaba1bf95e57e1be120a024d2c42c143ddd",
+   "match": true
+  }
+ },
+ "setup_count": 8000,
+ "family_counts": {
+  "F00": 500,
+  "F01": 500,
+  "F02": 500,
+  "F03": 500,
+  "F04": 500,
+  "F05": 500,
+  "F06": 500,
+  "F07": 500,
+  "F08": 500,
+  "F09": 500,
+  "F10": 500,
+  "F11": 500,
+  "F12": 500,
+  "F13": 500,
+  "F14": 500,
+  "F15": 500
+ },
+ "split_counts": {
+  "train": 6400,
+  "validation": 800,
+  "test": 800
+ },
+ "family_split_counts": {
+  "F00": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F01": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F02": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F03": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F04": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F05": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F06": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F07": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F08": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F09": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F10": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F11": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F12": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F13": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F14": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  },
+  "F15": {
+   "train": 400,
+   "validation": 50,
+   "test": 50
+  }
+ },
+ "library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+ "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+ "regeneration_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+ "regeneration_mismatches": 0,
+ "diversity_gate_summary": {
+  "diversity_standard_version": "setup_diversity_standard_v1",
+  "threshold_checks": 199,
+  "threshold_checks_passed": 199,
+  "hard_gates": "36 / 36",
+  "measurements_agreeing_with_agent_03": true,
+  "tightest_margins": [
+   {
+    "metric": "exact_duplicate_groups",
+    "scope": "library",
+    "direction": "at_most",
+    "required": 0,
+    "agent_03_measured": 0,
+    "agent_06_measured": 0,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "reflection_class_duplicate_groups",
+    "scope": "library",
+    "direction": "at_most",
+    "required": 0,
+    "agent_03_measured": 0,
+    "agent_06_measured": 0,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "cross_split_class_duplicate_groups",
+    "scope": "library",
+    "direction": "at_most",
+    "required": 0,
+    "agent_03_measured": 0,
+    "agent_06_measured": 0,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "non_canonical_entries",
+    "scope": "library",
+    "direction": "at_most",
+    "required": 0,
+    "agent_03_measured": 0,
+    "agent_06_measured": 0,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "flag_folded_support",
+    "scope": "F00",
+    "direction": "at_least",
+    "required": 1,
+    "agent_03_measured": 1,
+    "agent_06_measured": 1,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "flag_folded_support",
+    "scope": "F01",
+    "direction": "at_least",
+    "required": 2,
+    "agent_03_measured": 2,
+    "agent_06_measured": 2,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "flag_folded_support",
+    "scope": "F02",
+    "direction": "at_least",
+    "required": 2,
+    "agent_03_measured": 2,
+    "agent_06_measured": 2,
+    "margin": 0.0,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "within_family_near_duplicate_fraction",
+    "scope": "F00",
+    "direction": "at_most",
+    "required": 0.001,
+    "agent_03_measured": 0.0,
+    "agent_06_measured": 0.0,
+    "margin": 0.001,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "within_family_near_duplicate_fraction",
+    "scope": "F01",
+    "direction": "at_most",
+    "required": 0.001,
+    "agent_03_measured": 0.0,
+    "agent_06_measured": 0.0,
+    "margin": 0.001,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "within_family_near_duplicate_fraction",
+    "scope": "F02",
+    "direction": "at_most",
+    "required": 0.001,
+    "agent_03_measured": 0.0,
+    "agent_06_measured": 0.0,
+    "margin": 0.001,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "within_family_near_duplicate_fraction",
+    "scope": "F03",
+    "direction": "at_most",
+    "required": 0.001,
+    "agent_03_measured": 0.0,
+    "agent_06_measured": 0.0,
+    "margin": 0.001,
+    "pass": true,
+    "agrees_with_agent_03": true
+   },
+   {
+    "metric": "within_family_near_duplicate_fraction",
+    "scope": "F04",
+    "direction": "at_most",
+    "required": 0.001,
+    "agent_03_measured": 0.0,
+    "agent_06_measured": 0.0,
+    "margin": 0.001,
+    "pass": true,
+    "agrees_with_agent_03": true
+   }
+  ]
+ },
+ "procedural_stress_summary": {
+  "outputs": 100000,
+  "hard_requirements": {
+   "engine_invalid_setups": 0,
+   "incorrect_inventories": 0,
+   "stranded_outputs": 0,
+   "primary_family_violations": 0,
+   "split_changes": 0,
+   "family_changes": 0,
+   "serialization_failures": 0,
+   "reflection_failures": 0,
+   "deterministic_rebuild_failures": 0,
+   "stable_provenance_failures": 0,
+   "perturbation_invariant_violations": 0,
+   "hamming_window_violations": 0,
+   "flag_moves": 0
+  },
+  "distinct_classes": 57981,
+  "distinct_exact_setups": 65981,
+  "support_expansion": {
+   "static_base_classes": 8000,
+   "static_train_classes": 6400,
+   "distinct_classes_from_100k_outputs": 57981,
+   "expansion_factor_vs_full_library": 7.2476,
+   "bases_reached": 8000,
+   "descendants_per_base": 12.5,
+   "class_repeat_rate": 0.42019
+  },
+  "agent_04_reproduction": {
+   "outputs": {
+    "agent_04": 100000,
+    "agent_06": 100000,
+    "match": true
+   },
+   "distinct_class_fingerprints": {
+    "agent_04": 57981,
+    "agent_06": 57981,
+    "match": true
+   },
+   "distinct_exact_setups": {
+    "agent_04": 65981,
+    "agent_06": 65981,
+    "match": true
+   },
+   "perturbation_applied": {
+    "agent_04": 49984,
+    "agent_06": 49984,
+    "match": true
+   },
+   "perturbation_requested": {
+    "agent_04": 49984,
+    "agent_06": 49984,
+    "match": true
+   },
+   "perturbation_acceptance_rate": {
+    "agent_04": 1.0,
+    "agent_06": 1.0,
+    "match": true
+   },
+   "attempts_per_accepted_perturbation": {
+    "agent_04": 1.450264,
+    "agent_06": 1.450264,
+    "match": true
+   },
+   "cross_split_min_class_distance": {
+    "agent_04": 19,
+    "agent_06": 19,
+    "match": true
+   },
+   "cross_base_min_class_distance": {
+    "agent_04": 18,
+    "agent_06": 18,
+    "match": true
+   },
+   "classes_with_multiple_splits": {
+    "agent_04": 0,
+    "agent_06": 0,
+    "match": true
+   },
+   "classes_with_multiple_families": {
+    "agent_04": 0,
+    "agent_06": 0,
+    "match": true
+   },
+   "classes_with_multiple_bases": {
+    "agent_04": 0,
+    "agent_06": 0,
+    "match": true
+   }
+  },
+  "identity_semantics": {
+   "production_signature": "perturb_setup(base_canonical: 'list[int] | tuple[int, ...]', family_id: str, perturbation_seed: int) -> stratego.setups.perturbation.PerturbationResult",
+   "seed_encoding": "seed_encoding_v1",
+   "identities_probed": 240,
+   "sampled_rebuilds_probed": 400,
+   "tamper_attempts": 402,
+   "tamper_rejections": 402,
+   "checks": {
+    "production_signature_is_identity_only": true,
+    "max_attempts_is_version_constant": true,
+    "seed_encoding_bijective": true,
+    "invalid_seed_encodings_rejected": true,
+    "identical_identity_identical_descendant": true,
+    "profile_cannot_change_descendant": true,
+    "global_rng_cannot_change_descendant": true,
+    "provenance_rebuild_exact": true,
+    "tampered_derived_metadata_rejected": true
+   },
+   "all_pass": true
+  }
+ },
+ "pipeline_integration_summary": {
+  "accepted_campaign_replay": {
+   "source": "reports/phase_7_data/agent_05_setup_provenance.csv",
+   "root_seed": 70005,
+   "rows_compared": 8189,
+   "mismatches": 0,
+   "mismatch_examples": [],
+   "seconds": 7.999,
+   "note": "reproduced offline from (root_seed, environment_id, generation, player) alone; no coordinator, worker or model involved"
+  },
+  "live_spot_check": {
+   "executed": true,
+   "root_seed": 70005,
+   "run_id": "p7a06",
+   "environments": 512,
+   "workers": 6,
+   "inference_batch": 1024,
+   "campaign_status": "ok",
+   "stop_reason": "targets met",
+   "games": 679,
+   "steps": 1250,
+   "campaign_seconds": 97.541,
+   "verification_seconds": 9.436,
+   "counters": {
+    "records_decoded": 679,
+    "zero_decision_records": 0,
+    "decode_failures": 0,
+    "record_validation_failures": 0,
+    "provenance_missing": 0,
+    "provenance_schema_failures": 0,
+    "provenance_mismatches": 0,
+    "split_violations": 0,
+    "family_identity_mismatches": 0,
+    "base_identity_mismatches": 0,
+    "fingerprint_mismatches": 0,
+    "duplicate_game_ids": 0,
+    "setup_engine_validation_failures": 0,
+    "decisions_total": 436895,
+    "reflection_true": 703,
+    "reflection_false": 655,
+    "perturbation_true": 683,
+    "perturbation_false": 675
+   },
+   "distinct_bases_used": 1235,
+   "family_pair_coverage": {
+    "ordered_pairs_possible": 256,
+    "ordered_pairs_seen": 236,
+    "ordered_pairs_missing": 20,
+    "minimum_games_per_pair": 0,
+    "maximum_games_per_pair": 8,
+    "mean_games_per_pair": 2.65234375,
+    "pairs_below_target": 256,
+    "target_games_per_pair": 16
+   },
+   "reconstruction": {
+    "games": 5,
+    "decisions": 2204,
+    "zero_decision_games_included": 0,
+    "mismatches": 0,
+    "setup_mismatches": 0,
+    "details": [],
+    "seconds": 0.21076837499276735,
+    "target": 2000
+   },
+   "problem_count": 0,
+   "accepted_campaign_cross_check": {
+    "overlapping_logical_games": 679,
+    "field_mismatches": 0,
+    "examples": []
+   },
+   "observer_safety_violations": 0,
+   "model_weights_mutated": false,
+   "optimizer_steps": 0,
+   "failures": {
+    "worker_errors": 0,
+    "model_errors": 0,
+    "nonfinite_outputs": 0,
+    "illegal_actions": 0,
+    "action_frame_errors": 0,
+    "other_errors": 0
+   }
+  },
+  "split_access": {
+   "validation": {
+    "purpose": "evaluation_audit",
+    "justification_recorded": true,
+    "split": "validation",
+    "red_base_setup_id": "setup_library_v1:F07:422",
+    "red_base_index": 422,
+    "outside_train_range": true
+   },
+   "test": {
+    "purpose": "evaluation_audit",
+    "justification_recorded": true,
+    "split": "test",
+    "red_base_setup_id": "setup_library_v1:F12:458",
+    "red_base_index": 458,
+    "outside_train_range": true
+   }
+  },
+  "phase_4_evaluation_bank": {
+   "before": {
+    "bank_version": "evaluation_setup_bank_v1",
+    "declared_version": "evaluation_setup_bank_v1",
+    "count": 1024,
+    "root_seed": 20260101,
+    "digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "generation_family": "structured_v1",
+    "pair_count": 1024,
+    "distinct_positions": 1024,
+    "validation_failure_count": 0,
+    "duplicate_setup_pair_ids": []
+   },
+   "after": {
+    "bank_version": "evaluation_setup_bank_v1",
+    "declared_version": "evaluation_setup_bank_v1",
+    "count": 1024,
+    "root_seed": 20260101,
+    "digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "generation_family": "structured_v1",
+    "pair_count": 1024,
+    "distinct_positions": 1024,
+    "validation_failure_count": 0,
+    "duplicate_setup_pair_ids": []
+   },
+   "unchanged": true
+  }
+ },
+ "observer_safety_summary": {
+  "regression": "tests/information_security/test_setup_provenance_boundary.py",
+  "agent_6_evidence": "live provenance records carry no outcome or strength field, and neither observation_v2_1_127ch nor trajectory_v1 gained a provenance field",
+  "observation_channels": 127,
+  "observation_version": "observation_v2_1_127ch",
+  "trajectory_version": "trajectory_v1"
+ },
+ "default_phase_8_sampler_profile": {
+  "sampler_version": "setup_sampler_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "library_version": "setup_library_v1",
+  "profile_name": "neutral_v1",
+  "split": "train",
+  "family_selection": "uniform over the 16 primary families",
+  "base_selection": "uniform over the family's bases inside the split",
+  "reflection_probability": 0.5,
+  "perturbation_probability": 0.5,
+  "swap_counts": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6
+  ],
+  "intensity_weights": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "intensity_distribution": {
+   "1": 0.166667,
+   "2": 0.166667,
+   "3": 0.166667,
+   "4": 0.166667,
+   "5": 0.166667,
+   "6": 0.166667
+  },
+  "hamming_window": [
+   2,
+   12
+  ],
+  "perturbation_max_attempts": 64,
+  "phase_8_entry_point": "sample_setup(split='train', seed=...)",
+  "production_entry_point": "training_setup_source('neutral_v1')"
+ },
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest -q",
+  "summary": "3388 passed, 3 skipped in 202.87s",
+  "passed": 3388,
+  "skipped": 3,
+  "failed": 0,
+  "seconds": 202.87,
+  "measured_at_commit": "77b6528af07280ffe9a21e14e32d085cb26dd81d"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python -m pytest -q",
+  "returncode": 0,
+  "summary": "3420 passed, 4 skipped in 207.27s (0:03:27)",
+  "passed": 3420,
+  "skipped": 4,
+  "failed": 0,
+  "seconds": 207.989
+ },
+ "completion_gates": {
+  "agents_1_to_5_all_pass": true,
+  "frozen_upstream_stack_unchanged": true,
+  "frozen_model_identities_unchanged": true,
+  "full_library_regenerates_exactly": true,
+  "library_digests_identical": true,
+  "isolated_rebuild_exact": true,
+  "enumeration_order_independent": true,
+  "counts_8000_16_500_exact": true,
+  "splits_6400_800_800_exact": true,
+  "zero_engine_invalid_bases": true,
+  "zero_stranded_bases": true,
+  "zero_exact_and_reflection_duplicates": true,
+  "zero_cross_split_leakage": true,
+  "all_agent_1_diversity_thresholds_pass": true,
+  "diversity_measurements_agree_with_agent_3": true,
+  "procedural_stress_at_least_100000": true,
+  "procedural_zero_hard_failures": true,
+  "procedural_support_materially_expands": true,
+  "procedural_reproduces_agent_4": true,
+  "perturbation_identity_semantics_verified": true,
+  "accepted_campaign_replays_exactly": true,
+  "live_pipeline_spot_check_clean": true,
+  "observer_safe_boundary_unchanged": true,
+  "phase_4_bank_unchanged": true,
+  "one_neutral_phase_8_profile_frozen": true,
+  "no_outcome_or_strength_evidence_used": true,
+  "no_meaningful_neural_training": true,
+  "full_repository_suite_green": true
+ },
+ "gates_total": 28,
+ "gates_true": 28,
+ "durations": {
+  "prereq": 0.25,
+  "regen": 6.642,
+  "audit": 7.972,
+  "procedural": 187.804,
+  "profile": 22.694,
+  "pipeline": 115.716
+ },
+ "total_seconds": 208.046,
+ "peak_rss_bytes": 217350144
+}

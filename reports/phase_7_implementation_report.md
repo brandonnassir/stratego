@@ -2907,3 +2907,699 @@ sampler overhead        795.7 calls/s across 10 workers, median 0.920 ms,
 Agent 6 owns the final sampler-profile freeze; `neutral_v1` was used
 throughout this integration as Agent 4's default candidate and nothing here
 decides it. Agent 5 does not declare Phase 7 complete.
+
+
+## 6. Agent 6 — Final Acceptance and Library Freeze
+
+**Recommendation: PASS** — 28 / 28 completion gates true. Machine-readable
+records: `reports/phase_7_data/agent_06_final_acceptance.json` (the freeze
+manifest: prerequisites, frozen stack, counts, digests, diversity gate summary,
+procedural summary, pipeline summary, observer safety, the default Phase 8
+sampler profile, gates), with
+`reports/phase_7_data/agent_06_library_regeneration.json` (the from-scratch
+regeneration and the independent audit of the regenerated library) and
+`reports/phase_7_data/agent_06_sampler_profile.json` (the profile decision and
+every structural measurement behind it).
+
+Agent 6 built no new family, no new generator and no new metric. Every number
+below is either recomputed from the frozen contracts and the frozen master
+seed, or read from an accepted artifact and compared against a recomputation.
+Nothing was repaired, retuned or reinterpreted, and no threshold was moved.
+
+### 6.1 Prerequisite verification and the frozen stack
+
+The full repository suite was run before any Agent 6 file existed:
+`3,388 passed, 3 skipped, 0 failed` in 202.87 s at commit `77b6528a`.
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 status | `PASS` | `agent_01_setup_contract.json`, `agent_01_diversity_thresholds.json` both `PASS` |
+| Agent 2 status | `PASS` | `agent_02_base_library_manifest.json`, `agent_02_generation_summary.json` both `PASS` |
+| Agent 3 status | `PASS` | `agent_03_library_audit.json` `PASS`, 25 / 25 gates |
+| Agent 4 status | `PASS` | `agent_04_sampler_contract.json`, `agent_04_procedural_stress.json` both `PASS` |
+| Agent 5 status | `PASS` | `agent_05_pipeline_integration.json` `PASS`, 37 / 37 gates |
+| Agent 4 correction | identity-only | `agent_04_identity_correction.json`: Case A, 100,000 / 100,000 final setups identical, both dumps hash to `9206faf4…3eea` |
+| Library digest | Agents 2–5's value | `7b8a6660…02777`, recomputed from the JSONL |
+| Entry-metadata digest | Agent 2's value | `d86f4861…4980`, recomputed |
+| Manifest digest | Agents 2–5's value | `53139ab7…63488f31`, recomputed |
+| Entry count | 8,000 | 8,000 |
+
+`agent_04_identity_correction.json` carries no `status` field of its own: it is
+the record of an authorized factual correction, and Agent 4's verdict lives in
+the two artifacts that were regenerated under the corrected semantics. It is
+therefore verified on its substance — Case A, zero final-setup mismatches, the
+seed encoding it names equal to the live `seed_encoding_v1` — rather than by
+reading a status string.
+
+Every downstream artifact was checked to still name the library that is on
+disk: Agents 2, 3, 4 and 5 all name `7b8a6660…02777`, and none disagrees.
+
+The frozen upstream stack was read from live source, not from a report:
+
+```text
+rules                  stratego_project_v1          RULES_VERSION
+reference engine       phase2_1_reference_1.2.0     IMPLEMENTATION_VERSION
+observation            observation_v2_1_127ch       OBSERVATION_VERSION
+observation channels   127                          OBSERVATION_CHANNELS
+model contract         model_contract_v2            MODEL_CONTRACT_VERSION
+trajectory             trajectory_v1                TRAJECTORY_VERSION
+Phase 4 bank           evaluation_setup_bank_v1     SETUP_BANK_VERSION
+
+primary model          C1  863,959 parameters  31ca84ab…e07d
+fallback model         C0  123,223 parameters  057d6c92…3ddd
+```
+
+Both model identities were rebuilt and re-counted rather than quoted. No
+Phase 7 acceptance advanced any of these versions, and `stratego/engine/` was
+not touched.
+
+### 6.2 Full-library regeneration
+
+All 8,000 bases were regenerated from scratch into a fresh temporary location
+from only the recorded identity inputs:
+
+```text
+contract version       setup_generator_contract_v1
+library version        setup_library_v1
+seed context           setup_library_seed_v1
+master seed            20260813
+family ids             F00..F15
+base indices           0..499
+```
+
+The production JSONL was opened only *after* generation finished, and only as
+a comparison target, so no production byte was ever a generator input.
+
+| Comparison | Result |
+|---|---|
+| Entry count | 8,000 = 8,000 |
+| Per-family count | 500 × 16, exact |
+| Split totals | 6,400 / 800 / 800, exact |
+| Per-family splits | 400 / 50 / 50 × 16, exact |
+| Entry by entry, 20 fields each | 0 mismatches |
+| JSONL bytes | 14,110,382 = 14,110,382, byte-identical |
+| Library content digest | `7b8a6660…02777` = `7b8a6660…02777` |
+| Entry-metadata digest | `d86f4861…4980` = `d86f4861…4980` |
+| Manifest digest | `53139ab7…63488f31` = `53139ab7…63488f31` |
+| Manifest deterministic domain | 21 identity keys compared, 0 mismatches |
+
+The per-entry comparison covers the setup, both fingerprints, the reflected
+fingerprint, the split, the family, the trait vector and all four seed/attempt
+fields, and the entry-metadata digest pins the same thing byte-wise. A
+regeneration that reproduced the setups by a different route — a different
+accepted attempt index, say — would still be caught.
+
+Two independence probes accompany it:
+
+```text
+isolated rebuild      640 bases rebuilt from identity alone, without
+                      generating any other base (Agent 1's frozen 40 indices
+                      per family: the head of train, both split boundaries,
+                      the tail of test)
+                      0 mismatches, 0.23 s
+
+enumeration order     the whole library regenerated in a seeded shuffled
+                      order (shuffle seed 60,601)
+                      0 mismatches, 2.95 s
+```
+
+The shuffled-order probe is what makes isolated rebuild meaningful: if any base
+conditioned on another base's outcome, generating them in a different order
+would move something.
+
+```text
+regeneration mismatches = 0
+```
+
+### 6.3 Independent audit of the regenerated library
+
+Agent 3's auditor was re-run against the *regenerated* entries — its own
+`audit_library`, Agent 1's frozen thresholds, and a library this harness built
+from the master seed:
+
+```text
+verdict                       PASS
+hard gates                    36 / 36
+frozen threshold checks       199 / 199
+diversity standard            setup_diversity_standard_v1
+unordered pairs compared      31,996,000
+Agent 2 handoff digests       all three matched
+```
+
+Every one of the 199 threshold measurements and all 36 hard-gate measurements
+equal Agent 3's accepted values exactly. Two independent runs, on
+independently regenerated bytes, agree number for number.
+
+### 6.4 The frozen diversity gate table
+
+Thresholds are Agent 1's and were not recomputed. Family-scoped checks are
+gated individually; no family is averaged into a global mean. "Worst observed"
+is the least comfortable value across the metric's scope.
+
+| Metric | Scope | Dir | Required | Worst observed | Worst margin | Status |
+|---|---|---|---|---|---|---|
+| `exact_duplicate_groups` | library | ≤ | 0 | 0 | 0 | PASS |
+| `reflection_class_duplicate_groups` | library | ≤ | 0 | 0 | 0 | PASS |
+| `cross_split_class_duplicate_groups` | library | ≤ | 0 | 0 | 0 | PASS |
+| `non_canonical_entries` | library | ≤ | 0 | 0 | 0 | PASS |
+| `global_min_pairwise_distance` | library | ≥ | 4 | 20 | +16 | PASS |
+| `cross_split_min_nn_distance` | library | ≥ | 8 | 21 | +13 | PASS |
+| `global_mean_per_square_entropy_bits` | library | ≥ | 1.5 | 3.184683 | +1.684683 | PASS |
+| `min_within_family_nn_distance` | 16 families | ≥ | 6 | 20 | +14 | PASS |
+| `within_family_near_duplicate_fraction` | 16 families | ≤ | 0.001 | 0.0 | +0.001 | PASS |
+| `mean_per_square_entropy_bits` | 16 families | ≥ | 1.0 | 2.93722 | +1.93722 | PASS |
+| `flag_folded_support` | 16 families | ≥ | 1..8 | 1 | 0 | PASS |
+| `bomb_folded_support` | 16 families | ≥ | 10 | 20 | +10 | PASS |
+| `scout_folded_support` | 16 families | ≥ | 8 | 15 | +7 | PASS |
+| `miner_folded_support` | 16 families | ≥ | 6 | 15 | +9 | PASS |
+| `high_rank_folded_support` | 16 families | ≥ | 6 | 20 | +14 | PASS |
+| `distinct_trait_vectors` | 16 families | ≥ | 250 | 500 | +250 | PASS |
+| `distinct_bomb_rank_histograms` | 16 families | ≥ | 8 | 30 | +22 | PASS |
+| `distinct_scout_rank_histograms` | 16 families | ≥ | 8 | 18 | +10 | PASS |
+| `self_satisfaction` | 16 families | = | 1.0 | 1.0 | exact | PASS |
+
+**The one zero-margin row is by design, and is stated rather than buried.**
+`flag_folded_support` has a per-family floor and three families sit exactly on
+theirs: F00 requires 1 and measures 1, F01 requires 2 and measures 2, F02
+requires 2 and measures 2. Those are the corner-, near-corner- and
+central-back-row Flag fortress families, whose contracts *pin the Flag*; a
+corner-Flag family that spread its Flag across many folded cells would not be
+that family. Agent 1 set each floor to that family's definitional minimum
+before generation, and the common contract anticipates exactly this: it is
+acceptable and expected that some families have low entropy in strategically
+defining locations. The other thirteen families clear the same metric by +2 to
++12. This is a family definition meeting its own floor, not a library scraping
+past a diversity requirement.
+
+Family overlap is report-only under `setup_diversity_standard_v1`. The diagonal
+is exactly 1.0 for all sixteen families. The largest off-diagonal remains the
+known definitional F11 → F15 relationship — 0.772 in the base library (386 of
+F11's 500 bases also satisfy F15's clauses), 0.782 on the descendants — because
+a Scout-preservation setup frequently also satisfies the high-entropy family's
+clauses. Agent 1 never made it a hard threshold and Agent 6 did not turn it
+into one.
+
+### 6.5 Procedural sampler review
+
+Agent 4's 100,000-output stress corpus was regenerated and re-analyzed through
+Agent 4's own instruments.
+
+```text
+outputs                            100,000
+bases reached                      8,000 / 8,000
+descendants per base               12.5
+
+engine-invalid                     0
+incorrect inventories              0
+stranded outputs                   0
+primary-family violations          0
+split changes                      0
+family changes                     0
+serialization failures             0
+reflection failures                0
+deterministic rebuild failures     0
+stable provenance failures         0
+perturbation invariant violations  0
+Hamming-window violations          0
+Flag moves                         0
+```
+
+Every headline number reproduced Agent 4's accepted artifact exactly:
+
+| Measurement | Agent 4 | Agent 6 |
+|---|---:|---:|
+| Outputs | 100,000 | 100,000 |
+| Distinct reflection classes | 57,981 | 57,981 |
+| Distinct exact setups | 65,981 | 65,981 |
+| Perturbations requested / applied | 49,984 / 49,984 | 49,984 / 49,984 |
+| Perturbation acceptance rate | 1.0 | 1.0 |
+| Attempts per accepted perturbation | 1.450264 | 1.450264 |
+| Cross-split minimum class distance | 19 | 19 |
+| Cross-base minimum class distance | 18 | 18 |
+| Classes spanning two splits | 0 | 0 |
+| Classes spanning two families | 0 | 0 |
+| Classes spanning two bases | 0 | 0 |
+
+**Support materially expands.** 57,981 distinct reflection classes from a
+static library of 8,000 is a 7.25× expansion, and a class repeat rate of 0.420
+shows the corpus is not collapsing onto a small repeated set. The assignment
+does not require every output to be unique, and 100,000 draws over 8,000 bases
+could not be. The exhaustive pairwise sweep (1,680,869,190 pairs) puts the
+cross-split minimum at 19 against a floor of 8, with no cross-split pair below
+either the floor or the near-duplicate distance. Eight cross-base descendant
+pairs fall below the base library's own 20-distance minimum, at 18 and 19 —
+descendants may of course approach each other more closely than their parents
+do — and every one of them is still more than twice the frozen cross-split
+floor.
+
+Split isolation and uniformity probes are clean: 0 base-index range violations,
+0 split-label violations, 0 base-id overlap between any two splits, and a
+family chi-square of 15.229 on 15 degrees of freedom over 32,000 draws.
+
+### 6.6 The corrected perturbation identity
+
+Agent 4's continuation (§4.19) resolved the frozen-identity mismatch by making
+`perturbation_seed` the complete versioned identity under `seed_encoding_v1`.
+Agent 6 verified that correction against the live source rather than against
+its report. Nine probes, all passing:
+
+```text
+production signature is identity-only
+    perturb_setup(base_canonical, family_id, perturbation_seed), pinned by
+    inspect.signature; swap_count, max_attempts and operator weights are
+    absent from the production entry point
+
+retry budget is a version constant
+    MAX_PERTURBATION_ATTEMPTS == 64, and not a parameter of anything public
+
+seed encoding is bijective
+    encode/decode round-trips over every swap count 1..6 and five raw seeds
+
+invalid encodings are rejected
+    low bits 6 and 7 raise rather than decoding to a plausible identity
+
+identical identity -> identical descendant
+    240 identities, each perturbed twice: same setup, same attempt count
+
+profile cannot change the descendant
+    the same identity built through all three profile contexts yields one
+    canonical descendant
+
+global RNG cannot change the descendant
+    the global random module was deliberately reseeded and advanced between
+    the two calls; the descendant is unchanged
+
+provenance rebuild is exact
+    400 sampled draws rebuilt from provenance alone: setup and provenance
+    identical in every case
+
+tampered derived metadata is rejected
+    every tampered perturbation_swap_count and every tampered
+    perturbation_max_attempts raised rather than being honoured
+```
+
+### 6.7 The Phase 8 sampling-profile decision
+
+This is Agent 6's one genuine decision. Each of Agent 4's three accepted
+profiles was measured over 16,000 `train` draws using only permitted structural
+evidence.
+
+| Measurement | `neutral_v1` | `reflection_only_v1` | `perturbation_only_v1` |
+|---|---:|---:|---:|
+| Family chi-square (15 dof) | 11.456 | 15.986 | 7.450 |
+| Family min / max | 952 / 1,059 | 951 / 1,058 | 966 / 1,037 |
+| Distinct train bases drawn | 5,870 | 5,910 | 5,874 |
+| Reflection fraction | 0.497 | 0.503 | 0.500 |
+| Perturbation applied fraction | 0.497 | 0.000 | 1.000 |
+| Perturbation acceptance rate | 1.0 | — | 1.0 |
+| Attempts per accepted perturbation | 1.460 | — | 1.458 |
+| Mean Hamming from base | 6.99 | 0.0 | 7.09 |
+| Distinct reflection classes | 12,501 | 5,910 | 16,000 |
+| **Distinct classes outside the library** | **7,947** | **0** | **16,000** |
+| **Library-faithful fraction** | **0.503** | **1.000** | **0.000** |
+| Family-contract violations | 0 | 0 | 0 |
+| Milliseconds per draw | 0.474 | 0.170 | 0.774 |
+
+Three criteria decided it, each answerable from the table:
+
+1. **Materially expands effective support.** `reflection_only_v1` produced
+   exactly **zero** reflection classes outside the library, and that is a
+   structural ceiling rather than a sample-size artifact: reflection is
+   class-invariant, so its class support is permanently bounded by the 6,400
+   train bases at any draw count. It cannot expand what Phase 8 sees.
+
+2. **Still emits pristine curated base setups.** `perturbation_only_v1`
+   perturbs every draw, so its library-faithful fraction is exactly **0.000**:
+   the curated library Phase 7 exists to build would be absent from Phase 8's
+   own training distribution. `neutral_v1` keeps 50.3 % of draws as untouched
+   curated bases, in one orientation or the other.
+
+3. **Asserts no unfrozen structural preference.** A fair perturbation coin and
+   a uniform intensity mix over the frozen `[2, 12]` window are the only
+   settings that weight no branch. 0.0 and 1.0 are each a structural claim no
+   accepted Phase 7 evidence has earned.
+
+Agent 4 labels both single-branch profiles acceptance instruments rather than
+training profiles, which is what the measurements say independently. The
+intensity mixture — Agent 6's main choice under the assignment — stays uniform
+over swap counts 1..6 because acceptance is 1.0 at every intensity (1.10 to
+1.90 attempts per accepted perturbation from k=1 to k=6, never exhausting), so
+no intensity is expensive enough or lossy enough to justify down-weighting it.
+
+Frozen Phase 8 default:
+
+```text
+profile                 neutral_v1
+sampler                 setup_sampler_v1
+perturbation            setup_perturbation_v1  (seed_encoding_v1)
+library                 setup_library_v1
+
+split                   train
+family selection        uniform over the 16 primary families
+base selection          uniform over the family's bases inside the split
+reflection              0.5, seeded
+perturbation            0.5, seeded
+intensity               uniform over swap counts 1..6 (1/6 each),
+                        Hamming window [2, 12]
+retry budget            64 attempts, a version constant
+
+entry point             sample_setup(split='train', seed=...)
+production path         training_setup_source('neutral_v1')
+```
+
+No game outcome, win rate, Elo, model value, policy score or strength judgement
+was read, computed or available to this decision. That is a measurement rather
+than a claim: the decision's own evidence fields were scanned against the
+frozen forbidden-token list and none matched.
+
+### 6.8 Pipeline integration acceptance
+
+Agent 5's campaign is accepted evidence and was not re-collected. Two checks
+were run instead.
+
+**The accepted campaign replays exactly from its root seed.** Setup assignment
+is a pure function of `(root_seed, environment_id, generation, player)`, so
+every row of the accepted 8,189-game provenance CSV must be reproducible
+offline:
+
+```text
+rows compared               8,189 / 8,189
+fields per side             primary family, base id, base index, split,
+                            reflection, perturbation applied, perturbation
+                            seed, perturbation id, final fingerprint, side seed
+mismatches                  0
+elapsed                     8.0 s, no coordinator, worker or model involved
+```
+
+**A short live run of the real path reproduces it too.** The spot-check ran the
+real MPS-coordinator / CPU-worker / compressed-shard path at the accepted
+campaign's root seed (70,005) but a deliberately different topology — 512
+environments and 6 workers against the campaign's 1,536 and 10 — so every
+logical game it reaches must reproduce the accepted campaign's provenance
+despite a different schedule and a different number of workers.
+
+```text
+games                              679 in 97.5 s (1,250 steps)
+records decoded                    679
+decode failures                    0
+record validation failures         0
+provenance schema failures         0
+provenance mismatches              0
+family identity mismatches         0
+base identity mismatches           0
+fingerprint mismatches             0
+split violations                   0
+setup engine validation failures   0
+
+overlap with the accepted campaign 679 logical games
+field mismatches against it        0
+
+reconstruction                     5 games / 2,204 decisions,
+                                   0 mismatches, 0 setup mismatches
+model weights mutated              false
+optimizer steps                    0
+```
+
+Explicit held-out access still works and still requires a written
+justification: `audit_setup_source('validation', …)` and `…('test', …)` both
+returned `purpose='evaluation_audit'` with base indices outside the train range
+(422 and 458), and `training_setup_source()` remains locked to `train`.
+
+### 6.9 Observer safety and Phase 4 isolation
+
+The observer-safe boundary is unchanged. `observation_v2_1_127ch` still
+declares 127 channels, `trajectory_v1` is unchanged, and Agent 5's three-legged
+proof with its positive control stands as
+`tests/information_security/test_setup_provenance_boundary.py`. Agent 6 added a
+live check over the spot-check corpus: `provenance_is_observer_safe` returned
+empty for every side of every sampled record, so no outcome or strength field
+appeared in live provenance.
+
+`evaluation_setup_bank_v1` was digested from its own generator before and after
+everything above: `5fe5f987…674266` both times, 1,024 pairs, 0 validation
+failures. The Phase 4 bank was not replaced by `setup_library_v1`, not
+regenerated from it, and not touched.
+
+### 6.10 The Phase 7 freeze
+
+Frozen identities, using the accepted names from Agents 1–5:
+
+```text
+setup_generator_contract_v1     setup contract and canonical representation
+setup_family_v1                 the 16 primary family contracts
+setup_trait_vector_v1           the structural trait vector
+setup_diversity_standard_v1     metrics and numeric thresholds
+setup_library_seed_v1           seed derivation
+setup_library_v1                the 8,000 materialized bases
+setup_perturbation_v1           constrained perturbation (seed_encoding_v1)
+setup_sampler_v1                the runtime sampler
+setup_stress_corpus_v1          Agent 4's acceptance instrument
+setup_source_v1                 the pipeline injection point
+setup_provenance_v1             the sidecar schema
+
+master seed                     20260813
+library digest                  7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+entry-metadata digest           d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980
+manifest digest                 53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31
+
+base entries                    8,000, stable ids setup_library_v1:F**:***
+split assignment                base index 0..399 train, 400..449 validation,
+                                450..499 test — permanent
+Phase 8 default profile         neutral_v1
+```
+
+A later semantic change to any of these requires a new version identifier.
+`setup_library_v1` must not be silently edited.
+
+### 6.11 Performance
+
+```text
+prerequisite verification              0.25 s
+full-library regeneration              2.85 s   (8,000 bases)
+shuffled-order regeneration            2.95 s
+640 isolated rebuilds                  0.23 s
+independent audit                      7.86 s   (36 gates, 199 thresholds,
+                                                 31,996,000 unordered pairs)
+100,000-output stress corpus         119.01 s   (840 outputs/s)
+  exhaustive pairwise sweep           31.45 s   (1,680,869,190 pairs)
+  split/uniformity probes             24.64 s
+  family metrics                      10.90 s
+profile evidence                      22.69 s   (3 × 16,000 draws)
+accepted-campaign offline replay       8.00 s   (8,189 games)
+live pipeline spot-check             115.72 s   (679 games + verification)
+full repository suite                207.27 s
+```
+
+Sampler cost at the frozen profile is 0.474 ms per draw single-threaded,
+consistent with Agent 5's measured 1.52 % of collection wall time across ten
+workers.
+
+### 6.12 Tests
+
+```text
+suite before Agent 6 changes    3,388 passed, 3 skipped, 0 failed  (202.87 s)
+suite after, harness run        3,420 passed, 4 skipped, 0 failed  (207.27 s)
+suite after, steady state       3,421 passed, 3 skipped, 0 failed  (206.18 s)
+new tests                       33 in tests/setups/test_phase7_final_acceptance.py
+```
+
+The two after-figures differ by exactly one test, and the reason is the
+ordering described below. During the harness's own suite run the artifacts on
+disk are the first-pass ones, whose `tests_after` is still `null`, so
+`test_the_recorded_suite_result_is_green_when_it_is_recorded` skips as not yet
+applicable. Every run against the finalized artifacts — including the
+steady-state run recorded above — executes it. Both runs are green; the
+steady-state figure is the one a reviewer will reproduce.
+
+The acceptance regressions execute against the real artifacts rather than
+skipping: the harness writes all three Agent 6 artifacts *before* running the
+suite, then re-emits the final record once it has the totals. They re-derive
+every frozen version, digest, count and sampler parameter from live source, so
+a later change that drifts from the freeze fails here rather than being noticed
+by someone re-reading a report.
+
+One gate is deliberately outside their reach. `full_repository_suite_green` is
+decided by the very suite run that contains these tests, so asserting on it
+inside them would be circular — a first-pass artifact legitimately carries
+`null`, and a test that failed on that would fail the suite in order to record
+that the suite failed. The tests therefore gate every other completion gate,
+and separately require that a *recorded* suite result is a green one. The suite
+result itself is evidenced by the run, not by a test asserting on a record of
+itself. (This was found the honest way: the first version of the test did
+assert it, and failed.)
+
+### 6.13 Files
+
+```text
+created   scripts/run_phase7_agent06.py
+          tests/setups/test_phase7_final_acceptance.py
+          reports/phase_7_data/agent_06_final_acceptance.json
+          reports/phase_7_data/agent_06_library_regeneration.json
+          reports/phase_7_data/agent_06_sampler_profile.json
+
+modified  reports/phase_7_implementation_report.md   (this section only)
+```
+
+No source module was modified. `stratego/engine/`, `stratego/model/`,
+`stratego/training/`, `stratego/setups/`, `data/setups/` and every accepted
+Phase 1–6 artifact are untouched, and no earlier report section was edited. The
+harness imports Agent 4's and Agent 5's acceptance harnesses rather than
+reimplementing their instruments, so the reproduction comparisons in §6.5 and
+§6.8 are like-for-like.
+
+### 6.14 Deviations, limitations and known concerns
+
+1. **Provenance-sidecar crash reconciliation remains open.** The sidecar is
+   written at seal time, immediately before the shard write, so an interruption
+   *between* the sidecar write and the trajectory write could leave a
+   provenance record whose game never reached disk. Agent 5's verification
+   detects exactly this — it reports orphan provenance records — and found
+   none, and a shard write error aborts the run loudly rather than continuing.
+   This is a future **training/checkpoint-resume** concern for whoever owns
+   crash recovery and resumable collection. It is **not a Phase 7 blocker**: it
+   cannot affect a frozen setup identity, digest, split assignment or family
+   contract, and no accepted Phase 7 evidence depends on it.
+
+2. **No new multi-hour collection campaign was run.** Agent 5's 8,189-game
+   campaign, its observer-safety proof, its deterministic setup assignment and
+   its Phase 4 isolation are accepted evidence, and Phase 6 owns long-duration
+   collection stability. Agent 6 verified that campaign two ways instead — a
+   complete offline replay of all 8,189 rows from the root seed, and a short
+   live run at the same root seed whose 679 overlapping logical games matched
+   it field for field.
+
+3. **The live spot-check reached 236 of 256 ordered family pairs**, which is
+   what 679 games gives and is not a gate for it. The 256 / 256 coverage claim
+   belongs to Agent 5's accepted 8,189-game campaign and was not re-derived
+   from the smaller run.
+
+4. **Three families sit exactly on their `flag_folded_support` floor** (F00,
+   F01, F02). This is definitional, was frozen by Agent 1 before generation,
+   and is discussed in §6.4 rather than presented as a comfortable margin.
+
+5. **The repository suite requires the project virtual environment.** The
+   default `pyenv` interpreter on this machine has no `torch` and no `psutil`,
+   and collecting the suite under it produces five import errors that are
+   purely environmental. Every number in this section was produced with
+   `.venv/bin/python` (Python 3.13.2, torch 2.13.0, MPS built and available),
+   the same interpreter Agents 2–5 recorded.
+
+6. **The working tree was dirty at acceptance time.** The freeze manifest
+   records `working_tree_state: dirty` honestly and lists the uncommitted
+   paths. Agents 1–5 are committed through `77b6528a`; the Agent 6 harness,
+   tests, artifacts and this report section were left uncommitted at the
+   reviewing chat's request. The manifest's `uncommitted_paths` list is the
+   snapshot taken when the manifest was written, which was before this section
+   was appended, so the report file itself is absent from that list while being
+   uncommitted like the rest. Two pre-existing untracked paths,
+   `.phase6b_final_state/` and `reports/.Rhistory`, are not Agent 6's and were
+   left alone.
+
+No frozen engine, rules, observation, model-contract, replay, trajectory or
+Phase 4 evaluation semantic was changed. No threshold was moved, no family
+contract weakened, no split assignment changed, and no byte of the 8,000-base
+library modified. No optimizer step ran and no model weight moved.
+
+### 6.15 Completion gates
+
+```text
+agents_1_to_5_all_pass                      true
+frozen_upstream_stack_unchanged             true
+frozen_model_identities_unchanged           true
+full_library_regenerates_exactly            true
+library_digests_identical                   true
+isolated_rebuild_exact                      true
+enumeration_order_independent               true
+counts_8000_16_500_exact                    true
+splits_6400_800_800_exact                   true
+zero_engine_invalid_bases                   true
+zero_stranded_bases                         true
+zero_exact_and_reflection_duplicates        true
+zero_cross_split_leakage                    true
+all_agent_1_diversity_thresholds_pass       true   (199 / 199)
+diversity_measurements_agree_with_agent_3   true
+procedural_stress_at_least_100000           true   (100,000)
+procedural_zero_hard_failures               true
+procedural_support_materially_expands       true   (57,981 classes, 7.25x)
+procedural_reproduces_agent_4               true
+perturbation_identity_semantics_verified    true   (9 / 9 probes)
+accepted_campaign_replays_exactly           true   (8,189 / 8,189)
+live_pipeline_spot_check_clean              true   (679 games)
+observer_safe_boundary_unchanged            true
+phase_4_bank_unchanged                      true
+one_neutral_phase_8_profile_frozen          true   (neutral_v1)
+no_outcome_or_strength_evidence_used        true
+no_meaningful_neural_training               true
+full_repository_suite_green                 true   (3,420 / 4 / 0)
+                                            28 / 28
+```
+
+### 6.16 Handoff — Phase 8 recommendation
+
+```text
+Phase 7 status                  PASS recommended
+                                (the reviewing chat makes formal acceptance)
+
+frozen setup contract           setup_generator_contract_v1
+frozen family version           setup_family_v1
+frozen trait version            setup_trait_vector_v1
+frozen diversity standard       setup_diversity_standard_v1
+frozen library version          setup_library_v1
+frozen perturbation version     setup_perturbation_v1  (seed_encoding_v1)
+frozen sampler version          setup_sampler_v1
+frozen setup source             setup_source_v1 / setup_provenance_v1
+
+master seed                     20260813
+library digest                  7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+manifest digest                 53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31
+
+base setups                     8,000
+families                        16
+bases per family                500
+train / validation / test       6,400 / 800 / 800  (400 / 50 / 50 per family)
+
+exact duplicates                0
+reflection-equivalent dupes     0
+cross-split leakage             0
+engine-invalid bases            0
+stranded bases                  0
+family-contract violations      0
+stable-id collisions            0
+regeneration mismatches         0
+reflection round-trip failures  0
+diversity thresholds            199 / 199 PASS, 36 / 36 hard gates
+
+procedural stress               100,000 outputs
+procedural hard failures        0
+procedural diversity            57,981 distinct reflection classes (7.25x the
+                                library), 65,981 distinct exact setups,
+                                cross-split minimum distance 19 vs floor 8
+
+pipeline integration            accepted 8,189-game campaign replayed
+                                8,189 / 8,189 exact from the root seed;
+                                live spot-check 679 games, 679 overlapping
+                                logical games, 0 field mismatches
+family-pair coverage            256 / 256 (Agent 5's accepted campaign)
+trajectory/provenance mismatch  0
+observer-safety violations      0
+Phase 4 bank                    unchanged, 5fe5f987...674266
+
+default Phase 8 sampler profile neutral_v1
+                                split=train, uniform family, uniform base,
+                                reflection 0.5, perturbation 0.5, uniform
+                                intensity over swap counts 1..6
+
+tests before / after            3,388 / 3 / 0   ->   3,420 / 4 / 0
+commit / working tree           77b6528a / dirty (Agent 6 files uncommitted)
+
+known limitations               provenance-sidecar crash reconciliation across
+                                an interruption between the sidecar write and
+                                the trajectory write is a future
+                                training/checkpoint-resume concern, not a
+                                Phase 7 blocker
+
+Phase 8 recommendation:
+READY TO PLAN
+```
+
+Phase 7 stops here. No synthetic warm-start training was begun.
