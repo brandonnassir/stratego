@@ -84,6 +84,7 @@ from .shard_writer import (
     SHARD_MAGIC,
     SHARD_SUFFIX,
     ShardError,
+    _file_sha256,
     _HEADER,
     _LENGTH,
     iter_shard_payloads,
@@ -118,6 +119,7 @@ COMMIT_FIELDS = (
     "commit_version",
     "game_id",
     "split",
+    "file_set",
     "shard_name",
     "record_index",
     "shard_bytes_after",
@@ -198,6 +200,7 @@ class CommitRecord:
 
     game_id: str
     split: str
+    file_set: str
     shard_name: str
     record_index: int
     shard_bytes_after: int
@@ -213,6 +216,7 @@ class CommitRecord:
             "commit_version": CORPUS_COMMIT_VERSION,
             "game_id": self.game_id,
             "split": self.split,
+            "file_set": self.file_set,
             "shard_name": self.shard_name,
             "record_index": self.record_index,
             "shard_bytes_after": self.shard_bytes_after,
@@ -229,6 +233,7 @@ class CommitRecord:
         return CommitRecord(
             game_id=str(payload["game_id"]),
             split=str(payload["split"]),
+            file_set=str(payload["file_set"]),
             shard_name=str(payload["shard_name"]),
             record_index=int(payload["record_index"]),
             shard_bytes_after=int(payload["shard_bytes_after"]),
@@ -518,6 +523,7 @@ class CorpusWriter:
         commit = CommitRecord(
             game_id=record.game_id,
             split=self.split,
+            file_set=self.name,
             shard_name=self.current_shard_name,
             record_index=record_index,
             shard_bytes_after=shard_bytes_after,
@@ -778,6 +784,11 @@ class CorpusReader:
     exist, whatever bytes happen to be on disk. That is the same rule the
     trainer relies on, so a reader and a resume can never disagree about the
     corpus contents.
+
+    Opening a reader parses the journals only. Metadata sidecars and shard frame
+    tables are loaded per file set on first use, which is what lets several
+    audit processes each open a reader over the whole corpus without each of
+    them parsing every metadata record first.
     """
 
     def __init__(self, root: "str | Path", splits: "tuple[str, ...]") -> None:
@@ -786,6 +797,7 @@ class CorpusReader:
         self.commits: dict[str, CommitRecord] = {}
         self.by_split: dict[str, list] = {split: [] for split in self.splits}
         self._metadata: dict[str, dict] = {}
+        self._loaded_file_sets: set = set()
         self._shard_offsets: dict[tuple, list] = {}
         for split in self.splits:
             for _segment, _worker, name in _file_sets(self.root, split):
@@ -799,16 +811,6 @@ class CorpusReader:
                         )
                     self.commits[commit.game_id] = commit
                     self.by_split[split].append(commit.game_id)
-                records, _ = read_metadata_file(
-                    metadata_directory(self.root, split) / f"{name}{METADATA_SUFFIX}"
-                )
-                for record in records:
-                    game_id = str(record["synthetic_game_id"])
-                    if game_id in self._metadata:
-                        raise CorpusCommitError(
-                            f"duplicate metadata record for {game_id!r}"
-                        )
-                    self._metadata[game_id] = record
         for split in self.splits:
             self.by_split[split].sort()
 
@@ -820,8 +822,25 @@ class CorpusReader:
             return tuple(sorted(self.commits))
         return tuple(self.by_split[split])
 
+    def _load_metadata_file_set(self, split: str, name: str) -> None:
+        if (split, name) in self._loaded_file_sets:
+            return
+        records, _ = read_metadata_file(
+            metadata_directory(self.root, split) / f"{name}{METADATA_SUFFIX}"
+        )
+        for record in records:
+            game_id = str(record["synthetic_game_id"])
+            if game_id in self._metadata:
+                raise CorpusCommitError(f"duplicate metadata record for {game_id!r}")
+            self._metadata[game_id] = record
+        self._loaded_file_sets.add((split, name))
+
     def metadata(self, game_id: str) -> dict:
         """The committed metadata record of one game."""
+        commit = self.commits.get(game_id)
+        if commit is None:
+            raise CorpusCommitError(f"game {game_id!r} is not committed")
+        self._load_metadata_file_set(commit.split, commit.file_set)
         try:
             return self._metadata[game_id]
         except KeyError:
@@ -1036,7 +1055,9 @@ def write_shard_manifests(root: "str | Path", splits: "tuple[str, ...]") -> list
                 records += 1
                 compressed += len(payload)
                 uncompressed += len(body)
-            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            # Chunked, so verifying a finalized corpus costs one buffer rather
+            # than one whole shard of memory.
+            digest = _file_sha256(path)
             manifest = {
                 "run_id": header["run_id"],
                 "worker_id": header["worker_id"],

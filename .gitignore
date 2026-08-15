@@ -1,4 +1,8 @@
 .venv/
+# Phase 8 production corpus bytes: reproducible from the frozen contract by
+# `python scripts/run_phase8_agent02.py --generate`, and far too large to be a
+# report attachment. The manifest and digests that describe it are tracked.
+data/warmstart/
 __pycache__/
 *.py[cod]
 .pytest_cache/

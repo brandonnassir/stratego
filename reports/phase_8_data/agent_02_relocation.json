@@ -1,0 +1,76 @@
+{
+  "accepted_digests": {
+    "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+    "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "agent": 2,
+  "artifact": "agent_02_relocation",
+  "bytes_rewritten_by_relocation": 0,
+  "committed_games": 28000,
+  "committed_per_split": {
+    "test": 4000,
+    "train": 20000,
+    "validation": 4000
+  },
+  "corpus_files": 481,
+  "corpus_regenerated": false,
+  "corpus_root_resolution": {
+    "environment_value": "",
+    "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+    "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+    "pointer_value": "/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1",
+    "root": "/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "source": "pointer_file"
+  },
+  "digests_identical": true,
+  "extraneous_files": [
+    ".DS_Store (Finder; not read by any corpus reader)"
+  ],
+  "final_root": "/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "integrity": {
+    "committed_count": 28000,
+    "duplicate_committed_ids": 0,
+    "duplicate_metadata_ids": 0,
+    "duplicate_payload_ids": 0,
+    "metadata_count": 28000,
+    "metadata_digest_mismatches": 0,
+    "missing_metadata_records": 0,
+    "missing_trajectory_payloads": 0,
+    "orphan_metadata_records": 0,
+    "orphan_trajectory_records": 0,
+    "payload_count": 28000,
+    "payload_decode_failures": 0,
+    "split_placement_violations": 0,
+    "trajectory_digest_mismatches": 0
+  },
+  "integrity_clean": true,
+  "observed_digests": {
+    "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+    "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "phase": 8,
+  "reason": "environmental storage-path issue: the repository sat in an iCloud-synced folder, the internal volume filled to 97%, macOS evicted iCloud file contents, and every read of an evicted file blocked on a re-download. Not a corpus correctness failure; no game was regenerated.",
+  "stages": [
+    {
+      "files_compared": 481,
+      "files_identical": 481,
+      "from": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1",
+      "method": "ditto, then per-file SHA-256 comparison of both trees",
+      "performed_with": "shell tools (the interpreter was unusable at the time)",
+      "source_removed_after_verification": true,
+      "stage": 1,
+      "to": "/Volumes/Brandon_Washington/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1"
+    },
+    {
+      "from": "/Volumes/Brandon_Washington/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "method": "moved by the operator while relocating the whole project to local storage",
+      "performed_with": "operator",
+      "stage": 2,
+      "to": "/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1"
+    }
+  ],
+  "timestamp": "2026-08-15T12:50:23-0400"
+}

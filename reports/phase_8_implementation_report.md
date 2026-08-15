@@ -296,3 +296,407 @@ commit/reconciliation rule (a game is trainable only once trajectory +
 metadata exist, verify, and a commit record lands; resume reconciles ids,
 never duplicates a committed game, never exposes an orphan). Agent 2 makes
 no new learning-design decisions.
+
+## 2. Agent 2 — Synthetic Rule-Agent Corpus
+
+**Status: PASS** — 26 / 26 completion gates true. Machine-readable record:
+`reports/phase_8_data/agent_02_corpus_manifest.json` (manifest + generation +
+storage + gates), `reports/phase_8_data/agent_02_corpus_audit.json` (the full
+independent audit, determinism evidence, and the Agent 3 handoff), and
+`reports/phase_8_data/agent_02_matchup_counts.csv` (300 rows: one per ordered
+cell per split). The corpus itself lives at
+`/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1/`
+with its own `manifest.json`; §2.12 records why it is there and how a consumer
+finds it.
+
+`synthetic_warmstart_corpus_v1` is complete and frozen:
+
+```text
+ordered policy pairs                            100
+train games                                  20,000   (200 / cell)
+validation games                              4,000   ( 40 / cell)
+test games                                    4,000   ( 40 / cell)
+total games                                  28,000
+
+recorded decisions                        7,260,310
+selected decisions (sampler v1)           1,747,060
+corpus content digest    c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d
+metadata digest          1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb
+commit-index digest      32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1
+```
+
+No neural model made a single corpus action. Every ply was chosen by a frozen
+Phase 4 rule policy.
+
+### 2.1 Prerequisite verification
+
+Verified live, not quoted:
+
+| Check | Required | Found |
+|---|---|---|
+| Agent 1 | `PASS`, all gates | status `PASS`, 18 / 18 gates true |
+| Agent 1 contract digest | `7b6e7b27…58de` | recomputed live from `warmstart_contract.contract_document()`, matches |
+| Frozen upstream | rules / engine / observation / model contract / action encoding / trajectory / bank / library / sampler / profile | `verify_frozen_upstream(include_library_digest=True)` returned no problems |
+| Setup library | `7b8a6660…02777` | loaded live, matches |
+| Phase 4 roster | exactly the 10 accepted policies at their accepted versions | `verify_teacher_roster()` and `verify_live_population()` both clean |
+| Policy roster digest | — | `1fd8f44ab0999b56c589ad783a4c60d67367c2c2a08f11d7d38707de7b2f38a4` (tokens + roles + weights) |
+
+Pre-existing suite, measured at commit `144baf4` **before any Agent 2 edit**:
+
+```text
+.venv/bin/python -m pytest tests -q
+3501 passed, 3 skipped, 0 failed in 200.81s
+```
+
+That is Agent 1's post-edit total, as expected — Agent 1's work was already in
+the tree. The three skips are the same pre-existing PASS-gated skips.
+
+### 2.2 What was built
+
+```text
+stratego/training/rule_population.py    one logical game from one game id
+stratego/training/corpus_commit.py      the crash-safe commit store
+stratego/training/synthetic_corpus.py   schedule, resume, audits, manifest
+scripts/run_phase8_agent02.py           the acceptance harness
+scripts/relocate_phase8_corpus.py       verified corpus relocation (§2.12)
+tests/training/test_synthetic_corpus.py 34 regressions
+tests/training/test_corpus_resume.py    16 regressions
+```
+
+Everything else is reused: `stratego.engine` is the sole legality and
+termination authority, the Phase 4 policies and their `build_policy_input` /
+`decide_checked` path are untouched, `trajectory_v1` is unchanged (no schema
+edit anywhere), the Phase 7 setup sources are entered through their frozen
+`corpus_setup_source(split)` entry points, and the shard container is the
+accepted Phase 6B byte layout, so `shard_writer.verify_shard` and
+`directory_summary` read a finalized corpus unchanged.
+
+### 2.3 Game content is a pure function of the game id
+
+`play_corpus_game(game_id)` takes an identifier and nothing else that can vary.
+From the id it derives the split (which selects the setup source), the
+setup-source root seed, and the two rule-policy match seeds; per-ply randomness
+stays on the frozen Phase 4 `derive_decision_seed(policy_seed, ply)` path.
+Worker count, process partitioning, arrival order and resume boundary are not
+inputs anywhere, so they cannot be outputs. Corpus games run under the frozen
+`TRAINING_RULES` (battleless 100 / absolute 4,000) that Agent 1 froze.
+
+The header stores `setup_family` as the source label
+(`setup_library_v1_setup_sampler_v1_<split>`); per-game Phase 7 identity lives
+in the metadata sidecar, exactly as Phase 7 Agent 5 designed it.
+
+**What a stored decision means.** `trajectory_v1` stores one probability per
+legal action, and a rule policy publishes no distribution. The record therefore
+stores the *realized* decision — 1.0 on the action the policy actually chose,
+0.0 elsewhere — which is exactly the Phase 8 policy target of common-contract
+§16.1. It is deliberately not a claim about the policy's behaviour
+distribution, and Phase 8 uses no importance ratio, so nothing consumes it as
+one. The value slot carries a constant neutral `(1/3, 1/3, 1/3)` for the same
+reason: Phase 8's value target is the final outcome, never a stored prediction.
+Each decision's `collection_policy_version` names the acting rule policy's
+`id@version`, so the corpus records who moved at every ply.
+
+### 2.4 The crash-safe commit protocol (`warmstart_corpus_commit_v1`)
+
+This closes the Phase 7 sidecar/trajectory crash window for the static corpus.
+The rule is one sentence: **a game becomes visible only when its commit record
+exists.** One file set belongs to one (split, segment, worker):
+
+```text
+<root>/<split>/shards/seg0000_w00_s0000.stgshard    trajectory payloads
+<root>/<split>/metadata/seg0000_w00.meta.jsonl      one JSON line per game
+<root>/<split>/journal/seg0000_w00.commit.jsonl     one JSON line per commit
+```
+
+Per game, in order: encode → compress → **decode the compressed bytes back and
+check they rebuild this game** → validate the metadata against the record →
+append trajectory bytes, flush → append metadata line, flush → append commit
+line, flush. "Verifies" means the persisted bytes decode to this game, not that
+they are the right length.
+
+Recovery is truncation, not repair, because each commit record carries the two
+file sizes *after* its own writes. `reconcile_corpus` drops a torn tail line
+from the journal, truncates the metadata file and the last committed shard to
+their recorded offsets, and removes any shard written entirely after the last
+commit. A shard rolls over only *between* games, at a committed boundary, so a
+closed shard never holds an uncommitted record. After reconciliation every
+surviving byte belongs to a committed game, which is why the finalization
+requirement of zero orphans is structural rather than hopeful. Uncommitted work
+is discarded rather than repaired — safe precisely because a game's content is
+a pure function of its identifier.
+
+Resume is subtraction: `pending = scheduled − committed`. There is no cursor
+file and no checkpoint.
+
+### 2.5 Independent audit of the persisted bytes
+
+Every audit re-derives what it checks from the frozen contract and reads the
+corpus back from disk; none of them trusts the generator's bookkeeping.
+
+```text
+games audited                                28,000 / 28,000
+decisions replayed through the engine     7,260,310
+illegal actions                                   0   (counted, not inferred)
+replayed-vs-stored legal-set mismatches           0
+snapshot-path observation cross-checks      111,847
+full provenance rebuilds                     28,000 / 28,000
+per-game audit problems                           0
+```
+
+The replay audit rebuilds each game from its two stored setups and replays the
+record's **action list** through the engine, regenerating the legal action set
+at every ply and requiring it to equal the stored one, requiring the decision
+record to name the same action the action list does, and requiring the terminal
+result, reason and length to match the header. At four evenly spaced plies per
+game it additionally rebuilds the position through the *snapshot* path
+(`reconstruct_state`) and compares board, acting player, legal actions and the
+`observation_v2_1_127ch` digest with the linear replay's, so the two
+independent reconstruction routes must also agree.
+
+The provenance audit rebuilds **both setups of all 28,000 games** from
+`setup_provenance_v1` alone through the frozen Phase 7 rebuild path,
+re-orients each for its player, and requires equality with the setup the
+trajectory stores, plus fingerprint, split, family and base-id agreement — the
+"preferred hard evidence" form, not the sampled fallback.
+
+Commit integrity reconciles the three identity sets:
+
+```text
+committed ids   28,000        duplicate committed ids            0
+metadata ids    28,000        duplicate metadata / payload ids    0
+payload ids     28,000        orphan trajectory records           0
+                              orphan metadata records             0
+                              missing payloads / metadata         0
+trajectory digest mismatches       0
+metadata digest mismatches         0
+payload decode failures            0
+split placement violations         0
+```
+
+### 2.6 Schedule and split isolation
+
+Committed ids compared against a freshly enumerated schedule:
+
+```text
+train        20,000 / 20,000 scheduled, 0 missing, 200 in every one of 100 cells
+validation    4,000 /  4,000 scheduled, 0 missing,  40 in every one of 100 cells
+test          4,000 /  4,000 scheduled, 0 missing,  40 in every one of 100 cells
+unscheduled committed games        0
+cells with the wrong count         0
+```
+
+No cell borrowed a game from another cell: the counts are scheduled, never the
+outcome of sampling.
+
+Split isolation is validated from setup provenance, not from the output
+directory:
+
+```text
+distinct setup base ids   train 6,385   validation 800   test 800
+base-id overlap           train/validation 0   train/test 0   validation/test 0
+game ids in two splits    0
+```
+
+Validation and test each drew all 800 of their available bases; train drew
+6,385 of its 6,400 (uniform sampling of 6,400 bases into 40,000 side-draws
+leaves a handful untouched, as expected). All 16 Phase 7 families appear, the
+most and least frequent separated by under 3%.
+
+### 2.7 Determinism evidence
+
+```text
+isolated rebuild            200 games replayed from their identifier alone;
+                            re-encoded payload digest == the digest the commit
+                            journal recorded; metadata identical         0 problems
+
+worker / order independence 8 games, serial 1x1 vs parallel 4x2 in reversed
+                            enumeration order -> identical content digest
+
+crash -> resume             a run interrupted between the metadata write and
+                            the commit, then resumed with a different worker
+                            count, finalizes to the same content digest,
+                            metadata digest and commit-index digest as the
+                            clean run
+```
+
+The regression suite additionally injects a crash at every stage of the commit
+protocol — before the trajectory write, after it, after the metadata write, at
+the commit flush boundary, at a shard rollover — and, separately, kills a real
+child process with `os._exit` mid-write. In every case the interrupted corpus
+exposes only committed games, resumes without regenerating a committed id, and
+converges to the clean corpus's digest with zero orphans. Staged runs
+(`limit` 1, 3 and 5 of 6) confirm the resume boundary itself changes nothing.
+
+### 2.8 Corpus diagnostics
+
+Diagnostics only. The schedule was not altered in response to any of them.
+
+```text
+terminal reason      flag_capture                 15,524
+                     battleless_move_limit_draw    9,509
+                     opponent_no_legal_move        2,960
+                     both_no_legal_move_draw           7
+
+result               red_win 9,342   blue_win 9,142   draw 9,516
+mean plies           259.0   (train 258.8 / validation 261.6 / test 259.4)
+zero-decision games  0
+```
+
+Color balance is even in every split (red 32.6–33.5%, blue 32.5–33.1%, draw
+34.2–34.3%), which is what a schedule that plays every ordered pair in both
+directions should produce. Game length spans 2 to 1,476 plies; the bulk sits
+between 100 and 400.
+
+Selected training decisions under `warmstart_decision_sampler_v1`
+(≤ 64 per game):
+
+```text
+train        1,247,173     validation 249,963     test 249,924
+total        1,747,060     mean 62.4 per game
+```
+
+### 2.9 Performance and storage
+
+```text
+generation      28,000 games, 10 workers x 4 chunks (40 file sets per split)
+storage         /Users/brandonwashington/Dev/stratego_phase8/warmstart/
+                    synthetic_warmstart_corpus_v1        (local, non-iCloud)
+                shards        216,165,725 bytes  (120 files, 40 per split)
+                metadata      117,144,888 bytes
+                journals       16,140,367 bytes
+                total            353.0 MB + 120 shard manifests
+free space      18.0 GB of 494.4 GB on the storage volume at finalization
+```
+
+The corpus bytes are excluded from version control (`.gitignore`:
+`data/warmstart/`) — they are production data reproducible from the frozen
+contract, and the manifest and digests that describe them are tracked.
+
+### 2.10 What Agent 2 did not do
+
+No training example was built, no observation tensor was materialized for
+storage, no target was computed, no model was constructed or run, no optimizer
+step occurred. The sealed test split was written and structurally audited only
+— replay, provenance, schema and integrity — which is the `structural_audit`
+purpose Agent 1's `check_test_corpus_access` allows before Agent 7; no model
+touched it, and no selection decision consulted it. The Phase 4 evaluation bank
+was not used at all. No engine, policy, library, sampler or Phase 4 artifact
+was modified.
+
+### 2.11 Post-edit suite and completion gates
+
+Steady-state run, after the relocation of §2.12 and against the final source
+state:
+
+```text
+.venv/bin/python -m pytest tests -q
+3551 passed, 3 skipped, 0 failed in 225.32s
+```
+
+3,501 pre-existing tests plus 50 new Agent 2 regressions, all green; the three
+skips are the same pre-existing PASS-gated skips as before Phase 8. An earlier
+run of the same harness, before the relocation and before the last three
+regressions were added, reported 3,548 / 3 / 0 — the same suite plus those
+three tests.
+
+26 / 26 completion gates true (recorded in `agent_02_corpus_audit.json`):
+28,000 scheduled games exact; 20k/4k/4k split counts exact; all 100 cells exact
+in all three splits; no missing and no unscheduled games; zero duplicate
+committed ids; zero orphan trajectories and zero orphan metadata; zero missing
+payloads and zero missing metadata; zero digest mismatches; zero decode
+failures; zero split-placement violations; zero base-id overlap; zero illegal
+actions; zero legal-set mismatches; every committed game replayed; replay and
+provenance audit clean; isolated rebuild exact; crash/resume converges;
+worker and enumeration order independent; manifest and digests written; no
+neural corpus actions; upstream unchanged; live population unchanged; full
+suite green.
+
+### 2.12 Corpus relocation and the storage-path incident
+
+The corpus was generated under the repository's preferred path while the
+repository sat in an iCloud-synced folder. During finalization the machine's
+internal volume filled to 97%, macOS began evicting iCloud file contents to
+reclaim space, and every subsequent read of an evicted file blocked on a
+re-download — including the interpreter's own site-packages, which stalled
+`import torch` for minutes at a time and interrupted the acceptance sequence.
+
+This was an environmental storage-path problem, not a corpus defect. Nothing
+below re-generated a single game; the machine-readable record is
+`reports/phase_8_data/agent_02_relocation.json`.
+
+**Relocation.** The corpus reached its current root in two stages, and was
+verified at each one before anything was deleted:
+
+```text
+stage 1   repository (iCloud) -> /Volumes/Brandon_Washington/stratego_phase8/...
+          copied with `ditto`, then every file's SHA-256 compared across both
+          trees: 481 / 481 identical. Only then was the source removed.
+          Performed with shell tools because the interpreter was unusable at
+          the time; `scripts/relocate_phase8_corpus.py` is the equivalent
+          copy-verify-then-remove path for future moves.
+
+stage 2   external volume -> /Users/brandonwashington/Dev/stratego_phase8/...
+          part of moving the whole project off iCloud to local storage.
+
+verify    at the final root: 481 corpus files (plus a Finder `.DS_Store`,
+          which nothing reads), and
+              content digest        c95c3545…f87d0d   == accepted
+              metadata digest       1db0f02f…4c81bb   == accepted
+              commit-index digest   32e8e18d…6c15db1  == accepted
+              28,000 committed / 28,000 metadata / 28,000 payloads
+              0 orphans, 0 duplicates, 0 digest mismatches,
+              0 decode failures, 0 split-placement violations
+```
+
+The full 28,000-game replay and provenance audit of §2.5 was then re-run
+against the relocated bytes and is the audit reported there.
+
+The three digests are built from game ids and payload/metadata digests only —
+never from shard filenames, worker ids, segment numbers or paths — which is
+exactly why a corpus can change volumes and remain the same corpus. A
+regression pins that property (`test_relocating_a_corpus_preserves_every_digest`).
+
+**Finding the corpus.** The root is now resolved by
+`synthetic_corpus.default_corpus_root()`, first match wins:
+
+```text
+STRATEGO_WARMSTART_CORPUS_ROOT     explicit per-process override
+data/warmstart_corpus_root.txt     the recorded redirect (tracked, one line)
+data/warmstart/...                 the contract's preferred path
+```
+
+The pointer file currently reads
+`/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1`,
+and `agent_02_corpus_manifest.json` records both the resolved root and which
+rule chose it. Agents 3–7 should call `default_corpus_root()` rather than
+assume a path. This is the redirect the common contract's §5 allows; the
+manifest records the real location and free space, and no external volume is
+claimed to have been tested.
+
+**A bug the move exposed.** The acceptance harness recorded the corpus
+manifest's location with `Path.relative_to(REPOSITORY_ROOT)`, which raises for
+any root outside the repository. The first finalize run after the relocation
+therefore crashed while assembling its artifacts — after the audit, the shard
+manifests and the full suite had all already succeeded. Fixed by
+`synthetic_corpus.repository_relative()`, which returns the relative path when
+the target is inside the repository and the absolute path otherwise, with a
+regression
+(`test_reporting_paths_survive_a_corpus_outside_the_repository`). The steady-
+state run in §2.11 is the re-run after that fix.
+
+**Environment note.** The transfer to local storage stamped
+`com.apple.quarantine` on 25,663 virtualenv files (source `sharingd`), and
+macOS refuses to load ad-hoc-signed dylibs carrying that flag — `torch` failed
+with "library load disallowed by system policy". Clearing the flag on the
+project's own `.venv` restored the interpreter. This touched no repository
+source and no corpus byte.
+
+**Handoff to Agent 3** (in the artifact's `handoff_to_agent_3` block): the
+corpus root and manifest, the three digests, `CorpusReader` (journal-backed
+game index, `record(game_id)` → `trajectory_v1` record, `metadata(game_id)` →
+synthetic sidecar, `commits[game_id]` → commit record),
+`rule_population.play_corpus_game(game_id)` to rebuild any game in isolation,
+`warmstart_contract.corpus_setup_source(split)` for split access, the frozen
+policy-supervision weights, `warmstart_seed.selected_decision_indices` as the
+decision-sampler contract, the 1,747,060 selected examples the sampler yields,
+and the three audit entry points. Agent 3 makes no new corpus decisions.
