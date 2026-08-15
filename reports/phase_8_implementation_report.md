@@ -1242,3 +1242,241 @@ Pre-edit: `3598 passed, 3 skipped` at `eb730d4` (dirty tree carrying accepted
 Agent 3 work). Post-implementation: `3660 passed, 3 skipped`. Steady state
 after the acceptance amendment (artifact/report correction only — no trainer,
 test, or experiment change): `3660 passed, 3 skipped in 231.45s (0:03:51)`.
+
+
+## 5. Agent 5 — Bounded Pilot Selection
+
+**Status: PASS** — 21 / 21 completion gates true.
+Machine-readable record: `reports/phase_8_data/agent_05_pilot_selection.json`
+(protocol, per-candidate runs, fairness evidence, selection, access log),
+`reports/phase_8_data/agent_05_pilot_runs.csv` (every validation checkpoint of
+every candidate) and `reports/phase_8_data/agent_05_frozen_train_config.json`
+(`warmstart_train_config_v1`). Produced by
+`python scripts/run_phase8_agent05.py --full --run-pytest`.
+
+### 5.0 Prerequisite: Agents 1-4 and the accepted corpus through the resolver
+
+Agents 1, 2, 3 and 4 all read `PASS`; Agent 1's live contract digest equals the
+recorded one; the frozen upstream and teacher roster verify clean. The corpus
+was resolved only through `synthetic_corpus.default_corpus_root()` before any
+optimizer step, in the orchestrator and in every pilot subprocess:
+
+```text
+resolver result: MATCH   (pointer_file -> canonical location)
+content digest        c95c3545…87d0d   == accepted (Agents 2/3/4)
+metadata digest       1db0f02f…9c81bb  == accepted
+commit-index digest   32e8e18d…c15db1  == accepted
+payload bytes         re-verified once in the orchestrator
+candidate matrix      digest db3210b0f3d7dedc…
+                      equals Agent 1's accepted artifact field for field
+```
+
+### 5.1 The matrix that ran, and the fairness it ran under
+
+Exactly Agent 1's six frozen candidates, no more and no fewer, each
+constructed only through `WarmstartTrainConfig.from_pilot_candidate`:
+
+```text
+candidates registered / run          6 / 6      (limit 6)
+unregistered configurations run      0
+fresh-init checksum, all 6 identical cfe60bb0cb342b03e2506259b5c4d39d…
+ordered batch-identity sequence,
+    all 6 identical                  47ff1df11bf3614e587147661c51dc4f…
+optimizer updates each               5,000   (Agent 1's cap: 5,000)
+validation update numbers            500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000
+    identical across candidates      True
+cadence validation                   64 evenly spread batches x 256
+                                     = 16,384 held-out examples,
+                                     the same positions for every candidate
+selection validation                 one full validation-split pass
+                                     (249,963 examples, 4,000 games)
+early stops                          none; no candidate hit a hard failure
+non-finite / target / leak counters   0 across all six runs
+validation determinism: max spread
+    between the trainer's own cadence
+    score and Agent 5's repeat pass   0
+```
+
+The batch-identity sequence is folded to one SHA-256 over the run's 5,000
+ordered per-step key digests, so "same ordered pilot batch identities" is a
+single comparable string rather than a claim. The fresh-init checksum hashes
+every parameter's name, shape and float32 bytes.
+
+### 5.2 Per-candidate result at the final pilot checkpoint
+
+Full validation split, update 5,000, `selection_score = mean(r_policy, r_value,
+r_belief)`, lower is better:
+
+```text
+1. ws_pilot_lr1e-3_balanced     score 0.649111   p 0.4964  v 0.5187  b 0.9323   1836 ex/s
+2. ws_pilot_lr1e-3_policy_led   score 0.660548   p 0.5001  v 0.5401  b 0.9414   1820 ex/s
+3. ws_pilot_lr3e-4_balanced     score 0.675534   p 0.5643  v 0.5189  b 0.9434   1808 ex/s
+4. ws_pilot_lr3e-4_policy_led   score 0.678539   p 0.5402  v 0.5474  b 0.9480   1812 ex/s
+5. ws_pilot_lr1e-4_balanced     score 0.688883   p 0.5745  v 0.5426  b 0.9495   1810 ex/s
+6. ws_pilot_lr1e-4_policy_led   score 0.697010   p 0.5752  v 0.5599  b 0.9559   1766 ex/s
+```
+
+Hard veto (Agent 1's frozen list) removed 0 of 6 candidates.
+No candidate was vetoed.
+
+### 5.3 The winner and how the tie-break resolved
+
+```text
+winner                    ws_pilot_lr1e-3_balanced
+selection score           0.649111
+runner-up                 ws_pilot_lr1e-3_policy_led
+margin to runner-up       0.011437
+decided at tie-break key  selection_score
+reproducible from the
+    published CSV alone   True
+```
+
+`select_winner` is a pure function of the published records: the harness
+re-reads `agent_05_pilot_runs.csv` from disk, re-runs the same function, and
+requires the same winner and the same ranking — and the suite does the same
+against the shipped artifact. Every published `selection_score` was
+recomputed from its own three ratios (66 checkpoints, 0 mismatches).
+
+### 5.4 Winner's validation curve
+
+```text
+  500  score 0.7534  p 0.6866  v 0.6042  b 0.9694  train loss 5.3966  |g| 8.287  lr 1.00e-03
+ 1000  score 0.7142  p 0.6274  v 0.5574  b 0.9578  train loss 4.8822  |g| 4.551  lr 1.00e-03
+ 1500  score 0.6902  p 0.5978  v 0.5226  b 0.9502  train loss 4.6850  |g| 3.742  lr 1.00e-03
+ 2000  score 0.6805  p 0.5796  v 0.5149  b 0.9472  train loss 4.5608  |g| 3.579  lr 1.00e-03
+ 2500  score 0.6676  p 0.5414  v 0.5196  b 0.9417  train loss 4.4578  |g| 3.499  lr 1.00e-03
+ 3000  score 0.6600  p 0.5270  v 0.5131  b 0.9397  train loss 4.3894  |g| 3.401  lr 1.00e-03
+ 3500  score 0.6577  p 0.5258  v 0.5129  b 0.9344  train loss 4.3203  |g| 3.392  lr 1.00e-03
+ 4000  score 0.6463  p 0.5070  v 0.4979  b 0.9340  train loss 4.2865  |g| 3.261  lr 1.00e-03
+ 4500  score 0.6510  p 0.5145  v 0.5057  b 0.9327  train loss 4.2325  |g| 3.228  lr 1.00e-03
+ 5000  score 0.6398  p 0.4927  v 0.4974  b 0.9294  train loss 4.1870  |g| 3.183  lr 1.00e-03
+```
+
+Final full-split checkpoint of the winner:
+
+```text
+policy   CE 1.5678 vs uniform-legal 3.1586   ratio 0.4964
+         top-1 0.4631 vs expected 0.0465
+value    CE 0.5695 vs train prior 1.0980   ratio 0.5187
+         Brier 0.3385 vs 0.6663   accuracy 0.7506 vs 0.3497
+belief   CE 2.0589 vs remaining-count 2.2084   ratio 0.9323
+         top-1 0.2694 vs 0.2046
+decisions 249,963   games 4,000   hidden pieces 6,842,062
+```
+
+These are validation numbers used to choose a configuration. They are not
+Phase 8 acceptance results; the sealed test split decides that, and only
+Agent 7 opens it.
+
+### 5.5 Frozen `warmstart_train_config_v1`
+
+Digest `3cab772bd8f74677efcdc1f90ec6f383…`. Agent 6 runs this verbatim:
+
+```text
+model / config digest     C1 / 31ca84ab140c523e…
+model init seed           2026081302
+expected fresh-init cksum cfe60bb0cb342b03e2506259b5c4d39d…
+trainer / checkpoint      warmstart_trainer_v1 / warmstart_checkpoint_v1
+example / corpus          warmstart_example_v1 / synthetic_warmstart_corpus_v1
+batch size                256
+optimizer                 AdamW  betas (0.9, 0.999)  eps 1e-08
+learning rate             0.001
+weight decay              0.01
+gradient clip             1.0
+schedule                  linear_warmup_500_steps_then_constant
+loss weights              policy 1.0  value 1.0  belief 1.0
+train shuffle seed/order  2026081303 / warmstart_train_order_v1
+max final updates         25,000   (frozen cap 25,000)
+validation cadence        every 500 updates, 64 spread batches
+checkpoint cadence        every 500 updates
+best-checkpoint metric    validation selection_score, strictly lower wins
+early-stop rule           none
+loader topology           12w / 2p / 512 record cache
+device / precision        mps / float32
+```
+
+The completeness check is structural: `warmstart_pilot.build_frozen_train_config`
+refuses to emit a payload missing any required field, every hyperparameter is
+copied from the frozen candidate (the function has no way to express a value
+the matrix does not contain), and `verify_frozen_train_config` re-derives the
+digest and re-checks the winner's hyperparameters against the matrix.
+
+**No pilot checkpoint is handed to Agent 6.** The handoff carries the
+configuration and the expected fresh-init checksum; Agent 6 must rebuild the
+canonical C1 initialization from the seed.
+
+### 5.6 Sanity extension: not run, and why
+
+The assignment permits one validation-only extension solely to choose between
+*already predeclared* shorter/longer final budgets, and states plainly: "If
+Agent 1 did not predeclare alternate final budgets, do not invent one."
+Agent 1's development budget declares one final-run figure —
+`final_run_optimizer_steps_max = 25,000` — and no alternative. There
+is therefore nothing to choose between, no extension was run, and no new
+budget was invented: the frozen `max_final_updates` is Agent 1's own number.
+
+### 5.7 Held-out discipline, measured rather than asserted
+
+`warmstart_pilot.record_model_input_access` instruments
+`WarmstartBatch.model_input` — the single boundary where observations become
+model input — and tallies examples by corpus split across every pilot
+process. `record_phase4_access` wraps the Phase 4 evaluation entry points and
+reads the neural checkpoint-load counter.
+
+```text
+test examples evaluated by a model, Agent 5      0
+Phase 4 neural evaluation games, Agent 5         0
+Phase 4 neural checkpoint loads, Agent 5         0
+train examples through the model boundary        7,679,646
+validation examples through the model boundary   3,465,858
+
+frozen gates asked to admit Agent 5:
+  test_corpus:model_inference                    REFUSED
+  test_corpus:model_metric                       REFUSED
+  test_corpus:hyperparameter_selection           REFUSED
+  phase4_bank:neural_playing_strength            REFUSED
+  phase4_bank:pilot_selection                    REFUSED
+  phase4_bank:config_selection                   REFUSED
+```
+
+Structural corpus manifests were read (digest verification); no test example
+reached a model, and no game was played against any evaluation opponent.
+
+### 5.8 What Agent 5 did not do
+
+No architecture, teacher-roster, teacher-weight, setup-distribution, corpus or
+split change; no candidate outside the frozen six; no "one more promising
+run"; no early stop of a weak candidate; no test-split model metric; no Phase
+4 strength evaluation; no continuation of a pilot checkpoint into the final
+run; no modification of Agent 4's trainer, loss, dataset or checkpoint
+modules; no rewrite of an accepted report section.
+
+### 5.9 Post-edit suite and completion gates
+
+```text
+.venv/bin/python -m pytest tests -q
+3747 passed, 3 skipped in 224.97s (0:03:44)
+```
+
+21 / 21 completion gates true (recorded in
+`agent_05_pilot_selection.json` → `completion_gates`): candidate count at the
+limit and equal to Agent 1's matrix; no unregistered configuration; identical
+fresh-init checksums; identical ordered batch-identity sequences; equal update
+budgets; validation at identical update numbers over identical held-out
+examples; clean non-finite/target/leak counters; selection from validation
+only; selection-score arithmetic re-verified; one deterministic winner;
+winner reproducible from the published CSV; `warmstart_train_config_v1` fully
+frozen and complete; final budget within 25,000; zero test model inferences;
+zero Phase 4 neural evaluation games; every frozen held-out gate refuses Agent
+5; no pilot checkpoint handed forward.
+
+### 5.10 Handoff to Agent 6
+
+In `agent_05_pilot_selection.json` → `handoff_to_agent_6`: the winning
+candidate id, the frozen `warmstart_train_config_v1` and its digest, the exact
+`WarmstartTrainConfig.from_pilot_candidate(...)` call that reconstructs it, all
+canonical seeds, the expected fresh-init checksum Agent 6 must confirm before
+training, the final budget of 25,000 updates, the validation and
+checkpoint cadences, the loader topology, and the pilot evidence. Agent 6 runs
+this configuration unchanged, from a fresh canonical C1 initialization, and
+selects its checkpoint by validation only.
