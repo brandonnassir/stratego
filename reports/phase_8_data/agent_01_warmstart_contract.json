@@ -1,0 +1,1847 @@
+{
+ "phase": 8,
+ "agent": 1,
+ "status": "PASS",
+ "timestamp": "2026-08-13T20:21:20-0400",
+ "source_revision": "144baf4",
+ "working_tree_state": "dirty",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "prerequisite_versions": {
+  "rules": "stratego_project_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "observation": "observation_v2_1_127ch",
+  "observation_channels": 127,
+  "model_contract": "model_contract_v2",
+  "trajectory": "trajectory_v1",
+  "phase_4_bank": "evaluation_setup_bank_v1",
+  "contract_version": "setup_generator_contract_v1",
+  "family_contract_version": "setup_family_v1",
+  "trait_schema_version": "setup_trait_vector_v1",
+  "library_version": "setup_library_v1",
+  "seed_context_version": "setup_library_seed_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "sampler_version": "setup_sampler_v1",
+  "setup_source_version": "setup_source_v1",
+  "provenance_schema_version": "setup_provenance_v1",
+  "stress_corpus_version": "setup_stress_corpus_v1",
+  "master_seed": 20260813
+ },
+ "prerequisite_digests": {
+  "setup_library_v1": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "evaluation_setup_bank_v1": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+  "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d"
+ },
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3421 passed, 3 skipped in 202.07s (0:03:22)",
+  "passed": 3421,
+  "skipped": 3,
+  "failed": 0,
+  "seconds": 202.07,
+  "measured_at_commit": "144baf4"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "3501 passed, 3 skipped in 199.93s (0:03:19)",
+  "passed": 3501,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 200.701
+ },
+ "commands": [
+  "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase8_agent01.py --run-pytest"
+ ],
+ "seeds": {
+  "corpus_master_seed": 2026081301,
+  "canonical_c1_init_seed": 2026081302,
+  "train_order_seed": 2026081303,
+  "pilot_namespace_seed": 2026081304,
+  "final_run_namespace_seed": 2026081305,
+  "validation_bootstrap_seed": 2026081306,
+  "test_bootstrap_seed": 2026081307
+ },
+ "files_created": [
+  "stratego/training/warmstart_seed.py",
+  "stratego/training/warmstart_contract.py",
+  "tests/training/test_warmstart_seed.py",
+  "tests/training/test_warmstart_contract.py",
+  "scripts/run_phase8_agent01.py",
+  "reports/phase_8_data/agent_01_warmstart_contract.json",
+  "reports/phase_8_data/agent_01_teacher_population.json",
+  "reports/phase_8_data/agent_01_acceptance_thresholds.json",
+  "reports/phase_8_implementation_report.md"
+ ],
+ "files_modified": [],
+ "problems": [],
+ "deviations": [],
+ "artifact": "agent_01_warmstart_contract",
+ "phase_7_verification": {
+  "phase_7_agent_6_status": "PASS",
+  "phase_7_gates_total": 28,
+  "phase_7_gates_true": 28,
+  "phase_7_all_gates_true": true,
+  "phase_7_agents_1_to_5_pass": true,
+  "phase_7_report_records_acceptance": true,
+  "phase_7_accepted": true,
+  "phase_7_frozen_versions": {
+   "rules": "stratego_project_v1",
+   "reference_engine": "phase2_1_reference_1.2.0",
+   "observation": "observation_v2_1_127ch",
+   "observation_channels": 127,
+   "model_contract": "model_contract_v2",
+   "trajectory": "trajectory_v1",
+   "phase_4_bank": "evaluation_setup_bank_v1",
+   "contract_version": "setup_generator_contract_v1",
+   "family_contract_version": "setup_family_v1",
+   "trait_schema_version": "setup_trait_vector_v1",
+   "library_version": "setup_library_v1",
+   "seed_context_version": "setup_library_seed_v1",
+   "perturbation_version": "setup_perturbation_v1",
+   "perturbation_seed_encoding": "seed_encoding_v1",
+   "sampler_version": "setup_sampler_v1",
+   "setup_source_version": "setup_source_v1",
+   "provenance_schema_version": "setup_provenance_v1",
+   "stress_corpus_version": "setup_stress_corpus_v1",
+   "master_seed": 20260813
+  },
+  "phase_7_library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777"
+ },
+ "upstream_verification": {
+  "problems": [],
+  "library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "library_entries": 8000,
+  "phase4_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+  "phase4_bank_size": 1024,
+  "phase4_bank_regeneration_seconds": 0.238,
+  "c1_parameters": 863959,
+  "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+  "canonical_c1_init_seed": 2026081302,
+  "canonical_c1_init_state_digest": "37d1ef8dcba8655357f3c43c736b59b170c9b8d3c9fec677978086659c0ccab2",
+  "canonical_c1_reconstruction": "build_candidate_model('C1', seed=2026081302) on CPU float32; the state digest above is the frozen identity of the canonical untrained C1 for Agents 6 and 7"
+ },
+ "game_identity_verification": {
+  "unique_game_ids": 28000,
+  "per_split_counts": {
+   "train": 20000,
+   "validation": 4000,
+   "test": 4000
+  },
+  "expected_total": 28000,
+  "all_unique": true,
+  "probe_game_seeds": {
+   "setup_root_seed": 5790771453544431089,
+   "red_policy_seed": 5825057226992208487,
+   "blue_policy_seed": 6197575648350526049
+  },
+  "seconds": 0.023
+ },
+ "decision_sampler_verification": {
+  "game_ids_probed": 3,
+  "lengths_probed": [
+   0,
+   1,
+   5,
+   63,
+   64,
+   65,
+   100,
+   127,
+   128,
+   129,
+   500,
+   700,
+   1024,
+   2000,
+   4000
+  ],
+  "selections_probed": 45,
+  "checks": {
+   "short_selects_all": 15,
+   "long_selects_64": 30,
+   "sorted_unique": 30,
+   "bin_membership": 30,
+   "arithmetic_reproduction": 30,
+   "deterministic_repeat": 30
+  },
+  "seconds": 0.013
+ },
+ "setup_source_verification": {
+  "per_split": {
+   "train": {
+    "purpose": "training",
+    "profile": "neutral_v1",
+    "access_justification": "",
+    "game_id": "synthetic_warmstart_corpus_v1|ms=2026081301|split=train|red=strategic_rule_based@1.1.0|blue=stress_berserker@1.0.0|g=0000",
+    "setup_root_seed": 5253321201466542512,
+    "deterministic_repeat": true,
+    "red": {
+     "base_setup_id": "setup_library_v1:F14:039",
+     "primary_family_id": "F14",
+     "split": "train",
+     "side_seed": 2855915778158154010
+    },
+    "blue": {
+     "base_setup_id": "setup_library_v1:F13:210",
+     "primary_family_id": "F13",
+     "split": "train",
+     "side_seed": 1603703170994742268
+    },
+    "sides_independent": true,
+    "split_correct": true
+   },
+   "validation": {
+    "purpose": "evaluation_audit",
+    "profile": "neutral_v1",
+    "access_justification": "Phase 8 held-out warm-start validation corpus",
+    "game_id": "synthetic_warmstart_corpus_v1|ms=2026081301|split=validation|red=strategic_rule_based@1.1.0|blue=stress_berserker@1.0.0|g=0000",
+    "setup_root_seed": 3568339261530923289,
+    "deterministic_repeat": true,
+    "red": {
+     "base_setup_id": "setup_library_v1:F12:430",
+     "primary_family_id": "F12",
+     "split": "validation",
+     "side_seed": 930651064982525223
+    },
+    "blue": {
+     "base_setup_id": "setup_library_v1:F09:441",
+     "primary_family_id": "F09",
+     "split": "validation",
+     "side_seed": 1268998863300693172
+    },
+    "sides_independent": true,
+    "split_correct": true
+   },
+   "test": {
+    "purpose": "evaluation_audit",
+    "profile": "neutral_v1",
+    "access_justification": "Phase 8 sealed held-out warm-start test corpus",
+    "game_id": "synthetic_warmstart_corpus_v1|ms=2026081301|split=test|red=strategic_rule_based@1.1.0|blue=stress_berserker@1.0.0|g=0000",
+    "setup_root_seed": 2321197232382471558,
+    "deterministic_repeat": true,
+    "red": {
+     "base_setup_id": "setup_library_v1:F10:471",
+     "primary_family_id": "F10",
+     "split": "test",
+     "side_seed": 4608816319594940779
+    },
+    "blue": {
+     "base_setup_id": "setup_library_v1:F02:496",
+     "primary_family_id": "F02",
+     "split": "test",
+     "side_seed": 2500406214567510651
+    },
+    "sides_independent": true,
+    "split_correct": true
+   }
+  },
+  "seconds": 0.106
+ },
+ "production_state": {
+  "corpus_root": "data/warmstart",
+  "corpus_root_exists": false,
+  "phase8_checkpoint_root_exists": false,
+  "production_corpus_generated": false,
+  "optimizer_steps": 0,
+  "model_weights_mutated": false
+ },
+ "contract": {
+  "contract_version": "warmstart_training_contract_v1",
+  "corpus_version": "synthetic_warmstart_corpus_v1",
+  "decision_sampler_version": "warmstart_decision_sampler_v1",
+  "example_version": "warmstart_example_v1",
+  "eval_version": "warmstart_eval_v1",
+  "frozen_upstream": {
+   "rules": "stratego_project_v1",
+   "reference_engine": "phase2_1_reference_1.2.0",
+   "observation": "observation_v2_1_127ch",
+   "model_contract": "model_contract_v2",
+   "action_encoding": "source_destination_10000_v1",
+   "trajectory": "trajectory_v1",
+   "snapshot_interval": 32,
+   "c1_parameters": 863959,
+   "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "phase4_bank": "evaluation_setup_bank_v1",
+   "phase4_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+   "setup_library": "setup_library_v1",
+   "setup_library_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "setup_sampler": "setup_sampler_v1",
+   "setup_perturbation": "setup_perturbation_v1",
+   "seed_encoding": "seed_encoding_v1",
+   "setup_source": "setup_source_v1",
+   "setup_profile": "neutral_v1"
+  },
+  "corpus_rules_config": {
+   "context": "training",
+   "battleless_move_limit": 100,
+   "absolute_move_limit": 4000,
+   "note": "corpus games use the frozen TRAINING_RULES; Phase 4 strength gates keep the frozen EVALUATION_RULES via the untouched Phase 4 machinery"
+  },
+  "teacher_population": [
+   {
+    "policy_id": "random_legal",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/baselines.py",
+    "role": "tier_random",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": null,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Uniform random legal move; performance floor and stochastic control."
+   },
+   {
+    "policy_id": "basic_heuristic",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/baselines.py",
+    "role": "tier_basic",
+    "policy_weight": 0.5,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 0.75,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Known captures, forward progress, anti-shuffling. No threat model."
+   },
+   {
+    "policy_id": "tactical_rule_based",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/baselines.py",
+    "role": "tier_tactical",
+    "policy_weight": 1.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 0.5,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Expected-value combat, threat and evasion, Flag and Miner tactics."
+   },
+   {
+    "policy_id": "strategic_rule_based",
+    "policy_version": "1.1.0",
+    "implementation_path": "stratego/evaluation/baselines.py",
+    "role": "tier_strategic",
+    "policy_weight": 1.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 0.5,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Tactical plus material preservation, Scout information, territorial pressure, Flag defence and draw-counter awareness."
+   },
+   {
+    "policy_id": "stress_scout_rush",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 1.0,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Scout-heavy aggression: long Scout runs and constant probing."
+   },
+   {
+    "policy_id": "stress_miner_rush",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 1.0,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Miner rush at never-moved blocks; aggressive Bomb hunting."
+   },
+   {
+    "policy_id": "stress_draw_seeker",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 1.5,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Defensive draw-seeker: avoids all combat and stays in its own half."
+   },
+   {
+    "policy_id": "stress_berserker",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 1.0,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Attacks on sight and charges forward; no risk assessment at all."
+   },
+   {
+    "policy_id": "stress_information_miser",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": 1.0,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Hoards information: avoids combat, Scout runs and fresh reveals."
+   },
+   {
+    "policy_id": "stress_chaos",
+    "policy_version": "1.0.0",
+    "implementation_path": "stratego/evaluation/stress.py",
+    "role": "stress",
+    "policy_weight": 0.0,
+    "value_supervision": true,
+    "belief_supervision": true,
+    "stochastic": true,
+    "behavior_contract": {
+     "interface_version": "policy_interface_v1",
+     "selection_margin": null,
+     "ranking_tie_break": "descending score, then ascending action id",
+     "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+     "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+    },
+    "description": "Draws a fresh random objective each ply; maximum behavioural entropy."
+   }
+  ],
+  "policy_supervision_weights": {
+   "random_legal": 0.0,
+   "basic_heuristic": 0.5,
+   "tactical_rule_based": 1.0,
+   "strategic_rule_based": 1.0,
+   "stress_scout_rush": 0.0,
+   "stress_miner_rush": 0.0,
+   "stress_draw_seeker": 0.0,
+   "stress_berserker": 0.0,
+   "stress_information_miser": 0.0,
+   "stress_chaos": 0.0
+  },
+  "matchup_schedule": {
+   "cells": [
+    {
+     "cell_index": 0,
+     "red_index": 0,
+     "blue_index": 0,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 1,
+     "red_index": 0,
+     "blue_index": 1,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 2,
+     "red_index": 0,
+     "blue_index": 2,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 3,
+     "red_index": 0,
+     "blue_index": 3,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 4,
+     "red_index": 0,
+     "blue_index": 4,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 5,
+     "red_index": 0,
+     "blue_index": 5,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 6,
+     "red_index": 0,
+     "blue_index": 6,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 7,
+     "red_index": 0,
+     "blue_index": 7,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 8,
+     "red_index": 0,
+     "blue_index": 8,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 9,
+     "red_index": 0,
+     "blue_index": 9,
+     "red_token": "random_legal@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 10,
+     "red_index": 1,
+     "blue_index": 0,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 11,
+     "red_index": 1,
+     "blue_index": 1,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 12,
+     "red_index": 1,
+     "blue_index": 2,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 13,
+     "red_index": 1,
+     "blue_index": 3,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 14,
+     "red_index": 1,
+     "blue_index": 4,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 15,
+     "red_index": 1,
+     "blue_index": 5,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 16,
+     "red_index": 1,
+     "blue_index": 6,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 17,
+     "red_index": 1,
+     "blue_index": 7,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 18,
+     "red_index": 1,
+     "blue_index": 8,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 19,
+     "red_index": 1,
+     "blue_index": 9,
+     "red_token": "basic_heuristic@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 20,
+     "red_index": 2,
+     "blue_index": 0,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 21,
+     "red_index": 2,
+     "blue_index": 1,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 22,
+     "red_index": 2,
+     "blue_index": 2,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 23,
+     "red_index": 2,
+     "blue_index": 3,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 24,
+     "red_index": 2,
+     "blue_index": 4,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 25,
+     "red_index": 2,
+     "blue_index": 5,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 26,
+     "red_index": 2,
+     "blue_index": 6,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 27,
+     "red_index": 2,
+     "blue_index": 7,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 28,
+     "red_index": 2,
+     "blue_index": 8,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 29,
+     "red_index": 2,
+     "blue_index": 9,
+     "red_token": "tactical_rule_based@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 30,
+     "red_index": 3,
+     "blue_index": 0,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 31,
+     "red_index": 3,
+     "blue_index": 1,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 32,
+     "red_index": 3,
+     "blue_index": 2,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 33,
+     "red_index": 3,
+     "blue_index": 3,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 34,
+     "red_index": 3,
+     "blue_index": 4,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 35,
+     "red_index": 3,
+     "blue_index": 5,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 36,
+     "red_index": 3,
+     "blue_index": 6,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 37,
+     "red_index": 3,
+     "blue_index": 7,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 38,
+     "red_index": 3,
+     "blue_index": 8,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 39,
+     "red_index": 3,
+     "blue_index": 9,
+     "red_token": "strategic_rule_based@1.1.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 40,
+     "red_index": 4,
+     "blue_index": 0,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 41,
+     "red_index": 4,
+     "blue_index": 1,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 42,
+     "red_index": 4,
+     "blue_index": 2,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 43,
+     "red_index": 4,
+     "blue_index": 3,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 44,
+     "red_index": 4,
+     "blue_index": 4,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 45,
+     "red_index": 4,
+     "blue_index": 5,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 46,
+     "red_index": 4,
+     "blue_index": 6,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 47,
+     "red_index": 4,
+     "blue_index": 7,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 48,
+     "red_index": 4,
+     "blue_index": 8,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 49,
+     "red_index": 4,
+     "blue_index": 9,
+     "red_token": "stress_scout_rush@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 50,
+     "red_index": 5,
+     "blue_index": 0,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 51,
+     "red_index": 5,
+     "blue_index": 1,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 52,
+     "red_index": 5,
+     "blue_index": 2,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 53,
+     "red_index": 5,
+     "blue_index": 3,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 54,
+     "red_index": 5,
+     "blue_index": 4,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 55,
+     "red_index": 5,
+     "blue_index": 5,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 56,
+     "red_index": 5,
+     "blue_index": 6,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 57,
+     "red_index": 5,
+     "blue_index": 7,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 58,
+     "red_index": 5,
+     "blue_index": 8,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 59,
+     "red_index": 5,
+     "blue_index": 9,
+     "red_token": "stress_miner_rush@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 60,
+     "red_index": 6,
+     "blue_index": 0,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 61,
+     "red_index": 6,
+     "blue_index": 1,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 62,
+     "red_index": 6,
+     "blue_index": 2,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 63,
+     "red_index": 6,
+     "blue_index": 3,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 64,
+     "red_index": 6,
+     "blue_index": 4,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 65,
+     "red_index": 6,
+     "blue_index": 5,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 66,
+     "red_index": 6,
+     "blue_index": 6,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 67,
+     "red_index": 6,
+     "blue_index": 7,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 68,
+     "red_index": 6,
+     "blue_index": 8,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 69,
+     "red_index": 6,
+     "blue_index": 9,
+     "red_token": "stress_draw_seeker@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 70,
+     "red_index": 7,
+     "blue_index": 0,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 71,
+     "red_index": 7,
+     "blue_index": 1,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 72,
+     "red_index": 7,
+     "blue_index": 2,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 73,
+     "red_index": 7,
+     "blue_index": 3,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 74,
+     "red_index": 7,
+     "blue_index": 4,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 75,
+     "red_index": 7,
+     "blue_index": 5,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 76,
+     "red_index": 7,
+     "blue_index": 6,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 77,
+     "red_index": 7,
+     "blue_index": 7,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 78,
+     "red_index": 7,
+     "blue_index": 8,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 79,
+     "red_index": 7,
+     "blue_index": 9,
+     "red_token": "stress_berserker@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 80,
+     "red_index": 8,
+     "blue_index": 0,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 81,
+     "red_index": 8,
+     "blue_index": 1,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 82,
+     "red_index": 8,
+     "blue_index": 2,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 83,
+     "red_index": 8,
+     "blue_index": 3,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 84,
+     "red_index": 8,
+     "blue_index": 4,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 85,
+     "red_index": 8,
+     "blue_index": 5,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 86,
+     "red_index": 8,
+     "blue_index": 6,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 87,
+     "red_index": 8,
+     "blue_index": 7,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 88,
+     "red_index": 8,
+     "blue_index": 8,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 89,
+     "red_index": 8,
+     "blue_index": 9,
+     "red_token": "stress_information_miser@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    },
+    {
+     "cell_index": 90,
+     "red_index": 9,
+     "blue_index": 0,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "random_legal@1.0.0"
+    },
+    {
+     "cell_index": 91,
+     "red_index": 9,
+     "blue_index": 1,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "basic_heuristic@1.0.0"
+    },
+    {
+     "cell_index": 92,
+     "red_index": 9,
+     "blue_index": 2,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "tactical_rule_based@1.0.0"
+    },
+    {
+     "cell_index": 93,
+     "red_index": 9,
+     "blue_index": 3,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "strategic_rule_based@1.1.0"
+    },
+    {
+     "cell_index": 94,
+     "red_index": 9,
+     "blue_index": 4,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_scout_rush@1.0.0"
+    },
+    {
+     "cell_index": 95,
+     "red_index": 9,
+     "blue_index": 5,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_miner_rush@1.0.0"
+    },
+    {
+     "cell_index": 96,
+     "red_index": 9,
+     "blue_index": 6,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_draw_seeker@1.0.0"
+    },
+    {
+     "cell_index": 97,
+     "red_index": 9,
+     "blue_index": 7,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_berserker@1.0.0"
+    },
+    {
+     "cell_index": 98,
+     "red_index": 9,
+     "blue_index": 8,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_information_miser@1.0.0"
+    },
+    {
+     "cell_index": 99,
+     "red_index": 9,
+     "blue_index": 9,
+     "red_token": "stress_chaos@1.0.0",
+     "blue_token": "stress_chaos@1.0.0"
+    }
+   ],
+   "games_per_cell": {
+    "train": 200,
+    "validation": 40,
+    "test": 40
+   },
+   "totals": {
+    "train": 20000,
+    "validation": 4000,
+    "test": 4000,
+    "total": 28000
+   },
+   "counting_rule": "exact per-cell counts; matchup counts are scheduled, never the outcome of random sampling"
+  },
+  "setup_sources": {
+   "setup_library_version": "setup_library_v1",
+   "sampler_version": "setup_sampler_v1",
+   "setup_source_version": "setup_source_v1",
+   "provenance_schema_version": "setup_provenance_v1",
+   "profile": "neutral_v1",
+   "per_split": {
+    "train": {
+     "split": "train",
+     "entry_point": "training_setup_source('neutral_v1')",
+     "profile": "neutral_v1",
+     "access_justification": "",
+     "assign_call": {
+      "root_seed": "warmstart_seed.setup_root_seed(game_id)",
+      "environment_id": 0,
+      "generation": 0,
+      "game_id": "the synthetic game id"
+     }
+    },
+    "validation": {
+     "split": "validation",
+     "entry_point": "audit_setup_source('validation', 'Phase 8 held-out warm-start validation corpus', profile='neutral_v1')",
+     "profile": "neutral_v1",
+     "access_justification": "Phase 8 held-out warm-start validation corpus",
+     "assign_call": {
+      "root_seed": "warmstart_seed.setup_root_seed(game_id)",
+      "environment_id": 0,
+      "generation": 0,
+      "game_id": "the synthetic game id"
+     }
+    },
+    "test": {
+     "split": "test",
+     "entry_point": "audit_setup_source('test', 'Phase 8 sealed held-out warm-start test corpus', profile='neutral_v1')",
+     "profile": "neutral_v1",
+     "access_justification": "Phase 8 sealed held-out warm-start test corpus",
+     "assign_call": {
+      "root_seed": "warmstart_seed.setup_root_seed(game_id)",
+      "environment_id": 0,
+      "generation": 0,
+      "game_id": "the synthetic game id"
+     }
+    }
+   },
+   "independence": "each game samples its red and blue setups independently through the sampler's frozen per-side stream derivation",
+   "weighting": "no setup family receives outcome-based weighting"
+  },
+  "game_identity": {
+   "id_function": "stratego.training.warmstart_seed.synthetic_game_id",
+   "fields": [
+    "corpus_version",
+    "corpus_master_seed",
+    "split",
+    "red policy id@version",
+    "blue policy id@version",
+    "per-cell game ordinal"
+   ],
+   "format_example": "synthetic_warmstart_corpus_v1|ms=2026081301|split=train|red=random_legal@1.0.0|blue=random_legal@1.0.0|g=0000",
+   "seed_domains": {
+    "setup_root": "setup identity / setup-source root seed",
+    "policy:red": "red rule-policy match-level seed",
+    "policy:blue": "blue rule-policy match-level seed",
+    "decision_sampler": "per-bin decision-selection streams"
+   },
+   "per_ply_policy_randomness": "derive_decision_seed(policy_seed, ply) \u2014 the frozen Phase 4 per-ply derivation",
+   "rng_rule": "no global RNG cursor; every stream is a pure function of identity"
+  },
+  "canonical_seeds": {
+   "corpus_master_seed": 2026081301,
+   "canonical_c1_init_seed": 2026081302,
+   "train_order_seed": 2026081303,
+   "pilot_namespace_seed": 2026081304,
+   "final_run_namespace_seed": 2026081305,
+   "validation_bootstrap_seed": 2026081306,
+   "test_bootstrap_seed": 2026081307
+  },
+  "decision_sampler": {
+   "version": "warmstart_decision_sampler_v1",
+   "max_decisions_per_game": 64,
+   "short_game_rule": "T <= 64 selects every decision index 0..T-1",
+   "long_game_rule": "T > 64: bin b covers [floor(b*T/64), floor((b+1)*T/64)); selected index = lo + (decision_bin_seed(game_id, b) % (hi - lo)); bins are disjoint and ascending, so selection is without replacement and already sorted",
+   "outcome_independence": "game outcome, teacher strength, future value and model predictions never influence selection"
+  },
+  "example_schema": {
+   "example_version": "warmstart_example_v1",
+   "fields": [
+    {
+     "name": "observation",
+     "dtype": "float32",
+     "shape": [
+      127,
+      10,
+      10
+     ],
+     "model_input": true,
+     "loss_input": false,
+     "description": "observation_v2_1_127ch for the acting player"
+    },
+    {
+     "name": "legal_mask",
+     "dtype": "bool",
+     "shape": [
+      10000
+     ],
+     "model_input": false,
+     "loss_input": true,
+     "description": "legal actions in the model (perspective-normalized) frame; used by the masked policy loss / action adapter, never concatenated into the observation"
+    },
+    {
+     "name": "acting_player",
+     "dtype": "int8",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "engine player constant (RED=0, BLUE=1) before conversion"
+    },
+    {
+     "name": "policy_action_abs",
+     "dtype": "int32",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "the action the rule policy chose, absolute engine id"
+    },
+    {
+     "name": "policy_action_model",
+     "dtype": "int64",
+     "shape": [],
+     "model_input": false,
+     "loss_input": true,
+     "description": "the same action in the perspective-normalized model frame via the frozen absolute_action_to_model conversion"
+    },
+    {
+     "name": "policy_weight",
+     "dtype": "float32",
+     "shape": [],
+     "model_input": false,
+     "loss_input": true,
+     "description": "frozen supervision weight of the acting rule policy"
+    },
+    {
+     "name": "value_target",
+     "dtype": "int64",
+     "shape": [],
+     "model_input": false,
+     "loss_input": true,
+     "description": "WIN=0 / DRAW=1 / LOSS=2 from the acting player's perspective"
+    },
+    {
+     "name": "belief_target",
+     "dtype": "int64",
+     "shape": [
+      100
+     ],
+     "model_input": false,
+     "loss_input": true,
+     "description": "dense_belief_target_v1 labels: true piece-type index on exactly the unresolved hidden opponent squares (model frame), -100 elsewhere"
+    },
+    {
+     "name": "belief_mask",
+     "dtype": "bool",
+     "shape": [
+      100
+     ],
+     "model_input": false,
+     "loss_input": true,
+     "description": "true exactly where belief is supervised"
+    },
+    {
+     "name": "game_id",
+     "dtype": "str",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "the synthetic game id"
+    },
+    {
+     "name": "decision_index",
+     "dtype": "int32",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "0-based ply index of this decision in the game"
+    },
+    {
+     "name": "source_policy_id",
+     "dtype": "str",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "the acting rule policy's id"
+    },
+    {
+     "name": "corpus_split",
+     "dtype": "str",
+     "shape": [],
+     "model_input": false,
+     "loss_input": false,
+     "description": "train / validation / test"
+    }
+   ],
+   "model_input_fields": [
+    "observation"
+   ],
+   "privileged_boundary": "privileged metadata (true hidden types, provenance, teacher identity) may ride on the example object but must never enter the model-input tensor"
+  },
+  "target_semantics": {
+   "decision_definition": "one decision = one recorded action of the trajectory, indexed 0..T-1 in ply order across both players; the acting player of the ply is the observer of every target",
+   "policy": {
+    "target": "the actual legal action chosen by the acting rule policy",
+    "frame": "perspective_normalized_squares",
+    "engine_frame": "absolute_engine_squares",
+    "conversion": "stratego.model.action_frame.absolute_action_to_model",
+    "loss": "masked cross entropy over legal model-frame actions",
+    "masking": "illegal actions are excluded from the policy normalization via masked_policy_log_probabilities (finite fill -1e9)",
+    "zero_weight_rule": "decisions with policy_weight == 0 contribute no policy gradient and still supervise value and belief"
+   },
+   "value": {
+    "classes": [
+     "WIN",
+     "DRAW",
+     "LOSS"
+    ],
+    "indices": {
+     "WIN": 0,
+     "DRAW": 1,
+     "LOSS": 2
+    },
+    "perspective": "acting player",
+    "mapping": "terminal winner == acting player -> WIN; draw -> DRAW; terminal winner == opponent -> LOSS (engine terminal_result_label is the outcome authority)",
+    "loss": "categorical cross entropy over [WIN, DRAW, LOSS]",
+    "bootstrapping": "none in Phase 8 (no model-value targets)"
+   },
+   "belief": {
+    "belief_target_version": "dense_belief_target_v1",
+    "square_frame": "perspective_normalized_squares",
+    "type_count": 12,
+    "ignore_index": -100,
+    "supervised": "opponent pieces still unresolved to the acting player: target square = perspective-normalized current square, target class = true piece type",
+    "excluded": "own pieces, empty and lake squares, captured pieces, and opponent pieces whose identity is already legally known",
+    "loss": "hidden-only masked cross entropy (per supervised square)",
+    "privilege_rule": "true types come from privileged replay state only after the public observation is constructed; they never enter any model input"
+   }
+  },
+  "evaluation_contract": {
+   "eval_version": "warmstart_eval_v1",
+   "log_epsilon": 1e-12,
+   "policy_metric": {
+    "population": "policy-supervised examples only (policy_weight > 0)",
+    "weighting": "weighted by policy_weight, normalized by the sum of weights \u2014 identical for the model and the baseline, matching the training-loss normalization",
+    "model_ce": "-log p_model(chosen action) with masked log-softmax over legal model-frame actions",
+    "top1": "argmax over legal actions; ties broken by lowest action id"
+   },
+   "policy_baseline": {
+    "definition": "uniform over legal actions: p(a) = 1 / legal_count",
+    "cross_entropy": "ln(legal_count) per example",
+    "expected_top1": "mean(1 / legal_count) over the same population"
+   },
+   "value_baseline": {
+    "definition": "one constant W/D/L distribution: class frequencies fitted on train selected examples only; validation and test reuse that frozen train prior",
+    "cross_entropy": "-ln(max(prior[target], epsilon))",
+    "brier": "sum_k (p_k - onehot_k)^2, mean over examples",
+    "accuracy_tie_break": "lowest class index among tied maxima"
+   },
+   "belief_baseline": {
+    "definition": "observable unresolved-inventory marginal: p(type=t) = unresolved_remaining_count[t] / total_unresolved_remaining, computed from the acting player's observable information and applied independently to each unresolved hidden opponent piece",
+    "cross_entropy": "-ln(max(p[true_type], epsilon)) per supervised piece",
+    "top1_tie_break": "lowest piece-type index among tied maxima"
+   },
+   "aggregation_units": {
+    "policy": "per decision (policy-supervised, weighted as above)",
+    "value": "per selected decision",
+    "belief": "per supervised hidden piece"
+   },
+   "bootstrap": {
+    "unit": "game (all of a game's decisions/pieces resampled together)",
+    "replicates": 10000,
+    "confidence": 0.95,
+    "method": "numpy.random.default_rng(bootstrap_seed) draws one index matrix integers(0, n_games, size=(replicates, n_games)); each replicate recomputes the metric from per-game sufficient statistics; interval = 2.5/97.5 percentiles",
+    "pairing": "ratio and difference intervals reuse the same index matrix for model and baseline (paired at the game level)",
+    "seeds": {
+     "validation": 2026081306,
+     "test": 2026081307
+    }
+   },
+   "reporting": "point estimate, 95% CI, number of games, number of decisions, number of hidden-piece targets"
+  },
+  "loss_semantics": {
+   "combination": "L = lambda_policy*L_policy + lambda_value*L_value + lambda_belief*L_belief",
+   "policy": "L_policy = sum_i(weight_i * CE_i) / sum_i(weight_i) over the batch's policy-eligible examples; a batch whose weights sum to zero contributes L_policy = 0",
+   "value": "L_value = mean CE over the batch's selected decisions",
+   "belief": "L_belief = sum of per-square CE over supervised squares / max(supervised square count, 1) \u2014 the frozen stratego.model.losses.belief_loss normalization, so hidden-piece count cannot silently scale the belief head's influence"
+  },
+  "pilot_matrix": {
+   "fixed_controls": {
+    "model": "C1",
+    "precision": "float32",
+    "device": "mps",
+    "batch_size": 256,
+    "optimizer": "AdamW",
+    "adam_betas": [
+     0.9,
+     0.999
+    ],
+    "adam_epsilon": 1e-08,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "lr_schedule": "linear_warmup_500_steps_then_constant",
+    "model_init_seed": 2026081302,
+    "update_budget": 5000,
+    "validation_cadence_updates": 500,
+    "corpus": "synthetic_warmstart_corpus_v1",
+    "example_universe": "the train split's frozen selected-decision universe under warmstart_decision_sampler_v1"
+   },
+   "candidates": [
+    {
+     "candidate_id": "ws_pilot_lr1e-3_balanced",
+     "learning_rate": 0.001,
+     "loss_profile": "balanced",
+     "lambda_policy": 1.0,
+     "lambda_value": 1.0,
+     "lambda_belief": 1.0
+    },
+    {
+     "candidate_id": "ws_pilot_lr1e-3_policy_led",
+     "learning_rate": 0.001,
+     "loss_profile": "policy_led",
+     "lambda_policy": 1.0,
+     "lambda_value": 0.5,
+     "lambda_belief": 0.5
+    },
+    {
+     "candidate_id": "ws_pilot_lr3e-4_balanced",
+     "learning_rate": 0.0003,
+     "loss_profile": "balanced",
+     "lambda_policy": 1.0,
+     "lambda_value": 1.0,
+     "lambda_belief": 1.0
+    },
+    {
+     "candidate_id": "ws_pilot_lr3e-4_policy_led",
+     "learning_rate": 0.0003,
+     "loss_profile": "policy_led",
+     "lambda_policy": 1.0,
+     "lambda_value": 0.5,
+     "lambda_belief": 0.5
+    },
+    {
+     "candidate_id": "ws_pilot_lr1e-4_balanced",
+     "learning_rate": 0.0001,
+     "loss_profile": "balanced",
+     "lambda_policy": 1.0,
+     "lambda_value": 1.0,
+     "lambda_belief": 1.0
+    },
+    {
+     "candidate_id": "ws_pilot_lr1e-4_policy_led",
+     "learning_rate": 0.0001,
+     "loss_profile": "policy_led",
+     "lambda_policy": 1.0,
+     "lambda_value": 0.5,
+     "lambda_belief": 0.5
+    }
+   ],
+   "candidate_limit": 6,
+   "allowed_dimensions": [
+    "learning_rate",
+    "loss_weights"
+   ],
+   "selection": {
+    "score": "mean(r_policy, r_value, r_belief); r_head = validation head CE / frozen head baseline CE (warmstart_eval_v1 semantics); lower is better",
+    "score_checkpoint": "the final pilot checkpoint (update 5000)",
+    "hard_veto": [
+     "non-finite loss/gradient/parameter",
+     "target mismatch",
+     "data split leak",
+     "checkpoint/resume failure",
+     "any component ratio > 1.05 at the final pilot checkpoint"
+    ],
+    "tie_break_order": [
+     "lower selection score",
+     "lower validation policy ratio",
+     "higher measured training examples/s"
+    ],
+    "forbidden_evidence": [
+     "test metrics",
+     "Phase 4 game strength",
+     "architecture changes",
+     "teacher weights",
+     "setup sampling"
+    ]
+   },
+   "development_budget": {
+    "pilot_candidates_max": 6,
+    "pilot_updates_per_config_max": 5000,
+    "final_run_optimizer_steps_max": 25000
+   }
+  },
+  "acceptance_thresholds": {
+   "playing_strength_vs_random": {
+    "opponent": "random_legal (frozen Phase 4 random tier)",
+    "setup_bank": "evaluation_setup_bank_v1",
+    "setup_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "evaluation_pairs": 1024,
+    "games": 2048,
+    "effective_win_rate_min": 0.95,
+    "red_effective_win_rate_min": 0.9,
+    "blue_effective_win_rate_min": 0.9,
+    "paired_bootstrap_lower_bound_exclusive": 0.9,
+    "illegal_moves_max": 0,
+    "model_failures_max": 0,
+    "non_finite_outputs_max": 0
+   },
+   "improvement_over_initialization": {
+    "opponent": "canonical untrained C1: build_candidate_model('C1', seed=2026081302)",
+    "paired_setup_cases_min": 512,
+    "games_min": 1024,
+    "effective_win_rate_min": 0.7,
+    "paired_bootstrap_lower_bound_exclusive": 0.55
+   },
+   "policy_learning": {
+    "population": "sealed synthetic test examples",
+    "ce_ratio_vs_uniform_legal_max": 0.9,
+    "top1_must_beat_uniform_expected_top1": true
+   },
+   "value_learning": {
+    "population": "sealed synthetic test examples",
+    "ce_ratio_vs_train_prior_max": 0.98,
+    "brier_must_beat_train_prior": true
+   },
+   "belief_learning": {
+    "population": "hidden-only sealed test targets",
+    "ce_ratio_vs_remaining_count_prior_max": 0.98,
+    "top1_must_beat_remaining_count_prior": true
+   },
+   "stability": {
+    "finite_logits_fraction_required": 1.0,
+    "max_legal_probability_threshold": 0.999,
+    "fraction_above_threshold_max_exclusive": 0.95,
+    "report": "normalized legal-action entropy distribution"
+   },
+   "statistics": {
+    "bootstrap_unit": "game",
+    "replicates": 10000,
+    "confidence": 0.95
+   },
+   "development_budget": {
+    "pilot_candidates_max": 6,
+    "pilot_updates_per_config_max": 5000,
+    "final_run_optimizer_steps_max": 25000
+   }
+  },
+  "sealing_rules": {
+   "test_corpus": {
+    "allowed_always": [
+     "structural_audit"
+    ],
+    "agent7_only": [
+     "final_evaluation"
+    ],
+    "prohibited_before_agent_7": [
+     "model_inference",
+     "model_metric",
+     "checkpoint_selection",
+     "hyperparameter_selection",
+     "early_stopping"
+    ]
+   },
+   "phase4_bank": {
+    "allowed_always": [
+     "non_neural_regression"
+    ],
+    "agent7_only": [
+     "final_random_evaluation",
+     "final_ladder_evaluation"
+    ],
+    "prohibited_before_agent_7": [
+     "neural_playing_strength",
+     "pilot_selection",
+     "config_selection",
+     "checkpoint_selection"
+    ]
+   },
+   "enforcement": "stratego.training.warmstart_contract.check_test_corpus_access / check_phase4_bank_access; pure, stateless, regression-tested",
+   "validation_corpus": "may select pilot configuration, best checkpoint and early stopping; may never update weights",
+   "train_corpus": "may update weights, fit the value prior, and drive optimization statistics"
+  },
+  "corpus_storage_schema": {
+   "preferred_root": "data/warmstart/synthetic_warmstart_corpus_v1/",
+   "redirect": "the root may be redirected to the external volume by explicit configuration; the manifest records the actual location and free space",
+   "trajectory": {
+    "version": "trajectory_v1",
+    "snapshot_interval": 32,
+    "role": "replay authority: setups, actions, terminal state"
+   },
+   "synthetic_metadata_fields": [
+    "game_id",
+    "corpus_version",
+    "corpus_split",
+    "cell_index",
+    "matchup_ordinal",
+    "red_policy_id",
+    "red_policy_version",
+    "blue_policy_id",
+    "blue_policy_version",
+    "red_policy_seed",
+    "blue_policy_seed",
+    "setup_root_seed",
+    "setup_provenance (both sides, setup_provenance_v1)",
+    "policy_weight_red",
+    "policy_weight_blue",
+    "terminal_result",
+    "terminal_reason",
+    "total_decisions"
+   ],
+   "commit_rule": "a game is trainable only once a commit record exists, written after both the trajectory payload and the synthetic/setup metadata exist and verify; resume reconciles persisted, metadata and commit ids, never duplicates a committed game, never exposes an orphan, and deterministically rebuilds or discards uncommitted work",
+   "finalization_requirements": {
+    "orphan_trajectory_records": 0,
+    "orphan_metadata_records": 0,
+    "duplicate_committed_ids": 0,
+    "missing_committed_records": 0
+   }
+  },
+  "phase_boundaries": {
+   "not_reinforcement_learning": "no self-play, PPO, advantage estimation, KL regularization, dynamic damping, EMA stabilization, learned setup selection, search targets, or human data in Phase 8",
+   "phase_9_receives": "frozen warm-start checkpoint + digests + curves + sealed-test results + regeneration instructions"
+  }
+ },
+ "contract_digest": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de",
+ "completion_gates": {
+  "phase_7_formal_acceptance_verified": true,
+  "upstream_versions_and_digests_match": true,
+  "exact_10_policy_roster_reproduced": true,
+  "hundred_ordered_matchup_cells_defined": true,
+  "exact_20k_4k_4k_schedule_frozen": true,
+  "setup_split_semantics_frozen": true,
+  "teacher_policy_weights_frozen": true,
+  "corpus_identity_and_seeds_frozen": true,
+  "decision_sampler_exact": true,
+  "target_semantics_exact": true,
+  "baselines_exact": true,
+  "pilot_matrix_at_most_6_and_predeclared": true,
+  "pilot_selection_score_exact": true,
+  "final_acceptance_thresholds_frozen": true,
+  "test_and_phase4_selection_restrictions_explicit": true,
+  "no_production_corpus_generated": true,
+  "no_meaningful_optimizer_step_run": true,
+  "full_suite_green": true
+ },
+ "handoff_to_agent_2": {
+  "contract_versions": {
+   "training_contract": "warmstart_training_contract_v1",
+   "corpus": "synthetic_warmstart_corpus_v1",
+   "decision_sampler": "warmstart_decision_sampler_v1",
+   "example": "warmstart_example_v1",
+   "eval": "warmstart_eval_v1"
+  },
+  "teacher_tokens": [
+   "random_legal@1.0.0",
+   "basic_heuristic@1.0.0",
+   "tactical_rule_based@1.0.0",
+   "strategic_rule_based@1.1.0",
+   "stress_scout_rush@1.0.0",
+   "stress_miner_rush@1.0.0",
+   "stress_draw_seeker@1.0.0",
+   "stress_berserker@1.0.0",
+   "stress_information_miser@1.0.0",
+   "stress_chaos@1.0.0"
+  ],
+  "policy_weights": {
+   "random_legal": 0.0,
+   "basic_heuristic": 0.5,
+   "tactical_rule_based": 1.0,
+   "strategic_rule_based": 1.0,
+   "stress_scout_rush": 0.0,
+   "stress_miner_rush": 0.0,
+   "stress_draw_seeker": 0.0,
+   "stress_berserker": 0.0,
+   "stress_information_miser": 0.0,
+   "stress_chaos": 0.0
+  },
+  "corpus_seeds": {
+   "corpus_master_seed": 2026081301,
+   "canonical_c1_init_seed": 2026081302,
+   "train_order_seed": 2026081303,
+   "pilot_namespace_seed": 2026081304,
+   "final_run_namespace_seed": 2026081305,
+   "validation_bootstrap_seed": 2026081306,
+   "test_bootstrap_seed": 2026081307
+  },
+  "game_id_function": "stratego.training.warmstart_seed.synthetic_game_id",
+  "per_game_seed_functions": [
+   "setup_root_seed",
+   "red_policy_seed",
+   "blue_policy_seed",
+   "decision_bin_seed"
+  ],
+  "schedule": {
+   "train": 200,
+   "validation": 40,
+   "test": 40
+  },
+  "setup_sources": "warmstart_contract.corpus_setup_source(split)",
+  "storage_schema": {
+   "preferred_root": "data/warmstart/synthetic_warmstart_corpus_v1/",
+   "redirect": "the root may be redirected to the external volume by explicit configuration; the manifest records the actual location and free space",
+   "trajectory": {
+    "version": "trajectory_v1",
+    "snapshot_interval": 32,
+    "role": "replay authority: setups, actions, terminal state"
+   },
+   "synthetic_metadata_fields": [
+    "game_id",
+    "corpus_version",
+    "corpus_split",
+    "cell_index",
+    "matchup_ordinal",
+    "red_policy_id",
+    "red_policy_version",
+    "blue_policy_id",
+    "blue_policy_version",
+    "red_policy_seed",
+    "blue_policy_seed",
+    "setup_root_seed",
+    "setup_provenance (both sides, setup_provenance_v1)",
+    "policy_weight_red",
+    "policy_weight_blue",
+    "terminal_result",
+    "terminal_reason",
+    "total_decisions"
+   ],
+   "commit_rule": "a game is trainable only once a commit record exists, written after both the trajectory payload and the synthetic/setup metadata exist and verify; resume reconciles persisted, metadata and commit ids, never duplicates a committed game, never exposes an orphan, and deterministically rebuilds or discards uncommitted work",
+   "finalization_requirements": {
+    "orphan_trajectory_records": 0,
+    "orphan_metadata_records": 0,
+    "duplicate_committed_ids": 0,
+    "missing_committed_records": 0
+   }
+  },
+  "commit_rule": "a game is trainable only once a commit record exists, written after both the trajectory payload and the synthetic/setup metadata exist and verify; resume reconciles persisted, metadata and commit ids, never duplicates a committed game, never exposes an orphan, and deterministically rebuilds or discards uncommitted work",
+  "no_new_learning_design_decisions": true
+ },
+ "durations": {
+  "phase_7_verification": 0.002,
+  "upstream_verification": 0.377,
+  "roster_verification": 0.0,
+  "game_identity": 0.023,
+  "decision_sampler": 0.013,
+  "setup_sources": 0.106,
+  "pytest": 200.701
+ },
+ "total_seconds": 201.279
+}

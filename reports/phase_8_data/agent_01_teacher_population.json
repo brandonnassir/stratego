@@ -1,0 +1,291 @@
+{
+ "phase": 8,
+ "agent": 1,
+ "status": "PASS",
+ "timestamp": "2026-08-13T20:21:20-0400",
+ "source_revision": "144baf4",
+ "working_tree_state": "dirty",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "prerequisite_versions": {
+  "rules": "stratego_project_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "observation": "observation_v2_1_127ch",
+  "observation_channels": 127,
+  "model_contract": "model_contract_v2",
+  "trajectory": "trajectory_v1",
+  "phase_4_bank": "evaluation_setup_bank_v1",
+  "contract_version": "setup_generator_contract_v1",
+  "family_contract_version": "setup_family_v1",
+  "trait_schema_version": "setup_trait_vector_v1",
+  "library_version": "setup_library_v1",
+  "seed_context_version": "setup_library_seed_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "sampler_version": "setup_sampler_v1",
+  "setup_source_version": "setup_source_v1",
+  "provenance_schema_version": "setup_provenance_v1",
+  "stress_corpus_version": "setup_stress_corpus_v1",
+  "master_seed": 20260813
+ },
+ "prerequisite_digests": {
+  "setup_library_v1": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "evaluation_setup_bank_v1": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+  "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d"
+ },
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3421 passed, 3 skipped in 202.07s (0:03:22)",
+  "passed": 3421,
+  "skipped": 3,
+  "failed": 0,
+  "seconds": 202.07,
+  "measured_at_commit": "144baf4"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "3501 passed, 3 skipped in 199.93s (0:03:19)",
+  "passed": 3501,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 200.701
+ },
+ "commands": [
+  "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase8_agent01.py --run-pytest"
+ ],
+ "seeds": {
+  "corpus_master_seed": 2026081301,
+  "canonical_c1_init_seed": 2026081302,
+  "train_order_seed": 2026081303,
+  "pilot_namespace_seed": 2026081304,
+  "final_run_namespace_seed": 2026081305,
+  "validation_bootstrap_seed": 2026081306,
+  "test_bootstrap_seed": 2026081307
+ },
+ "files_created": [
+  "stratego/training/warmstart_seed.py",
+  "stratego/training/warmstart_contract.py",
+  "tests/training/test_warmstart_seed.py",
+  "tests/training/test_warmstart_contract.py",
+  "scripts/run_phase8_agent01.py",
+  "reports/phase_8_data/agent_01_warmstart_contract.json",
+  "reports/phase_8_data/agent_01_teacher_population.json",
+  "reports/phase_8_data/agent_01_acceptance_thresholds.json",
+  "reports/phase_8_implementation_report.md"
+ ],
+ "files_modified": [],
+ "problems": [],
+ "deviations": [],
+ "artifact": "agent_01_teacher_population",
+ "teacher_population": [
+  {
+   "policy_id": "random_legal",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/baselines.py",
+   "role": "tier_random",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": null,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Uniform random legal move; performance floor and stochastic control."
+  },
+  {
+   "policy_id": "basic_heuristic",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/baselines.py",
+   "role": "tier_basic",
+   "policy_weight": 0.5,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 0.75,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Known captures, forward progress, anti-shuffling. No threat model."
+  },
+  {
+   "policy_id": "tactical_rule_based",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/baselines.py",
+   "role": "tier_tactical",
+   "policy_weight": 1.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 0.5,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Expected-value combat, threat and evasion, Flag and Miner tactics."
+  },
+  {
+   "policy_id": "strategic_rule_based",
+   "policy_version": "1.1.0",
+   "implementation_path": "stratego/evaluation/baselines.py",
+   "role": "tier_strategic",
+   "policy_weight": 1.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 0.5,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Tactical plus material preservation, Scout information, territorial pressure, Flag defence and draw-counter awareness."
+  },
+  {
+   "policy_id": "stress_scout_rush",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 1.0,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Scout-heavy aggression: long Scout runs and constant probing."
+  },
+  {
+   "policy_id": "stress_miner_rush",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 1.0,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Miner rush at never-moved blocks; aggressive Bomb hunting."
+  },
+  {
+   "policy_id": "stress_draw_seeker",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 1.5,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Defensive draw-seeker: avoids all combat and stays in its own half."
+  },
+  {
+   "policy_id": "stress_berserker",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 1.0,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Attacks on sight and charges forward; no risk assessment at all."
+  },
+  {
+   "policy_id": "stress_information_miser",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": 1.0,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Hoards information: avoids combat, Scout runs and fresh reveals."
+  },
+  {
+   "policy_id": "stress_chaos",
+   "policy_version": "1.0.0",
+   "implementation_path": "stratego/evaluation/stress.py",
+   "role": "stress",
+   "policy_weight": 0.0,
+   "value_supervision": true,
+   "belief_supervision": true,
+   "stochastic": true,
+   "behavior_contract": {
+    "interface_version": "policy_interface_v1",
+    "selection_margin": null,
+    "ranking_tie_break": "descending score, then ascending action id",
+    "decision_rng": "random.Random(decision_seed); decision_seed = derive_decision_seed(policy_seed, ply) [frozen Phase 4 blake2b person 'strat-dec']",
+    "policy_seed_source": "warmstart_seed.red_policy_seed / blue_policy_seed of the synthetic game id (domains 'policy:red' / 'policy:blue')"
+   },
+   "description": "Draws a fresh random objective each ply; maximum behavioural entropy."
+  }
+ ],
+ "policy_supervision_weights": {
+  "random_legal": 0.0,
+  "basic_heuristic": 0.5,
+  "tactical_rule_based": 1.0,
+  "strategic_rule_based": 1.0,
+  "stress_scout_rush": 0.0,
+  "stress_miner_rush": 0.0,
+  "stress_draw_seeker": 0.0,
+  "stress_berserker": 0.0,
+  "stress_information_miser": 0.0,
+  "stress_chaos": 0.0
+ },
+ "roster_verification_problems": [],
+ "matchup_cells": 100,
+ "games_per_cell": {
+  "train": 200,
+  "validation": 40,
+  "test": 40
+ },
+ "schedule_totals": {
+  "train": 20000,
+  "validation": 4000,
+  "test": 4000,
+  "total": 28000
+ }
+}

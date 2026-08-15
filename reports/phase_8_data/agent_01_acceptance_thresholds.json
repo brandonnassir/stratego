@@ -1,0 +1,327 @@
+{
+ "phase": 8,
+ "agent": 1,
+ "status": "PASS",
+ "timestamp": "2026-08-13T20:21:20-0400",
+ "source_revision": "144baf4",
+ "working_tree_state": "dirty",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "prerequisite_versions": {
+  "rules": "stratego_project_v1",
+  "reference_engine": "phase2_1_reference_1.2.0",
+  "observation": "observation_v2_1_127ch",
+  "observation_channels": 127,
+  "model_contract": "model_contract_v2",
+  "trajectory": "trajectory_v1",
+  "phase_4_bank": "evaluation_setup_bank_v1",
+  "contract_version": "setup_generator_contract_v1",
+  "family_contract_version": "setup_family_v1",
+  "trait_schema_version": "setup_trait_vector_v1",
+  "library_version": "setup_library_v1",
+  "seed_context_version": "setup_library_seed_v1",
+  "perturbation_version": "setup_perturbation_v1",
+  "perturbation_seed_encoding": "seed_encoding_v1",
+  "sampler_version": "setup_sampler_v1",
+  "setup_source_version": "setup_source_v1",
+  "provenance_schema_version": "setup_provenance_v1",
+  "stress_corpus_version": "setup_stress_corpus_v1",
+  "master_seed": 20260813
+ },
+ "prerequisite_digests": {
+  "setup_library_v1": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "evaluation_setup_bank_v1": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+  "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d"
+ },
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3421 passed, 3 skipped in 202.07s (0:03:22)",
+  "passed": 3421,
+  "skipped": 3,
+  "failed": 0,
+  "seconds": 202.07,
+  "measured_at_commit": "144baf4"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "3501 passed, 3 skipped in 199.93s (0:03:19)",
+  "passed": 3501,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 200.701
+ },
+ "commands": [
+  "/Users/brandonwashington/Documents/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase8_agent01.py --run-pytest"
+ ],
+ "seeds": {
+  "corpus_master_seed": 2026081301,
+  "canonical_c1_init_seed": 2026081302,
+  "train_order_seed": 2026081303,
+  "pilot_namespace_seed": 2026081304,
+  "final_run_namespace_seed": 2026081305,
+  "validation_bootstrap_seed": 2026081306,
+  "test_bootstrap_seed": 2026081307
+ },
+ "files_created": [
+  "stratego/training/warmstart_seed.py",
+  "stratego/training/warmstart_contract.py",
+  "tests/training/test_warmstart_seed.py",
+  "tests/training/test_warmstart_contract.py",
+  "scripts/run_phase8_agent01.py",
+  "reports/phase_8_data/agent_01_warmstart_contract.json",
+  "reports/phase_8_data/agent_01_teacher_population.json",
+  "reports/phase_8_data/agent_01_acceptance_thresholds.json",
+  "reports/phase_8_implementation_report.md"
+ ],
+ "files_modified": [],
+ "problems": [],
+ "deviations": [],
+ "artifact": "agent_01_acceptance_thresholds",
+ "acceptance_thresholds": {
+  "playing_strength_vs_random": {
+   "opponent": "random_legal (frozen Phase 4 random tier)",
+   "setup_bank": "evaluation_setup_bank_v1",
+   "setup_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+   "evaluation_pairs": 1024,
+   "games": 2048,
+   "effective_win_rate_min": 0.95,
+   "red_effective_win_rate_min": 0.9,
+   "blue_effective_win_rate_min": 0.9,
+   "paired_bootstrap_lower_bound_exclusive": 0.9,
+   "illegal_moves_max": 0,
+   "model_failures_max": 0,
+   "non_finite_outputs_max": 0
+  },
+  "improvement_over_initialization": {
+   "opponent": "canonical untrained C1: build_candidate_model('C1', seed=2026081302)",
+   "paired_setup_cases_min": 512,
+   "games_min": 1024,
+   "effective_win_rate_min": 0.7,
+   "paired_bootstrap_lower_bound_exclusive": 0.55
+  },
+  "policy_learning": {
+   "population": "sealed synthetic test examples",
+   "ce_ratio_vs_uniform_legal_max": 0.9,
+   "top1_must_beat_uniform_expected_top1": true
+  },
+  "value_learning": {
+   "population": "sealed synthetic test examples",
+   "ce_ratio_vs_train_prior_max": 0.98,
+   "brier_must_beat_train_prior": true
+  },
+  "belief_learning": {
+   "population": "hidden-only sealed test targets",
+   "ce_ratio_vs_remaining_count_prior_max": 0.98,
+   "top1_must_beat_remaining_count_prior": true
+  },
+  "stability": {
+   "finite_logits_fraction_required": 1.0,
+   "max_legal_probability_threshold": 0.999,
+   "fraction_above_threshold_max_exclusive": 0.95,
+   "report": "normalized legal-action entropy distribution"
+  },
+  "statistics": {
+   "bootstrap_unit": "game",
+   "replicates": 10000,
+   "confidence": 0.95
+  },
+  "development_budget": {
+   "pilot_candidates_max": 6,
+   "pilot_updates_per_config_max": 5000,
+   "final_run_optimizer_steps_max": 25000
+  }
+ },
+ "pilot_matrix": {
+  "fixed_controls": {
+   "model": "C1",
+   "precision": "float32",
+   "device": "mps",
+   "batch_size": 256,
+   "optimizer": "AdamW",
+   "adam_betas": [
+    0.9,
+    0.999
+   ],
+   "adam_epsilon": 1e-08,
+   "weight_decay": 0.01,
+   "gradient_clip_norm": 1.0,
+   "lr_schedule": "linear_warmup_500_steps_then_constant",
+   "model_init_seed": 2026081302,
+   "update_budget": 5000,
+   "validation_cadence_updates": 500,
+   "corpus": "synthetic_warmstart_corpus_v1",
+   "example_universe": "the train split's frozen selected-decision universe under warmstart_decision_sampler_v1"
+  },
+  "candidates": [
+   {
+    "candidate_id": "ws_pilot_lr1e-3_balanced",
+    "learning_rate": 0.001,
+    "loss_profile": "balanced",
+    "lambda_policy": 1.0,
+    "lambda_value": 1.0,
+    "lambda_belief": 1.0
+   },
+   {
+    "candidate_id": "ws_pilot_lr1e-3_policy_led",
+    "learning_rate": 0.001,
+    "loss_profile": "policy_led",
+    "lambda_policy": 1.0,
+    "lambda_value": 0.5,
+    "lambda_belief": 0.5
+   },
+   {
+    "candidate_id": "ws_pilot_lr3e-4_balanced",
+    "learning_rate": 0.0003,
+    "loss_profile": "balanced",
+    "lambda_policy": 1.0,
+    "lambda_value": 1.0,
+    "lambda_belief": 1.0
+   },
+   {
+    "candidate_id": "ws_pilot_lr3e-4_policy_led",
+    "learning_rate": 0.0003,
+    "loss_profile": "policy_led",
+    "lambda_policy": 1.0,
+    "lambda_value": 0.5,
+    "lambda_belief": 0.5
+   },
+   {
+    "candidate_id": "ws_pilot_lr1e-4_balanced",
+    "learning_rate": 0.0001,
+    "loss_profile": "balanced",
+    "lambda_policy": 1.0,
+    "lambda_value": 1.0,
+    "lambda_belief": 1.0
+   },
+   {
+    "candidate_id": "ws_pilot_lr1e-4_policy_led",
+    "learning_rate": 0.0001,
+    "loss_profile": "policy_led",
+    "lambda_policy": 1.0,
+    "lambda_value": 0.5,
+    "lambda_belief": 0.5
+   }
+  ],
+  "candidate_limit": 6,
+  "allowed_dimensions": [
+   "learning_rate",
+   "loss_weights"
+  ],
+  "selection": {
+   "score": "mean(r_policy, r_value, r_belief); r_head = validation head CE / frozen head baseline CE (warmstart_eval_v1 semantics); lower is better",
+   "score_checkpoint": "the final pilot checkpoint (update 5000)",
+   "hard_veto": [
+    "non-finite loss/gradient/parameter",
+    "target mismatch",
+    "data split leak",
+    "checkpoint/resume failure",
+    "any component ratio > 1.05 at the final pilot checkpoint"
+   ],
+   "tie_break_order": [
+    "lower selection score",
+    "lower validation policy ratio",
+    "higher measured training examples/s"
+   ],
+   "forbidden_evidence": [
+    "test metrics",
+    "Phase 4 game strength",
+    "architecture changes",
+    "teacher weights",
+    "setup sampling"
+   ]
+  },
+  "development_budget": {
+   "pilot_candidates_max": 6,
+   "pilot_updates_per_config_max": 5000,
+   "final_run_optimizer_steps_max": 25000
+  }
+ },
+ "sealing_rules": {
+  "test_corpus": {
+   "allowed_always": [
+    "structural_audit"
+   ],
+   "agent7_only": [
+    "final_evaluation"
+   ],
+   "prohibited_before_agent_7": [
+    "model_inference",
+    "model_metric",
+    "checkpoint_selection",
+    "hyperparameter_selection",
+    "early_stopping"
+   ]
+  },
+  "phase4_bank": {
+   "allowed_always": [
+    "non_neural_regression"
+   ],
+   "agent7_only": [
+    "final_random_evaluation",
+    "final_ladder_evaluation"
+   ],
+   "prohibited_before_agent_7": [
+    "neural_playing_strength",
+    "pilot_selection",
+    "config_selection",
+    "checkpoint_selection"
+   ]
+  },
+  "enforcement": "stratego.training.warmstart_contract.check_test_corpus_access / check_phase4_bank_access; pure, stateless, regression-tested",
+  "validation_corpus": "may select pilot configuration, best checkpoint and early stopping; may never update weights",
+  "train_corpus": "may update weights, fit the value prior, and drive optimization statistics"
+ },
+ "loss_semantics": {
+  "combination": "L = lambda_policy*L_policy + lambda_value*L_value + lambda_belief*L_belief",
+  "policy": "L_policy = sum_i(weight_i * CE_i) / sum_i(weight_i) over the batch's policy-eligible examples; a batch whose weights sum to zero contributes L_policy = 0",
+  "value": "L_value = mean CE over the batch's selected decisions",
+  "belief": "L_belief = sum of per-square CE over supervised squares / max(supervised square count, 1) \u2014 the frozen stratego.model.losses.belief_loss normalization, so hidden-piece count cannot silently scale the belief head's influence"
+ },
+ "evaluation_contract": {
+  "eval_version": "warmstart_eval_v1",
+  "log_epsilon": 1e-12,
+  "policy_metric": {
+   "population": "policy-supervised examples only (policy_weight > 0)",
+   "weighting": "weighted by policy_weight, normalized by the sum of weights \u2014 identical for the model and the baseline, matching the training-loss normalization",
+   "model_ce": "-log p_model(chosen action) with masked log-softmax over legal model-frame actions",
+   "top1": "argmax over legal actions; ties broken by lowest action id"
+  },
+  "policy_baseline": {
+   "definition": "uniform over legal actions: p(a) = 1 / legal_count",
+   "cross_entropy": "ln(legal_count) per example",
+   "expected_top1": "mean(1 / legal_count) over the same population"
+  },
+  "value_baseline": {
+   "definition": "one constant W/D/L distribution: class frequencies fitted on train selected examples only; validation and test reuse that frozen train prior",
+   "cross_entropy": "-ln(max(prior[target], epsilon))",
+   "brier": "sum_k (p_k - onehot_k)^2, mean over examples",
+   "accuracy_tie_break": "lowest class index among tied maxima"
+  },
+  "belief_baseline": {
+   "definition": "observable unresolved-inventory marginal: p(type=t) = unresolved_remaining_count[t] / total_unresolved_remaining, computed from the acting player's observable information and applied independently to each unresolved hidden opponent piece",
+   "cross_entropy": "-ln(max(p[true_type], epsilon)) per supervised piece",
+   "top1_tie_break": "lowest piece-type index among tied maxima"
+  },
+  "aggregation_units": {
+   "policy": "per decision (policy-supervised, weighted as above)",
+   "value": "per selected decision",
+   "belief": "per supervised hidden piece"
+  },
+  "bootstrap": {
+   "unit": "game (all of a game's decisions/pieces resampled together)",
+   "replicates": 10000,
+   "confidence": 0.95,
+   "method": "numpy.random.default_rng(bootstrap_seed) draws one index matrix integers(0, n_games, size=(replicates, n_games)); each replicate recomputes the metric from per-game sufficient statistics; interval = 2.5/97.5 percentiles",
+   "pairing": "ratio and difference intervals reuse the same index matrix for model and baseline (paired at the game level)",
+   "seeds": {
+    "validation": 2026081306,
+    "test": 2026081307
+   }
+  },
+  "reporting": "point estimate, 95% CI, number of games, number of decisions, number of hidden-piece targets"
+ }
+}

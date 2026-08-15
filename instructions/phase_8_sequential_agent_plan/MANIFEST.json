@@ -1,0 +1,45 @@
+{
+  "package": "phase_8_sequential_agent_plan",
+  "files": [
+    {
+      "name": "00_PHASE_8_SEQUENCE_AND_COMMON_CONTRACT.md",
+      "bytes": 32077,
+      "sha256": "e73d333eabe697a0b29dd9b0144092667ac9f388591a2938c8d95bb7716168ee"
+    },
+    {
+      "name": "01_AGENT_1_WARMSTART_CONTRACT.md",
+      "bytes": 9231,
+      "sha256": "d3490a407ed64078ddcab7274da0371d5f42cac620fabff6151449920d810e66"
+    },
+    {
+      "name": "02_AGENT_2_SYNTHETIC_CORPUS.md",
+      "bytes": 8211,
+      "sha256": "f7280a50b80a1b66e9c64075b9d5774cdf05e2cac76b7da462631f2d7dfa4610"
+    },
+    {
+      "name": "03_AGENT_3_TRAINING_EXAMPLES_AND_TARGETS.md",
+      "bytes": 7192,
+      "sha256": "d670e485ff2b1bb32f64cd49e06ebbe632d2fe21f8d559b995bbd67da1341d0a"
+    },
+    {
+      "name": "04_AGENT_4_TRAINER_AND_RESUME.md",
+      "bytes": 6342,
+      "sha256": "9c6bc60115db4b7064cc67f03f2cbd427ce4ec478a3ce8ba53d4c75255eee667"
+    },
+    {
+      "name": "05_AGENT_5_PILOT_SELECTION.md",
+      "bytes": 4560,
+      "sha256": "a88446c5f3b33a0536aa5eb844a44e20a474a15ce5504b3d9f2d2310d573f1a6"
+    },
+    {
+      "name": "06_AGENT_6_CANONICAL_WARMSTART_RUN.md",
+      "bytes": 4485,
+      "sha256": "733267c875c4f5366f1c4f3d8e41bf86fc277ae758ef139175f11474406687c9"
+    },
+    {
+      "name": "07_AGENT_7_FINAL_ACCEPTANCE.md",
+      "bytes": 6717,
+      "sha256": "9de5e1a0f3558ab9fda378d17133f57c23be35d40ad8b66e00bb54857e7b4622"
+    }
+  ]
+}
