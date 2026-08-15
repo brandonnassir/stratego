@@ -1,0 +1,713 @@
+{
+  "acceptance_criteria": {
+    "amended_at": "2026-08-15T17:04:16-0400",
+    "amendment": "Agent 4 acceptance amendment (reviewer-approved): the original independent-run MPS allclose requirement and the backend-aware replacement are recorded separately, so neither the failure of the former nor the pass of the latter can be read as the other.",
+    "approved_criterion": {
+      "approval": "Agent 4 acceptance amendment: the reviewer approved a backend-aware criterion after Agent 4's measurements showed the original comparison is not attainable on this MPS stack by any pair of separately executed runs, checkpointed or not",
+      "criterion_id": "backend_aware_resume_equivalence_v1",
+      "envelope_ratio_limit": 10.0,
+      "envelope_ratio_observed": 0.9329022204840133,
+      "envelope_ratio_within_limit": true,
+      "pass_rule": "PASS only if every measurement in preserved_measurements is still exactly the value Agent 4 reported; a changed measurement voids the approval rather than inheriting it",
+      "requirements": [
+        "every logical quantity equal at all 1,000 compared steps (batch identities, batch bytes, learning rates, cursor/scheduler/optimizer structure/counters, validation cadence)",
+        "the exact next batch after resume",
+        "on the deterministic CPU backend, a bitwise-exact cross-process split run",
+        "on MPS, the first post-resume update meeting the ORIGINAL allclose(rtol=1e-5, atol=1e-6) tolerances against a donor continuation that enters the step from bit-identical state",
+        "on MPS, end-state divergence from that donor within the backend's own no-checkpoint fresh-vs-fresh envelope (ratio <= 10)"
+      ],
+      "result": "PASS",
+      "status_of_original": "superseded_for_cause",
+      "why_the_original_cannot_apply": "The original criterion compares the end states of two INDEPENDENTLY EXECUTED runs. On this torch/macOS MPS stack two fresh identical uninterrupted runs with no checkpoint anywhere already diverge to 2.1e-02 by update 1,000 (and 1.4e-04 by update 401), so an uninterrupted run fails the criterion against itself. The measurement therefore reports backend run-to-run determinism, not checkpoint fidelity. Nothing about the trainer, the checkpoint, the corpus or the data order was changed in response; only the measurement design was corrected, and the frozen Phase 8 acceptance thresholds (common contract section 26) are untouched."
+    },
+    "corpus_prerequisite": {
+      "accepted_digests": {
+        "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+        "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+        "corpus_version": "synthetic_warmstart_corpus_v1",
+        "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+      },
+      "digests_match_accepted": true,
+      "identity_rule": "corpus identity is version + digests, never a path",
+      "observed_digests": {
+        "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+        "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+        "corpus_version": "synthetic_warmstart_corpus_v1",
+        "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+      },
+      "pointer_matches_required": true,
+      "resolved_through": "synthetic_corpus.default_corpus_root()",
+      "resolver_matches_required": true
+    },
+    "experiments_rerun": false,
+    "measurements_rerun": false,
+    "original_criterion": {
+      "comparison": "resumed end state vs INDEPENDENTLY EXECUTED uninterrupted end state",
+      "criterion_id": "independent_run_end_state_allclose_v1",
+      "disproof": "the no-checkpoint control pair (two fresh identical uninterrupted runs, no save/load anywhere) diverges by 0.021241270005702972 at update 1,000 \u2014 the same order as the resumed run \u2014 so the criterion fails for an uninterrupted run compared against itself and cannot discriminate checkpoint fidelity",
+      "end_state_max_abs_diff_vs_independent_run": 0.018540866672992706,
+      "measured": false,
+      "not_attainable_on_this_backend": true,
+      "result": "NOT_MET",
+      "source": "04_AGENT_4_TRAINER_AND_RESUME.md, 'Resume equivalence': torch.allclose(resumed, uninterrupted, rtol=1e-5, atol=1e-6) for every parameter, comparing the end state of a 1,000-update uninterrupted run against a separately executed 400 + reload + 600 split run",
+      "tolerances": {
+        "atol": 1e-06,
+        "rtol": 1e-05
+      }
+    },
+    "preserved_measurements": {
+      "all_unchanged": true,
+      "changed": [],
+      "checks": [
+        {
+          "expected": true,
+          "measurement_id": "mps_batch_identities_equal_every_step",
+          "observed": true,
+          "path": "mps_split_run/batch_identities_equal_every_step",
+          "role": "logical equality: same examples in the same order at every step",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_batch_bytes_equal_every_step",
+          "observed": true,
+          "path": "mps_split_run/batch_bytes_equal_every_step",
+          "role": "logical equality: byte-identical batch tensors at every step",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_exact_next_batch_after_resume",
+          "observed": true,
+          "path": "mps_split_run/exact_next_batch_after_resume",
+          "role": "data-cursor resume: step 401 is exactly the next logical batch",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_learning_rates_equal_every_step",
+          "observed": true,
+          "path": "mps_split_run/learning_rates_equal_every_step",
+          "role": "scheduler state survives the reload",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_logical_state_summaries_equal",
+          "observed": true,
+          "path": "mps_split_run/logical_state_summaries_equal",
+          "role": "step / examples consumed / cursor / scheduler / validation cadence / optimizer state structure / counters all equal",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_validation_cadence_equal",
+          "observed": true,
+          "path": "mps_split_run/validation_cadence_equal",
+          "role": "validation fired at the same global steps in both runs",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "mps_step401_resumed_vs_donor_allclose",
+          "observed": true,
+          "path": "mps_split_run/parameters_first_post_resume_step/all_allclose_rtol1e-5_atol1e-6",
+          "role": "the resume roundtrip itself introduces no jump: the first post-resume update, computed from bit-identical entry state, meets the ORIGINAL tolerances",
+          "unchanged": true
+        },
+        {
+          "expected": 1.862645149230957e-09,
+          "measurement_id": "mps_step401_resumed_vs_donor_max_abs_diff",
+          "observed": 1.862645149230957e-09,
+          "path": "mps_split_run/parameters_first_post_resume_step/max_abs_diff",
+          "role": "magnitude of the step-401 resumed-vs-donor difference",
+          "unchanged": true
+        },
+        {
+          "expected": 0.019816027954220772,
+          "measurement_id": "mps_end_vs_donor_max_abs_diff",
+          "observed": 0.019816027954220772,
+          "path": "mps_split_run/parameters_end_vs_donor/max_abs_diff",
+          "role": "resumed run's end-state divergence from the donor continuation",
+          "unchanged": true
+        },
+        {
+          "expected": 0.021241270005702972,
+          "measurement_id": "mps_no_checkpoint_control_end_max_abs_diff",
+          "observed": 0.021241270005702972,
+          "path": "mps_split_run/backend_control/end/max_abs_diff",
+          "role": "the backend's own end-state envelope between two fresh identical runs with NO checkpoint anywhere \u2014 the evidence that the original criterion is unattainable independently of checkpointing",
+          "unchanged": true
+        },
+        {
+          "expected": 0.9329022204840133,
+          "measurement_id": "mps_envelope_ratio_end_vs_donor_over_control",
+          "observed": 0.9329022204840133,
+          "path": "mps_split_run/envelope_ratio_end_vs_donor_over_control",
+          "role": "resumed divergence as a fraction of the no-checkpoint envelope",
+          "unchanged": true
+        },
+        {
+          "expected": 0.00014108298637438565,
+          "measurement_id": "mps_independent_prefix_divergence_at_401",
+          "observed": 0.00014108298637438565,
+          "path": "mps_split_run/independent_prefix_divergence_at_split_plus_1/max_abs_diff",
+          "role": "two independent processes already differ by this much at step 401 with no resume involved \u2014 five orders of magnitude above the resumed-vs-donor difference at the same step",
+          "unchanged": true
+        },
+        {
+          "expected": false,
+          "measurement_id": "mps_strict_original_criterion_result",
+          "observed": false,
+          "path": "mps_split_run/strict_end_allclose_rtol1e-5_atol1e-6",
+          "role": "the original criterion's measured result, recorded as NOT MET",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "cpu_end_state_bit_exact",
+          "observed": true,
+          "path": "cpu_exact_reference/parameters_end_of_run/all_exactly_equal",
+          "role": "on the deterministic backend the cross-process split run is bitwise exact: the checkpoint restores the complete numerical state",
+          "unchanged": true
+        },
+        {
+          "expected": 0.0,
+          "measurement_id": "cpu_end_state_max_abs_diff",
+          "observed": 0.0,
+          "path": "cpu_exact_reference/parameters_end_of_run/max_abs_diff",
+          "role": "magnitude of the CPU cross-process end-state difference",
+          "unchanged": true
+        },
+        {
+          "expected": true,
+          "measurement_id": "cpu_end_vs_donor_bit_exact",
+          "observed": true,
+          "path": "cpu_exact_reference/parameters_end_vs_donor/all_exactly_equal",
+          "role": "CPU resumed run is bitwise exact against the donor continuation too",
+          "unchanged": true
+        }
+      ],
+      "total": 16,
+      "unchanged": 16
+    },
+    "trainer_behaviour_changed": false,
+    "unchanged_by_this_amendment": [
+      "pilot candidate matrix",
+      "model / C1 configuration",
+      "loss semantics and normalizations",
+      "optimizer, scheduler, gradient clipping",
+      "corpus bytes, corpus identity, and dataset order",
+      "Phase 8 acceptance thresholds (common contract section 26)"
+    ]
+  },
+  "agent": 4,
+  "amendment_note": "The mps_split_run / cpu_exact_reference measurement blocks below are exactly as Agent 4 recorded them; this amendment added the acceptance_criteria block only.",
+  "artifact": "agent_04_resume_validation",
+  "checkpoint_version": "warmstart_checkpoint_v1",
+  "cpu_count": 14,
+  "cpu_exact_reference": {
+    "backend_control": null,
+    "batch_bytes_equal_every_step": true,
+    "batch_identities_equal_every_step": true,
+    "device": "cpu",
+    "envelope_ratio_end_vs_donor_over_control": null,
+    "exact_next_batch_after_resume": true,
+    "first_mismatched_step": null,
+    "independent_prefix_divergence_at_split_plus_1": {
+      "all_allclose_rtol1e-5_atol1e-6": true,
+      "all_exactly_equal": true,
+      "max_abs_diff": 0.0,
+      "max_rel_diff": 0.0,
+      "per_tensor_worst": [
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "row_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "column_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_source_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_destination_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "learning_rates_equal_every_step": true,
+    "logical_state_summaries_equal": true,
+    "loss_delta_max": 0.0,
+    "numerical_passed": true,
+    "numerical_rule": "end-of-run parameters exactly bit-equal (deterministic backend)",
+    "parameters_end_of_run": {
+      "all_allclose_rtol1e-5_atol1e-6": true,
+      "all_exactly_equal": true,
+      "max_abs_diff": 0.0,
+      "max_rel_diff": 0.0,
+      "per_tensor_worst": [
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "row_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "column_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_source_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_destination_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_end_vs_donor": {
+      "all_allclose_rtol1e-5_atol1e-6": true,
+      "all_exactly_equal": true,
+      "max_abs_diff": 0.0,
+      "max_rel_diff": 0.0,
+      "per_tensor_worst": [
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "row_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "column_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_source_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_destination_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_first_post_resume_step": {
+      "all_allclose_rtol1e-5_atol1e-6": true,
+      "all_exactly_equal": true,
+      "max_abs_diff": 0.0,
+      "max_rel_diff": 0.0,
+      "per_tensor_worst": [
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "row_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "column_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_source_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_destination_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_first_post_resume_step_note": "resumed process vs the donor continuation of the checkpoint-writing process \u2014 both compute this step from bit-identical entry state",
+    "passed": true,
+    "seconds": 106.14704308300134,
+    "split_at": 40,
+    "state_summaries_equal": true,
+    "strict_end_allclose_rtol1e-5_atol1e-6": true,
+    "total_updates": 100,
+    "validation_cadence_equal": true,
+    "validation_histories_equal": true,
+    "validation_steps": []
+  },
+  "mps_available": true,
+  "mps_built": true,
+  "mps_split_run": {
+    "backend_control": {
+      "definition": "two fresh identical uninterrupted runs in separate processes, no checkpoint anywhere: the backend's own run-to-run envelope",
+      "early": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.0001283245801459998,
+        "max_rel_diff": 555.7869873046875,
+        "per_tensor_worst": [
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.0001283245801459998,
+            "max_rel_diff": 90.08189392089844,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 4.297105624573305e-05,
+            "max_rel_diff": 56.24394226074219,
+            "name": "blocks.2.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 3.903452670783736e-05,
+            "max_rel_diff": 555.7869873046875,
+            "name": "blocks.1.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 2.8149921490694396e-05,
+            "max_rel_diff": 533.9891967773438,
+            "name": "blocks.3.attention.in_proj_bias"
+          },
+          {
+            "allclose": true,
+            "exact": false,
+            "max_abs_diff": 1.1622905731201172e-06,
+            "max_rel_diff": 0.06135653704404831,
+            "name": "blocks.3.attention.in_proj_weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "end": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.021241270005702972,
+        "max_rel_diff": 59272.84375,
+        "per_tensor_worst": [
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.021241270005702972,
+            "max_rel_diff": 59272.84375,
+            "name": "blocks.2.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.01910942792892456,
+            "max_rel_diff": 690.1475830078125,
+            "name": "blocks.1.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.014458239078521729,
+            "max_rel_diff": 170.47633361816406,
+            "name": "blocks.3.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.013363152742385864,
+            "max_rel_diff": 1820.8350830078125,
+            "name": "blocks.0.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.012859678827226162,
+            "max_rel_diff": 847.3799438476562,
+            "name": "input_projection.weight"
+          }
+        ],
+        "tensors": 66
+      }
+    },
+    "batch_bytes_equal_every_step": true,
+    "batch_identities_equal_every_step": true,
+    "device": "mps",
+    "envelope_ratio_end_vs_donor_over_control": 0.9329022204840133,
+    "exact_next_batch_after_resume": true,
+    "first_mismatched_step": null,
+    "independent_prefix_divergence_at_split_plus_1": {
+      "all_allclose_rtol1e-5_atol1e-6": false,
+      "all_exactly_equal": false,
+      "max_abs_diff": 0.00014108298637438565,
+      "max_rel_diff": 955.791259765625,
+      "per_tensor_worst": [
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.00014108298637438565,
+          "max_rel_diff": 955.791259765625,
+          "name": "blocks.0.attention.in_proj_bias"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 4.5350741856964305e-05,
+          "max_rel_diff": 110.80611419677734,
+          "name": "blocks.1.attention.in_proj_bias"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 2.970316563732922e-05,
+          "max_rel_diff": 90.1920166015625,
+          "name": "blocks.3.attention.in_proj_bias"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 2.808075623761397e-05,
+          "max_rel_diff": 31.030136108398438,
+          "name": "blocks.2.attention.in_proj_bias"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 1.4934688806533813e-05,
+          "max_rel_diff": 1.4921979904174805,
+          "name": "blocks.3.attention.in_proj_weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "learning_rates_equal_every_step": true,
+    "logical_state_summaries_equal": true,
+    "loss_delta_max": 0.28637218475341797,
+    "numerical_passed": true,
+    "numerical_rule": "first post-resume step allclose(rtol=1e-5, atol=1e-6) against the donor continuation (bit-identical entry state), AND resumed-vs-donor end-of-run divergence within 10x of the backend's own no-checkpoint fresh-vs-fresh envelope",
+    "parameters_end_of_run": {
+      "all_allclose_rtol1e-5_atol1e-6": false,
+      "all_exactly_equal": false,
+      "max_abs_diff": 0.018540866672992706,
+      "max_rel_diff": 11034.75,
+      "per_tensor_worst": [
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.018540866672992706,
+          "max_rel_diff": 1448.48876953125,
+          "name": "blocks.1.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.017512748017907143,
+          "max_rel_diff": 207.43418884277344,
+          "name": "blocks.2.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.016495637595653534,
+          "max_rel_diff": 2370.980224609375,
+          "name": "blocks.0.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.016262196004390717,
+          "max_rel_diff": 519.2611083984375,
+          "name": "blocks.3.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.013357464224100113,
+          "max_rel_diff": 535.26416015625,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_end_vs_donor": {
+      "all_allclose_rtol1e-5_atol1e-6": false,
+      "all_exactly_equal": false,
+      "max_abs_diff": 0.019816027954220772,
+      "max_rel_diff": 5570.25732421875,
+      "per_tensor_worst": [
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.019816027954220772,
+          "max_rel_diff": 476.6580505371094,
+          "name": "blocks.1.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.01852135732769966,
+          "max_rel_diff": 578.6972045898438,
+          "name": "blocks.3.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.01489197462797165,
+          "max_rel_diff": 3223.919677734375,
+          "name": "blocks.2.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.014661915600299835,
+          "max_rel_diff": 499.0005187988281,
+          "name": "blocks.0.attention.in_proj_weight"
+        },
+        {
+          "allclose": false,
+          "exact": false,
+          "max_abs_diff": 0.012439854443073273,
+          "max_rel_diff": 317.1165771484375,
+          "name": "blocks.3.feedforward.0.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_first_post_resume_step": {
+      "all_allclose_rtol1e-5_atol1e-6": true,
+      "all_exactly_equal": false,
+      "max_abs_diff": 1.862645149230957e-09,
+      "max_rel_diff": 1.0233137714976692e-07,
+      "per_tensor_worst": [
+        {
+          "allclose": true,
+          "exact": false,
+          "max_abs_diff": 1.862645149230957e-09,
+          "max_rel_diff": 8.58229540767752e-08,
+          "name": "row_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": false,
+          "max_abs_diff": 1.1641532182693481e-10,
+          "max_rel_diff": 1.0233137714976692e-07,
+          "name": "column_embedding"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_source_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "policy_destination_bias"
+        },
+        {
+          "allclose": true,
+          "exact": true,
+          "max_abs_diff": 0.0,
+          "max_rel_diff": 0.0,
+          "name": "input_projection.weight"
+        }
+      ],
+      "tensors": 66
+    },
+    "parameters_first_post_resume_step_note": "resumed process vs the donor continuation of the checkpoint-writing process \u2014 both compute this step from bit-identical entry state",
+    "passed": true,
+    "seconds": 728.5669843750002,
+    "split_at": 400,
+    "state_summaries_equal": false,
+    "strict_end_allclose_rtol1e-5_atol1e-6": false,
+    "total_updates": 1000,
+    "validation_cadence_equal": true,
+    "validation_histories_equal": false,
+    "validation_steps": [
+      500,
+      1000
+    ]
+  },
+  "phase": 8,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "source_revision": "eb730d4",
+  "timestamp": "2026-08-15T16:35:42-0400",
+  "torch_version": "2.13.0",
+  "trainer_version": "warmstart_trainer_v1",
+  "unit_scale_reference": "tests/training/test_warmstart_trainer.py::TestResumeEquivalence \u2014 bitwise-equal parameters and optimizer moments on the mini corpus",
+  "working_tree_state": "dirty"
+}

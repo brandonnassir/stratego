@@ -2,7 +2,14 @@
 # Phase 8 production corpus bytes: reproducible from the frozen contract by
 # `python scripts/run_phase8_agent02.py --generate`, and far too large to be a
 # report attachment. The manifest and digests that describe it are tracked.
+# `data/stratego_phase8/` is the relocated canonical corpus root recorded in
+# `data/warmstart_corpus_root.txt`; its bytes stay out of version control.
 data/warmstart/
+data/stratego_phase8/
+# Phase 8 training checkpoints and Agent 4 engineering-run state: production
+# data reproducible by `python scripts/run_phase8_agent04.py --full`; the
+# JSON/CSV artifacts that describe them are tracked in reports/phase_8_data.
+checkpoints/phase8/
 __pycache__/
 *.py[cod]
 .pytest_cache/

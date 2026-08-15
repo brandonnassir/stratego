@@ -1,0 +1,951 @@
+{
+  "acceptance_criteria": {
+    "resume_equivalence": {
+      "approved_criterion_id": "backend_aware_resume_equivalence_v1",
+      "approved_result": "PASS",
+      "detail": "reports/phase_8_data/agent_04_resume_validation.json",
+      "original_criterion_id": "independent_run_end_state_allclose_v1",
+      "original_result": "NOT_MET (not attainable on this backend)",
+      "preserved_measurements_unchanged": true
+    }
+  },
+  "agent": 4,
+  "artifact": "agent_04_trainer_contract",
+  "benchmark": {
+    "all_topologies_serve_identical_batches": true,
+    "baseline_data_wait_fraction": 0.20772902265754978,
+    "baseline_topology": {
+      "prefetch": 2,
+      "record_cache_size": 512,
+      "workers": 8
+    },
+    "first_batch_digest": "e663a5a7f3505b3e9cf24e06e4e1926d37187073e1ebd929d8fcaec2f7a31848",
+    "last_batch_digest": "5efec431e060b40ca57b08429e2511d52f6c7d8c38e57b47931ba2c1e78b3f29",
+    "observations_materialized_to_disk": false,
+    "recommended_data_wait_fraction": 6.779992950024264e-05,
+    "recommended_examples_per_second_realistic": 1937.4985255021288,
+    "recommended_topology": {
+      "prefetch": 2,
+      "record_cache_size": 512,
+      "workers": 12
+    },
+    "recommended_updates_per_second_realistic": 7.568353615242691,
+    "results": [
+      {
+        "backward_ms_mean": 57.38713539578081,
+        "batch_size": 256,
+        "cache_hit_rate": 0.018767415177839697,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 0.20772902265754978,
+        "data_wait_ms_mean": 29.756642437026432,
+        "digests_match_baseline": true,
+        "examples_per_second": 1787.1179489713577,
+        "forward_ms_mean": 30.376101562220963,
+        "h2d_ms_mean": 2.0502664688137884,
+        "loss_ms_mean": 5.958636301632699,
+        "loss_total_first": 6.996487140655518,
+        "loss_total_last": 5.787208080291748,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 15353856,
+        "mps_driver_allocated_bytes": 2199715840,
+        "notes": "Agent 3 best topology; benchmark reference",
+        "optimizer_ms_mean": 10.04768314624016,
+        "parent_peak_rss_bytes": 959037440,
+        "phase": "baseline_8w",
+        "prefetch": 2,
+        "record_cache_size": 512,
+        "step_wall_ms_p50": 113.04612499952782,
+        "step_wall_ms_p95": 275.51649999804795,
+        "timing_mode": true,
+        "updates_per_second": 6.980929488169366,
+        "wall_seconds": 13.751750417002768,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 0,
+        "workers": 8
+      },
+      {
+        "backward_ms_mean": 59.35343137510548,
+        "batch_size": 256,
+        "cache_hit_rate": 0.01868546139977053,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 0.018778581811547953,
+        "data_wait_ms_mean": 2.5763337911636577,
+        "digests_match_baseline": true,
+        "examples_per_second": 1865.952680605468,
+        "forward_ms_mean": 31.807602000147504,
+        "h2d_ms_mean": 3.298878488900906,
+        "loss_ms_mean": 9.99352821888048,
+        "loss_total_first": 6.996487617492676,
+        "loss_total_last": 5.787208557128906,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 34765312,
+        "mps_driver_allocated_bytes": 2216493056,
+        "notes": "tuning within frozen dataset semantics",
+        "optimizer_ms_mean": 18.37535901033031,
+        "parent_peak_rss_bytes": 1269547008,
+        "phase": "tune_10w",
+        "prefetch": 2,
+        "record_cache_size": 512,
+        "step_wall_ms_p50": 132.93691699800547,
+        "step_wall_ms_p95": 156.93454099528026,
+        "timing_mode": true,
+        "updates_per_second": 7.288877658615109,
+        "wall_seconds": 13.17075200000545,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 941834240,
+        "workers": 10
+      },
+      {
+        "backward_ms_mean": 60.76295362496845,
+        "batch_size": 256,
+        "cache_hit_rate": 0.017906900508113423,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 6.779992950024264e-05,
+        "data_wait_ms_mean": 0.009777354383307587,
+        "digests_match_baseline": true,
+        "examples_per_second": 1775.2022962054568,
+        "forward_ms_mean": 33.2241019580124,
+        "h2d_ms_mean": 4.008119750248322,
+        "loss_ms_mean": 12.978755218606844,
+        "loss_total_first": 6.996487617492676,
+        "loss_total_last": 5.787208557128906,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 13828096,
+        "mps_driver_allocated_bytes": 2216493056,
+        "notes": "tuning within frozen dataset semantics",
+        "optimizer_ms_mean": 20.920341114788243,
+        "parent_peak_rss_bytes": 1410924544,
+        "phase": "tune_12w",
+        "prefetch": 2,
+        "record_cache_size": 512,
+        "step_wall_ms_p50": 138.21658300003037,
+        "step_wall_ms_p95": 174.92783299530856,
+        "timing_mode": true,
+        "updates_per_second": 6.934383969552566,
+        "wall_seconds": 13.844056000001729,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 954449920,
+        "workers": 12
+      },
+      {
+        "backward_ms_mean": 59.80861061455774,
+        "batch_size": 256,
+        "cache_hit_rate": 0.03995246680871988,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 7.166525046104604e-05,
+        "data_wait_ms_mean": 0.010099458298403382,
+        "digests_match_baseline": true,
+        "examples_per_second": 1816.5631834856076,
+        "forward_ms_mean": 32.62077469791317,
+        "h2d_ms_mean": 3.7189722397670266,
+        "loss_ms_mean": 12.030115468405711,
+        "loss_total_first": 6.996487140655518,
+        "loss_total_last": 5.787208557128906,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 33845760,
+        "mps_driver_allocated_bytes": 2216493056,
+        "notes": "tuning within frozen dataset semantics",
+        "optimizer_ms_mean": 20.610383750105637,
+        "parent_peak_rss_bytes": 1502248960,
+        "phase": "tune_12w_cache1024",
+        "prefetch": 3,
+        "record_cache_size": 1024,
+        "step_wall_ms_p50": 137.4424580062623,
+        "step_wall_ms_p95": 165.09316700103227,
+        "timing_mode": true,
+        "updates_per_second": 7.095949935490655,
+        "wall_seconds": 13.528844041000411,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 954449920,
+        "workers": 12
+      },
+      {
+        "backward_ms_mean": 59.53420391657952,
+        "batch_size": 256,
+        "cache_hit_rate": 0.05441730863792821,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 7.218813527698697e-05,
+        "data_wait_ms_mean": 0.0101263228013219,
+        "digests_match_baseline": true,
+        "examples_per_second": 1824.9628214988609,
+        "forward_ms_mean": 32.433437916552066,
+        "h2d_ms_mean": 3.5205898644411113,
+        "loss_ms_mean": 11.230176646070808,
+        "loss_total_first": 6.996487140655518,
+        "loss_total_last": 5.787208080291748,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 13828096,
+        "mps_driver_allocated_bytes": 2216493056,
+        "notes": "tuning within frozen dataset semantics",
+        "optimizer_ms_mean": 21.289204510746156,
+        "parent_peak_rss_bytes": 1750204416,
+        "phase": "tune_12w_cache2048",
+        "prefetch": 3,
+        "record_cache_size": 2048,
+        "step_wall_ms_p50": 136.4892499987036,
+        "step_wall_ms_p95": 166.68245799519354,
+        "timing_mode": true,
+        "updates_per_second": 7.128761021479925,
+        "wall_seconds": 13.466575708000164,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 1267007488,
+        "workers": 12
+      },
+      {
+        "backward_ms_mean": 13.03856765624308,
+        "batch_size": 256,
+        "cache_hit_rate": 0.01749713161776758,
+        "counters": {
+          "checkpoint_errors": 0,
+          "data_mismatches": 0,
+          "illegal_targets": 0,
+          "non_finite_gradients": 0,
+          "non_finite_losses": 0,
+          "non_finite_parameters": 0
+        },
+        "data_wait_fraction": 7.233012365278648e-05,
+        "data_wait_ms_mean": 0.009556916514460076,
+        "digests_match_baseline": true,
+        "examples_per_second": 1937.4985255021288,
+        "forward_ms_mean": 32.183401437957095,
+        "h2d_ms_mean": 3.121150177094023,
+        "loss_ms_mean": 10.410861645292849,
+        "loss_total_first": 6.996487140655518,
+        "loss_total_last": 5.787208557128906,
+        "measured_updates": 96,
+        "mps_current_allocated_bytes": 33845760,
+        "mps_driver_allocated_bytes": 2216493056,
+        "notes": "recommended topology, no per-phase synchronization",
+        "optimizer_ms_mean": 61.94463498976196,
+        "parent_peak_rss_bytes": 1750204416,
+        "phase": "recommended_realistic",
+        "prefetch": 2,
+        "record_cache_size": 512,
+        "step_wall_ms_p50": 131.08487499994226,
+        "step_wall_ms_p95": 143.46933299384546,
+        "timing_mode": false,
+        "updates_per_second": 7.568353615242691,
+        "wall_seconds": 12.684396749995358,
+        "warmup_updates": 12,
+        "worker_peak_rss_bytes": 1852702720,
+        "workers": 12
+      }
+    ],
+    "seconds": 146.62505249999958,
+    "still_data_bound_after_tuning": false,
+    "threshold_data_wait_fraction": 0.15,
+    "train_order_altered": false,
+    "tuned": true,
+    "validation_pass": {
+      "batches": 8,
+      "examples": 2048,
+      "seconds": 1.5438141250051558,
+      "selection_score": 1.0793107157820059
+    }
+  },
+  "checkpoint_api": {
+    "atomic_write": "temp -> fsync -> validate temp bytes -> rename -> dir fsync",
+    "corpus_identity_rule": "checkpoints identify the corpus by version + content/metadata/commit-index digests; the resolved filesystem root is recorded only as diagnostics and is never compared, so a pure relocation with identical digests keeps every checkpoint valid",
+    "evaluation_only_path": "load_model_for_evaluation(path, device)",
+    "module": "stratego.training.warmstart_checkpoint",
+    "version": "warmstart_checkpoint_v1"
+  },
+  "commands": [
+    "python scripts/run_phase8_agent04.py --full --run-pytest  # verify + benchmark completed; interrupted during the soak after the resume comparison surfaced a measurement-design flaw (see deviations)",
+    "python scripts/run_phase8_agent04.py --resume-mps --resume-cpu --soak --artifacts --run-pytest --workers 12 --prefetch 2 --record-cache 512  # final evidence: donor-isolated resume comparison, control pair, full soak re-run from update 0",
+    "python scripts/run_phase8_agent04.py --amend-criterion --run-pytest  # reviewer-approved acceptance amendment: artifact/report correction only, no experiment re-run"
+  ],
+  "completion_gates": {
+    "agents_1_2_3_pass": true,
+    "checkpoint_mismatch_and_corruption_rejection_tested": true,
+    "corpus_digests_match_accepted": true,
+    "corpus_resolver_matches_canonical": true,
+    "cpu_exact_determinism_reference_passed": true,
+    "exact_next_batch_after_resume": true,
+    "finite_c1_mps_optimizer_path": true,
+    "frozen_train_order_unaltered": true,
+    "interrupted_checkpoint_write_safe": true,
+    "loss_semantics_and_masking_regression_tested": true,
+    "mps_first_post_resume_step_allclose": true,
+    "observations_never_materialized_to_disk": true,
+    "phase4_bank_untouched": true,
+    "pilot_selection_not_started": true,
+    "resume_1000_step_split_run_passed": true,
+    "resume_criterion_backend_aware_approved_pass": true,
+    "resume_preserved_measurements_unchanged": true,
+    "soak_at_least_2000_updates_zero_failures": true,
+    "test_corpus_untouched_by_model_inference": true,
+    "throughput_memory_data_wait_measured": true,
+    "topology_batches_byte_identical": true,
+    "trainer_supports_only_predeclared_candidates": true,
+    "validation_cannot_mutate_training_state": true
+  },
+  "corpus_verification": {
+    "accepted_digests": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "agent_01_contract_digest": {
+      "live": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de",
+      "match": true,
+      "recorded": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de"
+    },
+    "corpus_root_resolution": {
+      "environment_value": "",
+      "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+      "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1",
+      "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "source": "pointer_file"
+    },
+    "digest_verification_seconds": 78.28262241699849,
+    "digests_match": true,
+    "observed_digests": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "payload_bytes_checked": true,
+    "pointer_matches_required": true,
+    "problems": [],
+    "required_corpus_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "resolver_matches_required": true,
+    "roster_problems": [],
+    "seconds": 78.42373991599743,
+    "statuses": {
+      "agent_1": "PASS",
+      "agent_2": "PASS",
+      "agent_3": "PASS"
+    },
+    "upstream_problems": []
+  },
+  "cpu_count": 14,
+  "development_budget_note": "engineering updates this agent ran (benchmark + resume + soak) are system validation, not pilot selection; no configuration was compared to another and no validation metric chose anything",
+  "deviations": [
+    {
+      "resolution": "Reviewer-approved by the Agent 4 acceptance amendment: the original independent-run allclose requirement is recorded as NOT_MET and not attainable on this backend; the backend-aware criterion is recorded separately and passes on the preserved measurements. No experiment was re-run and no trainer behaviour changed.",
+      "statement": "The specified end-of-run torch.allclose(rtol=1e-5, atol=1e-6) comparison between the uninterrupted and resumed 1,000-update runs is not attainable on this MPS stack for ANY pair of separately executed runs, checkpointed or not: two fresh identical uninterrupted runs (no checkpoint anywhere) diverge at the same order of magnitude, and same-process repeat runs diverge too (measured controls in agent_04_resume_validation.json). The tolerance as written measures backend run-to-run determinism, not checkpoint fidelity. Evidence substituted, for review: (1) the CPU cross-process split run is EXACTLY bit-equal, proving the checkpoint restores the complete logical and numerical state; (2) on MPS the first post-resume update is allclose at the specified tolerances against the donor continuation computing the same step from bit-identical entry state (the resume roundtrip adds no jump); (3) the resumed run's end-of-run divergence from the donor is within the backend's own no-checkpoint fresh-vs-fresh envelope; (4) every logical quantity (batch identities and bytes, learning rates, cursor, cadence, optimizer structure, counters) is exactly equal at every one of the 1,000 steps.",
+      "status": "approved",
+      "subject": "MPS end-of-run parameter tolerance",
+      "threshold_moved": false
+    },
+    {
+      "statement": "The first --full invocation was deliberately stopped mid-soak: its resume comparison measured the straight and checkpoint-writing processes against each other, which on a non-bit-deterministic backend inherits the two processes' independent 400-step prefix divergence and cannot isolate the resume boundary. The comparison was redesigned around the donor continuation plus a no-checkpoint control pair; the completed benchmark results were kept and every resume/soak phase was re-run from scratch. No partial artifact from the interrupted run survived into the record.",
+      "status": "informational",
+      "subject": "run history",
+      "threshold_moved": false
+    }
+  ],
+  "durations": {
+    "amend_criterion": 0.0012484999970183708,
+    "resume_cpu": 106.14813354199578,
+    "resume_mps": 728.5674803329966,
+    "soak": 302.6468651670002,
+    "verify": 78.46562450000056
+  },
+  "files_created": [
+    "stratego/training/warmstart_loss.py",
+    "stratego/training/warmstart_metrics.py",
+    "stratego/training/warmstart_checkpoint.py",
+    "stratego/training/warmstart_trainer.py",
+    "tests/training/test_warmstart_loss.py",
+    "tests/training/test_warmstart_checkpoint.py",
+    "tests/training/test_warmstart_trainer.py",
+    "scripts/run_phase8_agent04.py",
+    "reports/phase_8_data/agent_04_trainer_contract.json",
+    "reports/phase_8_data/agent_04_training_benchmark.csv",
+    "reports/phase_8_data/agent_04_resume_validation.json"
+  ],
+  "files_modified": [
+    "reports/phase_8_implementation_report.md"
+  ],
+  "handoff_to_agent_5": {
+    "candidate_config_api": "WarmstartTrainConfig.from_pilot_candidate",
+    "checkpoint_api": "stratego.training.warmstart_checkpoint",
+    "checkpoint_version": "warmstart_checkpoint_v1",
+    "frozen_candidate_ids": [
+      "ws_pilot_lr1e-3_balanced",
+      "ws_pilot_lr1e-3_policy_led",
+      "ws_pilot_lr3e-4_balanced",
+      "ws_pilot_lr3e-4_policy_led",
+      "ws_pilot_lr1e-4_balanced",
+      "ws_pilot_lr1e-4_policy_led"
+    ],
+    "recommended_loader_topology": {
+      "prefetch": 2,
+      "record_cache_size": 512,
+      "workers": 12
+    },
+    "resume_evidence": "reports/phase_8_data/agent_04_resume_validation.json",
+    "throughput": {
+      "data_wait_fraction": 6.779992950024264e-05,
+      "examples_per_second": 1937.4985255021288,
+      "updates_per_second": 7.568353615242691,
+      "validation_pass_seconds": 1.5438141250051558
+    },
+    "trainer_api": "stratego.training.warmstart_trainer",
+    "validation_api": "stratego.training.warmstart_metrics.run_validation / trainer.run_cadence_validation"
+  },
+  "mps_available": true,
+  "mps_built": true,
+  "phase": 8,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisite_digests": {
+    "agent_01_contract": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de",
+    "corpus_commit_index": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+    "corpus_content": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "corpus_metadata": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "prerequisite_versions": {
+    "checkpoint": "warmstart_checkpoint_v1",
+    "corpus": "synthetic_warmstart_corpus_v1",
+    "eval": "warmstart_eval_v1",
+    "example": "warmstart_example_v1",
+    "loss": "warmstart_loss_v1",
+    "metrics": "warmstart_metrics_v1",
+    "trainer": "warmstart_trainer_v1",
+    "warmstart_training_contract": "warmstart_training_contract_v1"
+  },
+  "problems": [],
+  "python_version": "3.13.2",
+  "resume_validation_summary": {
+    "cpu": {
+      "parameters_end_of_run": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "per_tensor_worst": [
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "row_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "column_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_source_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_destination_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "input_projection.weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "max_rel_diff": 0.0,
+        "per_tensor_worst": [
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "row_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "column_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_source_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_destination_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "input_projection.weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "passed": true,
+      "split_at": 40,
+      "total_updates": 100
+    },
+    "mps": {
+      "backend_control": {
+        "definition": "two fresh identical uninterrupted runs in separate processes, no checkpoint anywhere: the backend's own run-to-run envelope",
+        "early": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.0001283245801459998,
+          "max_rel_diff": 555.7869873046875,
+          "per_tensor_worst": [
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.0001283245801459998,
+              "max_rel_diff": 90.08189392089844,
+              "name": "blocks.0.attention.in_proj_bias"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 4.297105624573305e-05,
+              "max_rel_diff": 56.24394226074219,
+              "name": "blocks.2.attention.in_proj_bias"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 3.903452670783736e-05,
+              "max_rel_diff": 555.7869873046875,
+              "name": "blocks.1.attention.in_proj_bias"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 2.8149921490694396e-05,
+              "max_rel_diff": 533.9891967773438,
+              "name": "blocks.3.attention.in_proj_bias"
+            },
+            {
+              "allclose": true,
+              "exact": false,
+              "max_abs_diff": 1.1622905731201172e-06,
+              "max_rel_diff": 0.06135653704404831,
+              "name": "blocks.3.attention.in_proj_weight"
+            }
+          ],
+          "tensors": 66
+        },
+        "end": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.021241270005702972,
+          "max_rel_diff": 59272.84375,
+          "per_tensor_worst": [
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.021241270005702972,
+              "max_rel_diff": 59272.84375,
+              "name": "blocks.2.attention.in_proj_weight"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.01910942792892456,
+              "max_rel_diff": 690.1475830078125,
+              "name": "blocks.1.attention.in_proj_weight"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.014458239078521729,
+              "max_rel_diff": 170.47633361816406,
+              "name": "blocks.3.attention.in_proj_weight"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.013363152742385864,
+              "max_rel_diff": 1820.8350830078125,
+              "name": "blocks.0.attention.in_proj_weight"
+            },
+            {
+              "allclose": false,
+              "exact": false,
+              "max_abs_diff": 0.012859678827226162,
+              "max_rel_diff": 847.3799438476562,
+              "name": "input_projection.weight"
+            }
+          ],
+          "tensors": 66
+        }
+      },
+      "batch_bytes_equal_every_step": true,
+      "batch_identities_equal_every_step": true,
+      "envelope_ratio_end_vs_donor_over_control": 0.9329022204840133,
+      "exact_next_batch_after_resume": true,
+      "independent_prefix_divergence_at_split_plus_1": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.00014108298637438565,
+        "max_rel_diff": 955.791259765625,
+        "per_tensor_worst": [
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.00014108298637438565,
+            "max_rel_diff": 955.791259765625,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 4.5350741856964305e-05,
+            "max_rel_diff": 110.80611419677734,
+            "name": "blocks.1.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 2.970316563732922e-05,
+            "max_rel_diff": 90.1920166015625,
+            "name": "blocks.3.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 2.808075623761397e-05,
+            "max_rel_diff": 31.030136108398438,
+            "name": "blocks.2.attention.in_proj_bias"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 1.4934688806533813e-05,
+            "max_rel_diff": 1.4921979904174805,
+            "name": "blocks.3.attention.in_proj_weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "learning_rates_equal_every_step": true,
+      "logical_state_summaries_equal": true,
+      "numerical_rule": "first post-resume step allclose(rtol=1e-5, atol=1e-6) against the donor continuation (bit-identical entry state), AND resumed-vs-donor end-of-run divergence within 10x of the backend's own no-checkpoint fresh-vs-fresh envelope",
+      "parameters_end_of_run": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.018540866672992706,
+        "max_rel_diff": 11034.75,
+        "per_tensor_worst": [
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.018540866672992706,
+            "max_rel_diff": 1448.48876953125,
+            "name": "blocks.1.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.017512748017907143,
+            "max_rel_diff": 207.43418884277344,
+            "name": "blocks.2.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.016495637595653534,
+            "max_rel_diff": 2370.980224609375,
+            "name": "blocks.0.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.016262196004390717,
+            "max_rel_diff": 519.2611083984375,
+            "name": "blocks.3.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.013357464224100113,
+            "max_rel_diff": 535.26416015625,
+            "name": "input_projection.weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.019816027954220772,
+        "max_rel_diff": 5570.25732421875,
+        "per_tensor_worst": [
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.019816027954220772,
+            "max_rel_diff": 476.6580505371094,
+            "name": "blocks.1.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.01852135732769966,
+            "max_rel_diff": 578.6972045898438,
+            "name": "blocks.3.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.01489197462797165,
+            "max_rel_diff": 3223.919677734375,
+            "name": "blocks.2.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.014661915600299835,
+            "max_rel_diff": 499.0005187988281,
+            "name": "blocks.0.attention.in_proj_weight"
+          },
+          {
+            "allclose": false,
+            "exact": false,
+            "max_abs_diff": 0.012439854443073273,
+            "max_rel_diff": 317.1165771484375,
+            "name": "blocks.3.feedforward.0.weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "parameters_first_post_resume_step": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": false,
+        "max_abs_diff": 1.862645149230957e-09,
+        "max_rel_diff": 1.0233137714976692e-07,
+        "per_tensor_worst": [
+          {
+            "allclose": true,
+            "exact": false,
+            "max_abs_diff": 1.862645149230957e-09,
+            "max_rel_diff": 8.58229540767752e-08,
+            "name": "row_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": false,
+            "max_abs_diff": 1.1641532182693481e-10,
+            "max_rel_diff": 1.0233137714976692e-07,
+            "name": "column_embedding"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_source_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "policy_destination_bias"
+          },
+          {
+            "allclose": true,
+            "exact": true,
+            "max_abs_diff": 0.0,
+            "max_rel_diff": 0.0,
+            "name": "input_projection.weight"
+          }
+        ],
+        "tensors": 66
+      },
+      "passed": true,
+      "split_at": 400,
+      "strict_end_allclose_rtol1e-5_atol1e-6": false,
+      "total_updates": 1000,
+      "validation_cadence_equal": true
+    }
+  },
+  "seeds": {
+    "model_init_seed": 2026081302,
+    "train_order": "warmstart_seed.train_order_seed(epoch)"
+  },
+  "soak": {
+    "candidate_id": "ws_pilot_lr3e-4_balanced",
+    "candidate_rationale": "median frozen learning rate (3e-4) with the balanced loss profile; an infrastructure choice, not a selection decision",
+    "checkpoint_reload_consistent": true,
+    "checkpoints_written_and_validated": 4,
+    "counters": {
+      "checkpoint_errors": 0,
+      "data_mismatches": 0,
+      "illegal_targets": 0,
+      "non_finite_gradients": 0,
+      "non_finite_losses": 0,
+      "non_finite_parameters": 0
+    },
+    "entropy_trend": {
+      "first_100_mean": 2.8895086526870726,
+      "last_100_mean": 1.9423724615573883,
+      "max": 3.0135726928710938,
+      "min": 1.704537272453308
+    },
+    "examples": 524288,
+    "gates": {
+      "at_least_2000_updates": true,
+      "checkpoint_errors": true,
+      "data_mismatches": true,
+      "illegal_targets": true,
+      "non_finite_gradients": true,
+      "non_finite_losses": true,
+      "non_finite_parameters": true
+    },
+    "grad_norm_pre_clip_max": 47.3035774230957,
+    "loss_trends_descriptive_only": {
+      "belief": {
+        "first_100_mean": 2.382730209827423,
+        "last_100_mean": 2.1058848977088926,
+        "max": 2.796719789505005,
+        "min": 2.073723793029785
+      },
+      "policy": {
+        "first_100_mean": 3.0375855493545534,
+        "last_100_mean": 1.8854452919960023,
+        "max": 3.250556468963623,
+        "min": 1.3601518869400024
+      },
+      "total": {
+        "first_100_mean": 6.437208337783813,
+        "last_100_mean": 4.583892807960511,
+        "max": 7.1168341636657715,
+        "min": 4.123218059539795
+      },
+      "value": {
+        "first_100_mean": 1.0168925958871842,
+        "last_100_mean": 0.5925626087188721,
+        "max": 1.1228325366973877,
+        "min": 0.47370314598083496
+      }
+    },
+    "non_finite_metric_rows": 0,
+    "parameter_norm_last": 54.26516342163086,
+    "selection_scores_descriptive_only": [
+      0.815295746205024,
+      0.7887613570070758,
+      0.7533790856761248,
+      0.749133727210814
+    ],
+    "updates": 2048,
+    "validation_steps": [
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "validations": 4,
+    "wall_seconds": 302.62009645799844
+  },
+  "source_revision": "eb730d4",
+  "status": "PASS",
+  "tests_after": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "returncode": 0,
+    "seconds": 232.57791383299627,
+    "summary": "3660 passed, 3 skipped in 231.45s (0:03:51)"
+  },
+  "tests_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "measured_at": "before any Agent 4 edit (recorded by the session)",
+    "summary": "3598 passed, 3 skipped in 220.67s"
+  },
+  "timestamp": "2026-08-15T16:35:42-0400",
+  "torch_version": "2.13.0",
+  "trainer_api": {
+    "candidate_ids": [
+      "ws_pilot_lr1e-3_balanced",
+      "ws_pilot_lr1e-3_policy_led",
+      "ws_pilot_lr3e-4_balanced",
+      "ws_pilot_lr3e-4_policy_led",
+      "ws_pilot_lr1e-4_balanced",
+      "ws_pilot_lr1e-4_policy_led"
+    ],
+    "checkpoint": "trainer.save_checkpoint(path) \u2014 atomic, validated in place",
+    "config": "WarmstartTrainConfig.from_pilot_candidate(candidate_id, device, validation_batches) \u2014 the only production constructor; direct construction with off-matrix values raises",
+    "loss_semantics": {
+      "belief": "stratego.model.losses.belief_loss \u2014 supervised-square CE sum / max(supervised squares, 1)",
+      "combination": "lambda_policy*L_policy + lambda_value*L_value + lambda_belief*L_belief",
+      "illegal_logit_rule": "illegal logits are replaced by the frozen -1e9 fill before normalization, so their stored values cannot affect the loss",
+      "loss_version": "warmstart_loss_v1",
+      "policy": "masked_policy_log_probabilities (illegal fill -1e9), per-example CE at the teacher action, sum(w_i*CE_i)/sum(w_i); zero weight sum contributes exactly 0",
+      "teacher_action_rule": "an illegal teacher action raises WarmstartLossError",
+      "value": "stratego.model.losses.value_loss \u2014 mean categorical CE"
+    },
+    "module": "stratego.training.warmstart_trainer",
+    "resume": "WarmstartTrainer.resume(path, config=, corpus_identity=) \u2014 refuses config/corpus/version drift",
+    "train": "trainer.train_updates(n, timing=, capture_batch_digests=)",
+    "trainer": "WarmstartTrainer(config, corpus_identity, root=None -> default_corpus_root(), topology=LoaderTopology(...))",
+    "validate": "trainer.run_cadence_validation() \u2014 frozen ratios vs baselines",
+    "value_prior": [
+      0.3269819022701742,
+      0.3477689141763011,
+      0.32524918355352467
+    ]
+  },
+  "working_tree_state": "dirty"
+}

@@ -700,3 +700,545 @@ synthetic sidecar, `commits[game_id]` → commit record),
 policy-supervision weights, `warmstart_seed.selected_decision_indices` as the
 decision-sampler contract, the 1,747,060 selected examples the sampler yields,
 and the three audit entry points. Agent 3 makes no new corpus decisions.
+
+## 3. Agent 3 — Training Examples, Targets, and Anti-Leak Audit
+
+**Status: PASS** — 23 / 23 completion gates true. Machine-readable record:
+`reports/phase_8_data/agent_03_example_contract.json` (schema, universe,
+determinism, throughput), `reports/phase_8_data/agent_03_target_audit.json`
+(every audit, the relocation verification, the Agent 4 handoff), and
+`reports/phase_8_data/agent_03_validation_baselines.json` (the frozen
+baselines). Produced by `scripts/run_phase8_agent03.py --full --run-pytest`
+(460.9 s end to end, 10 audit workers).
+
+### 3.0 Prerequisite: accepted-corpus relocation verification
+
+Before any Agent 3 work, the accepted Agent 2 corpus was verified at its
+newly established canonical storage location per the relocation addendum. The
+corpus had been manually relocated from
+`/Users/brandonwashington/Dev/stratego_phase8/…` (which no longer exists)
+into the project tree; the pointer file
+`data/warmstart_corpus_root.txt` was updated to the new canonical path and
+`.gitignore` gained `data/stratego_phase8/` so no corpus byte enters version
+control. Verification was strictly read-only on the corpus: a torn-tail scan
+proved every journal/metadata byte belongs to a fully parsed line, every
+payload and metadata record was re-hashed against the digests its commit
+journal recorded at generation time, the three corpus identity digests were
+recomputed at the new location, and reconciliation was run and proven a
+no-op (0 bytes discarded, 0 shards removed).
+
+```text
+accepted Agent 2 corpus relocated: YES
+relocation type: storage path only
+regeneration performed: NO
+corpus bytes intentionally modified: NO
+canonical location: /Users/brandonwashington/Dev/Github/stratego/gpt_agent/
+                        data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1
+resolver result: MATCH        (default_corpus_root() == canonical, via pointer_file)
+accepted corpus digests: MATCH
+    content digest        c95c3545…f87d0d   == accepted
+    metadata digest       1db0f02f…49c81bb  == accepted
+    commit-index digest   32e8e18d…c15db1   == accepted
+committed games: 28,000       (28,000 metadata / 28,000 payloads)
+split counts: 20,000 / 4,000 / 4,000
+integrity failures: 0         (0 duplicates, 0 orphans, 0 missing, 0 digest
+                               mismatches, 0 decode failures, 0 split
+                               violations, 0 unscheduled, 0 missing scheduled;
+                               100 cells exact at 200/40/40)
+```
+
+Git discipline: `data/stratego_phase8/` is ignored (the corpus tree produces
+zero `git status` entries) and the one-line pointer file remains tracked.
+Downstream code resolves the corpus exclusively through
+`synthetic_corpus.default_corpus_root()`; no Agent 3 module, test, or dataset
+component embeds the absolute path (only the acceptance harness pins it, as
+the addendum's expected value to verify against).
+
+One honest deviation from the addendum's text: it states the machine now has
+more than 250 GB of free internal storage; the measured free space at
+verification was **16.6 GB** (of 494.4 GB). This blocked nothing — the
+corpus is 353 MB, and Agent 3 materializes no observation tensors on disk —
+but the measured number is what the artifacts record
+(`relocation_verification.storage`), not the stated one.
+
+### 3.1 Prerequisites and pre-edit suite
+
+Agents 1 and 2 are both `PASS` with all gates true; the live contract digest
+equals Agent 1's recorded `7b6e7b27…58de`; the Agent 2 handoff's content
+digest equals the accepted value; `verify_frozen_upstream` and
+`verify_teacher_roster` report zero problems. Pre-edit suite at commit
+`eb730d4`, before any Agent 3 change:
+
+```text
+.venv/bin/python -m pytest tests -q
+3551 passed, 3 skipped, 0 failed in 224.38s
+```
+
+### 3.2 Implementation
+
+```text
+stratego/training/warmstart_examples.py    warmstart_example_v1 construction
+                                           + static/replay audits + teacher
+                                           reproduction + permutation trials
+stratego/training/warmstart_dataset.py     universe, frozen shuffle, cursor,
+                                           batch boundary, parallel loader,
+                                           throughput benchmark
+stratego/training/warmstart_baselines.py   the three frozen baselines +
+                                           game-level bootstrap
+```
+
+New versions introduced (both pure orderings over frozen identities):
+`warmstart_train_order_v1` — one `default_rng(train_order_seed(epoch))`
+permutation per epoch, batches as contiguous slices that never span an epoch
+boundary — and `warmstart_data_cursor_v1` — `(split, batch_size, epoch,
+position, order)` plus the example/order/sampler versions, refusing to resume
+across a version drift. Example reconstruction rides the accepted
+`reconstruction_v1` path (`iter_reconstructed_decisions`, dense masks), frame
+conversion is exclusively `stratego.model.action_frame`, belief labels are
+exclusively `dense_belief_target`, and the builder cross-checks the stored
+decision (legal set, acting player, action legality) against the replayed
+engine state before an example exists. 47 new regressions:
+`tests/training/test_warmstart_examples.py` (21),
+`tests/training/test_warmstart_targets.py` (19),
+`tests/information_security/test_warmstart_target_boundary.py` (7), over a
+six-game committed mini corpus covering all three weight classes and splits.
+
+### 3.3 The frozen selected-decision universe
+
+Enumerated from the frozen schedule and the commit journals alone (no payload
+decode), in schedule order, with `warmstart_decision_sampler_v1` selecting
+indices — independently reimplemented in the test suite from the written
+spec (raw blake2b, floor-arithmetic bins) and required equal:
+
+```text
+train        1,247,173 examples   digest cc2b2d51…451e50
+validation     249,963 examples   digest 9d2c897f…da58a5
+test           249,924 examples   digest 5d4fc399…549725c
+total        1,747,060            == Agent 2's accepted selected totals
+```
+
+Universe counts (full tables in `agent_03_example_contract.json`):
+
+```text
+by acting policy     171,724 strategic · 172,703 tactical · 174,130 basic ·
+                     175,495 random · 173,906–176,638 per stress policy
+policy-supervised    518,557 (train 370,008 / validation 74,287 / test 74,262)
+value-supervised     1,747,060 (every selected decision)
+belief pieces        47,851,420 supervised hidden-piece targets
+                     (train 34,158,783 / validation 6,842,062 / test 6,850,575)
+by progress bucket   q1 443,725 · q2 434,367 · q3 439,201 · q4 429,767
+                     (belief pieces thin toward the endgame:
+                      15.38M / 12.52M / 10.83M / 9.12M)
+by setup family      F00–F15 all represented (100,952–113,639 each)
+legal actions        mean 20.81, max 73 per decision
+```
+
+### 3.4 Exhaustive static + replay audit (all 28,000 games)
+
+Every selected decision of every committed game — 1,747,060 decisions, not a
+sample — passed the static audit: sampler selection recomputed from both the
+commit journal and the decoded record (equal, strictly increasing, ≤ 64,
+short games select everything), recorded action inside the stored
+(engine-verified) legal set, model-frame conversion inverting exactly,
+converted action inside the converted legal set, frozen weights exact by
+role (strategic/tactical 1.0, basic 0.5, random/stress 0.0, metadata
+agreeing), and the WIN/DRAW/LOSS mapping recomputed for every decision from
+the acting player and terminal result. In the same pass every game was
+linearly replayed through the engine: zero acting-player/ply drift, and at
+every selected decision the observable unresolved inventory (initial minus
+known, the observation's channels 56–67) was required to equal the privileged
+hidden-type composition — 1,747,060 identity checks, 0 mismatches, which is
+the fact the belief baseline stands on. Value-class totals per split:
+
+```text
+train        407,803 WIN / 433,728 DRAW / 405,642 LOSS   (sum exact)
+validation    81,436 / 87,424 / 81,103
+test          81,489 / 87,872 / 80,563
+```
+
+36.2 s at 10 workers. Color-inversion negatives are pinned in the test suite
+(`test_value_mapping_is_exact_for_both_colors`,
+`test_the_audit_catches_a_wrong_value_perspective`).
+
+### 3.5 Replay reconstruction audit (108,681 examples)
+
+A deterministic stride of 1,750 games (train 77,501 / validation 15,557 /
+test 15,623 examples — test parsed for structural target correctness only)
+was pushed through the full production path — snapshot restore, replay,
+observation, dense masks, belief labels — and every example audited against
+independently re-derived ground truth, deliberately through the *opposite*
+route wherever one exists: the mask conversion checked against the sorted
+list conversion and inverted back to the engine mask, belief squares
+re-derived by inverting `from_perspective` (the builder uses
+`to_perspective`), labels re-read square-by-square from privileged piece
+records, the belief mask required to equal the observation's
+hidden-occupancy plane exactly, and supervised squares required to carry no
+own/known/lake channel. **108,681 examples, 0 mismatches** (6.7 s at 10
+workers). With §3.4 this gives 1,747,060 static + 108,681 reconstruction
+audits against the ≥ 100,000 requirement.
+
+### 3.6 Direct teacher-decision reproduction (12,937 decisions)
+
+For a stride sample of games with at least one supervised side, the acting
+policy of each policy-supervised selected decision was re-invoked live: the
+game replayed to the pre-action state, `build_policy_input` given the
+recorded match seed from the metadata (`derive_decision_seed` re-derivation
+asserted), the policy's declared requirements honored, and
+`decide_checked` required to return the recorded action.
+
+```text
+strategic_rule_based   4,416 reproductions
+tactical_rule_based    4,154
+basic_heuristic        4,367
+total                 12,937   0 mismatches
+```
+
+A tampered-action negative control in the suite confirms a divergence would
+be reported, not repaired.
+
+### 3.7 Anti-leak: hidden-permutation trials and the batch boundary
+
+**Paired trials.** 27,469 valid paired trials (≥ 2 unresolved pieces; train +
+validation only) permuted unresolved opponent identities through the frozen
+Phase 2 `permute_hidden_identities` and rebuilt the full example from the
+permuted state: observation bytes, engine legal list, model-frame mask,
+model-frame action and belief *mask* identical in every trial — **0
+model-input mismatches** — while the privileged truth and belief labels
+changed in all 27,327 changed-assignment trials and never otherwise (0
+control failures; 765,887 hidden pieces covered). This is the
+training-pipeline boundary check, not a replacement for Phase 2's engine
+anti-leak gate.
+
+**Object-graph boundary.** `WarmstartBatch` separates `model_input()` — a
+bare observation tensor built from a fresh stack — from targets and
+identities. The boundary regression walks every data edge reachable from the
+model input (following tensor instance dictionaries, so nothing can ride on
+the tensor itself) and finds **zero strings**; three positive controls prove
+the walk works (the full batch object exposes identities; provenance planted
+on the tensor is found; a raw example object is found). Storage aliasing is
+also pinned: the model input shares memory with no target tensor and no
+example buffer.
+
+### 3.8 Frozen validation baselines (`warmstart_eval_v1`)
+
+Fitted and frozen before any training. The value prior comes from train
+selected examples only; validation reuses it. Intervals are game-level
+bootstrap (10,000 replicates, seed 2026081306, 4,000 games):
+
+```text
+value prior (train)    WIN 0.32698 / DRAW 0.34777 / LOSS 0.32525
+                       (draws are the modal outcome of the rule corpus)
+
+validation, point [95% CI]:
+policy   CE                3.1586  [3.1501, 3.1670]     74,287 examples,
+         expected top-1    0.04650 [0.04606, 0.04696]   weight sum 61,907.5
+value    CE                1.09802 [1.09706, 1.09900]   249,963 decisions
+         Brier             0.66627 [0.66562, 0.66693]
+         accuracy          0.34975 [0.33455, 0.36467]   (predicts DRAW)
+belief   CE                2.20840 [2.20612, 2.21063]   6,842,062 pieces
+         top-1 accuracy    0.20460 [0.20389, 0.20530]
+```
+
+Train-side reference (no CI): policy CE 3.1507, expected top-1 0.04705,
+value CE 1.09814. The belief marginal already beats a uniform 12-type prior
+(ln 12 = 2.4849), which is exactly why the acceptance gates ratio against
+*it* rather than uniform. **No baseline or model metric touched the test
+split**; test was parsed for structural target correctness only, and the
+model-selection seals of Agent 1's `check_test_corpus_access` were never
+exercised for anything else.
+
+### 3.9 Deterministic order, cursor, and worker independence
+
+The universe digests recompute identically; epoch permutations reproduce the
+frozen `train_order_seed(epoch)` stream exactly (epoch 0 head
+`[1096633 155034 50873 …]`, epoch 1 unrelated); a cursor restored after
+batch *n* reproduces batches *n+1…* key-for-key and byte-for-byte; batches
+never span an epoch boundary (train epoch = 4,872 batches of 256); and every
+benchmark configuration (1/2/4/8/10 workers) produced byte-identical batch
+digests — worker count, prefetch depth and completion timing appear nowhere
+in the batch identity, and worker arrival order is never the training order.
+Resume-cursor and worker/prefetch invariance are additionally pinned as
+regressions on the mini corpus.
+
+### 3.10 Dataset throughput
+
+Measured on the real corpus, batch 256, 24 batches per configuration, same
+logical batches everywhere (digest-verified identical):
+
+```text
+workers   examples/s   batch build p50/p95   arrival p50   CPU util
+   1          220        0.975 / 1.270 s       0.980 s        1.00
+   2          364        0.955 / 1.396 s       0.842 s        1.82
+   4          552        1.053 / 1.436 s       0.048 s        3.13
+   8          726        1.133 / 1.556 s       0.009 s        5.35
+  10          686        1.304 / 1.690 s       0.024 s        5.96
+
+random-access seek probe (512 samples): 14.85 actions replayed on average
+(max 31, interval 32), 0.62 ms mean / 0.97 ms p95 per cold decision.
+Peak RSS: parent ≤ 1.82 GB, largest worker 944 MB. Record cache 512 games.
+```
+
+**Honest finding for Agent 4:** peak measured feeding is ~726 examples/s at
+8 workers — below the ~3,000 examples/s Phase 6 standalone-C1 reference.
+A shuffled batch touches ~250 distinct games, so construction is dominated
+by per-game payload decode; scaling flattens near 8 workers and the 24-batch
+window still pays every worker's cold cache. If the real Agent 4 trainer
+consumes faster than the loader supplies, the recorded levers are: larger
+`record_cache_size` (hit rate scales with cache/20,000 games), more workers,
+deeper prefetch, or overlapping epochs — none of which may change batch
+identity, which the digest evidence makes checkable. The gate here is
+*measured*, not *matched*; the trainer-side number is Agent 4's to measure.
+
+### 3.11 What Agent 3 did not do
+
+No meaningful C1 training (no optimizer step anywhere); no model inference
+on any split; no test-split metric of any kind; no Phase 4 bank use; no
+engine, policy, library, sampler, corpus byte, or Phase 4/7 artifact
+modified; no corpus regeneration — the relocation was verified, never
+"repaired". The corpus manifest inside the corpus tree still records its
+generation-time storage path; it is part of the accepted historical record
+and was deliberately left untouched.
+
+### 3.12 Post-edit suite and completion gates
+
+```text
+.venv/bin/python -m pytest tests -q
+3598 passed, 3 skipped, 0 failed in 228.07s
+```
+
+3,551 pre-existing tests plus 47 new Agent 3 regressions, all green; the
+three skips are the same pre-existing PASS-gated skips. 23 / 23 completion
+gates true (recorded in both audit artifacts): corpus digests verified;
+relocation verified; universe deterministic and equal to the accepted
+totals; static audit covers the entire universe with zero mismatches; max-64
+contract exact; replay pass clean; inventory identity clean; reconstruction
+audit ≥ 100,000 with zero mismatches; teacher reproduction ≥ 10,000 with
+zero mismatches; value mapping exhaustive; anti-leak ≥ 25,000 valid trials
+with zero model-input mismatches and positive controls fired; validation
+baselines frozen; test model metrics not computed; shuffle/cursor
+deterministic; worker-count-independent batches; throughput measured; full
+suite green.
+
+### 3.13 Handoff to Agent 4
+
+In `agent_03_target_audit.json` → `handoff_to_agent_4`:
+`warmstart_example_v1` via `stratego.training.warmstart_dataset`
+(`WarmstartDataset` over `default_corpus_root()`, `universe(split)`,
+`epoch_order`, `DataCursor`/`plan_batches`/`iter_batches`,
+`iter_sequential(split)` for held-out passes,
+`WarmstartBatch.model_input()` as the model boundary), the baseline
+evaluators in `stratego.training.warmstart_baselines` with the frozen
+validation numbers above, the universe counts and digests, the measured
+throughput and its levers, and the anti-leak evidence. The resume cursor
+(`DataCursor.to_dict()`) is the data-cursor payload `warmstart_checkpoint_v1`
+must carry; restoring it reproduces the exact next batch, which is the
+property Agent 4's resume proof extends to the optimizer path.
+
+
+## 4. Agent 4 — MPS Trainer, Checkpoint/Resume, and Throughput Validation
+
+**Status: PASS** — 23 / 23 completion gates true (21 at first issue, plus the
+two acceptance-amendment gates added below).
+Machine-readable record: `reports/phase_8_data/agent_04_trainer_contract.json`
+(API, gates, benchmark, soak), `reports/phase_8_data/agent_04_training_benchmark.csv`
+(per-topology measurements), and `reports/phase_8_data/agent_04_resume_validation.json`
+(split-run equivalence evidence + the dual acceptance criteria). Produced by
+`python scripts/run_phase8_agent04.py --full --run-pytest` (verify +
+benchmark) and `… --resume-mps --resume-cpu --soak --artifacts --run-pytest
+--workers 12 --prefetch 2 --record-cache 512` (final resume/soak evidence —
+the first invocation was deliberately stopped mid-soak when the initial
+resume comparison proved to be measuring cross-process backend divergence
+rather than the resume boundary; see the artifact's deviations).
+
+**Acceptance amendment (reviewer-approved), applied by
+`… --amend-criterion --run-pytest`:** section 4.3 now records the original
+independent-run MPS allclose requirement and the approved backend-aware
+criterion as two separate results. The amendment is an artifact/report
+correction only — it re-ran no experiment, changed no trainer, loss,
+optimizer, model, corpus, dataset-order or acceptance-metric behaviour, and
+re-verified that all 16 measurements the approval rests on are still exactly
+as reported (a changed measurement voids the approval rather than inheriting
+it). The suite is unchanged at its steady state.
+
+### 4.0 Prerequisite: accepted-corpus identity through the resolver
+
+Per the supplementary review instruction, the accepted corpus was resolved
+exclusively through `synthetic_corpus.default_corpus_root()` before any
+trainer construction or optimizer step, in every process that trains
+(including each split-run subprocess):
+
+```text
+resolver result: MATCH   (pointer_file -> canonical location)
+required:  /Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1
+resolved:  identical (also equal to the repository-relative canonical path)
+content digest        c95c3545…87d0d   == accepted (Agents 2/3)
+metadata digest       1db0f02f…9c81bb  == accepted
+commit-index digest   32e8e18d…c15db1  == accepted
+payload bytes         re-verified against every committed digest (0 failures)
+verification cost     78.3s per verifying process
+```
+
+No trainer, checkpoint, dataset or downstream module embeds the absolute
+path; this harness alone pins it as the expected value to verify against.
+Checkpoints identify the corpus by **version + digests only**
+(`CorpusIdentity`); the resolved root is recorded as diagnostics and never
+compared, and `tests/training/test_warmstart_checkpoint.py` proves a pure
+relocation with identical digests keeps checkpoints resumable while any
+byte/journal drift is a BLOCKED stop, never a regeneration.
+
+### 4.1 Implementation
+
+```text
+stratego/training/warmstart_loss.py        warmstart_loss_v1 — frozen per-batch
+                                           normalizations over the frozen
+                                           stratego.model.losses primitives
+stratego/training/warmstart_metrics.py     warmstart_metrics_v1 — validation
+                                           vs the three frozen baselines,
+                                           per-game sufficient statistics
+stratego/training/warmstart_checkpoint.py  warmstart_checkpoint_v1 — atomic
+                                           writes, integrity digest, digest-only
+                                           corpus identity, evaluation-only load
+stratego/training/warmstart_trainer.py     warmstart_trainer_v1 — C1 float32
+                                           MPS trainer, AdamW + versioned
+                                           warmup, persistent ordered pipeline
+```
+
+The trainer constructs **only** Agent 1's six frozen pilot candidates
+(`WarmstartTrainConfig.from_pilot_candidate`); any off-matrix hyperparameter
+raises, and the suite proves it field by field. Losses are exactly the frozen
+semantics: weighted masked legal policy CE normalized by the weight sum
+(zero-weight batches contribute exactly 0 through a connected graph),
+mean WDL CE, hidden-only belief CE per supervised square. Illegal logits are
+replaced by the frozen −1e9 fill before normalization — the suite proves
+arbitrarily large illegal logits leave every loss bit unchanged — and an
+illegal teacher action raises. Gradient clipping records pre/post norms;
+per-batch reporting covers losses, supervision counts, legal-policy entropy,
+learning rate, gradient and parameter norms, per-phase times and data wait.
+61 new regressions: `test_warmstart_loss.py` (17),
+`test_warmstart_checkpoint.py` (23), `test_warmstart_trainer.py` (21), plus
+this three-artifact harness.
+
+### 4.2 Loader/trainer balance (benchmark on real reconstructed examples)
+
+Raw C1 float32 MPS compute at batch 256 is ~92 ms/update (~2,800 examples/s),
+so the reconstruction loader is the constraint. Starting from Agent 3's best
+topology (8 workers):
+
+```text
+baseline 8w/2p/512c    data wait 20.8% of wall — exceeds the frozen 15%
+tuned within the allowed knobs (workers / prefetch / record cache / overlap):
+recommended 12w/2p/512c   data wait 0.0%
+realistic recommended-topology throughput: 7.57 updates/s
+                                           1937 examples/s
+still data-bound after tuning: False
+batch identity across every measured topology: byte-for-byte identical
+observations materialized to disk: NO; frozen train order altered: NO
+one cadence validation (8 x 256 held-out examples): 1.5s
+```
+
+Every topology served bit-identical batches (full `batch_digest` equality
+against the baseline sequence), so tuning changed arrival times only.
+
+### 4.3 Resume equivalence (1,000-update split run)
+
+Uninterrupted 1,000 updates vs 400 + atomic checkpoint + **process destroyed**
++ reload in a fresh process + 600, both from the canonical C1 init through
+the frozen shuffle stream, validating every 500 updates.
+
+Two criteria are recorded separately, and neither should be read as the
+other. Full record: `acceptance_criteria` in
+`reports/phase_8_data/agent_04_resume_validation.json`.
+
+#### Original criterion — `independent_run_end_state_allclose_v1`: **NOT MET**
+
+The assignment asks for `torch.allclose(resumed, uninterrupted, rtol=1e-5,
+atol=1e-6)` on end-state parameters, comparing two **independently executed**
+runs. Measured result: **False**, end-state difference 1.854e-02.
+
+This criterion is **not attainable on this backend by any pair of separately
+executed 1,000-update runs, checkpointed or not**. The disproof is the
+no-checkpoint control pair — two fresh identical uninterrupted runs with no
+save or load anywhere — which diverges by 2.124e-02, the same order as
+the resumed run. An uninterrupted run therefore fails this criterion against
+itself, so the measurement reports backend run-to-run determinism rather than
+checkpoint fidelity. Nothing in the trainer, checkpoint, corpus, or data
+order was changed in response; only the measurement design was corrected.
+
+#### Approved criterion — `backend_aware_resume_equivalence_v1`: **PASS**
+
+Reviewer-approved backend-aware replacement, passing only while every
+measurement below remains exactly as Agent 4 reported
+(16/16 verified unchanged at amendment time).
+
+**Logical run — exactly equal on MPS at all 1,000 steps:**
+
+```text
+batch identities equal at every compared step   True (keys)
+batch bytes equal at every compared step        True (full tensor digests)
+exact next batch after resume (step 401)        True
+learning-rate trajectory equal                  True (every step)
+step/examples/cursor/scheduler/validation
+    cadence/optimizer structure/counters        True
+```
+
+**Numerical path.** On the deterministic CPU backend the cross-process split
+run is **bitwise exact** (100 updates split at 40, fixed thread count: every
+parameter `torch.equal`, max abs diff 0.0, against both the independent
+uninterrupted run and the donor continuation) — the checkpoint restores the
+complete numerical state. On MPS the resume boundary is isolated against the
+**donor**: the checkpoint-writing process's own continuation, which computes
+step 401 from bit-identical entry state.
+
+```text
+step-401 resumed vs donor, allclose(1e-5, 1e-6)  True  <- the ORIGINAL tolerances
+    max abs diff at that step                    1.863e-09   (resume roundtrip adds no jump)
+independent processes' divergence at the same
+    step (straight vs donor, no resume anywhere) 1.411e-04   (~10^5 x larger)
+end-of-run resumed vs donor                      1.982e-02
+backend's own fresh-vs-fresh end-of-run
+    envelope (no-checkpoint control pair)        2.124e-02
+resumed/control envelope ratio                   0.93 (gate: <= 10)
+```
+
+The step-401 result is the load-bearing one: at the resume boundary, with the
+comparison freed of independent-prefix drift, the resumed run meets the
+**original** tolerances with a difference five orders of magnitude below what
+two independent processes already show at the same step. The mini-corpus
+suite regression additionally proves bitwise-equal parameters *and* optimizer
+moments through save/destroy/reload on CPU.
+
+### 4.4 Numerical-stability soak (2048 updates, MPS)
+
+One neutral frozen candidate (`ws_pilot_lr3e-4_balanced`: median frozen learning
+rate, balanced profile — an infrastructure choice, not a selection):
+
+```text
+optimizer updates                 2048
+non-finite losses                 0
+non-finite gradients              0
+non-finite parameters             0
+illegal targets                   0
+data mismatches                   0
+checkpoint errors                 0
+checkpoints written + validated   4 (+ reload-consistency proof)
+loss trend (descriptive only)     total 6.437 -> 4.584
+```
+
+Loss trends are recorded descriptively; nothing here chose a configuration.
+
+### 4.5 Held-out discipline
+
+Training reads the train split through the frozen cursor; validation reads
+the validation split through its own dataset instance and a fresh sequential
+cursor under `no_grad`, restores model mode, and is proven side-effect-free
+(parameters, optimizer moments, scheduler, cursor and counters bit-identical
+before/after in the suite). The sealed test split is refused by the frozen
+`check_test_corpus_access` gate (regression-tested); no Phase 4 bank access
+of any kind occurred. Pilot selection has not begun.
+
+### 4.6 Suite
+
+Pre-edit: `3598 passed, 3 skipped` at `eb730d4` (dirty tree carrying accepted
+Agent 3 work). Post-implementation: `3660 passed, 3 skipped`. Steady state
+after the acceptance amendment (artifact/report correction only — no trainer,
+test, or experiment change): `3660 passed, 3 skipped in 231.45s (0:03:51)`.

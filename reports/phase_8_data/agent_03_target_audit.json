@@ -1,0 +1,281 @@
+{
+  "agent": 3,
+  "antileak_trials": {
+    "changed_trials": 27327,
+    "control_failures": 0,
+    "hidden_pieces": 765887,
+    "mechanism": "stratego.engine.permutation.permute_hidden_identities",
+    "model_input_mismatches": [],
+    "splits": [
+      "train",
+      "validation"
+    ],
+    "valid_trials": 27469
+  },
+  "artifact": "agent_03_target_audit",
+  "boundary_regression": "tests/information_security/test_warmstart_target_boundary.py \u2014 object-graph walk from WarmstartBatch.model_input() reaches no privileged value, with three positive controls",
+  "commands": [
+    "python scripts/run_phase8_agent03.py --full --run-pytest"
+  ],
+  "completion_gates": {
+    "agent_2_corpus_digests_verified": true,
+    "antileak_positive_controls_fired": true,
+    "antileak_target_met": true,
+    "antileak_zero_model_input_mismatches": true,
+    "full_suite_green": true,
+    "inventory_identity_zero_mismatches": true,
+    "max_64_decisions_per_game_exact": true,
+    "reconstruction_audit_target_met": true,
+    "reconstruction_audit_zero_mismatches": true,
+    "relocation_verified": true,
+    "replay_pass_zero_problems": true,
+    "shuffle_cursor_deterministic": true,
+    "static_audit_covers_universe": true,
+    "static_audit_zero_mismatches": true,
+    "teacher_reproduction_target_met": true,
+    "teacher_reproduction_zero_mismatches": true,
+    "test_model_metrics_not_computed": true,
+    "throughput_measured": true,
+    "universe_deterministic": true,
+    "universe_matches_accepted_totals": true,
+    "validation_baselines_frozen": true,
+    "value_mapping_exhaustive": true,
+    "worker_count_independent_batches": true
+  },
+  "deviations": [
+    "the relocation addendum's '>250 GB free' statement did not match the measured machine state; actual free space at verification is recorded in relocation_verification.storage and was sufficient for Agent 3"
+  ],
+  "durations": {
+    "antileak_trials": 12.643,
+    "baselines": 0.823,
+    "prerequisites": 0.147,
+    "pytest": 228.85,
+    "reconstruction_audit": 6.656,
+    "relocation_verification": 82.255,
+    "static_replay_audit": 36.151,
+    "teacher_reproduction": 3.663,
+    "throughput_benchmark": 80.143,
+    "universe_and_determinism": 9.387
+  },
+  "gates_total": 23,
+  "gates_true": 23,
+  "handoff_to_agent_4": {
+    "anti_leak_evidence": "antileak_trials + boundary_regression above",
+    "baseline_evaluators": "stratego.training.warmstart_baselines",
+    "dataset": "stratego.training.warmstart_dataset",
+    "example_version": "warmstart_example_v1",
+    "measured_throughput": {
+      "best_examples_per_second": 726.3699559484947,
+      "best_workers": 8
+    },
+    "resume_cursor_api": "DataCursor.to_dict() inside warmstart_checkpoint_v1",
+    "selected_examples": {
+      "test": 249924,
+      "train": 1247173,
+      "validation": 249963
+    },
+    "train_order_api": "epoch_order / DataCursor / plan_batches / iter_batches",
+    "validation_baselines": "reports/phase_8_data/agent_03_validation_baselines.json"
+  },
+  "mps_available": true,
+  "mps_built": true,
+  "phase": 8,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisite_digests": {
+    "agent_01_contract": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de",
+    "corpus_commit_index": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+    "corpus_content": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "corpus_metadata": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "prerequisite_versions": {
+    "corpus": "synthetic_warmstart_corpus_v1",
+    "data_cursor": "warmstart_data_cursor_v1",
+    "decision_sampler": "warmstart_decision_sampler_v1",
+    "eval": "warmstart_eval_v1",
+    "example": "warmstart_example_v1",
+    "train_order": "warmstart_train_order_v1",
+    "warmstart_training_contract": "warmstart_training_contract_v1"
+  },
+  "prerequisites": {
+    "agent_01_status": "PASS",
+    "agent_02_content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "agent_02_gates_true": true,
+    "agent_02_status": "PASS",
+    "contract_digest_matches": true,
+    "live_contract_digest": "7b6e7b27137bc3c76f203b376fac62d2e12dbf42d63360fe0c3f3068eed258de",
+    "prerequisites_met": true,
+    "roster_problems": [],
+    "upstream_problems": []
+  },
+  "problems": [],
+  "python_version": "3.13.2",
+  "reconstruction_audit": {
+    "audited": 108681,
+    "checks_per_example": [
+      "engine legal set equals the stored one",
+      "recorded action legal on replay",
+      "model action inverse-converts to the absolute action",
+      "model mask equals the converted legal list and inverts back",
+      "belief labels re-derived from privileged piece records",
+      "belief mask equals the hidden-occupancy observation channel",
+      "value mapping recomputed",
+      "frozen supervision weight recomputed"
+    ],
+    "games": 1750,
+    "observation_checks": 108681,
+    "per_split": {
+      "test": 15623,
+      "train": 77501,
+      "validation": 15557
+    },
+    "problems": []
+  },
+  "relocation_verification": {
+    "accepted_digests": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "canonical_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "digests_match": true,
+    "git": {
+      "corpus_tree_ignored": true,
+      "corpus_tree_status_entries": "",
+      "pointer_file_tracked": true
+    },
+    "integrity": {
+      "committed_count": 28000,
+      "duplicate_committed_ids": 0,
+      "duplicate_metadata_ids": 0,
+      "duplicate_payload_ids": 0,
+      "metadata_count": 28000,
+      "metadata_digest_mismatches": 0,
+      "missing_metadata_records": 0,
+      "missing_trajectory_payloads": 0,
+      "orphan_metadata_records": 0,
+      "orphan_trajectory_records": 0,
+      "payload_count": 28000,
+      "payload_decode_failures": 0,
+      "split_placement_violations": 0,
+      "trajectory_digest_mismatches": 0
+    },
+    "observed_digests": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "problems": [],
+    "reconciliation": {
+      "bytes_discarded": 0,
+      "committed_count": 28000,
+      "duplicate_committed_ids": 0,
+      "shards_removed": []
+    },
+    "record": {
+      "accepted Agent 2 corpus relocated": "YES",
+      "accepted corpus digests": "MATCH",
+      "canonical location": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "committed games": 28000,
+      "corpus bytes intentionally modified": "NO",
+      "integrity failures": 0,
+      "regeneration performed": "NO",
+      "relocation type": "storage path only",
+      "resolver result": "MATCH",
+      "split counts": "20,000 / 4,000 / 4,000"
+    },
+    "resolver": {
+      "environment_value": "",
+      "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+      "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1",
+      "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "source": "pointer_file"
+    },
+    "resolver_matches_canonical": true,
+    "schedule": {
+      "cells": 100,
+      "cells_with_wrong_count": 0,
+      "games_per_cell": {
+        "test": 40,
+        "train": 200,
+        "validation": 40
+      },
+      "missing_scheduled_games": 0,
+      "unscheduled_committed_games": 0
+    },
+    "split_counts": {
+      "test": 4000,
+      "train": 20000,
+      "validation": 4000
+    },
+    "storage": {
+      "free_bytes": 16639184896,
+      "total_bytes": 494384795648
+    },
+    "torn_tails": [],
+    "verified": true
+  },
+  "seeds": {
+    "antileak_rng": "random.Random(f'ws8-antileak:{game_id}')",
+    "validation_bootstrap_seed": 2026081306
+  },
+  "source_revision": "eb730d4",
+  "static_audit": {
+    "games": 28000,
+    "inventory_identity_checks": 1747060,
+    "inventory_identity_mismatches": 0,
+    "problems": [],
+    "replay_problems": [],
+    "selected_decisions_checked": 1747060,
+    "value_counts_by_split": {
+      "test": [
+        81489,
+        87872,
+        80563
+      ],
+      "train": [
+        407803,
+        433728,
+        405642
+      ],
+      "validation": [
+        81436,
+        87424,
+        81103
+      ]
+    }
+  },
+  "status": "PASS",
+  "teacher_reproduction": {
+    "by_policy": {
+      "basic_heuristic": 4367,
+      "strategic_rule_based": 4416,
+      "tactical_rule_based": 4154
+    },
+    "mismatches": [],
+    "reproduced": 12937
+  },
+  "tests_after": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 3598,
+    "returncode": 0,
+    "seconds": 228.85,
+    "skipped": 3,
+    "summary": "3598 passed, 3 skipped in 228.07s (0:03:48)"
+  },
+  "tests_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "eb730d4",
+    "passed": 3551,
+    "seconds": 224.38,
+    "skipped": 3,
+    "summary": "3551 passed, 3 skipped in 224.38s (0:03:44)"
+  },
+  "timestamp": "2026-08-15T14:08:12-0400",
+  "torch_version": "2.13.0",
+  "total_seconds": 460.951,
+  "working_tree_state": "dirty"
+}
