@@ -1,0 +1,257 @@
+{
+  "acceptance_thresholds": {
+    "belief_learning": {
+      "ce_ratio_vs_remaining_count_prior_max": 0.98,
+      "population": "hidden-only sealed test targets",
+      "top1_must_beat_remaining_count_prior": true
+    },
+    "development_budget": {
+      "final_run_optimizer_steps_max": 25000,
+      "pilot_candidates_max": 6,
+      "pilot_updates_per_config_max": 5000
+    },
+    "improvement_over_initialization": {
+      "effective_win_rate_min": 0.7,
+      "games_min": 1024,
+      "opponent": "canonical untrained C1: build_candidate_model('C1', seed=2026081302)",
+      "paired_bootstrap_lower_bound_exclusive": 0.55,
+      "paired_setup_cases_min": 512
+    },
+    "playing_strength_vs_random": {
+      "blue_effective_win_rate_min": 0.9,
+      "effective_win_rate_min": 0.95,
+      "evaluation_pairs": 1024,
+      "games": 2048,
+      "illegal_moves_max": 0,
+      "model_failures_max": 0,
+      "non_finite_outputs_max": 0,
+      "opponent": "random_legal (frozen Phase 4 random tier)",
+      "paired_bootstrap_lower_bound_exclusive": 0.9,
+      "red_effective_win_rate_min": 0.9,
+      "setup_bank": "evaluation_setup_bank_v1",
+      "setup_bank_digest": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266"
+    },
+    "policy_learning": {
+      "ce_ratio_vs_uniform_legal_max": 0.9,
+      "population": "sealed synthetic test examples",
+      "top1_must_beat_uniform_expected_top1": true
+    },
+    "stability": {
+      "finite_logits_fraction_required": 1.0,
+      "fraction_above_threshold_max_exclusive": 0.95,
+      "max_legal_probability_threshold": 0.999,
+      "report": "normalized legal-action entropy distribution"
+    },
+    "statistics": {
+      "bootstrap_unit": "game",
+      "confidence": 0.95,
+      "replicates": 10000
+    },
+    "value_learning": {
+      "brier_must_beat_train_prior": true,
+      "ce_ratio_vs_train_prior_max": 0.98,
+      "population": "sealed synthetic test examples"
+    }
+  },
+  "agent": 7,
+  "artifact": "agent_07_final_acceptance",
+  "commands": [
+    "python scripts/run_phase8_agent07.py --full --run-pytest"
+  ],
+  "completion_gates": {
+    "checkpoint_identity_verified": true,
+    "corpus_digests_match_accepted": true,
+    "corpus_resolved_through_resolver": true,
+    "discipline_agent_6_used_train_validation_only": true,
+    "discipline_candidate_count_at_most_6": true,
+    "discipline_final_checkpoint_selected_by_validation_only": true,
+    "discipline_final_run_from_canonical_fresh_initialization": true,
+    "discipline_frozen_sealing_gates_still_refuse_pre_agent_7_access": true,
+    "discipline_phase4_neural_games_before_agent_7_zero": true,
+    "discipline_pilot_used_train_validation_only": true,
+    "discipline_test_model_inference_before_agent_7_zero": true,
+    "evaluation_export_bitwise_faithful": true,
+    "heldout_belief_ce_ratio_at_most_0_98": true,
+    "heldout_belief_top1_beats_remaining_count_prior": true,
+    "heldout_collapse_fraction_below_0_95": true,
+    "heldout_non_finite_logits_zero": true,
+    "heldout_policy_ce_ratio_at_most_0_90": true,
+    "heldout_policy_top1_beats_uniform_expected": true,
+    "heldout_value_brier_beats_train_prior": true,
+    "heldout_value_ce_ratio_at_most_0_98": true,
+    "no_decision_time_search": true,
+    "no_learned_setup_selection": true,
+    "no_phase9_selfplay_or_rl": true,
+    "prerequisites_agents_1_to_6_pass": true,
+    "random_all_setup_pairs_played": true,
+    "random_blue_effective_win_rate_at_least_0_900": true,
+    "random_effective_win_rate_at_least_0_950": true,
+    "random_games_played": true,
+    "random_illegal_actions_zero": true,
+    "random_model_failures_zero": true,
+    "random_no_worker_imported_torch": true,
+    "random_no_worker_loaded_a_checkpoint": true,
+    "random_non_finite_outputs_zero": true,
+    "random_paired_bootstrap_lower_bound_above_0_900": true,
+    "random_red_effective_win_rate_at_least_0_900": true,
+    "upstream_identities_unchanged": true,
+    "vs_init_at_least_1024_games": true,
+    "vs_init_at_least_512_paired_cases": true,
+    "vs_init_effective_win_rate_at_least_0_700": true,
+    "vs_init_model_failures_zero": true,
+    "vs_init_non_finite_outputs_zero": true,
+    "vs_init_paired_bootstrap_lower_bound_above_0_550": true
+  },
+  "cpu_count": 14,
+  "deviations": [
+    {
+      "what": "final-vs-initialisation games run through play_match with two in-process inference owners instead of run_neural_schedule",
+      "why": "run_neural_schedule serves exactly one neural side per schedule by design; the decision rules, engine authority and pairing semantics are the accepted ones"
+    }
+  ],
+  "durations": {
+    "export": 0.106,
+    "random_gate": 1309.95,
+    "test_metrics": 123.532,
+    "tiers": 1523.349,
+    "verify": 81.732,
+    "vs_init": 1463.774
+  },
+  "files_created": [
+    "scripts/run_phase8_agent07.py",
+    "tests/training/test_phase8_agent07_artifacts.py",
+    "reports/phase_8_data/agent_07_heldout_metrics.json",
+    "reports/phase_8_data/agent_07_random_evaluation.json",
+    "reports/phase_8_data/agent_07_final_acceptance.json",
+    "reports/phase_8_data/agent_07_phase9_handoff.json"
+  ],
+  "files_modified": [
+    "reports/phase_8_implementation_report.md"
+  ],
+  "formal_acceptance": "the reviewing chat formally accepts or rejects Phase 8",
+  "gates_total": 42,
+  "gates_true": 42,
+  "headline_results": {
+    "random_ci_lower": 0.948486328125,
+    "random_effective_win_rate": 0.956787109375,
+    "test_belief_ce_ratio": 0.9204747046629422,
+    "test_belief_top1": 0.27628644310879014,
+    "test_policy_ce_ratio": 0.4156596620090182,
+    "test_policy_top1": 0.5145466300307096,
+    "test_value_brier": 0.3068488180596921,
+    "test_value_ce_ratio": 0.47373289047520506,
+    "vs_init_ci_lower": 0.904296875,
+    "vs_init_effective_win_rate": 0.9169921875
+  },
+  "mps_available": true,
+  "mps_built": true,
+  "phase": 8,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisite_digests": {
+    "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "canonical_untrained_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+    "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "phase4_bank": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "phase7_library": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "train_config_document": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+    "trainer_runtime_identity": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+  },
+  "prerequisite_versions": {
+    "corpus": "synthetic_warmstart_corpus_v1",
+    "decision_sampler": "warmstart_decision_sampler_v1",
+    "eval": "warmstart_eval_v1",
+    "example": "warmstart_example_v1",
+    "model_contract": "model_contract_v2",
+    "observation": "observation_v2_1_127ch",
+    "phase_4_bank": "evaluation_setup_bank_v1",
+    "reference_engine": "phase2_1_reference_1.2.0",
+    "rules": "stratego_project_v1",
+    "train_config": "warmstart_train_config_v1"
+  },
+  "problems": [],
+  "python_version": "3.13.2",
+  "recommendation": "PASS",
+  "seeds": {
+    "canonical_c1_init_seed": 2026081302,
+    "playing_strength_bootstrap_base_seed": 20260403,
+    "test_bootstrap_seed": 2026081307
+  },
+  "source_revision": "53050b9",
+  "status": "PASS",
+  "suite_green_after": true,
+  "tests_after": {
+    "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 3774,
+    "returncode": 0,
+    "seconds": 228.088,
+    "skipped": 26,
+    "summary": "3774 passed, 26 skipped in 226.95s (0:03:46)"
+  },
+  "tests_after_steady_state": {
+    "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 3797,
+    "returncode": 0,
+    "seconds": 227.033,
+    "skipped": 3,
+    "summary": "3797 passed, 3 skipped in 225.95s (0:03:45)"
+  },
+  "tests_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "53050b9",
+    "passed": 3774,
+    "seconds": 225.01,
+    "skipped": 3,
+    "summary": "3774 passed, 3 skipped in 225.01s (0:03:45)"
+  },
+  "timestamp": "2026-08-15T23:52:15-0400",
+  "torch_version": "2.13.0",
+  "training_discipline_audit": {
+    "agent_6_used_train_and_validation_only": {
+      "test_examples_evaluated_by_model": 0
+    },
+    "agent_7_test_access": {
+      "purpose": "final_evaluation, authorized for Agent 7 by the frozen gate",
+      "test_examples_evaluated_by_model": 249924
+    },
+    "candidate_count": {
+      "considered": 6,
+      "limit": 6
+    },
+    "final_checkpoint_selected_by_validation_only": {
+      "phase4_strength_used": false,
+      "selection_protocol": {
+        "batch_size": 256,
+        "phase4_strength_used": false,
+        "rule": "strictly lowest validation selection_score wins",
+        "split": "validation",
+        "test_split_used": false,
+        "validation_batches": 64,
+        "validation_selection": "evenly_spread_v1"
+      },
+      "test_split_used": false
+    },
+    "final_run_started_from_canonical_fresh_initialization": {
+      "agent_7_reverified_reconstruction": true,
+      "expected_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+      "gate_in_agent_6": true
+    },
+    "phase4_neural_games_before_agent_7": 0,
+    "pilot_used_train_and_validation_only": {
+      "measured_boundary": "WarmstartBatch.model_input, instrumented",
+      "per_candidate_test_examples": {
+        "ws_pilot_lr1e-3_balanced": 0,
+        "ws_pilot_lr1e-3_policy_led": 0,
+        "ws_pilot_lr1e-4_balanced": 0,
+        "ws_pilot_lr1e-4_policy_led": 0,
+        "ws_pilot_lr3e-4_balanced": 0,
+        "ws_pilot_lr3e-4_policy_led": 0
+      },
+      "test_examples_evaluated_by_model_agent_5": 0
+    },
+    "test_model_inference_before_agent_7": 0
+  },
+  "working_tree_state": "dirty"
+}

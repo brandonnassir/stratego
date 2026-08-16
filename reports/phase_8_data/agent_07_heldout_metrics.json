@@ -1,0 +1,847 @@
+{
+  "agent": 7,
+  "artifact": "agent_07_heldout_metrics",
+  "authorized_access": {
+    "gate": "stratego.training.warmstart_contract.check_test_corpus_access",
+    "phase8_agent": 7,
+    "purpose": "final_evaluation",
+    "resource": "test_corpus"
+  },
+  "belief_breakdown": {
+    "counts_by_true_type": {
+      "bomb": 1262185,
+      "captain": 677835,
+      "colonel": 350553,
+      "flag": 249924,
+      "general": 169465,
+      "lieutenant": 680747,
+      "major": 534875,
+      "marshal": 169392,
+      "miner": 915467,
+      "scout": 973233,
+      "sergeant": 676000,
+      "spy": 190899
+    },
+    "metrics_by_progress_bucket": {
+      "0.00-0.25": {
+        "baseline_ce": 2.2702587614079084,
+        "baseline_top1": 0.1858778577062224,
+        "model_ce": 2.184108839811485,
+        "model_top1": 0.2311093563859086,
+        "pieces": 2185844
+      },
+      "0.25-0.50": {
+        "baseline_ce": 2.228764050484177,
+        "baseline_top1": 0.19832045612097823,
+        "model_ce": 2.057678995198974,
+        "model_top1": 0.27093046305328244,
+        "pieces": 1785842
+      },
+      "0.50-0.75": {
+        "baseline_ce": 2.1789370640341845,
+        "baseline_top1": 0.2134292690192929,
+        "model_ce": 1.948297910318298,
+        "model_top1": 0.302550369473282,
+        "pieces": 1544090
+      },
+      "0.75-1.00": {
+        "baseline_ce": 2.1256981642101347,
+        "baseline_top1": 0.22849357843390652,
+        "model_ce": 1.8601880857514352,
+        "model_top1": 0.3270514886511003,
+        "pieces": 1334799
+      }
+    },
+    "metrics_by_true_type": {
+      "bomb": {
+        "baseline_ce": 1.652491885353674,
+        "baseline_top1": 0.5225256202537663,
+        "model_ce": 1.2823842195040176,
+        "model_top1": 0.6760791801518795,
+        "pieces": 1262185
+      },
+      "captain": {
+        "baseline_ce": 2.2505313638465196,
+        "baseline_top1": 0.010880228964275967,
+        "model_ce": 2.206387884318149,
+        "model_top1": 0.07721938229805189,
+        "pieces": 677835
+      },
+      "colonel": {
+        "baseline_ce": 2.838024731046884,
+        "baseline_top1": 0.0010383593921603866,
+        "model_ce": 2.765338735437691,
+        "model_top1": 0.010363625471754628,
+        "pieces": 350553
+      },
+      "flag": {
+        "baseline_ce": 3.2283932725395936,
+        "baseline_top1": 0.002472751716521823,
+        "model_ce": 2.4855638554530946,
+        "model_top1": 0.08737056065043773,
+        "pieces": 249924
+      },
+      "general": {
+        "baseline_ce": 3.3862208415577757,
+        "baseline_top1": 0.00021833416929749506,
+        "model_ce": 3.1773817154702915,
+        "model_top1": 0.004284070457026524,
+        "pieces": 169465
+      },
+      "lieutenant": {
+        "baseline_ce": 2.241884173226026,
+        "baseline_top1": 0.012699284756304472,
+        "model_ce": 2.1880574415095295,
+        "model_top1": 0.062422603404789154,
+        "pieces": 680747
+      },
+      "major": {
+        "baseline_ce": 2.469083466258666,
+        "baseline_top1": 0.003337228324374854,
+        "model_ce": 2.4599952512641807,
+        "model_top1": 0.02107782192100958,
+        "pieces": 534875
+      },
+      "marshal": {
+        "baseline_ce": 3.38641829150219,
+        "baseline_top1": 0.0001003589307641447,
+        "model_ce": 3.2450517151064333,
+        "model_top1": 0.005921176915084538,
+        "pieces": 169392
+      },
+      "miner": {
+        "baseline_ce": 1.9666419757849354,
+        "baseline_top1": 0.10436312832685395,
+        "model_ce": 1.8055458295726878,
+        "model_top1": 0.28287966688040095,
+        "pieces": 915467
+      },
+      "scout": {
+        "baseline_ce": 1.8236239959552245,
+        "baseline_top1": 0.6281959201958832,
+        "model_ce": 1.6544801403564042,
+        "model_top1": 0.6005067645671694,
+        "pieces": 973233
+      },
+      "sergeant": {
+        "baseline_ce": 2.2471844713734495,
+        "baseline_top1": 0.013815088757396449,
+        "model_ce": 2.148865586074523,
+        "model_top1": 0.091198224852071,
+        "pieces": 676000
+      },
+      "spy": {
+        "baseline_ce": 3.367998807313042,
+        "baseline_top1": 0.002042965128156774,
+        "model_ce": 3.2801254136151106,
+        "model_top1": 0.0053745697986893595,
+        "pieces": 190899
+      }
+    },
+    "progress_bucket_definition": "decision_index / max(total_decisions - 1, 1) of the decision's own game, quartile buckets"
+  },
+  "bootstrap": {
+    "confidence": 0.95,
+    "intervals": {
+      "belief_ce_ratio": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.919320999403308,
+        "point": 0.9204747046629346,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.9216254396516627
+      },
+      "belief_top1_minus_baseline": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.07152072564446771,
+        "point": 0.0726515657444813,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.0737902538584989
+      },
+      "policy_ce_ratio": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.4120607033359415,
+        "point": 0.4156596620090178,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.419284824789185
+      },
+      "policy_top1": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.5101014274868367,
+        "point": 0.5145466300307096,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.5189377559937177
+      },
+      "policy_top1_minus_expected": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.4637358532338408,
+        "point": 0.4681622532276262,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.4724934093572386
+      },
+      "value_accuracy": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.7701487969584517,
+        "point": 0.7787767481314319,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.78720597148717
+      },
+      "value_brier_margin_baseline_minus_model": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.3487376191470523,
+        "point": 0.3593346605041782,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.36974963248578635
+      },
+      "value_ce_ratio": {
+        "confidence": 0.95,
+        "eval_version": "warmstart_eval_v1",
+        "games": 4000,
+        "lower": 0.45818852509487673,
+        "point": 0.4737328904752194,
+        "replicates": 10000,
+        "seed": 2026081307,
+        "upper": 0.48963066653906817
+      }
+    },
+    "replicates": 10000,
+    "seed": 2026081307,
+    "unit": "game"
+  },
+  "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+  "commands": [
+    "python scripts/run_phase8_agent07.py --full --run-pytest"
+  ],
+  "cpu_count": 14,
+  "device": "mps",
+  "durations": {
+    "export": 0.106,
+    "random_gate": 1309.95,
+    "test_metrics": 123.532,
+    "tiers": 1523.349,
+    "verify": 81.732,
+    "vs_init": 1463.774
+  },
+  "eval_version": "warmstart_eval_v1",
+  "family_stratification": {
+    "by_family": {
+      "F00": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20847356591646585,
+          "ce_ratio": 0.9124302429814266,
+          "pieces": 431129,
+          "top1": 0.2870231415655175
+        },
+        "examples": 16480,
+        "game_sides": 497,
+        "policy": {
+          "ce_ratio": 0.4141168801699554,
+          "examples": 5069,
+          "expected_top1": 0.043970922786588956,
+          "top1": 0.5156977438223708
+        },
+        "value": {
+          "accuracy": 0.7683859223300971,
+          "baseline_brier": 0.6640046373404483,
+          "brier": 0.32181723083279684,
+          "ce_ratio": 0.49674778370669453
+        }
+      },
+      "F01": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2073193927793227,
+          "ce_ratio": 0.9144847285977313,
+          "pieces": 415335,
+          "top1": 0.2825454151468092
+        },
+        "examples": 15714,
+        "game_sides": 480,
+        "policy": {
+          "ce_ratio": 0.41730729001355077,
+          "examples": 4726,
+          "expected_top1": 0.04419446600511949,
+          "top1": 0.5126598465473146
+        },
+        "value": {
+          "accuracy": 0.8053328242331679,
+          "baseline_brier": 0.6661433511665273,
+          "brier": 0.28269034466806287,
+          "ce_ratio": 0.4531855297909156
+        }
+      },
+      "F02": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20510935532421634,
+          "ce_ratio": 0.9203769200596764,
+          "pieces": 431209,
+          "top1": 0.2770327149943531
+        },
+        "examples": 15874,
+        "game_sides": 487,
+        "policy": {
+          "ce_ratio": 0.4233498848414379,
+          "examples": 4966,
+          "expected_top1": 0.04425559722928367,
+          "top1": 0.49654491609081935
+        },
+        "value": {
+          "accuracy": 0.7960816429381379,
+          "baseline_brier": 0.6640986103147453,
+          "brier": 0.28410902222637935,
+          "ce_ratio": 0.44375188277962935
+        }
+      },
+      "F03": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2037886927313647,
+          "ce_ratio": 0.920839019094412,
+          "pieces": 442105,
+          "top1": 0.27544814014770247
+        },
+        "examples": 16159,
+        "game_sides": 499,
+        "policy": {
+          "ce_ratio": 0.419229404126169,
+          "examples": 4768,
+          "expected_top1": 0.04612051853966551,
+          "top1": 0.5114860480207657
+        },
+        "value": {
+          "accuracy": 0.756791880685686,
+          "baseline_brier": 0.6672249018263215,
+          "brier": 0.32357910583622135,
+          "ce_ratio": 0.48746790806956575
+        }
+      },
+      "F04": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2023150127111971,
+          "ce_ratio": 0.9250047008267767,
+          "pieces": 444490,
+          "top1": 0.27135368624715966
+        },
+        "examples": 15897,
+        "game_sides": 497,
+        "policy": {
+          "ce_ratio": 0.4175135985146284,
+          "examples": 5044,
+          "expected_top1": 0.046913342084157844,
+          "top1": 0.5111026999747665
+        },
+        "value": {
+          "accuracy": 0.7892684154242939,
+          "baseline_brier": 0.6667597624675208,
+          "brier": 0.29493433486457327,
+          "ce_ratio": 0.45289048198006315
+        }
+      },
+      "F05": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.202638067862566,
+          "ce_ratio": 0.9218253061909861,
+          "pieces": 430694,
+          "top1": 0.2738580059160332
+        },
+        "examples": 15559,
+        "game_sides": 479,
+        "policy": {
+          "ce_ratio": 0.4155827578677399,
+          "examples": 4529,
+          "expected_top1": 0.04675082453918357,
+          "top1": 0.515646074993256
+        },
+        "value": {
+          "accuracy": 0.7689440195385308,
+          "baseline_brier": 0.665299507087394,
+          "brier": 0.3148157397006436,
+          "ce_ratio": 0.47773486768651224
+        }
+      },
+      "F06": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20286971754099076,
+          "ce_ratio": 0.9180480177041157,
+          "pieces": 412166,
+          "top1": 0.27801419816287615
+        },
+        "examples": 15065,
+        "game_sides": 454,
+        "policy": {
+          "ce_ratio": 0.4267886454651241,
+          "examples": 4428,
+          "expected_top1": 0.048844459105874156,
+          "top1": 0.5205203862660944
+        },
+        "value": {
+          "accuracy": 0.7808828410222369,
+          "baseline_brier": 0.667314756953044,
+          "brier": 0.29930640819449733,
+          "ce_ratio": 0.46296163964124715
+        }
+      },
+      "F07": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2004814313658806,
+          "ce_ratio": 0.9193340340843418,
+          "pieces": 414597,
+          "top1": 0.2774405024638384
+        },
+        "examples": 14583,
+        "game_sides": 454,
+        "policy": {
+          "ce_ratio": 0.42756530064884507,
+          "examples": 3888,
+          "expected_top1": 0.05242175218558461,
+          "top1": 0.5173248600393403
+        },
+        "value": {
+          "accuracy": 0.7895494754165809,
+          "baseline_brier": 0.6657717788340367,
+          "brier": 0.2920041968478114,
+          "ce_ratio": 0.44528530015978063
+        }
+      },
+      "F08": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20379075757400755,
+          "ce_ratio": 0.921552947490382,
+          "pieces": 432895,
+          "top1": 0.2766767922937433
+        },
+        "examples": 15863,
+        "game_sides": 498,
+        "policy": {
+          "ce_ratio": 0.40503985024806677,
+          "examples": 4693,
+          "expected_top1": 0.04466068232179659,
+          "top1": 0.5207373271889401
+        },
+        "value": {
+          "accuracy": 0.7970119145180609,
+          "baseline_brier": 0.6661244637703786,
+          "brier": 0.29070851974079737,
+          "ce_ratio": 0.4591293460631923
+        }
+      },
+      "F09": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20261321924301723,
+          "ce_ratio": 0.923322486194571,
+          "pieces": 411370,
+          "top1": 0.2741011741254831
+        },
+        "examples": 14861,
+        "game_sides": 455,
+        "policy": {
+          "ce_ratio": 0.4141640367125156,
+          "examples": 4513,
+          "expected_top1": 0.04592975885725388,
+          "top1": 0.5134139926354551
+        },
+        "value": {
+          "accuracy": 0.7941592086669806,
+          "baseline_brier": 0.666828155558133,
+          "brier": 0.2931507280653117,
+          "ce_ratio": 0.46381177260600426
+        }
+      },
+      "F10": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2013813428722483,
+          "ce_ratio": 0.923090751069368,
+          "pieces": 444495,
+          "top1": 0.27307618758366237
+        },
+        "examples": 15900,
+        "game_sides": 496,
+        "policy": {
+          "ce_ratio": 0.4076787956529745,
+          "examples": 4510,
+          "expected_top1": 0.045908659729372144,
+          "top1": 0.5253147602464506
+        },
+        "value": {
+          "accuracy": 0.7911949685534592,
+          "baseline_brier": 0.6663355835629882,
+          "brier": 0.29514667648813475,
+          "ce_ratio": 0.4551867379672722
+        }
+      },
+      "F11": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2033771243329691,
+          "ce_ratio": 0.9190926038795273,
+          "pieces": 440197,
+          "top1": 0.27857073083187756
+        },
+        "examples": 16009,
+        "game_sides": 488,
+        "policy": {
+          "ce_ratio": 0.43033386617357466,
+          "examples": 4580,
+          "expected_top1": 0.048864495269662966,
+          "top1": 0.5035229645093946
+        },
+        "value": {
+          "accuracy": 0.7448934974077082,
+          "baseline_brier": 0.6666272739129897,
+          "brier": 0.33882099696451295,
+          "ce_ratio": 0.5106566168941447
+        }
+      },
+      "F12": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.2016631919339403,
+          "ce_ratio": 0.9257419070374661,
+          "pieces": 427371,
+          "top1": 0.26926253770143505
+        },
+        "examples": 15415,
+        "game_sides": 469,
+        "policy": {
+          "ce_ratio": 0.40086349254360026,
+          "examples": 4689,
+          "expected_top1": 0.04453481627501977,
+          "top1": 0.5205496258127837
+        },
+        "value": {
+          "accuracy": 0.7836522867337009,
+          "baseline_brier": 0.6684035600393022,
+          "brier": 0.30357281944223286,
+          "ce_ratio": 0.46344884496189087
+        }
+      },
+      "F13": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20399950879910828,
+          "ce_ratio": 0.9211313476631586,
+          "pieces": 423452,
+          "top1": 0.27209695549908847
+        },
+        "examples": 15457,
+        "game_sides": 475,
+        "policy": {
+          "ce_ratio": 0.4154937202795526,
+          "examples": 4634,
+          "expected_top1": 0.044844206601777965,
+          "top1": 0.5124071041692908
+        },
+        "value": {
+          "accuracy": 0.7753768519117552,
+          "baseline_brier": 0.6663589054800075,
+          "brier": 0.31189731887942135,
+          "ce_ratio": 0.48167015560579995
+        }
+      },
+      "F14": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.20791583608234693,
+          "ce_ratio": 0.9153100714201506,
+          "pieces": 453496,
+          "top1": 0.28287790851517985
+        },
+        "examples": 17113,
+        "game_sides": 515,
+        "policy": {
+          "ce_ratio": 0.40710902601387905,
+          "examples": 5249,
+          "expected_top1": 0.04397466057771395,
+          "top1": 0.5136667800839287
+        },
+        "value": {
+          "accuracy": 0.7687722783848536,
+          "baseline_brier": 0.6652302390989311,
+          "brier": 0.31376606527177003,
+          "ce_ratio": 0.4835160697902
+        }
+      },
+      "F15": {
+        "attribution": "acting player's setup family",
+        "belief": {
+          "baseline_top1": 0.19992719440610354,
+          "ce_ratio": 0.9261943673409144,
+          "pieces": 395574,
+          "top1": 0.2707407463584563
+        },
+        "examples": 13975,
+        "game_sides": 460,
+        "policy": {
+          "ce_ratio": 0.41314695926013045,
+          "examples": 3976,
+          "expected_top1": 0.05267130202945825,
+          "top1": 0.525003754317465
+        },
+        "value": {
+          "accuracy": 0.7506976744186047,
+          "baseline_brier": 0.6667251183052881,
+          "brier": 0.35028628675825446,
+          "ce_ratio": 0.5449018843725343
+        }
+      }
+    },
+    "families_seen": 16,
+    "note": "diagnostics only; family sampling is frozen and is not revised on this evidence"
+  },
+  "gates": {
+    "belief_ce_ratio_at_most_0_98": true,
+    "belief_top1_beats_remaining_count_prior": true,
+    "collapse_fraction_below_0_95": true,
+    "non_finite_logits_zero": true,
+    "policy_ce_ratio_at_most_0_90": true,
+    "policy_top1_beats_uniform_expected": true,
+    "value_brier_beats_train_prior": true,
+    "value_ce_ratio_at_most_0_98": true
+  },
+  "headline": {
+    "batches": 977,
+    "belief": {
+      "baseline_ce": 2.2106913151976806,
+      "baseline_top1": 0.20363487736430883,
+      "ce_ratio": 0.9204747046629422,
+      "model_ce": 2.0348854354575163,
+      "model_top1": 0.27628644310879014,
+      "pieces": 6850575,
+      "population": "supervised hidden opponent pieces"
+    },
+    "eval_version": "warmstart_eval_v1",
+    "examples": 249924,
+    "games": 4000,
+    "metrics_version": "warmstart_metrics_v1",
+    "policy": {
+      "baseline_ce": 3.1657836402233768,
+      "baseline_expected_top1": 0.04638437680308333,
+      "ce_ratio": 0.4156596620090182,
+      "examples": 74262,
+      "model_ce": 1.3158885578889281,
+      "model_top1": 0.5145466300307096,
+      "population": "policy-supervised examples (weight > 0)",
+      "weight_sum": 61870.0
+    },
+    "seconds": 122.58942366599513,
+    "selection_score": 0.6032890857157218,
+    "split": "test",
+    "value": {
+      "baseline_accuracy": 0.3515948848449929,
+      "baseline_brier": 0.6661834785638987,
+      "baseline_ce": 1.0978931836049053,
+      "ce_ratio": 0.47373289047520506,
+      "examples": 249924,
+      "model_accuracy": 0.7787767481314319,
+      "model_brier": 0.3068488180596921,
+      "model_ce": 0.5201081113021768,
+      "population": "every selected decision"
+    }
+  },
+  "metrics_version": "warmstart_metrics_v1",
+  "model_input_access": {
+    "batches_by_split": {
+      "test": 977
+    },
+    "boundary": "stratego.training.warmstart_dataset.WarmstartBatch.model_input",
+    "examples_by_split": {
+      "test": 249924
+    },
+    "test_examples_evaluated_by_model": 249924
+  },
+  "mps_available": true,
+  "mps_built": true,
+  "phase": 8,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "precision": "float32",
+  "prerequisite_digests": {
+    "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "canonical_untrained_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+    "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "phase4_bank": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+    "phase7_library": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "train_config_document": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+    "trainer_runtime_identity": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+  },
+  "prerequisite_versions": {
+    "corpus": "synthetic_warmstart_corpus_v1",
+    "decision_sampler": "warmstart_decision_sampler_v1",
+    "eval": "warmstart_eval_v1",
+    "example": "warmstart_example_v1",
+    "model_contract": "model_contract_v2",
+    "observation": "observation_v2_1_127ch",
+    "phase_4_bank": "evaluation_setup_bank_v1",
+    "reference_engine": "phase2_1_reference_1.2.0",
+    "rules": "stratego_project_v1",
+    "train_config": "warmstart_train_config_v1"
+  },
+  "python_version": "3.13.2",
+  "seeds": {
+    "canonical_c1_init_seed": 2026081302,
+    "playing_strength_bootstrap_base_seed": 20260403,
+    "test_bootstrap_seed": 2026081307
+  },
+  "source_revision": "53050b9",
+  "stability": {
+    "examples": 249924,
+    "finite_logit_examples": 249924,
+    "max_legal_probability": {
+      "examples_above_0_999": 2782,
+      "fraction_above_0_999": 0.011131383940717979,
+      "percentiles": {
+        "p00": 0.06512845307588577,
+        "p01": 0.14799712598323822,
+        "p05": 0.18252259492874146,
+        "p10": 0.20544227957725525,
+        "p100": 1.0,
+        "p25": 0.2658735513687134,
+        "p50": 0.4244447648525238,
+        "p75": 0.7444632649421692,
+        "p90": 0.9623979330062866,
+        "p95": 0.991131603717804,
+        "p99": 0.9991266131401062
+      },
+      "supervised_fraction_above_0_999": 0.020818184266515848
+    },
+    "non_finite_examples": 0,
+    "normalized_legal_entropy": {
+      "definition": "H(p over legal actions) / ln(legal_count), examples with >= 2 legal actions; single-legal positions are counted separately because 0/0 has no honest value",
+      "examples": 249917,
+      "histogram_bin_edges": [
+        0.0,
+        0.05,
+        0.1,
+        0.15,
+        0.2,
+        0.25,
+        0.3,
+        0.35,
+        0.4,
+        0.45,
+        0.5,
+        0.55,
+        0.6,
+        0.65,
+        0.7,
+        0.75,
+        0.8,
+        0.85,
+        0.9,
+        0.95,
+        1.0
+      ],
+      "histogram_counts": [
+        20289,
+        9280,
+        7828,
+        7753,
+        8268,
+        9446,
+        9363,
+        9689,
+        11869,
+        14196,
+        18042,
+        22213,
+        27351,
+        30199,
+        23959,
+        12237,
+        4968,
+        1747,
+        580,
+        640
+      ],
+      "mean": 0.4788203239440918,
+      "percentiles": {
+        "p00": 1.345756800219533e-06,
+        "p01": 0.002891621319577098,
+        "p05": 0.02264832891523838,
+        "p10": 0.07291776686906815,
+        "p100": 0.9997947216033936,
+        "p25": 0.29809895157814026,
+        "p50": 0.5473822951316833,
+        "p75": 0.6693089008331299,
+        "p90": 0.7375543713569641,
+        "p95": 0.7761844396591187,
+        "p99": 0.859711229801178
+      }
+    },
+    "population": "every sealed test selected decision (policy states)",
+    "single_legal_action_examples": 7
+  },
+  "status": "PASS",
+  "timestamp": "2026-08-15T23:52:15-0400",
+  "torch_version": "2.13.0",
+  "value_confusion": {
+    "matrix": {
+      "predicted_DRAW": {
+        "true_DRAW": 74869,
+        "true_LOSS": 5014,
+        "true_WIN": 5305
+      },
+      "predicted_LOSS": {
+        "true_DRAW": 6229,
+        "true_LOSS": 59130,
+        "true_WIN": 15548
+      },
+      "predicted_WIN": {
+        "true_DRAW": 6774,
+        "true_LOSS": 16419,
+        "true_WIN": 60636
+      }
+    },
+    "orientation": "rows = model argmax prediction, columns = true label",
+    "predicted_distribution": [
+      0.33541796706198684,
+      0.340855620108513,
+      0.32372641282950015
+    ],
+    "true_distribution": [
+      0.32605512075671006,
+      0.3515948848449929,
+      0.3223499943982971
+    ],
+    "value_class_order": [
+      "WIN",
+      "DRAW",
+      "LOSS"
+    ]
+  },
+  "value_prior": [
+    0.3269819022701742,
+    0.3477689141763011,
+    0.32524918355352467
+  ],
+  "value_prior_source": "reports/phase_8_data/agent_03_validation_baselines.json (train-fitted, not refit)",
+  "working_tree_state": "dirty"
+}

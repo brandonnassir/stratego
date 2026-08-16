@@ -1677,3 +1677,81 @@ zero_non_finite_parameters               PASS
 Suite: 3,747 passed / 3 skipped before the run, 3,747 passed / 3 skipped after the run. Steady state after the identity-labelling correction: 3,774 passed / 3 skipped — the increase over the post-run figure is the 27 new regression tests pinning the two digest namespaces (`tests/training/test_warmstart_train_config_identity.py`).
 
 Not done here, by contract: no test-split model inference, no Phase 4 neural playing-strength evaluation, no Phase 9 self-play or RL machinery, and no Agent 7 work.
+
+## 7. Agent 7 — Independent Held-Out Evaluation and Phase 8 Freeze
+
+**Status: PASS** — recommendation PASS; formal acceptance belongs to the reviewing chat. 42/42 completion gates true.
+
+### Independent identity verification
+
+The corpus was resolved exclusively through `synthetic_corpus.default_corpus_root()` (pointer file), returned the accepted location, and matched the accepted content/metadata/commit-index digests exactly, including the byte-level payload audit. The accepted checkpoint (`f7e9c40d0f16…`, update 24,000) and the canonical untrained checkpoint (`01c907eeef86…`) were re-hashed and independently reloaded through the normal checkpoint API: C1 config digest, 863,959 finite parameters, both train-config digest namespaces (document `3cab772b…`, runtime `64db9253…`), and the stored corpus identity all match the accepted values. The canonical untrained weights are bit-identical to `build_candidate_model('C1', seed=2026081302)`. Phase 4 bank digest (stored and regenerated) and the Phase 7 library digest match their frozen values; all three selected-example universe digests match Agent 3's accepted record.
+
+### Sealed synthetic test (first and only model contact)
+
+Opened under the frozen `final_evaluation` gate: 249,924 selected decisions across 4,000 games; 6,850,575 supervised hidden pieces. Game-level bootstrap, 10,000 replicates, seed 2026081307.
+
+| Head | Metric | Model | Baseline | Ratio (95% CI) | Gate | Result |
+|---|---|---|---|---|---|---|
+| Policy | CE | 1.3159 | 3.1658 | 0.4157 [0.4121, 0.4193] | <= 0.90 | PASS |
+| Policy | top-1 | 0.5145 | 0.0464 | diff CI [0.4637, 0.4725] | model > uniform | PASS |
+| Value | CE | 0.5201 | 1.0979 | 0.4737 [0.4582, 0.4896] | <= 0.98 | PASS |
+| Value | Brier | 0.3068 | 0.6662 | margin CI [0.3487, 0.3697] | model < prior | PASS |
+| Belief | CE | 2.0349 | 2.2107 | 0.9205 [0.9193, 0.9216] | <= 0.98 | PASS |
+| Belief | top-1 | 0.2763 | 0.2036 | diff CI [0.0715, 0.0738] | model > marginal | PASS |
+
+Value accuracy 0.7788 (prior 0.3516); non-finite logits 0; fraction of test states with legal max probability > 0.999 = 0.011131 (< 0.95 collapse gate). Family-stratified, per-piece-type and progress-bucket diagnostics are in `agent_07_heldout_metrics.json`.
+
+### Frozen Phase 4 random gate
+
+All 1,024 setup pairs, 2,048 games, greedy float32 `single_request`, `color_swap_same_board`:
+
+| Quantity | Observed | Gate | Result |
+|---|---|---|---|
+| W / D / L | 1948 / 23 / 77 | — | — |
+| EWR | 0.956787 | >= 0.950 | PASS |
+| Red EWR | 0.960449 | >= 0.900 | PASS |
+| Blue EWR | 0.953125 | >= 0.900 | PASS |
+| Paired 95% lower bound | 0.948486 | > 0.900 | PASS |
+| Illegal actions / model failures / non-finite | 0 / 0 / 0 | all 0 | PASS |
+
+### Final checkpoint vs canonical initialisation
+
+512 paired cases / 1,024 games: EWR 0.916992 (gate >= 0.700), paired 95% lower bound 0.904297 (gate > 0.550) — PASS. The checkpoint was already frozen; this is evidence, not a selection.
+
+### Report-only diagnostics (no gates)
+
+| Opponent | Games | EWR | 95% CI |
+|---|---|---|---|
+| basic_heuristic | 512 | 0.6816 | [0.6445, 0.7188] |
+| strategic_rule_based | 512 | 0.4307 | [0.3936, 0.4678] |
+| stress_berserker | 128 | 0.8438 | [0.7812, 0.8984] |
+| stress_chaos | 128 | 0.9180 | [0.8711, 0.9609] |
+| stress_draw_seeker | 128 | 0.9375 | [0.9101, 0.9648] |
+| stress_information_miser | 128 | 0.9492 | [0.9219, 0.9727] |
+| stress_miner_rush | 128 | 0.7031 | [0.6406, 0.7617] |
+| stress_scout_rush | 128 | 0.8047 | [0.7500, 0.8555] |
+| tactical_rule_based | 512 | 0.4023 | [0.3691, 0.4355] |
+
+### Training-discipline audit (hard gate)
+
+Measured, not asserted: pilots and the canonical run fed 0 test examples to any model and played 0 Phase 4 neural games before Agent 7 (instrumented `WarmstartBatch.model_input` and Phase 4 entry points); the final checkpoint was selected by validation only; the final run started from the canonical fresh initialisation; 6 of at most 6 pilot candidates; the frozen sealing gates still refuse every pre-Agent-7 purpose.
+
+### Suite
+
+3774 passed, 3 skipped in 225.01s (0:03:45) before Agent 7; see `agent_07_final_acceptance.json` for the after and steady-state runs.
+
+### Known limitations carried to Phase 9
+
+- Phase 8 learns by imitation/outcome supervision from rule agents, not self-play
+- random/stress decisions carry policy weight 0 and never supervise the policy head
+- value labels are final W/D/L outcomes, not RL advantages
+- belief is a lightweight shared head; Phase 11 owns deeper belief validation
+- no learned setup policy; setups come from the frozen Phase 7 sampler
+- no decision-time search
+- no dynamic damping or any Phase 9 RL machinery
+- synthetic-teacher biases: the corpus reflects the frozen rule population's style
+- corpus/trainer throughput is loader-bound (~4.3 ms/example single-worker reconstruction)
+- MPS is not run-to-run bit-deterministic; resume equivalence is backend-aware by accepted amendment
+- corpus generation crash windows are closed by the commit journal; trainer crash recovery restores exact logical state but MPS parameter paths diverge within the accepted envelope
+
+Phase 9: **READY TO PLAN**. Phase 8 stops here; no self-play, RL, learned setup selection, or search was implemented or run.
