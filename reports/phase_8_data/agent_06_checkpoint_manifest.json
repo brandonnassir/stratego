@@ -1,10 +1,20 @@
 {
   "agent": 6,
   "artifact": "agent_06_checkpoint_manifest",
+  "canonical_untrained_checkpoint": {
+    "file_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+    "global_step": 0,
+    "model_init_seed": 2026081302,
+    "model_state_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+    "repository_relative": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+    "role": "required by Agent 7's final-vs-initial improvement evaluation"
+  },
   "checkpoint_bytes": 10459563,
   "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1.pt",
   "checkpoint_repository_relative": "checkpoints/phase8/warmstart_c1_v1.pt",
   "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+  "checkpoint_sha256_reverified": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
   "differs_from_initialisation": {
     "l2_norm_of_parameter_delta": 114.61993408203125,
     "largest_deltas": [
@@ -116,14 +126,29 @@
     "corpus_identity_rule": "checkpoints identify the corpus by version and digests, never by path; a pure relocation with identical digests stays compatible",
     "corpus_root_at_freeze": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
     "corpus_version": "synthetic_warmstart_corpus_v1",
+    "digest_namespaces": {
+      "note": "distinct namespaces over different objects; never equal",
+      "train_config_document": {
+        "identifies": "warmstart_train_config_v1, the frozen artifact",
+        "label": "agent_05_frozen_train_config.config document",
+        "value": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7"
+      },
+      "trainer_runtime_identity": {
+        "identifies": "the runtime configuration stamped into this checkpoint and compared by check_resume_identity",
+        "label": "WarmstartTrainConfig.identity() runtime object",
+        "value": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+      }
+    },
     "eval_version": "warmstart_eval_v1",
     "example_version": "warmstart_example_v1",
     "model_candidate": "C1",
     "model_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
     "model_init_seed": 2026081302,
     "train_config_digest": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+    "train_config_document_digest": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
     "train_config_version": "warmstart_train_config_v1",
     "trainer_config_digest": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+    "trainer_runtime_identity_digest": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
     "trainer_version": "warmstart_trainer_v1"
   },
   "independent_reload": {
@@ -138,6 +163,8 @@
   "initial_checkpoint_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
   "initial_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
   "phase": 8,
+  "relabel_note": "digest-namespace labelling correction only; no training was repeated and the accepted checkpoint bytes are unchanged",
+  "relabelled_at": "2026-08-15T21:44:32-0400",
   "reproduced_selection_score": 0.5923130349469591,
   "reproduced_validation": {
     "batches": 64,
@@ -198,5 +225,336 @@
   "selection_score_absolute_delta": 0.0,
   "selection_score_at_selection": 0.5923130349469591,
   "status": "PASS",
-  "timestamp": "2026-08-15T21:20:48-0400"
+  "timestamp": "2026-08-15T21:20:48-0400",
+  "train_config_identity_reconciliation": {
+    "are_the_same_serialization": false,
+    "disagreements": [],
+    "document_only_fields_checked_against_live_source": {
+      "checkpoint_version": {
+        "equal": true,
+        "frozen": "warmstart_checkpoint_v1",
+        "live": "warmstart_checkpoint_v1",
+        "source": "warmstart_checkpoint.WARMSTART_CHECKPOINT_VERSION"
+      },
+      "loader_topology": {
+        "equal": true,
+        "frozen": {
+          "prefetch": 2,
+          "record_cache_size": 512,
+          "workers": 12
+        },
+        "live": {
+          "prefetch": 2,
+          "record_cache_size": 512,
+          "workers": 12
+        },
+        "source": "the topology this harness runs"
+      },
+      "loss_version": {
+        "equal": true,
+        "frozen": "warmstart_loss_v1",
+        "live": "warmstart_loss_v1",
+        "source": "warmstart_loss.WARMSTART_LOSS_VERSION"
+      },
+      "metrics_version": {
+        "equal": true,
+        "frozen": "warmstart_metrics_v1",
+        "live": "warmstart_metrics_v1",
+        "source": "warmstart_metrics.WARMSTART_METRICS_VERSION"
+      },
+      "model_config_digest": {
+        "equal": true,
+        "frozen": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+        "live": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+        "source": "warmstart_contract.EXPECTED_C1_CONFIG_DIGEST"
+      },
+      "train_shuffle_seed": {
+        "equal": true,
+        "frozen": 2026081303,
+        "live": 2026081303,
+        "source": "warmstart_seed.TRAIN_ORDER_SEED"
+      }
+    },
+    "explanation": "The two digests cover different objects and were both authored by Agent 5 in one artifact: train_config_digest hashes the 41-field frozen train-config document (payload['config']), trainer_config_digest hashes the 31-field runtime WarmstartTrainConfig.identity(). They share 25 fields but each carries fields the other does not, so the two hashes could never be equal and their difference is not a mismatch.",
+    "fields_matched_across_bridge": {
+      "adam_betas": "adam_beta1 + adam_beta2",
+      "train_order": "order",
+      "train_split": "split"
+    },
+    "fields_matched_by_name": [
+      "adam_epsilon",
+      "batch_size",
+      "corpus_version",
+      "device",
+      "example_version",
+      "gradient_clip_norm",
+      "lambda_belief",
+      "lambda_policy",
+      "lambda_value",
+      "learning_rate",
+      "loss_version",
+      "lr_schedule",
+      "model_candidate",
+      "model_init_seed",
+      "optimizer",
+      "precision",
+      "sampler_version",
+      "train_order_version",
+      "trainer_version",
+      "validation_batches",
+      "validation_cadence_updates",
+      "validation_selection",
+      "validation_split",
+      "warmup_steps",
+      "weight_decay"
+    ],
+    "fields_only_in_document": [
+      "best_checkpoint_metric",
+      "checkpoint_cadence_updates",
+      "checkpoint_version",
+      "corpus_digests",
+      "early_stop_rule",
+      "eval_version",
+      "expected_fresh_init_checksum",
+      "loader_topology",
+      "loss_profile",
+      "max_final_updates",
+      "metrics_version",
+      "model_config_digest",
+      "train_shuffle_seed"
+    ],
+    "fields_only_in_runtime_identity": [
+      "candidate_id",
+      "config_scope"
+    ],
+    "namespaces": {
+      "train_config_digest": {
+        "field_count": 41,
+        "identifies": "warmstart_train_config_v1, the frozen artifact",
+        "label": "agent_05_frozen_train_config.config document",
+        "match": true,
+        "recomputed": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+        "recorded": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+        "scope": "sha256 of json.dumps(agent_05_frozen_train_config['config'], sort_keys=True, separators=(',',':'))"
+      },
+      "trainer_config_digest": {
+        "field_count": 31,
+        "identifies": "the runtime trainer configuration stamped into every checkpoint and compared by check_resume_identity",
+        "label": "WarmstartTrainConfig.identity() runtime object",
+        "match": true,
+        "recomputed": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+        "recorded": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+        "scope": "sha256 of json.dumps(WarmstartTrainConfig.identity(), sort_keys=True, separators=(',',':'))"
+      }
+    },
+    "raw_name_set_difference": {
+      "document_minus_runtime": [
+        "adam_betas",
+        "best_checkpoint_metric",
+        "checkpoint_cadence_updates",
+        "checkpoint_version",
+        "corpus_digests",
+        "early_stop_rule",
+        "eval_version",
+        "expected_fresh_init_checksum",
+        "loader_topology",
+        "loss_profile",
+        "max_final_updates",
+        "metrics_version",
+        "model_config_digest",
+        "train_order",
+        "train_shuffle_seed",
+        "train_split"
+      ],
+      "note": "by name only; the bridged fields appear here but are compared in shared_field_comparison",
+      "runtime_minus_document": [
+        "adam_beta1",
+        "adam_beta2",
+        "candidate_id",
+        "config_scope",
+        "order",
+        "split"
+      ]
+    },
+    "runtime_identity_equals_agent_5_recorded": true,
+    "shared_field_comparison": {
+      "adam_betas": {
+        "document_value": [
+          0.9,
+          0.999
+        ],
+        "equal": true,
+        "runtime_field": "adam_beta1 + adam_beta2",
+        "runtime_value": [
+          0.9,
+          0.999
+        ]
+      },
+      "adam_epsilon": {
+        "document_value": 1e-08,
+        "equal": true,
+        "runtime_field": "adam_epsilon",
+        "runtime_value": 1e-08
+      },
+      "batch_size": {
+        "document_value": 256,
+        "equal": true,
+        "runtime_field": "batch_size",
+        "runtime_value": 256
+      },
+      "corpus_version": {
+        "document_value": "synthetic_warmstart_corpus_v1",
+        "equal": true,
+        "runtime_field": "corpus_version",
+        "runtime_value": "synthetic_warmstart_corpus_v1"
+      },
+      "device": {
+        "document_value": "mps",
+        "equal": true,
+        "runtime_field": "device",
+        "runtime_value": "mps"
+      },
+      "example_version": {
+        "document_value": "warmstart_example_v1",
+        "equal": true,
+        "runtime_field": "example_version",
+        "runtime_value": "warmstart_example_v1"
+      },
+      "gradient_clip_norm": {
+        "document_value": 1.0,
+        "equal": true,
+        "runtime_field": "gradient_clip_norm",
+        "runtime_value": 1.0
+      },
+      "lambda_belief": {
+        "document_value": 1.0,
+        "equal": true,
+        "runtime_field": "lambda_belief",
+        "runtime_value": 1.0
+      },
+      "lambda_policy": {
+        "document_value": 1.0,
+        "equal": true,
+        "runtime_field": "lambda_policy",
+        "runtime_value": 1.0
+      },
+      "lambda_value": {
+        "document_value": 1.0,
+        "equal": true,
+        "runtime_field": "lambda_value",
+        "runtime_value": 1.0
+      },
+      "learning_rate": {
+        "document_value": 0.001,
+        "equal": true,
+        "runtime_field": "learning_rate",
+        "runtime_value": 0.001
+      },
+      "loss_version": {
+        "document_value": "warmstart_loss_v1",
+        "equal": true,
+        "runtime_field": "loss_version",
+        "runtime_value": "warmstart_loss_v1"
+      },
+      "lr_schedule": {
+        "document_value": "linear_warmup_500_steps_then_constant",
+        "equal": true,
+        "runtime_field": "lr_schedule",
+        "runtime_value": "linear_warmup_500_steps_then_constant"
+      },
+      "model_candidate": {
+        "document_value": "C1",
+        "equal": true,
+        "runtime_field": "model_candidate",
+        "runtime_value": "C1"
+      },
+      "model_init_seed": {
+        "document_value": 2026081302,
+        "equal": true,
+        "runtime_field": "model_init_seed",
+        "runtime_value": 2026081302
+      },
+      "optimizer": {
+        "document_value": "AdamW",
+        "equal": true,
+        "runtime_field": "optimizer",
+        "runtime_value": "AdamW"
+      },
+      "precision": {
+        "document_value": "float32",
+        "equal": true,
+        "runtime_field": "precision",
+        "runtime_value": "float32"
+      },
+      "sampler_version": {
+        "document_value": "warmstart_decision_sampler_v1",
+        "equal": true,
+        "runtime_field": "sampler_version",
+        "runtime_value": "warmstart_decision_sampler_v1"
+      },
+      "train_order": {
+        "document_value": "shuffle",
+        "equal": true,
+        "runtime_field": "order",
+        "runtime_value": "shuffle"
+      },
+      "train_order_version": {
+        "document_value": "warmstart_train_order_v1",
+        "equal": true,
+        "runtime_field": "train_order_version",
+        "runtime_value": "warmstart_train_order_v1"
+      },
+      "train_split": {
+        "document_value": "train",
+        "equal": true,
+        "runtime_field": "split",
+        "runtime_value": "train"
+      },
+      "trainer_version": {
+        "document_value": "warmstart_trainer_v1",
+        "equal": true,
+        "runtime_field": "trainer_version",
+        "runtime_value": "warmstart_trainer_v1"
+      },
+      "validation_batches": {
+        "document_value": 64,
+        "equal": true,
+        "runtime_field": "validation_batches",
+        "runtime_value": 64
+      },
+      "validation_cadence_updates": {
+        "document_value": 500,
+        "equal": true,
+        "runtime_field": "validation_cadence_updates",
+        "runtime_value": 500
+      },
+      "validation_selection": {
+        "document_value": "evenly_spread_v1",
+        "equal": true,
+        "runtime_field": "validation_selection",
+        "runtime_value": "evenly_spread_v1"
+      },
+      "validation_split": {
+        "document_value": "validation",
+        "equal": true,
+        "runtime_field": "validation_split",
+        "runtime_value": "validation"
+      },
+      "warmup_steps": {
+        "document_value": 500,
+        "equal": true,
+        "runtime_field": "warmup_steps",
+        "runtime_value": 500
+      },
+      "weight_decay": {
+        "document_value": 0.01,
+        "equal": true,
+        "runtime_field": "weight_decay",
+        "runtime_value": 0.01
+      }
+    },
+    "shared_fields_compared": 28,
+    "shared_fields_equal": 28,
+    "verdict": "distinct digest namespaces, both verified"
+  }
 }

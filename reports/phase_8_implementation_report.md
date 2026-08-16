@@ -1513,7 +1513,7 @@ C1 was rebuilt from the canonical seed and its pre-training checksum equalled Ag
 
 ### 6.3 Configuration
 
-`warmstart_train_config_v1` was used exactly as frozen — the live trainer reconstructed Agent 5's recorded identity to the digest (`64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879`):
+`warmstart_train_config_v1` was used exactly as frozen, with no field tuned:
 
 ```text
 model / precision   C1, float32, MPS
@@ -1526,6 +1526,23 @@ train order seed    2026081303
 loader              12 workers / prefetch 2 / record cache 512
 update budget       25,000
 ```
+
+#### Train-config identity: two digests, two namespaces
+
+Agent 5's accepted artifact records two SHA-256 values, and they are not two spellings of one identity — they cover different objects, so they could never be equal. Both are named explicitly here and in the machine-readable artifacts:
+
+```text
+train_config_document    3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7
+                         41-field frozen `config` document = warmstart_train_config_v1
+
+trainer_runtime_identity 64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879
+                         31-field `WarmstartTrainConfig.identity()`, stamped into every
+                         checkpoint and compared by `check_resume_identity`
+```
+
+The two objects express 28 fields in common — 25 matched by name and 3 across a naming bridge (`train_split`↔`split`, `train_order`↔`order`, `adam_betas`↔`adam_beta1`/`adam_beta2`). Beyond those, the document carries 13 fields with no runtime counterpart at all (`best_checkpoint_metric`, `checkpoint_cadence_updates`, `checkpoint_version`, `corpus_digests`, …) and the runtime identity carries 2 the document does not (`candidate_id`, `config_scope`). That asymmetry is why the two hashes can never coincide. Both recompute to their recorded values from the live source, the live runtime identity equals Agent 5's recorded `trainer_config_identity` dictionary exactly, all 28 of 28 shared fields agree, and every document-only field that binds this run — shuffle seed, C1 config digest, loader topology, checkpoint/metrics/loss versions — was checked against its live source. Zero disagreements.
+
+This was a reporting-label defect in the first issue of this section, which printed the runtime-identity digest under the heading `warmstart_train_config_v1`. The configuration actually run was never in question; no training was repeated to correct it.
 
 ### 6.4 The run
 
@@ -1616,35 +1633,47 @@ The checkpoint was reloaded independently through `load_warmstart_checkpoint` �
 
 It differs materially from the canonical initialisation: L2 norm of the parameter delta 114.6199 over 66 tensors, with none unchanged.
 
+The canonical *untrained* C1 is frozen alongside it, because Agent 7's final-vs-initial gate needs exactly this object:
+
+```text
+path                    checkpoints/phase8/warmstart_c1_v1_initialisation.pt
+file SHA-256            01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c
+model state checksum    cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8
+init seed               2026081302
+global step             0 (written before the first optimizer step)
+```
+
 ### 6.9 Completion gates
 
 ```text
-agents_1_to_5_pass                      PASS
-best_checkpoint_reload_reproduces       PASS
-budget_respected                        PASS
-checkpoint_differs_from_initialisation  PASS
-checkpoint_digest_and_manifest_written  PASS
-corpus_digests_match_accepted           PASS
-corpus_resolved_through_resolver        PASS
-exact_frozen_config_used                PASS
-fresh_c1_init_matches_expected          PASS
-full_suite_green                        PASS
-no_phase4_neural_evaluation             PASS
-no_phase9_selfplay_or_rl                PASS
-no_pilot_checkpoint_loaded              PASS
-no_test_model_inference                 PASS
-restart_path_exercised                  PASS
-train_split_only_updated_weights        PASS
-validation_cadence_continuous           PASS
-validation_only_selected_checkpoint     PASS
-zero_checkpoint_errors                  PASS
-zero_data_mismatches                    PASS
-zero_illegal_targets                    PASS
-zero_non_finite_gradients               PASS
-zero_non_finite_losses                  PASS
-zero_non_finite_parameters              PASS
+agents_1_to_5_pass                       PASS
+best_checkpoint_reload_reproduces        PASS
+budget_respected                         PASS
+canonical_untrained_checkpoint_recorded  PASS
+checkpoint_differs_from_initialisation   PASS
+checkpoint_digest_and_manifest_written   PASS
+corpus_digests_match_accepted            PASS
+corpus_resolved_through_resolver         PASS
+exact_frozen_config_used                 PASS
+fresh_c1_init_matches_expected           PASS
+full_suite_green                         PASS
+no_phase4_neural_evaluation              PASS
+no_phase9_selfplay_or_rl                 PASS
+no_pilot_checkpoint_loaded               PASS
+no_test_model_inference                  PASS
+restart_path_exercised                   PASS
+train_config_identity_reconciled         PASS
+train_split_only_updated_weights         PASS
+validation_cadence_continuous            PASS
+validation_only_selected_checkpoint      PASS
+zero_checkpoint_errors                   PASS
+zero_data_mismatches                     PASS
+zero_illegal_targets                     PASS
+zero_non_finite_gradients                PASS
+zero_non_finite_losses                   PASS
+zero_non_finite_parameters               PASS
 ```
 
-Suite: 3,747 passed / 3 skipped before the run, 3,747 passed / 3 skipped after the run.
+Suite: 3,747 passed / 3 skipped before the run, 3,747 passed / 3 skipped after the run. Steady state after the identity-labelling correction: 3,774 passed / 3 skipped — the increase over the post-run figure is the 27 new regression tests pinning the two digest namespaces (`tests/training/test_warmstart_train_config_identity.py`).
 
 Not done here, by contract: no test-split model inference, no Phase 4 neural playing-strength evaluation, no Phase 9 self-play or RL machinery, and no Agent 7 work.

@@ -322,6 +322,200 @@ def build_frozen_trainer_config(device: str = "mps") -> WarmstartTrainConfig:
     )
 
 
+#: The two Agent 5 digests cover *different objects*, so they can never be
+#: equal. Naming them here keeps the distinction explicit everywhere it is
+#: reported, rather than leaving a bare hex string to be read as whichever
+#: identity the reader had in mind.
+TRAIN_CONFIG_DOCUMENT_DIGEST = "agent_05_frozen_train_config.config document"
+TRAINER_RUNTIME_IDENTITY_DIGEST = "WarmstartTrainConfig.identity() runtime object"
+
+#: Fields the frozen document and the runtime identity both express, some
+#: under different names. The document is Agent 5's artifact vocabulary; the
+#: runtime identity is the trainer's.
+IDENTITY_FIELD_BRIDGE = {
+    "train_split": "split",
+    "train_order": "order",
+}
+
+
+def reconcile_train_config_identity(config: WarmstartTrainConfig) -> dict:
+    """Prove the runtime configuration is Agent 5's frozen one, field for field.
+
+    Two digests appear in Agent 5's accepted artifact and they are *not*
+    alternative spellings of one identity:
+
+    ```text
+    train_config_digest    sha256 over payload["config"], the 41-field frozen
+                           train-config document — the artifact-level identity
+                           of warmstart_train_config_v1
+    trainer_config_digest  sha256 over WarmstartTrainConfig.identity(), the
+                           31-field runtime object the trainer stamps into
+                           every checkpoint and compares on resume
+    ```
+
+    They serialize different field sets, so equality between them was never
+    possible and their difference is not a mismatch. What must hold — and is
+    measured here — is that both recompute to their recorded values, that the
+    live runtime identity equals Agent 5's recorded one exactly, and that every
+    field the two objects share agrees across the naming bridge.
+    """
+    frozen = frozen_config_payload()
+    document = dict(frozen["config"])
+    recorded_runtime = dict(frozen["trainer_config_identity"])
+    live_runtime = dict(config.identity())
+
+    def canonical(payload: dict) -> str:
+        return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+
+    document_recomputed = hashlib.sha256(canonical(document).encode()).hexdigest()
+    runtime_recomputed = config.digest()
+
+    # Every field the two objects share, compared across the bridge.
+    shared: dict = {}
+    for document_name, value in document.items():
+        runtime_name = IDENTITY_FIELD_BRIDGE.get(document_name, document_name)
+        if runtime_name in live_runtime:
+            shared[document_name] = {
+                "runtime_field": runtime_name,
+                "document_value": value,
+                "runtime_value": live_runtime[runtime_name],
+                "equal": value == live_runtime[runtime_name],
+            }
+    # adam_betas is one document field against two runtime fields.
+    betas = list(document.get("adam_betas", []))
+    shared["adam_betas"] = {
+        "runtime_field": "adam_beta1 + adam_beta2",
+        "document_value": betas,
+        "runtime_value": [live_runtime["adam_beta1"], live_runtime["adam_beta2"]],
+        "equal": betas == [live_runtime["adam_beta1"], live_runtime["adam_beta2"]],
+    }
+
+    # Frozen document fields with no runtime-identity counterpart are still
+    # binding on this run; each is checked against the live source of truth.
+    external = {
+        "train_shuffle_seed": {
+            "frozen": document["train_shuffle_seed"],
+            "live": int(CANONICAL_SEEDS["train_order_seed"]),
+            "source": "warmstart_seed.TRAIN_ORDER_SEED",
+        },
+        "model_config_digest": {
+            "frozen": document["model_config_digest"],
+            "live": wc.EXPECTED_C1_CONFIG_DIGEST,
+            "source": "warmstart_contract.EXPECTED_C1_CONFIG_DIGEST",
+        },
+        "loader_topology": {
+            "frozen": document["loader_topology"],
+            "live": dict(FROZEN_TOPOLOGY),
+            "source": "the topology this harness runs",
+        },
+        "checkpoint_version": {
+            "frozen": document["checkpoint_version"],
+            "live": WARMSTART_CHECKPOINT_VERSION,
+            "source": "warmstart_checkpoint.WARMSTART_CHECKPOINT_VERSION",
+        },
+        "metrics_version": {
+            "frozen": document["metrics_version"],
+            "live": WARMSTART_METRICS_VERSION,
+            "source": "warmstart_metrics.WARMSTART_METRICS_VERSION",
+        },
+        "loss_version": {
+            "frozen": document["loss_version"],
+            "live": WARMSTART_LOSS_VERSION,
+            "source": "warmstart_loss.WARMSTART_LOSS_VERSION",
+        },
+    }
+    for entry in external.values():
+        entry["equal"] = entry["frozen"] == entry["live"]
+
+    disagreements = sorted(
+        [name for name, entry in shared.items() if not entry["equal"]]
+        + [name for name, entry in external.items() if not entry["equal"]]
+    )
+
+    return {
+        "verdict": (
+            "distinct digest namespaces, both verified"
+            if not disagreements
+            and document_recomputed == frozen["train_config_digest"]
+            and runtime_recomputed == frozen["trainer_config_digest"]
+            and live_runtime == recorded_runtime
+            else "FROZEN TRAIN CONFIG IDENTITY MISMATCH"
+        ),
+        "are_the_same_serialization": False,
+        "explanation": (
+            "The two digests cover different objects and were both authored by "
+            "Agent 5 in one artifact: train_config_digest hashes the 41-field "
+            "frozen train-config document (payload['config']), "
+            "trainer_config_digest hashes the 31-field runtime "
+            "WarmstartTrainConfig.identity(). They share 25 fields but each "
+            "carries fields the other does not, so the two hashes could never "
+            "be equal and their difference is not a mismatch."
+        ),
+        "namespaces": {
+            "train_config_digest": {
+                "label": TRAIN_CONFIG_DOCUMENT_DIGEST,
+                "scope": (
+                    "sha256 of json.dumps(agent_05_frozen_train_config['config'], "
+                    "sort_keys=True, separators=(',',':'))"
+                ),
+                "identifies": "warmstart_train_config_v1, the frozen artifact",
+                "field_count": len(document),
+                "recorded": frozen["train_config_digest"],
+                "recomputed": document_recomputed,
+                "match": document_recomputed == frozen["train_config_digest"],
+            },
+            "trainer_config_digest": {
+                "label": TRAINER_RUNTIME_IDENTITY_DIGEST,
+                "scope": (
+                    "sha256 of json.dumps(WarmstartTrainConfig.identity(), "
+                    "sort_keys=True, separators=(',',':'))"
+                ),
+                "identifies": (
+                    "the runtime trainer configuration stamped into every "
+                    "checkpoint and compared by check_resume_identity"
+                ),
+                "field_count": len(live_runtime),
+                "recorded": frozen["trainer_config_digest"],
+                "recomputed": runtime_recomputed,
+                "match": runtime_recomputed == frozen["trainer_config_digest"],
+            },
+        },
+        "runtime_identity_equals_agent_5_recorded": live_runtime == recorded_runtime,
+        # Three categories, kept apart so no field is counted twice: matched by
+        # name, matched across the naming bridge, and genuinely unique to one
+        # object. `adam_betas`/`train_split`/`train_order` are bridged, not
+        # document-only, even though a raw set difference on names says
+        # otherwise.
+        "fields_matched_by_name": sorted(set(document) & set(live_runtime)),
+        "fields_matched_across_bridge": {
+            "train_split": "split",
+            "train_order": "order",
+            "adam_betas": "adam_beta1 + adam_beta2",
+        },
+        "fields_only_in_document": sorted(
+            set(document) - set(live_runtime) - {"train_split", "train_order", "adam_betas"}
+        ),
+        "fields_only_in_runtime_identity": sorted(
+            set(live_runtime)
+            - set(document)
+            - {"split", "order", "adam_beta1", "adam_beta2"}
+        ),
+        "raw_name_set_difference": {
+            "document_minus_runtime": sorted(set(document) - set(live_runtime)),
+            "runtime_minus_document": sorted(set(live_runtime) - set(document)),
+            "note": (
+                "by name only; the bridged fields appear here but are compared "
+                "in shared_field_comparison"
+            ),
+        },
+        "shared_field_comparison": shared,
+        "shared_fields_compared": len(shared),
+        "shared_fields_equal": sum(1 for e in shared.values() if e["equal"]),
+        "document_only_fields_checked_against_live_source": external,
+        "disagreements": disagreements,
+    }
+
+
 def verify_prerequisites(
     *, check_payload_bytes: bool = True, device: str = "mps"
 ) -> tuple:
@@ -376,6 +570,27 @@ def verify_prerequisites(
             "the live trainer does not reconstruct Agent 5's frozen configuration "
             f"(digest {live_trainer_digest} != {recorded_trainer_digest}; fields: "
             f"{differing})"
+        )
+
+    # The two Agent 5 digests are different namespaces; this proves both
+    # recompute and that the runtime configuration is the frozen one field for
+    # field. A real disagreement here is the BLOCKED stop condition.
+    reconciliation = reconcile_train_config_identity(config)
+    if reconciliation["disagreements"]:
+        problems.append(
+            "FROZEN TRAIN CONFIG IDENTITY MISMATCH: the runtime configuration "
+            f"differs from Agent 5's frozen payload in {reconciliation['disagreements']}"
+        )
+    for name, namespace in reconciliation["namespaces"].items():
+        if not namespace["match"]:
+            problems.append(
+                f"FROZEN TRAIN CONFIG IDENTITY MISMATCH: {name} recomputes to "
+                f"{namespace['recomputed']}, recorded {namespace['recorded']}"
+            )
+    if not reconciliation["runtime_identity_equals_agent_5_recorded"]:
+        problems.append(
+            "FROZEN TRAIN CONFIG IDENTITY MISMATCH: the live runtime identity "
+            "does not equal Agent 5's recorded trainer_config_identity"
         )
 
     if frozen["winning_candidate_id"] != WINNING_CANDIDATE_ID:
@@ -447,12 +662,19 @@ def verify_prerequisites(
         "upstream_problems": upstream,
         "roster_problems": roster,
         "frozen_train_config_problems": frozen_problems,
+        # Named, not bare: these two hashes cover different objects.
+        "train_config_document_digest": {
+            "label": TRAIN_CONFIG_DOCUMENT_DIGEST,
+            "value": recorded_train_digest,
+        },
         "frozen_train_config_digest": recorded_train_digest,
         "trainer_config_digest": {
+            "label": TRAINER_RUNTIME_IDENTITY_DIGEST,
             "recorded": recorded_trainer_digest,
             "live": live_trainer_digest,
             "match": live_trainer_digest == recorded_trainer_digest,
         },
+        "train_config_identity_reconciliation": reconciliation,
         "winning_candidate_id": frozen["winning_candidate_id"],
         "trainer_construction": frozen["trainer_construction"],
         "versions": versions,
@@ -1178,6 +1400,76 @@ def freeze_checkpoint(
 # ---------------------------------------------------------------------------
 
 
+def relabel_manifest(*, device: str) -> dict:
+    """Add the digest-namespace labels to an existing manifest, in place.
+
+    Deliberately does not re-freeze: the accepted checkpoint bytes are never
+    rewritten by a labelling correction. The file digest is re-measured and
+    required to be unchanged, so a relabel that disturbed the checkpoint would
+    fail loudly instead of quietly reissuing it.
+    """
+    manifest = read_json(_MANIFEST_PATH)
+    before = manifest["checkpoint_sha256"]
+    observed = file_sha256(manifest["checkpoint_path"])
+    if observed != before:
+        raise SystemExit(
+            f"BLOCKED: the frozen checkpoint digest changed ({observed} != "
+            f"{before}); a labelling correction must never modify the checkpoint"
+        )
+    config = build_frozen_trainer_config(device=device)
+    reconciliation = reconcile_train_config_identity(config)
+    if reconciliation["disagreements"]:
+        raise SystemExit(
+            "BLOCKED: FROZEN TRAIN CONFIG IDENTITY MISMATCH: "
+            f"{reconciliation['disagreements']}"
+        )
+    frozen = frozen_config_payload()
+    manifest["identities"]["digest_namespaces"] = {
+        "train_config_document": {
+            "label": TRAIN_CONFIG_DOCUMENT_DIGEST,
+            "value": frozen["train_config_digest"],
+            "identifies": "warmstart_train_config_v1, the frozen artifact",
+        },
+        "trainer_runtime_identity": {
+            "label": TRAINER_RUNTIME_IDENTITY_DIGEST,
+            "value": config.digest(),
+            "identifies": (
+                "the runtime configuration stamped into this checkpoint and "
+                "compared by check_resume_identity"
+            ),
+        },
+        "note": "distinct namespaces over different objects; never equal",
+    }
+    # The bare key kept its old ambiguous name; make the scope explicit while
+    # leaving the value untouched.
+    manifest["identities"]["trainer_runtime_identity_digest"] = config.digest()
+    manifest["identities"]["train_config_document_digest"] = frozen[
+        "train_config_digest"
+    ]
+    manifest["train_config_identity_reconciliation"] = reconciliation
+    manifest["canonical_untrained_checkpoint"] = {
+        "role": (
+            "required by Agent 7's final-vs-initial improvement evaluation"
+        ),
+        "path": manifest["initial_checkpoint_path"],
+        "repository_relative": sc.repository_relative(
+            manifest["initial_checkpoint_path"]
+        ),
+        "file_sha256": manifest["initial_checkpoint_sha256"],
+        "model_state_checksum": manifest["initial_checksum"],
+        "model_init_seed": CANONICAL_SEEDS["canonical_c1_init_seed"],
+        "global_step": 0,
+    }
+    manifest["checkpoint_sha256_reverified"] = observed
+    manifest["relabelled_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+    manifest["relabel_note"] = (
+        "digest-namespace labelling correction only; no training was repeated "
+        "and the accepted checkpoint bytes are unchanged"
+    )
+    write_json(_MANIFEST_PATH, manifest)
+    return manifest
+
+
 def build_run_artifact(
     *, verification: dict, run: dict, manifest: dict, curve_rows: list, tests: dict
 ) -> dict:
@@ -1219,6 +1511,21 @@ def build_run_artifact(
         ),
         "no_pilot_checkpoint_loaded": segments[0]["resumed_from"] is None,
         "exact_frozen_config_used": verification["trainer_config_digest"]["match"],
+        "train_config_identity_reconciled": (
+            not verification["train_config_identity_reconciliation"]["disagreements"]
+            and verification["train_config_identity_reconciliation"][
+                "runtime_identity_equals_agent_5_recorded"
+            ]
+            and all(
+                namespace["match"]
+                for namespace in verification[
+                    "train_config_identity_reconciliation"
+                ]["namespaces"].values()
+            )
+        ),
+        "canonical_untrained_checkpoint_recorded": bool(
+            manifest.get("initial_checkpoint_sha256")
+        ),
         "train_split_only_updated_weights": (
             model_input["validation"] > 0 and model_input["test"] == 0
         ),
@@ -1245,7 +1552,11 @@ def build_run_artifact(
         ]["material"],
         "budget_respected": final_step <= int(frozen["config"]["max_final_updates"]),
         "no_phase9_selfplay_or_rl": True,
-        "full_suite_green": tests.get("after", {}).get("failed", 1) == 0,
+        # The most recent complete suite result stands as the gate: a steady
+        # state recorded after a correction supersedes the post-run figure.
+        "full_suite_green": (
+            tests.get("steady_state") or tests.get("after") or {}
+        ).get("failed", 1) == 0,
     }
 
     best = manifest["selected_global_step"]
@@ -1269,10 +1580,27 @@ def build_run_artifact(
             "corpus_commit_index": verification["accepted_digests"][
                 "commit_index_digest"
             ],
-            "train_config": verification["frozen_train_config_digest"],
-            "trainer_config": verification["trainer_config_digest"]["live"],
+            "train_config_document": verification["frozen_train_config_digest"],
+            "trainer_runtime_identity": verification["trainer_config_digest"]["live"],
             "agent_01_contract": verification["agent_01_contract_digest"]["live"],
         },
+        "digest_namespaces": {
+            "train_config_document": {
+                "label": TRAIN_CONFIG_DOCUMENT_DIGEST,
+                "value": verification["frozen_train_config_digest"],
+            },
+            "trainer_runtime_identity": {
+                "label": TRAINER_RUNTIME_IDENTITY_DIGEST,
+                "value": verification["trainer_config_digest"]["live"],
+            },
+            "note": (
+                "distinct namespaces over different objects; see "
+                "train_config_identity_reconciliation"
+            ),
+        },
+        "train_config_identity_reconciliation": verification[
+            "train_config_identity_reconciliation"
+        ],
         "corpus_root_resolution": verification["corpus_root_resolution"],
         "frozen_train_config": frozen["config"],
         "trainer_construction": frozen["trainer_construction"],
@@ -1351,6 +1679,7 @@ def build_run_artifact(
         "files_modified": ["reports/phase_8_implementation_report.md"],
         "tests_before": tests.get("before"),
         "tests_after": tests.get("after"),
+        "tests_steady_state": tests.get("steady_state"),
         "completion_gates": gates,
         "problems": verification["problems"],
         "deviations": [],
@@ -1358,6 +1687,24 @@ def build_run_artifact(
             "frozen_checkpoint_path": manifest["checkpoint_path"],
             "checkpoint_sha256": manifest["checkpoint_sha256"],
             "checkpoint_manifest": sc.repository_relative(_MANIFEST_PATH),
+            "canonical_untrained_checkpoint": {
+                "role": (
+                    "the frozen canonical untrained C1, required by Agent 7's "
+                    "final-vs-initial improvement evaluation (>= 0.700 EWR over "
+                    ">= 1,024 games)"
+                ),
+                "path": manifest["initial_checkpoint_path"],
+                "repository_relative": sc.repository_relative(
+                    manifest["initial_checkpoint_path"]
+                ),
+                "file_sha256": manifest["initial_checkpoint_sha256"],
+                "model_state_checksum": manifest["initial_checksum"],
+                "model_init_seed": CANONICAL_SEEDS["canonical_c1_init_seed"],
+                "model_candidate": "C1",
+                "global_step": 0,
+                "checkpoint_version": WARMSTART_CHECKPOINT_VERSION,
+                "written_before_first_optimizer_step": True,
+            },
             "initial_checkpoint_path": manifest["initial_checkpoint_path"],
             "initial_checkpoint_sha256": manifest["initial_checkpoint_sha256"],
             "frozen_train_config": "reports/phase_8_data/agent_05_frozen_train_config.json",
@@ -1377,16 +1724,27 @@ REPORT_SECTION_HEADING = "## 6. Agent 6 — Canonical C1 Warm-Start Run"
 def suite_line(artifact: dict) -> str:
     before = artifact.get("tests_before")
     after = artifact.get("tests_after")
-    if not before and not after:
+    steady = artifact.get("tests_steady_state")
+    if not any((before, after, steady)):
         return "Suite: not run in this invocation."
     parts = []
-    for label, record in (("before", before), ("after", after)):
+    for label, record in (("before the run", before), ("after the run", after)):
         if record:
             parts.append(
                 f"{record['passed']:,} passed / {record.get('skipped', 0)} skipped "
-                f"{label} the run"
+                f"{label}"
             )
-    return "Suite: " + ", ".join(parts) + "."
+    line = "Suite: " + ", ".join(parts) + "."
+    if steady:
+        line += (
+            f" Steady state after the identity-labelling correction: "
+            f"{steady['passed']:,} passed / {steady.get('skipped', 0)} skipped"
+            f" — the increase over the post-run figure is the "
+            f"{steady['passed'] - (after['passed'] if after else 0)} new "
+            "regression tests pinning the two digest namespaces "
+            "(`tests/training/test_warmstart_train_config_identity.py`)."
+        )
+    return line
 
 
 def render_report_section(artifact: dict, manifest: dict, curve_rows: list) -> str:
@@ -1399,6 +1757,7 @@ def render_report_section(artifact: dict, manifest: dict, curve_rows: list) -> s
     held_out = artifact["held_out_discipline"]
     gates = artifact["completion_gates"]
     confirmation = manifest.get("full_validation_confirmation")
+    reconciliation = artifact["train_config_identity_reconciliation"]
 
     def number(value, digits=6):
         return "n/a" if value is None else f"{float(value):.{digits}f}"
@@ -1449,9 +1808,8 @@ def render_report_section(artifact: dict, manifest: dict, curve_rows: list) -> s
         "",
         "### 6.3 Configuration",
         "",
-        "`warmstart_train_config_v1` was used exactly as frozen — the live "
-        "trainer reconstructed Agent 5's recorded identity to the digest "
-        f"(`{artifact['prerequisite_digests']['trainer_config']}`):",
+        "`warmstart_train_config_v1` was used exactly as frozen, with no field "
+        "tuned:",
         "",
         "```text",
         "model / precision   C1, float32, MPS",
@@ -1464,6 +1822,50 @@ def render_report_section(artifact: dict, manifest: dict, curve_rows: list) -> s
         "loader              12 workers / prefetch 2 / record cache 512",
         f"update budget       {run['update_budget']:,}",
         "```",
+        "",
+        "#### Train-config identity: two digests, two namespaces",
+        "",
+        "Agent 5's accepted artifact records two SHA-256 values, and they are "
+        "not two spellings of one identity — they cover different objects, so "
+        "they could never be equal. Both are named explicitly here and in the "
+        "machine-readable artifacts:",
+        "",
+        "```text",
+        f"train_config_document    {reconciliation['namespaces']['train_config_digest']['recorded']}",
+        f"                         {reconciliation['namespaces']['train_config_digest']['field_count']}-field frozen "
+        "`config` document = warmstart_train_config_v1",
+        "",
+        f"trainer_runtime_identity {reconciliation['namespaces']['trainer_config_digest']['recorded']}",
+        f"                         {reconciliation['namespaces']['trainer_config_digest']['field_count']}-field "
+        "`WarmstartTrainConfig.identity()`, stamped into every",
+        "                         checkpoint and compared by `check_resume_identity`",
+        "```",
+        "",
+        f"The two objects express {reconciliation['shared_fields_compared']} fields "
+        f"in common — {len(reconciliation['fields_matched_by_name'])} matched by "
+        f"name and {len(reconciliation['fields_matched_across_bridge'])} across a "
+        "naming bridge (`train_split`↔`split`, `train_order`↔`order`, "
+        "`adam_betas`↔`adam_beta1`/`adam_beta2`). Beyond those, the document "
+        f"carries {len(reconciliation['fields_only_in_document'])} fields with no "
+        "runtime counterpart at all "
+        f"({', '.join('`' + name + '`' for name in reconciliation['fields_only_in_document'][:4])}, …) "
+        f"and the runtime identity carries {len(reconciliation['fields_only_in_runtime_identity'])} "
+        "the document does not "
+        f"({', '.join('`' + name + '`' for name in reconciliation['fields_only_in_runtime_identity'])}). "
+        "That asymmetry is why the two hashes can never coincide. "
+        "Both recompute to their recorded values from the live source, the live "
+        "runtime identity equals Agent 5's recorded `trainer_config_identity` "
+        f"dictionary exactly, all {reconciliation['shared_fields_equal']} of "
+        f"{reconciliation['shared_fields_compared']} shared fields agree, "
+        "and every document-only field "
+        "that binds this run — shuffle seed, C1 config digest, loader topology, "
+        "checkpoint/metrics/loss versions — was checked against its live "
+        "source. Zero disagreements.",
+        "",
+        "This was a reporting-label defect in the first issue of this section, "
+        "which printed the runtime-identity digest under the heading "
+        "`warmstart_train_config_v1`. The configuration actually run was never "
+        "in question; no training was repeated to correct it.",
         "",
         "### 6.4 The run",
         "",
@@ -1604,6 +2006,17 @@ def render_report_section(artifact: dict, manifest: dict, curve_rows: list) -> s
         f"over {manifest['differs_from_initialisation']['parameters_compared']} "
         "tensors, with none unchanged.",
         "",
+        "The canonical *untrained* C1 is frozen alongside it, because Agent 7's "
+        "final-vs-initial gate needs exactly this object:",
+        "",
+        "```text",
+        f"path                    {sc.repository_relative(manifest['initial_checkpoint_path'])}",
+        f"file SHA-256            {manifest['initial_checkpoint_sha256']}",
+        f"model state checksum    {manifest['initial_checksum']}",
+        f"init seed               {artifact['seeds']['canonical_c1_init_seed']}",
+        "global step             0 (written before the first optimizer step)",
+        "```",
+        "",
         "### 6.9 Completion gates",
         "",
         "```text",
@@ -1683,6 +2096,12 @@ def main() -> None:
     parser.add_argument("--verify", action="store_true")
     parser.add_argument("--run", action="store_true")
     parser.add_argument("--freeze", action="store_true")
+    parser.add_argument(
+        "--relabel",
+        action="store_true",
+        help="add digest-namespace labels to the existing manifest without "
+        "re-freezing or touching the accepted checkpoint bytes",
+    )
     parser.add_argument("--artifacts", action="store_true")
     parser.add_argument("--full", action="store_true")
     parser.add_argument("--run-pytest", action="store_true")
@@ -1741,7 +2160,9 @@ def main() -> None:
     do_run = arguments.run or arguments.full
     do_freeze = arguments.freeze or arguments.full
     do_artifacts = arguments.artifacts or arguments.full
-    if not any((do_verify, do_run, do_freeze, do_artifacts, arguments.run_pytest)):
+    if not any(
+        (do_verify, do_run, do_freeze, do_artifacts, arguments.relabel, arguments.run_pytest)
+    ):
         parser.error("choose at least one mode")
 
     frozen = frozen_config_payload()
@@ -1807,6 +2228,14 @@ def main() -> None:
         )
     elif _MANIFEST_PATH.exists():
         manifest = read_json(_MANIFEST_PATH)
+
+    if arguments.relabel:
+        log("relabelling the manifest digest namespaces (no re-freeze)")
+        manifest = relabel_manifest(device=arguments.device)
+        log(
+            "checkpoint digest unchanged: "
+            f"{manifest['checkpoint_sha256_reverified']}"
+        )
 
     if arguments.dry_run:
         log(f"dry run: every output redirected to {_OUTPUT_DIRECTORY}")
