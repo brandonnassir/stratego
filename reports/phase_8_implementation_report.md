@@ -1480,3 +1480,171 @@ training, the final budget of 25,000 updates, the validation and
 checkpoint cadences, the loader topology, and the pilot evidence. Agent 6 runs
 this configuration unchanged, from a fresh canonical C1 initialization, and
 selects its checkpoint by validation only.
+
+## 6. Agent 6 — Canonical C1 Warm-Start Run
+
+**Status: PASS** — one canonical run, 25,000 optimizer updates from a fresh C1 initialisation, best checkpoint selected by validation alone.
+
+### 6.1 Corpus identity
+
+The corpus was resolved exclusively through `synthetic_corpus.default_corpus_root()`:
+
+```text
+resolved root     /Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1
+resolution source pointer_file
+corpus version    synthetic_warmstart_corpus_v1
+content           c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d
+metadata          1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb
+commit index      32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1
+```
+
+All three accepted digests matched, and the payload bytes were re-read against their commit journals (28,000 games, zero violations in every integrity category). This is the corpus's third recorded location; identity is the version plus the digests, never the path, so the relocation changed nothing that the checkpoint or any downstream consumer depends on. No absolute path is embedded in trainer, checkpoint or downstream code — only this acceptance harness pins one, as an expected value to verify the resolver against.
+
+### 6.2 Fresh initialisation
+
+```text
+canonical init seed        2026081302
+expected init checksum     cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8
+reconstructed checksum     cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8
+pilot weights loaded       none
+```
+
+C1 was rebuilt from the canonical seed and its pre-training checksum equalled Agent 5's frozen expectation before the first optimizer step. The untrained checkpoint was frozen alongside the accepted one, since Agent 7 needs it for the improvement-over-initialisation gate.
+
+### 6.3 Configuration
+
+`warmstart_train_config_v1` was used exactly as frozen — the live trainer reconstructed Agent 5's recorded identity to the digest (`64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879`):
+
+```text
+model / precision   C1, float32, MPS
+batch size          256
+optimizer           AdamW, lr 1e-3, weight decay 0.01
+gradient clipping   1.0
+schedule            500-step linear warmup, then constant
+loss weights        policy 1 / value 1 / belief 1
+train order seed    2026081303
+loader              12 workers / prefetch 2 / record cache 512
+update budget       25,000
+```
+
+### 6.4 The run
+
+```text
+updates completed     25,000
+examples consumed     6,399,705
+wall time             1.08 h
+throughput            1803.1 examples/s
+data wait fraction    0.0550
+validation passes     50
+peak RSS              1.81 GB
+MPS driver allocated  2.19 GB
+```
+
+Stability counters, all zero, across both segment processes:
+
+```text
+checkpoint_errors        0
+data_mismatches          0
+illegal_targets          0
+non_finite_gradients     0
+non_finite_losses        0
+non_finite_parameters    0
+```
+
+Nothing was skipped: the trainer raises on a non-finite loss, gradient or parameter, on a target mismatch, on a cursor inconsistency and on a batch carrying a split other than train, and no such stop fired.
+
+### 6.5 Validation and checkpoint selection
+
+Every 500 updates, the frozen 64-evenly-spread-batch protocol (16,384 held-out examples, identical positions at every cadence) produced a `selection_score`:
+
+```text
+                       step   policy    value   belief   score
+first                    500  0.6791  0.5916  0.9778  0.7495
+best                   24000  0.4132  0.4463  0.9174  0.5923
+final                  25000  0.4139  0.4569  0.9174  0.5961
+```
+
+The accepted checkpoint is the one at update 24,000 — the strictly lowest validation selection score over the run. Selection used the validation split and nothing else.
+
+A full-validation pass over all 249,963 validation examples (977 batches, 4,000 games) was run on the already-selected checkpoint for confirmation and reporting only: selection score 0.604276 (policy 0.4146, value 0.4784, belief 0.9199). It did not and could not move the selection: no later full-validation measurement may retroactively select a different checkpoint.
+
+### 6.6 Checkpoint/restart exercise
+
+The canonical run was executed as two real processes. Segment 1 trained from the fresh initialisation to update 12,500, wrote a normal checkpoint and exited cleanly; segment 2 was a new interpreter that reloaded it through `WarmstartTrainer.resume` and finished the budget.
+
+```text
+best_validation              preserved
+counters                     preserved
+cursor                       preserved
+examples_consumed            preserved
+global_step                  preserved
+learning_rate                preserved
+optimizer_state_structure    preserved
+scheduler_last_epoch         preserved
+validation_best_flags        preserved
+validation_steps             preserved
+validation cadence           continuous on the 500-step grid
+```
+
+Judged under the reviewer-approved `backend_aware_resume_equivalence_v1` interpretation: exact logical state continuity across the boundary. `plan_batch` is a pure function of `(universe, cursor)`, so an identical restored cursor is an identical next batch by construction. The superseded independent-run bit-determinism requirement is not resurrected — MPS cannot satisfy it, as Agent 4 established.
+
+### 6.7 Held-out discipline, measured
+
+```text
+train examples through the model      6,399,705
+validation examples through the model 819,200
+test examples through the model       0
+Phase 4 neural evaluation games       0
+Phase 4 neural checkpoint loads       0
+```
+
+These are observations, not claims: `record_model_input_access` instruments `WarmstartBatch.model_input` — the single boundary where an example becomes model input — and `record_phase4_access` wraps the Phase 4 evaluation entry points, in every segment process for the whole run. Weights were updated by train examples only; the checkpoint was selected by validation only; the test split and the Phase 4 bank remain sealed for Agent 7.
+
+The counts above scope the training run itself. The freeze step then ran two further passes on the selected checkpoint — the 64-batch cadence revalidation and the full-validation confirmation — both requested on the validation split explicitly, and `run_validation` routes any test-split request through the frozen `check_test_corpus_access` gate, which raises before Agent 7. No path in this agent reads test examples.
+
+### 6.8 Frozen checkpoint
+
+```text
+path            checkpoints/phase8/warmstart_c1_v1.pt
+SHA-256         f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca
+size            10.46 MB
+selected step   24,000
+examples        6,143,764
+```
+
+The checkpoint was reloaded independently through `load_warmstart_checkpoint` — train-config digest and corpus identity re-checked, no trainer state carried over — and revalidated under the same frozen protocol: selection score 0.592313 against 0.592313 recorded at selection (delta 0.000e+00).
+
+It differs materially from the canonical initialisation: L2 norm of the parameter delta 114.6199 over 66 tensors, with none unchanged.
+
+### 6.9 Completion gates
+
+```text
+agents_1_to_5_pass                      PASS
+best_checkpoint_reload_reproduces       PASS
+budget_respected                        PASS
+checkpoint_differs_from_initialisation  PASS
+checkpoint_digest_and_manifest_written  PASS
+corpus_digests_match_accepted           PASS
+corpus_resolved_through_resolver        PASS
+exact_frozen_config_used                PASS
+fresh_c1_init_matches_expected          PASS
+full_suite_green                        PASS
+no_phase4_neural_evaluation             PASS
+no_phase9_selfplay_or_rl                PASS
+no_pilot_checkpoint_loaded              PASS
+no_test_model_inference                 PASS
+restart_path_exercised                  PASS
+train_split_only_updated_weights        PASS
+validation_cadence_continuous           PASS
+validation_only_selected_checkpoint     PASS
+zero_checkpoint_errors                  PASS
+zero_data_mismatches                    PASS
+zero_illegal_targets                    PASS
+zero_non_finite_gradients               PASS
+zero_non_finite_losses                  PASS
+zero_non_finite_parameters              PASS
+```
+
+Suite: 3,747 passed / 3 skipped before the run, 3,747 passed / 3 skipped after the run.
+
+Not done here, by contract: no test-split model inference, no Phase 4 neural playing-strength evaluation, no Phase 9 self-play or RL machinery, and no Agent 7 work.
