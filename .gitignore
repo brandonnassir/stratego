@@ -10,6 +10,12 @@ data/stratego_phase8/
 # data reproducible by `python scripts/run_phase8_agent04.py --full`; the
 # JSON/CSV artifacts that describe them are tracked in reports/phase_8_data.
 checkpoints/phase8/
+# Phase 9 rollout shards, learner checkpoints, archive snapshots, and the
+# Agent 1 evaluation bridge/game state: production data reproducible from the
+# frozen phase9 contract; compact manifests/digests are tracked in
+# reports/phase_9_data.
+checkpoints/phase9/
+data/phase9/
 __pycache__/
 *.py[cod]
 .pytest_cache/

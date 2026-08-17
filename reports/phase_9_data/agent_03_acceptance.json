@@ -1,0 +1,403 @@
+{
+  "phase": 9,
+  "agent": 3,
+  "status": "PASS",
+  "timestamp": "2026-08-16T11:30:18-0400",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "torch_version": "2.13.0",
+  "mps_available": true,
+  "cpu_count": 14,
+  "source_revision": "0fe6caf",
+  "working_tree_state": "dirty",
+  "rules_version": "stratego_project_v1",
+  "engine_version": "phase2_1_reference_1.2.0",
+  "observation_version": "observation_v2_1_127ch",
+  "artifact": "agent_03_acceptance",
+  "store_version": "phase9_rollout_store_v1",
+  "collector_version": "phase9_collector_v1",
+  "prerequisites": {
+    "agent1_status": "PASS",
+    "agent2_status": "PASS",
+    "agent1_gates": "18/18",
+    "agent2_gates": "20/20",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "contract_digest_matches_accepted": true,
+    "population_digest": "6756790b15ee66195bc6339363e19fc475e3c606ef10613619b78b23d21bda73",
+    "run_schedule_digests": {
+      "canonical": "bc253e8be2c63db1af308f62cf52f99f1431e9c9ec8a6db0987783b2983c0e64",
+      "pilot_p9a": "c7bf66ff84b7ed829f477dfaf6b14cfa8c801ef5144f4d1f33175136562748cf",
+      "pilot_p9b": "dd74fb86cb63108819db8f8db5e343fe18b87ca7c056c0f4603406d7e22d859d",
+      "pilot_p9c": "1b5c4e742ab1e7be71b038aeefa817794b4924197ed9eab107f1a7ddc442039c",
+      "pilot_p9d": "b9a42c9a34222dfc976b6e789605e0115e5257b5f054504bbe10088da597f1cc",
+      "pilot_p9e": "1e61f341c6568388e611e810f24491a3f3a9fa739b73fad0caf4a9384f2a01ba",
+      "pilot_p9f": "27a8b2566514fdd491cb755757fc949072bc366b7bc26855474a9706beaa475e"
+    },
+    "run_schedule_digests_match_accepted": true,
+    "scheduled_games_per_iteration": {
+      "canonical": 2048,
+      "pilot_p9a": 1024,
+      "pilot_p9b": 1024,
+      "pilot_p9c": 1024,
+      "pilot_p9d": 1024,
+      "pilot_p9e": 1024,
+      "pilot_p9f": 1024
+    },
+    "canonical_bucket_counts": {
+      "current": 1024,
+      "historical": 512,
+      "rule": 307,
+      "stress": 205
+    },
+    "phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "phase8_checkpoint_matches_accepted": true,
+    "c1_parameters": 863959,
+    "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "corpus": {
+      "resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+      "resolution": {
+        "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+        "source": "pointer_file",
+        "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+        "environment_value": "",
+        "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+        "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+        "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1"
+      },
+      "resolved_root_matches_expected": true,
+      "accepted_identity": {
+        "corpus_version": "synthetic_warmstart_corpus_v1",
+        "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+        "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+        "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+      },
+      "observed_identity": {
+        "corpus_version": "synthetic_warmstart_corpus_v1",
+        "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+        "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+        "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+      },
+      "identity_matches": true,
+      "modules_hard_coding_absolute_paths": [],
+      "identity_rule": "corpus identity is version + accepted digests, not filesystem location; a digest mismatch is BLOCKED and never repaired",
+      "problems": []
+    },
+    "problems": []
+  },
+  "storage": {
+    "resolver": "stratego.training.phase9_storage.default_rollout_root()",
+    "resolution": {
+      "root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "source": "pointer_file",
+      "environment_variable": "STRATEGO_PHASE9_ROLLOUT_ROOT",
+      "environment_value": "",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9_rollout_root.txt",
+      "pointer_value": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9/rollouts",
+      "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout"
+    },
+    "resolved_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+    "resolved_root_matches_expected": true,
+    "external_volume": {
+      "mount_point": "/Volumes/Brandon_Washington",
+      "queried": true,
+      "volume_name": "Brandon_Washington",
+      "device_node": "/dev/disk5s2",
+      "filesystem": "Case-sensitive APFS",
+      "protocol": "USB",
+      "device_location": "IODeviceTree:/arm-io@10F00000/usb-drd0@82280000/usb-drd0-port-ss@00200000",
+      "internal": false,
+      "ejectable": true,
+      "removable": false,
+      "mounted": true,
+      "volume_read_only": false,
+      "total_bytes": 999960829952,
+      "free_bytes": 0,
+      "is_external": true
+    },
+    "is_mount_point": true,
+    "boot_filesystem_device": 16777234,
+    "volume_device": 16777240,
+    "distinct_from_boot_filesystem": true,
+    "capacity_evaluation": {
+      "volume": {
+        "requested_path": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+        "existing_ancestor_probed": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+        "mount_point": "/Volumes/Brandon_Washington",
+        "total_bytes": 999960829952,
+        "used_bytes": 209907712,
+        "free_bytes": 999750922240,
+        "free_gib": 931.091,
+        "block_size": 4096,
+        "read_only": false,
+        "path_exists": true
+      },
+      "write_probe": {
+        "path": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+        "writable": true,
+        "directory_created": false,
+        "problems": []
+      },
+      "projection": {
+        "total_scheduled_games": 172032,
+        "phase8_measured_bytes_per_game": 12606.27,
+        "phase8_measurement_basis": "352,975,450 bytes over 28,000 committed games of the accepted synthetic_warmstart_corpus_v1 (shards + metadata + journal)",
+        "safety_factor": 4.0,
+        "base_bytes": 2168681164,
+        "projected_bytes": 8674724659,
+        "projected_gib": 8.079
+      },
+      "required_headroom_factor": 10.0,
+      "required_free_bytes": 86747246590,
+      "observed_headroom_factor": 115.2,
+      "recommended": true,
+      "problems": [],
+      "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout"
+    },
+    "soak_subtree": "agent_03_soak",
+    "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+    "problems": []
+  },
+  "soak_totals": {
+    "iterations": 7,
+    "games_collected": 8192,
+    "games_committed": 8192,
+    "bucket_counts": {
+      "current": 4096,
+      "historical": 2048,
+      "rule": 1231,
+      "stress": 817
+    },
+    "buckets_represented": [
+      "current",
+      "historical",
+      "rule",
+      "stress"
+    ],
+    "terminal_results": {
+      "blue_win": 4009,
+      "red_win": 4048,
+      "draw": 135
+    },
+    "total_decisions": 1526576,
+    "neural_decisions": 1317546,
+    "learner_decisions": 1133311,
+    "total_plies": 1526576,
+    "mean_game_length_plies": 186.349609375,
+    "wall_seconds": 887.5798421249929,
+    "games_per_second": 9.229592213796995,
+    "positions_per_second": 1719.9309037316114,
+    "decisions_per_second": 1719.9309037316114,
+    "inference_device": "mps",
+    "inference_batch_shape": 64,
+    "games_in_flight": 96,
+    "peak_rss_bytes": 613253120,
+    "mps_allocated_bytes": 3458560,
+    "mps_driver_allocated_bytes": 76234752,
+    "storage": {
+      "total_bytes": 221976464,
+      "shard_bytes": 183946479,
+      "metadata_bytes": 33426934,
+      "journal_bytes": 4603051,
+      "bytes_per_game": 27096.736328125,
+      "bytes_per_decision": 145.40806615589398,
+      "bytes_per_position": 145.40806615589398,
+      "payload_uncompressed_bytes": 267495257,
+      "payload_compressed_bytes": 183911132,
+      "compression_ratio": 0.6875304409603046,
+      "storage_per_hour_bytes": 900330575.8801416
+    },
+    "cpu": {
+      "user_seconds": 519.945312,
+      "system_seconds": 77.59882199999998,
+      "cpu_seconds": 597.544134,
+      "wall_seconds": 887.5798421249929,
+      "cores_busy": 0.6732285994343833,
+      "logical_cores": 14,
+      "machine_utilization_fraction": 0.04808775710245595,
+      "mps_utilization_note": "PyTorch exposes no MPS device-utilization counter; allocated and driver-allocated device memory are reported instead"
+    },
+    "peak_mps_bytes": 76234752
+  },
+  "storage_projection": {
+    "measured_bytes_per_game": 27096.736328125,
+    "measured_bytes_per_decision": 145.40806615589398,
+    "measured_compression_ratio": 0.6875304409603046,
+    "canonical_run_games": 122880,
+    "canonical_run_bytes": 3329646960.0,
+    "canonical_run_gib": 3.100975379347801,
+    "all_pilots_games": 49152,
+    "all_pilots_bytes": 1331858784.0,
+    "all_pilots_gib": 1.2403901517391205,
+    "phase9_total_games": 172032,
+    "phase9_total_bytes": 4661505744.0,
+    "phase9_total_gib": 4.341365531086922,
+    "agent_2_planning_estimate_bytes": 8674724659,
+    "agent_2_planning_estimate_gib": 8.079,
+    "measured_over_planning_ratio": 0.5373664210959943,
+    "note": "the planning estimate scaled the Phase 8 rule-vs-rule corpus by a deliberately pessimistic factor; this row is the measured Phase 9 neural-rollout density and supersedes it for capacity decisions"
+  },
+  "store_audit_summary": {
+    "sealed_iterations": 7,
+    "distinct_game_ids": 8192,
+    "duplicate_game_ids": 0,
+    "unscheduled_games": 0,
+    "orphan_records": 0,
+    "games_decoded": 448,
+    "replay_illegal_actions": 0,
+    "setup_provenance_mismatches": 0
+  },
+  "observer_safety": {
+    "boundary": "the model input is the frozen observer-safe observation and the dense legality mask used for masking; no GameState, piece record, belief target or replay is reachable from it",
+    "probes": 77,
+    "failures": 0,
+    "mean_hidden_opponent_pieces": 24.415584415584416,
+    "positive_control": {
+      "planted_leak_detected": true,
+      "planted_leak_entries": 34,
+      "frozen_builder_passes_the_same_check": true,
+      "control_holds": true
+    },
+    "privileged_state_location": "true setups and per-piece truth live in the rollout payload and metadata for later belief labelling; neither is reachable from a model input"
+  },
+  "crash_resume": {
+    "games": 12,
+    "clean_digest": "f99298aa5ded5691d54093c721255effaea4cf0390088cd016cbcf042f368bdb",
+    "committed_before_crash": 4,
+    "resumed_digest": "f99298aa5ded5691d54093c721255effaea4cf0390088cd016cbcf042f368bdb",
+    "digests_converge": true,
+    "payload_bytes_identical": true,
+    "clean_workers_in_flight": 12,
+    "resume_workers_in_flight": 7,
+    "worker_topology_changed": true,
+    "bytes_discarded_on_resume": 31319,
+    "crash_stages_covered_by_suite": [
+      "before_payload",
+      "after_payload",
+      "after_metadata",
+      "before_commit_flush",
+      "after_commit",
+      "shard_rollover",
+      "between_games"
+    ]
+  },
+  "no_optimizer_audit": {
+    "modules_scanned": [
+      "stratego/training/phase9_behavior.py",
+      "stratego/training/phase9_collector.py",
+      "stratego/training/phase9_rollout_store.py"
+    ],
+    "forbidden_symbols": [
+      "backward",
+      "zero_grad",
+      "AdamW",
+      "Adam",
+      "SGD",
+      "optim",
+      "optimizer",
+      "cross_entropy",
+      "policy_loss",
+      "value_loss",
+      "belief_loss",
+      "multi_head_loss",
+      "ppo"
+    ],
+    "symbol_findings": [],
+    "probe_game_decisions": 160,
+    "trainable_parameters_after_collection": 0,
+    "state_dict_digest_before": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "state_dict_digest_after": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "weights_unchanged": true,
+    "no_optimizer_steps": true
+  },
+  "behavior_reproduction_summary": {
+    "learner": {
+      "decisions": 100029,
+      "verified": 100029,
+      "mismatches": 0,
+      "max_abs_probability_difference": 0.0,
+      "max_abs_wdl_difference": 0.0,
+      "problems": []
+    },
+    "historical": {
+      "decisions": 20075,
+      "verified": 20075,
+      "mismatches": 0,
+      "max_abs_probability_difference": 0.0,
+      "max_abs_wdl_difference": 0.0,
+      "problems": []
+    },
+    "cross_checkpoint_control": {
+      "wrong_checkpoint": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+      "wrong_checkpoint_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+      "decisions": 256,
+      "verified_against_wrong_checkpoint": 0,
+      "mismatches": 256,
+      "max_abs_probability_difference": 0.9754325058311224,
+      "control_holds": true
+    },
+    "legal_set_mismatches": 0
+  },
+  "tests_after": {
+    "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+    "returncode": 0,
+    "summary": "4180 passed, 3 skipped in 285.43s (0:04:45)",
+    "seconds": 286.55912504100706,
+    "passed": 4180,
+    "skipped": 3,
+    "covers_agent_03_artifact_tests": true
+  },
+  "completion_gates": {
+    "agents1_2_pass": true,
+    "corpus_resolver_verified": true,
+    "corpus_digests_match": true,
+    "external_volume_verified": true,
+    "behavior_snapshot_immutable": true,
+    "one_behavior_identity_per_iteration": true,
+    "neural_actions_legal": true,
+    "behavior_storage_matches_contract": true,
+    "behavior_reproduction_ge_100k": true,
+    "behavior_reproduction_mismatches_zero": true,
+    "reproduction_control_fails_on_the_wrong_checkpoint": true,
+    "rollout_commit_protocol_pass": true,
+    "crash_resume_converges": true,
+    "orphan_records_zero": true,
+    "duplicate_game_ids_zero": true,
+    "unscheduled_games_zero": true,
+    "replay_illegal_actions_zero": true,
+    "setup_provenance_mismatches_zero": true,
+    "observer_input_leaks_zero": true,
+    "collection_soak_ge_8192_games": true,
+    "all_four_buckets_represented": true,
+    "storage_density_measured": true,
+    "no_rl_optimizer_steps": true,
+    "full_suite_green": true
+  },
+  "gates_total": 24,
+  "gates_true": 24,
+  "problems": [],
+  "deviations": [
+    "The soak writes to <rollout_root>/agent_03_soak rather than directly into the production <rollout_root>/<namespace>/ tree. The games are the real scheduled iteration-1 games and the sealed digests are the real ones, recorded in this report; the subtree keeps Agent 7's canonical run starting from a namespace it created itself rather than silently inheriting bytes from Agent 3. Identity is version + digests, never a path, so adopting these bytes later is a relocation plus a digest check.",
+    "The inference batch shape is a recorded collector parameter (production default 64) rather than an implicit constant. Measured: a fixed shape is bitwise stable per row on both CPU and MPS, while a variable shape moves value logits by ~9e-8 \u2014 inside the 1e-4 reproduction tolerance but outside float32 storage rounding, so it would break byte-identical resume. The rollout state records the shape and the device, and a resume that would change either is refused."
+  ],
+  "durations": {
+    "verify": 4.8380200840038015,
+    "storage": 0.10520312500011642,
+    "soak": 887.6934557080094,
+    "audit": 15.622853416003636,
+    "reproduction": 90.06710979199852
+  },
+  "handoff_to_agent_4": {
+    "sealed_rollout_reader": "phase9_rollout_store.Phase9RolloutReader(root, namespace, iteration)",
+    "random_access_reconstruction": "reader.read_game(game_id) -> (GameRecord, phase9 metadata), digest-checked on every read",
+    "behavior_quantity_access": "DecisionRecord.old_probabilities is the stored float32 legal-action behavior distribution in ascending absolute action order; pi_b(a_t|s_t) is its entry for selected_action_id",
+    "behavior_wdl_outputs": "DecisionRecord.win_draw_loss_prediction, the acting network's own W/D/L softmax from the acting player's perspective",
+    "learner_control_masks": "metadata['learner_control'] / ['learner_color'] and ScheduledGame.learner_sides; metadata['learner_decision_count'] is the expected count",
+    "privileged_target_only_state": "GameRecord.red_setup / blue_setup plus the snapshot cadence reconstruct per-piece truth for belief labelling through the accepted Phase 6 path (reconstruction.reconstruct_state / iter_reconstructed_decisions); none of it is reachable from a model input",
+    "state_reconstruction": "stratego.training.reconstruction \u2014 reconstruct_state(record, ply) and iter_reconstructed_decisions(record) rebuild any position of any committed game from its own payload",
+    "rollout_digests": "phase9_rollout_store.sealed_rollout_digest(commits) and the per-iteration state.json / manifest.json",
+    "crash_safe_iteration_state": "read_iteration_state / write_iteration_state over COLLECTING -> SEALED -> TRAINING -> EVALUATED -> COMMITTED; Agent 3 owns COLLECTING -> SEALED only",
+    "independent_reproduction": "phase9_behavior.reproduce_decisions(acting_snapshot, requests) \u2014 Agent 4 must verify each decision against the ACTING side's checkpoint, never against GameRecord.collection_checkpoint_id for a historical opponent's moves",
+    "per_side_identity_warning": "metadata['opponent_checkpoint_sha256'] is the historical opponent's real SHA-256; metadata['behavior_checkpoint_sha256'] is the iteration's current learner only"
+  }
+}

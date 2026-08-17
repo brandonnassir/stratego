@@ -1,0 +1,45 @@
+{
+  "tolerance": 0.0001,
+  "reference_device": "mps",
+  "inference_batch_shape": 64,
+  "games_audited": 1237,
+  "distinct_observations": 224366,
+  "legal_set_mismatches": 0,
+  "learner": {
+    "decisions": 100029,
+    "verified": 100029,
+    "mismatches": 0,
+    "max_abs_probability_difference": 0.0,
+    "max_abs_wdl_difference": 0.0,
+    "problems": []
+  },
+  "historical": {
+    "decisions": 20075,
+    "verified": 20075,
+    "mismatches": 0,
+    "max_abs_probability_difference": 0.0,
+    "max_abs_wdl_difference": 0.0,
+    "problems": []
+  },
+  "cross_checkpoint_control": {
+    "wrong_checkpoint": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+    "wrong_checkpoint_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+    "decisions": 256,
+    "verified_against_wrong_checkpoint": 0,
+    "mismatches": 256,
+    "max_abs_probability_difference": 0.9754325058311224,
+    "control_holds": true
+  },
+  "seconds": 89.69531891599763,
+  "decisions_per_second": 1339.0219406263666,
+  "audited_fields": [
+    "acting player",
+    "observation digest",
+    "legal set",
+    "action frame",
+    "behavior distribution",
+    "sampled action legality",
+    "WDL output",
+    "behavior snapshot identity"
+  ]
+}

@@ -1,0 +1,408 @@
+{
+  "phase": 9,
+  "agent": 4,
+  "status": "PASS",
+  "timestamp": "2026-08-16T20:31:53-0400",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "torch_version": "2.13.0",
+  "mps_available": true,
+  "source_revision": "0fe6caf",
+  "working_tree_state": "dirty",
+  "rules_version": "stratego_project_v1",
+  "engine_version": "phase2_1_reference_1.2.0",
+  "observation_version": "observation_v2_1_127ch",
+  "artifact": "agent_04_acceptance",
+  "example_version": "phase9_example_v1",
+  "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+  "advantage_version": "phase9_advantage_v1",
+  "train_order_version": "phase9_train_order_v1",
+  "antileak_version": "phase9_antileak_v1",
+  "prerequisites": {
+    "agent1_status": "PASS",
+    "agent2_status": "PASS",
+    "agent3_status": "PASS",
+    "agent1_gates": "18/18",
+    "agent2_gates": "20/20",
+    "agent3_gates": "24/24",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "contract_digest_matches_accepted": true,
+    "population_digest": "6756790b15ee66195bc6339363e19fc475e3c606ef10613619b78b23d21bda73",
+    "population_digest_matches_accepted": true,
+    "run_schedule_digests": {
+      "canonical": "bc253e8be2c63db1af308f62cf52f99f1431e9c9ec8a6db0987783b2983c0e64",
+      "pilot_p9a": "c7bf66ff84b7ed829f477dfaf6b14cfa8c801ef5144f4d1f33175136562748cf",
+      "pilot_p9b": "dd74fb86cb63108819db8f8db5e343fe18b87ca7c056c0f4603406d7e22d859d",
+      "pilot_p9c": "1b5c4e742ab1e7be71b038aeefa817794b4924197ed9eab107f1a7ddc442039c",
+      "pilot_p9d": "b9a42c9a34222dfc976b6e789605e0115e5257b5f054504bbe10088da597f1cc",
+      "pilot_p9e": "1e61f341c6568388e611e810f24491a3f3a9fa739b73fad0caf4a9384f2a01ba",
+      "pilot_p9f": "27a8b2566514fdd491cb755757fc949072bc366b7bc26855474a9706beaa475e"
+    },
+    "phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "phase8_checkpoint_matches_accepted": true,
+    "audited_rollout": {
+      "root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak",
+      "namespace": "canonical",
+      "iteration": 1,
+      "state": "SEALED",
+      "games": 2048,
+      "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "digest_recorded_by_agent_3": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "digest_matches_agent_3": true,
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+    },
+    "agent3_behavior_reproduction": {
+      "learner_decisions": 100029,
+      "learner_mismatches": 0,
+      "historical_decisions": 20075,
+      "control_holds": true
+    },
+    "problems": []
+  },
+  "corpus": {
+    "resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+    "resolution": {
+      "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "source": "pointer_file",
+      "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+      "environment_value": "",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+      "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1"
+    },
+    "resolved_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "resolved_root_matches_expected": true,
+    "accepted_identity": {
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+    },
+    "observed_identity": {
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+    },
+    "identity_matches": true,
+    "modules_scanned": [
+      "stratego/training/phase9_targets.py",
+      "stratego/training/phase9_antileak.py"
+    ],
+    "modules_hard_coding_absolute_paths": [],
+    "identity_rule": "corpus identity is version + accepted digests, not filesystem location; a digest mismatch is BLOCKED and never repaired",
+    "problems": []
+  },
+  "target_audit": {
+    "namespace": "canonical",
+    "iteration": 1,
+    "rollout_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak",
+    "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+    "games_audited": 2048,
+    "learner_decisions": 282414,
+    "examples_audited": 282414,
+    "learner_control_counts": {
+      "both": 1024,
+      "blue": 513,
+      "red": 511
+    },
+    "bucket_counts": {
+      "current": 1024,
+      "historical": 512,
+      "rule": 307,
+      "stress": 205
+    },
+    "learner_decisions_by_colour": {
+      "red": 141226,
+      "blue": 141188
+    },
+    "statistics": {
+      "advantage_version": "phase9_advantage_v1",
+      "namespace": "canonical",
+      "iteration": 1,
+      "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "games": 2048,
+      "learner_decisions": 282414,
+      "quantile": 0.75,
+      "floor": 0.01,
+      "threshold": 0.12881821608195476,
+      "eligible": 70604,
+      "retention_fraction": 0.2500017704504734,
+      "mean_eligible": 0.009545094610122616,
+      "std_eligible": 0.300811239439604,
+      "standardization_epsilon": 1e-08,
+      "zero_variance": false,
+      "no_eligible": false,
+      "advantage_min": -1.9704856052994728,
+      "advantage_max": 1.9100954160094261,
+      "advantage_mean": 0.002052134201886543
+    },
+    "reference": {
+      "threshold": 0.12881821608195476,
+      "eligible": 70604,
+      "mean_eligible": 0.009545094610122616,
+      "std_eligible": 0.300811239439604,
+      "arithmetic": "written from the assignment's formulas in this harness; neither phase9_contract nor phase9_targets is consulted for a value it is being compared against"
+    },
+    "advantage_mismatches": 0,
+    "wdl_target_mismatches": 0,
+    "value_target_simplex_failures": 0,
+    "belief_target_mismatches": 0,
+    "eligibility_mismatches": 0,
+    "standardization_mismatches": 0,
+    "filter_problems": [],
+    "sequence_problem_count": 0,
+    "behavior_quantity_problem_count": 0,
+    "example_problem_count": 0,
+    "eligible_examples": 70604,
+    "retention_fraction": 0.2500017704504734,
+    "supervised_belief_squares": 6337120,
+    "mean_supervised_belief_squares": 22.439114208219138,
+    "pass1_seconds": 6.677895917004207,
+    "pass2_seconds": 84.19943054098985,
+    "decisions_per_second": 3354.108195096588
+  },
+  "antileak": {
+    "antileak_version": "phase9_antileak_v1",
+    "namespace": "canonical",
+    "iteration": 1,
+    "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+    "seed": 20260816,
+    "games_used": 139,
+    "trials": 25000,
+    "valid_trials": 25000,
+    "assignment_changed_trials": 24617,
+    "mean_hidden_pieces": 22.36404,
+    "invariant_fields": [
+      "observation",
+      "legal_mask",
+      "sampled_action_abs",
+      "sampled_action_model",
+      "behavior_action_probability",
+      "behavior_action_logprob",
+      "behavior_legal_actions",
+      "behavior_legal_probabilities",
+      "advantage",
+      "standardized_advantage",
+      "ppo_eligible",
+      "wdl_target",
+      "belief_mask",
+      "game_id",
+      "decision_index",
+      "learner_side",
+      "behavior_checkpoint_sha256",
+      "rollout_id"
+    ],
+    "privileged_fields": [
+      "belief_target"
+    ],
+    "invariant_mismatches": 0,
+    "label_control_failures": 0,
+    "mismatch_examples": [],
+    "model_input_boundary_problems": [],
+    "model_input_boundary_problem_count": 0,
+    "object_graph_problems": [],
+    "positive_controls_fired": 5,
+    "positive_controls_expected": 5,
+    "positive_control_decisions_tried": 1,
+    "all_positive_controls_fire": true,
+    "seconds": 54.18656329100486,
+    "trials_per_second": 461.3689904218391
+  },
+  "positive_controls": [
+    {
+      "control": "privileged_identity_in_observation",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: observation is not the observer-safe engine build"
+      ],
+      "fired": true
+    },
+    {
+      "control": "privileged_metadata_on_model_input",
+      "problems": [
+        "model input carries non-observation fields: ['belief_target']"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_action_frame",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: model-frame action does not invert to the absolute one",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: model mask excludes the sampled action"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_value_perspective",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 0 disagrees",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 1 disagrees",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 2 disagrees"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_learner_control_side",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: example learner side is not the acting player"
+      ],
+      "fired": true
+    }
+  ],
+  "behavior_consistency": {
+    "device": "mps",
+    "inference_batch_shape": 64,
+    "tolerance": 0.0001,
+    "recomputation": "float64 legal softmax over the model-frame logits, mapped back to ascending absolute order through the frozen action frame; the production behavior_distribution is not called",
+    "behavior_snapshot_id": "B001",
+    "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "behavior_policy_token": "phase9_behavior_v1|ns=canonical|B001",
+    "games_used": 563,
+    "learner_decisions_rechecked": 100300,
+    "learner_mismatches": 0,
+    "max_abs_probability_difference": 2.9802109335896887e-08,
+    "max_abs_wdl_difference": 0.0,
+    "action_redraw_mismatches": 0,
+    "legal_set_mismatches": 0,
+    "policy_token_mismatches": 0,
+    "problems": [],
+    "historical_side": {
+      "decisions": 2048,
+      "mismatches": 0,
+      "snapshot": "H000",
+      "note": "iteration 1's H000 and B001 are the same accepted Phase 8 file, so this direction proves the per-side resolution path rather than a weight difference; the untrained control below is the one that can fail",
+      "same_weights_as_learner": true,
+      "cross_snapshot_agreement": {
+        "decisions": 64,
+        "verified": 64,
+        "max_abs_difference": 2.70751354669585e-08
+      }
+    },
+    "untrained_checkpoint_control": {
+      "checkpoint": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+      "checkpoint_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+      "decisions": 256,
+      "verified_against_wrong_checkpoint": 0,
+      "max_abs_probability_difference": 0.9754325055371624,
+      "control_holds": true
+    },
+    "snapshot_state_dict_digest_before": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "snapshot_state_dict_digest_after": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "snapshot_weights_unchanged": true,
+    "seconds": 38.88270020901109,
+    "decisions_per_second": 2579.5533607708503
+  },
+  "train_order": {
+    "version": "phase9_train_order_v1",
+    "namespace": "canonical",
+    "iteration": 1,
+    "universe": 282414,
+    "minibatch_size": 512,
+    "minibatches_per_epoch": 552,
+    "final_minibatch_size": 302,
+    "epochs_per_rollout": 2,
+    "epoch0_seed": 4440477430039106730,
+    "epoch1_seed": 4095132215534447638,
+    "epoch_orders_differ": true,
+    "epoch_order_reproducible": true,
+    "resume_reproduces_interrupted_order": true,
+    "cursor_after_seven_minibatches": {
+      "train_order_version": "phase9_train_order_v1",
+      "namespace": "canonical",
+      "iteration": 1,
+      "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "epoch": 0,
+      "minibatch_index": 7,
+      "examples_consumed": 3584,
+      "total_examples": 282414,
+      "minibatch_size": 512,
+      "epochs": 2
+    }
+  },
+  "no_training_audit": {
+    "modules_scanned": [
+      "stratego/training/phase9_targets.py",
+      "stratego/training/phase9_antileak.py"
+    ],
+    "forbidden_symbols": [
+      "backward",
+      "zero_grad",
+      "AdamW",
+      "Adam",
+      "SGD",
+      "optim",
+      "optimizer",
+      "policy_loss",
+      "value_loss",
+      "belief_loss",
+      "multi_head_loss",
+      "step"
+    ],
+    "symbol_findings": [],
+    "trainable_parameters": 0,
+    "grad_enabled_at_audit": true,
+    "state_dict_digest_before": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "state_dict_digest_after": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "weights_unchanged": true,
+    "no_meaningful_rl_training": true
+  },
+  "tests_after": {
+    "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+    "returncode": 0,
+    "summary": "4280 passed, 3 skipped in 262.40s (0:04:22)",
+    "seconds": 263.4685242080013,
+    "passed": 4280,
+    "skipped": 3,
+    "covers_agent_04_artifact_tests": true
+  },
+  "completion_gates": {
+    "agents1_3_pass": true,
+    "corpus_resolver_verified": true,
+    "corpus_digests_match": true,
+    "same_player_sequence_audit_pass": true,
+    "red_blue_perspective_audit_pass": true,
+    "advantages_exhaustively_match": true,
+    "wdl_targets_exhaustively_match": true,
+    "advantage_filter_exact": true,
+    "value_target_simplex_failures_zero": true,
+    "belief_target_mismatches_zero": true,
+    "behavior_reproduction_ge_100k": true,
+    "behavior_reproduction_mismatches_zero": true,
+    "hidden_permutation_trials_ge_25000": true,
+    "model_input_leak_mismatches_zero": true,
+    "positive_controls_fire": true,
+    "learner_control_mismatches_zero": true,
+    "no_meaningful_rl_training": true,
+    "full_suite_green": true
+  },
+  "gates_total": 18,
+  "gates_true": 18,
+  "problems": [],
+  "deviations": [
+    "The exhaustive audit runs on Agent 3's sealed soak subtree (<rollout_root>/agent_03_soak/canonical iteration 1) rather than on a production <rollout_root>/canonical/ tree, because that is where the only substantial sealed Phase 9 rollout currently lives. The games are the real scheduled iteration-1 games and the sealed digest recomputed here matches the one Agent 3 recorded, so the audited object is the real one; identity is version + digests, never a path.",
+    "`phase9_example_v1` is an Agent 4 addition rather than one of Agent 1's nine frozen identities: the assignment requires an example/batch contract and Agent 1 froze none. It names only the *shape* of the object handed to Agent 5 \u2014 every learning constant it quotes is read from the frozen `phase9_contract`, so a tuned value would have to be tuned there, where the accepted contract digest would catch it.",
+    "Iteration 1's historical opponent H000 and behavior snapshot B001 are the same accepted Phase 8 file, so verifying a historical opponent's moves against B001 cannot fail on weights alone. The per-side discipline is therefore evidenced by the resolution path plus an explicit untrained-checkpoint control, which does fail by ~1e-1."
+  ],
+  "handoff_to_agent_5": {
+    "example_iterator": "phase9_targets.iter_rollout_examples(reader, statistics) \u2014 games in ascending game_id order, decisions in ascending ply order, every read digest-checked by the store",
+    "example_schema": "phase9_targets.Phase9RLExample / phase9_example_v1",
+    "train_order": "phase9_targets.train_order_keys(reader) then epoch_order(keys, namespace, iteration, epoch); contiguous 512-example minibatches, the final partial batch consumed",
+    "cursor": "phase9_targets.Phase9MinibatchCursor \u2014 (epoch, minibatch_index, examples_consumed); minibatch_keys() rebuilds the exact keys of an interrupted batch from the sealed rollout alone",
+    "ppo_eligibility": "IterationTargetStatistics.is_eligible(A) = |A| >= tau, tau = max(Q_0.75(|A|), 0.01) over the whole sealed iteration; Phase9RLExample.ppo_eligible carries it per example",
+    "standardized_advantages": "IterationTargetStatistics.standardize(A) over the PPO subset's mean and population std with epsilon 1e-8; zero-variance and empty-subset both yield 0.0 and are recorded as flags on the statistics",
+    "behavior_quantity": "Phase9RLExample.behavior_action_probability is the stored float32 pi_b(a_t|s_t); behavior_legal_probabilities is the full legal distribution for the KL term, ascending absolute order",
+    "wdl_targets": "Phase9RLExample.wdl_target, learner perspective, categorical CE",
+    "belief_targets": "Phase9RLExample.belief_target / belief_mask \u2014 the frozen Phase 8 hidden-only semantics via belief_targets.dense_belief_target",
+    "model_input_boundary": "phase9_targets.model_input_fields_only(example) and build_batch()['model_input'] are the only routes to the backbone; phase9_antileak.audit_model_input refuses anything else",
+    "value_and_belief_are_unfiltered": "the advantage filter applies to the PPO policy loss only; value, belief, KL and entropy use every learner decision"
+  },
+  "durations": {
+    "verify": 4.434759624971775,
+    "targets": 90.89514795900322,
+    "contract": 0.2964944160194136,
+    "antileak": 54.18670429100166,
+    "behavior": 38.88288799999282
+  },
+  "total_seconds": 188.83829920797143
+}

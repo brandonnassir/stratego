@@ -1,0 +1,814 @@
+{
+ "phase": 9,
+ "agent": 1,
+ "status": "PASS",
+ "timestamp": "2026-08-16T01:45:18-0400",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "cpu_count": 14,
+ "source_revision": "0fe6caf",
+ "working_tree_state": "dirty",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "rules_version": "stratego_project_v1",
+ "engine_version": "phase2_1_reference_1.2.0",
+ "observation_version": "observation_v2_1_127ch",
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3797 passed, 3 skipped in 243.07s (0:04:03)",
+  "passed": 3797,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 243.07,
+  "measured_at_commit": "0fe6caf"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "3928 passed, 3 skipped in 255.45s (0:04:15)",
+  "passed": 3928,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 256.512
+ },
+ "commands": [
+  "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase9_agent01.py --run-pytest"
+ ],
+ "problems": [],
+ "deviations": [],
+ "artifact": "agent_01_rl_contract",
+ "contract": {
+  "contract_version": "phase9_rl_contract_v1",
+  "contract_identities": [
+   "phase9_rl_contract_v1",
+   "phase9_population_v1",
+   "phase9_rollout_schedule_v1",
+   "phase9_rollout_store_v1",
+   "phase9_advantage_v1",
+   "phase9_train_order_v1",
+   "phase9_checkpoint_v1",
+   "phase9_eval_bank_v1",
+   "phase9_acceptance_v1"
+  ],
+  "rollout_version": "phase9_rollout_v1",
+  "frozen_phase8_inputs": {
+   "checkpoint_path": "checkpoints/phase8/warmstart_c1_v1.pt",
+   "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "selected_update": 24000,
+   "canonical_untrained_path": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+   "canonical_untrained_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "canonical_init_seed": 2026081302,
+   "canonical_init_state_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+   "c1_parameters": 863959,
+   "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "train_config_document_digest": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+   "trainer_runtime_identity_digest": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+   "train_config_digest_note": "two distinct namespaces: the 41-field frozen document vs the 31-field runtime identity; they are not required to be equal and must stay labeled distinctly",
+   "corpus": {
+    "version": "synthetic_warmstart_corpus_v1",
+    "resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+    "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+    "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+    "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+    "rules": "identity is version + digests, never a path; a digest mismatch is BLOCKED; the corpus is never regenerated or repaired in Phase 9"
+   }
+  },
+  "canonical_seeds": {
+   "phase9_master_seed": 2026081601,
+   "rollout_schedule_seed": 2026081602,
+   "opponent_schedule_seed": 2026081603,
+   "train_order_seed": 2026081604,
+   "pilot_namespace_seed": 2026081605,
+   "canonical_namespace_seed": 2026081606,
+   "validation_bootstrap_seed": 2026081607,
+   "test_bootstrap_seed": 2026081608
+  },
+  "seed_derivation": "stratego.training.phase9_seed: blake2b person 'strat-rl9', domain-separated streams, no global RNG cursor anywhere",
+  "game_identity": {
+   "id_function": "stratego.training.phase9_seed.phase9_game_id",
+   "fields": [
+    "rollout_version",
+    "master_seed",
+    "namespace",
+    "iteration",
+    "bucket",
+    "ordinal"
+   ],
+   "format_example": "phase9_rollout_v1|ms=2026081601|ns=canonical|it=012|b=historical|g=0137",
+   "per_game_streams": {
+    "setup_root": "setup-source root seed",
+    "opponent:historical": "active-window archive draw (historical bucket only)",
+    "policy:red": "red rule/stress policy match-level seed",
+    "policy:blue": "blue rule/stress policy match-level seed",
+    "behavior_sampler": "per-decision neural action sampling"
+   },
+   "per_ply_policy_randomness": "derive_decision_seed(policy_seed, ply) \u2014 the frozen Phase 4 per-ply derivation, unchanged"
+  },
+  "population": {
+   "population_version": "phase9_population_v1",
+   "proportions": {
+    "current": 0.5,
+    "historical": 0.25,
+    "rule": 0.15,
+    "stress": 0.1
+   },
+   "canonical": {
+    "games_per_iteration": 2048,
+    "bucket_counts": {
+     "current": 1024,
+     "historical": 512,
+     "rule": 307,
+     "stress": 205
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 154,
+     "tactical_rule_based": 107,
+     "basic_heuristic": 46
+    }
+   },
+   "pilot": {
+    "games_per_iteration": 1024,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "rule_tier_order": [
+    "strategic_rule_based",
+    "tactical_rule_based",
+    "basic_heuristic"
+   ],
+   "stress_roster": [
+    "stress_scout_rush",
+    "stress_miner_rush",
+    "stress_draw_seeker",
+    "stress_berserker",
+    "stress_information_miser",
+    "stress_chaos"
+   ],
+   "stress_rotation": "(ordinal + iteration) % 6 over the frozen roster",
+   "learner_control": {
+    "labels": [
+     "red",
+     "blue",
+     "both"
+    ],
+    "training_eligibility": {
+     "current": "both colors",
+     "historical": "current-policy side only",
+     "rule": "current-policy side only",
+     "stress": "current-policy side only"
+    },
+    "opponent_rule": "opponent decisions remain in the trajectory for state reconstruction but receive no Phase 9 policy/value/belief loss in that iteration"
+   },
+   "color_balance": "asymmetric games: learner is red iff (ordinal + iteration) % 2 == 0; odd remainders alternate by deterministic iteration parity",
+   "historical_league": {
+    "anchor": "H000",
+    "anchor_source": "checkpoints/phase8/warmstart_c1_v1.pt",
+    "anchor_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "archive_cadence_iterations": 5,
+    "archive_id_rule": "H%03d at each archive-creating iteration",
+    "active_window": "Phase 8 anchor + the 8 most recent archive snapshots created strictly before the current iteration",
+    "sampling": "uniform over the active window via the frozen opponent stream",
+    "immutability": "no archive checkpoint may be overwritten",
+    "meaning": "historical replay means historical opponents, not stale PPO examples"
+   },
+   "setup_assignment": {
+    "source": "training_setup_source('neutral_v1') \u2014 the frozen Phase 7 train split; rollouts never touch a held-out base",
+    "assign_call": {
+     "root_seed": "phase9_seed.setup_root_seed(game_id)",
+     "environment_id": 0,
+     "generation": 0,
+     "game_id": "the Phase 9 rollout game id"
+    }
+   }
+  },
+  "rollout_schedule": {
+   "schedule_version": "phase9_rollout_schedule_v1",
+   "rule": "pure arithmetic: exact per-bucket counts, contiguous rule subranges, stress rotation, parity colour balance; the only seeded draw is the historical active-window member",
+   "entry_point": "phase9_contract.scheduled_game(namespace, iteration, bucket, ordinal)"
+  },
+  "behavior_policy": {
+   "temperature": 1.0,
+   "definition": "pi_b(a|s) = exp(z_a) / sum_{a' in A(s)} exp(z_{a'}) over exactly the legal actions A(s), logits z from the frozen behavior snapshot, temperature 1.0; evaluation banks use greedy argmax instead",
+   "action_selection": "walk legal actions in ascending action-id order accumulating behavior probabilities; select the first action whose cumulative probability >= behavior_sample_uniform(game_id, ply); float32 tail shortfall selects the last legal action",
+   "applies_to": "every neural participant of a rollout game samples its own legal softmax at temperature 1.0: the current policy and any historical snapshot alike",
+   "storage": {
+    "trajectory_version": "trajectory_v1 (reused, meaning unchanged)",
+    "stored_quantity": "the full legal-action behavior distribution, one entry per legal action in ascending legal order (DecisionRecord.old_probabilities)",
+    "dtype": "float32 (rounded at storage time by the frozen builder)",
+    "normalization": "distribution sums to 1 within the frozen trajectory_v1 tolerance of 1e-4",
+    "per_decision_identity": "DecisionRecord.collection_policy_version = the acting side's policy token",
+    "per_game_identity": "GameRecord.collection_checkpoint_id = the behavior snapshot's SHA-256; per-side identities and digests repeat in the phase9_rollout_store_v1 sidecar",
+    "opponent_rule_policy_representation": "a rule/stress opponent decision stores the one-hot distribution on its realized action with its policy token, and the neutral (1/3, 1/3, 1/3) value prediction \u2014 the accepted Phase 8 corpus representation; such decisions are never PPO-trainable (learner-control semantics), so no behavior probability is claimed for them",
+    "value_prediction": "a neural decision stores the acting network's own W/D/L softmax from the acting player's perspective (DecisionRecord.win_draw_loss_prediction, float32); the same-player targets consume only learner-controlled decisions' stored predictions"
+   },
+   "training_time_probability": "pi_b(a_t|s_t) in the PPO ratio is the STORED float32 probability of the realized action \u2014 the storage is the authority, so the ratio is exact and independent of any device recomputation; log pi_b = ln(max(p_stored, 1e-12))",
+   "verification": {
+    "rule": "recompute logits under the exact frozen behavior snapshot, legal softmax at temperature 1.0, and require max |p_stored - p_recomputed| <= 1e-4 per legal entry; the realized action's stored probability must match within the same tolerance",
+    "reference_device": "CPU float32 is the bit-stable reference verifier; an MPS recomputation uses the same tolerance",
+    "max_abs_mismatch": 0.0001,
+    "identity_check": "the checkpoint whose SHA-256 matches the recorded behavior snapshot digest is the only admissible reconstruction checkpoint; a digest mismatch is a hard veto, not a tolerance question"
+   }
+  },
+  "advantage": {
+   "advantage_version": "phase9_advantage_v1",
+   "constants": {
+    "gamma": 1.0,
+    "lambda_A": 0.5,
+    "lambda_V": 0.8
+   },
+   "sequence_definition": "per game and per learner-controlled colour, the sequence holds only that player's own decisions in ply order; the opponent move between consecutive learner states is never a learner training step",
+   "behavior_value_scalar": "v_t = P_t(W) - P_t(L) from the stored behavior W/D/L",
+   "delta": "delta_t = v_{t+1} - v_t when another learner decision follows; delta_t = z - v_t when the game terminates before that player's next decision, z in {-1, 0, +1} from that player's final perspective",
+   "advantage": "A_t = delta_t + lambda_A * A_{t+1}; A beyond the final step = 0",
+   "wdl_lambda_target": "terminal decision: Y_t = Z (one-hot outcome); otherwise Y_t = (1 - lambda_V) * P_{t+1} + lambda_V * Y_{t+1}; value loss stays categorical W/D/L cross-entropy against the soft target",
+   "filter": {
+    "threshold": "tau = max(Q_0.75(|A|), 0.01) per sealed iteration",
+    "quantile_rule": "linear interpolation over the sorted |A| sample",
+    "eligibility": "policy-gradient eligible iff |A_t| >= tau",
+    "scope": "the filter applies only to the PPO policy loss; value and belief train on every learner-controlled decision"
+   },
+   "standardization": "advantages are standardized over the PPO-selected subset only: A_hat = (A - mean_selected) / (std_selected + 1e-8), population std (ddof=0), computed once per sealed iteration"
+  },
+  "ppo": {
+   "ratio": "r_t(theta) = pi_theta(a_t|s_t) / pi_b(a_t|s_t); the denominator is the stored float32 behavior probability of the realized action; both logs floor at 1e-12",
+   "clip_epsilon": 0.2,
+   "objective": "L_PPO = -E[min(r_t * A_hat_t, clip(r_t, 0.8, 1.2) * A_hat_t)] over the advantage-filtered, standardized PPO subset",
+   "clip_fraction": "fraction of PPO-subset decisions in an epoch with |r_t - 1| > 0.20",
+   "behavior_kl": {
+    "direction": "D_KL(pi_b || pi_theta) = sum_a pi_b(a|s) * ln(pi_b(a|s) / pi_theta(a|s)) over the legal set",
+    "population": "every learner-controlled decision of the minibatch \u2014 not just the PPO subset \u2014 so damping tracks global drift from the behavior snapshot",
+    "target": 0.015,
+    "adaptive_beta": {
+     "cadence": "updated once after each optimizer epoch",
+     "increase": "mean epoch KL > 0.03 -> beta *= 2",
+     "decrease": "mean epoch KL < 0.0075 -> beta *= 0.5",
+     "otherwise": "unchanged",
+     "clamp": [
+      0.0001,
+      0.2
+     ]
+    },
+    "hard_limits": {
+     "mean_iteration_or_epoch_kl_fail": 0.08,
+     "ppo_clip_fraction_fail": 0.75
+    }
+   },
+   "full_loss": "L = L_PPO + 0.5 * L_value + 0.25 * L_belief + beta_KL * D_KL - c_H * H(pi_theta)",
+   "loss_populations": {
+    "ppo": "advantage-filtered learner decisions of the minibatch",
+    "value": "every learner-controlled decision of the minibatch: categorical cross-entropy against the soft W/D/L lambda target",
+    "belief": "every learner-controlled decision of the minibatch: the frozen Phase 8 hidden-only masked belief cross-entropy (continued belief supervision)",
+    "kl": "every learner-controlled decision of the minibatch",
+    "entropy": "every learner-controlled decision of the minibatch: mean legal-softmax entropy of pi_theta"
+   },
+   "entropy_schedule": {
+    "start": 0.005,
+    "end": 0.001,
+    "rule": "linear in the 1-based iteration index over the run's own scheduled iteration budget; constant within an iteration"
+   },
+   "loss_weights": {
+    "value": 0.5,
+    "belief": 0.25
+   },
+   "optimizer_constraints": {
+    "precision": "float32",
+    "device": "mps",
+    "optimizer": "AdamW",
+    "adam_betas": [
+     0.9,
+     0.999
+    ],
+    "adam_epsilon": 1e-08,
+    "weight_decay": 0.01,
+    "gradient_clip_norm": 1.0,
+    "learning_rate_schedule": "constant (no warmup, no decay)",
+    "minibatch_size": 512,
+    "epochs_per_rollout": 2
+   },
+   "train_order": {
+    "version": "phase9_train_order_v1",
+    "universe": "the sealed iteration's learner-controlled decisions (the value/belief population)",
+    "shuffle": "each epoch shuffles the universe with random.Random(train_order_seed(namespace, iteration, epoch)).shuffle over indices sorted by (game_id, ply)",
+    "minibatches": "contiguous 512-decision slices of the shuffled order; the final partial minibatch is consumed, never dropped"
+   }
+  },
+  "rollout_store": {
+   "store_version": "phase9_rollout_store_v1",
+   "root": "data/phase9/rollouts/",
+   "relocation": "the root may be redirected to an external volume by explicit operator configuration (the cleared external drive is available for Phase 9 rollout storage); the manifest records the actual location, and identity is version + digests, never a path \u2014 the accepted Phase 8 relocation precedent",
+   "payload": {
+    "trajectory_version": "trajectory_v1",
+    "snapshot_interval": 32,
+    "role": "replay authority: setups, actions, decisions, terminal state"
+   },
+   "behavior_snapshot_lifecycle": [
+    "freeze the current learner as an immutable behavior snapshot",
+    "hash and record it (SHA-256)",
+    "collect the entire iteration from that snapshot",
+    "seal the rollout",
+    "only then optimize",
+    "create the next behavior snapshot only after the iteration is COMMITTED"
+   ],
+   "states": [
+    "COLLECTING",
+    "SEALED",
+    "TRAINING",
+    "EVALUATED",
+    "COMMITTED"
+   ],
+   "metadata_fields": [
+    "game_id",
+    "rollout_version",
+    "namespace",
+    "iteration",
+    "bucket",
+    "ordinal",
+    "learner_control",
+    "learner_color",
+    "red_policy_token",
+    "blue_policy_token",
+    "behavior_snapshot_id",
+    "behavior_checkpoint_sha256",
+    "opponent_kind",
+    "opponent_identity",
+    "opponent_checkpoint_sha256 (neural opponents; null otherwise)",
+    "setup_root_seed",
+    "red_policy_seed (rule/stress sides; null otherwise)",
+    "blue_policy_seed (rule/stress sides; null otherwise)",
+    "setup_provenance (both sides, setup_provenance_v1)",
+    "terminal_result",
+    "terminal_reason",
+    "total_decisions",
+    "learner_decision_count"
+   ],
+   "commit_rule": "a game is trainable only once a commit record exists, written after both the trajectory payload and the Phase 9 metadata exist and verify; the Phase 8 corpus-commit journal pattern is the accepted shape",
+   "seal_rule": "a rollout seals only when every scheduled game id of the iteration is committed; the sealed rollout digest is the SHA-256 over the sorted committed (game_id, payload_sha256, metadata_sha256) triples; sealed rollouts are immutable",
+   "crash_rules": [
+    "collection crash -> deterministically regenerate only missing/uncommitted game ids",
+    "no game becomes trainable until payload + metadata + commit all verify",
+    "sealed rollouts are immutable",
+    "training crash -> resume the exact logical minibatch/optimizer/scheduler/KL-controller state from the same sealed rollout",
+    "no next-iteration game may be generated before the current iteration is COMMITTED",
+    "one iteration must never mix two behavior snapshot identities"
+   ],
+   "git_rule": "production rollout shards and checkpoint archives stay out of Git; compact manifests, digests, contracts, tests and reports are tracked"
+  },
+  "checkpoint": {
+   "checkpoint_version": "phase9_checkpoint_v1",
+   "required_fields": [
+    "model_state",
+    "optimizer_state",
+    "scheduler_state",
+    "global_optimizer_step",
+    "rl_iteration",
+    "minibatch_cursor",
+    "examples_consumed",
+    "behavior_snapshot_identity",
+    "behavior_checkpoint_sha256",
+    "rollout_iteration_identity",
+    "sealed_rollout_digest",
+    "kl_beta",
+    "kl_controller_state",
+    "entropy_schedule_position",
+    "population_version",
+    "active_historical_identities",
+    "historical_checkpoint_digests",
+    "opponent_schedule_version",
+    "setup_sampler_version",
+    "best_validation_score",
+    "best_checkpoint_identity",
+    "validation_history",
+    "phase9_seeds",
+    "corpus_identities",
+    "rules_model_observation_versions",
+    "wall_clock_counters",
+    "software_runtime_versions"
+   ],
+   "path_rule": "absolute paths are diagnostic only and must not define identity",
+   "resume_rule": "exact logical resume: minibatch cursor, optimizer state, scheduler state, KL controller state and entropy position restore from the checkpoint against the same sealed rollout"
+  },
+  "eval_banks": {
+   "eval_bank_version": "phase9_eval_bank_v1",
+   "banks": {
+    "validation": {
+     "bank_version": "phase9_validation_bank_v1",
+     "split": "validation",
+     "paired_cases": 128,
+     "cases_per_family": 8,
+     "bootstrap_seed": 2026081607,
+     "role": "model selection: anchor baseline, pilot selection, canonical validation cadence, best-checkpoint choice"
+    },
+    "test": {
+     "bank_version": "phase9_test_bank_v1",
+     "split": "test",
+     "paired_cases": 512,
+     "cases_per_family": 32,
+     "bootstrap_seed": 2026081608,
+     "role": "sealed final evaluation: structural audit only before Agent 8; no neural model inference before Agent 8"
+    }
+   },
+   "construction": {
+    "generation_family": "phase9_family_balanced_v1",
+    "case_identity": "setup_pair_id = family_index * cases_per_family + case_ordinal over families F00..F15 (family-major)",
+    "family_purity": "both sides of a case draw from the case's family: the case family is unambiguous and setup-family EWR attributes cleanly; the learner colour swaps inside the paired unit, so family purity is the only colour-symmetric choice",
+    "side_draws": "for side in (red, blue): attempt k = 0, 1, ... draws sample_setup(split, eval_bank_draw_seed(bank_version, family_id, case_ordinal, side, k), profile='neutral_v1') through the frozen setup_sampler_v1 and accepts the first draw whose primary_family_id equals the case family; the accepted draw's engine orientation for that side is the case setup",
+    "max_attempts_per_side": 2048,
+    "no_outcome_selection": "construction never plays a game, never reads a strength signal, and never rejects a draw for anything but family identity"
+   },
+   "pairing_mode": "color_swap_same_board",
+   "evaluation_protocol": {
+    "decision_rule": "greedy argmax (evaluation is never sampled)",
+    "dtype": "float32",
+    "rules": "frozen Phase 4 EVALUATION_RULES via the untouched match machinery",
+    "match_root_seed": 20260401,
+    "match_root_seed_rule": "the frozen Phase 4 evaluation root seed; Phase 9 match identity separates from earlier phases through the bank version inside every match id",
+    "anchor_candidate_identity": "the Phase 8 anchor plays as neural_policy_ref('c1_warmstart', dtype_name='float32') through a bitwise-verified evaluation export of the accepted checkpoint \u2014 the accepted Agent 7 identity",
+    "harness": "run_neural_schedule for neural-vs-rule matchups; neural-vs-neural (current vs Phase 8 anchor and league cross-play) drives play_match directly with two in-process inference owners \u2014 the accepted Agent 7 shape"
+   },
+   "core_opponents": [
+    "phase8_anchor",
+    "random_legal",
+    "basic_heuristic",
+    "tactical_rule_based",
+    "strategic_rule_based"
+   ],
+   "stress_schedule": {
+    "policies": [
+     "stress_scout_rush",
+     "stress_miner_rush",
+     "stress_draw_seeker",
+     "stress_berserker",
+     "stress_information_miser",
+     "stress_chaos"
+    ],
+    "validation_pairs_per_policy": 32,
+    "validation_rule": "the first 32 setup_pair_ids (0..31) of the validation bank per stress policy, report-only",
+    "test_pairs_per_policy": 64,
+    "test_rule": "the first 64 setup_pair_ids (0..63) of the test bank per stress policy, report-only, Agent 8 only"
+   },
+   "statistics": {
+    "method": "paired_unit_percentile_bootstrap",
+    "engine": "numpy_pcg64",
+    "resampling_unit": "paired_unit",
+    "replicates": 10000,
+    "confidence": 0.95,
+    "seed_rule": "matchup interval seed = matchup_seed(bank bootstrap seed, 'candidate_token|opponent_token') through the frozen Phase 4 statistics derivation; validation banks use 2026081607, the final-test bank 2026081608",
+    "paired_difference_rule": "paired improvement resamples per-unit score differences (candidate unit score - anchor unit score on the same setup_pair_id) with the same frozen method, replicates, confidence, and seed rule under matchup token 'diff|candidate_token|anchor_token|opponent_token'"
+   }
+  },
+  "validation": {
+   "score": "S = 0.45 * E_Strategic + 0.35 * E_Tactical + 0.20 * E_Phase8_anchor; higher is better",
+   "weights": {
+    "strategic_rule_based": 0.45,
+    "tactical_rule_based": 0.35,
+    "phase8_anchor": 0.2
+   },
+   "bank": "phase9_validation_bank_v1",
+   "games_per_opponent": 256,
+   "regression_guards": {
+    "random_legal_ewr_min": 0.9,
+    "basic_heuristic_ewr_min": 0.6
+   },
+   "tie_break": [
+    "higher validation score",
+    "higher Strategic EWR",
+    "lower mean behavior KL",
+    "higher training examples/s"
+   ],
+   "canonical_cadence": "a full validation pass after every 5th committed iteration (iterations 5, 10, ..., 60)",
+   "pilot_cadence": "full validation passes after iterations 4 and 8",
+   "best_checkpoint": "the strictly highest frozen validation score among cadence passes; the final iteration is not automatically selected; exact ties fall through the frozen tie-break chain",
+   "weights_rule": "a validation pass may select checkpoints; it may never update weights"
+  },
+  "pilot_matrix": {
+   "candidates": [
+    {
+     "candidate_id": "P9-A",
+     "namespace": "pilot_p9a",
+     "learning_rate": 0.0001,
+     "initial_kl_beta": 0.005
+    },
+    {
+     "candidate_id": "P9-B",
+     "namespace": "pilot_p9b",
+     "learning_rate": 0.0001,
+     "initial_kl_beta": 0.02
+    },
+    {
+     "candidate_id": "P9-C",
+     "namespace": "pilot_p9c",
+     "learning_rate": 0.0003,
+     "initial_kl_beta": 0.005
+    },
+    {
+     "candidate_id": "P9-D",
+     "namespace": "pilot_p9d",
+     "learning_rate": 0.0003,
+     "initial_kl_beta": 0.02
+    },
+    {
+     "candidate_id": "P9-E",
+     "namespace": "pilot_p9e",
+     "learning_rate": 0.0006,
+     "initial_kl_beta": 0.005
+    },
+    {
+     "candidate_id": "P9-F",
+     "namespace": "pilot_p9f",
+     "learning_rate": 0.0006,
+     "initial_kl_beta": 0.02
+    }
+   ],
+   "candidate_limit": 6,
+   "allowed_dimensions": [
+    "learning_rate",
+    "initial_kl_beta"
+   ],
+   "per_candidate_budget": {
+    "start": "fresh from the accepted Phase 8 checkpoint",
+    "rl_iterations": 8,
+    "games_per_iteration": 1024,
+    "optimizer_epochs_per_rollout": 2,
+    "mixture": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_subdivision": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "selection": {
+    "score": "the frozen validation score at the final pilot checkpoint (after iteration 8); higher is better",
+    "validation_cadence": "after iterations 4 and 8",
+    "tie_break": [
+     "higher validation score",
+     "higher Strategic EWR",
+     "lower mean behavior KL",
+     "higher training examples/s"
+    ],
+    "hard_vetoes": {
+     "illegal_neural_action_max": 0,
+     "non_finite_loss_max": 0,
+     "non_finite_gradient_max": 0,
+     "non_finite_parameter_max": 0,
+     "behavior_identity_mismatch_max": 0,
+     "target_reconstruction_mismatch_max": 0,
+     "observer_safety_failure_max": 0,
+     "checkpoint_resume_failure_max": 0,
+     "mean_iteration_or_epoch_kl_max": 0.08,
+     "iteration_ppo_clip_fraction_max": 0.75,
+     "validation_random_ewr_min": 0.9,
+     "validation_basic_ewr_min": 0.6
+    },
+    "veto_scope": "count-based vetoes cover the whole pilot run; threshold vetoes apply to every measured iteration/epoch and every validation pass",
+    "forbidden_evidence": [
+     "final-test results",
+     "architecture changes",
+     "mixture changes",
+     "seed changes"
+    ]
+   },
+   "no_seventh_run": true,
+   "no_opportunistic_early_stop": true,
+   "output": "phase9_train_config_v1: the winner's learning rate and initial KL beta joined with every constant this contract already freezes"
+  },
+  "canonical_run": {
+   "start": "fresh from the accepted Phase 8 checkpoint",
+   "rl_iterations": 60,
+   "games_per_iteration": 2048,
+   "max_scheduled_games": 122880,
+   "optimizer_epochs_per_rollout": 2,
+   "validation_cadence_iterations": 5,
+   "archive_cadence_iterations": 5,
+   "wall_clock_ceiling_hours": 12,
+   "ceiling_rule": "the 12-hour ceiling is an operational maximum, not permission to shorten the logical contract silently; an incomplete run reports incomplete/blocked rather than pretending completion",
+   "best_checkpoint": "strictly highest frozen validation score among cadence passes"
+  },
+  "final_gates": {
+   "acceptance_version": "phase9_acceptance_v1",
+   "bank": "phase9_test_bank_v1",
+   "gate_a_direct_improvement_over_anchor": {
+    "opponent": "Phase 8 anchor (the accepted warm-start checkpoint)",
+    "paired_cases": 512,
+    "games": 1024,
+    "effective_win_rate_min": 0.58,
+    "paired_bootstrap_lower_bound_exclusive": 0.53
+   },
+   "gate_b_strategic": {
+    "opponent": "strategic_rule_based",
+    "final_ewr_min": 0.52,
+    "paired_improvement_over_anchor_min": 0.05,
+    "improvement_ci_lower_bound_exclusive": 0.0
+   },
+   "gate_c_tactical": {
+    "opponent": "tactical_rule_based",
+    "final_ewr_min": 0.52,
+    "paired_improvement_over_anchor_min": 0.05,
+    "improvement_ci_lower_bound_exclusive": 0.0
+   },
+   "stretch_report_only": {
+    "strategic_ewr": 0.55,
+    "tactical_ewr": 0.55
+   },
+   "gate_d_random_guard": {
+    "opponent": "random_legal",
+    "overall_ewr_min": 0.94,
+    "red_ewr_min": 0.9,
+    "blue_ewr_min": 0.9,
+    "paired_bootstrap_lower_bound_exclusive": 0.92
+   },
+   "gate_e_basic_guard": {
+    "opponent": "basic_heuristic",
+    "ewr_min": 0.65,
+    "paired_bootstrap_lower_bound_exclusive": 0.6
+   },
+   "gate_f_safety": {
+    "illegal_actions_max": 0,
+    "model_failures_max": 0,
+    "non_finite_outputs_max": 0,
+    "observer_safety_failures_max": 0
+   },
+   "gate_g_policy_collapse": {
+    "population": "every final-candidate decision across the final-test games",
+    "max_legal_probability_threshold": 0.999,
+    "fraction_above_threshold_max_exclusive": 0.25
+   },
+   "gate_h_belief_retention": {
+    "benchmark": "the accepted Phase 8 held-out synthetic belief benchmark (sealed test split, warmstart_eval_v1 semantics)",
+    "belief_ce_ratio_vs_remaining_count_max": 0.98,
+    "belief_top1_must_beat_remaining_count_top1": true,
+    "report_only": "Phase 8-style teacher policy imitation CE is report-only in Phase 9"
+   },
+   "anchor_procedure": {
+    "rule": "after Agent 8 legitimately opens the final-test bank, the Phase 8 anchor plays the same final cases against Tactical and Strategic (512 pairs each, greedy, float32, frozen seeds); paired improvement per unit = candidate unit score - anchor unit score on the same setup_pair_id; the improvement CI is the frozen paired-difference bootstrap under the final-test seed rule"
+   },
+   "statistics": {
+    "method": "paired_unit_percentile_bootstrap",
+    "resampling_unit": "paired_unit",
+    "replicates": 10000,
+    "confidence": 0.95,
+    "bootstrap_seed": 2026081608
+   },
+   "report_only_rule": "report-only diagnostics may not rescue a failed hard gate"
+  },
+  "sealing_rules": {
+   "phase9_test_bank": {
+    "allowed_always": [
+     "structural_audit"
+    ],
+    "agent8_only": [
+     "final_evaluation"
+    ],
+    "prohibited_before_agent_8": [
+     "neural_model_inference",
+     "model_metric",
+     "checkpoint_selection",
+     "hyperparameter_selection"
+    ]
+   },
+   "phase9_validation_bank": {
+    "allowed_always": [
+     "structural_audit",
+     "anchor_baseline",
+     "validation_scoring",
+     "pilot_selection",
+     "checkpoint_selection"
+    ],
+    "prohibited_always": [
+     "weight_update"
+    ]
+   },
+   "phase8_test_corpus": {
+    "rule": "the accepted Phase 8 belief benchmark (gate H) reuses the sealed Phase 8 test split; Agent 8 alone may run it, through the Phase 8 gate check_test_corpus_access('final_evaluation', phase8_agent=7) semantics extended by this contract to the Phase 9 final evaluator; no Phase 9 agent 1-7 may run any model over Phase 8 test examples"
+   },
+   "enforcement": "stratego.training.phase9_contract.check_test_bank_access / check_validation_bank_access; pure, stateless, regression-tested",
+   "no_test_metric_before_agent_8": true
+  },
+  "report_only_diagnostics": [
+   "W/D/L and EWR by color",
+   "setup-family EWR",
+   "terminal-reason distribution",
+   "game-length distribution",
+   "policy entropy",
+   "PPO clip fraction",
+   "behavior KL",
+   "advantage distribution",
+   "advantage-filter retention fraction",
+   "value calibration",
+   "belief accuracy by piece type",
+   "belief accuracy by game progress",
+   "historical-opponent performance",
+   "stress-policy performance",
+   "league cross-play matrix",
+   "archive pairwise EWR",
+   "rollout throughput",
+   "training throughput",
+   "storage volume",
+   "MPS memory",
+   "CPU memory"
+  ],
+  "mission_boundaries": {
+   "forbidden": [
+    "decision-time search",
+    "MCTS",
+    "belief-search rollouts",
+    "learned setup generation or selection",
+    "setup-policy RL",
+    "human training data",
+    "Phase 8 corpus modification",
+    "architecture search or C2/C3 replacement",
+    "mixed-precision optimizer training",
+    "rule changes, including two-square or continuous-chasing",
+    "official 168-hour final run",
+    "Phase 10+ work"
+   ]
+  },
+  "artifact_namespaces": [
+   "reports/phase_9_data/",
+   "data/phase9/rollouts/",
+   "checkpoints/phase9/",
+   "checkpoints/phase9/archive/"
+  ]
+ },
+ "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+ "canonical_seeds": {
+  "phase9_master_seed": 2026081601,
+  "rollout_schedule_seed": 2026081602,
+  "opponent_schedule_seed": 2026081603,
+  "train_order_seed": 2026081604,
+  "pilot_namespace_seed": 2026081605,
+  "canonical_namespace_seed": 2026081606,
+  "validation_bootstrap_seed": 2026081607,
+  "test_bootstrap_seed": 2026081608
+ },
+ "seed_verification": {
+  "deterministic_repeat": true,
+  "distinct_domain_seeds": true,
+  "probe_game_id": "phase9_rollout_v1|ms=2026081601|ns=canonical|it=012|b=historical|g=0137",
+  "warmstart_disjoint": true
+ },
+ "schedule_verification": {
+  "canonical": {
+   "all_unique": true,
+   "buckets": {
+    "current": 1024,
+    "historical": 512,
+    "rule": 307,
+    "stress": 205
+   },
+   "exact": true,
+   "expected_total": 2048,
+   "learner_controls": {
+    "blue": 513,
+    "both": 1024,
+    "red": 511
+   },
+   "opponent_kinds": {
+    "current_policy": 1024,
+    "historical_snapshot": 512,
+    "rule_policy": 307,
+    "stress_policy": 205
+   },
+   "total": 2048,
+   "unique_game_ids": 2048
+  },
+  "pilot_p9a": {
+   "all_unique": true,
+   "buckets": {
+    "current": 512,
+    "historical": 256,
+    "rule": 154,
+    "stress": 102
+   },
+   "exact": true,
+   "expected_total": 1024,
+   "learner_controls": {
+    "blue": 256,
+    "both": 512,
+    "red": 256
+   },
+   "opponent_kinds": {
+    "current_policy": 512,
+    "historical_snapshot": 256,
+    "rule_policy": 154,
+    "stress_policy": 102
+   },
+   "total": 1024,
+   "unique_game_ids": 1024
+  }
+ }
+}

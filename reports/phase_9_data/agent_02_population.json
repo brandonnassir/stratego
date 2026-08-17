@@ -1,0 +1,334 @@
+{
+ "phase": 9,
+ "agent": 2,
+ "artifact": "agent_02_population",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "cpu_count": 14,
+ "source_revision": "0fe6caf",
+ "working_tree_state": "dirty",
+ "rules_version": "stratego_project_v1",
+ "engine_version": "phase2_1_reference_1.2.0",
+ "observation_version": "observation_v2_1_127ch",
+ "population_version": "phase9_population_v1",
+ "schedule_version": "phase9_rollout_schedule_v1",
+ "population_digest": "6756790b15ee66195bc6339363e19fc475e3c606ef10613619b78b23d21bda73",
+ "run_schedule_digests": {
+  "canonical": "bc253e8be2c63db1af308f62cf52f99f1431e9c9ec8a6db0987783b2983c0e64",
+  "pilot_p9a": "c7bf66ff84b7ed829f477dfaf6b14cfa8c801ef5144f4d1f33175136562748cf",
+  "pilot_p9b": "dd74fb86cb63108819db8f8db5e343fe18b87ca7c056c0f4603406d7e22d859d",
+  "pilot_p9c": "1b5c4e742ab1e7be71b038aeefa817794b4924197ed9eab107f1a7ddc442039c",
+  "pilot_p9d": "b9a42c9a34222dfc976b6e789605e0115e5257b5f054504bbe10088da597f1cc",
+  "pilot_p9e": "1e61f341c6568388e611e810f24491a3f3a9fa739b73fad0caf4a9384f2a01ba",
+  "pilot_p9f": "27a8b2566514fdd491cb755757fc949072bc366b7bc26855474a9706beaa475e"
+ },
+ "population": {
+  "population_version": "phase9_population_v1",
+  "schedule_version": "phase9_rollout_schedule_v1",
+  "rollout_version": "phase9_rollout_v1",
+  "phase9_master_seed": 2026081601,
+  "proportions": {
+   "current": 0.5,
+   "historical": 0.25,
+   "rule": 0.15,
+   "stress": 0.1
+  },
+  "namespaces": {
+   "canonical": {
+    "iterations": 60,
+    "games_per_iteration": 2048,
+    "total_scheduled_games": 122880,
+    "bucket_counts": {
+     "current": 1024,
+     "historical": 512,
+     "rule": 307,
+     "stress": 205
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 154,
+     "tactical_rule_based": 107,
+     "basic_heuristic": 46
+    }
+   },
+   "pilot_p9a": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "pilot_p9b": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "pilot_p9c": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "pilot_p9d": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "pilot_p9e": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   },
+   "pilot_p9f": {
+    "iterations": 8,
+    "games_per_iteration": 1024,
+    "total_scheduled_games": 8192,
+    "bucket_counts": {
+     "current": 512,
+     "historical": 256,
+     "rule": 154,
+     "stress": 102
+    },
+    "rule_tier_counts": {
+     "strategic_rule_based": 77,
+     "tactical_rule_based": 54,
+     "basic_heuristic": 23
+    }
+   }
+  },
+  "rule_tier_order": [
+   "strategic_rule_based",
+   "tactical_rule_based",
+   "basic_heuristic"
+  ],
+  "rule_tier_tokens": {
+   "strategic_rule_based": "strategic_rule_based@1.1.0",
+   "tactical_rule_based": "tactical_rule_based@1.0.0",
+   "basic_heuristic": "basic_heuristic@1.0.0"
+  },
+  "stress_roster": [
+   "stress_scout_rush",
+   "stress_miner_rush",
+   "stress_draw_seeker",
+   "stress_berserker",
+   "stress_information_miser",
+   "stress_chaos"
+  ],
+  "stress_tokens": {
+   "stress_scout_rush": "stress_scout_rush@1.0.0",
+   "stress_miner_rush": "stress_miner_rush@1.0.0",
+   "stress_draw_seeker": "stress_draw_seeker@1.0.0",
+   "stress_berserker": "stress_berserker@1.0.0",
+   "stress_information_miser": "stress_information_miser@1.0.0",
+   "stress_chaos": "stress_chaos@1.0.0"
+  },
+  "stress_rotation": "(ordinal + iteration) % 6 over the frozen roster",
+  "colour_balance_rule": "learner is red iff (ordinal + iteration) % 2 == 0; an odd-sized ordinal range's one-game remainder alternates with iteration parity",
+  "learner_control": {
+   "current": "both colors",
+   "historical": "current-policy side only",
+   "rule": "current-policy side only",
+   "stress": "current-policy side only"
+  },
+  "historical_league": {
+   "anchor": "H000",
+   "anchor_token": "phase9_anchor_v1|H000",
+   "archive_cadence_iterations": 5,
+   "active_window_recent_snapshots": 8,
+   "selection": "uniform over the active window under a domain-separated hash",
+   "outcome_independence": "no schedule function reads a match result, win rate or league table; outcome-prioritised matchmaking is not implemented"
+  },
+  "setup_assignment": {
+   "setup_source_version": "setup_source_v1",
+   "split": "train",
+   "purpose": "training",
+   "profile": "neutral_v1",
+   "environment_id": 0,
+   "generation": 0,
+   "root": "setup_root_seed(game_id)",
+   "family_weighting": "none; families are never outcome-weighted"
+  },
+  "storage_independence": "logical identity is independent of storage location; this module performs no filesystem or environment access"
+ },
+ "policy_tokens": {
+  "current_behavior_example": "phase9_behavior_v1|ns=canonical|B012",
+  "historical_anchor": "phase9_anchor_v1|H000",
+  "historical_archive_example": "phase9_archive_v1|ns=canonical|H010",
+  "rule": {
+   "strategic_rule_based": "strategic_rule_based@1.1.0",
+   "tactical_rule_based": "tactical_rule_based@1.0.0",
+   "basic_heuristic": "basic_heuristic@1.0.0"
+  },
+  "stress": {
+   "stress_scout_rush": "stress_scout_rush@1.0.0",
+   "stress_miner_rush": "stress_miner_rush@1.0.0",
+   "stress_draw_seeker": "stress_draw_seeker@1.0.0",
+   "stress_berserker": "stress_berserker@1.0.0",
+   "stress_information_miser": "stress_information_miser@1.0.0",
+   "stress_chaos": "stress_chaos@1.0.0"
+  }
+ },
+ "scheduled_game_examples": [
+  {
+   "phase9_game_id": "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000",
+   "run_namespace": "canonical",
+   "rl_iteration": 1,
+   "game_ordinal": 0,
+   "bucket": "current",
+   "red_policy_identity": "phase9_behavior_v1|ns=canonical|B001",
+   "blue_policy_identity": "phase9_behavior_v1|ns=canonical|B001",
+   "learner_control": "both",
+   "learner_color": null,
+   "behavior_snapshot_identity": "B001",
+   "historical_snapshot_identity": null,
+   "opponent_kind": "current_policy",
+   "opponent_identity": "phase9_behavior_v1|ns=canonical|B001",
+   "opponent_checkpoint_digest": null,
+   "setup_root_seed": 3223857733397465339,
+   "red_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=red|side_seed=2119142162102126890",
+   "blue_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=blue|side_seed=8326055169303640770",
+   "red_policy_seed": null,
+   "blue_policy_seed": null,
+   "historical_opponent_seed": null
+  },
+  {
+   "phase9_game_id": "phase9_rollout_v1|ms=2026081601|ns=canonical|it=012|b=historical|g=0137",
+   "run_namespace": "canonical",
+   "rl_iteration": 12,
+   "game_ordinal": 137,
+   "bucket": "historical",
+   "red_policy_identity": "phase9_archive_v1|ns=canonical|H010",
+   "blue_policy_identity": "phase9_behavior_v1|ns=canonical|B012",
+   "learner_control": "blue",
+   "learner_color": "blue",
+   "behavior_snapshot_identity": "B012",
+   "historical_snapshot_identity": "H010",
+   "opponent_kind": "historical_snapshot",
+   "opponent_identity": "phase9_archive_v1|ns=canonical|H010",
+   "opponent_checkpoint_digest": null,
+   "setup_root_seed": 2530425797637325128,
+   "red_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=red|side_seed=4407191450167657500",
+   "blue_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=blue|side_seed=2078980943152914034",
+   "red_policy_seed": null,
+   "blue_policy_seed": null,
+   "historical_opponent_seed": 7590306280630126943
+  },
+  {
+   "phase9_game_id": "phase9_rollout_v1|ms=2026081601|ns=canonical|it=012|b=rule|g=0200",
+   "run_namespace": "canonical",
+   "rl_iteration": 12,
+   "game_ordinal": 200,
+   "bucket": "rule",
+   "red_policy_identity": "phase9_behavior_v1|ns=canonical|B012",
+   "blue_policy_identity": "tactical_rule_based@1.0.0",
+   "learner_control": "red",
+   "learner_color": "red",
+   "behavior_snapshot_identity": "B012",
+   "historical_snapshot_identity": null,
+   "opponent_kind": "rule_policy",
+   "opponent_identity": "tactical_rule_based@1.0.0",
+   "opponent_checkpoint_digest": null,
+   "setup_root_seed": 1268573405347011413,
+   "red_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=red|side_seed=8365003089294445045",
+   "blue_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=blue|side_seed=8278306575851532257",
+   "red_policy_seed": null,
+   "blue_policy_seed": 4917461106784749545,
+   "historical_opponent_seed": null
+  },
+  {
+   "phase9_game_id": "phase9_rollout_v1|ms=2026081601|ns=pilot_p9c|it=008|b=stress|g=0101",
+   "run_namespace": "pilot_p9c",
+   "rl_iteration": 8,
+   "game_ordinal": 101,
+   "bucket": "stress",
+   "red_policy_identity": "stress_miner_rush@1.0.0",
+   "blue_policy_identity": "phase9_behavior_v1|ns=pilot_p9c|B008",
+   "learner_control": "blue",
+   "learner_color": "blue",
+   "behavior_snapshot_identity": "B008",
+   "historical_snapshot_identity": null,
+   "opponent_kind": "stress_policy",
+   "opponent_identity": "stress_miner_rush@1.0.0",
+   "opponent_checkpoint_digest": null,
+   "setup_root_seed": 5314099854932000775,
+   "red_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=red|side_seed=2726707723090860035",
+   "blue_setup_source_identity": "setup_library_v1_setup_sampler_v1_train|player=blue|side_seed=649052000307886967",
+   "red_policy_seed": 4727065841537625948,
+   "blue_policy_seed": null,
+   "historical_opponent_seed": null
+  }
+ ],
+ "record_fields": [
+  "phase9_game_id",
+  "run_namespace",
+  "rl_iteration",
+  "game_ordinal",
+  "bucket",
+  "red_policy_identity",
+  "blue_policy_identity",
+  "learner_control",
+  "learner_color",
+  "behavior_snapshot_identity",
+  "historical_snapshot_identity",
+  "opponent_kind",
+  "opponent_identity",
+  "opponent_checkpoint_digest",
+  "setup_root_seed",
+  "red_setup_source_identity",
+  "blue_setup_source_identity",
+  "red_policy_seed",
+  "blue_policy_seed",
+  "historical_opponent_seed"
+ ]
+}

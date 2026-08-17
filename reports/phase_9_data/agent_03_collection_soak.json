@@ -1,0 +1,776 @@
+{
+  "iterations": [
+    {
+      "namespace": "canonical",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 2048,
+      "games_collected": 2048,
+      "bucket_counts": {
+        "current": 1024,
+        "historical": 512,
+        "rule": 307,
+        "stress": 205
+      },
+      "terminal_results": {
+        "blue_win": 994,
+        "red_win": 1021,
+        "draw": 33
+      },
+      "total_decisions": 380564,
+      "neural_decisions": 329147,
+      "learner_decisions": 282414,
+      "total_plies": 380564,
+      "seconds": 213.32211675000144,
+      "games_per_second": 9.600504772789744,
+      "decisions_per_second": 1783.9875480234161,
+      "positions_per_second": 1783.9875480234161,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "canonical",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 2048,
+        "shards_opened": 2,
+        "uncompressed_bytes": 66695088,
+        "compressed_bytes": 45884731,
+        "metadata_bytes": 8357044,
+        "compression_ratio": 0.6879776663612769,
+        "encode_seconds": 2.7522678500099573,
+        "compress_seconds": 0.9145527885848423,
+        "verify_seconds": 6.514020349874045,
+        "write_seconds": 2.7648792122490704
+      },
+      "observer_probes": 4092,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "canonical",
+        "iteration": 1,
+        "scheduled_games": 2048,
+        "committed_games": 2048,
+        "decoded_games": 2048,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 380564,
+        "learner_decision_count": 282414,
+        "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "sealed": true,
+      "active_history": {
+        "namespace": "canonical",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/canonical/iteration_001",
+        "shard_bytes": 45893567,
+        "metadata_bytes": 8357044,
+        "journal_bytes": 1151148,
+        "total_bytes": 55401759,
+        "committed_games": 2048,
+        "total_decisions": 380564,
+        "bytes_per_game": 27051.64013671875,
+        "bytes_per_decision": 145.57803418084737
+      },
+      "wall_seconds": 219.7260574999964
+    },
+    {
+      "namespace": "pilot_p9a",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "red_win": 480,
+        "blue_win": 528,
+        "draw": 16
+      },
+      "total_decisions": 191383,
+      "neural_decisions": 164307,
+      "learner_decisions": 142590,
+      "total_plies": 191383,
+      "seconds": 107.92463091699756,
+      "games_per_second": 9.488102866782429,
+      "decisions_per_second": 1773.3023349154507,
+      "positions_per_second": 1773.3023349154507,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9a",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33450560,
+        "compressed_bytes": 22932718,
+        "metadata_bytes": 4178573,
+        "compression_ratio": 0.6855705255756556,
+        "encode_seconds": 1.3609110358956968,
+        "compress_seconds": 0.45429662804235704,
+        "verify_seconds": 3.248657316173194,
+        "write_seconds": 0.6098423341609305
+      },
+      "observer_probes": 2044,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9a",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 191383,
+        "learner_decision_count": 142590,
+        "sealed_rollout_digest": "f0d6cae8d6c7b017664bcb4e2dc2b388d546c0272edd8f6074cebe5112fc1504",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "f0d6cae8d6c7b017664bcb4e2dc2b388d546c0272edd8f6074cebe5112fc1504",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9a",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9a/iteration_001",
+        "shard_bytes": 22937137,
+        "metadata_bytes": 4178573,
+        "journal_bytes": 575285,
+        "total_bytes": 27690995,
+        "committed_games": 1024,
+        "total_decisions": 191383,
+        "bytes_per_game": 27041.9873046875,
+        "bytes_per_decision": 144.6888960879493
+      },
+      "wall_seconds": 111.10990137499175
+    },
+    {
+      "namespace": "pilot_p9b",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "red_win": 505,
+        "blue_win": 505,
+        "draw": 14
+      },
+      "total_decisions": 187821,
+      "neural_decisions": 162696,
+      "learner_decisions": 139674,
+      "total_plies": 187821,
+      "seconds": 106.71747404099733,
+      "games_per_second": 9.595429513320498,
+      "decisions_per_second": 1759.9835611536812,
+      "positions_per_second": 1759.9835611536812,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9b",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33025282,
+        "compressed_bytes": 22772364,
+        "metadata_bytes": 4180010,
+        "compression_ratio": 0.6895433625668965,
+        "encode_seconds": 1.3561672400828684,
+        "compress_seconds": 0.4523769289080519,
+        "verify_seconds": 3.223176725761732,
+        "write_seconds": 1.238901782897301
+      },
+      "observer_probes": 2043,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9b",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 187821,
+        "learner_decision_count": 139674,
+        "sealed_rollout_digest": "abf5d40af9e77514573f533030034ba7d6c189ad0027aeae7868e05c397a430e",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "abf5d40af9e77514573f533030034ba7d6c189ad0027aeae7868e05c397a430e",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9b",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9b/iteration_001",
+        "shard_bytes": 22776783,
+        "metadata_bytes": 4180010,
+        "journal_bytes": 575249,
+        "total_bytes": 27532042,
+        "committed_games": 1024,
+        "total_decisions": 187821,
+        "bytes_per_game": 26886.759765625,
+        "bytes_per_decision": 146.58660107229755
+      },
+      "wall_seconds": 109.91033004199562
+    },
+    {
+      "namespace": "pilot_p9c",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "blue_win": 498,
+        "red_win": 505,
+        "draw": 21
+      },
+      "total_decisions": 193580,
+      "neural_decisions": 166808,
+      "learner_decisions": 143819,
+      "total_plies": 193580,
+      "seconds": 109.43149362500117,
+      "games_per_second": 9.357452467102695,
+      "decisions_per_second": 1768.9605943181052,
+      "positions_per_second": 1768.9605943181052,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9c",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33846119,
+        "compressed_bytes": 23220349,
+        "metadata_bytes": 4177977,
+        "compression_ratio": 0.6860564722354134,
+        "encode_seconds": 1.3893327398982365,
+        "compress_seconds": 0.4580444208258996,
+        "verify_seconds": 3.296408300913754,
+        "write_seconds": 1.2524313248868566
+      },
+      "observer_probes": 2046,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9c",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 193580,
+        "learner_decision_count": 143819,
+        "sealed_rollout_digest": "6a8419fb679f3f9361b477d76205b03a46ebdfe06955f34c7ac7c533654d942b",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "6a8419fb679f3f9361b477d76205b03a46ebdfe06955f34c7ac7c533654d942b",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9c",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9c/iteration_001",
+        "shard_bytes": 23224767,
+        "metadata_bytes": 4177977,
+        "journal_bytes": 575415,
+        "total_bytes": 27978159,
+        "committed_games": 1024,
+        "total_decisions": 193580,
+        "bytes_per_game": 27322.4208984375,
+        "bytes_per_decision": 144.53021489823328
+      },
+      "wall_seconds": 112.70917654200457
+    },
+    {
+      "namespace": "pilot_p9d",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "red_win": 531,
+        "blue_win": 474,
+        "draw": 19
+      },
+      "total_decisions": 189673,
+      "neural_decisions": 163224,
+      "learner_decisions": 139823,
+      "total_plies": 189673,
+      "seconds": 107.28903954201087,
+      "games_per_second": 9.544311370212567,
+      "decisions_per_second": 1767.8693071507112,
+      "positions_per_second": 1767.8693071507112,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9d",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33297977,
+        "compressed_bytes": 22851055,
+        "metadata_bytes": 4177948,
+        "compression_ratio": 0.6862595586512659,
+        "encode_seconds": 1.372080405242741,
+        "compress_seconds": 0.4579881107638357,
+        "verify_seconds": 3.258708315930562,
+        "write_seconds": 1.2029777329153148
+      },
+      "observer_probes": 2047,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9d",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 189673,
+        "learner_decision_count": 139823,
+        "sealed_rollout_digest": "5dd9501fcda6ec6660cb8e378ef3a7e534c0ad9326c0132ace1ceee38293e459",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "5dd9501fcda6ec6660cb8e378ef3a7e534c0ad9326c0132ace1ceee38293e459",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9d",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9d/iteration_001",
+        "shard_bytes": 22855474,
+        "metadata_bytes": 4177948,
+        "journal_bytes": 575310,
+        "total_bytes": 27608732,
+        "committed_games": 1024,
+        "total_decisions": 189673,
+        "bytes_per_game": 26961.65234375,
+        "bytes_per_decision": 145.55963157645
+      },
+      "wall_seconds": 110.46075179199397
+    },
+    {
+      "namespace": "pilot_p9e",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "blue_win": 486,
+        "red_win": 522,
+        "draw": 16
+      },
+      "total_decisions": 189487,
+      "neural_decisions": 163747,
+      "learner_decisions": 140490,
+      "total_plies": 189487,
+      "seconds": 107.72927358400193,
+      "games_per_second": 9.505308686608155,
+      "decisions_per_second": 1758.918385839179,
+      "positions_per_second": 1758.918385839179,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9e",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33255058,
+        "compressed_bytes": 22937042,
+        "metadata_bytes": 4176510,
+        "compression_ratio": 0.6897309275479236,
+        "encode_seconds": 1.3782441961666336,
+        "compress_seconds": 0.4579775610473007,
+        "verify_seconds": 3.2587126631551655,
+        "write_seconds": 1.17015245994844
+      },
+      "observer_probes": 2045,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9e",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 189487,
+        "learner_decision_count": 140490,
+        "sealed_rollout_digest": "470db9cc1735b3f0946551dc069d14bcb5827eee2d0a4f76a9f4ccbe9e190703",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "470db9cc1735b3f0946551dc069d14bcb5827eee2d0a4f76a9f4ccbe9e190703",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9e",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9e/iteration_001",
+        "shard_bytes": 22941460,
+        "metadata_bytes": 4176510,
+        "journal_bytes": 575314,
+        "total_bytes": 27693284,
+        "committed_games": 1024,
+        "total_decisions": 189487,
+        "bytes_per_game": 27044.22265625,
+        "bytes_per_decision": 146.14872788106837
+      },
+      "wall_seconds": 110.8995711250027
+    },
+    {
+      "namespace": "pilot_p9f",
+      "iteration": 1,
+      "collector_version": "phase9_collector_v1",
+      "behavior_snapshot_id": "B001",
+      "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "inference_device": "mps",
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "games_already_committed": 0,
+      "games_outstanding": 1024,
+      "games_collected": 1024,
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "terminal_results": {
+        "red_win": 484,
+        "blue_win": 524,
+        "draw": 16
+      },
+      "total_decisions": 194068,
+      "neural_decisions": 167617,
+      "learner_decisions": 144501,
+      "total_plies": 194068,
+      "seconds": 109.34863020799821,
+      "games_per_second": 9.364543461149825,
+      "decisions_per_second": 1774.7638871273675,
+      "positions_per_second": 1774.7638871273675,
+      "bytes_discarded_on_resume": 0,
+      "writer_stats": {
+        "file_set": "w00",
+        "namespace": "pilot_p9f",
+        "iteration": 1,
+        "worker_id": 0,
+        "games_written": 1024,
+        "shards_opened": 1,
+        "uncompressed_bytes": 33925173,
+        "compressed_bytes": 23312873,
+        "metadata_bytes": 4178872,
+        "compression_ratio": 0.6871850881939496,
+        "encode_seconds": 1.3872324815602042,
+        "compress_seconds": 0.4629932439274853,
+        "verify_seconds": 3.2898557281587273,
+        "write_seconds": 1.140074329872732
+      },
+      "observer_probes": 2045,
+      "observer_probe_failures": 0,
+      "seal": {
+        "namespace": "pilot_p9f",
+        "iteration": 1,
+        "scheduled_games": 1024,
+        "committed_games": 1024,
+        "decoded_games": 1024,
+        "duplicate_game_ids": 0,
+        "unscheduled_games": 0,
+        "missing_games": 0,
+        "orphan_records": 0,
+        "behavior_snapshot_identities": [
+          "B001"
+        ],
+        "behavior_checkpoint_digests": [
+          "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        "total_decisions": 194068,
+        "learner_decision_count": 144501,
+        "sealed_rollout_digest": "5170bc8aa530ade34cc3a0bacfb3db21f120fd43d580fd5cc190793825fd31e7",
+        "sealed": true,
+        "problems": []
+      },
+      "sealed_rollout_digest": "5170bc8aa530ade34cc3a0bacfb3db21f120fd43d580fd5cc190793825fd31e7",
+      "sealed": true,
+      "active_history": {
+        "namespace": "pilot_p9f",
+        "iteration": 1,
+        "identities": [
+          "H000"
+        ],
+        "checkpoint_digests": {
+          "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        },
+        "window_rule": "H000 + up to 8 most recent snapshots archived every 5 committed iterations",
+        "selection_rule": "uniform over the active window, outcome-independent"
+      },
+      "storage": {
+        "directory": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9f/iteration_001",
+        "shard_bytes": 23317291,
+        "metadata_bytes": 4178872,
+        "journal_bytes": 575330,
+        "total_bytes": 28071493,
+        "committed_games": 1024,
+        "total_decisions": 194068,
+        "bytes_per_game": 27413.5673828125,
+        "bytes_per_decision": 144.64771626440216
+      },
+      "wall_seconds": 112.61769833401195
+    }
+  ],
+  "totals": {
+    "iterations": 7,
+    "games_collected": 8192,
+    "games_committed": 8192,
+    "bucket_counts": {
+      "current": 4096,
+      "historical": 2048,
+      "rule": 1231,
+      "stress": 817
+    },
+    "buckets_represented": [
+      "current",
+      "historical",
+      "rule",
+      "stress"
+    ],
+    "terminal_results": {
+      "blue_win": 4009,
+      "red_win": 4048,
+      "draw": 135
+    },
+    "total_decisions": 1526576,
+    "neural_decisions": 1317546,
+    "learner_decisions": 1133311,
+    "total_plies": 1526576,
+    "mean_game_length_plies": 186.349609375,
+    "wall_seconds": 887.5798421249929,
+    "games_per_second": 9.229592213796995,
+    "positions_per_second": 1719.9309037316114,
+    "decisions_per_second": 1719.9309037316114,
+    "inference_device": "mps",
+    "inference_batch_shape": 64,
+    "games_in_flight": 96,
+    "peak_rss_bytes": 613253120,
+    "mps_allocated_bytes": 3458560,
+    "mps_driver_allocated_bytes": 76234752,
+    "storage": {
+      "total_bytes": 221976464,
+      "shard_bytes": 183946479,
+      "metadata_bytes": 33426934,
+      "journal_bytes": 4603051,
+      "bytes_per_game": 27096.736328125,
+      "bytes_per_decision": 145.40806615589398,
+      "bytes_per_position": 145.40806615589398,
+      "payload_uncompressed_bytes": 267495257,
+      "payload_compressed_bytes": 183911132,
+      "compression_ratio": 0.6875304409603046,
+      "storage_per_hour_bytes": 900330575.8801416
+    },
+    "cpu": {
+      "user_seconds": 519.945312,
+      "system_seconds": 77.59882199999998,
+      "cpu_seconds": 597.544134,
+      "wall_seconds": 887.5798421249929,
+      "cores_busy": 0.6732285994343833,
+      "logical_cores": 14,
+      "machine_utilization_fraction": 0.04808775710245595,
+      "mps_utilization_note": "PyTorch exposes no MPS device-utilization counter; allocated and driver-allocated device memory are reported instead"
+    },
+    "peak_mps_bytes": 76234752
+  },
+  "storage_projection": {
+    "measured_bytes_per_game": 27096.736328125,
+    "measured_bytes_per_decision": 145.40806615589398,
+    "measured_compression_ratio": 0.6875304409603046,
+    "canonical_run_games": 122880,
+    "canonical_run_bytes": 3329646960.0,
+    "canonical_run_gib": 3.100975379347801,
+    "all_pilots_games": 49152,
+    "all_pilots_bytes": 1331858784.0,
+    "all_pilots_gib": 1.2403901517391205,
+    "phase9_total_games": 172032,
+    "phase9_total_bytes": 4661505744.0,
+    "phase9_total_gib": 4.341365531086922,
+    "agent_2_planning_estimate_bytes": 8674724659,
+    "agent_2_planning_estimate_gib": 8.079,
+    "measured_over_planning_ratio": 0.5373664210959943,
+    "note": "the planning estimate scaled the Phase 8 rule-vs-rule corpus by a deliberately pessimistic factor; this row is the measured Phase 9 neural-rollout density and supersedes it for capacity decisions"
+  }
+}

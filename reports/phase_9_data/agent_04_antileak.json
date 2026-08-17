@@ -1,0 +1,87 @@
+{
+  "antileak_version": "phase9_antileak_v1",
+  "namespace": "canonical",
+  "iteration": 1,
+  "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+  "seed": 20260816,
+  "games_used": 139,
+  "trials": 25000,
+  "valid_trials": 25000,
+  "assignment_changed_trials": 24617,
+  "mean_hidden_pieces": 22.36404,
+  "invariant_fields": [
+    "observation",
+    "legal_mask",
+    "sampled_action_abs",
+    "sampled_action_model",
+    "behavior_action_probability",
+    "behavior_action_logprob",
+    "behavior_legal_actions",
+    "behavior_legal_probabilities",
+    "advantage",
+    "standardized_advantage",
+    "ppo_eligible",
+    "wdl_target",
+    "belief_mask",
+    "game_id",
+    "decision_index",
+    "learner_side",
+    "behavior_checkpoint_sha256",
+    "rollout_id"
+  ],
+  "privileged_fields": [
+    "belief_target"
+  ],
+  "invariant_mismatches": 0,
+  "label_control_failures": 0,
+  "mismatch_examples": [],
+  "model_input_boundary_problems": [],
+  "model_input_boundary_problem_count": 0,
+  "object_graph_problems": [],
+  "positive_controls": [
+    {
+      "control": "privileged_identity_in_observation",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: observation is not the observer-safe engine build"
+      ],
+      "fired": true
+    },
+    {
+      "control": "privileged_metadata_on_model_input",
+      "problems": [
+        "model input carries non-observation fields: ['belief_target']"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_action_frame",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: model-frame action does not invert to the absolute one",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: model mask excludes the sampled action"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_value_perspective",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 0 disagrees",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 1 disagrees",
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: W/D/L target component 2 disagrees"
+      ],
+      "fired": true
+    },
+    {
+      "control": "wrong_learner_control_side",
+      "problems": [
+        "phase9_rollout_v1|ms=2026081601|ns=canonical|it=001|b=current|g=0000 ply 0: example learner side is not the acting player"
+      ],
+      "fired": true
+    }
+  ],
+  "positive_controls_fired": 5,
+  "positive_controls_expected": 5,
+  "positive_control_decisions_tried": 1,
+  "all_positive_controls_fire": true,
+  "seconds": 54.18656329100486,
+  "trials_per_second": 461.3689904218391
+}

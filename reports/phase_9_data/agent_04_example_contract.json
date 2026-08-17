@@ -1,0 +1,222 @@
+{
+  "example_contract": {
+    "example_version": "phase9_example_v1",
+    "advantage_version": "phase9_advantage_v1",
+    "train_order_version": "phase9_train_order_v1",
+    "constants": {
+      "gamma": 1.0,
+      "lambda_A": 0.5,
+      "lambda_V": 0.8,
+      "filter_quantile": 0.75,
+      "filter_floor": 0.01,
+      "standardization_epsilon": 1e-08,
+      "behavior_log_epsilon": 1e-12,
+      "minibatch_size": 512
+    },
+    "fields": {
+      "observation": {
+        "role": "model_input",
+        "dtype": "float32",
+        "shape": [
+          127,
+          10,
+          10
+        ],
+        "note": "observation_v2_1_127ch; the only backbone input"
+      },
+      "legal_mask": {
+        "role": "masking",
+        "dtype": "bool",
+        "shape": [
+          10000
+        ],
+        "note": "model frame (perspective_normalized_squares); masks logits only"
+      },
+      "sampled_action_abs": {
+        "role": "identity",
+        "dtype": "int",
+        "note": "engine frame"
+      },
+      "sampled_action_model": {
+        "role": "loss_input",
+        "dtype": "int",
+        "note": "model frame; the PPO ratio's numerator index"
+      },
+      "behavior_action_probability": {
+        "role": "loss_input",
+        "dtype": "float32",
+        "note": "pi_b(a_t|s_t), the stored float32 entry of the realized action"
+      },
+      "behavior_action_logprob": {
+        "role": "loss_input",
+        "dtype": "float64",
+        "note": "ln(max(pi_b, 1e-12))"
+      },
+      "behavior_legal_probabilities": {
+        "role": "loss_input",
+        "dtype": "float32[]",
+        "note": "the frozen behavior distribution over the legal set, ascending absolute order; the KL term's pi_b"
+      },
+      "behavior_legal_actions": {
+        "role": "loss_input",
+        "dtype": "int[]",
+        "note": "ascending absolute legal actions, aligned with the above"
+      },
+      "advantage": {
+        "role": "loss_input",
+        "dtype": "float64",
+        "note": "A_t"
+      },
+      "standardized_advantage": {
+        "role": "loss_input",
+        "dtype": "float64",
+        "note": "A_hat over the PPO subset's moments"
+      },
+      "ppo_eligible": {
+        "role": "loss_input",
+        "dtype": "bool",
+        "note": "|A_t| >= tau; policy loss only"
+      },
+      "wdl_target": {
+        "role": "loss_input",
+        "dtype": "float64[3]",
+        "note": "soft W/D/L lambda target, learner perspective"
+      },
+      "belief_target": {
+        "role": "loss_input",
+        "dtype": "int64",
+        "shape": [
+          100
+        ],
+        "note": "privileged hidden-only label per normalized square, -100 elsewhere; never a model input"
+      },
+      "belief_mask": {
+        "role": "loss_input",
+        "dtype": "bool",
+        "shape": [
+          100
+        ],
+        "note": "true exactly on unresolved opponent pieces"
+      },
+      "game_id": {
+        "role": "identity",
+        "dtype": "str"
+      },
+      "decision_index": {
+        "role": "identity",
+        "dtype": "int",
+        "note": "game ply"
+      },
+      "learner_side": {
+        "role": "identity",
+        "dtype": "int",
+        "note": "0 red, 1 blue"
+      },
+      "behavior_checkpoint_sha256": {
+        "role": "identity",
+        "dtype": "str"
+      },
+      "rollout_id": {
+        "role": "identity",
+        "dtype": "str"
+      },
+      "sealed_rollout_digest": {
+        "role": "identity",
+        "dtype": "str"
+      }
+    },
+    "model_input_fields": [
+      "observation"
+    ],
+    "masking_fields": [
+      "legal_mask"
+    ],
+    "loss_input_fields": [
+      "sampled_action_model",
+      "behavior_action_probability",
+      "behavior_action_logprob",
+      "behavior_legal_probabilities",
+      "advantage",
+      "standardized_advantage",
+      "ppo_eligible",
+      "wdl_target",
+      "belief_target",
+      "belief_mask"
+    ],
+    "identity_fields": [
+      "game_id",
+      "decision_index",
+      "learner_side",
+      "sampled_action_abs",
+      "behavior_checkpoint_sha256",
+      "rollout_id",
+      "sealed_rollout_digest"
+    ],
+    "forbidden_fields": [
+      "true_types",
+      "hidden_identities",
+      "opponent_setup",
+      "red_setup",
+      "blue_setup",
+      "terminal_result",
+      "state",
+      "pieces"
+    ],
+    "populations": {
+      "policy": "learner decisions with ppo_eligible = True",
+      "value": "every learner decision",
+      "belief": "every learner decision",
+      "kl": "every learner decision"
+    },
+    "sequence": {
+      "definition": "per game and per learner-controlled colour, that player's own decisions in ascending ply order; opponent decisions are never inserted as learner steps",
+      "perspective": "one fixed player perspective for the whole sequence, so no sign flip is applied at an opponent turn",
+      "terminal": "the final entry uses delta_t = z - v_t, which covers the case where the game ends before that player's next turn"
+    },
+    "belief_semantics": {
+      "source": "stratego.training.belief_targets.dense_belief_target",
+      "scope": "unresolved opponent hidden pieces only",
+      "frame": "perspective_normalized_squares",
+      "ignored": "own, revealed, empty, lake, captured",
+      "types": 12,
+      "privilege": "built from the privileged state after the public observation exists; no belief label enters model input"
+    },
+    "train_order": {
+      "universe": "the sealed iteration's learner decisions",
+      "key": "(game_id, ply), sorted",
+      "shuffle": "random.Random(train_order_seed(namespace, iteration, epoch)).shuffle over indices into the sorted key list",
+      "minibatches": "contiguous 512-example slices; the final partial minibatch is consumed, never dropped",
+      "cursor": "(epoch, minibatch_index, examples_consumed); a resume rebuilds the epoch order from (namespace, iteration, epoch) and skips minibatch_index batches"
+    },
+    "iterator": "iter_rollout_examples(reader, statistics): games in ascending game_id order, decisions in ascending ply order, every read digest-checked by phase9_rollout_store"
+  },
+  "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+  "train_order": {
+    "version": "phase9_train_order_v1",
+    "namespace": "canonical",
+    "iteration": 1,
+    "universe": 282414,
+    "minibatch_size": 512,
+    "minibatches_per_epoch": 552,
+    "final_minibatch_size": 302,
+    "epochs_per_rollout": 2,
+    "epoch0_seed": 4440477430039106730,
+    "epoch1_seed": 4095132215534447638,
+    "epoch_orders_differ": true,
+    "epoch_order_reproducible": true,
+    "resume_reproduces_interrupted_order": true,
+    "cursor_after_seven_minibatches": {
+      "train_order_version": "phase9_train_order_v1",
+      "namespace": "canonical",
+      "iteration": 1,
+      "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+      "epoch": 0,
+      "minibatch_index": 7,
+      "examples_consumed": 3584,
+      "total_examples": 282414,
+      "minibatch_size": 512,
+      "epochs": 2
+    }
+  },
+  "problems": []
+}

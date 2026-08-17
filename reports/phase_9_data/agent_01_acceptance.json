@@ -1,0 +1,473 @@
+{
+ "phase": 9,
+ "agent": 1,
+ "status": "PASS",
+ "timestamp": "2026-08-16T01:45:18-0400",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "cpu_count": 14,
+ "source_revision": "0fe6caf",
+ "working_tree_state": "dirty",
+ "torch_version": "2.13.0",
+ "mps_built": true,
+ "mps_available": true,
+ "rules_version": "stratego_project_v1",
+ "engine_version": "phase2_1_reference_1.2.0",
+ "observation_version": "observation_v2_1_127ch",
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3797 passed, 3 skipped in 243.07s (0:04:03)",
+  "passed": 3797,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 243.07,
+  "measured_at_commit": "0fe6caf"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "3928 passed, 3 skipped in 255.45s (0:04:15)",
+  "passed": 3928,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 256.512
+ },
+ "commands": [
+  "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase9_agent01.py --run-pytest"
+ ],
+ "problems": [],
+ "deviations": [],
+ "artifact": "agent_01_acceptance",
+ "acceptance_version": "phase9_acceptance_v1",
+ "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+ "contract_identities": [
+  "phase9_rl_contract_v1",
+  "phase9_population_v1",
+  "phase9_rollout_schedule_v1",
+  "phase9_rollout_store_v1",
+  "phase9_advantage_v1",
+  "phase9_train_order_v1",
+  "phase9_checkpoint_v1",
+  "phase9_eval_bank_v1",
+  "phase9_acceptance_v1"
+ ],
+ "artifact_digests": {
+  "agent_01_rl_contract.json": "c24c0871e7931072a3f71f61e6708c2871d9a278c8ec1421da32d238756ea1ac",
+  "agent_01_validation_bank.json": "199d9c30b341ec695c78facf8c85c41499821c0817b55f21b4d9fce5429b8229",
+  "agent_01_test_bank.json": "bd7fb4d49887e7c055caefe57b02bf4880ce152d334547f8aa3c54663e6b7640"
+ },
+ "bank_digests": {
+  "phase9_validation_bank_v1": "3d28d544f6669129b12c13e4e3738aa36d1a99e4af8f6685bbb032793701ee4a",
+  "phase9_test_bank_v1": "f38e405559fc7c04b0832b1d3a4e3d82cd68ffff29bc1a9af456a3940e1de6a7"
+ },
+ "phase_8_verification": {
+  "handoff_prerequisite_digests": {
+   "c1_config": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "canonical_untrained_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "phase4_bank": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+   "phase7_library": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "train_config_document": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+   "trainer_runtime_identity": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+  },
+  "handoff_prerequisite_versions": {
+   "corpus": "synthetic_warmstart_corpus_v1",
+   "decision_sampler": "warmstart_decision_sampler_v1",
+   "eval": "warmstart_eval_v1",
+   "example": "warmstart_example_v1",
+   "model_contract": "model_contract_v2",
+   "observation": "observation_v2_1_127ch",
+   "phase_4_bank": "evaluation_setup_bank_v1",
+   "reference_engine": "phase2_1_reference_1.2.0",
+   "rules": "stratego_project_v1",
+   "train_config": "warmstart_train_config_v1"
+  },
+  "phase_8_accepted": true,
+  "phase_8_agent_7_status": "PASS",
+  "phase_8_all_gates_true": true,
+  "phase_8_gates_total": 42,
+  "phase_8_gates_true": 42,
+  "phase_8_recommendation": null,
+  "phase_8_report_records_agent_7": true,
+  "phase_9_readiness": "READY TO PLAN"
+ },
+ "checkpoint_verification": {
+  "accepted": {
+   "global_step": 24000,
+   "model_state_checksum": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+   "parameters": 863959,
+   "path": "checkpoints/phase8/warmstart_c1_v1.pt",
+   "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+  },
+  "canonical_untrained": {
+   "global_step": 0,
+   "model_state_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+   "parameters": 863959,
+   "path": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+   "sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c"
+  }
+ },
+ "corpus_verification": {
+  "accepted_identity": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "digest_level": "identity metadata (Agent 1 consumes no corpus payloads; the journal-level digests are the frozen identity)",
+  "observed_identity": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "problems": [],
+  "resolution": {
+   "environment_value": "",
+   "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+   "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+   "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1",
+   "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "source": "pointer_file"
+  },
+  "resolved_root_matches_accepted_location": true,
+  "resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+  "verification_seconds": 1.413
+ },
+ "anchor_export": {
+  "export": "checkpoints/phase9/agent01/anchor_eval.pt",
+  "export_sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda",
+  "bitwise_state_dict_match": true
+ },
+ "anchor_validation_baseline": {
+  "bank": "phase9_validation_bank_v1",
+  "paired_cases_per_opponent": 128,
+  "games_per_opponent": 256,
+  "effective_win_rates": {
+   "basic_heuristic": 0.595703125,
+   "random_legal": 0.953125,
+   "strategic_rule_based": 0.453125,
+   "tactical_rule_based": 0.455078125
+  },
+  "confidence_intervals": {
+   "basic_heuristic": {
+    "confidence": 0.95,
+    "engine": "numpy_pcg64",
+    "lower": 0.54296875,
+    "method": "paired_unit_percentile_bootstrap",
+    "resamples": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 128,
+    "seed": 363078646446404061,
+    "upper": 0.6484375,
+    "width": 0.10546875
+   },
+   "random_legal": {
+    "confidence": 0.95,
+    "engine": "numpy_pcg64",
+    "lower": 0.927734375,
+    "method": "paired_unit_percentile_bootstrap",
+    "resamples": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 128,
+    "seed": 6933389217835368225,
+    "upper": 0.9765625,
+    "width": 0.048828125
+   },
+   "strategic_rule_based": {
+    "confidence": 0.95,
+    "engine": "numpy_pcg64",
+    "lower": 0.404296875,
+    "method": "paired_unit_percentile_bootstrap",
+    "resamples": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 128,
+    "seed": 4816650730768121332,
+    "upper": 0.501953125,
+    "width": 0.09765625
+   },
+   "tactical_rule_based": {
+    "confidence": 0.95,
+    "engine": "numpy_pcg64",
+    "lower": 0.3984375,
+    "method": "paired_unit_percentile_bootstrap",
+    "resamples": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 128,
+    "seed": 8866715799687933667,
+    "upper": 0.509765625,
+    "width": 0.111328125
+   }
+  },
+  "safety": {
+   "illegal_actions": 0,
+   "inference_failures": 0,
+   "policy_errors": 0,
+   "worker_checkpoint_loads": 0,
+   "workers_importing_torch": 0
+  },
+  "role": "frozen baseline reference for later agents; recorded from the model-selection bank, which the sealing rules allow before the first Phase 9 update"
+ },
+ "risk_notes": [
+  "the anchor's Basic EWR on the validation bank (0.5957) starts below the frozen pilot Basic veto floor (0.60) and below final gate E (0.65): a pilot or canonical run that fails to improve against Basic sits at or under the veto line \u2014 the frozen thresholds demand genuine improvement, and later agents must not reinterpret them",
+  "anchor Tactical/Strategic baselines (0.4551 / 0.4531) confirm the Phase 8 finding that imitation warm-start sits below even against the strong tiers; gates B/C require +0.05 paired improvement with CI lower bound > 0"
+ ],
+ "sealing_probe": {
+  "test_bank_structural_audit_allowed": true,
+  "test_bank_neural_purposes_refused": 5,
+  "validation_bank_selection_allowed": true,
+  "validation_weight_update_refused": true
+ },
+ "final_gates": {
+  "acceptance_version": "phase9_acceptance_v1",
+  "bank": "phase9_test_bank_v1",
+  "gate_a_direct_improvement_over_anchor": {
+   "opponent": "Phase 8 anchor (the accepted warm-start checkpoint)",
+   "paired_cases": 512,
+   "games": 1024,
+   "effective_win_rate_min": 0.58,
+   "paired_bootstrap_lower_bound_exclusive": 0.53
+  },
+  "gate_b_strategic": {
+   "opponent": "strategic_rule_based",
+   "final_ewr_min": 0.52,
+   "paired_improvement_over_anchor_min": 0.05,
+   "improvement_ci_lower_bound_exclusive": 0.0
+  },
+  "gate_c_tactical": {
+   "opponent": "tactical_rule_based",
+   "final_ewr_min": 0.52,
+   "paired_improvement_over_anchor_min": 0.05,
+   "improvement_ci_lower_bound_exclusive": 0.0
+  },
+  "stretch_report_only": {
+   "strategic_ewr": 0.55,
+   "tactical_ewr": 0.55
+  },
+  "gate_d_random_guard": {
+   "opponent": "random_legal",
+   "overall_ewr_min": 0.94,
+   "red_ewr_min": 0.9,
+   "blue_ewr_min": 0.9,
+   "paired_bootstrap_lower_bound_exclusive": 0.92
+  },
+  "gate_e_basic_guard": {
+   "opponent": "basic_heuristic",
+   "ewr_min": 0.65,
+   "paired_bootstrap_lower_bound_exclusive": 0.6
+  },
+  "gate_f_safety": {
+   "illegal_actions_max": 0,
+   "model_failures_max": 0,
+   "non_finite_outputs_max": 0,
+   "observer_safety_failures_max": 0
+  },
+  "gate_g_policy_collapse": {
+   "population": "every final-candidate decision across the final-test games",
+   "max_legal_probability_threshold": 0.999,
+   "fraction_above_threshold_max_exclusive": 0.25
+  },
+  "gate_h_belief_retention": {
+   "benchmark": "the accepted Phase 8 held-out synthetic belief benchmark (sealed test split, warmstart_eval_v1 semantics)",
+   "belief_ce_ratio_vs_remaining_count_max": 0.98,
+   "belief_top1_must_beat_remaining_count_top1": true,
+   "report_only": "Phase 8-style teacher policy imitation CE is report-only in Phase 9"
+  },
+  "anchor_procedure": {
+   "rule": "after Agent 8 legitimately opens the final-test bank, the Phase 8 anchor plays the same final cases against Tactical and Strategic (512 pairs each, greedy, float32, frozen seeds); paired improvement per unit = candidate unit score - anchor unit score on the same setup_pair_id; the improvement CI is the frozen paired-difference bootstrap under the final-test seed rule"
+  },
+  "statistics": {
+   "method": "paired_unit_percentile_bootstrap",
+   "resampling_unit": "paired_unit",
+   "replicates": 10000,
+   "confidence": 0.95,
+   "bootstrap_seed": 2026081608
+  },
+  "report_only_rule": "report-only diagnostics may not rescue a failed hard gate"
+ },
+ "pilot_matrix": {
+  "candidates": [
+   {
+    "candidate_id": "P9-A",
+    "namespace": "pilot_p9a",
+    "learning_rate": 0.0001,
+    "initial_kl_beta": 0.005
+   },
+   {
+    "candidate_id": "P9-B",
+    "namespace": "pilot_p9b",
+    "learning_rate": 0.0001,
+    "initial_kl_beta": 0.02
+   },
+   {
+    "candidate_id": "P9-C",
+    "namespace": "pilot_p9c",
+    "learning_rate": 0.0003,
+    "initial_kl_beta": 0.005
+   },
+   {
+    "candidate_id": "P9-D",
+    "namespace": "pilot_p9d",
+    "learning_rate": 0.0003,
+    "initial_kl_beta": 0.02
+   },
+   {
+    "candidate_id": "P9-E",
+    "namespace": "pilot_p9e",
+    "learning_rate": 0.0006,
+    "initial_kl_beta": 0.005
+   },
+   {
+    "candidate_id": "P9-F",
+    "namespace": "pilot_p9f",
+    "learning_rate": 0.0006,
+    "initial_kl_beta": 0.02
+   }
+  ],
+  "candidate_limit": 6,
+  "allowed_dimensions": [
+   "learning_rate",
+   "initial_kl_beta"
+  ],
+  "per_candidate_budget": {
+   "start": "fresh from the accepted Phase 8 checkpoint",
+   "rl_iterations": 8,
+   "games_per_iteration": 1024,
+   "optimizer_epochs_per_rollout": 2,
+   "mixture": {
+    "current": 512,
+    "historical": 256,
+    "rule": 154,
+    "stress": 102
+   },
+   "rule_subdivision": {
+    "strategic_rule_based": 77,
+    "tactical_rule_based": 54,
+    "basic_heuristic": 23
+   }
+  },
+  "selection": {
+   "score": "the frozen validation score at the final pilot checkpoint (after iteration 8); higher is better",
+   "validation_cadence": "after iterations 4 and 8",
+   "tie_break": [
+    "higher validation score",
+    "higher Strategic EWR",
+    "lower mean behavior KL",
+    "higher training examples/s"
+   ],
+   "hard_vetoes": {
+    "illegal_neural_action_max": 0,
+    "non_finite_loss_max": 0,
+    "non_finite_gradient_max": 0,
+    "non_finite_parameter_max": 0,
+    "behavior_identity_mismatch_max": 0,
+    "target_reconstruction_mismatch_max": 0,
+    "observer_safety_failure_max": 0,
+    "checkpoint_resume_failure_max": 0,
+    "mean_iteration_or_epoch_kl_max": 0.08,
+    "iteration_ppo_clip_fraction_max": 0.75,
+    "validation_random_ewr_min": 0.9,
+    "validation_basic_ewr_min": 0.6
+   },
+   "veto_scope": "count-based vetoes cover the whole pilot run; threshold vetoes apply to every measured iteration/epoch and every validation pass",
+   "forbidden_evidence": [
+    "final-test results",
+    "architecture changes",
+    "mixture changes",
+    "seed changes"
+   ]
+  },
+  "no_seventh_run": true,
+  "no_opportunistic_early_stop": true,
+  "output": "phase9_train_config_v1: the winner's learning rate and initial KL beta joined with every constant this contract already freezes"
+ },
+ "completion_gates": {
+  "phase8_identity_verified": true,
+  "corpus_resolver_verified": true,
+  "corpus_digests_match": true,
+  "rl_contract_frozen": true,
+  "population_contract_frozen": true,
+  "rollout_schedule_frozen": true,
+  "behavior_storage_semantics_frozen": true,
+  "advantage_contract_frozen": true,
+  "checkpoint_contract_frozen": true,
+  "pilot_matrix_exactly_six": true,
+  "validation_score_frozen": true,
+  "validation_bank_frozen_and_hashed": true,
+  "test_bank_frozen_and_hashed": true,
+  "test_bank_neural_access_zero": true,
+  "final_gates_frozen": true,
+  "no_phase9_optimizer_steps": true,
+  "no_trainable_phase9_rollouts": true,
+  "full_suite_green": true
+ },
+ "gates_total": 18,
+ "gates_true": 18,
+ "handoff_to_agent_2": {
+  "contract_versions": {
+   "phase9_rl_contract_v1": "phase9_rl_contract_v1",
+   "phase9_population_v1": "phase9_population_v1",
+   "phase9_rollout_schedule_v1": "phase9_rollout_schedule_v1",
+   "phase9_rollout_store_v1": "phase9_rollout_store_v1",
+   "phase9_advantage_v1": "phase9_advantage_v1",
+   "phase9_train_order_v1": "phase9_train_order_v1",
+   "phase9_checkpoint_v1": "phase9_checkpoint_v1",
+   "phase9_eval_bank_v1": "phase9_eval_bank_v1",
+   "phase9_acceptance_v1": "phase9_acceptance_v1"
+  },
+  "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+  "population_bucket_schedule": {
+   "canonical": {
+    "current": 1024,
+    "historical": 512,
+    "rule": 307,
+    "stress": 205
+   },
+   "pilot": {
+    "current": 512,
+    "historical": 256,
+    "rule": 154,
+    "stress": 102
+   },
+   "rule_tiers_canonical": {
+    "strategic_rule_based": 154,
+    "tactical_rule_based": 107,
+    "basic_heuristic": 46
+   },
+   "rule_tiers_pilot": {
+    "strategic_rule_based": 77,
+    "tactical_rule_based": 54,
+    "basic_heuristic": 23
+   }
+  },
+  "game_id_specification": "stratego.training.phase9_seed.phase9_game_id",
+  "opponent_id_specification": "phase9_contract.scheduled_game: rule subranges, stress rotation, historical uniform active-window draw",
+  "color_balance_rule": "learner red iff (ordinal + iteration) % 2 == 0; odd remainders alternate by iteration parity",
+  "historical_archive": {
+   "anchor": "H000",
+   "cadence": 5,
+   "window": "anchor + 8 most recent, uniform"
+  },
+  "setup_assignment_rule": "training_setup_source('neutral_v1').assign(root_seed=setup_root_seed(game_id), environment_id=0, generation=0)",
+  "bank_manifest_digests": {
+   "validation": "fe0bae7fec38b073da99c6e4125d429c1b1d803922481458bca8a1bff632eca5",
+   "test": "43a88f2c96529727e4d04251f458a26eaf88329dd819ed45c61d488a006eda0d"
+  },
+  "seed_derivations": "stratego.training.phase9_seed (person 'strat-rl9')",
+  "learner_control_semantics": {
+   "current": "both colors",
+   "historical": "current-policy side only",
+   "rule": "current-policy side only",
+   "stress": "current-policy side only"
+  },
+  "no_new_learning_design_decisions": true
+ },
+ "durations": {
+  "verify": 1.616,
+  "banks": 10.664,
+  "export": 0.08,
+  "anchor": 475.963,
+  "artifacts": 256.575
+ }
+}

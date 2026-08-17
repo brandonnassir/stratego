@@ -1,0 +1,265 @@
+{
+ "phase": 9,
+ "agent": 2,
+ "status": "PASS",
+ "timestamp": "2026-08-16T09:55:40-0400",
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "python_version": "3.13.2",
+ "cpu_count": 14,
+ "source_revision": "0fe6caf",
+ "working_tree_state": "dirty",
+ "rules_version": "stratego_project_v1",
+ "engine_version": "phase2_1_reference_1.2.0",
+ "observation_version": "observation_v2_1_127ch",
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "summary": "3928 passed, 3 skipped in 253.71s (0:04:13)",
+  "passed": 3928,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 253.71,
+  "measured_at_commit": "0fe6caf"
+ },
+ "tests_after": {
+  "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q",
+  "returncode": 0,
+  "summary": "4082 passed, 3 skipped in 266.15s (0:04:26)",
+  "passed": 4082,
+  "failed": 0,
+  "skipped": 3,
+  "seconds": 267.233
+ },
+ "commands": [
+  "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python scripts/run_phase9_agent02.py --run-pytest"
+ ],
+ "artifact": "agent_02_acceptance",
+ "population_version": "phase9_population_v1",
+ "schedule_version": "phase9_rollout_schedule_v1",
+ "population_digest": "6756790b15ee66195bc6339363e19fc475e3c606ef10613619b78b23d21bda73",
+ "run_schedule_digests": {
+  "canonical": "bc253e8be2c63db1af308f62cf52f99f1431e9c9ec8a6db0987783b2983c0e64",
+  "pilot_p9a": "c7bf66ff84b7ed829f477dfaf6b14cfa8c801ef5144f4d1f33175136562748cf",
+  "pilot_p9b": "dd74fb86cb63108819db8f8db5e343fe18b87ca7c056c0f4603406d7e22d859d",
+  "pilot_p9c": "1b5c4e742ab1e7be71b038aeefa817794b4924197ed9eab107f1a7ddc442039c",
+  "pilot_p9d": "b9a42c9a34222dfc976b6e789605e0115e5257b5f054504bbe10088da597f1cc",
+  "pilot_p9e": "1e61f341c6568388e611e810f24491a3f3a9fa739b73fad0caf4a9384f2a01ba",
+  "pilot_p9f": "27a8b2566514fdd491cb755757fc949072bc366b7bc26855474a9706beaa475e"
+ },
+ "agent1_verification": {
+  "agent1_status": "PASS",
+  "agent1_gates": "18/18",
+  "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+  "contract_digest_matches_accepted": true,
+  "bank_digests": {
+   "phase9_validation_bank_v1": "3d28d544f6669129b12c13e4e3738aa36d1a99e4af8f6685bbb032793701ee4a",
+   "phase9_test_bank_v1": "f38e405559fc7c04b0832b1d3a4e3d82cd68ffff29bc1a9af456a3940e1de6a7"
+  },
+  "bank_digests_match_accepted": true,
+  "contract_identities": [
+   "phase9_rl_contract_v1",
+   "phase9_population_v1",
+   "phase9_rollout_schedule_v1",
+   "phase9_rollout_store_v1",
+   "phase9_advantage_v1",
+   "phase9_train_order_v1",
+   "phase9_checkpoint_v1",
+   "phase9_eval_bank_v1",
+   "phase9_acceptance_v1"
+  ],
+  "canonical_seeds": {
+   "phase9_master_seed": 2026081601,
+   "rollout_schedule_seed": 2026081602,
+   "opponent_schedule_seed": 2026081603,
+   "train_order_seed": 2026081604,
+   "pilot_namespace_seed": 2026081605,
+   "canonical_namespace_seed": 2026081606,
+   "validation_bootstrap_seed": 2026081607,
+   "test_bootstrap_seed": 2026081608
+  },
+  "problems": []
+ },
+ "corpus_verification": {
+  "resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+  "resolution": {
+   "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "source": "pointer_file",
+   "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+   "environment_value": "",
+   "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart_corpus_root.txt",
+   "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/warmstart/synthetic_warmstart_corpus_v1"
+  },
+  "resolved_root_matches_accepted_location": true,
+  "accepted_identity": {
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+  },
+  "observed_identity": {
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1"
+  },
+  "identity_matches": true,
+  "identity_rule": "corpus identity is version + accepted digests, not filesystem location; a pure relocation is compatible, a digest mismatch is BLOCKED and never repaired",
+  "scheduler_hardcodes_corpus_path": false,
+  "verification_seconds": 1.496,
+  "problems": []
+ },
+ "schedule_totals": {
+  "canonical_iterations": 60,
+  "canonical_games_per_iteration": 2048,
+  "canonical_total_games": 122880,
+  "pilot_runs": 6,
+  "pilot_iterations_each": 8,
+  "pilot_games_per_iteration": 1024,
+  "pilot_total_games_each": 8192,
+  "all_namespaces_total_games": 172032,
+  "distinct_game_ids": 172032
+ },
+ "seed_collisions": {
+  "within_stream_collisions": 0,
+  "same_game_setup_side_collisions": 0,
+  "per_stream": {
+   "setup_root": 0,
+   "setup_side_red": 0,
+   "setup_side_blue": 0,
+   "policy_red": 0,
+   "policy_blue": 0,
+   "historical_opponent": 0
+  },
+  "seeds_derived": 903168
+ },
+ "setup_assignment": {
+  "coverage": "full schedule",
+  "games_resolved": 172032,
+  "setup_sides_resolved": 344064,
+  "split": "train",
+  "purpose": "training",
+  "profile": "neutral_v1",
+  "split_violations": 0,
+  "families_seen": 16,
+  "family_min_count": 21259,
+  "family_max_count": 21919,
+  "expected_per_family": 21504.0,
+  "held_out_setups_compared": 1233,
+  "held_out_setup_leaks": 0,
+  "games_with_identical_sides": 0,
+  "models_constructed": 0,
+  "checkpoints_loaded": 0,
+  "engine_plies_simulated": 0
+ },
+ "storage_handoff": {
+  "logical_schedule_identity": {
+   "population_version": "phase9_population_v1",
+   "schedule_version": "phase9_rollout_schedule_v1",
+   "rollout_version": "phase9_rollout_v1",
+   "population_digest": "6756790b15ee66195bc6339363e19fc475e3c606ef10613619b78b23d21bda73",
+   "run_schedule_digests": {
+    "canonical": "bc253e8be2c63db1af308f62cf52f99f1431e9c9ec8a6db0987783b2983c0e64",
+    "pilot_p9a": "c7bf66ff84b7ed829f477dfaf6b14cfa8c801ef5144f4d1f33175136562748cf",
+    "pilot_p9b": "dd74fb86cb63108819db8f8db5e343fe18b87ca7c056c0f4603406d7e22d859d",
+    "pilot_p9c": "1b5c4e742ab1e7be71b038aeefa817794b4924197ed9eab107f1a7ddc442039c",
+    "pilot_p9d": "b9a42c9a34222dfc976b6e789605e0115e5257b5f054504bbe10088da597f1cc",
+    "pilot_p9e": "1e61f341c6568388e611e810f24491a3f3a9fa739b73fad0caf4a9384f2a01ba",
+    "pilot_p9f": "27a8b2566514fdd491cb755757fc949072bc366b7bc26855474a9706beaa475e"
+   }
+  },
+  "resolved_rollout_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+  "external_volume": {
+   "volume_name": "Brandon_Washington",
+   "mount_point": "/Volumes/Brandon_Washington",
+   "device_node": "/dev/disk5s2",
+   "filesystem": "Case-sensitive APFS",
+   "protocol": "USB",
+   "device_location": "",
+   "internal": false,
+   "removable": false,
+   "volume_read_only": false,
+   "encrypted": false,
+   "total_bytes": 999960829952,
+   "free_bytes": 999751065600,
+   "free_gib": 931.091,
+   "statvfs_read_only": false,
+   "is_external": true
+  },
+  "free_space_measurement": {
+   "measured_at": "/Volumes/Brandon_Washington",
+   "free_bytes": 999751065600,
+   "free_gib": 931.091,
+   "total_bytes": 999960829952,
+   "projected_requirement_bytes": 8674724659,
+   "observed_headroom_factor": 115.2
+  },
+  "storage_resolution_source": "external_volume",
+  "resolver": "stratego.training.phase9_storage.default_rollout_root()",
+  "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9_rollout_root.txt",
+  "pointer_file_written": true,
+  "throughput_probe": {
+   "probe_mib": 32,
+   "write_mib_per_second": 87.9,
+   "read_mib_per_second": 8723.9,
+   "read_note": "the read is served largely from the page cache and is not a drive-bound figure; the fsync'd write rate is the honest one",
+   "round_trip_identical": true,
+   "cleaned_up": true
+  },
+  "path_is_diagnostic_not_identity": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+  "rollout_corpus_created": false
+ },
+ "handoff_to_agent_3": {
+  "schedule_enumeration_api": [
+   "phase9_schedule.iteration_schedule(namespace, iteration, history=...)",
+   "phase9_schedule.iter_iteration_schedule(...)",
+   "phase9_schedule.iteration_game_ids(namespace, iteration)",
+   "phase9_schedule.iter_run_schedule(namespace)"
+  ],
+  "game_id_parser_rebuilder": "phase9_schedule.rebuild_scheduled_game(game_id) \u2014 pure, reproduces the full record from the identifier alone",
+  "active_history_manifest_interface": "phase9_schedule.ActiveHistoryManifest.frozen_for(namespace, iteration, checkpoint_digests) \u2014 explicit immutable input, validated against the frozen window",
+  "learner_control_field": "ScheduledGame.learner_control (red|blue|both)",
+  "policy_identities": "ScheduledGame.red_policy_identity / blue_policy_identity; behavior_snapshot_identity names the iteration's frozen learner, historical_snapshot_identity the archive member",
+  "setup_identity_derivation": "training_setup_source('neutral_v1').assign(root_seed=setup_root_seed(game_id), environment_id=0, generation=0)",
+  "resume_subtraction": "phase9_schedule.pending_game_ids(namespace, iteration, committed) \u2014 scheduled minus committed; a foreign committed id raises rather than being ignored",
+  "per_side_checkpoint_identity_warning": "GameRecord.collection_checkpoint_id is the *current* behavior snapshot's SHA-256; a historical opponent's decisions were produced by a different checkpoint, whose identity travels in the phase9_rollout_store_v1 sidecar (opponent_checkpoint_sha256 / ScheduledGame.opponent_checkpoint_digest). Agent 3 must verify each neural decision against the acting side's own checkpoint identity, never against the game-level behavior digest",
+  "no_new_learning_design_decisions": true
+ },
+ "carry_forward_notes": [
+  "Agent 1's active_historical_window() applies the frozen 5-iteration archive cadence in every run namespace, so each 8-iteration pilot schedules H005 opponents from iteration 6 onward (~383 games per pilot). The common contract states the cadence under the canonical run only; the scheduler follows Agent 1's namespace-independent function rather than making a new decision. Agents 5/6 must therefore archive an immutable pilot snapshot after pilot iteration 5, or those scheduled games have no opponent weights to load",
+  "H000 receives the largest share of historical games (7954 of 30720 canonical historical games) because the Phase 8 anchor never leaves the active window while every later snapshot enters and exits it. This is the frozen window rule, not a preference, and must not be 'corrected' downstream",
+  "the recommended rollout root sits on a USB external volume; if it is unmounted at collection time, phase9_storage.default_rollout_root() still resolves to it through the pointer file and the write will fail loudly rather than silently landing on the boot disk. Logical scheduling is unaffected either way"
+ ],
+ "completion_gates": {
+  "agent1_pass": true,
+  "contract_digests_match": true,
+  "corpus_resolver_verified": true,
+  "corpus_digests_match": true,
+  "pilot_schedules_exact": true,
+  "canonical_60_iteration_schedule_exact": true,
+  "canonical_total_games_122880": true,
+  "duplicate_game_ids_zero": true,
+  "seed_collision_violations_zero": true,
+  "bucket_count_mismatches_zero": true,
+  "rule_subdivision_mismatches_zero": true,
+  "stress_allocation_mismatches_zero": true,
+  "color_balance_violations_zero": true,
+  "train_setup_split_violations_zero": true,
+  "worker_order_dependence_zero": true,
+  "resume_identity_mismatches_zero": true,
+  "setup_family_coverage_complete": true,
+  "storage_root_resolved": true,
+  "no_neural_training": true,
+  "full_suite_green": true
+ },
+ "gates_total": 20,
+ "gates_true": 20,
+ "problems": [],
+ "deviations": [],
+ "durations": {
+  "verify": 1.699,
+  "storage": 0.809,
+  "schedule": 12.954,
+  "setups": 23.211,
+  "artifacts": 268.94
+ }
+}

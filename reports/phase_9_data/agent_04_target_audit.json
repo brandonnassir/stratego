@@ -1,0 +1,72 @@
+{
+  "namespace": "canonical",
+  "iteration": 1,
+  "rollout_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak",
+  "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+  "games_audited": 2048,
+  "learner_decisions": 282414,
+  "examples_audited": 282414,
+  "learner_control_counts": {
+    "both": 1024,
+    "blue": 513,
+    "red": 511
+  },
+  "bucket_counts": {
+    "current": 1024,
+    "historical": 512,
+    "rule": 307,
+    "stress": 205
+  },
+  "learner_decisions_by_colour": {
+    "red": 141226,
+    "blue": 141188
+  },
+  "statistics": {
+    "advantage_version": "phase9_advantage_v1",
+    "namespace": "canonical",
+    "iteration": 1,
+    "sealed_rollout_digest": "df2e6e4485bbc6ed86dc6fc78c56a6613c189ca54d97e405fb0a60613750a17d",
+    "games": 2048,
+    "learner_decisions": 282414,
+    "quantile": 0.75,
+    "floor": 0.01,
+    "threshold": 0.12881821608195476,
+    "eligible": 70604,
+    "retention_fraction": 0.2500017704504734,
+    "mean_eligible": 0.009545094610122616,
+    "std_eligible": 0.300811239439604,
+    "standardization_epsilon": 1e-08,
+    "zero_variance": false,
+    "no_eligible": false,
+    "advantage_min": -1.9704856052994728,
+    "advantage_max": 1.9100954160094261,
+    "advantage_mean": 0.002052134201886543
+  },
+  "reference": {
+    "threshold": 0.12881821608195476,
+    "eligible": 70604,
+    "mean_eligible": 0.009545094610122616,
+    "std_eligible": 0.300811239439604,
+    "arithmetic": "written from the assignment's formulas in this harness; neither phase9_contract nor phase9_targets is consulted for a value it is being compared against"
+  },
+  "advantage_mismatches": 0,
+  "wdl_target_mismatches": 0,
+  "value_target_simplex_failures": 0,
+  "belief_target_mismatches": 0,
+  "eligibility_mismatches": 0,
+  "standardization_mismatches": 0,
+  "filter_problems": [],
+  "sequence_problems": [],
+  "sequence_problem_count": 0,
+  "behavior_quantity_problems": [],
+  "behavior_quantity_problem_count": 0,
+  "example_problems": [],
+  "example_problem_count": 0,
+  "eligible_examples": 70604,
+  "retention_fraction": 0.2500017704504734,
+  "supervised_belief_squares": 6337120,
+  "mean_supervised_belief_squares": 22.439114208219138,
+  "pass1_seconds": 6.677895917004207,
+  "pass2_seconds": 84.19943054098985,
+  "decisions_per_second": 3354.108195096588
+}
