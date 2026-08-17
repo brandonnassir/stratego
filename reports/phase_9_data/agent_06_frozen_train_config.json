@@ -1,0 +1,350 @@
+{
+  "agent": 6,
+  "artifact": "agent_06_frozen_train_config",
+  "config": {
+    "acceptance_versions": {
+      "acceptance_version": "phase9_acceptance_v1",
+      "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+      "eval_bank_version": "phase9_eval_bank_v1",
+      "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+      "rl_contract_version": "phase9_rl_contract_v1"
+    },
+    "advantage_version": "phase9_advantage_v1",
+    "advantages": {
+      "filter_floor": 0.01,
+      "filter_quantile": 0.75,
+      "gamma": 1.0,
+      "lambda_advantage": 0.5,
+      "lambda_value": 0.8,
+      "standardization_epsilon": 1e-08
+    },
+    "archive_cadence_iterations": 5,
+    "batch_size": 512,
+    "behavior_policy": {
+      "log_epsilon": 1e-12,
+      "probability_abs_tolerance": 0.0001,
+      "temperature": 1.0
+    },
+    "canonical_bucket_counts": {
+      "current": 1024,
+      "historical": 512,
+      "rule": 307,
+      "stress": 205
+    },
+    "canonical_games_per_iteration": 2048,
+    "canonical_iterations": 60,
+    "canonical_namespace": "canonical",
+    "canonical_rule_tier_counts": {
+      "basic_heuristic": 46,
+      "strategic_rule_based": 154,
+      "tactical_rule_based": 107
+    },
+    "checkpoint_version": "phase9_checkpoint_v1",
+    "collector_version": "phase9_collector_v1",
+    "config_version": "phase9_train_config_v1",
+    "corpus_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+      "version": "synthetic_warmstart_corpus_v1"
+    },
+    "entropy_schedule": {
+      "end": 0.001,
+      "rule": "linear in the 1-based iteration over the run's own budget",
+      "start": 0.005
+    },
+    "epochs_per_rollout": 2,
+    "example_version": "phase9_example_v1",
+    "historical_archive_rule": {
+      "active_window_recent_snapshots": 8,
+      "anchor": "H000",
+      "archive_cadence_iterations": 5,
+      "immutability": "no archive checkpoint may be overwritten",
+      "sampling": "uniform over the active window via the frozen opponent stream"
+    },
+    "initial_kl_beta": 0.005,
+    "learning_rate": 0.0003,
+    "loader_collector_topology": {
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "inference_device": "mps",
+      "observer_probe_plies": 2,
+      "prefetch": 2,
+      "record_cache_size": 48,
+      "workers": 6
+    },
+    "model": {
+      "action_frame": "perspective_normalized_squares",
+      "architecture": "C1",
+      "config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "model_contract": "model_contract_v2",
+      "observation": "observation_v2_1_127ch",
+      "parameters": 863959
+    },
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_epsilon": 1e-08,
+      "device": "mps",
+      "epochs_per_rollout": 2,
+      "gradient_clip_norm": 1.0,
+      "learning_rate_schedule": "constant (no warmup, no decay)",
+      "minibatch_size": 512,
+      "optimizer": "AdamW",
+      "precision": "float32",
+      "weight_decay": 0.01
+    },
+    "pilot_namespace": "pilot_p9c",
+    "population_version": "phase9_population_v1",
+    "ppo": {
+      "behavior_kl_target": 0.015,
+      "belief_loss_weight": 0.25,
+      "clip_epsilon": 0.2,
+      "clip_fraction_hard_limit": 0.75,
+      "kl_beta_clamp": [
+        0.0001,
+        0.2
+      ],
+      "kl_beta_decrease_factor": 0.5,
+      "kl_beta_decrease_threshold": 0.0075,
+      "kl_beta_increase_factor": 2.0,
+      "kl_beta_increase_threshold": 0.03,
+      "kl_hard_limit": 0.08,
+      "value_loss_weight": 0.5
+    },
+    "rollout_store_version": "phase9_rollout_store_v1",
+    "schedule_version": "phase9_rollout_schedule_v1",
+    "seeds": {
+      "canonical_namespace_seed": 2026081606,
+      "opponent_schedule_seed": 2026081603,
+      "phase9_master_seed": 2026081601,
+      "pilot_namespace_seed": 2026081605,
+      "rollout_schedule_seed": 2026081602,
+      "test_bootstrap_seed": 2026081608,
+      "train_order_seed": 2026081604,
+      "validation_bootstrap_seed": 2026081607
+    },
+    "selected_by": "phase9_agent6_bounded_pilot_selection",
+    "start": {
+      "checkpoint_path": "checkpoints/phase8/warmstart_c1_v1.pt",
+      "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "expected_model_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+      "rule": "Agent 7 starts freshly from the accepted Phase 8 checkpoint with fresh optimizer/scheduler/KL-controller state; no pilot checkpoint is continued"
+    },
+    "test_bank": {
+      "bank_digest": "f38e405559fc7c04b0832b1d3a4e3d82cd68ffff29bc1a9af456a3940e1de6a7",
+      "bank_version": "phase9_test_bank_v1",
+      "sealed_until": "Agent 8 final evaluation"
+    },
+    "train_order_version": "phase9_train_order_v1",
+    "trajectory": {
+      "snapshot_interval": 32,
+      "version": "trajectory_v1"
+    },
+    "validation": {
+      "bank_digest": "3d28d544f6669129b12c13e4e3738aa36d1a99e4af8f6685bbb032793701ee4a",
+      "bank_version": "phase9_validation_bank_v1",
+      "best_checkpoint_rule": "strictly highest frozen validation score among cadence passes",
+      "regression_guards": {
+        "basic_heuristic_ewr_min": 0.6,
+        "random_legal_ewr_min": 0.9
+      },
+      "score_weights": {
+        "phase8_anchor": 0.2,
+        "strategic_rule_based": 0.45,
+        "tactical_rule_based": 0.35
+      },
+      "tie_break": [
+        "higher validation score",
+        "higher Strategic EWR",
+        "lower mean behavior KL",
+        "higher training examples/s"
+      ]
+    },
+    "validation_cadence_iterations": 5,
+    "wall_clock_ceiling_hours": 12,
+    "winning_candidate_id": "P9-C"
+  },
+  "digest_namespace_rule": "train_config_document_digest hashes the canonical JSON of `config` (the phase9_train_config_v1 document); trainer_runtime_identity_digest hashes Phase9TrainConfig.identity() for the canonical run. Always label which namespace a digest belongs to.",
+  "handoff_to_agent_7": {
+    "canonical_budget": {
+      "archive_cadence": 5,
+      "epochs_per_rollout": 2,
+      "games_per_iteration": 2048,
+      "iterations": 60,
+      "validation_cadence": 5
+    },
+    "expected_model_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "fresh_start_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "no_pilot_checkpoint_handed_forward": true,
+    "pilot_archive_members": "checkpoints/phase9/archive/pilot_p9*/H005.pt (pilot-local, never read by the canonical namespace)",
+    "pilot_weights_location": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/agent06",
+    "population_version": "phase9_population_v1",
+    "schedule_version": "phase9_rollout_schedule_v1",
+    "seeds": {
+      "canonical_namespace_seed": 2026081606,
+      "opponent_schedule_seed": 2026081603,
+      "phase9_master_seed": 2026081601,
+      "pilot_namespace_seed": 2026081605,
+      "rollout_schedule_seed": 2026081602,
+      "test_bootstrap_seed": 2026081608,
+      "train_order_seed": 2026081604,
+      "validation_bootstrap_seed": 2026081607
+    },
+    "topology": {
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "inference_device": "mps",
+      "observer_probe_plies": 2,
+      "prefetch": 2,
+      "record_cache_size": 48,
+      "workers": 6
+    },
+    "train_config_document_digest": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+    "trainer_runtime_identity_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+    "winning_candidate_id": "P9-C"
+  },
+  "phase": 9,
+  "reconciliation": {
+    "bridged_fields": [
+      {
+        "document_field": "batch_size",
+        "document_value": 512,
+        "equal": true,
+        "runtime_field": "minibatch_size",
+        "runtime_value": 512
+      },
+      {
+        "document_field": "canonical_iterations",
+        "document_value": 60,
+        "equal": true,
+        "runtime_field": "total_iterations",
+        "runtime_value": 60
+      },
+      {
+        "document_field": "canonical_namespace",
+        "document_value": "canonical",
+        "equal": true,
+        "runtime_field": "namespace",
+        "runtime_value": "canonical"
+      },
+      {
+        "document_field": "epochs_per_rollout",
+        "document_value": 2,
+        "equal": true,
+        "runtime_field": "epochs_per_rollout",
+        "runtime_value": 2
+      },
+      {
+        "document_field": "initial_kl_beta",
+        "document_value": 0.005,
+        "equal": true,
+        "runtime_field": "initial_kl_beta",
+        "runtime_value": 0.005
+      },
+      {
+        "document_field": "learning_rate",
+        "document_value": 0.0003,
+        "equal": true,
+        "runtime_field": "learning_rate",
+        "runtime_value": 0.0003
+      },
+      {
+        "document_field": "winning_candidate_id",
+        "document_value": "P9-C",
+        "equal": true,
+        "runtime_field": "candidate_id",
+        "runtime_value": "P9-C"
+      }
+    ],
+    "document_field_count": 39,
+    "document_only_fields": [
+      "acceptance_versions",
+      "advantage_version",
+      "advantages",
+      "archive_cadence_iterations",
+      "behavior_policy",
+      "canonical_bucket_counts",
+      "canonical_games_per_iteration",
+      "canonical_rule_tier_counts",
+      "checkpoint_version",
+      "collector_version",
+      "config_version",
+      "corpus_identity",
+      "entropy_schedule",
+      "example_version",
+      "historical_archive_rule",
+      "loader_collector_topology",
+      "pilot_namespace",
+      "population_version",
+      "ppo",
+      "rollout_store_version",
+      "schedule_version",
+      "seeds",
+      "selected_by",
+      "start",
+      "test_bank",
+      "train_order_version",
+      "trajectory",
+      "validation",
+      "validation_cadence_iterations",
+      "wall_clock_ceiling_hours"
+    ],
+    "note": "two distinct namespaces, exactly as Phase 8 froze them: the document is the complete reviewable phase9_train_config_v1; the runtime identity is the narrower Phase9TrainConfig object stamped into every phase9_checkpoint_v1 and compared on resume. They hash different objects and are not required to be equal.",
+    "runtime_field_count": 20,
+    "runtime_fields_bound_by_document_subobjects": {
+      "adam_beta1": "optimizer.adam_betas[0]",
+      "adam_beta2": "optimizer.adam_betas[1]",
+      "adam_epsilon": "optimizer.adam_epsilon",
+      "device": "loader_collector_topology has no device for the optimizer; runtime.device='mps' matches optimizer.device",
+      "gradient_clip_norm": "optimizer.gradient_clip_norm",
+      "learning_rate_schedule": "optimizer.learning_rate_schedule",
+      "model_candidate": "model.architecture",
+      "optimizer": "optimizer.optimizer",
+      "precision": "optimizer.precision",
+      "scope": "runtime bookkeeping only: the frozen constructor's production scope is 'pilot_candidate'; SCOPES has no canonical entry, so the canonical runtime object carries the constructor default",
+      "weight_decay": "optimizer.weight_decay"
+    },
+    "runtime_only_fields": [
+      "adam_beta1",
+      "adam_beta2",
+      "adam_epsilon",
+      "device",
+      "gradient_clip_norm",
+      "learning_rate_schedule",
+      "model_candidate",
+      "optimizer",
+      "precision",
+      "scope",
+      "weight_decay"
+    ]
+  },
+  "status": "BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW",
+  "timestamp": "2026-08-17T05:51:10-0400",
+  "train_config_document_digest": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+  "trainer_runtime_identity": {
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "candidate_id": "P9-C",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "device": "mps",
+    "epochs_per_rollout": 2,
+    "gradient_clip_norm": 1.0,
+    "initial_kl_beta": 0.005,
+    "learning_rate": 0.0003,
+    "learning_rate_schedule": "constant (no warmup, no decay)",
+    "minibatch_size": 512,
+    "model_candidate": "C1",
+    "namespace": "canonical",
+    "optimizer": "AdamW",
+    "precision": "float32",
+    "scope": "pilot_candidate",
+    "total_iterations": 60,
+    "trainer_version": "phase9_trainer_v1",
+    "weight_decay": 0.01
+  },
+  "trainer_runtime_identity_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036"
+}
