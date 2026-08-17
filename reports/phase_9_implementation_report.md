@@ -1593,21 +1593,33 @@ minibatches a rollout contains varies.
 
 ## 6. Agent 6 — Bounded RL Pilot Selection
 
-**Status: BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW.** The six
-frozen pilots ran to completion, one candidate was vetoed by the frozen KL
-hard limit, a unique winner was selected from the frozen iteration-8
-validation score, and `phase9_train_config_v1` is frozen — but the
-winner-specific measured projection of the canonical 60 × 2,048 run does not
-fit inside the frozen 12-hour operational ceiling, so per the frozen contract
-Agent 7 must not begin until the reviewing chat resolves the wall-clock
-contract. Every other completion gate is true. Machine-readable record:
-`reports/phase_9_data/agent_06_pilot_selection.json` (prerequisites, six
-candidate runs, veto evaluation, selection, projection, access log, gates),
-`agent_06_pilot_runs.csv` (every validation checkpoint of every candidate
-with all score components), and `agent_06_frozen_train_config.json` (the
-frozen document, the runtime identity, both digests, the reconciliation, the
-Agent 7 handoff). Acceptance commands: `python scripts/run_phase9_agent06.py
---stage verify|pilots|selection|config|projection|artifacts` followed by
+**Status: PASS — 24 / 24 completion gates true, following the reviewing
+chat's Agent 6 review resolution** (§6.11). The six frozen pilots ran under
+one identical scheduled budget, one candidate was vetoed by the frozen KL
+hard limit, a unique winner (**P9-C**) was selected from the frozen
+iteration-8 validation score, and `phase9_train_config_v1` is frozen.
+
+This section was first reported as **BLOCKED — CANONICAL WALL-CLOCK CONTRACT
+REQUIRES REVIEW**, because the winner-specific measured projection of the
+canonical 60 × 2,048 run did not fit inside the then-frozen 12-hour
+operational ceiling. That measurement was correct and is preserved verbatim
+in §6.7 and in the artifact's `historical_ceiling_evaluation`. The reviewing
+chat accepted the pilot selection and authorized one narrow change —
+`phase9_operational_amendment_v1`, raising the *operational* ceiling from
+43,200 s to 54,000 s and nothing else — under which the same unaltered
+projection fits with 7,243 s of headroom. No pilot was rerun, retrained or
+reevaluated.
+
+Machine-readable record: `reports/phase_9_data/agent_06_pilot_selection.json`
+(prerequisites, six candidate runs, budget semantics, veto evaluation,
+selection, dual-ceiling projection, complete access ledger, review
+resolution, gates), `agent_06_pilot_runs.csv` (every validation checkpoint of
+every candidate with all score components), and
+`agent_06_frozen_train_config.json` (the accepted document and its digest,
+the amended document and its digest, the amendment, the unchanged runtime
+identity, the reconciliations, the Agent 7 handoff). Acceptance commands:
+`python scripts/run_phase9_agent06.py --stage
+verify|pilots|selection|config|projection|artifacts` followed by
 `--record-final-suite` (twice, the accepted two-pass convergence).
 
 ### 6.1 Prerequisites verified
@@ -1653,9 +1665,13 @@ Historical bucket totals are exactly 256 per iteration everywhere.
 ### 6.3 How the pilots ran
 
 One worker process per candidate (`--pilot-worker`), strictly in order
-P9-A…P9-F, each: fresh `Phase9Trainer.from_phase8_checkpoint` (fresh
-optimizer, scheduler and KL controller), the frozen budget of 8 iterations ×
-1,024 games × 2 epochs, Agent 5's validated topology `workers=6 / prefetch=2
+P9-A…P9-F. **All six candidates received the identical scheduled budget of 8
+iterations × 1,024 games × 2 epochs** from the identical starting checkpoint;
+five executed it in full and P9-E terminated early under the mandatory hard
+KL veto (see §6.4), which is the frozen contract working, not a reduced
+budget. Each candidate: fresh `Phase9Trainer.from_phase8_checkpoint` (fresh
+optimizer, scheduler and KL controller), that scheduled budget, Agent 5's
+validated topology `workers=6 / prefetch=2
 / record cache=48` (never retuned per candidate), collection on MPS at the
 frozen inference batch shape 64 with 96 games in flight and 2 observer-probe
 plies per game, per-iteration on-policy binding (`B00N` state-dict digest ==
@@ -1692,20 +1708,29 @@ Frozen iteration-8 validation scores (S = 0.45·E_Strategic + 0.35·E_Tactical
 float32, bootstrap seed 2026081607):
 
 ```text
-candidate  LR     beta0   it4 S (diagnostic)  it8 S (binding)  random  basic   outcome
-P9-C       3e-4   0.005   0.5710              0.691602         0.9863  0.7422  WINNER
-P9-F       6e-4   0.020   0.5894              0.644922         0.9941  0.7773  eligible
-P9-D       3e-4   0.020   0.5574              0.629199         0.9922  0.7031  eligible
-P9-B       1e-4   0.020   0.5649              0.605469         0.9746  0.6758  eligible
-P9-A       1e-4   0.005   0.5733              0.604688         0.9883  0.7832  eligible
-P9-E       6e-4   0.005   —                   —                —       —       VETOED
+candidate  LR     beta0   sched/exec  it4 S (diag)  it8 S (binding)  random  basic   outcome
+P9-C       3e-4   0.005   8 / 8       0.5710        0.691602         0.9863  0.7422  WINNER
+P9-F       6e-4   0.020   8 / 8       0.5894        0.644922         0.9941  0.7773  eligible
+P9-D       3e-4   0.020   8 / 8       0.5574        0.629199         0.9922  0.7031  eligible
+P9-B       1e-4   0.020   8 / 8       0.5649        0.605469         0.9746  0.6758  eligible
+P9-A       1e-4   0.005   8 / 8       0.5733        0.604688         0.9883  0.7832  eligible
+P9-E       6e-4   0.005   8 / 0       —             —                —       —       VETOED
 ```
+
+`sched/exec` is the scheduled iteration budget against what the candidate
+actually executed. **Every candidate was scheduled the same eight
+iterations**; P9-E executed none of them to completion because the mandatory
+hard veto fired inside its first iteration's first epoch. It is nowhere
+described as having completed eight iterations, and its early termination is
+the frozen contract behaving correctly rather than an unequal budget.
 
 **P9-E's veto** fired at iteration 1, epoch 1: mean behavior KL 0.089105 >
 the frozen 0.08 hard limit, before the adaptive controller's first
 post-epoch update could react — 6e-4 with the weak initial beta is
-uncontrollable from a standing start. No rescue rerun; its sealed iteration-1
-rollout remains on disk as evidence. P9-F proved the same learning rate *is*
+uncontrollable from a standing start. No rescue rerun; its collection had
+already completed and sealed, so its iteration-1 rollout remains on disk as
+evidence (and its digest matches Agent 3's pin — see §6.3), but no optimizer
+step of that iteration ever committed. P9-F proved the same learning rate *is*
 controllable from beta 0.020: its first epoch grazed the limit at 0.0775,
 the controller drove beta to the 0.2 clamp, and epoch KLs retreated to
 0.044–0.051 — the fastest iteration-4 score of the matrix (0.5894) but a
@@ -1733,7 +1758,7 @@ checkpoint errors. The veto evaluation table in the selection artifact
 covers exactly the twelve frozen veto conditions per candidate, with
 measured observations for each.
 
-### 6.5 `phase9_train_config_v1`, frozen with two labeled digests
+### 6.5 `phase9_train_config_v1`, frozen with labeled digests
 
 `agent_06_frozen_train_config.json` freezes the complete 39-field canonical-
 run document — C1 identity and config digest, Phase 8 starting checkpoint
@@ -1741,22 +1766,30 @@ SHA and expected model-state digest, LR 3e-4, initial KL beta 0.005, every
 fixed PPO/value/belief/advantage/behavior constant, the entropy schedule,
 optimizer block, minibatch 512, epochs 2, population/schedule/store/order/
 example/collector versions, the historical archive rule, validation and
-archive cadences, 60 canonical iterations × 2,048 games, the 12-hour ceiling,
-the loader/collector topology (6/2/48, 96 in flight, batch shape 64, MPS,
-2 probe plies), all eight Phase 9 seeds, `phase9_checkpoint_v1`, acceptance
-and bank versions with digests, and the corpus identity.
+archive cadences, 60 canonical iterations × 2,048 games, the operational
+ceiling, the loader/collector topology (6/2/48, 96 in flight, batch shape 64,
+MPS, 2 probe plies), all eight Phase 9 seeds, `phase9_checkpoint_v1`,
+acceptance and bank versions with digests, and the corpus identity.
 
-Exactly as Phase 8 taught, the two digest namespaces are labeled and
-reconciled field by field, never conflated:
+Exactly as Phase 8 taught, the digest namespaces are labeled and reconciled
+field by field, never conflated. The document exists in two versions — as
+accepted under the 12-hour ceiling, and as amended under the reviewed
+15-hour operational ceiling (§6.11) — so three digests are recorded:
 
 ```text
-train_config_document_digest      9284fbc6b0962937…   sha256 of the canonical
-                                                      JSON of the document
-trainer_runtime_identity_digest   77af4d45dd8b64e7…   Phase9TrainConfig
-                                                      .for_candidate("P9-C",
-                                                      namespace="canonical",
-                                                      total_iterations=60,
-                                                      device="mps").digest()
+train_config_document_digest           9284fbc6b0962937…  accepted document
+                                                          (12 h), sha256 of
+                                                          its canonical JSON
+train_config_document_digest_amended   22ac552da90989dd…  amended document
+                                                          (15 h) — the one
+                                                          Agent 7 runs
+trainer_runtime_identity_digest        77af4d45dd8b64e7…  Phase9TrainConfig
+                                                          .for_candidate("P9-C",
+                                                          namespace="canonical",
+                                                          total_iterations=60,
+                                                          device="mps").digest()
+                                                          — unchanged by the
+                                                          amendment (measured)
 ```
 
 The reconciliation records 7 bridged fields (all equal), 11 runtime-only
@@ -1768,23 +1801,59 @@ no canonical entry; the reconciliation states this so Agent 7 constructs the
 byte-identical object rather than inventing a new scope silently.
 
 **No trained pilot checkpoint is handed forward.** The handoff block carries
-only the winning candidate id, both digests, the fresh Phase 8 starting SHA
-and expected model checksum, all seeds, the population/archive contracts,
-the validated topology, and the canonical budget/cadences. Pilot weights
-remain in `checkpoints/phase9/agent06/`; the pilot-local `H005` archives are
-pilot artifacts the canonical namespace never reads.
+only the winning candidate id, the labeled digests, the fresh Phase 8
+starting SHA and expected model checksum, all seeds, the population/archive
+contracts, the validated topology, and the canonical budget/cadences. Pilot
+weights remain in `checkpoints/phase9/agent06/`; the pilot-local `H005`
+archives are pilot artifacts the canonical namespace never reads.
 
 ### 6.6 Access instrumentation — measured, not asserted
 
 Every validation matchup of every candidate is logged with its bank version
-and digest: 11 authorized `phase9_validation_bank_v1` accesses under the
-`pilot_selection` purpose (5 candidates × 2 passes + P9-F's, P9-E none), all
+and digest: **10** authorized `phase9_validation_bank_v1` accesses under the
+`pilot_selection` purpose (5 completed candidates × 2 frozen passes; P9-E
+none — it terminated early under the mandatory KL veto, before its
+iteration-4 pass was due), all
 through `check_validation_bank_access(purpose="pilot_selection",
 phase9_agent=6)`. The sealed `phase9_test_bank_v1` appears in zero recorded
 matchups, the harness never constructs a test-bank object, and no
 final-test checkpoint load exists: **final-test neural games = 0, final-test
 neural checkpoint loads = 0**, by enumeration of the complete evidence
 rather than assertion.
+
+One further validation-bank access exists and is recorded in the artifact as
+`access_instrumentation.harness_smoke_access`, bringing the complete ledger
+to **11 validation-bank neural accesses: 10 pilot-selection passes + 1
+pre-pilot harness access.** It was the smoke test that proved the evaluation
+plumbing worked before the pilots stage launched: 8 games on validation setup
+pairs 0–1 (4 against `random_legal`, 767 decisions; 4 neural-vs-neural),
+loading **only** the Phase 8 anchor evaluation export
+`checkpoints/phase9/agent01/anchor_eval.pt` (`cd0b22d2…`) — on both sides of
+the neural-vs-neural pair — under the throwaway identities
+`phase6_smoke_anchor_greedy` and `phase6_smoke_candidate_greedy`. Neural
+inference did occur. It provided no unequal selection opportunity, and that
+is provable rather than asserted:
+
+- **zero pilot checkpoints were loaded**, so the access is symmetric across
+  the matrix by construction — it cannot favour one of six candidates;
+- it ran **before** the pilots stage, when no candidate checkpoint existed;
+- **no score was computed** and nothing entered a journal, stage payload or
+  artifact; the selection stage reads only `stage_pilot_*.json`;
+- its cached games are **unreachable** by any production pass: the smoke
+  policy tokens differ from every production token
+  (`phase6_pilot_p9X_itN_greedy`), so match ids, schedule digests and chunk
+  filenames differ, and the cache lived in the session scratchpad — a search
+  of the production tree finds no smoke token anywhere;
+- the sealed final-test bank was untouched.
+
+Its only repository side effect was creating the structural bank cache
+`checkpoints/phase9/agent06/validation_bank.json`, which holds no game or
+inference result and is re-verified against the accepted bank digest
+`3d28d544…` on every use.
+
+*(An earlier draft of this section said "11 authorized `pilot_selection`
+accesses", double-counting P9-F. There were 10 pilot-selection accesses and 1
+harness access; both are now enumerated in the artifact.)*
 
 ### 6.7 Wall-clock decomposition and the canonical projection
 
@@ -1815,27 +1884,36 @@ validation passes + twelve archive events:
 ```text
 mean-decisions basis   45,697 s = 12.69 h
 peak-decisions basis   46,757 s = 12.99 h
-frozen ceiling         43,200 s = 12.00 h
-overrun                +2,497 s to +3,557 s  (42–59 min), before any restart
+ceiling as first frozen 43,200 s = 12.00 h   -> overrun +2,497 to +3,557 s
+ceiling as amended      54,000 s = 15.00 h   -> headroom 7,243 s (10 restarts)
                        (each restart adds ≈ 679 s re-execution)
 ```
 
-The frozen contract simultaneously fixes 60 iterations, 2,048 games, 2
-epochs, twelve validation passes and the 12-hour operational ceiling, and
-forbids silently altering any of them. The measured projection does not fit,
-so per the supplementary review instruction this agent stops before Agent 7
-and returns **BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW**. For
-the reviewing chat's benefit, the artifact records the measured levers with
-no recommendation baked in: the overrun is 5.8–8.2 % of the ceiling; the
-twelve validation passes cost 6,367 s (14.7 % of the ceiling); training is
-63–65 % of an iteration at 2.6 updates/s on MPS. Raising the ceiling,
-trimming the budget, or accepting the risk of an incomplete-but-reported run
-are all reviewing-chat decisions, not Agent 6's.
+**As originally reported.** The frozen contract simultaneously fixed 60
+iterations, 2,048 games, 2 epochs, twelve validation passes and the 12-hour
+operational ceiling, and forbade silently altering any of them. The measured
+projection did not fit, so this agent stopped before Agent 7 and returned
+**BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW**. The artifact
+recorded the measured levers with no recommendation baked in: the overrun was
+5.8–8.2 % of the ceiling; the twelve validation passes cost 6,367 s (14.7 %
+of the ceiling); training is 63–65 % of an iteration at 2.6 updates/s on MPS.
+Raising the ceiling, trimming the budget, or accepting the risk of an
+incomplete-but-reported run were all reviewing-chat decisions, not Agent 6's.
+
+**As resolved.** The reviewing chat raised the operational ceiling alone
+(§6.11). The projection above is byte-identical to the one first reported —
+no measurement was recomputed, re-timed or re-based — and both evaluations
+are kept in the artifact, the superseded one under
+`canonical_projection.historical_ceiling_evaluation`. Under the amended
+54,000 s ceiling the peak-decisions projection fits with 7,243 s of headroom,
+enough to absorb ten full-iteration restarts.
 
 ### 6.8 Completion gates
 
-22 gates; 21 true after suite convergence, the one false gate being the
-measured ceiling verdict itself:
+24 gates, all true. Two were added by the review resolution
+(`validation_access_ledger_complete`, `operational_amendment_recorded`), and
+`canonical_projection_within_ceiling` — the single false gate as first
+reported — is now true against the amended operational ceiling:
 
 ```text
 agents1_5_pass                          true
@@ -1858,28 +1936,45 @@ frozen_train_config_complete            true
 frozen_train_config_digest_written      true
 no_pilot_checkpoint_handed_forward      true
 final_test_neural_access_zero           true
-canonical_projection_within_ceiling     FALSE (measured; the BLOCKED verdict)
-full_suite_green                        true (recorded by --record-final-suite)
+validation_access_ledger_complete       true   (added by the resolution)
+operational_amendment_recorded          true   (added by the resolution)
+canonical_projection_within_ceiling     true   (against the amended ceiling;
+                                                FALSE against the historical
+                                                12 h, preserved in the artifact)
+full_suite_green                        true   (recorded by --record-final-suite)
 ```
 
 The suite went from the pre-edit 4,431 passed / 3 skipped (326.5 s, commit
-`8c59308`) to the steady state **4,462 passed / 3 skipped** (312.4 s) after
-the accepted two-pass `--record-final-suite` convergence (first pass 4,461/4:
-the self-referential artifact test skips until the flag is written).
+`8c59308`) to 4,462 passed / 3 skipped as first reported, and to the steady
+state **4,493 passed / 3 skipped** (320.9 s) after the review resolution
+added the amendment tests — each via the accepted two-pass
+`--record-final-suite` convergence (the first pass reads 4,492/4: the
+self-referential artifact test skips until the flag is written).
 
-31 artifact-gated tests in `tests/training/test_phase9_agent06_artifacts.py`
+45 artifact-gated tests in `tests/training/test_phase9_agent06_artifacts.py`
 pin the artifacts to the frozen contract (score recomputation, tie-break,
-H005 coverage equal to the schedule re-enumeration, veto-table exactness,
-config digest self-consistency, runtime identity reconstruction, sealed-bank
-non-access, ceiling-gate/projection agreement). The ceiling gate is treated
-as a measured outcome: the suite asserts its *consistency* with the recorded
-numbers, so the suite stays green while the BLOCKED verdict stands for
-review.
+scheduled-vs-executed budget semantics, H005 coverage equal to the schedule
+re-enumeration, veto-table exactness, access-ledger completeness, both
+config digests' self-consistency, the single-field amendment reconciliation,
+runtime-identity invariance, sealed-bank non-access, ceiling-gate/projection
+agreement), and 16 unit tests in `tests/training/test_phase9_amendment.py`
+pin the amendment itself — including negative controls that fail if a second
+field is ever smuggled into it or if the base contract is edited. The ceiling
+gate is treated as a measured outcome: the suite asserts its *consistency*
+with the recorded numbers, so the suite stays green whichever way the verdict
+falls.
 
 ### 6.9 Deviations and notes
 
-- The wall-clock verdict above is the deviation: everything else completed
-  and passed. No frozen quantity was altered to make the projection fit.
+- The wall-clock verdict was the one deviation as first reported; it is
+  resolved by the reviewed amendment in §6.11. No frozen quantity was altered
+  to make the projection fit, and the projection was never recomputed.
+- The first draft of §6.6 said "11 authorized `pilot_selection` accesses",
+  which double-counted P9-F. The true figure is 10 pilot-selection accesses
+  plus 1 pre-pilot harness access — a labelling error in prose, not a missing
+  or extra evaluation; both are now enumerated in the artifact, and a gate
+  (`validation_access_ledger_complete`) plus a test now check the ledger
+  against what the runs actually did.
 - P9-E's `iteration1_digest_cross_check` entry reads `matches: false` only
   because a vetoed candidate has no journal-complete iteration; its sealed
   store digest was checked directly and equals Agent 3's pin (`470db9cc…`).
@@ -1890,12 +1985,106 @@ review.
 - Validation passes are file-based (`B005`/`B009` snapshots), so cadence
   position, not process lifetime, decides what runs on a restart.
 
-### 6.10 Handoff to Agent 7 — held pending review
+### 6.10 Handoff to Agent 7
 
-The complete handoff block (winner P9-C, both labeled digests, fresh Phase 8
-starting SHA `f7e9c40d…`, expected model checksum, all eight seeds,
-population/archive contracts, validated topology, canonical budget and
-cadences) is frozen inside `agent_06_frozen_train_config.json`. Agent 7 must
-start freshly from the Phase 8 anchor with this configuration and nothing
-else — **after, and only after, the reviewing chat resolves the canonical
-wall-clock contract.**
+The complete handoff block is frozen inside
+`agent_06_frozen_train_config.json`: winner **P9-C**, the document to run
+(`config_amended`) and its digest `22ac552d…`, the accepted 12-hour document
+digest `9284fbc6…` retained for the record, the unchanged runtime identity
+digest `77af4d45…`, the operational amendment and its digest `ee4b0507…`,
+the fresh Phase 8 starting SHA `f7e9c40d…` and expected model-state digest,
+all eight Phase 9 seeds, the population and archive contracts, the validated
+topology, and the canonical budget and cadences.
+
+Agent 7 starts freshly from the Phase 8 anchor with this configuration and
+nothing else, under the amended 54,000 s operational ceiling. It must
+construct the runtime object exactly as recorded —
+`Phase9TrainConfig.for_candidate("P9-C", namespace="canonical",
+total_iterations=60, device="mps")` — whose `scope` field reads the legacy
+`pilot_candidate` token because Agent 5's frozen `SCOPES` has no canonical
+entry. **The canonical run is defined by `namespace="canonical"` and
+`total_iterations=60`, not by the scope string**; the token is preserved
+deliberately so the runtime identity digest continues to match, and this is
+recorded in `handoff_to_agent_7.runtime_scope_note`. No pilot checkpoint is
+handed forward and no further pilot training or model selection is
+authorized.
+
+### 6.11 Review resolution and `phase9_operational_amendment_v1`
+
+The reviewing chat formally accepted the pilot selection — P9-C remains the
+unique frozen winner, and no pilot was rerun, retrained or reevaluated — and
+authorized one narrow change plus three reconciliations. All of it is
+label-and-artifact work: the only stages re-executed were `config`,
+`projection` and `artifacts`, which are pure functions of the stored pilot
+payloads and run no games and no optimizer steps.
+
+**The amendment.** `stratego/training/phase9_amendment.py` freezes
+`phase9_operational_amendment_v1` (digest `ee4b0507…`) as a *separate*
+review-authorized identity that changes exactly one operational number:
+
+```text
+canonical operational ceiling   43,200 s (12 h)  ->  54,000 s (15 h)
+```
+
+It is deliberately not an edit to `phase9_contract.py`, and the reason is
+correctness rather than bookkeeping: `contract_digest()` is stamped into
+every one of the 57,344 committed pilot games' `phase9_rollout_store_v1`
+metadata sidecars and into every `phase9_checkpoint_v1`. Editing the frozen
+contract would move that digest and every sealed rollout and checkpoint
+produced by Agents 3–6 would stop verifying against the library that produced
+it. So `CANONICAL_WALL_CLOCK_CEILING_HOURS` remains `12`,
+`contract_digest()` remains `ad3dba3c…` (recomputed and asserted), and the
+amendment sits beside the contract carrying the digest of the exact base it
+amends. `verify_base_contract_untouched()` measures this on every use.
+
+The amendment's own document enumerates what review did **not** authorize —
+reruns, further training or selection, any change to the 60 iterations, the
+2,048 games, the two epochs, the twelve validation passes, the archive
+cadence, the P9-C hyperparameters, the population, the seeds, the selection
+rule, the acceptance thresholds, or the sealed final-test bank — and its
+`unchanged` manifest reads those quantities live from `phase9_contract` so a
+later edit elsewhere cannot hide behind this paperwork.
+
+**Three digests, three namespaces, never conflated.** The amendment changes
+the train-config *document*, so that document has two digests and both are
+recorded:
+
+```text
+train_config_document_digest           9284fbc6…  accepted document, 12 h
+train_config_document_digest_amended   22ac552d…  amended document, 15 h
+trainer_runtime_identity_digest        77af4d45…  UNCHANGED by the amendment
+phase9_operational_amendment_v1        ee4b0507…  the amendment itself
+```
+
+The document reconciliation is computed, not described: **39 fields compared,
+38 byte-identical, exactly one changed** —
+`wall_clock_ceiling_hours: 12 → 15`. The harness refuses to proceed if any
+second field moves.
+
+**The runtime identity did not change, and that is measured rather than
+claimed.** `Phase9TrainConfig.identity()` carries no wall-clock or ceiling
+field at all, and its `contract_digest` entry reads the unmodified base
+contract, so the same constructor re-run after the amendment yields zero
+differing fields and the identical digest `77af4d45…`. The artifact records
+that comparison (`runtime_identity_effect`), and a negative-control test
+proves the comparison can detect a real change.
+
+**Reconciliation 1 — the access ledger** is in §6.6: 10 pilot-selection
+accesses (not 11) plus 1 pre-pilot harness access that loaded only the anchor
+export, involved zero pilot checkpoints, computed no score, and reached no
+selection input.
+
+**Reconciliation 2 — the budget** is in §6.3 and §6.4: all six candidates
+were scheduled the identical eight iterations; P9-E executed 0 of 8 and is
+never described otherwise; the artifact now carries explicit
+`scheduled_iterations`, `iterations_executed`, `ran_full_scheduled_budget`
+and `terminated_early_by_hard_veto` fields per candidate, plus a
+`budget_semantics` block stating the rule.
+
+**Reconciliation 3 — the digests** is above.
+
+The superseded 12-hour evaluation is preserved rather than rewritten: the
+artifact keeps it under
+`canonical_projection.historical_ceiling_evaluation`, verdict included, with
+`status: "superseded for cause by phase9_operational_amendment_v1; the
+measurement itself is unchanged and stands on the record"`.

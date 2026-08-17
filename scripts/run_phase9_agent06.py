@@ -141,6 +141,55 @@ TESTS_BEFORE = {
 
 CANDIDATE_ORDER = ("P9-A", "P9-B", "P9-C", "P9-D", "P9-E", "P9-F")
 
+#: The one validation-bank neural access this agent made outside the ten
+#: frozen pilot validation passes, recorded because an access ledger that
+#: silently omits an access is not a ledger. It is the pre-pilot harness smoke
+#: test that proved the evaluation plumbing worked before any candidate
+#: existed: it loaded only the Phase 8 anchor's evaluation export (both sides
+#: of its neural-vs-neural pair), played 8 games on validation setup pairs
+#: 0-1, wrote to the session scratchpad, and fed nothing into any journal,
+#: stage payload, artifact or selection input.
+HARNESS_SMOKE_ACCESS = {
+    "context": "pre_pilot_harness_smoke",
+    "purpose": "harness_verification",
+    "when": "before the pilots stage launched; no pilot checkpoint existed yet",
+    "bank_version": "phase9_validation_bank_v1",
+    "neural_inference_occurred": True,
+    "checkpoints_loaded": ["checkpoints/phase9/agent01/anchor_eval.pt"],
+    "checkpoint_sha256": (
+        "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda"
+    ),
+    "pilot_checkpoints_loaded": 0,
+    "setup_pair_ids": "0-1",
+    "games": 8,
+    "matchups": [
+        "phase6_smoke_anchor_greedy@0.2.0+float32 vs random_legal@1.0.0 (4 games, 767 decisions)",
+        "phase6_smoke_candidate_greedy@0.2.0+float32 vs phase6_c1_warmstart_greedy@0.2.0+float32 (4 games; the anchor export on both sides)",
+    ],
+    "score_computed": False,
+    "results_location": "session scratchpad only (outside the repository)",
+    "entered_selection_inputs": False,
+    "test_bank_games_played": 0,
+    "no_unequal_selection_opportunity": [
+        "zero pilot checkpoints were loaded, so no candidate's weights were "
+        "evaluated — the access is symmetric across the matrix by construction",
+        "it ran before the pilots stage, when no candidate checkpoint existed",
+        "no validation score was computed and nothing was written to a journal, "
+        "stage payload or artifact; the selection stage reads only "
+        "stage_pilot_*.json",
+        "its cached games are unreachable by any production pass: the smoke "
+        "policy tokens differ from every production token, so match ids, "
+        "schedule digests and chunk filenames differ, and the cache directory "
+        "was the scratchpad",
+        "the sealed phase9_test_bank_v1 was never touched",
+    ],
+    "repository_side_effect": (
+        "created checkpoints/phase9/agent06/validation_bank.json, the "
+        "structural bank cache; it contains no game or inference result and is "
+        "re-verified against the accepted bank digest on every use"
+    ),
+}
+
 #: Guard thresholds restated nowhere: read from the frozen contract at runtime.
 CSV_COLUMNS = (
     "candidate_id",
@@ -244,6 +293,7 @@ def read_stage(name: str) -> dict:
 
 def _training():
     """Torch-adjacent modules, imported on first use only (worker purity)."""
+    from stratego.training import phase9_amendment as amendment
     from stratego.training import phase9_behavior as pb
     from stratego.training import phase9_checkpoint as pck
     from stratego.training import phase9_collector as pc
@@ -259,6 +309,7 @@ def _training():
     )
 
     return {
+        "amendment": amendment,
         "pb": pb,
         "pck": pck,
         "pc": pc,
@@ -2065,6 +2116,24 @@ def stage_config() -> dict:
     }
     config_digest = document_digest(document)
 
+    # The reviewed operational amendment. The base contract is untouched, so
+    # the accepted document and its digest stay on the record and the amended
+    # document is a second, separately labelled identity.
+    amendment = modules["amendment"]
+    base_problems = amendment.verify_base_contract_untouched()
+    if base_problems:
+        raise Agent6Error(
+            f"the operational amendment cannot be applied: {base_problems}"
+        )
+    amended_document = amendment.apply_to_train_config_document(document)
+    amended_digest = document_digest(amended_document)
+    document_reconciliation = amendment.reconcile_documents(document, amended_document)
+    if not document_reconciliation["only_the_wall_clock_ceiling_changed"]:
+        raise Agent6Error(
+            "the amended document changes more than the wall-clock ceiling: "
+            f"{document_reconciliation['changed_fields']}"
+        )
+
     runtime = pt.Phase9TrainConfig.for_candidate(
         winner_id,
         namespace="canonical",
@@ -2073,6 +2142,22 @@ def stage_config() -> dict:
     )
     runtime_identity = runtime.identity()
     runtime_digest = runtime.digest()
+
+    # Whether the amendment moved the runtime identity is measured, not
+    # assumed: the same constructor is re-run after the amendment is in force
+    # and the two identities are compared field by field.
+    runtime_after = pt.Phase9TrainConfig.for_candidate(
+        winner_id,
+        namespace="canonical",
+        device="mps",
+        total_iterations=contract.CANONICAL_ITERATIONS,
+    )
+    runtime_effect = amendment.runtime_identity_is_unaffected(
+        runtime_identity, runtime_after.identity()
+    )
+    runtime_effect["digest_before"] = runtime_digest
+    runtime_effect["digest_after"] = runtime_after.digest()
+    runtime_effect["digest_unchanged"] = runtime_digest == runtime_after.digest()
 
     document_fields = sorted(document.keys())
     runtime_fields = sorted(runtime_identity.keys())
@@ -2144,20 +2229,67 @@ def stage_config() -> dict:
         **environment_record(),
         "config": document,
         "train_config_document_digest": config_digest,
+        "config_amended": amended_document,
+        "train_config_document_digest_amended": amended_digest,
+        "operational_amendment": {
+            "amendment_version": amendment.PHASE9_OPERATIONAL_AMENDMENT_VERSION,
+            "amendment_digest": amendment.amendment_digest(),
+            "document": amendment.amendment_document(),
+            "base_contract_untouched": True,
+            "base_contract_digest": amendment.AMENDED_CONTRACT_DIGEST,
+            "live_contract_digest": contract.contract_digest(),
+            "historical_ceiling_hours": amendment.HISTORICAL_CEILING_HOURS,
+            "amended_ceiling_hours": amendment.AMENDED_CEILING_HOURS,
+            "document_reconciliation": document_reconciliation,
+            "runtime_identity_effect": runtime_effect,
+            "which_document_agent_7_runs_under": "config_amended",
+        },
         "trainer_runtime_identity": runtime_identity,
         "trainer_runtime_identity_digest": runtime_digest,
         "digest_namespace_rule": (
-            "train_config_document_digest hashes the canonical JSON of `config` "
-            "(the phase9_train_config_v1 document); "
+            "Two digest namespaces, three recorded digests, never conflated. "
+            "train_config_document_digest hashes the canonical JSON of "
+            "`config`, the accepted phase9_train_config_v1 document as frozen "
+            "under the historical 12-hour ceiling; "
+            "train_config_document_digest_amended hashes `config_amended`, the "
+            "same document with the single reviewed operational field changed; "
             "trainer_runtime_identity_digest hashes "
-            "Phase9TrainConfig.identity() for the canonical run. Always label "
-            "which namespace a digest belongs to."
+            "Phase9TrainConfig.identity() for the canonical run and is "
+            "unchanged by the amendment (measured, see "
+            "operational_amendment.runtime_identity_effect). Always label "
+            "which namespace and which document a digest belongs to."
         ),
         "reconciliation": reconciliation,
         "handoff_to_agent_7": {
             "winning_candidate_id": winner_id,
-            "train_config_document_digest": config_digest,
+            "train_config_document_digest_accepted_12h": config_digest,
+            "train_config_document_digest": amended_digest,
+            "train_config_document_to_run": "config_amended",
+            "operational_amendment": {
+                "amendment_version": amendment.PHASE9_OPERATIONAL_AMENDMENT_VERSION,
+                "amendment_digest": amendment.amendment_digest(),
+                "wall_clock_ceiling_seconds": amendment.AMENDED_CEILING_SECONDS,
+                "wall_clock_ceiling_hours": amendment.AMENDED_CEILING_HOURS,
+                "supersedes_operational_ceiling_only": True,
+                "historical_ceiling_hours": amendment.HISTORICAL_CEILING_HOURS,
+                "rule": (
+                    "Agent 7 runs the frozen experiment unchanged under the "
+                    "reviewed 54,000 s operational ceiling; the ceiling is a "
+                    "maximum, not permission to shorten the logical contract"
+                ),
+            },
             "trainer_runtime_identity_digest": runtime_digest,
+            "trainer_runtime_identity_unchanged_by_amendment": runtime_effect[
+                "digest_unchanged"
+            ],
+            "runtime_scope_token": runtime_identity["scope"],
+            "runtime_scope_note": (
+                "the legacy runtime scope token stays 'pilot_candidate' because "
+                "Agent 5's frozen SCOPES has no canonical entry; the canonical "
+                "run is defined by namespace='canonical' and "
+                "total_iterations=60, not by the scope string. Agent 7 must "
+                "construct this exact object so the digest matches."
+            ),
             "fresh_start_checkpoint_sha256": contract.EXPECTED_PHASE8_CHECKPOINT_SHA256,
             "expected_model_state_digest": document["start"]["expected_model_state_digest"],
             "seeds": dict(seed.CANONICAL_PHASE9_SEEDS),
@@ -2263,7 +2395,13 @@ def stage_projection() -> dict:
         peak_projection["per_iteration_seconds"]
         + totals["target_construction_seconds"] / len(iterations) * games_scale
     )
-    ceiling_seconds = contract.CANONICAL_WALL_CLOCK_CEILING_HOURS * 3600.0
+    amendment = modules["amendment"]
+    base_problems = amendment.verify_base_contract_untouched()
+    if base_problems:
+        raise Agent6Error(f"operational amendment unusable: {base_problems}")
+    historical_ceiling_seconds = contract.CANONICAL_WALL_CLOCK_CEILING_HOURS * 3600.0
+    ceiling_seconds = float(amendment.amended_ceiling_seconds())
+    peak_seconds = peak_projection["projected_total_seconds"]
     payload = {
         "stage": "projection",
         **environment_record(),
@@ -2290,26 +2428,58 @@ def stage_projection() -> dict:
         "projection_mean_decisions": mean_projection,
         "projection_peak_decisions": peak_projection,
         "restart_allowance_seconds_per_restart": restart_unit,
-        "ceiling_hours": contract.CANONICAL_WALL_CLOCK_CEILING_HOURS,
+        "ceiling_hours": amendment.AMENDED_CEILING_HOURS,
         "ceiling_seconds": ceiling_seconds,
+        "ceiling_authority": amendment.PHASE9_OPERATIONAL_AMENDMENT_VERSION,
+        "ceiling_amendment_digest": amendment.amendment_digest(),
         "fits_mean": mean_projection["projected_total_seconds"] <= ceiling_seconds,
-        "fits_peak": peak_projection["projected_total_seconds"] <= ceiling_seconds,
+        "fits_peak": peak_seconds <= ceiling_seconds,
         "verdict": (
             "WITHIN_CEILING"
-            if peak_projection["projected_total_seconds"] <= ceiling_seconds
+            if peak_seconds <= ceiling_seconds
             else "BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW"
         ),
+        "headroom_seconds": ceiling_seconds - peak_seconds,
+        "restarts_absorbed_by_headroom": int(
+            (ceiling_seconds - peak_seconds) // restart_unit
+        )
+        if restart_unit > 0
+        else 0,
+        # The superseded measurement, kept rather than rewritten: Agent 6's
+        # original BLOCKED return is the reason the amendment exists.
+        "historical_ceiling_evaluation": {
+            "ceiling_hours": contract.CANONICAL_WALL_CLOCK_CEILING_HOURS,
+            "ceiling_seconds": historical_ceiling_seconds,
+            "ceiling_authority": contract.PHASE9_RL_CONTRACT_VERSION,
+            "fits_mean": (
+                mean_projection["projected_total_seconds"] <= historical_ceiling_seconds
+            ),
+            "fits_peak": peak_seconds <= historical_ceiling_seconds,
+            "verdict": (
+                "WITHIN_CEILING"
+                if peak_seconds <= historical_ceiling_seconds
+                else "BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW"
+            ),
+            "overrun_seconds": peak_seconds - historical_ceiling_seconds,
+            "status": (
+                "superseded for cause by phase9_operational_amendment_v1; the "
+                "measurement itself is unchanged and stands on the record"
+            ),
+        },
         "frozen_experiment_rule": (
-            "the 12-hour ceiling, 60 iterations, 2,048 games/iteration, "
-            "2 epochs and the twelve validation passes are frozen; none may be "
-            "silently altered to make the projection fit"
+            "60 iterations, 2,048 games/iteration, 2 epochs and the twelve "
+            "validation passes are frozen and unchanged; the operational "
+            "ceiling alone was raised, by explicit review, from 43,200 s to "
+            "54,000 s — the projection was never altered to fit a ceiling"
         ),
     }
     write_stage("projection", payload)
     log(
         f"projection: mean {mean_projection['projected_total_hours']:.2f} h, "
-        f"peak {peak_projection['projected_total_hours']:.2f} h vs ceiling "
-        f"{contract.CANONICAL_WALL_CLOCK_CEILING_HOURS} h -> {payload['verdict']}"
+        f"peak {peak_projection['projected_total_hours']:.2f} h vs amended "
+        f"ceiling {amendment.AMENDED_CEILING_HOURS} h -> {payload['verdict']} "
+        f"(historical {contract.CANONICAL_WALL_CLOCK_CEILING_HOURS} h: "
+        f"{payload['historical_ceiling_evaluation']['verdict']})"
     )
     return payload
 
@@ -2371,6 +2541,25 @@ def write_runs_csv(pilots: dict) -> None:
                         "veto_reason": (payload.get("veto") or {}).get("veto", ""),
                     }
                 )
+
+
+def acceptance_ledger_consistent(access_log, pilots: dict, contract) -> bool:
+    """The access ledger accounts for exactly the passes the runs actually did.
+
+    Each completed candidate contributes exactly its two frozen passes and a
+    vetoed candidate contributes none, so the ledger cannot silently hide an
+    extra evaluation or lose one that happened.
+    """
+    counted: dict = {}
+    for entry in access_log:
+        counted[entry["candidate"]] = counted.get(entry["candidate"], 0) + 1
+    for candidate_id, payload in pilots.items():
+        expected = 2 if payload["status"] == "COMPLETE" else 0
+        if counted.get(candidate_id, 0) != expected:
+            return False
+        if len(payload["validations"]) != expected:
+            return False
+    return True
 
 
 def veto_evaluation(payload: dict, contract) -> dict:
@@ -2570,11 +2759,15 @@ def stage_artifacts(args) -> dict:
         "unregistered_candidates_0": set(pilots) == set(CANDIDATE_ORDER),
         "identical_starting_checkpoint_identity": len(start_digests) == 1,
         "logical_schedule_fairness_pass": schedule_fairness,
+        # Budget equality is a property of the *schedule* every candidate
+        # received, which is identical for all six; a hard veto stopping a run
+        # early is the frozen contract working, not an unequal budget.
         "equal_iteration_budget": all(
             payload["totals"]["iterations_completed"] == contract.PILOT_ITERATIONS
             for payload in complete.values()
         )
-        and bool(complete),
+        and bool(complete)
+        and len(pilots) == 6,
         "equal_game_budget": all(
             payload["totals"]["games"]
             == contract.PILOT_ITERATIONS * contract.PILOT_GAMES_PER_ITERATION
@@ -2610,6 +2803,21 @@ def stage_artifacts(args) -> dict:
             "no_pilot_checkpoint_handed_forward"
         ],
         "final_test_neural_access_zero": test_bank_matches == 0,
+        "validation_access_ledger_complete": (
+            len(access_log) == 10
+            and acceptance_ledger_consistent(access_log, pilots, contract)
+        ),
+        "operational_amendment_recorded": (
+            not modules["amendment"].verify_base_contract_untouched()
+            and config["operational_amendment"]["document_reconciliation"][
+                "only_the_wall_clock_ceiling_changed"
+            ]
+            and config["operational_amendment"]["runtime_identity_effect"][
+                "digest_unchanged"
+            ]
+            and config["train_config_document_digest"]
+            != config["train_config_document_digest_amended"]
+        ),
         "canonical_projection_within_ceiling": within_ceiling,
     }
 
@@ -2667,10 +2875,35 @@ def stage_artifacts(args) -> dict:
         "topology": verify["topology"],
         "h005_reenumeration": verify["h005_reenumeration"],
         "schedule_digests": verify["schedule_digests"],
+        "budget_semantics": {
+            "scheduled_iterations_per_candidate": contract.PILOT_ITERATIONS,
+            "scheduled_games_per_iteration": contract.PILOT_GAMES_PER_ITERATION,
+            "epochs_per_rollout": contract.EPOCHS_PER_ROLLOUT,
+            "rule": (
+                "all six candidates received the identical scheduled budget of "
+                "8 iterations x 1,024 games x 2 epochs from the identical "
+                "starting checkpoint. 'iterations_executed' is what a candidate "
+                "actually completed: it equals the scheduled 8 for every "
+                "candidate that ran to term, and is lower only where a "
+                "mandatory hard veto terminated the run early, which the frozen "
+                "contract requires and which is not a reduced budget"
+            ),
+            "early_termination_rule": (
+                "a vetoed candidate stops immediately and receives no rescue "
+                "rerun; it is never described as having completed the budget"
+            ),
+        },
         "candidates": {
             candidate_id: {
                 "status": payload["status"],
                 "veto": payload["veto"],
+                "scheduled_iterations": contract.PILOT_ITERATIONS,
+                "iterations_executed": payload["totals"]["iterations_completed"],
+                "ran_full_scheduled_budget": (
+                    payload["totals"]["iterations_completed"]
+                    == contract.PILOT_ITERATIONS
+                ),
+                "terminated_early_by_hard_veto": payload["veto"] is not None,
                 "start_state_digest": payload.get("start_state_digest"),
                 "totals": payload["totals"],
                 "archive_member": payload.get("archive_member"),
@@ -2703,13 +2936,49 @@ def stage_artifacts(args) -> dict:
         "score_rule": selection["score_rule"],
         "guard_binding_rule": selection["guard_binding_rule"],
         "frozen_train_config": {
-            "document_digest": config["train_config_document_digest"],
+            "document_digest_accepted_12h": config["train_config_document_digest"],
+            "document_digest_amended_15h": config[
+                "train_config_document_digest_amended"
+            ],
             "runtime_identity_digest": config["trainer_runtime_identity_digest"],
+            "runtime_identity_unchanged_by_amendment": config[
+                "operational_amendment"
+            ]["runtime_identity_effect"]["digest_unchanged"],
             "digest_namespace_rule": config["digest_namespace_rule"],
+        },
+        "operational_amendment": config["operational_amendment"],
+        "review_resolution": {
+            "pilot_selection": "formally accepted; P9-C remains the unique frozen winner",
+            "reruns_authorized": False,
+            "additional_training_or_selection_authorized": False,
+            "amendment": modules["amendment"].PHASE9_OPERATIONAL_AMENDMENT_VERSION,
+            "amendment_digest": modules["amendment"].amendment_digest(),
+            "reconciliations": [
+                "validation-bank access ledger completed and explained",
+                "scheduled vs executed iteration budget labelled explicitly",
+                "original and amended train-config document digests recorded "
+                "separately and reconciled field by field",
+            ],
         },
         "canonical_projection": projection,
         "access_instrumentation": {
             "log": access_log,
+            "pilot_validation_passes": len(access_log),
+            "pilot_validation_passes_expected": (
+                "5 completed candidates x 2 frozen passes = 10; P9-E "
+                "terminated early under the mandatory KL veto before its "
+                "iteration-4 pass was due, so it has none"
+            ),
+            "harness_smoke_access": dict(HARNESS_SMOKE_ACCESS),
+            "total_validation_bank_neural_accesses": len(access_log) + 1,
+            "ledger_rule": (
+                "the complete ledger is the 10 frozen pilot validation passes "
+                "plus the 1 pre-pilot harness smoke access recorded above; an "
+                "earlier draft of the report said '11 authorized pilot "
+                "selection accesses', which double-counted P9-F — there were "
+                "10 pilot-selection accesses and 1 harness access, and both "
+                "are enumerated here"
+            ),
             "final_test_neural_games": test_bank_matches,
             "final_test_neural_checkpoint_loads": 0,
             "rule": (
@@ -2731,6 +3000,9 @@ def stage_artifacts(args) -> dict:
             "timestamp",
             "config",
             "train_config_document_digest",
+            "config_amended",
+            "train_config_document_digest_amended",
+            "operational_amendment",
             "trainer_runtime_identity",
             "trainer_runtime_identity_digest",
             "digest_namespace_rule",

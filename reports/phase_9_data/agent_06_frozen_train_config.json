@@ -167,7 +167,173 @@
     "wall_clock_ceiling_hours": 12,
     "winning_candidate_id": "P9-C"
   },
-  "digest_namespace_rule": "train_config_document_digest hashes the canonical JSON of `config` (the phase9_train_config_v1 document); trainer_runtime_identity_digest hashes Phase9TrainConfig.identity() for the canonical run. Always label which namespace a digest belongs to.",
+  "config_amended": {
+    "acceptance_versions": {
+      "acceptance_version": "phase9_acceptance_v1",
+      "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+      "eval_bank_version": "phase9_eval_bank_v1",
+      "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+      "rl_contract_version": "phase9_rl_contract_v1"
+    },
+    "advantage_version": "phase9_advantage_v1",
+    "advantages": {
+      "filter_floor": 0.01,
+      "filter_quantile": 0.75,
+      "gamma": 1.0,
+      "lambda_advantage": 0.5,
+      "lambda_value": 0.8,
+      "standardization_epsilon": 1e-08
+    },
+    "archive_cadence_iterations": 5,
+    "batch_size": 512,
+    "behavior_policy": {
+      "log_epsilon": 1e-12,
+      "probability_abs_tolerance": 0.0001,
+      "temperature": 1.0
+    },
+    "canonical_bucket_counts": {
+      "current": 1024,
+      "historical": 512,
+      "rule": 307,
+      "stress": 205
+    },
+    "canonical_games_per_iteration": 2048,
+    "canonical_iterations": 60,
+    "canonical_namespace": "canonical",
+    "canonical_rule_tier_counts": {
+      "basic_heuristic": 46,
+      "strategic_rule_based": 154,
+      "tactical_rule_based": 107
+    },
+    "checkpoint_version": "phase9_checkpoint_v1",
+    "collector_version": "phase9_collector_v1",
+    "config_version": "phase9_train_config_v1",
+    "corpus_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+      "version": "synthetic_warmstart_corpus_v1"
+    },
+    "entropy_schedule": {
+      "end": 0.001,
+      "rule": "linear in the 1-based iteration over the run's own budget",
+      "start": 0.005
+    },
+    "epochs_per_rollout": 2,
+    "example_version": "phase9_example_v1",
+    "historical_archive_rule": {
+      "active_window_recent_snapshots": 8,
+      "anchor": "H000",
+      "archive_cadence_iterations": 5,
+      "immutability": "no archive checkpoint may be overwritten",
+      "sampling": "uniform over the active window via the frozen opponent stream"
+    },
+    "initial_kl_beta": 0.005,
+    "learning_rate": 0.0003,
+    "loader_collector_topology": {
+      "games_in_flight": 96,
+      "inference_batch_shape": 64,
+      "inference_device": "mps",
+      "observer_probe_plies": 2,
+      "prefetch": 2,
+      "record_cache_size": 48,
+      "workers": 6
+    },
+    "model": {
+      "action_frame": "perspective_normalized_squares",
+      "architecture": "C1",
+      "config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "model_contract": "model_contract_v2",
+      "observation": "observation_v2_1_127ch",
+      "parameters": 863959
+    },
+    "optimizer": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_epsilon": 1e-08,
+      "device": "mps",
+      "epochs_per_rollout": 2,
+      "gradient_clip_norm": 1.0,
+      "learning_rate_schedule": "constant (no warmup, no decay)",
+      "minibatch_size": 512,
+      "optimizer": "AdamW",
+      "precision": "float32",
+      "weight_decay": 0.01
+    },
+    "pilot_namespace": "pilot_p9c",
+    "population_version": "phase9_population_v1",
+    "ppo": {
+      "behavior_kl_target": 0.015,
+      "belief_loss_weight": 0.25,
+      "clip_epsilon": 0.2,
+      "clip_fraction_hard_limit": 0.75,
+      "kl_beta_clamp": [
+        0.0001,
+        0.2
+      ],
+      "kl_beta_decrease_factor": 0.5,
+      "kl_beta_decrease_threshold": 0.0075,
+      "kl_beta_increase_factor": 2.0,
+      "kl_beta_increase_threshold": 0.03,
+      "kl_hard_limit": 0.08,
+      "value_loss_weight": 0.5
+    },
+    "rollout_store_version": "phase9_rollout_store_v1",
+    "schedule_version": "phase9_rollout_schedule_v1",
+    "seeds": {
+      "canonical_namespace_seed": 2026081606,
+      "opponent_schedule_seed": 2026081603,
+      "phase9_master_seed": 2026081601,
+      "pilot_namespace_seed": 2026081605,
+      "rollout_schedule_seed": 2026081602,
+      "test_bootstrap_seed": 2026081608,
+      "train_order_seed": 2026081604,
+      "validation_bootstrap_seed": 2026081607
+    },
+    "selected_by": "phase9_agent6_bounded_pilot_selection",
+    "start": {
+      "checkpoint_path": "checkpoints/phase8/warmstart_c1_v1.pt",
+      "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "expected_model_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+      "rule": "Agent 7 starts freshly from the accepted Phase 8 checkpoint with fresh optimizer/scheduler/KL-controller state; no pilot checkpoint is continued"
+    },
+    "test_bank": {
+      "bank_digest": "f38e405559fc7c04b0832b1d3a4e3d82cd68ffff29bc1a9af456a3940e1de6a7",
+      "bank_version": "phase9_test_bank_v1",
+      "sealed_until": "Agent 8 final evaluation"
+    },
+    "train_order_version": "phase9_train_order_v1",
+    "trajectory": {
+      "snapshot_interval": 32,
+      "version": "trajectory_v1"
+    },
+    "validation": {
+      "bank_digest": "3d28d544f6669129b12c13e4e3738aa36d1a99e4af8f6685bbb032793701ee4a",
+      "bank_version": "phase9_validation_bank_v1",
+      "best_checkpoint_rule": "strictly highest frozen validation score among cadence passes",
+      "regression_guards": {
+        "basic_heuristic_ewr_min": 0.6,
+        "random_legal_ewr_min": 0.9
+      },
+      "score_weights": {
+        "phase8_anchor": 0.2,
+        "strategic_rule_based": 0.45,
+        "tactical_rule_based": 0.35
+      },
+      "tie_break": [
+        "higher validation score",
+        "higher Strategic EWR",
+        "lower mean behavior KL",
+        "higher training examples/s"
+      ]
+    },
+    "validation_cadence_iterations": 5,
+    "wall_clock_ceiling_hours": 15,
+    "winning_candidate_id": "P9-C"
+  },
+  "digest_namespace_rule": "Two digest namespaces, three recorded digests, never conflated. train_config_document_digest hashes the canonical JSON of `config`, the accepted phase9_train_config_v1 document as frozen under the historical 12-hour ceiling; train_config_document_digest_amended hashes `config_amended`, the same document with the single reviewed operational field changed; trainer_runtime_identity_digest hashes Phase9TrainConfig.identity() for the canonical run and is unchanged by the amendment (measured, see operational_amendment.runtime_identity_effect). Always label which namespace and which document a digest belongs to.",
   "handoff_to_agent_7": {
     "canonical_budget": {
       "archive_cadence": 5,
@@ -179,9 +345,20 @@
     "expected_model_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
     "fresh_start_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
     "no_pilot_checkpoint_handed_forward": true,
+    "operational_amendment": {
+      "amendment_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+      "amendment_version": "phase9_operational_amendment_v1",
+      "historical_ceiling_hours": 12,
+      "rule": "Agent 7 runs the frozen experiment unchanged under the reviewed 54,000 s operational ceiling; the ceiling is a maximum, not permission to shorten the logical contract",
+      "supersedes_operational_ceiling_only": true,
+      "wall_clock_ceiling_hours": 15,
+      "wall_clock_ceiling_seconds": 54000
+    },
     "pilot_archive_members": "checkpoints/phase9/archive/pilot_p9*/H005.pt (pilot-local, never read by the canonical namespace)",
     "pilot_weights_location": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/agent06",
     "population_version": "phase9_population_v1",
+    "runtime_scope_note": "the legacy runtime scope token stays 'pilot_candidate' because Agent 5's frozen SCOPES has no canonical entry; the canonical run is defined by namespace='canonical' and total_iterations=60, not by the scope string. Agent 7 must construct this exact object so the digest matches.",
+    "runtime_scope_token": "pilot_candidate",
     "schedule_version": "phase9_rollout_schedule_v1",
     "seeds": {
       "canonical_namespace_seed": 2026081606,
@@ -202,9 +379,101 @@
       "record_cache_size": 48,
       "workers": 6
     },
-    "train_config_document_digest": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+    "train_config_document_digest": "22ac552da90989dd4f5cb70371c6579f7168d4daefb5dd9b467a241feda379d9",
+    "train_config_document_digest_accepted_12h": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+    "train_config_document_to_run": "config_amended",
     "trainer_runtime_identity_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+    "trainer_runtime_identity_unchanged_by_amendment": true,
     "winning_candidate_id": "P9-C"
+  },
+  "operational_amendment": {
+    "amended_ceiling_hours": 15,
+    "amendment_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_version": "phase9_operational_amendment_v1",
+    "base_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "base_contract_untouched": true,
+    "document": {
+      "affects_trainer_runtime_identity": false,
+      "amendment_version": "phase9_operational_amendment_v1",
+      "amends": {
+        "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+        "contract_version": "phase9_rl_contract_v1",
+        "in_place_edit": false,
+        "rule": "the base contract is not modified; its digest is stamped into every sealed rollout sidecar and every checkpoint, so an in-place edit would invalidate the accepted Agents 3-5 evidence"
+      },
+      "authorization": {
+        "authorized_by": "Phase 9 reviewing chat, Agent 6 review resolution",
+        "authorized_on": "2026-08-17",
+        "explicitly_not_authorized": [
+          "rerunning, retraining or reevaluating any pilot",
+          "additional pilot training or model selection",
+          "changing the 60 iterations",
+          "changing the 2,048 games per iteration",
+          "changing the two optimizer epochs per rollout",
+          "skipping or reducing any of the twelve validation passes",
+          "changing the archive cadence",
+          "changing the P9-C hyperparameters",
+          "changing the population mixture or any seed",
+          "changing the selection rule or the acceptance thresholds",
+          "opening the sealed final-test bank",
+          "editing the frozen phase9_rl_contract_v1 in place"
+        ],
+        "resolution": "the pilot-selection result is formally accepted and P9-C remains the unique frozen winner; the operational ceiling alone is raised to 54,000 s so the frozen experiment can run unchanged",
+        "trigger": "Agent 6 returned BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW because the winner-specific measured projection of the frozen 60 x 2,048 canonical run (45,697 s mean-decisions / 46,757 s peak-decisions basis) exceeds the 43,200 s operational ceiling by 42-59 minutes"
+      },
+      "change": {
+        "ceiling_rule": "the amended ceiling remains an operational maximum, not permission to shorten the logical contract silently; an incomplete run still reports incomplete/blocked rather than pretending completion",
+        "field": "wall_clock_ceiling_hours",
+        "from_hours": 12,
+        "from_seconds": 43200,
+        "historical_value_preserved": true,
+        "scope": "operational budget only; not a learning-design decision",
+        "to_hours": 15,
+        "to_seconds": 54000
+      },
+      "runtime_identity_rationale": "Phase9TrainConfig.identity() carries no wall-clock field and its contract_digest entry reads the unmodified base contract, so the trainer runtime identity digest is unchanged by construction",
+      "unchanged": {
+        "acceptance_version": "phase9_acceptance_v1",
+        "archive_cadence_iterations": 5,
+        "canonical_games_per_iteration": 2048,
+        "canonical_iterations": 60,
+        "epochs_per_rollout": 2,
+        "final_test_bank": "phase9_test_bank_v1 remains sealed until Agent 8",
+        "initial_kl_beta": 0.005,
+        "learning_rate": 0.0003,
+        "population_version": "phase9_population_v1",
+        "schedule_version": "phase9_rollout_schedule_v1",
+        "selection_rule": "S = 0.45*E_strategic + 0.35*E_tactical + 0.20*E_phase8_anchor at the frozen final validation pass, with the frozen tie-break",
+        "validation_cadence_iterations": 5,
+        "validation_passes": 12,
+        "winning_candidate_id": "P9-C"
+      }
+    },
+    "document_reconciliation": {
+      "changed_fields": [
+        {
+          "amended": 15,
+          "field": "wall_clock_ceiling_hours",
+          "original": 12
+        }
+      ],
+      "fields_compared": 39,
+      "only_the_wall_clock_ceiling_changed": true,
+      "rule": "the amended document is the accepted document with exactly one operational field rewritten; every learning-design field is byte-identical",
+      "unchanged_field_count": 38
+    },
+    "historical_ceiling_hours": 12,
+    "live_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "runtime_identity_effect": {
+      "carries_a_wall_clock_field": false,
+      "differing_fields": [],
+      "digest_after": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+      "digest_before": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+      "digest_unchanged": true,
+      "fields_compared": 20,
+      "unchanged": true
+    },
+    "which_document_agent_7_runs_under": "config_amended"
   },
   "phase": 9,
   "reconciliation": {
@@ -321,9 +590,10 @@
       "weight_decay"
     ]
   },
-  "status": "BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW",
-  "timestamp": "2026-08-17T05:51:10-0400",
+  "status": "PASS",
+  "timestamp": "2026-08-17T08:00:31-0400",
   "train_config_document_digest": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+  "train_config_document_digest_amended": "22ac552da90989dd4f5cb70371c6579f7168d4daefb5dd9b467a241feda379d9",
   "trainer_runtime_identity": {
     "adam_beta1": 0.9,
     "adam_beta2": 0.999,

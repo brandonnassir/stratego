@@ -2,6 +2,37 @@
   "access_instrumentation": {
     "final_test_neural_checkpoint_loads": 0,
     "final_test_neural_games": 0,
+    "harness_smoke_access": {
+      "bank_version": "phase9_validation_bank_v1",
+      "checkpoint_sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda",
+      "checkpoints_loaded": [
+        "checkpoints/phase9/agent01/anchor_eval.pt"
+      ],
+      "context": "pre_pilot_harness_smoke",
+      "entered_selection_inputs": false,
+      "games": 8,
+      "matchups": [
+        "phase6_smoke_anchor_greedy@0.2.0+float32 vs random_legal@1.0.0 (4 games, 767 decisions)",
+        "phase6_smoke_candidate_greedy@0.2.0+float32 vs phase6_c1_warmstart_greedy@0.2.0+float32 (4 games; the anchor export on both sides)"
+      ],
+      "neural_inference_occurred": true,
+      "no_unequal_selection_opportunity": [
+        "zero pilot checkpoints were loaded, so no candidate's weights were evaluated \u2014 the access is symmetric across the matrix by construction",
+        "it ran before the pilots stage, when no candidate checkpoint existed",
+        "no validation score was computed and nothing was written to a journal, stage payload or artifact; the selection stage reads only stage_pilot_*.json",
+        "its cached games are unreachable by any production pass: the smoke policy tokens differ from every production token, so match ids, schedule digests and chunk filenames differ, and the cache directory was the scratchpad",
+        "the sealed phase9_test_bank_v1 was never touched"
+      ],
+      "pilot_checkpoints_loaded": 0,
+      "purpose": "harness_verification",
+      "repository_side_effect": "created checkpoints/phase9/agent06/validation_bank.json, the structural bank cache; it contains no game or inference result and is re-verified against the accepted bank digest on every use",
+      "results_location": "session scratchpad only (outside the repository)",
+      "score_computed": false,
+      "setup_pair_ids": "0-1",
+      "test_bank_games_played": 0,
+      "when": "before the pilots stage launched; no pilot checkpoint existed yet"
+    },
+    "ledger_rule": "the complete ledger is the 10 frozen pilot validation passes plus the 1 pre-pilot harness smoke access recorded above; an earlier draft of the report said '11 authorized pilot selection accesses', which double-counted P9-F \u2014 there were 10 pilot-selection accesses and 1 harness access, and both are enumerated here",
     "log": [
       {
         "bank_digest": "3d28d544f6669129b12c13e4e3738aa36d1a99e4af8f6685bbb032793701ee4a",
@@ -104,11 +135,21 @@
         "test_bank_games_played": 0
       }
     ],
-    "rule": "every recorded matchup names its bank; the sealed phase9_test_bank_v1 appears in none, and this harness never constructs a test-bank object"
+    "pilot_validation_passes": 10,
+    "pilot_validation_passes_expected": "5 completed candidates x 2 frozen passes = 10; P9-E terminated early under the mandatory KL veto before its iteration-4 pass was due, so it has none",
+    "rule": "every recorded matchup names its bank; the sealed phase9_test_bank_v1 appears in none, and this harness never constructs a test-bank object",
+    "total_validation_bank_neural_accesses": 11
   },
   "agent": 6,
-  "all_passed": false,
+  "all_passed": true,
   "artifact": "agent_06_pilot_selection",
+  "budget_semantics": {
+    "early_termination_rule": "a vetoed candidate stops immediately and receives no rescue rerun; it is never described as having completed the budget",
+    "epochs_per_rollout": 2,
+    "rule": "all six candidates received the identical scheduled budget of 8 iterations x 1,024 games x 2 epochs from the identical starting checkpoint. 'iterations_executed' is what a candidate actually completed: it equals the scheduled 8 for every candidate that ran to term, and is lower only where a mandatory hard veto terminated the run early, which the frozen contract requires and which is not a reduced budget",
+    "scheduled_games_per_iteration": 1024,
+    "scheduled_iterations_per_candidate": 8
+  },
   "candidates": {
     "P9-A": {
       "archive_member": {
@@ -304,6 +345,9 @@
         }
       ],
       "iteration_1_sealed_digest": "f0d6cae8d6c7b017664bcb4e2dc2b388d546c0272edd8f6074cebe5112fc1504",
+      "iterations_executed": 8,
+      "ran_full_scheduled_budget": true,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "COMPLETE",
       "stress_report_only": {
@@ -416,6 +460,7 @@
           "results_digest": "1540c7a52b7badf820401a9fccd8468c3bfec6a38119085e137c9174ba599dbc"
         }
       },
+      "terminated_early_by_hard_veto": false,
       "totals": {
         "archive_seconds": 0.16039029200328514,
         "checkpoint_seconds": 1.3281563769851346,
@@ -672,6 +717,9 @@
         }
       ],
       "iteration_1_sealed_digest": "abf5d40af9e77514573f533030034ba7d6c189ad0027aeae7868e05c397a430e",
+      "iterations_executed": 8,
+      "ran_full_scheduled_budget": true,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "COMPLETE",
       "stress_report_only": {
@@ -784,6 +832,7 @@
           "results_digest": "31f9670655ab9ffd01aa08684c995bcfa6781d866487699922b0681c2c852f48"
         }
       },
+      "terminated_early_by_hard_veto": false,
       "totals": {
         "archive_seconds": 0.16428979198099114,
         "checkpoint_seconds": 1.2853232089837547,
@@ -1040,6 +1089,9 @@
         }
       ],
       "iteration_1_sealed_digest": "6a8419fb679f3f9361b477d76205b03a46ebdfe06955f34c7ac7c533654d942b",
+      "iterations_executed": 8,
+      "ran_full_scheduled_budget": true,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "COMPLETE",
       "stress_report_only": {
@@ -1152,6 +1204,7 @@
           "results_digest": "f7774c2934ae89cdf820ecd5700c0aede297e59122b2e618fa2b8e408fa9f91a"
         }
       },
+      "terminated_early_by_hard_veto": false,
       "totals": {
         "archive_seconds": 0.15446229200460948,
         "checkpoint_seconds": 1.352622418984538,
@@ -1408,6 +1461,9 @@
         }
       ],
       "iteration_1_sealed_digest": "5dd9501fcda6ec6660cb8e378ef3a7e534c0ad9326c0132ace1ceee38293e459",
+      "iterations_executed": 8,
+      "ran_full_scheduled_budget": true,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "COMPLETE",
       "stress_report_only": {
@@ -1520,6 +1576,7 @@
           "results_digest": "50d3f3e334d5161794a818bee6f180910208d7113b53eec57d4ab2f5bc2bc0e0"
         }
       },
+      "terminated_early_by_hard_veto": false,
       "totals": {
         "archive_seconds": 0.1587023339816369,
         "checkpoint_seconds": 1.3282130419684108,
@@ -1598,9 +1655,13 @@
       },
       "historical_verification": [],
       "iteration_1_sealed_digest": null,
+      "iterations_executed": 0,
+      "ran_full_scheduled_budget": false,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "VETOED",
       "stress_report_only": null,
+      "terminated_early_by_hard_veto": true,
       "totals": {
         "archive_seconds": 0,
         "checkpoint_seconds": 0,
@@ -1818,6 +1879,9 @@
         }
       ],
       "iteration_1_sealed_digest": "5170bc8aa530ade34cc3a0bacfb3db21f120fd43d580fd5cc190793825fd31e7",
+      "iterations_executed": 8,
+      "ran_full_scheduled_budget": true,
+      "scheduled_iterations": 8,
       "start_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
       "status": "COMPLETE",
       "stress_report_only": {
@@ -1930,6 +1994,7 @@
           "results_digest": "84d67dcbc698099ec521e93ce9632dce06892eb95605f3a558eae4c5d5f68a85"
         }
       },
+      "terminated_early_by_hard_veto": false,
       "totals": {
         "archive_seconds": 0.16258500001276843,
         "checkpoint_seconds": 1.339669501001481,
@@ -1994,11 +2059,24 @@
     }
   },
   "canonical_projection": {
-    "ceiling_hours": 12,
-    "ceiling_seconds": 43200.0,
-    "fits_mean": false,
-    "fits_peak": false,
-    "frozen_experiment_rule": "the 12-hour ceiling, 60 iterations, 2,048 games/iteration, 2 epochs and the twelve validation passes are frozen; none may be silently altered to make the projection fit",
+    "ceiling_amendment_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "ceiling_authority": "phase9_operational_amendment_v1",
+    "ceiling_hours": 15,
+    "ceiling_seconds": 54000.0,
+    "fits_mean": true,
+    "fits_peak": true,
+    "frozen_experiment_rule": "60 iterations, 2,048 games/iteration, 2 epochs and the twelve validation passes are frozen and unchanged; the operational ceiling alone was raised, by explicit review, from 43,200 s to 54,000 s \u2014 the projection was never altered to fit a ceiling",
+    "headroom_seconds": 7242.734609528205,
+    "historical_ceiling_evaluation": {
+      "ceiling_authority": "phase9_rl_contract_v1",
+      "ceiling_hours": 12,
+      "ceiling_seconds": 43200.0,
+      "fits_mean": false,
+      "fits_peak": false,
+      "overrun_seconds": 3557.2653904717954,
+      "status": "superseded for cause by phase9_operational_amendment_v1; the measurement itself is unchanged and stands on the record",
+      "verdict": "BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW"
+    },
     "measured_basis": {
       "collection_games_per_second": 8.863546507334185,
       "core_validation_pass_seconds": {
@@ -2045,10 +2123,11 @@
     },
     "python_version": "3.13.2",
     "restart_allowance_seconds_per_restart": 679.002217403327,
-    "source_revision": "8c59308",
+    "restarts_absorbed_by_headroom": 10,
+    "source_revision": "b91763a",
     "stage": "projection",
-    "timestamp": "2026-08-17T05:51:11-0400",
-    "verdict": "BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW",
+    "timestamp": "2026-08-17T08:00:31-0400",
+    "verdict": "WITHIN_CEILING",
     "winner": "P9-C",
     "working_tree_state": "dirty"
   },
@@ -2065,18 +2144,18 @@
     "resolver": "stratego.training.synthetic_corpus.default_corpus_root()"
   },
   "covers_agent_06_artifact_tests": true,
-  "failed": [
-    "canonical_projection_within_ceiling"
-  ],
+  "failed": [],
   "frozen_train_config": {
-    "digest_namespace_rule": "train_config_document_digest hashes the canonical JSON of `config` (the phase9_train_config_v1 document); trainer_runtime_identity_digest hashes Phase9TrainConfig.identity() for the canonical run. Always label which namespace a digest belongs to.",
-    "document_digest": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
-    "runtime_identity_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036"
+    "digest_namespace_rule": "Two digest namespaces, three recorded digests, never conflated. train_config_document_digest hashes the canonical JSON of `config`, the accepted phase9_train_config_v1 document as frozen under the historical 12-hour ceiling; train_config_document_digest_amended hashes `config_amended`, the same document with the single reviewed operational field changed; trainer_runtime_identity_digest hashes Phase9TrainConfig.identity() for the canonical run and is unchanged by the amendment (measured, see operational_amendment.runtime_identity_effect). Always label which namespace and which document a digest belongs to.",
+    "document_digest_accepted_12h": "9284fbc6b0962937450372d5552f690b2262911275ae5b4000f55da764fba1ba",
+    "document_digest_amended_15h": "22ac552da90989dd4f5cb70371c6579f7168d4daefb5dd9b467a241feda379d9",
+    "runtime_identity_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+    "runtime_identity_unchanged_by_amendment": true
   },
   "gates": {
     "agents1_5_pass": true,
     "candidate_count_6": true,
-    "canonical_projection_within_ceiling": false,
+    "canonical_projection_within_ceiling": true,
     "corpus_digests_match": true,
     "corpus_resolver_verified": true,
     "equal_game_budget": true,
@@ -2092,9 +2171,11 @@
     "logical_schedule_fairness_pass": true,
     "no_pilot_checkpoint_handed_forward": true,
     "no_surviving_candidate_breaches_a_veto": true,
+    "operational_amendment_recorded": true,
     "rollout_storage_mounted_external": true,
     "selection_score_reproducible": true,
     "unregistered_candidates_0": true,
+    "validation_access_ledger_complete": true,
     "winner_unique": true
   },
   "guard_binding_rule": "iteration-4 Random/Basic results are intermediate diagnostics; the frozen guards bind at the iteration-8 validation pass",
@@ -2348,7 +2429,96 @@
       "namespace": "pilot_p9f"
     }
   },
-  "passed": 21,
+  "operational_amendment": {
+    "amended_ceiling_hours": 15,
+    "amendment_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_version": "phase9_operational_amendment_v1",
+    "base_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "base_contract_untouched": true,
+    "document": {
+      "affects_trainer_runtime_identity": false,
+      "amendment_version": "phase9_operational_amendment_v1",
+      "amends": {
+        "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+        "contract_version": "phase9_rl_contract_v1",
+        "in_place_edit": false,
+        "rule": "the base contract is not modified; its digest is stamped into every sealed rollout sidecar and every checkpoint, so an in-place edit would invalidate the accepted Agents 3-5 evidence"
+      },
+      "authorization": {
+        "authorized_by": "Phase 9 reviewing chat, Agent 6 review resolution",
+        "authorized_on": "2026-08-17",
+        "explicitly_not_authorized": [
+          "rerunning, retraining or reevaluating any pilot",
+          "additional pilot training or model selection",
+          "changing the 60 iterations",
+          "changing the 2,048 games per iteration",
+          "changing the two optimizer epochs per rollout",
+          "skipping or reducing any of the twelve validation passes",
+          "changing the archive cadence",
+          "changing the P9-C hyperparameters",
+          "changing the population mixture or any seed",
+          "changing the selection rule or the acceptance thresholds",
+          "opening the sealed final-test bank",
+          "editing the frozen phase9_rl_contract_v1 in place"
+        ],
+        "resolution": "the pilot-selection result is formally accepted and P9-C remains the unique frozen winner; the operational ceiling alone is raised to 54,000 s so the frozen experiment can run unchanged",
+        "trigger": "Agent 6 returned BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW because the winner-specific measured projection of the frozen 60 x 2,048 canonical run (45,697 s mean-decisions / 46,757 s peak-decisions basis) exceeds the 43,200 s operational ceiling by 42-59 minutes"
+      },
+      "change": {
+        "ceiling_rule": "the amended ceiling remains an operational maximum, not permission to shorten the logical contract silently; an incomplete run still reports incomplete/blocked rather than pretending completion",
+        "field": "wall_clock_ceiling_hours",
+        "from_hours": 12,
+        "from_seconds": 43200,
+        "historical_value_preserved": true,
+        "scope": "operational budget only; not a learning-design decision",
+        "to_hours": 15,
+        "to_seconds": 54000
+      },
+      "runtime_identity_rationale": "Phase9TrainConfig.identity() carries no wall-clock field and its contract_digest entry reads the unmodified base contract, so the trainer runtime identity digest is unchanged by construction",
+      "unchanged": {
+        "acceptance_version": "phase9_acceptance_v1",
+        "archive_cadence_iterations": 5,
+        "canonical_games_per_iteration": 2048,
+        "canonical_iterations": 60,
+        "epochs_per_rollout": 2,
+        "final_test_bank": "phase9_test_bank_v1 remains sealed until Agent 8",
+        "initial_kl_beta": 0.005,
+        "learning_rate": 0.0003,
+        "population_version": "phase9_population_v1",
+        "schedule_version": "phase9_rollout_schedule_v1",
+        "selection_rule": "S = 0.45*E_strategic + 0.35*E_tactical + 0.20*E_phase8_anchor at the frozen final validation pass, with the frozen tie-break",
+        "validation_cadence_iterations": 5,
+        "validation_passes": 12,
+        "winning_candidate_id": "P9-C"
+      }
+    },
+    "document_reconciliation": {
+      "changed_fields": [
+        {
+          "amended": 15,
+          "field": "wall_clock_ceiling_hours",
+          "original": 12
+        }
+      ],
+      "fields_compared": 39,
+      "only_the_wall_clock_ceiling_changed": true,
+      "rule": "the amended document is the accepted document with exactly one operational field rewritten; every learning-design field is byte-identical",
+      "unchanged_field_count": 38
+    },
+    "historical_ceiling_hours": 12,
+    "live_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "runtime_identity_effect": {
+      "carries_a_wall_clock_field": false,
+      "differing_fields": [],
+      "digest_after": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+      "digest_before": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+      "digest_unchanged": true,
+      "fields_compared": 20,
+      "unchanged": true
+    },
+    "which_document_agent_7_runs_under": "config_amended"
+  },
+  "passed": 24,
   "phase": 9,
   "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
   "prerequisites": {
@@ -2378,6 +2548,18 @@
     "phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
   },
   "python_version": "3.13.2",
+  "review_resolution": {
+    "additional_training_or_selection_authorized": false,
+    "amendment": "phase9_operational_amendment_v1",
+    "amendment_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "pilot_selection": "formally accepted; P9-C remains the unique frozen winner",
+    "reconciliations": [
+      "validation-bank access ledger completed and explained",
+      "scheduled vs executed iteration budget labelled explicitly",
+      "original and amended train-config document digests recorded separately and reconciled field by field"
+    ],
+    "reruns_authorized": false
+  },
   "schedule_digests": {
     "pilot_p9a": {
       "matches": true,
@@ -2431,8 +2613,8 @@
     "winner_namespace": "pilot_p9c",
     "winner_score": 0.6916015625
   },
-  "source_revision": "8c59308",
-  "status": "BLOCKED \u2014 CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW",
+  "source_revision": "b91763a",
+  "status": "PASS",
   "storage": {
     "free_gib": 930.751,
     "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
@@ -2460,18 +2642,18 @@
     "full_suite": {
       "passed": true,
       "returncode": 0,
-      "seconds": 313.45827933299006,
-      "summary": "4462 passed, 3 skipped in 312.35s (0:05:12)"
+      "seconds": 322.03731120799785,
+      "summary": "4493 passed, 3 skipped in 320.88s (0:05:20)"
     },
     "full_suite_green": true
   },
-  "timestamp": "2026-08-17T05:51:44-0400",
+  "timestamp": "2026-08-17T08:00:32-0400",
   "topology": {
     "prefetch": 2,
     "record_cache_size": 48,
     "workers": 6
   },
-  "total": 22,
+  "total": 24,
   "veto_evaluation": {
     "P9-A": {
       "any_breached": false,

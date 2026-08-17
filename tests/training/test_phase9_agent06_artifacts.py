@@ -62,10 +62,10 @@ ACCEPTED_CONTRACT_DIGEST = (
 SELF_REFERENTIAL_GATE = "full_suite_green"
 
 #: The wall-clock ceiling gate reports a measured outcome, not an artifact
-#: property: a projection honestly above the frozen 12-hour ceiling is the
-#: contract's own `BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW`
-#: verdict, and the suite must stay green while that verdict stands for
-#: review. Its *consistency* with the recorded numbers is asserted instead.
+#: property: a projection honestly above the operative ceiling is a real
+#: `BLOCKED — CANONICAL WALL-CLOCK CONTRACT REQUIRES REVIEW` verdict, and the
+#: suite must stay green while such a verdict stands for review. Its
+#: *consistency* with the recorded numbers is asserted instead.
 OUTCOME_GATES = ("canonical_projection_within_ceiling",)
 
 CANDIDATE_IDS = tuple(entry["candidate_id"] for entry in PILOT_CANDIDATES)
@@ -149,6 +149,36 @@ def test_every_completed_candidate_ran_the_full_frozen_budget(selection):
         totals = entry["totals"]
         assert totals["iterations_completed"] == PILOT_ITERATIONS
         assert totals["games"] == PILOT_ITERATIONS * PILOT_GAMES_PER_ITERATION
+
+
+def test_all_six_candidates_received_the_same_scheduled_budget(selection):
+    """Budget equality is a property of the schedule, not of what ran."""
+    semantics = selection["budget_semantics"]
+    assert semantics["scheduled_iterations_per_candidate"] == PILOT_ITERATIONS
+    assert semantics["scheduled_games_per_iteration"] == PILOT_GAMES_PER_ITERATION
+    assert len(selection["candidates"]) == 6
+    for entry in selection["candidates"].values():
+        assert entry["scheduled_iterations"] == PILOT_ITERATIONS
+
+
+def test_a_vetoed_candidate_is_never_described_as_completing_the_budget(selection):
+    """P9-E terminated early under a mandatory veto; it ran 0 of 8 iterations."""
+    for candidate_id, entry in selection["candidates"].items():
+        if entry["status"] != "VETOED":
+            continue
+        assert entry["terminated_early_by_hard_veto"] is True
+        assert entry["ran_full_scheduled_budget"] is False
+        assert entry["iterations_executed"] < PILOT_ITERATIONS
+        assert entry["totals"]["iterations_completed"] == entry["iterations_executed"]
+        assert entry["validation_scores"] == {}
+        assert entry["veto"] is not None
+
+
+def test_executed_budget_is_consistent_with_status_for_every_candidate(selection):
+    for entry in selection["candidates"].values():
+        ran_full = entry["iterations_executed"] == PILOT_ITERATIONS
+        assert entry["ran_full_scheduled_budget"] == ran_full
+        assert ran_full == (entry["status"] == "COMPLETE")
 
 
 def test_all_candidates_started_from_one_identical_checkpoint(selection):
@@ -452,11 +482,167 @@ def test_final_test_bank_was_never_played(selection):
         assert entry["bank_version"] == VALIDATION_BANK_VERSION
         assert entry["bank_version"] != TEST_BANK_VERSION
         assert entry["test_bank_games_played"] == 0
+    assert instrumentation["harness_smoke_access"]["test_bank_games_played"] == 0
 
 
-def test_projection_is_measured_and_names_the_frozen_ceiling(selection):
+def test_access_ledger_accounts_for_every_validation_bank_access(selection):
+    """Ten pilot passes plus the one pre-pilot harness access, enumerated."""
+    instrumentation = selection["access_instrumentation"]
+    log = instrumentation["log"]
+    assert instrumentation["pilot_validation_passes"] == len(log) == 10
+    assert instrumentation["total_validation_bank_neural_accesses"] == 11
+
+    counted: dict = {}
+    for entry in log:
+        counted[entry["candidate"]] = counted.get(entry["candidate"], 0) + 1
+    for candidate_id, entry in selection["candidates"].items():
+        expected = 2 if entry["status"] == "COMPLETE" else 0
+        assert counted.get(candidate_id, 0) == expected
+        assert len(entry["validation_scores"]) == expected
+
+
+def test_the_eleventh_access_gave_no_unequal_selection_opportunity(selection):
+    """The one non-pilot access loaded the anchor only, before any candidate."""
+    access = selection["access_instrumentation"]["harness_smoke_access"]
+    assert access["neural_inference_occurred"] is True
+    assert access["pilot_checkpoints_loaded"] == 0
+    assert access["checkpoints_loaded"] == ["checkpoints/phase9/agent01/anchor_eval.pt"]
+    assert access["score_computed"] is False
+    assert access["entered_selection_inputs"] is False
+    assert access["bank_version"] == VALIDATION_BANK_VERSION
+    assert len(access["no_unequal_selection_opportunity"]) >= 4
+
+
+# ---------------------------------------------------------------------------
+# The reviewed operational amendment
+# ---------------------------------------------------------------------------
+
+
+def test_amendment_left_the_base_contract_and_its_digest_untouched(config):
+    from stratego.training import phase9_amendment as amendment
+
+    block = config["operational_amendment"]
+    assert block["base_contract_digest"] == ACCEPTED_CONTRACT_DIGEST
+    assert block["live_contract_digest"] == contract_digest()
+    assert block["live_contract_digest"] == block["base_contract_digest"]
+    assert block["base_contract_untouched"] is True
+    assert amendment.verify_base_contract_untouched() == []
+
+
+def test_amendment_preserves_the_historical_ceiling_and_states_the_new_one(config):
+    block = config["operational_amendment"]
+    assert block["historical_ceiling_hours"] == 12
+    assert block["amended_ceiling_hours"] == 15
+    assert config["config"]["wall_clock_ceiling_hours"] == 12
+    assert config["config_amended"]["wall_clock_ceiling_hours"] == 15
+
+
+def test_both_document_digests_are_recorded_and_distinct(config):
+    accepted = config["train_config_document_digest"]
+    amended = config["train_config_document_digest_amended"]
+    assert accepted != amended
+    for document, digest in (
+        (config["config"], accepted),
+        (config["config_amended"], amended),
+    ):
+        canonical = json.dumps(document, sort_keys=True, separators=(",", ":"))
+        assert hashlib.sha256(canonical.encode()).hexdigest() == digest
+
+
+def test_the_ceiling_is_the_only_field_the_amendment_changed(config):
+    reconciliation = config["operational_amendment"]["document_reconciliation"]
+    assert reconciliation["only_the_wall_clock_ceiling_changed"]
+    assert reconciliation["changed_fields"] == [
+        {"field": "wall_clock_ceiling_hours", "original": 12, "amended": 15}
+    ]
+    assert reconciliation["unchanged_field_count"] == reconciliation["fields_compared"] - 1
+
+
+def test_runtime_identity_digest_is_unchanged_by_the_amendment(config):
+    effect = config["operational_amendment"]["runtime_identity_effect"]
+    assert effect["unchanged"] is True
+    assert effect["differing_fields"] == []
+    assert effect["digest_unchanged"] is True
+    assert effect["carries_a_wall_clock_field"] is False
+    assert effect["digest_before"] == effect["digest_after"]
+    assert effect["digest_before"] == config["trainer_runtime_identity_digest"]
+
+
+def test_legacy_runtime_scope_token_is_preserved_and_explained(config):
+    identity = config["trainer_runtime_identity"]
+    assert identity["scope"] == "pilot_candidate"
+    assert identity["namespace"] == "canonical"
+    assert identity["total_iterations"] == 60
+    note = config["handoff_to_agent_7"]["runtime_scope_note"].lower()
+    assert "canonical" in note and "total_iterations=60" in note
+
+
+def test_amendment_digest_matches_the_live_module(config):
+    from stratego.training import phase9_amendment as amendment
+
+    block = config["operational_amendment"]
+    assert block["amendment_version"] == amendment.PHASE9_OPERATIONAL_AMENDMENT_VERSION
+    assert block["amendment_digest"] == amendment.amendment_digest()
+
+
+def test_projection_keeps_the_superseded_twelve_hour_measurement(selection):
+    """History is preserved: the original BLOCKED verdict stays on the record."""
     projection = selection["canonical_projection"]
-    assert projection["ceiling_hours"] == CANONICAL_WALL_CLOCK_CEILING_HOURS
+    historical = projection["historical_ceiling_evaluation"]
+    assert historical["ceiling_hours"] == 12
+    assert historical["ceiling_seconds"] == 43_200
+    assert historical["verdict"].startswith("BLOCKED")
+    assert historical["overrun_seconds"] > 0
+    assert projection["ceiling_seconds"] == 54_000
+    assert projection["ceiling_authority"] == "phase9_operational_amendment_v1"
+    # The measurement itself is unchanged by the amendment.
+    assert (
+        projection["projection_peak_decisions"]["projected_total_seconds"]
+        - historical["overrun_seconds"]
+        == historical["ceiling_seconds"]
+    )
+
+
+def test_handoff_cites_the_operational_amendment(config):
+    handoff = config["handoff_to_agent_7"]
+    amendment_block = handoff["operational_amendment"]
+    assert amendment_block["amendment_version"] == "phase9_operational_amendment_v1"
+    assert amendment_block["wall_clock_ceiling_seconds"] == 54_000
+    assert amendment_block["supersedes_operational_ceiling_only"] is True
+    assert amendment_block["historical_ceiling_hours"] == 12
+    assert handoff["train_config_document_to_run"] == "config_amended"
+    assert (
+        handoff["train_config_document_digest"]
+        == config["train_config_document_digest_amended"]
+    )
+    assert (
+        handoff["train_config_document_digest_accepted_12h"]
+        == config["train_config_document_digest"]
+    )
+    assert handoff["trainer_runtime_identity_unchanged_by_amendment"] is True
+
+
+def test_review_resolution_authorized_no_further_training(selection):
+    resolution = selection["review_resolution"]
+    assert resolution["reruns_authorized"] is False
+    assert resolution["additional_training_or_selection_authorized"] is False
+    assert resolution["amendment"] == "phase9_operational_amendment_v1"
+    assert len(resolution["reconciliations"]) == 3
+
+
+def test_projection_is_measured_and_names_its_ceiling_authority(selection):
+    """The operative ceiling is the amendment's; the contract's 12 h stands."""
+    from stratego.training import phase9_amendment as amendment
+
+    projection = selection["canonical_projection"]
+    assert projection["ceiling_hours"] == amendment.AMENDED_CEILING_HOURS
+    assert projection["ceiling_authority"] == (
+        amendment.PHASE9_OPERATIONAL_AMENDMENT_VERSION
+    )
+    assert (
+        projection["historical_ceiling_evaluation"]["ceiling_hours"]
+        == CANONICAL_WALL_CLOCK_CEILING_HOURS
+    )
     basis = projection["measured_basis"]
     assert basis["pilot_iterations"] == PILOT_ITERATIONS
     assert basis["collection_games_per_second"] > 0
