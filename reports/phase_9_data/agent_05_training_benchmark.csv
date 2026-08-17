@@ -1,0 +1,11 @@
+measurement,namespace,iteration,workers,prefetch,updates,games,learner_decisions,collection_seconds,sealing_audit_seconds,target_construction_seconds,data_wait_seconds,host_to_device_seconds,forward_seconds,loss_seconds,backward_seconds,optimizer_seconds,checkpoint_seconds,validation_infrastructure_seconds,train_seconds,iteration_seconds,examples_per_second,updates_per_second,unsynchronized_examples_per_second,peak_rss_mib,peak_mps_mib
+soak_iteration,pilot_p9c,1,6,2,562,1024,143819,0.0,3.237,3.052,52.892,2.419,35.098,7.856,74.945,5.731,0.209,0.0,215.353,221.851,1336.2,2.61,,,
+soak_iteration,pilot_p9c,2,6,2,574,1024,146453,130.769,3.237,3.162,57.18,2.503,35.805,7.43,76.307,5.559,0.154,0.0,221.182,358.506,1328.7,2.595,,,
+soak_iteration,pilot_p9c,3,6,2,566,1024,144878,131.491,3.237,3.064,55.705,2.457,35.81,7.507,74.234,5.624,0.16,0.0,215.668,353.62,1343.7,2.624,,,
+soak_iteration,pilot_p9c,4,6,2,554,1024,141821,124.326,3.237,3.007,55.315,2.344,35.16,7.309,73.457,5.454,0.166,0.0,212.786,343.522,1333.0,2.604,,,
+soak_iteration,pilot_p9c,5,6,2,548,1024,140034,124.645,3.237,3.123,52.869,2.276,34.572,7.398,72.725,5.416,0.174,0.0,207.923,339.103,1349.4,2.636,,,
+topology_probe,pilot_p9c,1,1,2,10,,,,,,17.564,,0.83,,1.232,0.122,,,20.776,20.776,246.4,0.481,249.8,,
+topology_probe,pilot_p9c,1,4,2,10,,,,,,1.838,,0.638,,1.278,0.082,,,6.78,6.78,755.1,1.475,757.1,,
+topology_probe,pilot_p9c,1,6,2,10,,,,,,0.187,,0.597,,1.303,0.085,,,5.465,5.465,936.9,1.83,928.9,,
+topology_probe,pilot_p9c,1,10,2,10,,,,,,0.0,,0.642,,1.348,0.228,,,6.331,6.331,808.7,1.579,803.0,,
+soak_total,pilot_p9c,,6,2,2804,5120,717005,511.231,,15.408,273.961,,,,,,0.864,0.0,1072.913,,1336.6,2.613,,1073.1,4170.3

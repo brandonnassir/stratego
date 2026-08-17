@@ -1,0 +1,393 @@
+{
+  "agent": 5,
+  "artifact": "agent_05_trainer_contract",
+  "checkpoint": {
+    "archive_rule": "archive members are namespace-qualified and immutable; an existing file is never overwritten",
+    "atomic_write": "write .partial -> fsync -> reload and fully validate the bytes on disk -> os.replace -> fsync the directory",
+    "checkpoint_version": "phase9_checkpoint_v1",
+    "identity_rule": "absolute paths are diagnostic only; identity is versions, logical identities and digests",
+    "payload_keys": [
+      "model_state",
+      "optimizer_state",
+      "scheduler_state",
+      "global_optimizer_step",
+      "rl_iteration",
+      "minibatch_cursor",
+      "examples_consumed",
+      "behavior_snapshot_identity",
+      "behavior_checkpoint_sha256",
+      "rollout_iteration_identity",
+      "sealed_rollout_digest",
+      "kl_beta",
+      "kl_controller_state",
+      "entropy_schedule_position",
+      "population_version",
+      "active_historical_identities",
+      "historical_checkpoint_digests",
+      "opponent_schedule_version",
+      "setup_sampler_version",
+      "best_validation_score",
+      "best_checkpoint_identity",
+      "validation_history",
+      "phase9_seeds",
+      "corpus_identities",
+      "rules_model_observation_versions",
+      "wall_clock_counters",
+      "software_runtime_versions",
+      "phase9_checkpoint_version",
+      "trainer_version",
+      "train_config",
+      "train_config_digest",
+      "contract_digest",
+      "example_version",
+      "example_contract_digest",
+      "advantage_version",
+      "train_order_version",
+      "rollout_store_version",
+      "rollout_schedule_version",
+      "snapshot_role",
+      "rng",
+      "diagnostics",
+      "integrity_digest"
+    ],
+    "rejections": [
+      "truncation or unreadable bytes",
+      "integrity digest mismatch",
+      "corpus identity drift",
+      "sealed rollout digest drift",
+      "rollout iteration identity drift",
+      "behavior snapshot drift",
+      "optimizer/train-config mismatch",
+      "population-version mismatch",
+      "minibatch cursor mismatch"
+    ],
+    "required_fields": [
+      "model_state",
+      "optimizer_state",
+      "scheduler_state",
+      "global_optimizer_step",
+      "rl_iteration",
+      "minibatch_cursor",
+      "examples_consumed",
+      "behavior_snapshot_identity",
+      "behavior_checkpoint_sha256",
+      "rollout_iteration_identity",
+      "sealed_rollout_digest",
+      "kl_beta",
+      "kl_controller_state",
+      "entropy_schedule_position",
+      "population_version",
+      "active_historical_identities",
+      "historical_checkpoint_digests",
+      "opponent_schedule_version",
+      "setup_sampler_version",
+      "best_validation_score",
+      "best_checkpoint_identity",
+      "validation_history",
+      "phase9_seeds",
+      "corpus_identities",
+      "rules_model_observation_versions",
+      "wall_clock_counters",
+      "software_runtime_versions"
+    ],
+    "snapshot_roles": [
+      "resume",
+      "behavior_snapshot",
+      "archive_member"
+    ],
+    "trainer_version": "phase9_trainer_v1"
+  },
+  "corpus": {
+    "accepted_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "identity_matches": true,
+    "identity_rule": "corpus identity is version + accepted digests, not filesystem location; a digest mismatch is BLOCKED and never repaired",
+    "modules_hard_coding_absolute_paths": [],
+    "modules_scanned": [
+      "stratego/training/phase9_loss.py",
+      "stratego/training/phase9_trainer.py",
+      "stratego/training/phase9_checkpoint.py"
+    ],
+    "observed_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "payload_bytes_checked": false,
+    "problems": [],
+    "resolved_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "resolver": "stratego.training.synthetic_corpus.default_corpus_root()"
+  },
+  "forbidden_here": [
+    "the six-pilot matrix",
+    "choosing a winner",
+    "altering learning rates/betas beyond the frozen test fixture",
+    "altering PPO clip, lambdas or loss weights",
+    "using stale rollouts in later iterations",
+    "opening the final-test bank",
+    "continuing a soak checkpoint into Agent 6 or 7"
+  ],
+  "hard_veto_counters": {
+    "raised_by_the_trainer": {
+      "behavior_identity_mismatch": "counters['behavior_identity_mismatches'] \u2014 a minibatch whose behavior checkpoint is not the bound iteration's",
+      "checkpoint_resume_failure": "counters['checkpoint_errors']",
+      "iteration_ppo_clip_fraction": "counters['clip_fraction_hard_limit_breaches']; the epoch raises above 0.75",
+      "mean_iteration_or_epoch_kl": "counters['kl_hard_limit_breaches']; the epoch raises above 0.08",
+      "non_finite_gradient": "counters['non_finite_gradients']",
+      "non_finite_loss": "counters['non_finite_losses'], and the update raises",
+      "non_finite_parameter": "counters['non_finite_parameters']",
+      "rollout_identity_mismatch": "counters['rollout_identity_mismatches']",
+      "target_reconstruction_mismatch": "counters['illegal_targets'] \u2014 every Phase9LossError, including an illegal action, a behavior row off the simplex and a dense/scalar disagreement"
+    },
+    "raised_elsewhere": {
+      "illegal_neural_action": "Agent 3's collector, at decision time",
+      "observer_safety_failure": "Agent 3's observer probe, at collection",
+      "validation_basic_ewr": "Agent 6's validation pass",
+      "validation_random_ewr": "Agent 6's validation pass"
+    },
+    "rule": "every trainer-side veto is a raise, not a logged number: the counter records that it happened and the run stops"
+  },
+  "loss": {
+    "belief": {
+      "form": "stratego.model.losses.belief_loss \u2014 the accepted Phase 8 hidden-only supervised-square cross-entropy",
+      "population": "every learner decision of the minibatch",
+      "weight": 0.25
+    },
+    "entropy": {
+      "form": "legal-softmax entropy in nats, differentiable",
+      "population": "every learner decision of the minibatch",
+      "sign": "subtracted, so a higher coefficient rewards exploration"
+    },
+    "frames": "the stored behavior distribution is absolute-frame ascending and is mapped into the model frame by the frozen absolute_action_to_model converter",
+    "kl": {
+      "direction": "D_KL(pi_b || pi_theta) over the legal set",
+      "population": "every learner decision of the minibatch",
+      "storage_rule": "the stored float32 distribution is used as written \u2014 never recomputed and never renormalized",
+      "zero_mass_rule": "pi_b == 0 contributes exactly 0, never NaN"
+    },
+    "masking": "illegal logits are filled with -1e9 before log_softmax, so an illegal action can neither hold probability nor pass a gradient",
+    "objective": "L = L_PPO + 0.5*L_value + 0.25*L_belief + beta*D_KL(pi_b||pi_theta) - c_H*H(pi_theta)",
+    "ppo": {
+      "advantage": "the per-iteration standardized advantage from Agent 4",
+      "clip_epsilon": 0.2,
+      "clip_fraction": "|r - 1| > 0.20 over the eligible subset",
+      "empty_subset": "L_PPO = 0, computed branch-free so the graph survives",
+      "population": "learner decisions with ppo_eligible=True only",
+      "ratio": "exp(log pi_theta(a) - log max(pi_b(a), 1e-12)); the denominator is the stored float32 probability of the realized action"
+    },
+    "refusals": [
+      "behavior mass on an illegal action",
+      "a behavior row outside the sum-to-one tolerance",
+      "a realized action illegal under the mask",
+      "a dense-matrix entry that differs from the stored scalar",
+      "a non-positive or non-finite PPO denominator",
+      "a non-finite advantage",
+      "a WDL target outside the simplex"
+    ],
+    "value": {
+      "form": "-sum_c Y_c log softmax(z)_c against the WDL lambda target",
+      "population": "every learner decision of the minibatch",
+      "weight": 0.5
+    }
+  },
+  "mps_available": true,
+  "phase": 9,
+  "pilot_candidate_constructor": {
+    "call": "phase9_trainer.Phase9TrainConfig.for_candidate(candidate_id, device='mps', total_iterations=8)",
+    "candidates": [
+      {
+        "candidate_id": "P9-A",
+        "initial_kl_beta": 0.005,
+        "learning_rate": 0.0001,
+        "namespace": "pilot_p9a",
+        "train_config_digest": "49345300d308f018e884896087cadbaeb9b6bffb4ce51782c0cb531794129909"
+      },
+      {
+        "candidate_id": "P9-B",
+        "initial_kl_beta": 0.02,
+        "learning_rate": 0.0001,
+        "namespace": "pilot_p9b",
+        "train_config_digest": "7efd4347639a699fe81017ed247d9de57b5e7607c943057d907c6e6d24cee4c6"
+      },
+      {
+        "candidate_id": "P9-C",
+        "initial_kl_beta": 0.005,
+        "learning_rate": 0.0003,
+        "namespace": "pilot_p9c",
+        "train_config_digest": "c5160318ec30850fd91a22ae58d727f3acb7f4c02151691c7aea99f3308a1e03"
+      },
+      {
+        "candidate_id": "P9-D",
+        "initial_kl_beta": 0.02,
+        "learning_rate": 0.0003,
+        "namespace": "pilot_p9d",
+        "train_config_digest": "16ca3ee2977237c7772bf0083f279ddc16083d9397089d730a8f5dc6c3779f0c"
+      },
+      {
+        "candidate_id": "P9-E",
+        "initial_kl_beta": 0.005,
+        "learning_rate": 0.0006,
+        "namespace": "pilot_p9e",
+        "train_config_digest": "4191858cb148c1bb15094cdc4f3fb6a47f1030c415b8ad8248eb4a3a63e95d57"
+      },
+      {
+        "candidate_id": "P9-F",
+        "initial_kl_beta": 0.02,
+        "learning_rate": 0.0006,
+        "namespace": "pilot_p9f",
+        "train_config_digest": "6b98e0074e35e195e0f803e4db73f5608f714c9fe00f4a49f6821a14a2456647"
+      }
+    ],
+    "rule": "the learning rate and initial KL beta are read from Agent 1's frozen matrix; any other pair raises outside SCOPE_UNIT_TEST"
+  },
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisites": {
+    "acceptances": {
+      "1": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "2": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "3": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "4": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      }
+    },
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "contract_digest_matches_accepted": true,
+    "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+    "example_contract_digest_matches_accepted": true,
+    "phase8_checkpoint_matches_accepted": true,
+    "phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "problems": []
+  },
+  "python_version": "3.13.2",
+  "resume_acceptance_criterion": {
+    "cpu_requires_bitwise_equality": true,
+    "mps_envelope_ratio_limit": 10.0,
+    "mps_first_post_resume_step_atol": 1e-06,
+    "mps_first_post_resume_step_rtol": 1e-05
+  },
+  "soak_configuration": {
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "candidate_id": "P9-C",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "device": "mps",
+    "epochs_per_rollout": 2,
+    "gradient_clip_norm": 1.0,
+    "initial_kl_beta": 0.005,
+    "learning_rate": 0.0003,
+    "learning_rate_schedule": "constant (no warmup, no decay)",
+    "minibatch_size": 512,
+    "model_candidate": "C1",
+    "namespace": "pilot_p9c",
+    "optimizer": "AdamW",
+    "precision": "float32",
+    "scope": "infrastructure_soak",
+    "selection_role": "none \u2014 SCOPE_SOAK is not a pilot candidate run",
+    "total_iterations": 5,
+    "train_config_digest": "139fa9fa8d8043a61d9b48adff8a14349c54888390649f7624c945e9302cc5f9",
+    "trainer_version": "phase9_trainer_v1",
+    "weight_decay": 0.01
+  },
+  "source_revision": "0e9bb4b",
+  "storage": {
+    "description": {
+      "environment_value": "",
+      "environment_variable": "STRATEGO_PHASE9_ROLLOUT_ROOT",
+      "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9_rollout_root.txt",
+      "pointer_value": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9/rollouts",
+      "root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "source": "pointer_file"
+    },
+    "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+    "resolved_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+    "resolver": "stratego.training.phase9_storage.default_rollout_root()",
+    "resume_source": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9c",
+    "soak_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_05_soak"
+  },
+  "timestamp": "2026-08-16T22:08:28-0400",
+  "torch_version": "2.13.0",
+  "trainer": {
+    "architecture": "C1",
+    "iteration_ownership": [
+      "only a SEALED rollout may be consumed",
+      "the sealed digest is recomputed from the committed journal",
+      "one behavior identity per iteration, matching the state document",
+      "the on-policy binding compares live weights with the collecting snapshot",
+      "population, schedule and contract identities are checked per game",
+      "learner-control semantics are re-derived per game",
+      "Agent 4 example/advantage/train-order versions must match"
+    ],
+    "kl_controller": {
+      "cadence": "once after each optimizer epoch",
+      "clamp": [
+        0.0001,
+        0.2
+      ],
+      "hard_limits": {
+        "clip_fraction": 0.75,
+        "mean_epoch_kl": 0.08
+      },
+      "target": 0.015
+    },
+    "optimizer_constraints": {
+      "adam_betas": [
+        0.9,
+        0.999
+      ],
+      "adam_epsilon": 1e-08,
+      "device": "mps",
+      "epochs_per_rollout": 2,
+      "gradient_clip_norm": 1.0,
+      "learning_rate_schedule": "constant (no warmup, no decay)",
+      "minibatch_size": 512,
+      "optimizer": "AdamW",
+      "precision": "float32",
+      "weight_decay": 0.01
+    },
+    "populations": {
+      "opponent": "rule, stress and historical-opponent decisions are not members of the train-order universe, so they contribute exactly zero policy/value/belief gradient",
+      "policy": "ppo_eligible learner examples only",
+      "value_belief_kl_entropy": "every learner example of the minibatch"
+    },
+    "selection": "Agent 5 selects nothing: the scope is recorded in the train config and only SCOPE_PILOT is a selection run",
+    "topology_rule": "worker count, prefetch and record cache change only when an example is materialized; the minibatch plan is computed from the cursor alone and every batch is verified against it",
+    "train_order": {
+      "final_partial_minibatch": "consumed, never dropped",
+      "minibatch_size": 512,
+      "shuffle": "train_order_seed(namespace, iteration, epoch)",
+      "universe": "the sealed iteration's learner decisions, sorted by (game_id, ply)"
+    },
+    "trainer_version": "phase9_trainer_v1"
+  },
+  "trainer_constructor": {
+    "archive": "phase9_checkpoint.write_archive_member(Phase9Trainer.archive_member_payload(local_identity='H005'), root, namespace=..., local_identity='H005') then bind_archive_member(member)",
+    "behavior_snapshot": "Phase9Trainer.save_behavior_snapshot(path, logical_identity='B00N', rl_iteration=N)",
+    "epochs": "Phase9Trainer.train_iteration() runs the frozen two epochs",
+    "fresh": "phase9_trainer.Phase9Trainer.from_phase8_checkpoint(path, config, corpus_identity, topology=LoaderTopology(...))",
+    "resume": "phase9_trainer.Phase9Trainer.resume(path, config=config, corpus_identity=..., expected_sealed_rollout_digest=..., ...)",
+    "sealed_rollout_consumption": "phase9_trainer.bind_sealed_rollout(root, namespace, iteration, behavior_snapshot=..., expected_model_state_digest=...) then Phase9Trainer.bind_iteration(rollout)"
+  },
+  "working_tree_state": "dirty"
+}

@@ -1,0 +1,906 @@
+{
+  "agent": 5,
+  "all_passed": true,
+  "archive_members": [
+    {
+      "checkpoint_sha256": "acfdb7bb765297b6f0bb40cdd60967287c028681cdbdfd1ca32d6c653b4bdc9d",
+      "local_identity": "H005",
+      "namespace": "pilot_p9c",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/agent05/archive/pilot_p9c/H005.pt",
+      "policy_token": "phase9_archive_v1|ns=pilot_p9c|H005",
+      "qualified_identity": "pilot_p9c|H005",
+      "rl_iteration": 5,
+      "state_dict_digest": "813d0589a39aa0a6eda9e36cce04a25ffc2ca0badf83aab611d49ff6c494a405"
+    }
+  ],
+  "artifact": "agent_05_acceptance",
+  "binding_fixture": {
+    "checkpoints_are_genuinely_different": true,
+    "closes_agent_3_limitation": "Agent 3's soak only ever had B001 == H000, so a swapped binding would have passed; here the two sides are different networks and a swap fails by orders of magnitude",
+    "digest_guard_alone": {
+      "decisions": 181,
+      "failed": 181,
+      "max_abs_difference": null,
+      "rejected_before_any_forward_pass": true,
+      "sample_problems": [
+        [
+          "stored checkpoint 81ae56ad567e5cc0ecf70d3e0c6e3fdd325c45932c80dbd8b73d51ff611fe307 is not the acting snapshot f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ],
+        [
+          "stored checkpoint 81ae56ad567e5cc0ecf70d3e0c6e3fdd325c45932c80dbd8b73d51ff611fe307 is not the acting snapshot f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+        ]
+      ],
+      "verified": 0
+    },
+    "each_side_against_its_own_checkpoint": {
+      "all_verified": true,
+      "historical_opponent": {
+        "decisions": 181,
+        "failed": 0,
+        "max_abs_difference": 0.0,
+        "sample_problems": [],
+        "verified": 181
+      },
+      "learner": {
+        "decisions": 181,
+        "failed": 0,
+        "max_abs_difference": 0.0,
+        "sample_problems": [],
+        "verified": 181
+      }
+    },
+    "games_examined": 16,
+    "historical_opponent": {
+      "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "logical_identity": "H000",
+      "state_dict_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c"
+    },
+    "iteration": 2,
+    "learner": {
+      "checkpoint_sha256": "81ae56ad567e5cc0ecf70d3e0c6e3fdd325c45932c80dbd8b73d51ff611fe307",
+      "logical_identity": "B002",
+      "state_dict_digest": "08fa5e13b54c51556ca26e8b6fd1cb0f25119e9166656c47b78aad048898e7f7"
+    },
+    "namespace": "pilot_p9c",
+    "swapped_bindings": {
+      "all_failed": true,
+      "learner_decisions_against_opponent_checkpoint": {
+        "decisions": 181,
+        "failed": 181,
+        "max_abs_difference": 0.39159417152404785,
+        "sample_problems": [
+          [
+            "stored policy token 'phase9_behavior_v1|ns=pilot_p9c|B002' is not 'phase9_anchor_v1|H000'"
+          ],
+          [
+            "stored policy token 'phase9_behavior_v1|ns=pilot_p9c|B002' is not 'phase9_anchor_v1|H000'"
+          ]
+        ],
+        "verified": 0
+      },
+      "note": "the recorded checkpoint digest is rewritten in these cases so the numerical comparison actually runs; the digest guard alone is measured separately",
+      "opponent_decisions_against_learner_checkpoint": {
+        "decisions": 181,
+        "failed": 181,
+        "max_abs_difference": 0.3879992365837097,
+        "sample_problems": [
+          [
+            "stored policy token 'phase9_anchor_v1|H000' is not 'phase9_behavior_v1|ns=pilot_p9c|B002'"
+          ],
+          [
+            "stored policy token 'phase9_anchor_v1|H000' is not 'phase9_behavior_v1|ns=pilot_p9c|B002'"
+          ]
+        ],
+        "verified": 0
+      }
+    }
+  },
+  "checkpoint_version": "phase9_checkpoint_v1",
+  "corpus": {
+    "accepted_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "identity_matches": true,
+    "identity_rule": "corpus identity is version + accepted digests, not filesystem location; a digest mismatch is BLOCKED and never repaired",
+    "modules_hard_coding_absolute_paths": [],
+    "modules_scanned": [
+      "stratego/training/phase9_loss.py",
+      "stratego/training/phase9_trainer.py",
+      "stratego/training/phase9_checkpoint.py"
+    ],
+    "observed_identity": {
+      "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+      "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+      "corpus_version": "synthetic_warmstart_corpus_v1",
+      "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+    },
+    "payload_bytes_checked": false,
+    "problems": [],
+    "resolved_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+    "resolver": "stratego.training.synthetic_corpus.default_corpus_root()"
+  },
+  "covers_agent_05_artifact_tests": true,
+  "failed": [],
+  "gates": {
+    "agents1_4_pass": true,
+    "atomic_checkpoint_tests_pass": true,
+    "belief_loss_matches_contract": true,
+    "checkpoint_binding_fixture_pass": true,
+    "clip_fraction_hard_limit_not_exceeded": true,
+    "corpus_digests_match": true,
+    "corpus_resolver_verified": true,
+    "cpu_resume_pass": true,
+    "entropy_schedule_pass": true,
+    "full_suite_green": true,
+    "identity_mismatches_zero": true,
+    "illegal_logit_masking_pass": true,
+    "illegal_targets_zero": true,
+    "kl_direction_and_beta_controller_pass": true,
+    "kl_hard_limit_not_exceeded": true,
+    "mps_backend_aware_resume_pass": true,
+    "namespace_qualified_archive_pass": true,
+    "no_final_test_access": true,
+    "no_pilot_selection": true,
+    "nonfinite_zero": true,
+    "opponent_only_gradients_zero": true,
+    "ppo_loss_matches_contract": true,
+    "soak_several_sealed_iterations": true,
+    "soak_updates_ge_2000": true,
+    "throughput_measured": true,
+    "value_loss_matches_contract": true
+  },
+  "mps_available": true,
+  "passed": 26,
+  "phase": 9,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "prerequisites": {
+    "acceptances": {
+      "1": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "2": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "3": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      },
+      "4": {
+        "gates_passed": null,
+        "gates_total": null,
+        "status": "PASS"
+      }
+    },
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "contract_digest_matches_accepted": true,
+    "example_contract_digest": "a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+    "example_contract_digest_matches_accepted": true,
+    "phase8_checkpoint_matches_accepted": true,
+    "phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "problems": []
+  },
+  "python_version": "3.13.2",
+  "resume": {
+    "cpu": {
+      "backend_control": {
+        "early": {
+          "all_allclose_rtol1e-5_atol1e-6": true,
+          "all_exactly_equal": true,
+          "max_abs_diff": 0.0,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.weight"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.bias"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_body.weight"
+            }
+          ]
+        },
+        "end": {
+          "all_allclose_rtol1e-5_atol1e-6": true,
+          "all_exactly_equal": true,
+          "max_abs_diff": 0.0,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.weight"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.bias"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_body.weight"
+            }
+          ]
+        },
+        "role": "two fresh identical runs with no checkpoint anywhere; the backend's own run-to-run envelope"
+      },
+      "backend_is_run_to_run_deterministic": true,
+      "batch_identities_equal_every_step": true,
+      "compared_steps": 24,
+      "cursor_positions_equal_every_step": true,
+      "device": "cpu",
+      "envelope_ratio_end_vs_donor_over_control": 0.0,
+      "exact_next_batch_after_resume": true,
+      "global_steps_equal_every_step": true,
+      "learning_rates_equal_every_step": true,
+      "logical_state_fields": {
+        "counters": true,
+        "entropy_schedule_position": true,
+        "examples_consumed": true,
+        "global_optimizer_step": true,
+        "kl_beta": true,
+        "kl_controller_history": true,
+        "kl_controller_updates": true,
+        "learning_rate": true,
+        "minibatch_cursor": true,
+        "optimizer_state_structure": true,
+        "rl_iteration": true,
+        "scheduler_last_epoch": true,
+        "sealed_rollout_digest": true,
+        "train_config_digest": true
+      },
+      "logical_state_summaries_equal": true,
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "parameters_end_vs_independent_straight": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "parameters_first_post_resume_step": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "passed": true,
+      "requires_bitwise_equality": true,
+      "split_at": 10,
+      "total_updates": 24
+    },
+    "criterion": {
+      "criterion_id": "phase9_backend_aware_resume_equivalence_v1",
+      "inherits": "the Phase 8 Agent 4 reviewer-approved backend-aware principle: exact logical state everywhere, bitwise equality where the backend allows it, and an immediate resumed-vs-donor boundary check plus a measured no-checkpoint control envelope on MPS",
+      "tolerances": {
+        "cpu_requires_bitwise_equality": true,
+        "mps_envelope_ratio_limit": 10.0,
+        "mps_first_post_resume_step_atol": 1e-06,
+        "mps_first_post_resume_step_rtol": 1e-05
+      },
+      "why_not_independent_bit_determinism": "two fresh identical MPS runs with no checkpoint anywhere already diverge, so an independent-run comparison measures backend determinism rather than checkpoint fidelity; the control legs measure that envelope directly"
+    },
+    "mps": {
+      "backend_control": {
+        "early": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.0008202418684959412,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0008202418684959412,
+              "name": "blocks.0.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00042385049164295197,
+              "name": "blocks.3.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00011152517981827259,
+              "name": "blocks.2.attention.in_proj_bias"
+            }
+          ]
+        },
+        "end": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.0011934787034988403,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0011934787034988403,
+              "name": "blocks.0.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.0005970336496829987,
+              "name": "blocks.3.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00044514425098896027,
+              "name": "blocks.1.attention.in_proj_bias"
+            }
+          ]
+        },
+        "role": "two fresh identical runs with no checkpoint anywhere; the backend's own run-to-run envelope"
+      },
+      "backend_is_run_to_run_deterministic": false,
+      "batch_identities_equal_every_step": true,
+      "compared_steps": 160,
+      "cursor_positions_equal_every_step": true,
+      "device": "mps",
+      "envelope_ratio_end_vs_donor_over_control": 0.6623003882986028,
+      "exact_next_batch_after_resume": true,
+      "global_steps_equal_every_step": true,
+      "learning_rates_equal_every_step": true,
+      "logical_state_fields": {
+        "counters": true,
+        "entropy_schedule_position": true,
+        "examples_consumed": true,
+        "global_optimizer_step": true,
+        "kl_beta": true,
+        "kl_controller_history": true,
+        "kl_controller_updates": true,
+        "learning_rate": true,
+        "minibatch_cursor": true,
+        "optimizer_state_structure": true,
+        "rl_iteration": true,
+        "scheduler_last_epoch": true,
+        "sealed_rollout_digest": true,
+        "train_config_digest": true
+      },
+      "logical_state_summaries_equal": true,
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.0007904414087533951,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0007904414087533951,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00023108161985874176,
+            "name": "blocks.1.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00019069015979766846,
+            "name": "blocks.2.attention.in_proj_bias"
+          }
+        ]
+      },
+      "parameters_end_vs_independent_straight": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.001106868963688612,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.001106868963688612,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.0004343409091234207,
+            "name": "blocks.3.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00022060878109186888,
+            "name": "blocks.2.attention.in_proj_bias"
+          }
+        ]
+      },
+      "parameters_first_post_resume_step": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": false,
+        "max_abs_diff": 1.862645149230957e-09,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 1.862645149230957e-09,
+            "name": "column_embedding"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          }
+        ]
+      },
+      "passed": true,
+      "requires_bitwise_equality": false,
+      "split_at": 60,
+      "total_updates": 160
+    }
+  },
+  "selection_statement": {
+    "final_test_bank_opened": false,
+    "rationale": "the neutral middle candidate's numbers were used solely so the optimizer path is exercised at a realistic scale; no candidate is compared with any other and no score exists to compare",
+    "rollout_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_05_soak",
+    "scope": "infrastructure_soak",
+    "selects_a_configuration": false,
+    "validation_bank_opened": false,
+    "validation_score_computed": false,
+    "weights_carried_into_agent_6": false,
+    "weights_location": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/agent05"
+  },
+  "soak_stability": {
+    "clip_fraction_hard_limit": 0.75,
+    "clip_fraction_hard_limit_exceeded": false,
+    "final_policy_entropy": 1.1536108255386353,
+    "grad_norm_p95": 1.8181920051574707,
+    "kl_beta_final": 0.2,
+    "kl_controller_history": [
+      {
+        "beta_after": 0.01,
+        "beta_before": 0.005,
+        "direction": "increase",
+        "epoch": 0,
+        "epoch_clip_fraction": 0.258906967042136,
+        "epoch_examples": 143819,
+        "iteration": 1,
+        "mean_epoch_kl": 0.03271796360710547
+      },
+      {
+        "beta_after": 0.02,
+        "beta_before": 0.01,
+        "direction": "increase",
+        "epoch": 1,
+        "epoch_clip_fraction": 0.2913363927131136,
+        "epoch_examples": 143819,
+        "iteration": 1,
+        "mean_epoch_kl": 0.037265472702101746
+      },
+      {
+        "beta_after": 0.04,
+        "beta_before": 0.02,
+        "direction": "increase",
+        "epoch": 0,
+        "epoch_clip_fraction": 0.2544655049980882,
+        "epoch_examples": 146453,
+        "iteration": 2,
+        "mean_epoch_kl": 0.03406480783572405
+      },
+      {
+        "beta_after": 0.08,
+        "beta_before": 0.04,
+        "direction": "increase",
+        "epoch": 1,
+        "epoch_clip_fraction": 0.28920631452449885,
+        "epoch_examples": 146453,
+        "iteration": 2,
+        "mean_epoch_kl": 0.040115581820428105
+      },
+      {
+        "beta_after": 0.08,
+        "beta_before": 0.08,
+        "direction": "unchanged",
+        "epoch": 0,
+        "epoch_clip_fraction": 0.2327443401435671,
+        "epoch_examples": 144878,
+        "iteration": 3,
+        "mean_epoch_kl": 0.028611478854892167
+      },
+      {
+        "beta_after": 0.16,
+        "beta_before": 0.08,
+        "direction": "increase",
+        "epoch": 1,
+        "epoch_clip_fraction": 0.26982330204307015,
+        "epoch_examples": 144878,
+        "iteration": 3,
+        "mean_epoch_kl": 0.03533422191303709
+      },
+      {
+        "beta_after": 0.16,
+        "beta_before": 0.16,
+        "direction": "unchanged",
+        "epoch": 0,
+        "epoch_clip_fraction": 0.22176782490974728,
+        "epoch_examples": 141821,
+        "iteration": 4,
+        "mean_epoch_kl": 0.02620836402117379
+      },
+      {
+        "beta_after": 0.2,
+        "beta_before": 0.16,
+        "direction": "increase",
+        "epoch": 1,
+        "epoch_clip_fraction": 0.2526229693140794,
+        "epoch_examples": 141821,
+        "iteration": 4,
+        "mean_epoch_kl": 0.03003427590768876
+      },
+      {
+        "beta_after": 0.2,
+        "beta_before": 0.2,
+        "direction": "unchanged",
+        "epoch": 0,
+        "epoch_clip_fraction": 0.21603016367219857,
+        "epoch_examples": 140034,
+        "iteration": 5,
+        "mean_epoch_kl": 0.02513547627787523
+      },
+      {
+        "beta_after": 0.2,
+        "beta_before": 0.2,
+        "direction": "unchanged",
+        "epoch": 1,
+        "epoch_clip_fraction": 0.2445942471935788,
+        "epoch_examples": 140034,
+        "iteration": 5,
+        "mean_epoch_kl": 0.028312389437754455
+      }
+    ],
+    "kl_hard_limit": 0.08,
+    "kl_hard_limit_exceeded": false,
+    "max_batch_clip_fraction": 0.5,
+    "max_behavior_kl": 0.09507744014263153,
+    "max_epoch_clip_fraction": 0.2913363927131136,
+    "max_epoch_mean_kl": 0.040115581820428105,
+    "max_grad_norm_pre_clip": 10.376103401184082,
+    "mean_advantage_retention": 0.24997582950933228,
+    "mean_behavior_kl": 0.031856269532825436,
+    "mean_clip_fraction": 0.25369365024032237,
+    "mean_grad_norm_pre_clip": 1.0981552839470488,
+    "mean_policy_entropy": 1.2728748404010386
+  },
+  "soak_totals": {
+    "checkpoint_seconds": 0.8635299589659553,
+    "collection_seconds": 511.2307882900059,
+    "data_wait_seconds": 273.9612531751918,
+    "examples_consumed": 1434010,
+    "examples_per_second": 1336.5576804981429,
+    "games": 5120,
+    "learner_decisions": 717005,
+    "optimizer_updates": 2804,
+    "peak_mps_mib": 4170.296875,
+    "peak_rss_mib": 1073.109375,
+    "rl_iterations": 5,
+    "target_construction_seconds": 15.407871375005925,
+    "train_seconds": 1072.9129172079847,
+    "updates_per_second": 2.613446026259784
+  },
+  "source_revision": "0e9bb4b",
+  "status": "PASS",
+  "storage": {
+    "description": {
+      "environment_value": "",
+      "environment_variable": "STRATEGO_PHASE9_ROLLOUT_ROOT",
+      "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+      "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9_rollout_root.txt",
+      "pointer_value": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase9/rollouts",
+      "root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+      "source": "pointer_file"
+    },
+    "identity_rule": "the resolved rollout root is an operational diagnostic, never an identity: Phase 9 rollout identity is rollout version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same rollout",
+    "resolved_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts",
+    "resolver": "stratego.training.phase9_storage.default_rollout_root()",
+    "resume_source": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_03_soak/pilot_p9c",
+    "soak_root": "/Volumes/Brandon_Washington/stratego_phase9/rollouts/agent_05_soak"
+  },
+  "tests": {
+    "belief_tests_passed": true,
+    "checkpoint_tests_passed": true,
+    "entropy_tests_passed": true,
+    "full_suite": {
+      "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests -q -p no:randomly",
+      "passed": true,
+      "returncode": 0,
+      "seconds": 317.2946986669849,
+      "summary": "4431 passed, 3 skipped in 316.16s (0:05:16)"
+    },
+    "full_suite_green": true,
+    "gate_selections": {
+      "belief_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py -q -p no:randomly -k belief",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.8230586670106277,
+        "summary": "2 passed, 26 deselected in 0.05s"
+      },
+      "checkpoint_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_checkpoint.py tests/training/test_phase9_checkpoint_binding.py tests/training/test_phase9_trainer.py -q -p no:randomly -k crash or atomic or archive or resume or reject or overwrite or swap",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 13.810418624983868,
+        "summary": "32 passed, 56 deselected in 12.70s"
+      },
+      "entropy_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py tests/training/test_phase9_trainer.py -q -p no:randomly -k entropy",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 6.439518500003032,
+        "summary": "8 passed, 70 deselected in 5.32s"
+      },
+      "kl_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py tests/training/test_phase9_trainer.py -q -p no:randomly -k kl or controller or damps",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 11.013720249990001,
+        "summary": "10 passed, 68 deselected in 9.92s"
+      },
+      "loss_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py -q -p no:randomly -k ppo or clip or total_is_the_frozen",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.8373982909834012,
+        "summary": "5 passed, 23 deselected in 0.04s"
+      },
+      "masking_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py -q -p no:randomly -k illegal or masking or behavior_matrix",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.8644416669849306,
+        "summary": "5 passed, 23 deselected in 0.05s"
+      },
+      "opponent_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_trainer.py -q -p no:randomly -k opponent",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 6.042467249993933,
+        "summary": "3 passed, 47 deselected in 4.95s"
+      },
+      "value_tests_passed": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py -q -p no:randomly -k value",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.8425449170172215,
+        "summary": "4 passed, 24 deselected in 0.05s"
+      }
+    },
+    "kl_tests_passed": true,
+    "loss_tests_passed": true,
+    "masking_tests_passed": true,
+    "modules": {
+      "artifacts": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_agent05_artifacts.py -q -p no:randomly",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.8412845419952646,
+        "summary": "35 passed in 0.05s"
+      },
+      "binding": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_checkpoint_binding.py -q -p no:randomly",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 4.034194582985947,
+        "summary": "5 passed in 3.09s"
+      },
+      "checkpoint": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_checkpoint.py -q -p no:randomly",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 2.4757795830082614,
+        "summary": "33 passed in 1.51s"
+      },
+      "loss": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_loss.py -q -p no:randomly",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 0.9012972080090549,
+        "summary": "28 passed in 0.11s"
+      },
+      "trainer": {
+        "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/test_phase9_trainer.py -q -p no:randomly",
+        "passed": true,
+        "returncode": 0,
+        "seconds": 22.796427499997662,
+        "summary": "50 passed in 21.65s"
+      }
+    },
+    "opponent_tests_passed": true,
+    "value_tests_passed": true
+  },
+  "throughput": {
+    "identical_across_synchronization": true,
+    "identical_logical_minibatch_identities": true,
+    "identical_losses_across_topologies": false,
+    "loss_equality_is_a_backend_property": "identical batch digests with differing losses is MPS non-determinism, not a train-order violation",
+    "measurements": [
+      {
+        "batch_digests_match_reference": true,
+        "batch_digests_match_untimed_pass": true,
+        "examples_per_second": 246.44147920070117,
+        "losses": [
+          0.7849333882331848,
+          0.8699552416801453,
+          0.8132813572883606,
+          0.7425285577774048,
+          0.711593508720398,
+          0.5366102457046509,
+          0.8166376948356628,
+          0.8245437741279602,
+          0.8069285750389099,
+          0.8872473239898682
+        ],
+        "mean_backward_seconds": 0.12322640112324734,
+        "mean_data_wait_seconds": 1.7564437133733009,
+        "mean_forward_seconds": 0.08302820313474513,
+        "mean_optimizer_seconds": 0.012233885248861043,
+        "mean_step_seconds": 2.0592510623755516,
+        "prefetch": 2,
+        "seconds": 20.77572337500169,
+        "synchronization_cost_fraction": 0.013359201891531955,
+        "unsynchronized_examples_per_second": 249.778318181414,
+        "unsynchronized_seconds": 20.498176291992422,
+        "unsynchronized_updates_per_second": 0.4878482776980742,
+        "updates": 10,
+        "updates_per_second": 0.48133101406386947,
+        "workers": 1
+      },
+      {
+        "batch_digests_match_reference": true,
+        "batch_digests_match_untimed_pass": true,
+        "examples_per_second": 755.1319057437012,
+        "losses": [
+          0.7849333882331848,
+          0.8699552416801453,
+          0.8132812976837158,
+          0.7425286173820496,
+          0.7115933895111084,
+          0.5366103053092957,
+          0.8166375756263733,
+          0.8245438933372498,
+          0.8069284558296204,
+          0.8872472643852234
+        ],
+        "mean_backward_seconds": 0.12780292187380837,
+        "mean_data_wait_seconds": 0.183838609365921,
+        "mean_forward_seconds": 0.06381531762963277,
+        "mean_optimizer_seconds": 0.008245640627137618,
+        "mean_step_seconds": 0.46460671374734375,
+        "prefetch": 2,
+        "seconds": 6.7802723750064615,
+        "synchronization_cost_fraction": 0.002626658198038726,
+        "unsynchronized_examples_per_second": 757.1206027819022,
+        "unsynchronized_seconds": 6.762462916987715,
+        "unsynchronized_updates_per_second": 1.4787511773084028,
+        "updates": 10,
+        "updates_per_second": 1.4748670034056663,
+        "workers": 4
+      },
+      {
+        "batch_digests_match_reference": true,
+        "batch_digests_match_untimed_pass": true,
+        "examples_per_second": 936.9491334999774,
+        "losses": [
+          0.7849333882331848,
+          0.86995530128479,
+          0.8132813572883606,
+          0.7425284385681152,
+          0.7115934491157532,
+          0.5366103053092957,
+          0.8166375756263733,
+          0.8245437741279602,
+          0.8069285750389099,
+          0.8872473239898682
+        ],
+        "mean_backward_seconds": 0.1302759841310035,
+        "mean_data_wait_seconds": 0.018749239374301396,
+        "mean_forward_seconds": 0.05968126562584075,
+        "mean_optimizer_seconds": 0.00845184387799236,
+        "mean_step_seconds": 0.30089285424764967,
+        "prefetch": 2,
+        "seconds": 5.464544249989558,
+        "synchronization_cost_fraction": -0.008710805849442364,
+        "unsynchronized_examples_per_second": 928.8580315256621,
+        "unsynchronized_seconds": 5.512144834006904,
+        "unsynchronized_updates_per_second": 1.8141758428235588,
+        "updates": 10,
+        "updates_per_second": 1.8299787763671433,
+        "workers": 6
+      },
+      {
+        "batch_digests_match_reference": true,
+        "batch_digests_match_untimed_pass": true,
+        "examples_per_second": 808.6888030676008,
+        "losses": [
+          0.7849333882331848,
+          0.8699552416801453,
+          0.8132814168930054,
+          0.7425285577774048,
+          0.7115934491157532,
+          0.5366103053092957,
+          0.8166375756263733,
+          0.8245438933372498,
+          0.8069285750389099,
+          0.8872473239898682
+        ],
+        "mean_backward_seconds": 0.1348220677500649,
+        "mean_data_wait_seconds": 6.995003786869347e-06,
+        "mean_forward_seconds": 0.0641891042541829,
+        "mean_optimizer_seconds": 0.022778255253797397,
+        "mean_step_seconds": 0.3434097501231008,
+        "prefetch": 2,
+        "seconds": 6.331236416997854,
+        "synchronization_cost_fraction": -0.007045720783411979,
+        "unsynchronized_examples_per_second": 803.0308717646869,
+        "unsynchronized_seconds": 6.37584454100579,
+        "unsynchronized_updates_per_second": 1.5684196714154042,
+        "updates": 10,
+        "updates_per_second": 1.5794703184914078,
+        "workers": 10
+      }
+    ],
+    "rule": "worker count, prefetch and device synchronization change arrival times only; the minibatch plan is a pure function of the cursor and every batch is verified against it",
+    "sealing_audit_probe": {
+      "decode_and_validate_seconds": 2.7341750000196043,
+      "digest_seconds": 0.00035329200909473,
+      "games_decoded": 1024,
+      "iteration": 5,
+      "journal_open_seconds": 0.5029260420124047,
+      "matches_state_record": true,
+      "metadata_problems": 0,
+      "namespace": "pilot_p9c",
+      "note": "measured without writing a state transition, so the soak's own state machine is untouched",
+      "recomputed_digest": "6dae2226bbc755b1c15431e7b63336076eb8fa3001f44274cc588d904605e02a",
+      "sealing_audit_seconds": 3.2374543340411037
+    },
+    "synchronization_note": "the timed pass synchronizes the device between phases so the per-phase split means what it says; the untimed pass measures what the pipeline actually delivers"
+  },
+  "timestamp": "2026-08-16T22:27:39-0400",
+  "torch_version": "2.13.0",
+  "total": 26,
+  "trainer_version": "phase9_trainer_v1",
+  "working_tree_state": "dirty"
+}

@@ -1,0 +1,344 @@
+{
+  "agent": 5,
+  "artifact": "agent_05_resume_validation",
+  "cpu_resume_pass": true,
+  "criterion": {
+    "criterion_id": "phase9_backend_aware_resume_equivalence_v1",
+    "inherits": "the Phase 8 Agent 4 reviewer-approved backend-aware principle: exact logical state everywhere, bitwise equality where the backend allows it, and an immediate resumed-vs-donor boundary check plus a measured no-checkpoint control envelope on MPS",
+    "tolerances": {
+      "cpu_requires_bitwise_equality": true,
+      "mps_envelope_ratio_limit": 10.0,
+      "mps_first_post_resume_step_atol": 1e-06,
+      "mps_first_post_resume_step_rtol": 1e-05
+    },
+    "why_not_independent_bit_determinism": "two fresh identical MPS runs with no checkpoint anywhere already diverge, so an independent-run comparison measures backend determinism rather than checkpoint fidelity; the control legs measure that envelope directly"
+  },
+  "devices": {
+    "cpu": {
+      "backend_control": {
+        "early": {
+          "all_allclose_rtol1e-5_atol1e-6": true,
+          "all_exactly_equal": true,
+          "max_abs_diff": 0.0,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.weight"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.bias"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_body.weight"
+            }
+          ]
+        },
+        "end": {
+          "all_allclose_rtol1e-5_atol1e-6": true,
+          "all_exactly_equal": true,
+          "max_abs_diff": 0.0,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.weight"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_output.bias"
+            },
+            {
+              "max_abs_diff": 0.0,
+              "name": "value_body.weight"
+            }
+          ]
+        },
+        "role": "two fresh identical runs with no checkpoint anywhere; the backend's own run-to-run envelope"
+      },
+      "backend_is_run_to_run_deterministic": true,
+      "batch_identities_equal_every_step": true,
+      "compared_steps": 24,
+      "cursor_positions_equal_every_step": true,
+      "device": "cpu",
+      "envelope_ratio_end_vs_donor_over_control": 0.0,
+      "exact_next_batch_after_resume": true,
+      "global_steps_equal_every_step": true,
+      "learning_rates_equal_every_step": true,
+      "logical_state_fields": {
+        "counters": true,
+        "entropy_schedule_position": true,
+        "examples_consumed": true,
+        "global_optimizer_step": true,
+        "kl_beta": true,
+        "kl_controller_history": true,
+        "kl_controller_updates": true,
+        "learning_rate": true,
+        "minibatch_cursor": true,
+        "optimizer_state_structure": true,
+        "rl_iteration": true,
+        "scheduler_last_epoch": true,
+        "sealed_rollout_digest": true,
+        "train_config_digest": true
+      },
+      "logical_state_summaries_equal": true,
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "parameters_end_vs_independent_straight": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "parameters_first_post_resume_step": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": true,
+        "max_abs_diff": 0.0,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_body.weight"
+          }
+        ]
+      },
+      "passed": true,
+      "requires_bitwise_equality": true,
+      "split_at": 10,
+      "total_updates": 24
+    },
+    "mps": {
+      "backend_control": {
+        "early": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.0008202418684959412,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0008202418684959412,
+              "name": "blocks.0.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00042385049164295197,
+              "name": "blocks.3.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00011152517981827259,
+              "name": "blocks.2.attention.in_proj_bias"
+            }
+          ]
+        },
+        "end": {
+          "all_allclose_rtol1e-5_atol1e-6": false,
+          "all_exactly_equal": false,
+          "max_abs_diff": 0.0011934787034988403,
+          "tensors_compared": 66,
+          "worst_tensors": [
+            {
+              "max_abs_diff": 0.0011934787034988403,
+              "name": "blocks.0.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.0005970336496829987,
+              "name": "blocks.3.attention.in_proj_bias"
+            },
+            {
+              "max_abs_diff": 0.00044514425098896027,
+              "name": "blocks.1.attention.in_proj_bias"
+            }
+          ]
+        },
+        "role": "two fresh identical runs with no checkpoint anywhere; the backend's own run-to-run envelope"
+      },
+      "backend_is_run_to_run_deterministic": false,
+      "batch_identities_equal_every_step": true,
+      "compared_steps": 160,
+      "cursor_positions_equal_every_step": true,
+      "device": "mps",
+      "envelope_ratio_end_vs_donor_over_control": 0.6623003882986028,
+      "exact_next_batch_after_resume": true,
+      "global_steps_equal_every_step": true,
+      "learning_rates_equal_every_step": true,
+      "logical_state_fields": {
+        "counters": true,
+        "entropy_schedule_position": true,
+        "examples_consumed": true,
+        "global_optimizer_step": true,
+        "kl_beta": true,
+        "kl_controller_history": true,
+        "kl_controller_updates": true,
+        "learning_rate": true,
+        "minibatch_cursor": true,
+        "optimizer_state_structure": true,
+        "rl_iteration": true,
+        "scheduler_last_epoch": true,
+        "sealed_rollout_digest": true,
+        "train_config_digest": true
+      },
+      "logical_state_summaries_equal": true,
+      "parameters_end_vs_donor": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.0007904414087533951,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.0007904414087533951,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00023108161985874176,
+            "name": "blocks.1.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00019069015979766846,
+            "name": "blocks.2.attention.in_proj_bias"
+          }
+        ]
+      },
+      "parameters_end_vs_independent_straight": {
+        "all_allclose_rtol1e-5_atol1e-6": false,
+        "all_exactly_equal": false,
+        "max_abs_diff": 0.001106868963688612,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 0.001106868963688612,
+            "name": "blocks.0.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.0004343409091234207,
+            "name": "blocks.3.attention.in_proj_bias"
+          },
+          {
+            "max_abs_diff": 0.00022060878109186888,
+            "name": "blocks.2.attention.in_proj_bias"
+          }
+        ]
+      },
+      "parameters_first_post_resume_step": {
+        "all_allclose_rtol1e-5_atol1e-6": true,
+        "all_exactly_equal": false,
+        "max_abs_diff": 1.862645149230957e-09,
+        "tensors_compared": 66,
+        "worst_tensors": [
+          {
+            "max_abs_diff": 1.862645149230957e-09,
+            "name": "column_embedding"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.weight"
+          },
+          {
+            "max_abs_diff": 0.0,
+            "name": "value_output.bias"
+          }
+        ]
+      },
+      "passed": true,
+      "requires_bitwise_equality": false,
+      "split_at": 60,
+      "total_updates": 160
+    }
+  },
+  "mps_available": true,
+  "mps_resume_pass": true,
+  "phase": 9,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rollout": {
+    "behavior_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "behavior_snapshot_id": "B001",
+    "games": 1024,
+    "iteration": 1,
+    "learner_decisions": 143819,
+    "namespace": "pilot_p9c",
+    "rollout_id": "phase9_rollout_v1|ns=pilot_p9c|it=001",
+    "sealed_rollout_digest": "6a8419fb679f3f9361b477d76205b03a46ebdfe06955f34c7ac7c533654d942b",
+    "statistics": {
+      "advantage_max": 1.8341487720608711,
+      "advantage_mean": 0.002077712007780204,
+      "advantage_min": -1.927879124879837,
+      "advantage_version": "phase9_advantage_v1",
+      "eligible": 35955,
+      "floor": 0.01,
+      "games": 1024,
+      "iteration": 1,
+      "learner_decisions": 143819,
+      "mean_eligible": 0.010486941368375125,
+      "namespace": "pilot_p9c",
+      "no_eligible": false,
+      "quantile": 0.75,
+      "retention_fraction": 0.25000173829605266,
+      "sealed_rollout_digest": "6a8419fb679f3f9361b477d76205b03a46ebdfe06955f34c7ac7c533654d942b",
+      "standardization_epsilon": 1e-08,
+      "std_eligible": 0.29847165048943,
+      "threshold": 0.12702582510406113,
+      "zero_variance": false
+    },
+    "train_order_keys_digest": "a78215271498fe8ce70c80fcac32f720fe51fb280f41f5791f8f80efd11d2c6a",
+    "verifications": {
+      "bucket_counts": {
+        "current": 512,
+        "historical": 256,
+        "rule": 154,
+        "stress": 102
+      },
+      "declared_learner_decisions": 143819,
+      "digest_recomputed_from_commits": true,
+      "learner_control_mismatches": 0,
+      "on_policy_state_dict_digest": null,
+      "single_behavior_identity": true,
+      "state": "SEALED",
+      "version_mismatches": 0
+    }
+  },
+  "source_revision": "0e9bb4b",
+  "timestamp": "2026-08-16T21:36:32-0400",
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+}

@@ -1177,3 +1177,416 @@ where the only substantial sealed Phase 9 rollout currently lives. The games
 are the real scheduled iteration-1 games and the sealed digest recomputed here
 matches Agent 3's record, so the audited object is the real one; identity is
 version + digests, never a path.
+
+## 5. Agent 5 — PPO Trainer, Dynamic Damping, Checkpoint/Resume, and Throughput
+
+**Status: PASS** — 26 / 26 completion gates true. Machine-readable record:
+`reports/phase_9_data/agent_05_trainer_contract.json` (the trainer/loss/
+checkpoint contract, the constructors and hard-veto counters Agent 6
+receives), `agent_05_resume_validation.json` (the CPU and MPS resume proofs),
+`agent_05_stability_soak.json` (the non-selection soak, the two-checkpoint
+binding fixture, the archive rehearsal and the throughput probe),
+`agent_05_training_benchmark.csv` (complete iteration wall time by phase), and
+`agent_05_acceptance.json` (verification, gates, handoff). Acceptance command:
+`python scripts/run_phase9_agent05.py` followed by `--record-final-suite`.
+**No pilot was selected, no candidate compared with another, no validation
+score computed, and the final-test bank was never opened.**
+
+### 5.1 Prerequisites verified
+
+Agents 1-4 re-read from their acceptance artifacts: all four `PASS`, 18/18,
+20/20, 24/24 and 18/18 gates true. The live contract digest recomputed to
+`ad3dba3c…` and the live `phase9_example_v1` digest to `a6b17a94…`, both equal
+to the accepted values; the Phase 8 anchor hashes to `f7e9c40d…`.
+
+`synthetic_corpus.default_corpus_root()` resolves through the tracked pointer
+file to the accepted root and all three digests (`c95c3545…`, `1db0f02f…`,
+`32e8e18d…`) recomputed equal to the accepted identity. Phase 9 rollout
+storage resolves through `phase9_storage.default_rollout_root()`. The harness
+scans all three new modules for an absolute data or rollout path and finds
+none.
+
+### 5.2 What was built
+
+```text
+stratego/training/phase9_loss.py        the objective, and nothing else
+stratego/training/phase9_checkpoint.py  phase9_checkpoint_v1 + the archive
+stratego/training/phase9_trainer.py     phase9_trainer_v1, the MPS optimizer path
+scripts/run_phase9_agent05.py           the acceptance harness
+```
+
+The loss module imports its clip epsilon, loss weights, log floor and KL
+direction from `phase9_contract`; the trainer imports `OPTIMIZER_CONSTRAINTS`
+and re-checks every value at construction. A constant tuned anywhere but the
+frozen contract fails before an optimizer exists.
+
+### 5.3 The objective, exactly as frozen
+
+```text
+L = L_PPO + 0.5*L_value + 0.25*L_belief + beta*D_KL(pi_b||pi_theta) - c_H*H
+```
+
+Two populations, kept apart structurally rather than by convention: PPO sees
+only `ppo_eligible=True` learner examples; value, belief, KL and entropy see
+every learner example of the minibatch regardless of the advantage filter.
+Rule, stress and historical-opponent decisions receive exactly zero
+policy/value/belief gradient because they are never members of the train-order
+universe a minibatch is drawn from — a structural zero, not a weight of zero.
+`_verify_batch` re-checks it per minibatch anyway, because a structural
+guarantee nobody checks is a comment.
+
+Decisions worth recording:
+
+- **The stored float32 behavior distribution is used as written** — never
+  recomputed on device, never renormalized — for both the PPO denominator and
+  the KL reference, following Agent 3's storage-is-authority rule. That this
+  is right is measurable rather than argued: at the on-policy start of a real
+  iteration the behavior KL is `3.0e-08` and the mean PPO ratio `1.0000`, so
+  `pi_theta` reproduces the stored `pi_b` to float32 noise. A mistake anywhere
+  in the absolute→model frame reconciliation would move both by orders of
+  magnitude.
+- **A legal action whose stored probability rounded to exactly 0.0 contributes
+  exactly 0 to the KL** — the `0 log 0` limit, not a NaN.
+- **An empty eligible subset yields `L_PPO = 0` branch-free**, so the graph
+  stays connected and the other four terms are unaffected.
+- **Entropy is recomputed differentiably.** Phase 8's `legal_policy_entropy`
+  returns floats for metrics; here entropy is a term of the loss and must
+  carry a gradient.
+- **The value loss is a soft-target cross-entropy.** The frozen WDL lambda
+  target is a blend of three real outcomes, and an argmax would discard
+  exactly the blend the target was defined to carry. A one-hot target reduces
+  it to the ordinary cross-entropy, which is asserted.
+
+Every component is reported independently, per update.
+
+### 5.4 Iteration ownership
+
+Only a `SEALED` rollout may be optimized, and the sealed digest is
+**recomputed from the committed journal** rather than read from the manifest,
+so a state document claiming a rollout it does not hold cannot authorize
+training. Six verifications gate every iteration: sealed state and recomputed
+digest; one behavior identity matching the state record; the on-policy
+binding; population/schedule/contract identity per game; learner-control
+semantics per game; and Agent 4's example/advantage/train-order versions.
+
+The **game id is the authority** on which scheduled game a payload is, not the
+metadata sidecar: bucket, ordinal and iteration are parsed from the id and the
+sidecar is required to agree, so a metadata block that agreed with itself
+about a bucket it was never scheduled for cannot verify.
+
+The **on-policy binding** compares the live model's state-dict digest with the
+collecting snapshot's. Training on another policy's rollout is the failure PPO
+cannot detect from its own numbers, so it is checked before the first
+minibatch rather than inferred from the loss.
+
+After two epochs the iteration is marked trained and the rollout bytes are
+untouched — verified by re-reading the journals from disk and recomputing the
+digest, not by re-hashing the reader's in-memory copy.
+
+### 5.5 Damping
+
+Beta is updated once after each optimizer epoch, never per minibatch, under
+the frozen rule and clamp. The controller's **partial epoch is state**, and
+that is a correctness point rather than bookkeeping: an epoch's mean KL is an
+example-weighted average over every minibatch of that epoch, so a run
+checkpointed halfway through one has to carry the accumulated half. Held in a
+local variable it silently resets on resume and the resumed run damps on the
+post-resume half alone — a divergence no parameter comparison at the resume
+boundary can reveal, because it first appears one epoch later. The accumulator
+therefore lives in `kl_controller_state` and round-trips through the
+checkpoint. A test runs one epoch uninterrupted in a single call and the same
+epoch split across a checkpoint in another process, and requires the closed
+epoch entries to be equal.
+
+### 5.6 Checkpoint, resume and the archive
+
+`phase9_checkpoint_v1` carries every field `CHECKPOINT_REQUIRED_FIELDS` names
+— the tuple is read from the contract, not restated, so a field added there
+becomes a field this format refuses to be written without. Writes are atomic:
+`.partial` → fsync → **reload and fully validate the bytes on disk** →
+`os.replace` → fsync the directory. Crash hooks at all three boundaries are
+exercised: a crash before commit leaves the destination untouched (an existing
+checkpoint keeps its previous contents), a crash after commit leaves a valid
+file. Every rejection the mission lists has its own negative control:
+truncation, integrity-digest mismatch, corpus drift, rollout-digest drift,
+rollout-identity drift, behavior-snapshot drift, train-config mismatch,
+population-version mismatch and cursor mismatch.
+
+One format serves three roles — resume checkpoint, behavior snapshot, archive
+member — deliberately, so a behavior snapshot is not a stripped export whose
+provenance must be trusted but a complete checkpoint whose identity fields can
+be compared field by field.
+
+**Archive identity is namespace-qualified.** `pilot_p9a|H005`,
+`pilot_p9b|H005` and `canonical|H005` are three different objects that share a
+local archive number; they live in separate namespace directories, carry their
+namespace inside the payload, and a member may not be filed under another
+run's namespace. `H000` keeps its namespace-free spelling because the frozen
+schedule already says so. An existing member is never overwritten, even when
+the bytes about to be written would be identical.
+
+Binding weights into a playable snapshot changed no accepted module: the model
+is built from the Phase 9 payload and handed to Agent 3's
+`load_behavior_snapshot` through its existing `model=` parameter, so the file
+is still hashed and the logical identity is still bound to real bytes — the
+loader's binding check is supplied with weights, never bypassed.
+
+### 5.7 Resume validation
+
+Five independent processes per backend over Agent 3's accepted sealed
+`pilot_p9c` iteration 1 (1,024 games, 143,819 learner decisions, digest
+`6a8419fb…`, never written to — every leg binds with `mark_training=False`):
+an uninterrupted `straight` run, a `split-first` leg that checkpoints at the
+split and then continues as the **donor**, a `split-resume` leg in a fresh
+process, and two fresh `control` runs with no checkpoint anywhere.
+
+**CPU (24 updates, split at 10) is bit-exact.** Batch identities, learning
+rates, cursor positions and global steps equal at all 24 steps; the exact next
+batch after resume; every logical state field equal; and `max_abs_diff = 0.0`
+across all 66 tensors for the resumed run against the donor *and* against the
+independently executed uninterrupted run. The CPU control legs also differ by
+`0.0`, so the backend is run-to-run deterministic and the strict comparison
+means what it says.
+
+**MPS (160 updates, split at 60) meets the reviewer-approved backend-aware
+criterion.** Every logical quantity is equal at all 160 steps and the next
+batch after resume is exact. The resume boundary itself — the first
+post-resume update, against a donor that entered that step from bit-identical
+state — differs by `1.86e-09` and meets the *original* `rtol=1e-5, atol=1e-6`
+tolerances. Over the remaining 100 updates the resumed run diverges from the
+donor by `7.90e-04`, against a measured no-checkpoint fresh-vs-fresh envelope
+of `1.19e-03`: an envelope ratio of **0.66**, well inside the limit of 10.
+
+The control legs are what make the criterion honest rather than convenient:
+two fresh identical MPS runs with no checkpoint anywhere already differ by
+`1.19e-03` at update 160, so an independent-run bit comparison would measure
+backend determinism rather than checkpoint fidelity. The resumed run in fact
+differs from the independently executed straight run by `1.11e-03` — *less*
+than two independent runs differ from each other. The acceptance tolerances
+were frozen in the harness before they were used as a gate.
+
+### 5.8 The stability soak (not a seventh pilot)
+
+**2,804 optimizer updates over 5 sealed RL iterations**, 5,120 games, 717,005
+learner decisions, 1,434,010 examples consumed. Zero non-finite losses,
+gradients or parameters; zero illegal targets, data mismatches, checkpoint
+errors, behavior-identity mismatches and rollout-identity mismatches; zero
+non-finite metric rows.
+
+| it | updates | beta after | mean KL | epoch clip |
+|----|---------|-----------|---------|------------|
+| 1  | 562     | 0.020     | 0.0350  | 0.2913     |
+| 2  | 574     | 0.080     | 0.0372  | 0.2892     |
+| 3  | 566     | 0.160     | 0.0320  | 0.2698     |
+| 4  | 554     | 0.200     | 0.0281  | 0.2526     |
+| 5  | 548     | 0.200     | 0.0267  | 0.2446     |
+
+The damping loop visibly closes: as beta ramps `0.005 → 0.02 → 0.08 → 0.16 →
+0.20` (the frozen clamp), the mean behavior KL falls and the clip fraction
+with it. Maximum **epoch mean** KL `0.0401` against the `0.08` hard limit, and
+maximum epoch clip fraction `0.2913` against the `0.75` limit. Advantage-filter
+retention `0.24998`, which is the frozen 0.75 quantile behaving exactly as
+specified. Policy entropy `1.273 → 1.154` (sharpening, not collapsing); mean
+pre-clip gradient norm `1.098`, maximum `10.38` against the clip at `1.0`.
+
+One distinction worth stating: the maximum *single-minibatch* KL was `0.0951`,
+above `0.08`. That is not a veto and is not treated as one — the frozen hard
+limit is on the mean iteration/epoch KL, which peaked at `0.0401`. The
+per-minibatch figure is reported because a reader should be able to see it.
+
+The soak is structured so it cannot become a pilot result:
+
+```text
+scope             infrastructure_soak (not pilot_candidate)
+rollout root      <rollout_root>/agent_05_soak/  (outside every production
+                  namespace directory)
+archive root      checkpoints/phase9/agent05/archive/ (not the production
+                  checkpoints/phase9/archive/, which Agent 6 must find empty)
+validation bank   never opened
+final-test bank   never opened
+validation score  never computed
+weights           left in Agent 5's work directory
+```
+
+The soak's train-config digest differs from candidate P9-C's even though the
+two share a learning rate and an initial beta, because the scope is part of
+the identity — a soak checkpoint cannot be mistaken for a pilot run's.
+
+**Iteration 1 adopts Agent 3's accepted sealed `pilot_p9c` rollout.** That is
+not a stale rollout: it was collected from the Phase 8 anchor and the soak
+starts from the Phase 8 anchor, so it is genuinely on-policy — which the
+trainer's on-policy binding verifies rather than assumes. Relocation is
+checked to leave the digest unchanged. Iterations 2-5 are collected fresh from
+the snapshot frozen at the end of the previous iteration, so no iteration ever
+trains on another policy's rollout; the five behavior checkpoint digests are
+all distinct, which is asserted.
+
+### 5.9 A real namespace-local `H005`, and two different checkpoints
+
+The frozen archive cadence applies to pilot namespaces, so iteration 5 archived
+a real immutable `pilot_p9c|H005` (`acfdb7bb…`). It was then bound as a
+playable historical opponent and used to play the **24 iteration-6 games that
+actually schedule it** — the games Agent 3 flagged as having no weights until
+such a member exists. Nothing was persisted: the point is that the scheduled
+identity resolves to real immutable weights and the games run.
+
+**The limitation Agent 3 could not close.** Every iteration in Agent 3's soak
+was iteration 1, where the current learner `B001` and the historical anchor
+`H000` are the same file — so "each side verified against its own checkpoint"
+and "both sides verified against the same checkpoint" produced identical
+evidence, and a swapped binding would have passed. Soak iteration 2 has a
+genuinely trained learner `B002` (`81ae56ad…`) against the anchor `H000`
+(`f7e9c40d…`), with different checkpoint and model-state digests. Over 16
+historical games and 181 decisions per side:
+
+```text
+each side against its own checkpoint    181/181 verified, max |Δp| = 0.0
+learner decisions vs opponent weights     0/181 verified, max |Δp| = 0.392
+opponent decisions vs learner weights     0/181 verified, max |Δp| = 0.388
+digest guard alone                        0/181, rejected before any forward pass
+```
+
+The swapped cases deliberately rewrite the recorded checkpoint digest as well,
+because otherwise the reproducer's digest guard rejects them before a single
+forward pass runs — and a digest string comparison is not the claim being
+tested. Both defenses are measured separately. A swap fails by four orders of
+magnitude against the `1e-4` tolerance. The same fixture exists in the suite,
+built from the accepted anchor and the canonical untrained initialization, so
+the claim is re-checked on every run without needing the soak.
+
+### 5.10 Throughput
+
+Complete iteration wall time, split by phase (per soak iteration, 1,024 games):
+
+```text
+collection                  124.3 - 131.5 s   (0 for the adopted iteration 1)
+sealing / audit               3.24 s          (measured separately, below)
+target construction           3.0 - 3.2 s     (advantages + train order)
+data wait                    52.9 - 57.2 s
+MPS forward                  34.6 - 35.8 s
+loss                          ~9 s
+MPS backward                 72.7 - 76.3 s
+optimizer                     5.4 - 5.7 s
+checkpoint                    0.15 - 0.21 s
+validation infrastructure     0 s             (Agent 5 runs no validation)
+train total                 207.9 - 221.2 s
+complete iteration          ~218 s (adopted) / ~340 - 355 s (collected)
+```
+
+Aggregate: **1,336.6 examples/s, 2.61 updates/s** at minibatch 512 on MPS.
+Peak process RSS 1,073 MiB (a true `getrusage` peak); peak MPS driver
+allocation 4,170 MiB. `collect_iteration` seals inside the call it collects
+in, so the seal's own cost was measured separately by repeating exactly what
+sealing verifies — reading every journal, decoding and validating all 1,024
+payloads and sidecars, recomputing the digest — without writing a state
+transition: **3.24 s**, 0 metadata problems, digest equal to the state record.
+
+The topology sweep tunes only knobs Agent 1 permits and **proves the logical
+minibatch identities are identical at every worker count**:
+
+```text
+workers   examples/s   mean data wait
+   1          246         1,756 ms
+   4          755           184 ms
+   6          937            19 ms
+  10          809             0 ms
+```
+
+Six workers is the knee: the data wait is essentially hidden and adding more
+costs contention. Batch digests are identical across all four topologies and
+across the timed/untimed passes; device synchronization for the phase split
+costs nothing measurable (≤1%). Losses are *not* asserted equal across
+topologies on MPS, and that is deliberate — the train order's claim is about
+which examples a minibatch holds and in what order, which is what the batch
+digest measures; requiring equal losses would additionally assert backend
+determinism, which Phase 8 already measured to be false on this stack. On CPU
+they do come out equal, and the trainer's own topology test asserts it there.
+Training order was not changed for locality anywhere.
+
+### 5.11 Completion gates
+
+All 26 gates true: `agents1_4_pass`, `corpus_resolver_verified`,
+`corpus_digests_match`, `ppo_loss_matches_contract`,
+`illegal_logit_masking_pass`, `value_loss_matches_contract`,
+`belief_loss_matches_contract`, `kl_direction_and_beta_controller_pass`,
+`entropy_schedule_pass`, `opponent_only_gradients_zero`, `cpu_resume_pass`,
+`mps_backend_aware_resume_pass`, `atomic_checkpoint_tests_pass`,
+`soak_updates_ge_2000`, `soak_several_sealed_iterations`, `nonfinite_zero`,
+`illegal_targets_zero`, `identity_mismatches_zero`,
+`kl_hard_limit_not_exceeded`, `clip_fraction_hard_limit_not_exceeded`,
+`throughput_measured`, `checkpoint_binding_fixture_pass`,
+`namespace_qualified_archive_pass`, `no_pilot_selection`,
+`no_final_test_access`, `full_suite_green`.
+
+Each gate that rests on tests names the tests that measure it, and the
+selections are run separately: a gate claimed true because some larger module
+passed is a gate nobody measured. An empty selection (pytest exit code 5)
+fails rather than silently passing.
+
+Suite: **4,431 passed / 3 skipped** (316 s), up from 4,280 / 3 after Agent 4 —
+Agent 5 adds 151 tests across `test_phase9_loss.py`,
+`test_phase9_checkpoint.py`, `test_phase9_trainer.py`,
+`test_phase9_checkpoint_binding.py` and `test_phase9_agent05_artifacts.py`.
+
+### 5.12 Handoff to Agent 6
+
+```text
+trainer            Phase9Trainer.from_phase8_checkpoint(path, config, corpus_identity,
+                     topology=LoaderTopology(workers=6, prefetch=2, record_cache_size=48))
+candidate config   Phase9TrainConfig.for_candidate(candidate_id, device='mps',
+                     total_iterations=8)   # LR/beta read from the frozen matrix
+resume             Phase9Trainer.resume(path, config=..., corpus_identity=...,
+                     expected_sealed_rollout_digest=..., ...)
+sealed rollout     bind_sealed_rollout(root, namespace, iteration,
+                     behavior_snapshot=..., expected_model_state_digest=...)
+                     then Phase9Trainer.bind_iteration(rollout)
+epochs             Phase9Trainer.train_iteration()   # the frozen two epochs
+snapshot           Phase9Trainer.save_behavior_snapshot(path,
+                     logical_identity='B00N', rl_iteration=N)
+archive            write_archive_member(Phase9Trainer.archive_member_payload(
+                     local_identity='H005'), root, namespace=..., local_identity='H005')
+                     then bind_archive_member(member)
+topology           workers=6, prefetch=2, record_cache=48 (validated; the knee)
+veto counters      trainer.counters — every trainer-side veto is a raise, and
+                     the counter records that it happened
+```
+
+`agent_05_trainer_contract.json → hard_veto_counters` states which pilot veto
+is raised by the trainer and which comes from elsewhere (illegal neural action
+and observer safety from Agent 3's collector, the validation EWR guards from
+Agent 6's own validation pass).
+
+**Agent 6 may run only the frozen six candidates.** Agent 5 selected nothing:
+the soak's scope is recorded in its train config, no validation bank was
+opened, no score exists, and the soak's weights are deliberately left where
+Agent 6 cannot inherit them.
+
+### 5.13 Deviations and findings recorded
+
+**The resume experiments read Agent 3's accepted sealed rollout and never
+write to it.** Every bind outside the soak passes `mark_training=False`, so
+the accepted iteration's state document is untouched.
+
+**Two bugs that only a real multi-iteration run finds**, both fixed with
+regression tests that fail without the fix:
+
+1. The epoch KL accumulator was local to `train_iteration`, so a run
+   checkpointed mid-epoch and resumed would close that epoch on the
+   post-resume portion alone and damp differently from an uninterrupted run.
+   It is now part of `kl_controller_state` and round-trips through the
+   checkpoint.
+2. `bind_iteration` did not drop the previous iteration's exhausted data
+   pipeline, so a second iteration's first minibatch popped from an empty
+   prefetch queue. The soak's iteration 2 is what surfaced it; a
+   two-iteration test now covers the transition at both worker counts.
+
+**A crashed soak cannot be restarted and reuse the previous attempt's
+rollouts.** MPS is not run-to-run deterministic, so a re-run from the same
+anchor produces different weights, and the on-policy binding correctly refuses
+to train on rollouts collected by the previous attempt's snapshot. The harness
+therefore takes an explicit `--reset-soak`; there is no silent adoption path.
+
+**Soak iteration counts differ slightly** (562, 574, 566, 554, 548) because
+each iteration's game set yields a different number of learner decisions. The
+frozen minibatch size and the two epochs are unchanged; only the number of
+minibatches a rollout contains varies.
