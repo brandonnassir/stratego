@@ -1,0 +1,4688 @@
+{
+  "active_window_by_iteration": {
+    "1": [
+      "H000"
+    ],
+    "10": [
+      "H000",
+      "H005"
+    ],
+    "11": [
+      "H000",
+      "H005",
+      "H010"
+    ],
+    "12": [
+      "H000",
+      "H005",
+      "H010"
+    ],
+    "13": [
+      "H000",
+      "H005",
+      "H010"
+    ],
+    "14": [
+      "H000",
+      "H005",
+      "H010"
+    ],
+    "15": [
+      "H000",
+      "H005",
+      "H010"
+    ],
+    "16": [
+      "H000",
+      "H005",
+      "H010",
+      "H015"
+    ],
+    "17": [
+      "H000",
+      "H005",
+      "H010",
+      "H015"
+    ],
+    "18": [
+      "H000",
+      "H005",
+      "H010",
+      "H015"
+    ],
+    "19": [
+      "H000",
+      "H005",
+      "H010",
+      "H015"
+    ],
+    "2": [
+      "H000"
+    ],
+    "20": [
+      "H000",
+      "H005",
+      "H010",
+      "H015"
+    ],
+    "21": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020"
+    ],
+    "22": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020"
+    ],
+    "23": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020"
+    ],
+    "24": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020"
+    ],
+    "25": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020"
+    ],
+    "26": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025"
+    ],
+    "27": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025"
+    ],
+    "28": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025"
+    ],
+    "29": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025"
+    ],
+    "3": [
+      "H000"
+    ],
+    "30": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025"
+    ],
+    "31": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030"
+    ],
+    "32": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030"
+    ],
+    "33": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030"
+    ],
+    "34": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030"
+    ],
+    "35": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030"
+    ],
+    "36": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035"
+    ],
+    "37": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035"
+    ],
+    "38": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035"
+    ],
+    "39": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035"
+    ],
+    "4": [
+      "H000"
+    ],
+    "40": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035"
+    ],
+    "41": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040"
+    ],
+    "42": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040"
+    ],
+    "43": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040"
+    ],
+    "44": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040"
+    ],
+    "45": [
+      "H000",
+      "H005",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040"
+    ],
+    "46": [
+      "H000",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045"
+    ],
+    "47": [
+      "H000",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045"
+    ],
+    "48": [
+      "H000",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045"
+    ],
+    "49": [
+      "H000",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045"
+    ],
+    "5": [
+      "H000"
+    ],
+    "50": [
+      "H000",
+      "H010",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045"
+    ],
+    "51": [
+      "H000",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050"
+    ],
+    "52": [
+      "H000",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050"
+    ],
+    "53": [
+      "H000",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050"
+    ],
+    "54": [
+      "H000",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050"
+    ],
+    "55": [
+      "H000",
+      "H015",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050"
+    ],
+    "56": [
+      "H000",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050",
+      "H055"
+    ],
+    "57": [
+      "H000",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050",
+      "H055"
+    ],
+    "58": [
+      "H000",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050",
+      "H055"
+    ],
+    "59": [
+      "H000",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050",
+      "H055"
+    ],
+    "6": [
+      "H000",
+      "H005"
+    ],
+    "60": [
+      "H000",
+      "H020",
+      "H025",
+      "H030",
+      "H035",
+      "H040",
+      "H045",
+      "H050",
+      "H055"
+    ],
+    "7": [
+      "H000",
+      "H005"
+    ],
+    "8": [
+      "H000",
+      "H005"
+    ],
+    "9": [
+      "H000",
+      "H005"
+    ]
+  },
+  "active_window_rule": "H000 + the 8 most recent eligible archive snapshots, sampled uniformly; older snapshots remain stored but inactive and no archive checkpoint is overwritten",
+  "agent": 7,
+  "anchor": {
+    "checkpoint": "checkpoints/phase8/warmstart_c1_v1.pt",
+    "checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "identity": "H000",
+    "model_state_digest": "f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c",
+    "role": "the frozen Phase 8 accepted checkpoint"
+  },
+  "archive_schedule_exact": true,
+  "artifact": "agent_07_population_archive",
+  "cadence_iterations": 5,
+  "expected_members": [
+    "H005",
+    "H010",
+    "H015",
+    "H020",
+    "H025",
+    "H030",
+    "H035",
+    "H040",
+    "H045",
+    "H050",
+    "H055",
+    "H060"
+  ],
+  "historical_action_verification": [
+    {
+      "active_window": [
+        "H000"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "games_by_identity": {
+        "H000": 512
+      },
+      "iteration": 1,
+      "seconds": 0.1408687920193188,
+      "verified": {
+        "H000": {
+          "decisions": 230,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "games_by_identity": {
+        "H000": 512
+      },
+      "iteration": 2,
+      "seconds": 0.1256042500026524,
+      "verified": {
+        "H000": {
+          "decisions": 180,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "games_by_identity": {
+        "H000": 512
+      },
+      "iteration": 3,
+      "seconds": 0.14008695899974555,
+      "verified": {
+        "H000": {
+          "decisions": 227,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "games_by_identity": {
+        "H000": 512
+      },
+      "iteration": 4,
+      "seconds": 0.2745699590013828,
+      "verified": {
+        "H000": {
+          "decisions": 255,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "games_by_identity": {
+        "H000": 512
+      },
+      "iteration": 5,
+      "seconds": 0.10263820900581777,
+      "verified": {
+        "H000": {
+          "decisions": 149,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3"
+      },
+      "games_by_identity": {
+        "H000": 269,
+        "H005": 243
+      },
+      "iteration": 6,
+      "seconds": 0.21397283399710432,
+      "verified": {
+        "H000": {
+          "decisions": 211,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 164,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3"
+      },
+      "games_by_identity": {
+        "H000": 226,
+        "H005": 286
+      },
+      "iteration": 7,
+      "seconds": 0.23795787498238496,
+      "verified": {
+        "H000": {
+          "decisions": 294,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 141,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3"
+      },
+      "games_by_identity": {
+        "H000": 256,
+        "H005": 256
+      },
+      "iteration": 8,
+      "seconds": 0.1577790410083253,
+      "verified": {
+        "H000": {
+          "decisions": 109,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 144,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3"
+      },
+      "games_by_identity": {
+        "H000": 242,
+        "H005": 270
+      },
+      "iteration": 9,
+      "seconds": 0.1242248339985963,
+      "verified": {
+        "H000": {
+          "decisions": 66,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 103,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3"
+      },
+      "games_by_identity": {
+        "H000": 246,
+        "H005": 266
+      },
+      "iteration": 10,
+      "seconds": 0.2861891250067856,
+      "verified": {
+        "H000": {
+          "decisions": 191,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 272,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7"
+      },
+      "games_by_identity": {
+        "H000": 170,
+        "H005": 169,
+        "H010": 173
+      },
+      "iteration": 11,
+      "seconds": 0.3625301670108456,
+      "verified": {
+        "H000": {
+          "decisions": 209,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 159,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 264,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7"
+      },
+      "games_by_identity": {
+        "H000": 149,
+        "H005": 174,
+        "H010": 189
+      },
+      "iteration": 12,
+      "seconds": 0.3873480420152191,
+      "verified": {
+        "H000": {
+          "decisions": 248,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 116,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7"
+      },
+      "games_by_identity": {
+        "H000": 164,
+        "H005": 174,
+        "H010": 174
+      },
+      "iteration": 13,
+      "seconds": 0.32943800001521595,
+      "verified": {
+        "H000": {
+          "decisions": 96,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 289,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 146,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7"
+      },
+      "games_by_identity": {
+        "H000": 171,
+        "H005": 156,
+        "H010": 185
+      },
+      "iteration": 14,
+      "seconds": 0.29928445801488124,
+      "verified": {
+        "H000": {
+          "decisions": 122,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 193,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 181,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7"
+      },
+      "games_by_identity": {
+        "H000": 159,
+        "H005": 157,
+        "H010": 196
+      },
+      "iteration": 15,
+      "seconds": 0.26675270800478756,
+      "verified": {
+        "H000": {
+          "decisions": 136,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 231,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 44,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e"
+      },
+      "games_by_identity": {
+        "H000": 136,
+        "H005": 122,
+        "H010": 136,
+        "H015": 118
+      },
+      "iteration": 16,
+      "seconds": 0.41013945802114904,
+      "verified": {
+        "H000": {
+          "decisions": 114,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 287,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 166,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 193,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e"
+      },
+      "games_by_identity": {
+        "H000": 124,
+        "H005": 123,
+        "H010": 138,
+        "H015": 127
+      },
+      "iteration": 17,
+      "seconds": 0.3942059160035569,
+      "verified": {
+        "H000": {
+          "decisions": 221,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 262,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 77,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 91,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e"
+      },
+      "games_by_identity": {
+        "H000": 136,
+        "H005": 116,
+        "H010": 127,
+        "H015": 133
+      },
+      "iteration": 18,
+      "seconds": 0.47063045800314285,
+      "verified": {
+        "H000": {
+          "decisions": 181,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 230,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 161,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 283,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e"
+      },
+      "games_by_identity": {
+        "H000": 126,
+        "H005": 124,
+        "H010": 149,
+        "H015": 113
+      },
+      "iteration": 19,
+      "seconds": 0.440666250011418,
+      "verified": {
+        "H000": {
+          "decisions": 204,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 174,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 314,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 79,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e"
+      },
+      "games_by_identity": {
+        "H000": 123,
+        "H005": 138,
+        "H010": 129,
+        "H015": 122
+      },
+      "iteration": 20,
+      "seconds": 0.4343877090141177,
+      "verified": {
+        "H000": {
+          "decisions": 151,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 197,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 196,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 262,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b"
+      },
+      "games_by_identity": {
+        "H000": 83,
+        "H005": 115,
+        "H010": 100,
+        "H015": 118,
+        "H020": 96
+      },
+      "iteration": 21,
+      "seconds": 0.6025676249992102,
+      "verified": {
+        "H000": {
+          "decisions": 239,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 88,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 234,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 331,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 191,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b"
+      },
+      "games_by_identity": {
+        "H000": 91,
+        "H005": 104,
+        "H010": 122,
+        "H015": 95,
+        "H020": 100
+      },
+      "iteration": 22,
+      "seconds": 0.504142582998611,
+      "verified": {
+        "H000": {
+          "decisions": 71,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 206,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 187,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 285,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b"
+      },
+      "games_by_identity": {
+        "H000": 93,
+        "H005": 97,
+        "H010": 120,
+        "H015": 100,
+        "H020": 102
+      },
+      "iteration": 23,
+      "seconds": 0.5434968750050757,
+      "verified": {
+        "H000": {
+          "decisions": 98,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 163,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 243,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 322,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 171,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b"
+      },
+      "games_by_identity": {
+        "H000": 105,
+        "H005": 91,
+        "H010": 107,
+        "H015": 107,
+        "H020": 102
+      },
+      "iteration": 24,
+      "seconds": 0.3896470840263646,
+      "verified": {
+        "H000": {
+          "decisions": 225,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 134,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 207,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 65,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 27,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b"
+      },
+      "games_by_identity": {
+        "H000": 121,
+        "H005": 114,
+        "H010": 77,
+        "H015": 102,
+        "H020": 98
+      },
+      "iteration": 25,
+      "seconds": 0.32710925000719726,
+      "verified": {
+        "H000": {
+          "decisions": 129,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 235,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 65,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 64,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 68,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc"
+      },
+      "games_by_identity": {
+        "H000": 77,
+        "H005": 93,
+        "H010": 90,
+        "H015": 94,
+        "H020": 69,
+        "H025": 89
+      },
+      "iteration": 26,
+      "seconds": 0.8308436669758521,
+      "verified": {
+        "H000": {
+          "decisions": 234,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 252,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 404,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 89,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 390,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 238,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc"
+      },
+      "games_by_identity": {
+        "H000": 78,
+        "H005": 88,
+        "H010": 75,
+        "H015": 84,
+        "H020": 84,
+        "H025": 103
+      },
+      "iteration": 27,
+      "seconds": 0.7802479579986539,
+      "verified": {
+        "H000": {
+          "decisions": 115,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 250,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 187,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 182,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 318,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 420,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc"
+      },
+      "games_by_identity": {
+        "H000": 92,
+        "H005": 75,
+        "H010": 111,
+        "H015": 78,
+        "H020": 80,
+        "H025": 76
+      },
+      "iteration": 28,
+      "seconds": 0.6017541669716593,
+      "verified": {
+        "H000": {
+          "decisions": 167,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 119,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 178,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 184,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 213,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 168,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc"
+      },
+      "games_by_identity": {
+        "H000": 68,
+        "H005": 99,
+        "H010": 88,
+        "H015": 82,
+        "H020": 85,
+        "H025": 90
+      },
+      "iteration": 29,
+      "seconds": 0.6267102500132751,
+      "verified": {
+        "H000": {
+          "decisions": 192,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 130,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 214,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 173,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 201,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 140,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc"
+      },
+      "games_by_identity": {
+        "H000": 86,
+        "H005": 83,
+        "H010": 83,
+        "H015": 86,
+        "H020": 86,
+        "H025": 88
+      },
+      "iteration": 30,
+      "seconds": 0.8068580830004066,
+      "verified": {
+        "H000": {
+          "decisions": 197,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 221,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 280,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 249,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 271,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 274,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0"
+      },
+      "games_by_identity": {
+        "H000": 87,
+        "H005": 49,
+        "H010": 82,
+        "H015": 86,
+        "H020": 67,
+        "H025": 78,
+        "H030": 63
+      },
+      "iteration": 31,
+      "seconds": 0.7063388329988811,
+      "verified": {
+        "H000": {
+          "decisions": 181,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 59,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 215,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 269,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 131,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 363,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 58,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0"
+      },
+      "games_by_identity": {
+        "H000": 77,
+        "H005": 68,
+        "H010": 59,
+        "H015": 67,
+        "H020": 79,
+        "H025": 86,
+        "H030": 76
+      },
+      "iteration": 32,
+      "seconds": 0.7077984579955228,
+      "verified": {
+        "H000": {
+          "decisions": 193,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 257,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 104,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 190,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 133,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 197,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 201,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0"
+      },
+      "games_by_identity": {
+        "H000": 55,
+        "H005": 80,
+        "H010": 87,
+        "H015": 75,
+        "H020": 67,
+        "H025": 80,
+        "H030": 68
+      },
+      "iteration": 33,
+      "seconds": 0.8074722089804709,
+      "verified": {
+        "H000": {
+          "decisions": 167,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 328,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 83,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 233,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 145,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 278,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0"
+      },
+      "games_by_identity": {
+        "H000": 69,
+        "H005": 67,
+        "H010": 73,
+        "H015": 74,
+        "H020": 76,
+        "H025": 84,
+        "H030": 69
+      },
+      "iteration": 34,
+      "seconds": 0.7597574169922154,
+      "verified": {
+        "H000": {
+          "decisions": 189,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 159,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 173,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 247,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 154,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 222,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 155,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0"
+      },
+      "games_by_identity": {
+        "H000": 83,
+        "H005": 61,
+        "H010": 84,
+        "H015": 66,
+        "H020": 80,
+        "H025": 75,
+        "H030": 63
+      },
+      "iteration": 35,
+      "seconds": 0.6468468329985626,
+      "verified": {
+        "H000": {
+          "decisions": 120,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 172,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 188,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 100,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 73,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 54,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 373,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd"
+      },
+      "games_by_identity": {
+        "H000": 58,
+        "H005": 66,
+        "H010": 71,
+        "H015": 56,
+        "H020": 63,
+        "H025": 72,
+        "H030": 64,
+        "H035": 62
+      },
+      "iteration": 36,
+      "seconds": 0.8293031670036726,
+      "verified": {
+        "H000": {
+          "decisions": 162,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 109,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 100,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 130,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 255,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 165,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 187,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 371,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd"
+      },
+      "games_by_identity": {
+        "H000": 66,
+        "H005": 60,
+        "H010": 74,
+        "H015": 66,
+        "H020": 49,
+        "H025": 71,
+        "H030": 58,
+        "H035": 68
+      },
+      "iteration": 37,
+      "seconds": 0.8848214999889024,
+      "verified": {
+        "H000": {
+          "decisions": 287,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 233,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 117,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 104,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 74,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 207,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 188,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 340,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd"
+      },
+      "games_by_identity": {
+        "H000": 60,
+        "H005": 68,
+        "H010": 77,
+        "H015": 57,
+        "H020": 60,
+        "H025": 59,
+        "H030": 73,
+        "H035": 58
+      },
+      "iteration": 38,
+      "seconds": 0.793863250000868,
+      "verified": {
+        "H000": {
+          "decisions": 194,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 133,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 188,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 196,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 203,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 152,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 227,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 76,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd"
+      },
+      "games_by_identity": {
+        "H000": 51,
+        "H005": 71,
+        "H010": 65,
+        "H015": 53,
+        "H020": 65,
+        "H025": 65,
+        "H030": 68,
+        "H035": 74
+      },
+      "iteration": 39,
+      "seconds": 1.1165720410062931,
+      "verified": {
+        "H000": {
+          "decisions": 167,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 191,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 210,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 165,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 291,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 447,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 253,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 359,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd"
+      },
+      "games_by_identity": {
+        "H000": 58,
+        "H005": 57,
+        "H010": 73,
+        "H015": 55,
+        "H020": 62,
+        "H025": 72,
+        "H030": 62,
+        "H035": 73
+      },
+      "iteration": 40,
+      "seconds": 0.9359787090215832,
+      "verified": {
+        "H000": {
+          "decisions": 117,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 158,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 264,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 248,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 161,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 313,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 173,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 283,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11"
+      },
+      "games_by_identity": {
+        "H000": 64,
+        "H005": 47,
+        "H010": 61,
+        "H015": 55,
+        "H020": 53,
+        "H025": 66,
+        "H030": 54,
+        "H035": 61,
+        "H040": 51
+      },
+      "iteration": 41,
+      "seconds": 1.228655584010994,
+      "verified": {
+        "H000": {
+          "decisions": 106,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 223,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 193,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 257,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 302,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 313,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 338,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 293,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 278,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11"
+      },
+      "games_by_identity": {
+        "H000": 62,
+        "H005": 58,
+        "H010": 58,
+        "H015": 57,
+        "H020": 65,
+        "H025": 41,
+        "H030": 56,
+        "H035": 56,
+        "H040": 59
+      },
+      "iteration": 42,
+      "seconds": 1.137760542012984,
+      "verified": {
+        "H000": {
+          "decisions": 165,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 120,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 237,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 190,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 137,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 350,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 428,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 236,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11"
+      },
+      "games_by_identity": {
+        "H000": 60,
+        "H005": 60,
+        "H010": 63,
+        "H015": 47,
+        "H020": 79,
+        "H025": 55,
+        "H030": 41,
+        "H035": 64,
+        "H040": 43
+      },
+      "iteration": 43,
+      "seconds": 1.101620917004766,
+      "verified": {
+        "H000": {
+          "decisions": 197,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 136,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 180,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 112,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 161,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 205,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 283,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 412,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 197,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11"
+      },
+      "games_by_identity": {
+        "H000": 48,
+        "H005": 57,
+        "H010": 61,
+        "H015": 66,
+        "H020": 59,
+        "H025": 47,
+        "H030": 51,
+        "H035": 56,
+        "H040": 67
+      },
+      "iteration": 44,
+      "seconds": 1.0336937080137432,
+      "verified": {
+        "H000": {
+          "decisions": 185,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 191,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 369,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 188,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 88,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 162,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 189,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 151,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 328,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H005",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H005": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11"
+      },
+      "games_by_identity": {
+        "H000": 54,
+        "H005": 55,
+        "H010": 50,
+        "H015": 62,
+        "H020": 62,
+        "H025": 49,
+        "H030": 57,
+        "H035": 57,
+        "H040": 66
+      },
+      "iteration": 45,
+      "seconds": 0.9414233750139829,
+      "verified": {
+        "H000": {
+          "decisions": 162,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H005": {
+          "decisions": 268,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 146,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 111,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 267,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 104,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 266,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 159,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e"
+      },
+      "games_by_identity": {
+        "H000": 52,
+        "H010": 65,
+        "H015": 64,
+        "H020": 53,
+        "H025": 57,
+        "H030": 49,
+        "H035": 59,
+        "H040": 60,
+        "H045": 53
+      },
+      "iteration": 46,
+      "seconds": 1.0443805000104476,
+      "verified": {
+        "H000": {
+          "decisions": 182,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 187,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 202,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 135,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 111,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 117,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 281,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 328,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 284,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e"
+      },
+      "games_by_identity": {
+        "H000": 53,
+        "H010": 64,
+        "H015": 47,
+        "H020": 44,
+        "H025": 58,
+        "H030": 58,
+        "H035": 70,
+        "H040": 68,
+        "H045": 50
+      },
+      "iteration": 47,
+      "seconds": 1.136027833999833,
+      "verified": {
+        "H000": {
+          "decisions": 271,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 241,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 201,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 145,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 91,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 343,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 107,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 271,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 350,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e"
+      },
+      "games_by_identity": {
+        "H000": 54,
+        "H010": 49,
+        "H015": 53,
+        "H020": 57,
+        "H025": 54,
+        "H030": 58,
+        "H035": 59,
+        "H040": 71,
+        "H045": 57
+      },
+      "iteration": 48,
+      "seconds": 1.2236442079884,
+      "verified": {
+        "H000": {
+          "decisions": 156,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 155,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 282,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 179,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 115,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 307,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 279,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 242,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 480,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e"
+      },
+      "games_by_identity": {
+        "H000": 57,
+        "H010": 53,
+        "H015": 61,
+        "H020": 59,
+        "H025": 49,
+        "H030": 54,
+        "H035": 72,
+        "H040": 52,
+        "H045": 55
+      },
+      "iteration": 49,
+      "seconds": 1.3032857499783859,
+      "verified": {
+        "H000": {
+          "decisions": 214,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 69,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 96,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 272,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 175,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 445,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 283,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 368,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 561,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H010",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H010": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e"
+      },
+      "games_by_identity": {
+        "H000": 59,
+        "H010": 57,
+        "H015": 55,
+        "H020": 51,
+        "H025": 64,
+        "H030": 67,
+        "H035": 44,
+        "H040": 63,
+        "H045": 52
+      },
+      "iteration": 50,
+      "seconds": 0.8284888330090325,
+      "verified": {
+        "H000": {
+          "decisions": 185,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H010": {
+          "decisions": 150,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 107,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 57,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 162,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 56,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 71,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 451,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 264,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304"
+      },
+      "games_by_identity": {
+        "H000": 53,
+        "H015": 49,
+        "H020": 66,
+        "H025": 49,
+        "H030": 47,
+        "H035": 59,
+        "H040": 77,
+        "H045": 58,
+        "H050": 54
+      },
+      "iteration": 51,
+      "seconds": 1.0816672500222921,
+      "verified": {
+        "H000": {
+          "decisions": 123,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 174,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 73,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 179,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 177,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 446,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 220,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 299,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304"
+      },
+      "games_by_identity": {
+        "H000": 63,
+        "H015": 47,
+        "H020": 60,
+        "H025": 49,
+        "H030": 55,
+        "H035": 54,
+        "H040": 47,
+        "H045": 67,
+        "H050": 70
+      },
+      "iteration": 52,
+      "seconds": 0.9870430830051191,
+      "verified": {
+        "H000": {
+          "decisions": 115,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 241,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 64,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 182,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 257,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 164,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 227,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 399,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 69,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304"
+      },
+      "games_by_identity": {
+        "H000": 57,
+        "H015": 50,
+        "H020": 55,
+        "H025": 67,
+        "H030": 63,
+        "H035": 50,
+        "H040": 56,
+        "H045": 66,
+        "H050": 48
+      },
+      "iteration": 53,
+      "seconds": 1.1322394589951728,
+      "verified": {
+        "H000": {
+          "decisions": 184,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 217,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 225,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 212,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 198,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 280,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 349,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 105,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 166,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304"
+      },
+      "games_by_identity": {
+        "H000": 59,
+        "H015": 49,
+        "H020": 55,
+        "H025": 53,
+        "H030": 56,
+        "H035": 63,
+        "H040": 67,
+        "H045": 56,
+        "H050": 54
+      },
+      "iteration": 54,
+      "seconds": 1.0596209169889335,
+      "verified": {
+        "H000": {
+          "decisions": 124,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 104,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 121,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 265,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 158,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 267,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 272,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 346,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 226,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H015",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H015": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304"
+      },
+      "games_by_identity": {
+        "H000": 47,
+        "H015": 55,
+        "H020": 58,
+        "H025": 58,
+        "H030": 49,
+        "H035": 64,
+        "H040": 65,
+        "H045": 62,
+        "H050": 54
+      },
+      "iteration": 55,
+      "seconds": 1.0128271249996033,
+      "verified": {
+        "H000": {
+          "decisions": 101,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H015": {
+          "decisions": 129,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 190,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 289,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 186,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 104,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 168,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 258,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 298,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050",
+        "H055"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+        "H055": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a"
+      },
+      "games_by_identity": {
+        "H000": 60,
+        "H020": 65,
+        "H025": 50,
+        "H030": 67,
+        "H035": 48,
+        "H040": 55,
+        "H045": 46,
+        "H050": 65,
+        "H055": 56
+      },
+      "iteration": 56,
+      "seconds": 0.9481847090064548,
+      "verified": {
+        "H000": {
+          "decisions": 75,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 328,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 138,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 76,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 188,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 323,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 361,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 155,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H055": {
+          "decisions": 69,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050",
+        "H055"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+        "H055": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a"
+      },
+      "games_by_identity": {
+        "H000": 54,
+        "H020": 60,
+        "H025": 64,
+        "H030": 46,
+        "H035": 47,
+        "H040": 63,
+        "H045": 64,
+        "H050": 52,
+        "H055": 62
+      },
+      "iteration": 57,
+      "seconds": 1.2702326250146143,
+      "verified": {
+        "H000": {
+          "decisions": 209,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 189,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 303,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 113,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 231,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 219,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 304,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 447,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H055": {
+          "decisions": 235,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050",
+        "H055"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+        "H055": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a"
+      },
+      "games_by_identity": {
+        "H000": 49,
+        "H020": 57,
+        "H025": 45,
+        "H030": 54,
+        "H035": 81,
+        "H040": 52,
+        "H045": 65,
+        "H050": 61,
+        "H055": 48
+      },
+      "iteration": 58,
+      "seconds": 1.0086457090219483,
+      "verified": {
+        "H000": {
+          "decisions": 115,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 373,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 186,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 220,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 120,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 71,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 289,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 226,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H055": {
+          "decisions": 157,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050",
+        "H055"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+        "H055": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a"
+      },
+      "games_by_identity": {
+        "H000": 62,
+        "H020": 64,
+        "H025": 45,
+        "H030": 59,
+        "H035": 48,
+        "H040": 60,
+        "H045": 67,
+        "H050": 51,
+        "H055": 56
+      },
+      "iteration": 59,
+      "seconds": 1.011421374976635,
+      "verified": {
+        "H000": {
+          "decisions": 275,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 209,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 251,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 69,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 112,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 194,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 325,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 254,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H055": {
+          "decisions": 152,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    },
+    {
+      "active_window": [
+        "H000",
+        "H020",
+        "H025",
+        "H030",
+        "H035",
+        "H040",
+        "H045",
+        "H050",
+        "H055"
+      ],
+      "all_verified": true,
+      "checkpoint_sha256": {
+        "H000": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+        "H020": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+        "H025": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+        "H030": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+        "H035": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+        "H040": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+        "H045": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+        "H050": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+        "H055": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a"
+      },
+      "games_by_identity": {
+        "H000": 72,
+        "H020": 53,
+        "H025": 58,
+        "H030": 62,
+        "H035": 65,
+        "H040": 42,
+        "H045": 66,
+        "H050": 34,
+        "H055": 60
+      },
+      "iteration": 60,
+      "seconds": 1.044362957996782,
+      "verified": {
+        "H000": {
+          "decisions": 216,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H020": {
+          "decisions": 272,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H025": {
+          "decisions": 86,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H030": {
+          "decisions": 109,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H035": {
+          "decisions": 182,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H040": {
+          "decisions": 164,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H045": {
+          "decisions": 200,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H050": {
+          "decisions": 284,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        },
+        "H055": {
+          "decisions": 194,
+          "failed": 0,
+          "games": 2,
+          "max_abs_difference": 0.0
+        }
+      }
+    }
+  ],
+  "identity_rule": "logical archive identity (canonical|H0nn) and checkpoint SHA-256 are different objects; each real SHA is bound into this manifest and every historical action was verified against the acting archive checkpoint",
+  "member_count": 12,
+  "members": [
+    {
+      "checkpoint_sha256": "f0909fadc7b50efd2b21edf05c42e28f47e3641a289884dab18ac00fe92c93c3",
+      "created_after_iteration": 5,
+      "local_identity": "H005",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H005.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H005",
+      "population_eligible_from_iteration": 6,
+      "qualified_identity": "canonical|H005",
+      "rl_iteration": 5,
+      "state_dict_digest": "c5c58ef56d9f2b31dc9e6ec27490c287cd5728846a46576336c000ef4eedac2d"
+    },
+    {
+      "checkpoint_sha256": "5b23d3b07e9f5cbdf5006181fc522485d4b165daa2bae6926930f014a86d79a7",
+      "created_after_iteration": 10,
+      "local_identity": "H010",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H010.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H010",
+      "population_eligible_from_iteration": 11,
+      "qualified_identity": "canonical|H010",
+      "rl_iteration": 10,
+      "state_dict_digest": "3446e910699fe0ac4c70f0cd3a07aa8ebc97f8a4903367c774c07f10bf02d0f7"
+    },
+    {
+      "checkpoint_sha256": "b9dded37a0e99765b0a955b9160aae9223117ac0d9e1cfbc5b57dd85b02d6d5e",
+      "created_after_iteration": 15,
+      "local_identity": "H015",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H015.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H015",
+      "population_eligible_from_iteration": 16,
+      "qualified_identity": "canonical|H015",
+      "rl_iteration": 15,
+      "state_dict_digest": "14e0913825e93e681ee740bda42486abdbe20ddef6e1100e9797cde69c031d32"
+    },
+    {
+      "checkpoint_sha256": "5ec66bc553993da1cf88268136d48610402083e10685bcfb60f15b6dc27e7f8b",
+      "created_after_iteration": 20,
+      "local_identity": "H020",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H020.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H020",
+      "population_eligible_from_iteration": 21,
+      "qualified_identity": "canonical|H020",
+      "rl_iteration": 20,
+      "state_dict_digest": "a6d0a2f9cbf1046787c977de3bb542c1f72970b48ff583eef48c45369015b8f1"
+    },
+    {
+      "checkpoint_sha256": "03f2f9e293e4fdbf0db65b6aa04a50010777f048d471968ce9ea42bd9be9a0fc",
+      "created_after_iteration": 25,
+      "local_identity": "H025",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H025.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H025",
+      "population_eligible_from_iteration": 26,
+      "qualified_identity": "canonical|H025",
+      "rl_iteration": 25,
+      "state_dict_digest": "9d81b13e6c41c8f5ff853c3200ae05979fb28bebd69507b7ab61d619fddb5fa9"
+    },
+    {
+      "checkpoint_sha256": "ba7801e34d250e6c6973b662ebb910b1e04342ef43909b1d3bf27ed536b6bdd0",
+      "created_after_iteration": 30,
+      "local_identity": "H030",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H030.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H030",
+      "population_eligible_from_iteration": 31,
+      "qualified_identity": "canonical|H030",
+      "rl_iteration": 30,
+      "state_dict_digest": "5eefcc744523d35a37526b8bec406021a858c5e70dbd9fdffdf8925fa89185c2"
+    },
+    {
+      "checkpoint_sha256": "a6b0ce5d44d267fac0370477337bcafb1179bf1187b702bf988d0a5500e5d7cd",
+      "created_after_iteration": 35,
+      "local_identity": "H035",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H035.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H035",
+      "population_eligible_from_iteration": 36,
+      "qualified_identity": "canonical|H035",
+      "rl_iteration": 35,
+      "state_dict_digest": "4a78bd130812132ab5c3c4014ae70befb46e7b49264af4bca45c8f2e4558af1f"
+    },
+    {
+      "checkpoint_sha256": "a834dc5726d520a5ea4173e500147e8629ccfa73c4725c12e2ed434d13c09d11",
+      "created_after_iteration": 40,
+      "local_identity": "H040",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H040.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H040",
+      "population_eligible_from_iteration": 41,
+      "qualified_identity": "canonical|H040",
+      "rl_iteration": 40,
+      "state_dict_digest": "f0994cf0eb985848016b79c7db376f7d9499a7f7352b430b5ac2d39aece9869e"
+    },
+    {
+      "checkpoint_sha256": "dea1c7c69183c71661276043c47bfed92e587419dca41ae5c84becf1d68b856e",
+      "created_after_iteration": 45,
+      "local_identity": "H045",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H045.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H045",
+      "population_eligible_from_iteration": 46,
+      "qualified_identity": "canonical|H045",
+      "rl_iteration": 45,
+      "state_dict_digest": "a300f271ba3618803e400d0d3851880f8491afd8845c6f6902fe9096f62e73d1"
+    },
+    {
+      "checkpoint_sha256": "fe4e72d15b7e8d27c1e8526b6cdda2dfd4799708cf2e8ba3b5df9645410b3304",
+      "created_after_iteration": 50,
+      "local_identity": "H050",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H050.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H050",
+      "population_eligible_from_iteration": 51,
+      "qualified_identity": "canonical|H050",
+      "rl_iteration": 50,
+      "state_dict_digest": "c49b9b408730549453acbd4ec7c25d2df4c1ee0672731345b55ee56321504718"
+    },
+    {
+      "checkpoint_sha256": "8ec8bc864892b5738ccec237ee7f44445452a99731bd5f124aa3097931788d0a",
+      "created_after_iteration": 55,
+      "local_identity": "H055",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H055.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H055",
+      "population_eligible_from_iteration": 56,
+      "qualified_identity": "canonical|H055",
+      "rl_iteration": 55,
+      "state_dict_digest": "bd934542c34d3a884eb36ba63d24104d4bb86cef09a4abe34b3db947d08d2d06"
+    },
+    {
+      "checkpoint_sha256": "a684e4549aea46849a5746bd21ef83c427d4f4806a90c2649284c83f1d4a688f",
+      "created_after_iteration": 60,
+      "local_identity": "H060",
+      "namespace": "canonical",
+      "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/archive/canonical/H060.pt",
+      "policy_token": "phase9_archive_v1|ns=canonical|H060",
+      "population_eligible_from_iteration": 61,
+      "qualified_identity": "canonical|H060",
+      "rl_iteration": 60,
+      "state_dict_digest": "8be639b569826f3ebb15ad2ed4fb7284a82b73f9f324b4ee6eeb8d6700801818"
+    }
+  ],
+  "namespace": "canonical",
+  "outcome_prioritized_sampling": false,
+  "phase": 9,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "source_revision": "74eecad",
+  "timestamp": "2026-08-18T06:56:28-0400",
+  "working_tree_state": "dirty"
+}

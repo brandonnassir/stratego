@@ -2088,3 +2088,333 @@ artifact keeps it under
 `canonical_projection.historical_ceiling_evaluation`, verdict included, with
 `status: "superseded for cause by phase9_operational_amendment_v1; the
 measurement itself is unchanged and stands on the record"`.
+
+## 7. Agent 7 — Canonical Population Self-Play Run
+
+**Status: PASS — 27 / 27 completion gates true**, under the reviewing chat's
+two operational amendments (§7.9). The one canonical Phase 9 run executed the
+frozen experiment in full: 60 RL iterations, 122,880 scheduled games, two
+optimizer epochs per sealed rollout, twelve validation passes and twelve
+immutable archive members, started fresh from the accepted Phase 8 anchor
+under P9-C's frozen hyperparameters. One checkpoint was selected by the
+frozen validation score — **iteration 40, not iteration 60** — frozen to
+`checkpoints/phase9/selfplay_c1_v1.pt`, and reproduced exactly through an
+independent evaluation-only reload. The sealed `phase9_test_bank_v1` was
+never constructed and never played.
+
+Machine-readable record: `reports/phase_9_data/agent_07_canonical_run.json`
+(identities, amendments, fresh start, execution, restart evidence, hard-stop
+counters, validation history, report-only diagnostics, gates, Agent 8
+handoff), `agent_07_training_curve.csv` (60 rows, one per iteration),
+`agent_07_population_archive.json` (the league and its per-iteration active
+windows), and `agent_07_checkpoint_manifest.json` (every checkpoint identity
+and the selection record). Acceptance commands: `python
+scripts/run_phase9_agent07.py --stage verify|amendment|run|freeze|artifacts`
+followed by `--record-final-suite` (twice, the accepted two-pass
+convergence).
+
+### 7.1 Prerequisites verified before the first optimizer step
+
+Agents 1–6 re-read from their acceptance artifacts: all six `PASS`. Agent 6's
+status lives in `agent_06_pilot_selection.json` (24/24 gates) rather than an
+`agent_06_acceptance.json`, and the harness reads it there rather than
+reporting a missing file. Agent 6's winner was re-checked as unique — **P9-C**
+at 0.6916015625 — and its certification that no pilot checkpoint carries
+forward was required explicitly.
+
+The live contract digest recomputed to the accepted
+`ad3dba3c…` and the live `phase9_example_v1` digest to `a6b17a94…`. The Phase
+8 anchor hashes to the accepted `f7e9c40d…`.
+`synthetic_corpus.default_corpus_root()` resolved to the accepted root with
+all three digests verified **including the full payload-byte audit**.
+`phase9_storage.default_rollout_root()` resolved through the tracked pointer
+file to `/Volumes/Brandon_Washington/stratego_phase9/rollouts`; the harness
+proved the resolved root sits on a real mount point under `/Volumes/`, is
+read-write, passes a write probe and holds more than twice the projected
+canonical requirement — and **every worker process re-proved this at start**,
+five times across the run. Agent 1's bitwise-verified anchor evaluation export
+re-hashed to its recorded `cd0b22d2…`, and `run_schedule_digest("canonical")`
+recomputed to Agent 2's pinned `bc253e8b…`.
+
+The canonical namespace was proved clean before the run: no rollout
+namespace, no archive member, no work directory and no journal existed. That
+evidence is preserved in `stage_verify.json` and was deliberately *not*
+overwritten when the later amendment was recorded (§7.9).
+
+### 7.2 The frozen configuration, reconstructed rather than copied
+
+`Phase9TrainConfig.for_candidate("P9-C", namespace="canonical",
+total_iterations=60)` was built from the frozen matrix and then **required to
+hash to the accepted runtime identity** `77af4d45…` before it was allowed to
+construct an optimizer; a drift of any field fails there rather than training
+under different physics. The amended 39-field train-config document is the one
+executed, with both earlier documents preserved as historical provenance
+(§7.9).
+
+The legacy runtime field `scope="pilot_candidate"` was **measured, not
+assumed**, to be inert. Reading `phase9_trainer.py` from source, the only two
+branches on the value are the membership check and `if self.scope !=
+SCOPE_UNIT_TEST`, which applies the *stricter* frozen-constant checks — a
+production scope therefore constrains the run more than any alternative token
+would and relaxes nothing. Rebuilding the runtime identity under each frozen
+scope leaves all fifteen learning fields identical, and no library module
+consumes `selects_a_configuration`. The audit is recorded in the artifact and
+regression-tested with a control that fails when a scope-dependent learning
+constant is introduced.
+
+### 7.3 Fresh start from the Phase 8 anchor
+
+The learner was constructed with `Phase9Trainer.from_phase8_checkpoint` from
+`checkpoints/phase8/warmstart_c1_v1.pt` (`f7e9c40d…`), and its model-state
+checksum was recorded **before the first optimizer update** as
+`f2ec4fc24d72ca170341c2a176aec32c7bf7e75d3315bb39d365835a29d9dd8c` — equal to
+both the anchor snapshot's loaded digest and Agent 6's expected starting
+state. Optimizer, scheduler and KL-controller state started empty
+(`global_optimizer_step = 0`, `kl_beta = 0.005`). No pilot checkpoint, pilot
+optimizer state, pilot archive member or pilot rollout was read at any point;
+`canonical|H0nn` is a different object from every `pilot_p9x|H0nn`.
+
+### 7.4 Execution
+
+```text
+iterations committed        60 / 60
+games scheduled            122,880
+optimizer updates           79,004
+training examples       40,417,342
+learner decisions       20,208,671
+wall clock              65,967 s (18.32 h)
+worker processes                 5
+```
+
+Every iteration ran the exact frozen mixture — `current 1,024 / historical
+512 / rule 307 / stress 205`, with the rule bucket subdivided `strategic 154 /
+tactical 107 / basic 46` — re-verified against the sealed rollout by
+`bind_sealed_rollout(require_full_schedule=True)` at every iteration. Advantage
+filter retention was exactly `0.2500` in all sixty iterations, the frozen
+`Q0.75` rule reproducing itself.
+
+The KL controller behaved exactly as frozen: epoch KL above the 0.03 increase
+threshold doubled beta from 0.005 through 0.02 and 0.08 to the 0.2 clamp by
+iteration 3, after which epoch KL settled in the 0.026–0.042 band for the
+remainder of the run. **Max epoch mean KL 0.0416 against the 0.08 hard limit;
+max epoch clip fraction 0.3081 against the 0.75 hard limit.** No hard stop
+fired at any point: zero illegal neural actions, zero non-finite losses,
+gradients or parameters, zero behavior- or rollout-identity mismatches, zero
+target reconstruction mismatches, zero checkpoint errors and zero observer
+probe failures across 245,436 recorded observer probes (the collector's
+session tallies, which under-count iteration 30's resumed games by the same
+mechanism described in §7.6).
+
+### 7.5 The historical league
+
+`H000` is the Phase 8 anchor. Twelve real immutable members were created on
+the frozen five-iteration cadence, each with a distinct checkpoint SHA-256 and
+a distinct model-state digest:
+
+```text
+H005 f0909fad   H020 5ec66bc5   H035 a6b0ce5d   H050 fe4e72d1
+H010 5b23d3b0   H025 03f2f9e2   H040 a834dc57   H055 8ec8bc86
+H015 b9dded37   H030 ba7801e3   H045 dea1c7c6   H060 a684e454
+```
+
+Logical archive identity and checkpoint SHA-256 are kept as different objects
+throughout: the manifest binds each real SHA to its `canonical|H0nn` identity,
+and every archive member was re-bound and `assert_frozen()`-checked before use.
+The active window followed the frozen rule at every iteration — anchor plus up
+to the eight most recent — reaching its cap at iteration 46, after which
+`H005`, then `H010`, then `H015` left active sampling while remaining stored
+and immutable. No archive checkpoint was overwritten, and no outcome-prioritised
+sampling exists anywhere in the path.
+
+Historical actions were verified **against the acting archive checkpoint**, not
+merely against a digest: for every iteration, every historical-bucket game's
+opponent token was required to name a member of that iteration's active window
+and to carry that member's checkpoint SHA, and a deterministic sample per
+active identity had its opponent-side decisions numerically reproduced under
+the exact bound member. All sixty verifications passed with zero failures.
+
+### 7.6 Crash-safety and the restart exercise
+
+Three genuine process restarts were exercised, all through
+`phase9_checkpoint_v1`:
+
+- **iteration 4, mid-epoch 1** — exited after 334 of 1,114 updates at cursor
+  `epoch 0 / minibatch 334`;
+- **iteration 12, mid-epoch 2** — exited after 767 of 1,096 updates at cursor
+  `epoch 1 / minibatch 219`, carrying a completed epoch of controller history,
+  two validation records and a three-member active archive;
+- **iteration 29→30, committed boundary** — the restart required to adopt the
+  second operational amendment (§7.9).
+
+Each mid-epoch restart was verified field by field before the resumed process
+was allowed another optimizer step: all seventeen logical state fields equal,
+model state bitwise equal, the next planned minibatch identical, the sealed
+rollout identity and behavior snapshot equal, the active archive, validation
+history and best-validation record equal, and a no-grad forward probe on the
+exact next minibatch. **The probe reproduced to 0.0 absolute difference on all
+six loss components in both restarts** — stronger than the accepted
+`phase9_backend_aware_resume_equivalence_v1` tolerance requires. The probe is a
+forward pass only: it measures the backend envelope across a process boundary
+and adds no training to the frozen experiment. Agent 5's donor and
+no-checkpoint control legs were not re-run, because doing so would mean
+executing the same optimizer steps twice on the canonical experiment.
+
+The boundary resume was verified against the checkpoint itself, which is the
+only available authority when there is no live pre-exit process: sixteen
+recorded quantities compared, all equal, model state bitwise equal.
+
+Update counts reconcile exactly across every boundary — iteration 4 committed
+1,114 updates (334 + 780), iteration 12 committed 1,096 (767 + 329) — so no
+optimizer step was repeated and none was skipped.
+
+Crash-safe collection was exercised for real rather than simulated. The
+boundary restart stopped a process during iteration 30's collection; on
+resume, the 27 already-committed games were reconciled and kept and only the
+2,021 missing games were regenerated. This is visible in the artifact: the
+collector's session summary counts what that call played, so the report-only
+bucket distribution is derived from the frozen mixture and the sealed-rollout
+verification rather than from the collector's session tallies, with the
+resumed iteration recorded explicitly.
+
+### 7.7 Validation and checkpoint selection
+
+Validation ran only at iterations 5, 10, … 60, only on
+`phase9_validation_bank_v1` (`3d28d544…`), greedy float32 with the frozen
+paired `color_swap_same_board` protocol, under an authorized
+`checkpoint_selection` access every time.
+
+```text
+it   score      Strategic  Tactical  Anchor   Random  Basic
+ 5   0.621191   0.6133     0.6426    0.6016   0.9961  0.7266
+10   0.693848   0.6641     0.7090    0.7344   0.9727  0.7715
+15   0.727246   0.6895     0.7383    0.7930   0.9785  0.8301
+20   0.741992   0.7051     0.7793    0.7598   0.9863  0.8379
+25   0.772754   0.7383     0.7910    0.8184   0.9883  0.8672
+30   0.767090   0.7598     0.7695    0.7793   0.9961  0.8320
+35   0.828906   0.8262     0.8027    0.8809   0.9883  0.8633
+40   0.836621   0.8320     0.8340    0.8516   0.9961  0.8516   <- selected
+45   0.814551   0.8301     0.7969    0.8105   0.9922  0.8398
+50   0.768945   0.7676     0.7559    0.7949   0.9902  0.8887
+55   0.779102   0.7637     0.7754    0.8203   0.9941  0.8457
+60   0.776074   0.7832     0.7539    0.7988   0.9805  0.8594
+```
+
+Every score recomputes from its own recorded EWRs under the frozen weights,
+and the Random and Basic regression guards passed at all twelve passes.
+
+The score rose to iteration 40 and then declined over the final four passes,
+ending 0.0606 below the peak. **The frozen rule therefore decided a real
+question rather than ratifying a foregone one: iteration 40 wins on strictly
+highest score, uniquely, and the final iteration was not selected.** This is
+the case the rule exists for.
+
+### 7.8 The frozen Phase 9 checkpoint
+
+```text
+path                 checkpoints/phase9/selfplay_c1_v1.pt
+sha256               dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+model-state digest   f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+selected iteration   40
+source               behavior_B041.pt, copied byte-identically
+```
+
+The model-state digest differs from the Phase 8 anchor's `f2ec4fc2…`, proved
+rather than assumed. The frozen file was then reloaded independently through
+the evaluation-only path and re-evaluated on the same frozen validation
+protocol in a directory holding no cached games, so every result was
+recomputed rather than read back. All five effective win rates, the selection
+score and all five results digests reproduced **exactly**, with zero policy
+errors, zero illegal actions and zero inference failures.
+
+The two evaluation exports hash differently because the evaluation container
+records a `creation_timestamp`; all 66 parameter tensors are bit-for-bit
+identical, and the artifact records both facts explicitly so that the SHA
+inequality cannot be misread as a reproduction failure.
+
+### 7.9 Two operational amendments, and what they did not change
+
+The canonical run consumed 65,967 s. Agent 6's projection, measured on
+1,024-game pilot iterations, was 45,697–46,757 s. The gap is an **operational**
+finding: the canonical policy's self-play games lengthened materially as the
+run progressed — mean game length moved from ~180 plies at iterations 11–15 to
+a peak of 284.5 at iteration 46, easing to 234.6 by iteration 55 and standing at
+255.4 at iteration 60 —
+and both collection and training cost track that directly. This is reported as
+an observed change in the runtime distribution. It is **not** evidence of
+stronger play; strength claims rest on the frozen validation results above and
+on Agent 8's sealed final-test evaluation.
+
+Two review-authorized amendments raised the operational ceiling, each layered
+beside what it amends rather than editing it:
+
+```text
+phase9_rl_contract_v1              12 h  43,200 s  ad3dba3c…  original, unedited
+phase9_operational_amendment_v1    15 h  54,000 s  ee4b0507…  unedited
+phase9_operational_amendment_v2    24 h  86,400 s  92ad4f67…  in force
+```
+
+The contract digest is stamped into every rollout sidecar and every checkpoint
+the run wrote, so editing it in place would have invalidated the state the run
+resumes from; `verify_chain_untouched()` measures the whole chain on every use.
+The train-config document line is likewise three distinct digests — `9284fbc6…`
+(12 h), `22ac552d…` (15 h), `f3b1efdb…` (24 h) — each 39 fields with 38
+byte-identical and only `wall_clock_ceiling_hours` moved. The trainer runtime
+identity `77af4d45…` is measured unchanged by both amendments.
+
+Adopting v2 required a process restart, because the ceiling is bound in a
+running process. It was taken at the next committed iteration boundary through
+the accepted checkpoint/resume path and verified as described in §7.6. Nothing
+scientific changed: the same 60 iterations, 2,048 games, two epochs, twelve
+validation passes, twelve archive members, P9-C's hyperparameters, population,
+schedules, seeds, selection rule and acceptance gates.
+
+**The ceiling was a maximum, not a target.** The run ended immediately after
+iteration 60's bookkeeping completed, leaving **20,433 s (5.68 h) of allowance
+unspent**. No remaining time was used for additional rollouts, optimization,
+validation passes, archive members or experimentation.
+
+### 7.10 One harness fault, recorded rather than hidden
+
+The first attempt to resume iteration 4 stopped immediately with *"the
+behavior snapshot's weights differ from the live trainer weights"*. The guard
+was correct for a fresh iteration start — before the first optimizer step the
+learner's weights *are* the behavior snapshot — and wrong for a mid-iteration
+resume, where the learner has legitimately advanced and that divergence is
+exactly what PPO's ratio measures. No optimizer step was taken, repeated or
+skipped; the sealed rollout and the mid-iteration checkpoint were both intact.
+The harness now checks the binding `phase9_checkpoint_v1` actually records —
+the resumed checkpoint must name this iteration's behavior snapshot identity,
+SHA-256 and RL iteration — and omits the fresh-start comparison. The fault,
+its cause, the fix and the fact that the halt was cleared are recorded in the
+run journal and surfaced in the artifact as `harness_faults`, and an
+end-to-end regression control at unit scale now covers the distinction.
+
+### 7.11 Report-only diagnostics
+
+```text
+terminal results        red 61,216 / blue 60,723 / draw 914 (0.74 %)
+mean game length        215.7 plies (min 177.0 at it9, max 284.5 at it46)
+collection throughput   6.98 games/s mean, 4.72 min
+training throughput     1,080 examples/s mean
+peak RSS                1,480 MiB
+stress (report-only)    draw_seeker 1.0000  information_miser 0.9922
+                        chaos 0.9531  berserker 0.9219
+                        scout_rush 0.8281  miner_rush 0.7969
+```
+
+Colour balance stayed even across 122,880 games. Report-only metrics rescue no
+gate.
+
+### 7.12 Handoff to Agent 8
+
+Frozen checkpoint `checkpoints/phase9/selfplay_c1_v1.pt`
+(`dfd698e5…`, model state `f1df694d…`), selected iteration 40; Phase 8 anchor
+`f7e9c40d…` with model state `f2ec4fc2…`; the complete validation selection
+history; the archive manifest with all twelve real SHAs; every configuration
+identity including all three ceiling authorities; the training-discipline
+access ledger; and all hard-stop counters at zero.
+
+`phase9_test_bank_v1` (`f38e4055…`) is recorded as an identity only. Agent 7
+never constructed a test-bank object and ran no model over it:
+`test_bank_model_access = 0`. **Agent 8 owns the first final-test neural
+evaluation, and performs no training.**
