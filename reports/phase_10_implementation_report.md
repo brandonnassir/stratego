@@ -591,3 +591,244 @@ train-only standardization source of 6,400 bases; and the proof that no
 validation or test outcome was read, no held-out base entered the corpus, and
 no Phase 9 weight moved.
 
+
+## 3. Agent 3 — Utility Models and Independent Fit Audit
+
+Status: **PASS** — 19/19 completion gates true.
+Agent 3 fit exactly the two frozen utility models from the sealed
+`phase10_setup_outcome_corpus_v1` (content digest `1977bb6f5e26...`),
+audited the fit through an independent numpy path, and selected nothing:
+both models go forward to Agent 4, and no validation or test outcome was
+touched (neither bank stores one, and this agent played zero games).
+
+### 3.1 Verified prerequisites
+
+Agents 1 and 2 are PASS with no false gate. All eight contract digests, the
+bundle (`257f140d...`), the outcome-schedule digest, both bank digests and
+manifests, the Phase 9 isolation set, the Phase 7 library
+(`7b8a6660...`, 6,400/800/800), and the accepted Phase 9 checkpoint (file
+SHA `dfd698e5...`, model state `f1df694d...`, 863,959 parameters, all
+finite) were recomputed from live bytes. The live
+`phase10_setup_utility_v1` document equals Agent 1's frozen artifact copy
+byte for byte, so no learning-design decision was left to make here. The
+corpus was verified SEALED at its accepted content digest before fitting
+and re-verified byte-identical after all work.
+
+### 3.2 The fitting-input allowlist
+
+The 37-field record is storage and provenance, not a feature set. Fitting
+reads records only through `AllowlistedRecord`
+(`stratego/training/phase10_utility_fit.py`), which raises on any field
+outside the model's frozen allowlist:
+
+```text
+model_F: game_id, red_family, blue_family, result
+model_T: + red_base_setup_id, blue_base_setup_id
+```
+
+`game_id` orders rows, `result` rebuilds the target through the frozen
+mapping (red win 1.0, draw 0.5, red loss 0.0) — the stored `red_score` is
+never read by fitting — and the base ids resolve each side's *base* through
+`setup_library_v1` into the frozen `phase10_trait_feature_v1` 47-scalar
+representation through the frozen train-only scaler. The other
+31 stored fields (final fingerprints, provenance,
+seeds, attempts, terminal reason, plies, decisions, digests, policy
+identity, match seed, ordinal, winner, red_score, ...) are forbidden by
+complement: accessing one is an exception, and the fields actually accessed
+are recorded in the artifact (`accessed_fields`).
+
+### 3.3 Feature reconstruction and the standardizer
+
+Every one of the 8,000 library entries had its trait vector rebuilt from
+its stored placement via `compute_trait_vector` and compared to the stored
+vector: 0 mismatches. The 35-field to 47-scalar flattening was
+re-derived independently from `TRAIT_SCHEMA` and its name order equals the
+frozen feature names. The standardizer was recomputed with plain numpy over
+**all 6,400 train bases** (`ddof=0`): mean and std match Agent 1's frozen
+literals exactly, the production scaler digest is the frozen
+`fa6eb1c1...`, and there are no zero-std fields. The corpus touches
+6371 unique bases, all train-split; both recorded per-side trait
+identity digests were re-derived and matched for every record
+(32768 digests).
+
+### 3.4 The two fits
+
+Both models were fit exactly once, in canonical corpus order, from the
+exact all-zero parameter vector, under the frozen protocol (CPU float64,
+full-batch BCE + L2 1e-3 on raw family offsets and trait weights, intercept
+unpenalized, L-BFGS lr 1.0, max 500 iterations, history 50, tolerance_grad
+1e-10, tolerance_change 1e-12, strong Wolfe, single-threaded):
+
+```text
+model_F  objective 0.674125  bce 0.671843  l2 0.00228261
+         iterations 15  evaluations 17  grad max 1.77e-07
+model_T  objective 0.662444  bce 0.661085  l2 0.00135909
+         iterations 148  evaluations 247  grad max 3.61e-07
+```
+
+The logit uses centered offsets while the penalty uses raw ones, so the
+minimizer self-centers: observed raw-offset means are at the
+2.8e-17 level. Objective values are diagnostics; they rank nothing.
+
+Production coefficients and the scaler live in
+`checkpoints/phase10/setup_utility_v1.json`
+(SHA-256 `50cb947dae633417...`), referenced by digest from the
+artifacts. Coefficient digests: model_F
+`7bc2539af6045e47...`, model_T `d898782a2ae7cf4e...`.
+
+### 3.5 Deterministic refit
+
+Each model was refit 2 more times in independent processes from the same
+all-zero initialisation. The frozen criterion — bit-exact equality of the
+canonical coefficient JSON — held for every fit of both models
+(max abs coefficient difference 0.0, objective spread 0.0, digests
+identical across 3 processes per model).
+
+### 3.6 The independent audit
+
+The audit (`stratego/training/phase10_utility_audit.py`) rebuilt the design
+without the production fit helper: placements -> trait vectors -> its own
+flattening -> the frozen scaler literals -> per-record standardized
+features, targets from the stored W/D/L token through its own mapping, and
+Red/Blue orientation re-derived from each game id (families, ordinal, match
+seed, winner/`red_score` consistency — all 16384 records, zero
+violations). Production and audit designs agree exactly (targets, family
+indices, game ids, and features to 0.0 max abs difference).
+
+From the exported coefficients alone it recomputed logits, sigmoid
+probabilities, BCE, L2, the full objective, the centering, and the analytic
+gradient, all finite:
+
+```text
+model_F  |L_audit - L_reported| = 1.11e-16   grad max 1.77e-07   FD worst 2.68e-11
+model_T  |L_audit - L_reported| = 0.00e+00   grad max 3.61e-07   FD worst 9.79e-11
+```
+
+All tolerances (objective/logit agreement 1e-10, stationarity 1e-6,
+finite-difference 1e-6 + 1e-6|value|, centering 1e-8, refit exact) were
+frozen in the audit module before any comparison ran.
+
+### 3.7 Negative controls
+
+| control | outcome |
+| --- | --- |
+| `orientation_swap` | fired |
+| `orientation_swap_model_F` | fired |
+| `wrong_draw_target` | fired |
+| `held_out_scaler` | fired |
+| `permuted_trait_column` | fired |
+| `altered_family_id` | fired |
+| `altered_coefficient` | fired |
+
+Each control corrupts one thing the audit is supposed to catch — reversed
+pair orientation (both models), draws scored 0.0, a validation-split
+standardizer, a swapped trait column, a tampered family id, a tampered
+coefficient — and every one was detected by the same checks that pass on
+the true inputs.
+
+### 3.8 Production-input safety
+
+The exported artifact decomposes to own-side `u(s, c)`: closed key sets at
+the root and per model, exactly 2 x 16 offsets and 2 x 47 weights indexed by
+own colour / own family / own feature, no opponent-conditioned table, no
+matchup matrix, no outcome-conditioned production feature. The scorer's
+entire surface is `utility(model_id, colour, family_id, trait_vector)` —
+there is no opponent argument to pass — and the recorded game logits equal
+`intercept + u(red) - u(blue)` on sampled records to
+2.2e-16. The red-first intercept is stored as a diagnostic and no
+scoring path reads it.
+
+### 3.9 No model selection
+
+Model F and Model T were not compared by any strength signal. Both go
+forward to Agent 4 with the six frozen candidate definitions. Corpus result
+counts (8129 red wins / 160 draws / 8095 red losses) remain diagnostics.
+
+### 3.10 Phase 9 and corpus preservation
+
+The accepted Phase 9 checkpoint hashed identical before and after all Agent
+3 work (file SHA and model-state digest; zero optimizer steps). The sealed
+corpus re-verified at its accepted content digest with the seal intact:
+Agent 3 opened no writer and reconciled nothing.
+
+### 3.11 Recorded readings
+
+Four readings are recorded in the acceptance artifact rather than decided
+silently:
+
+- **"fit exactly once" vs the deterministic-refit requirement** — one
+  canonical fit per model produced the accepted coefficients; the two
+  subprocess refits per model are byte-identical replays run only for the
+  determinism gate, informed nothing, and were discarded.
+- **single-threaded execution** — the frozen protocol names device and
+  precision but not thread count; `torch.set_num_threads(1)` fixes the
+  reduction order so the exact-equality refit criterion is meaningful, and
+  is recorded in every fit's diagnostics.
+- **the held-out-scaler control's inputs** — the control reads
+  validation-split bases' *structural* trait vectors only (bytes the frozen
+  bank construction already reads), proves the wrong scaler is detected,
+  and discards it; no outcome exists or was read.
+- **audit-internal gradient tolerances** — stationarity 1e-6 and
+  finite-difference 1e-6 + 1e-6|value| were frozen in the audit module
+  before any comparison ran.
+
+One implementation finding is worth the reviewing chat's attention: the
+frozen all-zero initialisation makes every logit exactly 0.0 at step 0,
+where a hand-composed stable BCE (`clamp`/`abs`/`log1p` pieces) autodiffs
+to a wrong subgradient (`-y` instead of `sigmoid(0) - y`), and L-BFGS then
+line-searches a non-descent direction and terminates without moving. The
+fit therefore computes BCE through
+`torch.nn.functional.binary_cross_entropy_with_logits`, whose backward is
+the analytic `sigmoid(eta) - y`, exact at 0; the unit suite pins the
+analytic gradient at the zero start and the audit's finite-difference
+checks confirm it at the fitted point.
+
+### 3.12 Evidence
+
+```text
+tests before   4964 passed, 3 skipped in 301.74s (0:05:01)
+tests after    5023 passed, 3 skipped in 303.94s (0:05:03)
+```
+
+Machine-readable: `reports/phase_10_data/agent_03_utility_models.json`,
+`reports/phase_10_data/agent_03_utility_audit.json`,
+`reports/phase_10_data/agent_03_acceptance.json`.
+
+| gate | value |
+| --- | --- |
+| `agents1_2_pass` | true |
+| `coefficients_finite` | true |
+| `corpus_digest_verified` | true |
+| `corpus_train_only` | true |
+| `deterministic_refit_pass` | true |
+| `full_suite_green` | true |
+| `independent_objective_audit_pass` | true |
+| `model_f_fit_complete` | true |
+| `model_t_fit_complete` | true |
+| `negative_controls_fire` | true |
+| `no_candidate_selection` | true |
+| `no_test_outcome_access` | true |
+| `no_validation_outcome_access` | true |
+| `objectives_finite` | true |
+| `phase9_checkpoint_unchanged` | true |
+| `production_scorer_own_side_only` | true |
+| `red_blue_orientation_audit_pass` | true |
+| `standardizer_train_only` | true |
+| `trait_vectors_reconstructed` | true |
+
+### 3.13 Handoff to Agent 4
+
+The fitted `setup_utility_v1` artifact (path + SHA above), both coefficient
+digests, the scaler digest `fa6eb1c1...`, the pure own-side scoring
+contract, the six frozen candidates (P10-A..F over the 0.35/0.65 mixture),
+proof that no held-out outcome was used (the corpus is train-only; neither
+bank stores an outcome; zero games played), and proof Phase 9 is unchanged.
+Agent 4 implements sampling and diversity only — the utility models are
+frozen from here.
+
+Two obligations carry forward: (1) Agent 4 must exhaustively
+collision-check the materialized `selector_audit` seed universe when its
+millions of draw ids exist — Agent 1's 58,792-seed audit does not cover
+them; (2) Agent 2's 32-game CPU-vs-MPS probe is evidence about those games
+only, never to be cited as exhaustive backend identity — the corpus is
+authoritative as pure-CPU float32 evidence.

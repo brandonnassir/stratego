@@ -1,0 +1,228 @@
+{
+  "agent": 3,
+  "artifact": "agent_03_acceptance",
+  "bank_access_log": [
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    }
+  ],
+  "carried_forward_obligations": [
+    {
+      "for_agent": 4,
+      "obligation": "exhaustively collision-check the materialized selector_audit seed universe when the millions of per-candidate x colour x split draw ids actually exist; Agent 1's 58,792-seed audit does not cover them"
+    },
+    {
+      "for_agent": 4,
+      "obligation": "Agent 2's CPU-vs-MPS probe was 32 games and is evidence about those games only, not exhaustive backend identity; the sealed corpus is authoritative as pure-CPU float32 evidence and later agents must not cite the probe as proving backend equivalence"
+    }
+  ],
+  "completion_gates": {
+    "agents1_2_pass": true,
+    "coefficients_finite": true,
+    "corpus_digest_verified": true,
+    "corpus_train_only": true,
+    "deterministic_refit_pass": true,
+    "full_suite_green": true,
+    "independent_objective_audit_pass": true,
+    "model_f_fit_complete": true,
+    "model_t_fit_complete": true,
+    "negative_controls_fire": true,
+    "no_candidate_selection": true,
+    "no_test_outcome_access": true,
+    "no_validation_outcome_access": true,
+    "objectives_finite": true,
+    "phase9_checkpoint_unchanged": true,
+    "production_scorer_own_side_only": true,
+    "red_blue_orientation_audit_pass": true,
+    "standardizer_train_only": true,
+    "trait_vectors_reconstructed": true
+  },
+  "corpus_preservation": {
+    "after": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "before": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "byte_identical_content": true,
+    "state_after": "SEALED"
+  },
+  "deviations": [
+    {
+      "contract_text": "Fit each model exactly once from the all-zero initialization",
+      "reading": "one canonical fit per model produced the accepted coefficients; the instruction's deterministic-refit section separately requires fitting each model at least twice in independent processes, so two subprocess refits per model re-ran the identical frozen protocol and were compared bit-for-bit and discarded. No refit informed any coefficient, threshold or decision; the accepted artifact is the canonical fit's output alone."
+    },
+    {
+      "contract_text": "deterministic full-batch L-BFGS (device cpu, float64)",
+      "reading": "the fit runs under torch.set_num_threads(1) so the reduction order is fixed and coefficients are bit-reproducible across processes; thread count is an execution detail the frozen protocol does not name, recorded here because the refit gate compares for exact equality"
+    },
+    {
+      "contract_text": "negative control: use held-out statistics for standardization",
+      "reading": "the control computes a validation-split scaler from held-out bases' structural trait vectors only (the same bytes the frozen bank construction already reads), proves its digest and moments are detected as wrong, and discards it; no held-out outcome exists or was read, and no held-out statistic touched any fit"
+    },
+    {
+      "contract_text": "Add gradient or finite-difference spot checks",
+      "reading": "the audit gates stationarity at gradient max-abs <= 1e-6 and analytic-vs-central-difference agreement at 1e-6 + 1e-6*|value| with step 1e-6; both tolerances were frozen in stratego/training/phase10_utility_audit.py before any comparison ran, with the justification recorded beside them"
+    },
+    {
+      "contract_text": "objective: full-batch BCE + L2; initialisation: exact all-zero parameter vector",
+      "reading": "BCE is computed through torch.nn.functional.binary_cross_entropy_with_logits: at the frozen all-zero start every logit is exactly 0.0, where a hand-composed stable BCE (clamp/abs/log1p pieces) autodiffs to a wrong subgradient (-y instead of sigmoid(0) - y) and L-BFGS line-searches a non-descent direction and never moves; the library primitive's backward is the analytic sigmoid(eta) - y, exact at 0, and the independent audit's numpy objective agrees with the reported values to ~1e-16 while its finite-difference checks confirm the gradient at the fitted point"
+    }
+  ],
+  "discipline": {
+    "c1_optimizer_steps": 0,
+    "candidates_selected": 0,
+    "fits_per_model_canonical": 1,
+    "games_played": 0,
+    "held_out_bases_in_fitting": 0,
+    "human_games_used": 0,
+    "hyperparameter_search_runs": 0,
+    "neural_inference_on_either_bank": 0,
+    "refit_replays_per_model": 2,
+    "test_bank_outcome_access": 0,
+    "utility_models_fit": 2,
+    "validation_bank_outcome_access": 0
+  },
+  "environment": {
+    "cpu_count": 14,
+    "mps_available": true,
+    "mps_built": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "6977584",
+    "torch_version": "2.13.0",
+    "working_tree_state": "dirty"
+  },
+  "false_gates": [],
+  "frozen_inputs": {
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "outcome_schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "utility_contract_digest": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456"
+  },
+  "gates_total": 19,
+  "gates_true": 19,
+  "handoff_to_agent_4": {
+    "deterministic_refit": {
+      "model_F": {
+        "fits": 3,
+        "identical": true
+      },
+      "model_T": {
+        "fits": 3,
+        "identical": true
+      }
+    },
+    "diagnostics_only_note": "fit objectives and corpus result counts are diagnostics; they rank nothing and select nothing",
+    "fitted_utility": {
+      "artifact_version": "setup_utility_v1",
+      "file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+      "loader": "stratego.training.phase10_utility_fit.SetupUtilityScorer.from_path",
+      "model_F_coefficient_digest": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+      "model_T_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+      "path": "checkpoints/phase10/setup_utility_v1.json",
+      "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9"
+    },
+    "for_agent": 4,
+    "mission": "implement the selector and production setup source; sampling and diversity only",
+    "mixture": {
+      "formula": "p_phase10 = 0.35 * p_neutral_v1 + 0.65 * p_learned",
+      "learned_weight": 0.65,
+      "neutral_weight": 0.35
+    },
+    "no_refitting": "the two models are fit once; candidate-specific refitting is forbidden",
+    "proof_no_held_out_outcomes": {
+      "corpus_split": "train",
+      "test_bank_outcome_access": 0,
+      "unique_corpus_base_splits": [
+        "train"
+      ],
+      "validation_bank_outcome_access": 0
+    },
+    "proof_phase9_unchanged": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "scoring_contract": "u(s, c) = family_offsets_effective[c][family(s)] for model_F, plus trait_weights[c] . standardized_features(s) for model_T; inputs are own colour, own family and own base trait vector only; the red_first_intercept is a fit diagnostic no scoring path reads",
+    "six_candidates": [
+      {
+        "candidate_id": "P10-A",
+        "temperature": 0.75,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-B",
+        "temperature": 1.25,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-C",
+        "temperature": 2.0,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-D",
+        "temperature": 0.75,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-E",
+        "temperature": 1.25,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-F",
+        "temperature": 2.0,
+        "utility_model": "model_T"
+      }
+    ]
+  },
+  "new_digests": {
+    "model_F_coefficient_digest": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+    "model_T_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+    "setup_utility_v1_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d"
+  },
+  "phase": 10,
+  "phase9_preservation": {
+    "after": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "before": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "unchanged": true
+  },
+  "status": "PASS",
+  "suite": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 5023,
+    "returncode": 0,
+    "seconds": 305.12,
+    "skipped": 3,
+    "summary": "5023 passed, 3 skipped in 303.94s (0:05:03)"
+  },
+  "suite_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "6977584",
+    "passed": 4964,
+    "seconds": 301.74,
+    "skipped": 3,
+    "summary": "4964 passed, 3 skipped in 301.74s (0:05:01)"
+  },
+  "timestamp": "2026-08-18T15:21:51-0400"
+}

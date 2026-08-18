@@ -1,0 +1,398 @@
+{
+  "agent": 3,
+  "artifact": "agent_03_utility_audit",
+  "design_agreement": {
+    "model_F": {
+      "blue_families_exact": true,
+      "game_ids_exact": true,
+      "red_families_exact": true,
+      "targets_exact": true
+    },
+    "model_T": {
+      "blue_families_exact": true,
+      "blue_features_max_abs_difference": 0.0,
+      "features_exact": true,
+      "game_ids_exact": true,
+      "red_families_exact": true,
+      "red_features_max_abs_difference": 0.0,
+      "targets_exact": true
+    }
+  },
+  "deterministic_refit": {
+    "all_identical": true,
+    "comparisons": {
+      "model_F": {
+        "canonical_process_id": 45572,
+        "coefficient_digests": [
+          "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+          "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+          "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935"
+        ],
+        "criterion": "bit-exact canonical coefficient JSON equality, frozen before comparison",
+        "digests_identical": true,
+        "fits": 3,
+        "identical": true,
+        "max_abs_difference": 0.0,
+        "objective_spread": 0.0,
+        "objectives": [
+          0.6741254261061596,
+          0.6741254261061596,
+          0.6741254261061596
+        ],
+        "worker_process_ids": [
+          45574,
+          45575
+        ]
+      },
+      "model_T": {
+        "canonical_process_id": 45572,
+        "coefficient_digests": [
+          "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+          "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+          "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+        ],
+        "criterion": "bit-exact canonical coefficient JSON equality, frozen before comparison",
+        "digests_identical": true,
+        "fits": 3,
+        "identical": true,
+        "max_abs_difference": 0.0,
+        "objective_spread": 0.0,
+        "objectives": [
+          0.6624442641997099,
+          0.6624442641997099,
+          0.6624442641997099
+        ],
+        "worker_process_ids": [
+          45576,
+          45577
+        ]
+      }
+    },
+    "independent_processes": 2,
+    "processes_per_model": 3,
+    "stage": "refit"
+  },
+  "feature_reconstruction": {
+    "all_pass": true,
+    "feature_names_match_frozen": true,
+    "independent_scaler": {
+      "base_count": 6400,
+      "ddof": 0,
+      "mean_matches_frozen_exactly": true,
+      "split": "train",
+      "std_matches_frozen_exactly": true
+    },
+    "library_entries_reconstructed": 8000,
+    "problems": [],
+    "production_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "record_audit": {
+      "all_pass": true,
+      "checks": {
+        "games_per_pair_exact": true,
+        "no_violations": true,
+        "ordered_pairs_complete": true,
+        "result_counts_total": true,
+        "total_records_exact": true
+      },
+      "ordered_pairs": 256,
+      "records_audited": 16384,
+      "result_counts": {
+        "draw": 160,
+        "red_loss": 8095,
+        "red_win": 8129
+      },
+      "violations": []
+    },
+    "stage": "features",
+    "stored_trait_mismatches": 0,
+    "train_matrix_shape": [
+      6400,
+      47
+    ],
+    "trait_identity_digests_verified": 32768,
+    "unique_corpus_base_splits": [
+      "train"
+    ],
+    "unique_corpus_bases": 6371
+  },
+  "independence": "trait vectors rebuilt from placements; flattening re-derived from TRAIT_SCHEMA; scaler recomputed with numpy from all 6,400 train bases and compared to the frozen literals; targets, orientation, logits, sigmoid probabilities, BCE, L2, objective, centering and gradients recomputed in numpy from the exported coefficients without calling the production fit helper",
+  "model_audits": {
+    "model_F": {
+      "all_pass": true,
+      "checks": {
+        "bce_agrees": true,
+        "coefficients_finite": true,
+        "effective_offsets_match_centering": true,
+        "finite_differences_agree": true,
+        "gradient_finite": true,
+        "gradient_stationary": true,
+        "l2_agrees": true,
+        "logits_finite": true,
+        "objective_agrees": true,
+        "objective_finite": true,
+        "probabilities_finite": true,
+        "probabilities_in_unit_interval": true,
+        "raw_offsets_centered": true
+      },
+      "finite_difference": {
+        "all_within_tolerance": true,
+        "checks": [
+          {
+            "abs_difference": 6.166866496626344e-12,
+            "analytic": 6.789630482232495e-08,
+            "coordinate": "intercept",
+            "finite_difference": 6.789013795582832e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 8.596180191278169e-12,
+            "analytic": 3.164995238200824e-08,
+            "coordinate": "offset[0, 0]",
+            "finite_difference": 3.164135620181696e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 2.4134055322776182e-11,
+            "analytic": -5.797777594075595e-08,
+            "coordinate": "offset[0, 7]",
+            "finite_difference": -5.795364188543317e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 2.680283078815293e-11,
+            "analytic": 2.9671663077934785e-08,
+            "coordinate": "offset[1, 3]",
+            "finite_difference": 2.9698465908722937e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 4.06293130649632e-12,
+            "analytic": 3.591165191531732e-08,
+            "coordinate": "offset[1, 15]",
+            "finite_difference": 3.5915714846623814e-08,
+            "within_tolerance": true
+          }
+        ],
+        "step": 1e-06,
+        "worst_abs_difference": 2.680283078815293e-11
+      },
+      "gradient": {
+        "finite": true,
+        "l2_norm": 2.780297119128198e-07,
+        "max_abs": 1.7728531769380974e-07,
+        "stationary": true
+      },
+      "independent_objective": {
+        "bce": 0.6718428161684361,
+        "l2_penalty": 0.0022826099377235565,
+        "objective": 0.6741254261061597
+      },
+      "logit_max_abs": 1.0860295240889568,
+      "model_id": "model_F",
+      "objective_abs_difference": 1.1102230246251565e-16,
+      "raw_offset_means": [
+        -6.938893903907228e-18,
+        -2.7755575615628914e-17
+      ],
+      "reported_objective": {
+        "bce": 0.671842816168436,
+        "l2_penalty": 0.0022826099377235565,
+        "objective": 0.6741254261061596
+      },
+      "tolerances": {
+        "centering": 1e-08,
+        "logit": 1e-10,
+        "objective": 1e-10,
+        "stationarity": 1e-06
+      }
+    },
+    "model_T": {
+      "all_pass": true,
+      "checks": {
+        "bce_agrees": true,
+        "coefficients_finite": true,
+        "effective_offsets_match_centering": true,
+        "finite_differences_agree": true,
+        "gradient_finite": true,
+        "gradient_stationary": true,
+        "l2_agrees": true,
+        "logits_finite": true,
+        "objective_agrees": true,
+        "objective_finite": true,
+        "probabilities_finite": true,
+        "probabilities_in_unit_interval": true,
+        "raw_offsets_centered": true
+      },
+      "finite_difference": {
+        "all_within_tolerance": true,
+        "checks": [
+          {
+            "abs_difference": 9.78673020445367e-11,
+            "analytic": -4.261203644388874e-09,
+            "coordinate": "intercept",
+            "finite_difference": -4.163336342344337e-09,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 3.989124568865021e-11,
+            "analytic": 1.9202869201446343e-07,
+            "coordinate": "offset[0, 0]",
+            "finite_difference": 1.9206858326015208e-07,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 5.234694146181193e-12,
+            "analytic": -9.375309973544829e-08,
+            "coordinate": "offset[0, 7]",
+            "finite_difference": -9.375833442959447e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 1.5339446076192975e-11,
+            "analytic": -1.4670063325813824e-07,
+            "coordinate": "offset[1, 3]",
+            "finite_difference": -1.4671597270421444e-07,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 6.156793458844852e-11,
+            "analytic": 8.18728912827481e-08,
+            "coordinate": "offset[1, 15]",
+            "finite_difference": 8.193445921733655e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 4.0151543792251235e-11,
+            "analytic": 6.38224643085075e-08,
+            "coordinate": "weight[0, 0]",
+            "finite_difference": 6.378231276471524e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 5.185987696812141e-13,
+            "analytic": 6.383834251471618e-08,
+            "coordinate": "weight[0, 21]",
+            "finite_difference": 6.38378239159465e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 2.7762512259813313e-11,
+            "analytic": -4.9321650932328395e-08,
+            "coordinate": "weight[1, 5]",
+            "finite_difference": -4.934941344458821e-08,
+            "within_tolerance": true
+          },
+          {
+            "abs_difference": 2.1496925441989723e-11,
+            "analytic": 2.3447202745032793e-08,
+            "coordinate": "weight[1, 46]",
+            "finite_difference": 2.3425705819590803e-08,
+            "within_tolerance": true
+          }
+        ],
+        "step": 1e-06,
+        "worst_abs_difference": 9.78673020445367e-11
+      },
+      "gradient": {
+        "finite": true,
+        "l2_norm": 1.3367029496004725e-06,
+        "max_abs": 3.610311437094837e-07,
+        "stationary": true
+      },
+      "independent_objective": {
+        "bce": 0.6610851755216246,
+        "l2_penalty": 0.001359088678085326,
+        "objective": 0.6624442641997099
+      },
+      "logit_max_abs": 1.7999162379122486,
+      "model_id": "model_T",
+      "objective_abs_difference": 0.0,
+      "raw_offset_means": [
+        0.0,
+        1.9081958235744878e-17
+      ],
+      "reported_objective": {
+        "bce": 0.6610851755216246,
+        "l2_penalty": 0.001359088678085326,
+        "objective": 0.6624442641997099
+      },
+      "tolerances": {
+        "centering": 1e-08,
+        "logit": 1e-10,
+        "objective": 1e-10,
+        "stationarity": 1e-06
+      }
+    }
+  },
+  "negative_controls": [
+    {
+      "control": "orientation_swap",
+      "detected": true,
+      "logit_max_shift": 3.560586191331108,
+      "objective_abs_difference": 0.12112165244398032
+    },
+    {
+      "control": "orientation_swap_model_F",
+      "detected": true,
+      "logit_max_shift": 2.1111361931580896,
+      "objective_abs_difference": 0.07615464393338245
+    },
+    {
+      "control": "wrong_draw_target",
+      "detected": true,
+      "draws_in_corpus": 160,
+      "objective_abs_difference": 0.0004834060921047323,
+      "target_mismatches_detected": 160
+    },
+    {
+      "control": "held_out_scaler",
+      "detected": true,
+      "mean_max_abs_difference": 0.10968749999999972,
+      "std_max_abs_difference": 0.03895920616935111,
+      "validation_bases": 800,
+      "wrong_digest": "ff37a171c8161f34971bd25d84dec19e4f79501a80180bdc646efee97c92c23d"
+    },
+    {
+      "control": "permuted_trait_column",
+      "detected": true,
+      "feature_order_mismatch_detected": true,
+      "logit_max_shift": 0.6380878653797716,
+      "objective_abs_difference": 0.0025921159259000293
+    },
+    {
+      "control": "altered_family_id",
+      "detected": true,
+      "violations_reported": 2
+    },
+    {
+      "control": "altered_coefficient",
+      "detected": true,
+      "digest_changed": true,
+      "objective_abs_difference": 1.184564010214828e-07
+    }
+  ],
+  "phase": 10,
+  "record_audit": {
+    "all_pass": true,
+    "checks": {
+      "games_per_pair_exact": true,
+      "no_violations": true,
+      "ordered_pairs_complete": true,
+      "result_counts_total": true,
+      "total_records_exact": true
+    },
+    "ordered_pairs": 256,
+    "records_audited": 16384,
+    "result_counts": {
+      "draw": 160,
+      "red_loss": 8095,
+      "red_win": 8129
+    },
+    "violations": []
+  },
+  "scorer_decomposition": {
+    "max_abs_difference": 2.220446049250313e-16,
+    "samples": 32
+  },
+  "timestamp": "2026-08-18T15:21:51-0400"
+}
