@@ -368,7 +368,13 @@ class SelectorDistribution:
     p_neutral: np.ndarray
     p_learned: np.ndarray
     p_mixed: np.ndarray
-    cumulative: np.ndarray
+    #: The learned branch's inverse-CDF ladder. This is the cumulative
+    #: **softmax** mass — `cumsum(p_learned)` — and deliberately *not*
+    #: `cumsum(p_mixed)`: the branch coin has already applied the 0.35 neutral
+    #: weight before this ladder is ever walked, so walking the mixed vector
+    #: here would apply that weight a second time and realize
+    #: `0.5775*neutral + 0.4225*learned` instead of the frozen 0.35 / 0.65.
+    cumulative_learned: np.ndarray
 
     @property
     def base_count(self) -> int:
@@ -385,7 +391,7 @@ class SelectorDistribution:
             "p_neutral": self.p_neutral,
             "p_learned": self.p_learned,
             "p_mixed": self.p_mixed,
-            "cumulative": self.cumulative,
+            "cumulative_learned": self.cumulative_learned,
         }
         return {
             "all_finite": all(bool(np.isfinite(v).all()) for v in vectors.values()),
@@ -408,8 +414,8 @@ class SelectorDistribution:
                     ("p_mixed", self.p_mixed),
                 )
             },
-            "cumulative_final": float(self.cumulative[-1]),
-            "cumulative_monotone": bool(np.all(np.diff(self.cumulative) >= 0.0)),
+            "cumulative_final": float(self.cumulative_learned[-1]),
+            "cumulative_monotone": bool(np.all(np.diff(self.cumulative_learned) >= 0.0)),
         }
 
     def mixture_is_exact(self) -> bool:
@@ -469,7 +475,12 @@ class SelectorDistribution:
         return diversity_metrics(self.p_mixed, self.split)
 
     def base_index_for_uniform(self, uniform: float) -> int:
-        """The frozen inverse-CDF walk: the first base whose mass exceeds `u`.
+        """The frozen learned-branch walk over cumulative **softmax** mass.
+
+        Called only on the learned branch, so the ladder is `p_learned` and
+        never `p_mixed`: the mixture's 0.35 neutral weight is applied by the
+        branch coin upstream, and applying it again here would realize
+        `0.5775*neutral + 0.4225*learned` rather than the frozen 0.35 / 0.65.
 
         `searchsorted(..., side='right')` returns the count of cumulative
         entries `<= u`, which is precisely the index the accepted linear walk
@@ -477,7 +488,9 @@ class SelectorDistribution:
         names, for the case where rounding leaves the last cumulative entry a
         hair below 1.0.
         """
-        position = int(np.searchsorted(self.cumulative, float(uniform), side="right"))
+        position = int(
+            np.searchsorted(self.cumulative_learned, float(uniform), side="right")
+        )
         return min(position, self.base_count - 1)
 
     def to_dict(self) -> dict:
@@ -564,7 +577,9 @@ def build_distribution(
     p_neutral = np.full(count, 1.0 / count, dtype=np.float64)
 
     p_mixed = NEUTRAL_MIXTURE_WEIGHT * p_neutral + LEARNED_MIXTURE_WEIGHT * p_learned
-    cumulative = np.cumsum(p_mixed)
+    # The learned branch's ladder is the softmax mass alone. See
+    # SelectorDistribution.cumulative_learned for why it must not be p_mixed.
+    cumulative_learned = np.cumsum(p_learned)
 
     return SelectorDistribution(
         candidate_id=selector_candidate.candidate_id,
@@ -578,7 +593,7 @@ def build_distribution(
         p_neutral=p_neutral,
         p_learned=p_learned,
         p_mixed=p_mixed,
-        cumulative=cumulative,
+        cumulative_learned=cumulative_learned,
     )
 
 

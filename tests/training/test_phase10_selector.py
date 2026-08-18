@@ -243,10 +243,69 @@ def test_temperature_must_be_positive(scorer, index):
         selector.build_distribution(broken, "red", "validation", scorer, index)
 
 
+def test_the_learned_ladder_is_softmax_mass_not_the_mixture(source_t):
+    """The regression test for the Agent 4 review-reconciliation defect.
+
+    The learned branch is reached only after the branch coin has already
+    applied the frozen 0.35 neutral weight, so its inverse-CDF ladder must be
+    `cumsum(p_learned)`. Walking `cumsum(p_mixed)` applies that weight a
+    second time and silently realizes `0.5775*neutral + 0.4225*learned`.
+
+    The check is exact, and it is *discriminating*: it also requires the two
+    ladders to disagree somewhere, so the assertion cannot be satisfied by a
+    degenerate distribution where mixed and learned happen to coincide.
+    """
+    for split in ("validation", "train"):
+        distribution = source_t.distribution("red", split)
+        assert np.array_equal(distribution.cumulative_learned, np.cumsum(distribution.p_learned))
+        mixed_ladder = np.cumsum(distribution.p_mixed)
+        assert not np.array_equal(distribution.cumulative_learned, mixed_ladder)
+
+        disagreements = sum(
+            distribution.base_index_for_uniform(u)
+            != min(
+                int(np.searchsorted(mixed_ladder, u, side="right")),
+                distribution.base_count - 1,
+            )
+            for u in np.linspace(0.001, 0.999, 400)
+        )
+        assert disagreements > 0
+
+
+def test_the_realized_mixture_is_the_frozen_035_065(source_t):
+    """Draws must actually realize the published distribution.
+
+    The exact vectors being right is not the same claim as the sampler
+    reproducing them, and the defect this pins broke only the second. Over
+    24,000 frozen draw ids the empirical family distribution must sit far
+    closer to `p_mixed` than to the `0.5775/0.4225` blend the double-applied
+    neutral weight produces.
+    """
+    draws = 24_000
+    distribution = source_t.distribution("blue", "validation")
+    exact = distribution.family_probabilities()
+    wrong = (
+        0.5775 * distribution.p_neutral + 0.4225 * distribution.p_learned
+    ).reshape(len(FAMILY_IDS), distribution.bases_per_family).sum(axis=1)
+
+    counts = np.zeros(len(FAMILY_IDS), dtype=np.int64)
+    for ordinal in range(draws):
+        _, draw = source_t.audit_draw(ordinal, "blue", "validation")
+        counts[FAMILY_IDS.index(draw.family_id)] += 1
+    empirical = counts / draws
+
+    distance_to_exact = 0.5 * np.abs(empirical - exact).sum()
+    distance_to_wrong = 0.5 * np.abs(empirical - wrong).sum()
+    noise = 0.5 * np.sqrt(2.0 / np.pi) * np.sqrt(exact * (1.0 - exact) / draws).sum()
+
+    assert distance_to_exact < 4.0 * noise
+    assert distance_to_exact < distance_to_wrong
+
+
 def test_inverse_cdf_walk_equals_the_accepted_linear_walk(source_t):
     """`searchsorted` must agree with a plain accumulate-until-exceeded walk."""
     distribution = source_t.distribution("red", "validation")
-    cumulative = distribution.cumulative
+    cumulative = distribution.cumulative_learned
 
     def linear(uniform: float) -> int:
         for position, mass in enumerate(cumulative):
@@ -275,10 +334,12 @@ def test_cumulative_mass_is_a_plain_sequential_running_sum(source_t, source_f):
             distribution = source.distribution("red", split)
             accumulated = 0.0
             manual = []
-            for value in distribution.p_mixed.tolist():
+            for value in distribution.p_learned.tolist():
                 accumulated += value
                 manual.append(accumulated)
-            assert np.array_equal(np.array(manual, dtype=np.float64), distribution.cumulative)
+            assert np.array_equal(
+                np.array(manual, dtype=np.float64), distribution.cumulative_learned
+            )
 
 
 def test_the_tail_guard_keeps_the_index_in_range(source_t):

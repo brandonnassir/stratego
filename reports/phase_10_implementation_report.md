@@ -953,15 +953,107 @@ combined                   10,858,792 seeds  10,858,792 distinct
 collisions                 0
 ```
 
-### 4.5 The large sampling audit
+### 4.5 Review reconciliation: a real defect, found and fixed
+
+The Agent 4 review challenged the reported worst empirical-vs-exact family
+total variation of 0.04332. The challenge was correct, and
+reconciling it exposed an implementation defect. The arithmetic is why:
+on 100,000 draws over 16 families at p ~ 1/16, sampling noise
+predicts a TV near 0.00482, so the
+reported value was roughly nine times too large to be noise. The signature
+across cells said the same thing: TV tracked temperature, worst for the
+sharpest candidates (T=0.75) and best for the flattest (T=2.00).
+
+**Both sides classify the same concept.** The empirical counter reads
+`SelectorDraw.family_id`, which *is* `base_entry.family_id` — the selected
+base's frozen Phase 7 primary family, read off the library entry and never
+recomputed from a descendant — and the exact vector is `p_mixed` summed over
+the family blocks of the same frozen base order. Reflection and perturbation
+are family-preserving and a descendant inherits `primary_family_id` verbatim,
+so no post-reflection or post-perturbation concept enters either side. No
+renaming was warranted; the gap had to be a defect, and it was.
+
+**The defect.** The learned branch walked `cumsum(p_mixed)` where the frozen
+contract says *cumulative softmax mass*. The branch coin has already applied
+the 0.35 neutral weight before that ladder is reached, so walking the mixed
+vector applied it a second time and realized
+
+```text
+realized   0.35*neutral + 0.65*(0.35*neutral + 0.65*learned)
+         = 0.5775*neutral + 0.4225*learned
+intended   0.3500*neutral + 0.6500*learned
+```
+
+The empirical distribution was therefore pulled toward uniform.
+
+Replaying the 100,000 frozen draw ids of
+P10-D blue validation from their `selector_audit`, `selector_branch`
+and `selector_base` seeds, through an inverse-CDF written independently of
+the selector, settles it. Both ladders are shown on the same draw ids, so
+the challenged number can be read straight off the table:
+
+| family | exact | empirical (fixed) | count | residual | empirical (defective) | residual |
+| --- | --- | --- | --- | --- | --- | --- |
+| F00 | 0.132081 | 0.134150 | 13,415 | +0.002069 | 0.109890 | -0.022191 |
+| F01 | 0.083803 | 0.084670 | 8,467 | +0.000867 | 0.076960 | -0.006843 |
+| F02 | 0.073830 | 0.073360 | 7,336 | -0.000470 | 0.069400 | -0.004430 |
+| F03 | 0.050158 | 0.049970 | 4,997 | -0.000188 | 0.054930 | +0.004772 |
+| F04 | 0.055429 | 0.055680 | 5,568 | +0.000251 | 0.058000 | +0.002571 |
+| F05 | 0.056811 | 0.057020 | 5,702 | +0.000209 | 0.058380 | +0.001569 |
+| F06 | 0.044492 | 0.043820 | 4,382 | -0.000672 | 0.050880 | +0.006388 |
+| F07 | 0.044986 | 0.044520 | 4,452 | -0.000466 | 0.050400 | +0.005414 |
+| F08 | 0.057315 | 0.057960 | 5,796 | +0.000645 | 0.059550 | +0.002235 |
+| F09 | 0.046507 | 0.046940 | 4,694 | +0.000433 | 0.052050 | +0.005543 |
+| F10 | 0.056057 | 0.055040 | 5,504 | -0.001017 | 0.057800 | +0.001743 |
+| F11 | 0.053849 | 0.053390 | 5,339 | -0.000459 | 0.056310 | +0.002461 |
+| F12 | 0.055395 | 0.056070 | 5,607 | +0.000675 | 0.058710 | +0.003315 |
+| F13 | 0.053060 | 0.053400 | 5,340 | +0.000340 | 0.056730 | +0.003670 |
+| F14 | 0.085754 | 0.084020 | 8,402 | -0.001734 | 0.075900 | -0.009854 |
+| F15 | 0.050474 | 0.049990 | 4,999 | -0.000484 | 0.054110 | +0.003636 |
+
+The defective column is the signature: the largest families (F00 at
+0.1321 exact) are systematically
+under-drawn and the smallest systematically over-drawn, every residual
+pointing toward uniform. The fixed column shows no such structure — its
+residuals are the two-sided scatter of ordinary sampling noise.
+
+```text
+TV, contract ladder (cumsum p_learned)   0.00549
+TV, defective ladder (cumsum p_mixed)    0.04332
+sampling-noise expectation               0.00482
+reproduces the challenged 0.04332          True
+independent replay vs production         0 disagreements
+```
+
+The defective ladder reproduces the challenged number exactly, and the
+contract ladder lands at the noise floor. The fix is one line of meaning:
+`cumulative_learned` is `cumsum(p_learned)` and is the only ladder the
+learned branch walks.
+
+**What did not change.** No candidate, utility coefficient, temperature,
+mixture weight, threshold, seed derivation or evaluation bank was touched.
+The exact `p_neutral`, `p_learned` and `p_mixed` vectors and every published
+probability-vector digest are identical before and after — the exact
+distributions were always right, and so were the diversity conclusions drawn
+from them. What was wrong was that the sampler did not realize them. Every
+sampling, diversity and reproducibility result below was regenerated after
+the fix.
+
+No acceptance threshold on empirical total variation was introduced: it
+remains a diagnostic. The fix is pinned instead by an exact structural unit
+test — `cumulative_learned == cumsum(p_learned)`, with a discriminating
+assertion that the two ladders genuinely differ — plus a realized-mixture
+test, so this cannot regress silently.
+
+### 4.6 The large sampling audit
 
 ```text
 draws per candidate x colour x split   100,000
 cells                                  36
 total complete selector draws          3,600,000
 workers                                12
-wall clock                             9.2 min
-throughput                             6539 draws/s
+wall clock                             9.1 min
+throughput                             6594 draws/s
 ```
 
 Every draw went selector -> base -> reflection -> perturbation -> the
@@ -984,15 +1076,15 @@ all 16 families, every cell      True
 **Diagnostics only** — these rank nothing and select nothing:
 
 ```text
-empirical-vs-exact family total variation   worst 0.04332 over 36 cells
-empirical-vs-exact base total variation     worst 0.11226
+empirical-vs-exact family total variation   worst 0.00708 over 36 cells
+empirical-vs-exact base total variation     worst 0.10202
 neutral-branch frequency                    0.3467 .. 0.3529   (frozen weight 0.35)
 reflection frequency                        0.4964 .. 0.5037   (frozen 0.5)
 perturbation-requested frequency            0.4961 .. 0.5021   (frozen 0.5)
-Phase 9 held-out fingerprint landings       206,355 of 3,600,000 draws
+Phase 9 held-out fingerprint landings       207,211 of 3,600,000 draws
   train                                           0 / 1,200,000 = 0.0000
-  validation                                 45,776 / 1,200,000 = 0.0381
-  test                                      160,579 / 1,200,000 = 0.1338
+  validation                                 45,865 / 1,200,000 = 0.0382
+  test                                      161,346 / 1,200,000 = 0.1345
 ```
 
 That last diagnostic is the residual Agent 1 recorded and deliberately
@@ -1013,7 +1105,7 @@ reuse across phases is allowed; what Phase 10 guarantees is that the setups
 a *case* fixes carry no exact Phase 9 fingerprint overlap, and that no
 Phase 9 per-case outcome informs any Phase 10 fit or selection.
 
-### 4.6 Topology, restart and resume
+### 4.7 Topology, restart and resume
 
 ```text
 fixed draw-id set             18,000 ids across all 36 cells
@@ -1028,7 +1120,7 @@ A replay's record is the canonical digest of the whole draw — base id,
 reflection, perturbation identity, final fingerprint and complete
 provenance — so 'identical' is the whole object, not a sampled field.
 
-### 4.7 The permitted-input boundary
+### 4.8 The permitted-input boundary
 
 `SelectorRequest` carries exactly three fields — split, colour and selector
 seed — and refuses to be built from a mapping that carries anything else.
@@ -1044,7 +1136,7 @@ contexts left every draw bit-identical, no public selector API takes an
 opponent-shaped parameter, and a produced record carries no opponent,
 outcome, winner, Elo or reward field.
 
-### 4.8 Preservation
+### 4.9 Preservation
 
 ```text
 Phase 9 SHA-256 before / after   dfd698e5b6cf536a523bdd35dd3a32a5... / unchanged
@@ -1056,18 +1148,18 @@ Agent 3 utility + scaler         byte-identical, 0 refits
 neutral_v1                       consumed, never redefined
 ```
 
-### 4.9 Recorded readings
+### 4.10 Recorded readings
 
 - **After base selection, delegate to the accepted Phase 7 reflection/perturbation implementation un** — the selector re-derives the accepted setup_sampler_v1 decision streams through the public derive_stream_seed under the accepted neutral_v1 profile object — reading that profile's own reflection probability, perturbation probability and intensity weights rather than restating them — and then calls the accepted build_descendant, the sampler's single construction path. No Phase 7 byte is touched. The adapter's identity is proven, not asserted: every one of the audited neutral-branch draws is compared field for field against sample_setup(split, seed, 'neutral_v1') and every learned-branch draw is required to share that baseline's reflection, perturbation coin and swap count, differing in the base alone
 - **setup_sampler_v1 provenance field `sampler_profile`** — a learned-branch draw records sampler_profile='neutral_v1' because that field names the frozen post-selection profile actually used (reflection 0.5, perturbation 0.5, uniform 1..6), which is true on both branches and is what makes a neutral-branch draw bit-identical to the baseline. It says nothing about base selection: the branch, the candidate and the selector identity live in the Phase 10 selector provenance beside it, so no consumer has to infer the arm from a Phase 7 field
 - **no_test_outcome_access** — the diversity contract is stated over all three splits, so the audit draws from the Phase 7 test *split*. That is structural sampling of base templates and is not access to phase10_test_bank_v1: no bank case was played, scored or shown to a model, the only bank reads are the two structural digest recomputations in the access log, and no outcome exists on either bank to read
 - **at least 100,000 draws per candidate x color x split** — exactly 100,000 per cell, 3,600,000 in total, each carrying the full verification burden — construction through the accepted validation stack, a rebuild from its own provenance, and the accepted-sampler cross-check — rather than a larger count with a lighter check
 
-### 4.10 Evidence
+### 4.11 Evidence
 
 ```text
 tests before   5023 passed, 3 skipped in 303.94s (0:05:03)
-tests after    5078 passed, 3 skipped in 303.03s (0:05:03)
+tests after    5080 passed, 3 skipped in 314.99s (0:05:14)
 ```
 
 ```text
@@ -1103,7 +1195,7 @@ reports/phase_10_data/agent_04_acceptance.json
 | `topology_reproducibility_pass` | true |
 | `utility_digests_match` | true |
 
-### 4.11 Handoff to Agent 5
+### 4.12 Handoff to Agent 5
 
 Agent 5 receives the six immutable selector configurations and their
 probability-vector digests, the deterministic selector API and the

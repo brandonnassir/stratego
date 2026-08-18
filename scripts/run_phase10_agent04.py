@@ -61,6 +61,13 @@ STAGE_DIRECTORY = WORK_DIRECTORY / "stages"
 CONTRACT_ARTIFACT = DATA_DIRECTORY / "agent_04_selector_contract.json"
 DIVERSITY_ARTIFACT = DATA_DIRECTORY / "agent_04_diversity_audit.json"
 ACCEPTANCE_ARTIFACT = DATA_DIRECTORY / "agent_04_acceptance.json"
+RECONCILIATION_ARTIFACT = DATA_DIRECTORY / "agent_04_tv_reconciliation.json"
+
+#: The cell whose empirical-vs-exact family total variation the Agent 4 review
+#: challenged (0.04332, roughly nine times the sampling-noise expectation).
+#: Reconciling it exposed a real defect; the record is kept permanently.
+RECONCILIATION_CELL = {"candidate_id": "P10-D", "color": "blue", "split": "validation"}
+RECONCILIATION_REPORTED_TV = 0.04332
 
 CHECKPOINT_PATH = REPOSITORY_ROOT / "checkpoints" / "phase9" / "selfplay_c1_v1.pt"
 UTILITY_PATH = REPOSITORY_ROOT / "checkpoints" / "phase10" / "setup_utility_v1.json"
@@ -966,6 +973,263 @@ def stage_seeds(args) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Stage: reconcile — the review challenge to the empirical family TV
+# ---------------------------------------------------------------------------
+
+
+def _light_replay_family_counts(candidate_id, color, split, draws, ladder, index, scorer):
+    """Family counts by **selected-base primary family**, from frozen seeds.
+
+    Deliberately independent of `LearnedSetupSource.draw`: the branch coin and
+    the base uniform are re-derived straight from `phase10_seed`, and the
+    inverse-CDF is a plain `searchsorted` done here. `ladder` selects which
+    cumulative vector the learned branch walks, so the same frozen draw ids
+    can be scored under the contract's ladder (`learned`) and under the
+    defective one (`mixed`) and the two compared directly.
+
+    Only the *base* is resolved: family classification never depends on
+    reflection or perturbation, both of which are family-preserving under the
+    frozen Phase 7 contract, so the descendant is not built here.
+    """
+    import numpy as np
+
+    from stratego.training import phase10_selector as sel
+    from stratego.training import phase10_seed as ps
+
+    entry = sel.candidate(candidate_id)
+    distribution = sel.build_distribution(entry, color, split, scorer, index)
+    identity = entry.selector_identity
+    per_family = distribution.bases_per_family
+    family_of_base = np.repeat(np.arange(len(FAMILY_IDS_CACHE()), dtype=np.int64), per_family)
+    cumulative = (
+        distribution.cumulative_learned
+        if ladder == "learned"
+        else np.cumsum(distribution.p_mixed)
+    )
+
+    counts = np.zeros(len(FAMILY_IDS_CACHE()), dtype=np.int64)
+    neutral = 0
+    for ordinal in range(draws):
+        seed = ps.selector_audit_seed(candidate_id, split, color, ordinal)
+        if ps.selector_branch_uniform(identity, split, color, seed) < NEUTRAL_WEIGHT_CACHE():
+            neutral += 1
+            base_id = sel.neutral_branch_base_id(split, seed, index)
+            counts[FAMILY_IDS_CACHE().index(index.base(base_id).family_id)] += 1
+        else:
+            uniform = ps.selector_base_uniform(identity, split, color, seed)
+            position = min(
+                int(np.searchsorted(cumulative, uniform, side="right")),
+                distribution.base_count - 1,
+            )
+            counts[family_of_base[position]] += 1
+    return counts, neutral, distribution
+
+
+def FAMILY_IDS_CACHE():
+    from stratego.setups.families import FAMILY_IDS
+
+    return FAMILY_IDS
+
+
+def NEUTRAL_WEIGHT_CACHE():
+    from stratego.training.phase10_contract import NEUTRAL_MIXTURE_WEIGHT
+
+    return NEUTRAL_MIXTURE_WEIGHT
+
+
+def stage_reconcile(args) -> dict:
+    """Reconcile the challenged empirical-vs-exact family total variation.
+
+    The Agent 4 review challenged a reported worst family TV of 0.04332 on
+    100,000 draws over 16 families, where sampling noise predicts roughly
+    0.005. The challenge was correct: both the empirical counter and the exact
+    vector classify by the selected base's frozen Phase 7 primary family, so
+    the gap could not be a concept mismatch, and replaying the frozen draw ids
+    isolated a real inverse-CDF defect. This stage publishes the full
+    per-family reconciliation permanently.
+    """
+    import numpy as np
+
+    from stratego.setups.sampler import load_library_index
+    from stratego.training import phase10_selector as sel
+
+    load_stage("verify")
+    index = load_library_index()
+    scorer = sel.load_scorer(str(UTILITY_PATH))
+    families = FAMILY_IDS_CACHE()
+    candidate_id = RECONCILIATION_CELL["candidate_id"]
+    color = RECONCILIATION_CELL["color"]
+    split = RECONCILIATION_CELL["split"]
+    draws = AUDIT_DRAWS_PER_CELL if not args.quick else args.quick_draws
+    log(f"reconcile: replaying {draws:,} frozen draw ids for {candidate_id} {color} {split}")
+
+    counts_learned, neutral, distribution = _light_replay_family_counts(
+        candidate_id, color, split, draws, "learned", index, scorer
+    )
+    counts_mixed, _, _ = _light_replay_family_counts(
+        candidate_id, color, split, draws, "mixed", index, scorer
+    )
+    exact = distribution.family_probabilities()
+    empirical = counts_learned / draws
+    empirical_defective = counts_mixed / draws
+    residuals = empirical - exact
+
+    def total_variation(vector):
+        return float(0.5 * np.abs(vector - exact).sum())
+
+    tv_contract = total_variation(empirical)
+    tv_defective = total_variation(empirical_defective)
+    noise = float(0.5 * np.sqrt(2.0 / np.pi) * np.sqrt(exact * (1 - exact) / draws).sum())
+
+    # The light replay must agree with the production draw path, or it is not
+    # evidence about production. Checked on a spread subsample of full draws.
+    from stratego.training import phase10_seed as ps
+
+    source = sel.LearnedSetupSource(sel.candidate(candidate_id), scorer, index)
+    stride = max(1, draws // 2000)
+    disagreements = 0
+    for ordinal in range(0, draws, stride):
+        _, draw = source.audit_draw(ordinal, color, split)
+        seed = ps.selector_audit_seed(candidate_id, split, color, ordinal)
+        identity = source.selector_identity
+        if ps.selector_branch_uniform(identity, split, color, seed) < NEUTRAL_WEIGHT_CACHE():
+            expected_base = sel.neutral_branch_base_id(split, seed, index)
+        else:
+            uniform = ps.selector_base_uniform(identity, split, color, seed)
+            position = min(
+                int(np.searchsorted(distribution.cumulative_learned, uniform, side="right")),
+                distribution.base_count - 1,
+            )
+            expected_base = distribution.base_ids[position]
+        if expected_base != draw.base_setup_id:
+            disagreements += 1
+
+    problems: list = []
+    require(
+        disagreements == 0,
+        f"the independent replay disagrees with the production draw path on "
+        f"{disagreements} sampled draws",
+        problems,
+    )
+    require(
+        tv_contract < tv_defective,
+        "the contract ladder does not improve on the defective ladder",
+        problems,
+    )
+
+    payload = {
+        "stage": "reconcile",
+        "cell": dict(RECONCILIATION_CELL),
+        "draws": draws,
+        "challenge": {
+            "reported_family_total_variation": RECONCILIATION_REPORTED_TV,
+            "sampling_noise_expectation": noise,
+            "verdict": (
+                "the challenge was correct: the reported value was roughly nine "
+                "times the sampling-noise expectation and was caused by an "
+                "inverse-CDF defect, not by noise"
+            ),
+        },
+        "classification": {
+            "empirical_side": (
+                "counts SelectorDraw.family_id, which is base_entry.family_id — the "
+                "selected base's frozen Phase 7 primary family, read from the library "
+                "entry and never recomputed from the descendant"
+            ),
+            "exact_side": (
+                "p_mixed summed over the family blocks of the frozen base order "
+                "(FAMILY_IDS x ascending base_index), i.e. the selected-base family "
+                "marginal of the same distribution"
+            ),
+            "both_classify_selected_base_primary_family": True,
+            "renaming_required": False,
+            "note": (
+                "reflection and perturbation are family-preserving under the frozen "
+                "Phase 7 contract and a descendant inherits primary_family_id "
+                "verbatim, so no post-reflection or post-perturbation concept enters "
+                "either side"
+            ),
+        },
+        "defect": {
+            "summary": (
+                "the learned branch walked cumsum(p_mixed) instead of cumsum(p_learned)"
+            ),
+            "consequence": (
+                "the branch coin had already applied the frozen 0.35 neutral weight, so "
+                "walking the mixed ladder applied it twice and realized "
+                "0.5775*neutral + 0.4225*learned instead of 0.35/0.65"
+            ),
+            "contract_text": (
+                "learned branch: inverse-CDF walk of selector_base_uniform(...) over the "
+                "split's bases in the frozen base order, using float64 cumulative "
+                "softmax mass"
+            ),
+            "fix": (
+                "SelectorDistribution.cumulative_learned is cumsum(p_learned) and is the "
+                "only ladder base_index_for_uniform walks"
+            ),
+            "unchanged_by_the_fix": (
+                "no candidate, utility coefficient, temperature, mixture weight, "
+                "threshold, seed derivation or evaluation bank; the exact p_neutral, "
+                "p_learned and p_mixed vectors and every published probability-vector "
+                "digest are identical before and after"
+            ),
+        },
+        "families": list(families),
+        "exact_family_vector": [float(value) for value in exact],
+        "empirical_counts": {family: int(counts_learned[i]) for i, family in enumerate(families)},
+        "empirical_family_vector": [float(value) for value in empirical],
+        "per_family_residuals": {
+            family: float(residuals[i]) for i, family in enumerate(families)
+        },
+        # The defective ladder's numbers are kept beside the corrected ones so
+        # the challenged 0.04332 can be read straight off the record instead of
+        # being taken on trust.
+        "defective_ladder": {
+            "empirical_counts": {
+                family: int(counts_mixed[i]) for i, family in enumerate(families)
+            },
+            "empirical_family_vector": [float(value) for value in empirical_defective],
+            "per_family_residuals": {
+                family: float(empirical_defective[i] - exact[i])
+                for i, family in enumerate(families)
+            },
+        },
+        "total_variation": {
+            "contract_ladder_recomputed": tv_contract,
+            "defective_ladder_recomputed": tv_defective,
+            "defective_ladder_reproduces_reported_value": abs(
+                tv_defective - RECONCILIATION_REPORTED_TV
+            )
+            < 5e-5,
+            "sampling_noise_expectation": noise,
+        },
+        "neutral_branch_draws": neutral,
+        "neutral_branch_frequency": neutral / draws,
+        "independent_replay_vs_production_disagreements": disagreements,
+        "replay_subsample": len(range(0, draws, stride)),
+        "no_new_threshold": (
+            "empirical total variation remains a diagnostic; this reconciliation adds "
+            "no acceptance threshold on it. The fix is pinned by an exact structural "
+            "unit test (cumulative_learned == cumsum(p_learned)), not by a statistical "
+            "gate"
+        ),
+        "problems": problems,
+    }
+    RECONCILIATION_ARTIFACT.parent.mkdir(parents=True, exist_ok=True)
+    RECONCILIATION_ARTIFACT.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    save_stage("reconcile", payload)
+    if problems:
+        raise Agent4Error(f"the TV reconciliation failed: {problems}")
+    log(
+        f"reconcile: contract ladder TV {tv_contract:.5f} (noise {noise:.5f}); "
+        f"defective ladder TV {tv_defective:.5f} reproduces the reported "
+        f"{RECONCILIATION_REPORTED_TV}"
+    )
+    return payload
+
+
+# ---------------------------------------------------------------------------
 # Stage: draws — the large sampling audit
 # ---------------------------------------------------------------------------
 
@@ -1663,6 +1927,7 @@ def stage_artifacts(args) -> dict:
     verify = load_stage("verify")
     distributions = load_stage("distributions")
     seeds = load_stage("seeds")
+    reconcile = load_stage("reconcile")
     draws = load_stage("draws")
     topology = load_stage("topology")
     boundary = load_stage("boundary")
@@ -1882,6 +2147,28 @@ def stage_artifacts(args) -> dict:
             "human_games_used": 0,
         },
         "bank_access_log": [dict(entry) for entry in BANK_ACCESS_LOG],
+        "review_reconciliation": {
+            "raised_by": "Agent 4 review",
+            "challenge": reconcile["challenge"],
+            "cell": reconcile["cell"],
+            "classification": reconcile["classification"],
+            "defect": reconcile["defect"],
+            "total_variation": reconcile["total_variation"],
+            "independent_replay_vs_production_disagreements": reconcile[
+                "independent_replay_vs_production_disagreements"
+            ],
+            "no_new_threshold": reconcile["no_new_threshold"],
+            "artifact": str(RECONCILIATION_ARTIFACT.relative_to(REPOSITORY_ROOT)),
+            "evidence_rerun_after_fix": [
+                "distributions",
+                "seeds",
+                "reconcile",
+                "draws",
+                "topology",
+                "boundary",
+                "artifacts",
+            ],
+        },
         "phase9_preservation": {
             "before": {
                 "sha256": verify["phase9_before"]["sha256"],
@@ -1902,7 +2189,7 @@ def stage_artifacts(args) -> dict:
     }
     ACCEPTANCE_ARTIFACT.write_text(json.dumps(acceptance, indent=2, sort_keys=True) + "\n")
 
-    write_report(verify, distributions, seeds, draws, topology, boundary, acceptance)
+    write_report(verify, distributions, seeds, reconcile, draws, topology, boundary, acceptance)
     log(f"artifacts: status {status}, {acceptance['gates_true']}/{acceptance['gates_total']} gates true")
     if false_gates:
         raise Agent4Error(f"Agent 4 completion gates are false: {false_gates}")
@@ -2068,7 +2355,7 @@ def _f(value: float, places: int = 4) -> str:
     return f"{value:.{places}f}"
 
 
-def write_report(verify, distributions, seeds, draws, topology, boundary, acceptance) -> None:
+def write_report(verify, distributions, seeds, reconcile, draws, topology, boundary, acceptance) -> None:
     from stratego.training import phase10_selector as sel
 
     lines: list = []
@@ -2342,7 +2629,179 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
     add("```")
     add("")
 
-    add("### 4.5 The large sampling audit")
+    add("### 4.5 Review reconciliation: a real defect, found and fixed")
+    add("")
+    add(
+        "The Agent 4 review challenged the reported worst empirical-vs-exact family"
+    )
+    add(
+        f"total variation of {RECONCILIATION_REPORTED_TV}. The challenge was correct, and"
+    )
+    add("reconciling it exposed an implementation defect. The arithmetic is why:")
+    add(
+        f"on {reconcile['draws']:,} draws over 16 families at p ~ 1/16, sampling noise"
+    )
+    add(
+        f"predicts a TV near {reconcile['challenge']['sampling_noise_expectation']:.5f}, so the"
+    )
+    add("reported value was roughly nine times too large to be noise. The signature")
+    add("across cells said the same thing: TV tracked temperature, worst for the")
+    add("sharpest candidates (T=0.75) and best for the flattest (T=2.00).")
+    add("")
+    add("**Both sides classify the same concept.** The empirical counter reads")
+    add(
+        "`SelectorDraw.family_id`, which *is* `base_entry.family_id` — the selected"
+    )
+    add(
+        "base's frozen Phase 7 primary family, read off the library entry and never"
+    )
+    add(
+        "recomputed from a descendant — and the exact vector is `p_mixed` summed over"
+    )
+    add(
+        "the family blocks of the same frozen base order. Reflection and perturbation"
+    )
+    add(
+        "are family-preserving and a descendant inherits `primary_family_id` verbatim,"
+    )
+    add(
+        "so no post-reflection or post-perturbation concept enters either side. No"
+    )
+    add("renaming was warranted; the gap had to be a defect, and it was.")
+    add("")
+    add(
+        "**The defect.** The learned branch walked `cumsum(p_mixed)` where the frozen"
+    )
+    add(
+        "contract says *cumulative softmax mass*. The branch coin has already applied"
+    )
+    add(
+        "the 0.35 neutral weight before that ladder is reached, so walking the mixed"
+    )
+    add("vector applied it a second time and realized")
+    add("")
+    add("```text")
+    add("realized   0.35*neutral + 0.65*(0.35*neutral + 0.65*learned)")
+    add("         = 0.5775*neutral + 0.4225*learned")
+    add("intended   0.3500*neutral + 0.6500*learned")
+    add("```")
+    add("")
+    add("The empirical distribution was therefore pulled toward uniform.")
+    add("")
+    add(
+        f"Replaying the {reconcile['draws']:,} frozen draw ids of"
+    )
+    add(
+        f"{reconcile['cell']['candidate_id']} {reconcile['cell']['color']} "
+        f"{reconcile['cell']['split']} from their `selector_audit`, `selector_branch`"
+    )
+    add(
+        "and `selector_base` seeds, through an inverse-CDF written independently of"
+    )
+    add(
+        "the selector, settles it. Both ladders are shown on the same draw ids, so"
+    )
+    add("the challenged number can be read straight off the table:")
+    add("")
+    defective = reconcile["defective_ladder"]
+    add(
+        "| family | exact | empirical (fixed) | count | residual | empirical (defective) | residual |"
+    )
+    add("| --- | --- | --- | --- | --- | --- | --- |")
+    for index, family in enumerate(reconcile["families"]):
+        add(
+            f"| {family} | {reconcile['exact_family_vector'][index]:.6f} | "
+            f"{reconcile['empirical_family_vector'][index]:.6f} | "
+            f"{reconcile['empirical_counts'][family]:,} | "
+            f"{reconcile['per_family_residuals'][family]:+.6f} | "
+            f"{defective['empirical_family_vector'][index]:.6f} | "
+            f"{defective['per_family_residuals'][family]:+.6f} |"
+        )
+    add("")
+    add(
+        "The defective column is the signature: the largest families (F00 at"
+    )
+    add(
+        f"{reconcile['exact_family_vector'][0]:.4f} exact) are systematically"
+    )
+    add(
+        "under-drawn and the smallest systematically over-drawn, every residual"
+    )
+    add(
+        "pointing toward uniform. The fixed column shows no such structure — its"
+    )
+    add("residuals are the two-sided scatter of ordinary sampling noise.")
+    add("")
+    variation = reconcile["total_variation"]
+    add("```text")
+    add(
+        f"TV, contract ladder (cumsum p_learned)   {variation['contract_ladder_recomputed']:.5f}"
+    )
+    add(
+        f"TV, defective ladder (cumsum p_mixed)    {variation['defective_ladder_recomputed']:.5f}"
+    )
+    add(
+        f"sampling-noise expectation               {variation['sampling_noise_expectation']:.5f}"
+    )
+    add(
+        f"reproduces the challenged {RECONCILIATION_REPORTED_TV}          "
+        f"{variation['defective_ladder_reproduces_reported_value']}"
+    )
+    add(
+        f"independent replay vs production         "
+        f"{reconcile['independent_replay_vs_production_disagreements']} disagreements"
+    )
+    add("```")
+    add("")
+    add(
+        "The defective ladder reproduces the challenged number exactly, and the"
+    )
+    add(
+        "contract ladder lands at the noise floor. The fix is one line of meaning:"
+    )
+    add(
+        "`cumulative_learned` is `cumsum(p_learned)` and is the only ladder the"
+    )
+    add("learned branch walks.")
+    add("")
+    add(
+        "**What did not change.** No candidate, utility coefficient, temperature,"
+    )
+    add(
+        "mixture weight, threshold, seed derivation or evaluation bank was touched."
+    )
+    add(
+        "The exact `p_neutral`, `p_learned` and `p_mixed` vectors and every published"
+    )
+    add(
+        "probability-vector digest are identical before and after — the exact"
+    )
+    add(
+        "distributions were always right, and so were the diversity conclusions drawn"
+    )
+    add(
+        "from them. What was wrong was that the sampler did not realize them. Every"
+    )
+    add(
+        "sampling, diversity and reproducibility result below was regenerated after"
+    )
+    add("the fix.")
+    add("")
+    add(
+        "No acceptance threshold on empirical total variation was introduced: it"
+    )
+    add(
+        "remains a diagnostic. The fix is pinned instead by an exact structural unit"
+    )
+    add(
+        "test — `cumulative_learned == cumsum(p_learned)`, with a discriminating"
+    )
+    add(
+        "assertion that the two ladders genuinely differ — plus a realized-mixture"
+    )
+    add("test, so this cannot regress silently.")
+    add("")
+    add("### 4.6 The large sampling audit")
     add("")
     add("```text")
     add(f"draws per candidate x colour x split   {draws['draws_per_cell']:,}")
@@ -2469,7 +2928,7 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
     add("Phase 9 per-case outcome informs any Phase 10 fit or selection.")
     add("")
 
-    add("### 4.6 Topology, restart and resume")
+    add("### 4.7 Topology, restart and resume")
     add("")
     add("```text")
     add(f"fixed draw-id set             {topology['draw_ids']:,} ids across all 36 cells")
@@ -2492,7 +2951,7 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
     add("provenance — so 'identical' is the whole object, not a sampled field.")
     add("")
 
-    add("### 4.7 The permitted-input boundary")
+    add("### 4.8 The permitted-input boundary")
     add("")
     add(
         f"`SelectorRequest` carries exactly three fields — split, colour and selector"
@@ -2525,7 +2984,7 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
     add("outcome, winner, Elo or reward field.")
     add("")
 
-    add("### 4.8 Preservation")
+    add("### 4.9 Preservation")
     add("")
     add("```text")
     add(f"Phase 9 SHA-256 before / after   {verify['phase9_before']['sha256'][:32]}... / unchanged")
@@ -2538,13 +2997,13 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
     add("```")
     add("")
 
-    add("### 4.9 Recorded readings")
+    add("### 4.10 Recorded readings")
     add("")
     for entry in acceptance["deviations"]:
         add(f"- **{entry['contract_text'][:96]}** — {entry['reading']}")
     add("")
 
-    add("### 4.10 Evidence")
+    add("### 4.11 Evidence")
     add("")
     add("```text")
     add(f"tests before   {TESTS_BEFORE['summary']}")
@@ -2563,7 +3022,7 @@ def write_report(verify, distributions, seeds, draws, topology, boundary, accept
         add(f"| `{name}` | {str(bool(value)).lower()} |")
     add("")
 
-    add("### 4.11 Handoff to Agent 5")
+    add("### 4.12 Handoff to Agent 5")
     add("")
     add(
         "Agent 5 receives the six immutable selector configurations and their"
@@ -2610,6 +3069,7 @@ STAGES = {
     "verify": stage_verify,
     "distributions": stage_distributions,
     "seeds": stage_seeds,
+    "reconcile": stage_reconcile,
     "draws": stage_draws,
     "topology": stage_topology,
     "boundary": stage_boundary,
@@ -2620,6 +3080,7 @@ ORDERED_STAGES = (
     "verify",
     "distributions",
     "seeds",
+    "reconcile",
     "draws",
     "topology",
     "boundary",

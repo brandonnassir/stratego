@@ -361,7 +361,7 @@
     "perturbation_seed": "setup_sampler_v1 intensity + perturbation_seed streams under neutral_v1, folded into the seed_encoding_v1 composite",
     "reflection": "setup_sampler_v1 orientation stream under neutral_v1"
   },
-  "timestamp": "2026-08-18T16:39:07-0400",
+  "timestamp": "2026-08-18T17:18:02-0400",
   "upstream": {
     "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
     "neutral_profile": {

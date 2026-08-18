@@ -150,7 +150,7 @@
     "mps_built": true,
     "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
     "python_version": "3.13.2",
-    "source_revision": "9147e9b",
+    "source_revision": "258644e",
     "torch_version": "2.13.0",
     "working_tree_state": "dirty"
   },
@@ -180,7 +180,7 @@
         "split_violations": 0,
         "stranded_sampled_setups": 0
       },
-      "topology_reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+      "topology_reference_digest": "a9f49b867036f98597684967a834e9dda5daf715ba951f88d2d4e0d32f823457",
       "total_draws": 3600000
     },
     "deterministic_api": {
@@ -436,7 +436,7 @@
       }
     },
     "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
-    "topology_reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c"
+    "topology_reference_digest": "a9f49b867036f98597684967a834e9dda5daf715ba951f88d2d4e0d32f823457"
   },
   "phase": 10,
   "phase9_preservation": {
@@ -450,6 +450,51 @@
     },
     "unchanged": true
   },
+  "review_reconciliation": {
+    "artifact": "reports/phase_10_data/agent_04_tv_reconciliation.json",
+    "cell": {
+      "candidate_id": "P10-D",
+      "color": "blue",
+      "split": "validation"
+    },
+    "challenge": {
+      "reported_family_total_variation": 0.04332,
+      "sampling_noise_expectation": 0.004818916672037737,
+      "verdict": "the challenge was correct: the reported value was roughly nine times the sampling-noise expectation and was caused by an inverse-CDF defect, not by noise"
+    },
+    "classification": {
+      "both_classify_selected_base_primary_family": true,
+      "empirical_side": "counts SelectorDraw.family_id, which is base_entry.family_id \u2014 the selected base's frozen Phase 7 primary family, read from the library entry and never recomputed from the descendant",
+      "exact_side": "p_mixed summed over the family blocks of the frozen base order (FAMILY_IDS x ascending base_index), i.e. the selected-base family marginal of the same distribution",
+      "note": "reflection and perturbation are family-preserving under the frozen Phase 7 contract and a descendant inherits primary_family_id verbatim, so no post-reflection or post-perturbation concept enters either side",
+      "renaming_required": false
+    },
+    "defect": {
+      "consequence": "the branch coin had already applied the frozen 0.35 neutral weight, so walking the mixed ladder applied it twice and realized 0.5775*neutral + 0.4225*learned instead of 0.35/0.65",
+      "contract_text": "learned branch: inverse-CDF walk of selector_base_uniform(...) over the split's bases in the frozen base order, using float64 cumulative softmax mass",
+      "fix": "SelectorDistribution.cumulative_learned is cumsum(p_learned) and is the only ladder base_index_for_uniform walks",
+      "summary": "the learned branch walked cumsum(p_mixed) instead of cumsum(p_learned)",
+      "unchanged_by_the_fix": "no candidate, utility coefficient, temperature, mixture weight, threshold, seed derivation or evaluation bank; the exact p_neutral, p_learned and p_mixed vectors and every published probability-vector digest are identical before and after"
+    },
+    "evidence_rerun_after_fix": [
+      "distributions",
+      "seeds",
+      "reconcile",
+      "draws",
+      "topology",
+      "boundary",
+      "artifacts"
+    ],
+    "independent_replay_vs_production_disagreements": 0,
+    "no_new_threshold": "empirical total variation remains a diagnostic; this reconciliation adds no acceptance threshold on it. The fix is pinned by an exact structural unit test (cumulative_learned == cumsum(p_learned)), not by a statistical gate",
+    "raised_by": "Agent 4 review",
+    "total_variation": {
+      "contract_ladder_recomputed": 0.0054898406518745745,
+      "defective_ladder_recomputed": 0.043317922768992746,
+      "defective_ladder_reproduces_reported_value": true,
+      "sampling_noise_expectation": 0.004818916672037737
+    }
+  },
   "sampling_audit": {
     "cells": 36,
     "counter_totals": {
@@ -462,9 +507,9 @@
       "stranded_sampled_setups": 0
     },
     "draws_per_cell": 100000,
-    "draws_per_second": 6538.660687152535,
+    "draws_per_second": 6594.462227419733,
     "required_total": 3600000,
-    "seconds": 550.5714659690857,
+    "seconds": 545.9125969409943,
     "total_draws": 3600000,
     "workers": 12
   },
@@ -500,11 +545,11 @@
   "suite": {
     "command": ".venv/bin/python -m pytest tests -q",
     "failed": 0,
-    "passed": 5078,
+    "passed": 5080,
     "returncode": 0,
-    "seconds": 304.18454813957214,
+    "seconds": 316.17516112327576,
     "skipped": 3,
-    "summary": "5078 passed, 3 skipped in 303.03s (0:05:03)"
+    "summary": "5080 passed, 3 skipped in 314.99s (0:05:14)"
   },
   "suite_before": {
     "command": ".venv/bin/python -m pytest tests -q",
@@ -515,17 +560,17 @@
     "skipped": 3,
     "summary": "5023 passed, 3 skipped in 303.94s (0:05:03)"
   },
-  "timestamp": "2026-08-18T16:44:11-0400",
+  "timestamp": "2026-08-18T17:23:18-0400",
   "topology": {
     "all_configurations_identical": true,
     "configuration_count": 12,
     "draw_ids": 18000,
     "fresh_process": {
-      "digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+      "digest": "a9f49b867036f98597684967a834e9dda5daf715ba951f88d2d4e0d32f823457",
       "identical_to_reference": true,
       "python": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python"
     },
-    "reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+    "reference_digest": "a9f49b867036f98597684967a834e9dda5daf715ba951f88d2d4e0d32f823457",
     "resume": {
       "expected_remaining": 3600,
       "partition_is_disjoint": true,
