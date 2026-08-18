@@ -1,5 +1,14 @@
 {
  "agent": 1,
+ "agents_5_7_obligations": {
+  "learned_selector_phase9_fingerprint_collisions": {
+   "isolation_universe": "stratego.evaluation.phase10_banks.phase9_isolation_set",
+   "must_not": "be used for candidate selection, for any acceptance gate, or as grounds for evaluation-time rejection sampling of learned draws",
+   "rationale": "rejecting a learned draw at evaluation time would distort the very mixed distribution the diversity contract is stated over; measuring it keeps the residual visible instead of unmeasured",
+   "requirement": "enumerate, per candidate, arm, matchup and bank, both the count and the rate of produced final setups whose fingerprint lies in the accepted Phase 9 held-out fingerprint set",
+   "status": "report-only diagnostic"
+  }
+ },
  "artifact": "agent_01_acceptance",
  "boundary_evidence": [
   {
@@ -112,6 +121,7 @@
   "phase9_bank_exact_fingerprint_overlap_zero": true,
   "phase9_checkpoint_unchanged": true,
   "phase9_final_identity_verified": true,
+  "phase9_heldout_board_coverage_complete": true,
   "phase9_model_finite": true,
   "test_bank_frozen_and_hashed": true,
   "test_bank_neural_outcome_access_zero": true,
@@ -137,6 +147,12 @@
    "reading": "BCE is the mean over the 16,384 scheduled games and the penalty is lambda times the sum of squares of the raw family offsets and trait weights; the intercept is unpenalized",
    "topic": "objective reduction",
    "why_safe": "a summed BCE would make 1e-3 effectively no regularization at 16,384 games; the mean is the reading under which the stated coefficient does the job the contract gives it"
+  },
+  {
+   "contract_text": "100,000 draws per candidate x color x split ... resume must be exact set subtraction by draw id",
+   "reading": "Agent 4's audit needs a selector seed per addressable draw id and the first freeze produced none \u2014 case_selector_seed covers only the 1,280 bank-case seeds \u2014 so a tenth derived domain, selector_audit, was added under the existing selector_draw_seed root 2026081805",
+   "topic": "selector-audit randomness domain (review reconciliation)",
+   "why_safe": "no root seed was added or changed and no threshold, candidate, bank, schedule or utility definition moved; it removes an unfrozen choice Agent 4 would otherwise have had to invent, and it moves exactly two contract digests (phase10_setup_contract_v1, phase10_setup_selector_v1) plus the bundle, leaving both bank digests, both bank manifests, the schedule digest, the scaler digest and the isolation-set digest byte-identical"
   },
   {
    "contract_text": "zero exact final-setup fingerprint overlap with Phase 9 validation/test cases",
@@ -167,8 +183,8 @@
   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
   "phase9_parameters": 863959
  },
- "gates_total": 22,
- "gates_true": 22,
+ "gates_total": 23,
+ "gates_true": 23,
  "handoff_to_agent_2": {
   "bank_identities": {
    "test": {
@@ -182,14 +198,14 @@
     "manifest_digest": "459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e"
    }
   },
-  "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+  "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
   "contract_digests": {
    "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
    "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
    "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
-   "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+   "phase10_setup_contract_v1": "058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a",
    "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
-   "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+   "phase10_setup_selector_v1": "5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe",
    "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
    "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
   },
@@ -380,14 +396,14 @@
  "mps_available": true,
  "mps_built": true,
  "new_digests": {
-  "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+  "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
   "outcome_schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
   "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
   "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
   "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
-  "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+  "phase10_setup_contract_v1": "058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a",
   "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
-  "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+  "phase10_setup_selector_v1": "5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe",
   "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
   "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d",
   "phase9_isolation_set_digest": "c714c6e721e65d2624b34b27a529fa95f69369d0f1070d31b134d1b69aac16ce",
@@ -399,6 +415,30 @@
  },
  "observation_version": "observation_v2_1_127ch",
  "phase": 10,
+ "phase9_isolation_reconciliation": {
+  "all_pass": true,
+  "checks": {
+   "cardinality_reconciles": true,
+   "every_raw_board_maps": true,
+   "mapping_is_surjective": true,
+   "members_account_for_every_raw_board": true,
+   "round_trip_exact": true
+  },
+  "class_size_histogram": {
+   "1": 1135,
+   "2": 49
+  },
+  "distinct_canonical_identities": 1184,
+  "distinct_raw_boards": 1233,
+  "duplicate_classes": 49,
+  "held_out_sides": 1280,
+  "isolation_set_digest": "c714c6e721e65d2624b34b27a529fa95f69369d0f1070d31b134d1b69aac16ce",
+  "isolation_set_size": 1184,
+  "round_trip_mismatches": [],
+  "unmapped_raw_boards": [],
+  "unreached_identities": [],
+  "why_the_counts_differ": "a Phase 9 pair stores each side oriented for the player that plays it, so one canonical arrangement appearing on a Red side in one case and a Blue side in another is two stored board strings and one canonical identity"
+ },
  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
  "problems": [],
  "python_version": "3.13.2",
@@ -413,7 +453,7 @@
   "utility_fit_seed": 2026081804,
   "validation_bootstrap_seed": 2026081807
  },
- "source_revision": "427b963",
+ "source_revision": "3882fcf",
  "status": "PASS",
  "test_bank_access_log": [
   {
@@ -450,11 +490,11 @@
  "tests_after": {
   "command": ".venv/bin/python -m pytest tests -q",
   "failed": 0,
-  "passed": 4858,
+  "passed": 4879,
   "returncode": 0,
-  "seconds": 296.58,
+  "seconds": 298.94,
   "skipped": 3,
-  "summary": "4858 passed, 3 skipped in 295.45s (0:04:55)"
+  "summary": "4879 passed, 3 skipped in 297.80s (0:04:57)"
  },
  "tests_before": {
   "command": ".venv/bin/python -m pytest tests -q",
@@ -465,7 +505,7 @@
   "skipped": 3,
   "summary": "4621 passed, 3 skipped in 283.69s (0:04:43)"
  },
- "timestamp": "2026-08-18T12:20:10-0400",
+ "timestamp": "2026-08-18T12:53:44-0400",
  "torch_version": "2.13.0",
  "working_tree_state": "dirty"
 }

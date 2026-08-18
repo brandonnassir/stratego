@@ -236,6 +236,7 @@ class TestAcceptanceArtifact:
             "test_bank_frozen_and_hashed",
             "phase9_bank_exact_fingerprint_overlap_zero",
             "phase10_val_test_fingerprint_overlap_zero",
+            "phase9_heldout_board_coverage_complete",
             "test_bank_neural_outcome_access_zero",
             "final_acceptance_gates_frozen",
             "no_phase10_outcome_games",
@@ -279,6 +280,27 @@ class TestAcceptanceArtifact:
         assert any(
             entry.get("at_threshold_passes") is False for entry in by_gate["C"]
         )
+
+    def test_the_phase9_reconciliation_is_recorded_and_complete(self, acceptance):
+        reconciliation = acceptance["phase9_isolation_reconciliation"]
+        assert reconciliation["held_out_sides"] == 1280
+        assert reconciliation["distinct_raw_boards"] == 1233
+        assert reconciliation["distinct_canonical_identities"] == 1184
+        assert reconciliation["unmapped_raw_boards"] == []
+        assert reconciliation["unreached_identities"] == []
+        assert reconciliation["round_trip_mismatches"] == []
+        assert reconciliation["all_pass"]
+        assert acceptance["completion_gates"]["phase9_heldout_board_coverage_complete"]
+
+    def test_agents_5_7_must_enumerate_collisions_without_using_them(self, acceptance):
+        obligation = acceptance["agents_5_7_obligations"][
+            "learned_selector_phase9_fingerprint_collisions"
+        ]
+        assert obligation["status"] == "report-only diagnostic"
+        assert "rate" in obligation["requirement"]
+        assert "count" in obligation["requirement"]
+        assert "selection" in obligation["must_not"]
+        assert "rejection sampling" in obligation["must_not"]
 
     def test_recorded_readings_are_present_and_explained(self, acceptance):
         assert len(acceptance["deviations"]) >= 4

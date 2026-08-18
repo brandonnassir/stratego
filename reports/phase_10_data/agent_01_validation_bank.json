@@ -24302,7 +24302,7 @@
   "cases_per_opponent_family": 8,
   "colour_pairing": "the selector under test plays Red in game 0 and Blue in game 1 against the same fixed opponent setup",
   "construction_run": {
-   "duration_seconds": 1.012
+   "duration_seconds": 1.01
   },
   "family_ids": [
    "F00",
@@ -24442,8 +24442,8 @@
   ],
   "sealed_until": "Agent 7"
  },
- "source_revision": "427b963",
- "timestamp": "2026-08-18T12:15:13-0400",
+ "source_revision": "3882fcf",
+ "timestamp": "2026-08-18T12:48:45-0400",
  "torch_version": "2.13.0",
  "working_tree_state": "dirty"
 }

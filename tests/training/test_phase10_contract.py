@@ -201,6 +201,20 @@ class TestDocuments:
         assert pc.contract_digests() == pc.contract_digests()
         assert pc.contract_bundle_digest() == pc.contract_bundle_digest()
 
+    def test_ten_domains_hang_off_the_eight_frozen_roots(self):
+        seeds = pc.setup_contract_document()["seeds"]
+        assert len(seeds["root_seeds"]) == 8
+        assert len(seeds["domains"]) == 10
+        assert set(entry["root_seed"] for entry in seeds["domains"].values()) <= set(
+            seeds["root_seeds"].values()
+        )
+
+    def test_the_selector_audit_draw_identity_is_frozen(self):
+        diversity = pc.selector_document()["diversity"]
+        assert diversity["audit_draws_per_candidate_colour_split"] == 100_000
+        assert "phase10_selector_audit_v1" in diversity["audit_draw_identity"]
+        assert "set subtraction by draw id" in diversity["audit_draw_identity"]
+
     def test_documents_carry_no_absolute_path(self):
         text = json.dumps(pc.contract_documents(), sort_keys=True)
         assert "/Volumes/" not in text

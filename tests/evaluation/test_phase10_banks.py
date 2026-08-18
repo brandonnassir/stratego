@@ -20,9 +20,18 @@ from stratego.training import phase10_seed as ps
 from tests.training.phase10_frozen_digests import (
     BANK_DIGESTS,
     BANK_MANIFEST_DIGESTS,
+    PHASE9_CANONICAL_HELD_OUT_IDENTITIES,
+    PHASE9_HELD_OUT_SIDES,
     PHASE9_ISOLATION_SET_DIGEST,
     PHASE9_ISOLATION_SET_SIZE,
+    PHASE9_RAW_HELD_OUT_BOARDS,
+    PHASE9_TWO_ORIENTATION_CLASSES,
 )
+
+
+@pytest.fixture(scope="module")
+def coverage():
+    return pb.phase9_raw_board_coverage()
 
 
 @pytest.fixture(scope="module")
@@ -182,3 +191,55 @@ class TestAudit:
     def test_unknown_bank_is_refused(self):
         with pytest.raises(pb.Phase10BankError):
             pb.bank_specification("train")
+
+
+class TestPhase9RawBoardCoverage:
+    """The reconciliation: 1,280 sides, 1,233 raw boards, 1,184 identities.
+
+    The accepted Phase 9 held-out universe can be counted as stored engine
+    board strings or as canonical final-setup fingerprints, and the two
+    counts differ. These tests prove the isolation set loses nothing by
+    being stated canonically: every raw board maps into it, and every
+    identity in it is reached.
+    """
+
+    def test_the_three_counts_are_the_accepted_ones(self, coverage):
+        assert coverage["held_out_sides"] == PHASE9_HELD_OUT_SIDES
+        assert coverage["distinct_raw_boards"] == PHASE9_RAW_HELD_OUT_BOARDS
+        assert (
+            coverage["distinct_canonical_identities"]
+            == PHASE9_CANONICAL_HELD_OUT_IDENTITIES
+        )
+        assert coverage["isolation_set_size"] == PHASE9_CANONICAL_HELD_OUT_IDENTITIES
+
+    def test_every_raw_board_maps_into_the_isolation_set(self, coverage):
+        assert coverage["unmapped_raw_boards"] == []
+        assert coverage["checks"]["every_raw_board_maps"]
+
+    def test_the_mapping_is_surjective_onto_the_isolation_set(self, coverage):
+        assert coverage["unreached_identities"] == []
+        assert coverage["checks"]["mapping_is_surjective"]
+
+    def test_each_raw_board_reproduces_its_recorded_fingerprint(self, coverage):
+        assert coverage["round_trip_mismatches"] == []
+
+    def test_the_duplicate_classes_explain_the_difference_exactly(self, coverage):
+        assert coverage["duplicate_classes"] == PHASE9_TWO_ORIENTATION_CLASSES
+        assert coverage["class_size_histogram"] == {
+            "1": PHASE9_CANONICAL_HELD_OUT_IDENTITIES - PHASE9_TWO_ORIENTATION_CLASSES,
+            "2": PHASE9_TWO_ORIENTATION_CLASSES,
+        }
+        assert (
+            PHASE9_CANONICAL_HELD_OUT_IDENTITIES + PHASE9_TWO_ORIENTATION_CLASSES
+            == PHASE9_RAW_HELD_OUT_BOARDS
+        )
+
+    def test_the_whole_coverage_audit_passes(self, coverage):
+        assert coverage["all_pass"], {
+            key: value for key, value in coverage["checks"].items() if not value
+        }
+
+    def test_the_audit_does_not_disturb_the_frozen_isolation_manifest(self, coverage):
+        _, manifest = pb.phase9_isolation_set()
+        assert coverage["isolation_set_digest"] == manifest["set_digest"]
+        assert manifest["set_digest"] == PHASE9_ISOLATION_SET_DIGEST

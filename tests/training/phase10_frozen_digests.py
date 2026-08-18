@@ -12,13 +12,13 @@ which is a new contract version after review.
 
 CONTRACT_DIGESTS = {
     "phase10_setup_contract_v1":
-        "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+        "058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a",
     "phase10_setup_outcome_corpus_v1":
         "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
     "phase10_setup_utility_v1":
         "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
     "phase10_setup_selector_v1":
-        "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+        "5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe",
     "phase10_selector_schedule_v1":
         "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
     "phase10_eval_bank_v1":
@@ -30,7 +30,7 @@ CONTRACT_DIGESTS = {
 }
 
 CONTRACT_BUNDLE_DIGEST = (
-    "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395"
+    "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f"
 )
 
 TRAIT_SCALER_DIGEST = (
@@ -56,3 +56,12 @@ BANK_MANIFEST_DIGESTS = {
     "test": "c6f21bcdb829fe77b208e49d9960b05a1b65bcf1dc7944d3f10420bea132a755",
 }
 
+
+#: The accepted Phase 9 held-out universe, counted both ways. The raw board
+#: count is the reviewing chat's 1,233; the canonical count is the isolation
+#: set's 1,184. `phase9_raw_board_coverage` proves the map between them is
+#: total and surjective.
+PHASE9_HELD_OUT_SIDES = 1280
+PHASE9_RAW_HELD_OUT_BOARDS = 1233
+PHASE9_CANONICAL_HELD_OUT_IDENTITIES = 1184
+PHASE9_TWO_ORIENTATION_CLASSES = 49

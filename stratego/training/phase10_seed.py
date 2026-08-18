@@ -145,6 +145,7 @@ DOMAIN_BANK_SELECTOR = "bank_selector"
 DOMAIN_BANK_MATCH = "bank_match"
 DOMAIN_SELECTOR_BRANCH = "selector_branch"
 DOMAIN_SELECTOR_BASE = "selector_base"
+DOMAIN_SELECTOR_AUDIT = "selector_audit"
 DOMAIN_UTILITY_FIT = "utility_fit"
 DOMAIN_BOOTSTRAP = "bootstrap"
 
@@ -156,6 +157,7 @@ STREAM_DOMAINS = (
     DOMAIN_BANK_MATCH,
     DOMAIN_SELECTOR_BRANCH,
     DOMAIN_SELECTOR_BASE,
+    DOMAIN_SELECTOR_AUDIT,
     DOMAIN_UTILITY_FIT,
     DOMAIN_BOOTSTRAP,
 )
@@ -170,6 +172,7 @@ DOMAIN_ROOTS = {
     DOMAIN_BANK_MATCH: CASE_SCHEDULE_SEED,
     DOMAIN_SELECTOR_BRANCH: SELECTOR_DRAW_SEED,
     DOMAIN_SELECTOR_BASE: SELECTOR_DRAW_SEED,
+    DOMAIN_SELECTOR_AUDIT: SELECTOR_DRAW_SEED,
     DOMAIN_UTILITY_FIT: UTILITY_FIT_SEED,
     DOMAIN_BOOTSTRAP: PHASE10_MASTER_SEED,
 }
@@ -505,6 +508,91 @@ def selector_base_uniform(
 
 
 # ---------------------------------------------------------------------------
+# Selector-audit draw identity
+# ---------------------------------------------------------------------------
+
+_AUDIT_DRAW_ID_PATTERN = re.compile(
+    r"^phase10_selector_audit_v1\|ms=(?P<master>[0-9]+)\|k=(?P<candidate>P10-[A-F])"
+    r"\|s=(?P<split>train|validation|test)\|c=(?P<color>red|blue)"
+    r"\|n=(?P<ordinal>[0-9]+)$"
+)
+
+
+def selector_audit_draw_id(
+    candidate_id: str, split: str, color: str, draw_ordinal: int
+) -> str:
+    """The stable identifier of one selector-audit draw.
+
+    Agent 4's frozen audit runs 100,000 complete selector draws per
+    candidate x colour x split and must survive re-sharding across 1/3/8/13
+    workers with resume as exact set subtraction *by draw id*. That makes the
+    draw id a first-class Phase 10 identity, not a loop counter:
+
+    ```text
+    phase10_selector_audit_v1|ms=2026081801|k=P10-D|s=validation|c=red|n=00042
+    ```
+
+    Ordinals are zero-padded to five digits so the frozen 100,000-draw
+    volume sorts lexicographically, and no worker, process or ordering
+    information appears anywhere in the identity.
+    """
+    _require_text(candidate_id, "candidate_id")
+    _require_text(split, "split")
+    _require_color(color)
+    if not isinstance(draw_ordinal, int) or isinstance(draw_ordinal, bool) or draw_ordinal < 0:
+        raise Phase10SeedError(
+            f"draw ordinal must be a non-negative int, got {draw_ordinal!r}"
+        )
+    draw_id = (
+        f"phase10_selector_audit_v1|ms={PHASE10_MASTER_SEED}|k={candidate_id}"
+        f"|s={split}|c={color}|n={draw_ordinal:05d}"
+    )
+    if _AUDIT_DRAW_ID_PATTERN.match(draw_id) is None:
+        raise Phase10SeedError(
+            f"selector-audit draw identity is malformed: {draw_id!r}; candidate must "
+            "be one of P10-A..P10-F and split one of train/validation/test"
+        )
+    return draw_id
+
+
+def parse_selector_audit_draw_id(draw_id: str) -> dict:
+    """The identity fields of a selector-audit draw id, validated."""
+    match = _AUDIT_DRAW_ID_PATTERN.match(draw_id)
+    if match is None:
+        raise Phase10SeedError(f"malformed selector-audit draw id: {draw_id!r}")
+    fields = match.groupdict()
+    if int(fields["master"]) != PHASE10_MASTER_SEED:
+        raise Phase10SeedError(
+            f"draw id names master seed {fields['master']}, expected {PHASE10_MASTER_SEED}"
+        )
+    return {
+        "phase10_master_seed": int(fields["master"]),
+        "candidate_id": fields["candidate"],
+        "split": fields["split"],
+        "color": fields["color"],
+        "draw_ordinal": int(fields["ordinal"]),
+    }
+
+
+def selector_audit_seed(
+    candidate_id: str, split: str, color: str, draw_ordinal: int
+) -> int:
+    """The selector seed of one audit draw.
+
+    The seed a selector-audit draw hands to
+    :func:`selector_branch_uniform` / :func:`selector_base_uniform`. Hashed
+    rather than arithmetic, so consecutive audit ordinals receive unrelated
+    streams — the same reason `derive_base_seed` hashes its base index — and
+    domain-separated from the banks' `bank_selector` seeds so an audit draw
+    can never reproduce an evaluation case's draw identity.
+    """
+    selector_audit_draw_id(candidate_id, split, color, draw_ordinal)
+    return derive_phase10_seed(
+        DOMAIN_SELECTOR_AUDIT, candidate_id, split, color, int(draw_ordinal)
+    )
+
+
+# ---------------------------------------------------------------------------
 # Fit and bootstrap streams
 # ---------------------------------------------------------------------------
 
@@ -680,6 +768,7 @@ _DOMAIN_PARTS = {
     DOMAIN_BANK_MATCH: ["case_id", "game_index", "matchup_token"],
     DOMAIN_SELECTOR_BRANCH: ["selector_identity", "split", "color", "selector_seed"],
     DOMAIN_SELECTOR_BASE: ["selector_identity", "split", "color", "selector_seed"],
+    DOMAIN_SELECTOR_AUDIT: ["candidate_id", "split", "color", "draw_ordinal"],
     DOMAIN_UTILITY_FIT: ["model_id"],
     DOMAIN_BOOTSTRAP: ["bootstrap_root", "bank", "matchup_token"],
 }
@@ -701,6 +790,7 @@ __all__ = [
     "DOMAIN_CORPUS_MATCH",
     "DOMAIN_CORPUS_SETUP",
     "DOMAIN_ROOTS",
+    "DOMAIN_SELECTOR_AUDIT",
     "DOMAIN_SELECTOR_BASE",
     "DOMAIN_SELECTOR_BRANCH",
     "DOMAIN_UTILITY_FIT",
@@ -726,10 +816,13 @@ __all__ = [
     "corpus_setup_seed",
     "derive_phase10_seed",
     "parse_phase10_case_id",
+    "parse_selector_audit_draw_id",
     "parse_phase10_game_id",
     "phase10_case_id",
     "phase10_game_id",
     "seed_derivation_document",
+    "selector_audit_draw_id",
+    "selector_audit_seed",
     "selector_base_uniform",
     "selector_branch_uniform",
     "stream_collision_audit",

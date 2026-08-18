@@ -1,14 +1,14 @@
 {
  "agent": 1,
  "artifact": "agent_01_setup_selection_contract",
- "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+ "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
  "contract_digests": {
   "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
   "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
   "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
-  "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+  "phase10_setup_contract_v1": "058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a",
   "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
-  "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+  "phase10_setup_selector_v1": "5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe",
   "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
   "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
  },
@@ -463,6 +463,15 @@
       ],
       "root_seed": 2026081803
      },
+     "selector_audit": {
+      "identity_parts": [
+       "candidate_id",
+       "split",
+       "color",
+       "draw_ordinal"
+      ],
+      "root_seed": 2026081805
+     },
      "selector_base": {
       "identity_parts": [
        "selector_identity",
@@ -744,6 +753,7 @@
     }
    ],
    "diversity": {
+    "audit_draw_identity": "phase10_selector_audit_v1|ms=<master>|k=<candidate>|s=<split>|c=<colour>|n=<ordinal:05d>; the audit's selector seed is selector_audit_seed(candidate_id, split, colour, draw_ordinal) under the selector_audit domain, so a draw is addressable by id, resume is exact set subtraction by draw id, and re-sharding across workers cannot move a single draw",
     "audit_draws_per_candidate_colour_split": 100000,
     "requirements": [
      "all 16 families represented across the audited draws"
@@ -1555,6 +1565,15 @@
     ],
     "root_seed": 2026081803
    },
+   "selector_audit": {
+    "identity_parts": [
+     "candidate_id",
+     "split",
+     "color",
+     "draw_ordinal"
+    ],
+    "root_seed": 2026081805
+   },
    "selector_base": {
     "identity_parts": [
      "selector_identity",
@@ -1641,7 +1660,7 @@
   "utility_fit_seed": 2026081804,
   "validation_bootstrap_seed": 2026081807
  },
- "source_revision": "427b963",
+ "source_revision": "3882fcf",
  "storage_policy": {
   "absent_external_volume_rule": "a configured root naming an unmounted /Volumes/... volume is BLOCKED; never silently create an internal replacement path",
   "corpus_version": "phase10_setup_outcome_corpus_v1",
@@ -1665,7 +1684,7 @@
   "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10/corpus",
   "source": "repository_default"
  },
- "timestamp": "2026-08-18T12:15:13-0400",
+ "timestamp": "2026-08-18T12:48:44-0400",
  "torch_version": "2.13.0",
  "trait_feature_count": 47,
  "trait_feature_names": [

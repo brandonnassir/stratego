@@ -9,7 +9,7 @@ byte-identical before and after the phase.
 
 ## 1. Agent 1 — Contract, Seeds, Banks, and Acceptance Freeze
 
-**Status: PASS** — 22/22 completion
+**Status: PASS** — 23/23 completion
 gates true, zero problems, zero Phase 10 outcome games, zero utility fits,
 zero C1 optimizer steps.
 
@@ -44,15 +44,15 @@ pre-existing Phase 10 work      none: no corpus, utility, candidate or selector
 Eight documents, canonical JSON, SHA-256.
 
 ```text
-phase10_setup_contract_v1         94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad
+phase10_setup_contract_v1         058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a
 phase10_setup_outcome_corpus_v1   951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5
 phase10_setup_utility_v1          2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456
-phase10_setup_selector_v1         8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2
+phase10_setup_selector_v1         5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe
 phase10_selector_schedule_v1      30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4
 phase10_eval_bank_v1              8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b
 phase10_acceptance_v1             a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b
 phase10_system_v1                 a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d
-bundle                            1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395
+bundle                            257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f
 ```
 
 `phase10_system_v1` binds what exists now — the accepted Phase 9 move
@@ -71,10 +71,32 @@ selector/candidate draws  2026081805     validation/case schedule  2026081806
 validation bootstrap      2026081807     final-test bootstrap      2026081808
 ```
 
-All nine streams derive through `blake2b(person='strat-s10')` over
+Those are the **eight root seeds**. Beneath them sit **ten derived
+domains** — a distinct one per randomness need, several sharing a root —
+so "streams" in this report always means derived domains, never seeds:
+
+```text
+corpus_setup     corpus_match     bank_opponent    bank_selector
+bank_match       selector_branch  selector_base    selector_audit
+utility_fit      bootstrap
+```
+
+All ten derive through `blake2b(person='strat-s10')` over
 `identity_version:domain:domain_root:parts`, a tag disjoint from every
-accepted upstream tag. No derivation reads worker count, arrival order,
-process id, wall clock or a storage path.
+accepted upstream tag, so two domains sharing a root still cannot
+collide. No derivation reads worker count, arrival order, process id,
+wall clock or a storage path.
+
+`selector_audit` was added during Agent 1 review reconciliation, on the
+one randomness need the first freeze left unfrozen: Agent 4 must run
+100,000 selector draws per candidate x colour x split, addressable by
+draw id, with resume as exact set subtraction by draw id — and nothing
+produced that draw's selector seed. `case_selector_seed` covers only the
+1,280 bank-case seeds. Leaving it open would have made Agent 4 invent a
+derivation Agent 1 owes it. No root seed was added or changed; the domain
+hangs off the existing `selector_draw_seed` 2026081805, and consecutive
+audit ordinals receive unrelated hashed streams rather than adjacent
+integers.
 
 The collision audit enumerated 58,792 seeds across the frozen
 id space and found 58,792 distinct values — zero duplicates inside a
@@ -154,8 +176,37 @@ Phase 10 does not claim a wholly unseen base-template universe — earlier
 phases already used the same held-out base pool — so it claims what it can
 prove.
 
+The accepted Phase 9 held-out universe can be counted two ways, and both
+counts are correct. A Phase 9 pair stores each side already oriented for
+the player that plays it, and the Red and Blue orientation maps differ, so
+one canonical arrangement appearing on a Red side in one case and a Blue
+side in another is *two* stored board strings and *one* canonical
+identity. That is the whole difference:
+
 ```text
-Phase 9 held-out fingerprint set   1,184 arrangements
+held-out sides                     1,280
+distinct stored engine boards      1,233
+distinct canonical identities      1,184   (49 of them seen in both orientations)
+  1,184 + 49 = 1,233
+```
+
+The isolation set is stated over canonical final-setup fingerprints
+because that is the accepted Phase 7 setup identity and the thing a
+Phase 10 case actually produces. `phase9_raw_board_coverage` is the
+receipt that the canonical statement loses nothing: every stored board is
+de-oriented by the player that played it, run through the exact Phase 10
+fingerprint function, and required to land in the set.
+
+```text
+raw boards mapped                  1,233 / 1,233
+unmapped raw boards                0
+round-trip mismatches              0
+identities never reached           0   (the map is onto the whole set)
+duplicate classes                  49, every one of size exactly 2
+```
+
+```text
+isolation set                      1,184 canonical identities
   set digest                       c714c6e721e65d2624b34b27a529fa95f69369d0f1070d31b134d1b69aac16ce
 frozen Phase 10 arrangements       1,920 (opponent + both neutral own-side draws per case)
 overlap with Phase 9                0
@@ -172,8 +223,13 @@ arm-independent and order-independent, and a case rebuilds alone.
 One residual is recorded rather than hidden: a learned selector's own-side
 draw cannot be enumerated before the selector exists. Rejecting such a draw
 at evaluation time would distort the very mixed distribution the diversity
-contract is stated over, so Agents 5-7 record its Phase 9 landings as a
-report-only diagnostic instead.
+contract is stated over, so it stays a report-only diagnostic. Agents 5-7
+carry the standing obligation to enumerate, per candidate, arm, matchup and
+bank, both the **count and the rate** of produced final setups landing in
+this set — and to use neither for selection, for any gate, or as grounds
+for evaluation-time rejection sampling. That obligation lives in the
+acceptance artifact rather than in a frozen contract, so it adds no design
+decision and re-identifies no digest downstream agents already verify.
 
 ### 1.9 Acceptance
 
@@ -218,6 +274,17 @@ together.
   intercept is unpenalized. A summed BCE would make 1e-3 effectively no
   regularization at 16,384 games; the mean is the reading under which the
   stated coefficient does the job the contract gives it.
+- **selector-audit randomness domain (review reconciliation)** — the contract says *100,000 draws per candidate x color x split ... resume must be exact set subtraction by draw id*.
+  Agent 4's audit needs a selector seed per addressable draw id and the
+  first freeze produced none — case_selector_seed covers only the 1,280
+  bank-case seeds — so a tenth derived domain, selector_audit, was added
+  under the existing selector_draw_seed root 2026081805. No root seed was
+  added or changed and no threshold, candidate, bank, schedule or utility
+  definition moved; it removes an unfrozen choice Agent 4 would otherwise
+  have had to invent, and it moves exactly two contract digests
+  (phase10_setup_contract_v1, phase10_setup_selector_v1) plus the bundle,
+  leaving both bank digests, both bank manifests, the schedule digest, the
+  scaler digest and the isolation-set digest byte-identical.
 - **fingerprint isolation of learned draws** — the contract says *zero exact final-setup fingerprint overlap with Phase 9 validation/test cases*.
   Hard, rejection-enforced over every arrangement a Phase 10 case fixes —
   the opponent setup and both neutral_v1 own-side draws; a learned
@@ -231,7 +298,7 @@ together.
 
 ```text
 tests before   4621 passed, 3 skipped in 283.69s (0:04:43)
-tests after    4858 passed, 3 skipped in 295.45s (0:04:55)
+tests after    4879 passed, 3 skipped in 297.80s (0:04:57)
 ```
 
 ```text
@@ -250,4 +317,277 @@ outcome-record schema, the Phase 9 evaluation-only identity, the
 resolver/storage policy, the exact 16,384 logical ids, the train-only rule,
 the crash/resume identity rule, and the Phase 9 byte-preservation
 requirement.
+
+## 2. Agent 2 — Controlled Setup-Outcome Corpus
+
+**Status: PASS** — 23/23 completion gates true, 16,384 games over 256 ordered family pairs at
+64 each, zero utility fits, zero candidate selections, zero C1 optimizer steps,
+and the accepted Phase 9 checkpoint byte-identical before and after.
+
+Agent 2 creates outcome evidence and nothing else. It executes Agent 1's frozen
+schedule, stores each game as a digest-checked record, seals the corpus, and
+then proves by replay that the records say what happened.
+
+### 2.1 Verified prerequisites
+
+Every identity was recomputed from live bytes before a single game was played.
+
+```text
+Agent 1                         PASS, 23/23 gates, zero false gates
+contract bundle digest          257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f
+outcome schedule digest         1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0
+validation bank digest          a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f
+test bank digest                be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad
+Phase 9 checkpoint SHA-256      dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+Phase 9 model-state digest      f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+Phase 9 parameters              863,959, all finite
+Phase 7 library content         7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+Phase 7 splits                  6,400 / 800 / 800 at 400 / 50 / 50 per family
+schedule audit                  11/11 checks, 16,384 games, 256 pairs, 64 each
+test-bank neural/outcome access 0
+```
+
+Both evaluation banks were rebuilt only to re-derive their digests. No case was
+played, scored, or shown to a model; the access log records both reads as
+`digest_computation`.
+
+### 2.2 Storage
+
+```text
+resolved root                   /Volumes/Brandon_Washington/stratego_phase10/corpus
+resolution source               pointer_file
+external volume                 /Volumes/Brandon_Washington, mounted, distinct device id from /
+free bytes                      994,426,912,768
+record bytes                    25,378,889
+metadata bytes                  13,787,193
+journal bytes                   7,885,090
+total bytes                     47,051,172
+bytes per game                  2872
+payload compression ratio       0.356 (zlib level 6)
+shards                          12
+```
+
+The root is a diagnostic, never an identity: corpus identity is the corpus
+version, the logical game ids, and the payload/metadata/commit digests, so the
+same bytes copied to another volume are the same corpus. A test copies a corpus
+to a different path and re-derives the identical content digest.
+
+### 2.3 The crash-safe commit protocol
+
+`phase10_outcome_commit_v1` reproduces the accepted Phase 8 commit protocol for
+a different payload. The rule is Phase 8's rule — a game becomes visible only
+when its commit line exists — with the same write order and the same
+truncation-based recovery:
+
+```text
+1. encode + compress + decode-verify the payload
+2. build and check the metadata line
+3. append the payload frame, flush
+4. append the metadata line, flush
+5. append the commit line, flush
+```
+
+Each commit carries the two file sizes after its own writes, which is what makes
+recovery a truncation rather than a rewrite. Shards roll over only between games.
+
+Crashes were injected at every stage before collection began, on a scratch store
+that is deleted afterwards:
+
+```text
+before_payload       committed 3 of 6, discards the victim, 0 bytes discarded
+after_payload        committed 3 of 6, discards the victim, 1605 bytes discarded
+after_metadata       committed 3 of 6, discards the victim, 2447 bytes discarded
+before_commit_flush  committed 3 of 6, discards the victim, 2447 bytes discarded
+after_commit         committed 4 of 6, keeps the victim, 0 bytes discarded
+shard_rollover       committed 3 of 6, discards the victim, 0 bytes discarded
+```
+
+```text
+SIGKILL drill        worker killed (exit -9) with 2 of 6 committed;
+                     recovery kept exactly those, resume under 3 workers
+                     replayed exactly the 4 missing games
+partition drill      the same games collected at worker_count 1 and 5 produce
+                     the identical content digest ef851f84c46c871aa5b7cfc50105af0a...
+```
+
+The canonical corpus order is `sorted(game_id)` and nothing else, which is why
+a differently partitioned run is the same corpus rather than a similar one.
+
+### 2.4 The record
+
+Agent 1 froze a 27-field outcome schema. Agent 2's own instruction
+additionally requires a per-side trait-vector identity, the final setup
+fingerprints, a record version and the contract/schedule digests, so a stored
+record carries 37 fields of which the frozen 27 are a strict subset —
+asserted at import time, not merely intended. Pre-game and post-game fields
+are two closed, disjoint sets in the stored bytes:
+
+```text
+setup half     25 fields   identity, both sides' complete sampler provenance,
+                          base ids, fingerprints, trait identities, seeds, digests
+outcome half   9 fields    result, winner, red score, plies, decisions,
+                          terminal reason, move-policy and checkpoint identity
+derived         3 fields    payload / metadata / commit digests, which name bytes
+                          that only exist once the record is written
+```
+
+A record carries no opponent-private value, no model score, no strength signal
+and no physical path; a test greps the stored JSON for each.
+
+### 2.5 Collection
+
+```text
+games                           16,384
+plies                           5,658,357
+workers                         12 pure-CPU processes, 1 torch thread each
+wall clock                      1079 s
+throughput                      15.19 games/s, 5246 decisions/s
+peak worker RSS                 323,649,536 bytes
+checkpoint loads                12 (one per long-lived worker owner)
+inference failures              0
+illegal neural actions          0
+```
+
+Both sides of every game play the accepted Phase 9 checkpoint under the frozen
+behaviour — greedy, float32, `single_request`, no search, no temperature. The
+accepted file is opened read-only; its weights are exported once to the frozen
+evaluation format and the export is refused unless every tensor round-trips
+bitwise, which is the accepted Phase 9 Agent 8 procedure unchanged.
+
+### 2.6 Balance audit
+
+```text
+total games                     16,384
+ordered pairs                   256
+games per pair                  [64]
+train split violations          0
+duplicate game ids              0
+duplicate commit identities     0
+invalid setups                  0
+stranded sampled setups         0
+inventory violations            0
+setup provenance mismatches     0
+policy identity mismatches      0
+non-finite inference rows       0
+illegal neural actions          0
+distinct base setups used       6,371
+distinct final fingerprints     25,576
+```
+
+Every stored side was rebuilt from its provenance alone through
+`rebuild_from_provenance`: 32,768 sides, zero mismatches.
+
+**Diagnostics only** — these numbers rank nothing and select nothing:
+
+```text
+Red wins                        8,129  (0.496)
+draws                           160  (0.010)
+Red losses                      8,095  (0.494)
+plies  min / mean / max         1 / 345 / 1623
+```
+
+Terminal reasons:
+
+```text
+battleless_move_limit_draw      160
+flag_capture                    15,989
+opponent_no_legal_move          235
+```
+
+Per-ordered-pair counts, Red scores, mean lengths and distinct base counts are
+in `agent_02_family_pair_audit.csv`, one row per ordered pair.
+
+### 2.7 Replay and the negative control
+
+```text
+games replayed end to end       16,384 of 16,384 (stride 1)
+ordered pairs covered           256
+families covered                16 of 16
+W/D/L, length, terminal reason  identical on every replayed game
+final setup fingerprints        identical on every replayed side
+replay wall clock               1075 s
+```
+
+A replay audit that passes whichever weights played is not an audit, so the
+same verifier was run against a deliberately wrong checkpoint — the accepted
+Phase 8 anchor, a real and complete but different C1 model:
+
+```text
+sampled games                   64
+games whose outcome differed    64 (1.000)
+policy-identity check           fires: a worker loading the wrong weights is refused
+result verifier                 fires: the stored outcomes are not reproduced
+```
+
+Device agreement was measured rather than assumed: on 32 games spread
+across the corpus, cpu and mps chose identical games (zero disagreements).
+
+### 2.8 Phase 9 preservation
+
+```text
+SHA-256 before                  dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+SHA-256 after                   dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+model-state digest before       f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+model-state digest after        f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+parameters before / after       863,959 / 863,959
+C1 optimizer steps              0
+source opened                   read-only; weights exported, never rewritten
+```
+
+### 2.9 The seal
+
+```text
+state                           COLLECTING -> SEALED
+committed games                 16,384
+content digest                  1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50
+immutability                     a sealed corpus refuses every writer and every
+                                truncation, including reconciliation
+```
+
+The content digest is taken over every committed payload digest in canonical
+game-id order, so it is independent of worker count, segment, shard and path.
+
+### 2.10 Recorded readings
+
+- **stored record field count** — contract text: *Persist one digest-checked record per game containing at minimum: ...*.
+  Agent 1 froze a 27-field schema; Agent 2's own minimum list additionally names a per-side trait-vector identity, the final setup fingerprints, a record version and the contract/schedule digests. The stored record is therefore the frozen 27 plus exactly those, 37 fields in all, and the store asserts the frozen 27 remain a strict subset.
+  Safe because no frozen field changed meaning or left the record, the corpus contract document is untouched (its digest still recomputes to 951025f1...), and every added field is a structural descriptor or a digest — never an opponent-private value, a model score or a strength signal.
+
+- **collection device** — contract text: *move behavior: greedy, float32, single_request, no search*.
+  The frozen behaviour names no device, so the device is operational. CPU float32 with one thread per worker was chosen because it is roughly twice as fast as MPS at batch 1 on this 864k-parameter model and is bit-exact run to run.
+  Safe because the device appears in no identity, and `device_agreement_probe` measures CPU-versus-MPS action agreement on a spread sample rather than assuming it.
+
+- **move-policy identity prefix** — contract text: *move-policy identity*.
+  The corpus policy reference is built with the accepted `neural_policy_ref` helper, whose naming convention prefixes every neural policy id with `phase6_`; the resulting token is `phase6_phase10_corpus_move_v1_greedy@0.2.0+float32`.
+  Safe because hand-rolling a token would drop the helper's decision-rule and dtype versioning, which is the part of the identity that actually constrains replay; the prefix is the project's neural-policy family marker, not a phase claim.
+
+- **negative control source** — contract text: *Run a wrong-checkpoint negative control*.
+  The wrong checkpoint is the accepted Phase 8 anchor, a real and complete but different C1 checkpoint, rather than a perturbed copy of the accepted Phase 9 weights.
+  Safe because writing a mutated copy of the artifact this phase must preserve byte for byte is a risk with no compensating benefit; a genuinely different checkpoint is a stronger control.
+
+### 2.11 Evidence
+
+```text
+tests before   4879 passed, 3 skipped in 301.34s (0:05:01)
+tests after    4964 passed, 3 skipped in 301.91s (0:05:01)
+```
+
+```text
+reports/phase_10_data/agent_02_outcome_corpus.json
+reports/phase_10_data/agent_02_family_pair_audit.csv
+reports/phase_10_data/agent_02_acceptance.json
+```
+
+### 2.12 Handoff to Agent 3
+
+Agent 3 fits exactly two utility models and makes no selection decision. It
+receives a SEALED, read-only corpus of 16,384 records at content digest
+`1977bb6f5e2611b0498c7976f6129718...`, reachable through
+`phase10_storage.default_corpus_root` and `OutcomeReader` rather than a path;
+the canonical record order `sorted(game_id)`; the exact schema and both halves'
+field lists; the per-side setup descriptors, including base identity, family,
+trait identity, complete sampler provenance and final fingerprints; the
+train-only standardization source of 6,400 bases; and the proof that no
+validation or test outcome was read, no held-out base entered the corpus, and
+no Phase 9 weight moved.
 

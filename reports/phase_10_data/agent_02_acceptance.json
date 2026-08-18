@@ -1,0 +1,442 @@
+{
+  "agent": 2,
+  "agent1": {
+    "false_gates": [],
+    "gates_total": 23,
+    "gates_true": 23,
+    "status": "PASS"
+  },
+  "artifact": "agent_02_acceptance",
+  "bank_access_log": [
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    }
+  ],
+  "commands": [
+    "python scripts/run_phase10_agent02.py",
+    ".venv/bin/python -m pytest tests -q"
+  ],
+  "completion_gates": {
+    "agent1_pass": true,
+    "commit_protocol_pass": true,
+    "contract_digests_match": true,
+    "crash_resume_pass": true,
+    "duplicate_game_ids_zero": true,
+    "full_suite_green": true,
+    "games_exact_16384": true,
+    "games_per_pair_exact_64": true,
+    "illegal_neural_actions_zero": true,
+    "invalid_setups_zero": true,
+    "inventory_violations_zero": true,
+    "no_setup_learning": true,
+    "nonfinite_inference_zero": true,
+    "ordered_pairs_exact_256": true,
+    "phase7_train_only": true,
+    "phase9_checkpoint_verified_after": true,
+    "phase9_checkpoint_verified_before": true,
+    "phase9_model_state_unchanged": true,
+    "replay_audit_pass": true,
+    "setup_provenance_mismatches_zero": true,
+    "stranded_sampled_setups_zero": true,
+    "test_bank_neural_outcome_access_zero": true,
+    "wrong_checkpoint_negative_control_fires": true
+  },
+  "crash_resilience": {
+    "all_pass": true,
+    "crash_drills": [
+      {
+        "bytes_discarded": 0,
+        "committed_games": 3,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 3,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "before_payload",
+        "torn_tail_repaired": false,
+        "victim_index": 3
+      },
+      {
+        "bytes_discarded": 1605,
+        "committed_games": 3,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 3,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "after_payload",
+        "torn_tail_repaired": true,
+        "victim_index": 3
+      },
+      {
+        "bytes_discarded": 2447,
+        "committed_games": 3,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 3,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "after_metadata",
+        "torn_tail_repaired": true,
+        "victim_index": 3
+      },
+      {
+        "bytes_discarded": 2447,
+        "committed_games": 3,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 3,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "before_commit_flush",
+        "torn_tail_repaired": true,
+        "victim_index": 3
+      },
+      {
+        "bytes_discarded": 0,
+        "committed_games": 4,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 4,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "after_commit",
+        "torn_tail_repaired": false,
+        "victim_index": 3
+      },
+      {
+        "bytes_discarded": 0,
+        "committed_games": 3,
+        "committed_matches_expected": true,
+        "crash_fired": true,
+        "expected_committed": 3,
+        "integrity_all_pass": true,
+        "pass": true,
+        "shards_removed": [],
+        "stage": "shard_rollover",
+        "torn_tail_repaired": false,
+        "victim_index": 3
+      }
+    ],
+    "crash_stages": [
+      "before_payload",
+      "after_payload",
+      "after_metadata",
+      "before_commit_flush",
+      "after_commit",
+      "shard_rollover"
+    ],
+    "drill_game_ids": [
+      "phase10_outcome_v1|ms=2026081801|rf=F00|bf=F00|g=00",
+      "phase10_outcome_v1|ms=2026081801|rf=F03|bf=F14|g=32",
+      "phase10_outcome_v1|ms=2026081801|rf=F07|bf=F13|g=00",
+      "phase10_outcome_v1|ms=2026081801|rf=F11|bf=F11|g=32",
+      "phase10_outcome_v1|ms=2026081801|rf=F15|bf=F10|g=00",
+      "phase10_outcome_v1|ms=2026081801|rf=F15|bf=F15|g=63"
+    ],
+    "kill_drill": {
+      "bytes_discarded_on_recovery": 0,
+      "committed_after_resume": 6,
+      "committed_before_kill": 2,
+      "games_requested": 6,
+      "integrity_after_recovery": true,
+      "killed_exitcode": -9,
+      "pass": true,
+      "replayed_on_resume": 4,
+      "resume_replayed_only_missing": true
+    },
+    "partition_drill": {
+      "content_digest_a": "ef851f84c46c871aa5b7cfc50105af0aec2a35e233b3913c4c525399d74bf6b2",
+      "content_digest_b": "ef851f84c46c871aa5b7cfc50105af0aec2a35e233b3913c4c525399d74bf6b2",
+      "digests_match": true,
+      "file_sets_differ": true,
+      "game_ids_match": true,
+      "pass": true,
+      "worker_counts": [
+        1,
+        5
+      ]
+    },
+    "problems": [],
+    "scratch_root_removed": true,
+    "stage": "resilience"
+  },
+  "deviations": [
+    {
+      "contract_text": "Persist one digest-checked record per game containing at minimum: ...",
+      "reading": "Agent 1 froze a 27-field schema; Agent 2's own minimum list additionally names a per-side trait-vector identity, the final setup fingerprints, a record version and the contract/schedule digests. The stored record is therefore the frozen 27 plus exactly those, 37 fields in all, and the store asserts the frozen 27 remain a strict subset",
+      "topic": "stored record field count",
+      "why_safe": "no frozen field changed meaning or left the record, the corpus contract document is untouched (its digest still recomputes to 951025f1...), and every added field is a structural descriptor or a digest \u2014 never an opponent-private value, a model score or a strength signal"
+    },
+    {
+      "contract_text": "move behavior: greedy, float32, single_request, no search",
+      "reading": "the frozen behaviour names no device, so the device is operational. CPU float32 with one thread per worker was chosen because it is roughly twice as fast as MPS at batch 1 on this 864k-parameter model and is bit-exact run to run",
+      "topic": "collection device",
+      "why_safe": "the device appears in no identity, and `device_agreement_probe` measures CPU-versus-MPS action agreement on a spread sample rather than assuming it"
+    },
+    {
+      "contract_text": "move-policy identity",
+      "reading": "the corpus policy reference is built with the accepted `neural_policy_ref` helper, whose naming convention prefixes every neural policy id with `phase6_`; the resulting token is `phase6_phase10_corpus_move_v1_greedy@0.2.0+float32`",
+      "topic": "move-policy identity prefix",
+      "why_safe": "hand-rolling a token would drop the helper's decision-rule and dtype versioning, which is the part of the identity that actually constrains replay; the prefix is the project's neural-policy family marker, not a phase claim"
+    },
+    {
+      "contract_text": "Run a wrong-checkpoint negative control",
+      "reading": "the wrong checkpoint is the accepted Phase 8 anchor, a real and complete but different C1 checkpoint, rather than a perturbed copy of the accepted Phase 9 weights",
+      "topic": "negative control source",
+      "why_safe": "writing a mutated copy of the artifact this phase must preserve byte for byte is a risk with no compensating benefit; a genuinely different checkpoint is a stronger control"
+    }
+  ],
+  "discipline": {
+    "c1_optimizer_steps": 0,
+    "candidates_selected": 0,
+    "held_out_bases_in_corpus": 0,
+    "human_games_used": 0,
+    "neural_inference_on_either_bank": 0,
+    "test_bank_outcome_access": 0,
+    "utility_models_fit": 0,
+    "validation_bank_outcome_access": 0
+  },
+  "environment": {
+    "cpu_count": 14,
+    "mps_available": true,
+    "mps_built": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "3882fcf",
+    "torch_version": "2.13.0",
+    "working_tree_state": "dirty"
+  },
+  "false_gates": [],
+  "frozen_inputs": {
+    "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "outcome_schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "phase9_parameters": 863959,
+    "test_bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "validation_bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f"
+  },
+  "gates_total": 23,
+  "gates_true": 23,
+  "handoff_to_agent_3": {
+    "canonical_record_order": "sorted(game_id) \u2014 never worker, segment, shard or arrival order, which is why a differently partitioned run is the same corpus",
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "corpus_state": "SEALED",
+    "corpus_version": "phase10_setup_outcome_corpus_v1",
+    "diagnostics_only": "result counts, lengths and terminal reasons are diagnostics; they do not rank families and must not be used to select anything",
+    "for_agent": 3,
+    "mission": "fit exactly two utility models; make no selection decision",
+    "proof_no_leak": {
+      "c1_optimizer_steps": 0,
+      "held_out_bases_used": 0,
+      "phase9_file_sha_before_and_after": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "phase9_weight_changes": 0,
+      "test_bank_outcome_access": 0,
+      "validation_bank_outcome_access": 0
+    },
+    "replay_evidence": {
+      "games_replayed": 16384,
+      "mismatches": 0,
+      "negative_control_fires": true
+    },
+    "resolver": {
+      "function": "default_corpus_root",
+      "identity_rule": "the resolved corpus root is an operational diagnostic, never an identity: Phase 10 corpus identity is corpus version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same corpus",
+      "module": "stratego.training.phase10_storage",
+      "read_only": "a SEALED corpus refuses every writer and every truncation",
+      "reader": "stratego.training.phase10_outcome_store.OutcomeReader"
+    },
+    "schema": {
+      "outcome_section_fields": [
+        "result",
+        "winner",
+        "red_score",
+        "plies",
+        "decisions",
+        "terminal_reason",
+        "move_policy_identity",
+        "move_checkpoint_sha256",
+        "move_model_state_digest"
+      ],
+      "result_targets": {
+        "draw": 0.5,
+        "red_loss": 0.0,
+        "red_win": 1.0
+      },
+      "setup_section_fields": [
+        "corpus_version",
+        "record_version",
+        "game_id",
+        "red_family",
+        "blue_family",
+        "ordinal",
+        "split",
+        "match_seed",
+        "red_setup_draw_seed",
+        "blue_setup_draw_seed",
+        "red_setup_attempt",
+        "blue_setup_attempt",
+        "red_base_setup_id",
+        "blue_base_setup_id",
+        "red_provenance",
+        "blue_provenance",
+        "red_final_fingerprint",
+        "blue_final_fingerprint",
+        "red_trait_identity",
+        "blue_trait_identity",
+        "trait_schema_version",
+        "library_content_digest",
+        "corpus_contract_digest",
+        "outcome_schedule_digest",
+        "contract_bundle_digest"
+      ],
+      "stored_fields": [
+        "corpus_version",
+        "record_version",
+        "game_id",
+        "red_family",
+        "blue_family",
+        "ordinal",
+        "split",
+        "match_seed",
+        "red_setup_draw_seed",
+        "blue_setup_draw_seed",
+        "red_setup_attempt",
+        "blue_setup_attempt",
+        "red_base_setup_id",
+        "blue_base_setup_id",
+        "red_provenance",
+        "blue_provenance",
+        "red_final_fingerprint",
+        "blue_final_fingerprint",
+        "red_trait_identity",
+        "blue_trait_identity",
+        "trait_schema_version",
+        "library_content_digest",
+        "corpus_contract_digest",
+        "outcome_schedule_digest",
+        "contract_bundle_digest",
+        "result",
+        "winner",
+        "red_score",
+        "plies",
+        "decisions",
+        "terminal_reason",
+        "move_policy_identity",
+        "move_checkpoint_sha256",
+        "move_model_state_digest",
+        "payload_digest",
+        "metadata_digest",
+        "commit_digest"
+      ],
+      "target_orientation": "red perspective"
+    },
+    "setup_descriptors": {
+      "base_identity": "red_base_setup_id / blue_base_setup_id",
+      "family": "red_family / blue_family",
+      "fingerprints": "red_final_fingerprint / blue_final_fingerprint",
+      "provenance": "red_provenance / blue_provenance (complete setup_sampler_v1 record)",
+      "trait_identity": "red_trait_identity / blue_trait_identity"
+    },
+    "standardization_source": {
+      "held_out_bases_in_corpus": 0,
+      "rule": "x(s) is the frozen 35-field trait vector of the *base*, standardized using only all 6,400 train bases with population mean/std (ddof=0)",
+      "scaler_digest_frozen_by_agent_1": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+      "split": "train",
+      "train_bases": 6400
+    }
+  },
+  "new_digests": {
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "corpus_contract_digest": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
+    "evaluation_export_sha256": "4ffad15e2452fc56eadd00400abbad4b5a4260f802db3aba1d7169ef6942662a",
+    "move_policy_identity": "phase6_phase10_corpus_move_v1_greedy@0.2.0+float32"
+  },
+  "phase": 10,
+  "phase9_preservation": {
+    "after": {
+      "all_parameters_finite": true,
+      "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "file_mtime_unix": 1787008028.8287337,
+      "file_size_bytes": 10464043,
+      "label": "after",
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "parameters": 863959,
+      "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "before": {
+      "all_parameters_finite": true,
+      "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "file_mtime_unix": 1787008028.8287337,
+      "file_size_bytes": 10464043,
+      "label": "before",
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "parameters": 863959,
+      "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "c1_optimizer_steps": 0,
+    "file_sha_unchanged": true,
+    "model_state_unchanged": true,
+    "parameters_unchanged": true,
+    "rule": "Phase 9 checkpoint before Phase 10 == Phase 9 checkpoint after Phase 10, in both file SHA-256 and model-state digest",
+    "source_opened_read_only": true
+  },
+  "status": "PASS",
+  "storage_diagnostics": {
+    "bytes_per_game": 2871.775634765625,
+    "committed_games": 16384,
+    "compression_ratio": 0.3563696265153152,
+    "external_volume": "/Volumes/Brandon_Washington",
+    "free_bytes": 994426912768,
+    "identity_rule": "the resolved corpus root is an operational diagnostic, never an identity: Phase 10 corpus identity is corpus version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same corpus",
+    "is_external_volume": true,
+    "journal_bytes": 7885090,
+    "metadata_bytes": 13787193,
+    "payload_compressed_bytes": 25309445,
+    "payload_uncompressed_bytes": 71020208,
+    "record_bytes": 25378889,
+    "root": "/Volumes/Brandon_Washington/stratego_phase10/corpus",
+    "root_source": "pointer_file",
+    "shard_count": 12,
+    "total_bytes": 47051172
+  },
+  "suite": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 4964,
+    "returncode": 0,
+    "seconds": 303.14,
+    "skipped": 3,
+    "summary": "4964 passed, 3 skipped in 301.91s (0:05:01)"
+  },
+  "suite_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "3882fcf",
+    "passed": 4879,
+    "seconds": 301.34,
+    "skipped": 3,
+    "summary": "4879 passed, 3 skipped in 301.34s (0:05:01)"
+  }
+}

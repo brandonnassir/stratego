@@ -700,6 +700,14 @@ def selector_document() -> dict:
             "scope": DIVERSITY_SCOPE,
             "thresholds": dict(DIVERSITY_THRESHOLDS),
             "audit_draws_per_candidate_colour_split": SELECTOR_AUDIT_DRAWS,
+            "audit_draw_identity": (
+                "phase10_selector_audit_v1|ms=<master>|k=<candidate>|s=<split>"
+                "|c=<colour>|n=<ordinal:05d>; the audit's selector seed is "
+                "selector_audit_seed(candidate_id, split, colour, draw_ordinal) "
+                "under the selector_audit domain, so a draw is addressable by id, "
+                "resume is exact set subtraction by draw id, and re-sharding "
+                "across workers cannot move a single draw"
+            ),
             "zero_tolerance": list(SELECTOR_AUDIT_ZERO_TOLERANCE),
             "requirements": list(SELECTOR_AUDIT_REQUIREMENTS),
         },

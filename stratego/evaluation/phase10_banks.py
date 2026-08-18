@@ -234,6 +234,118 @@ def phase9_isolation_set(root: "Path | None" = None) -> "tuple[frozenset[str], d
     return frozenset(ordered), manifest
 
 
+def phase9_raw_board_coverage(root: "Path | None" = None) -> dict:
+    """Prove the isolation set covers every accepted Phase 9 held-out board.
+
+    The accepted Phase 9 banks are counted two different ways, and the two
+    counts are both correct:
+
+    ```text
+    1,280   held-out sides (128 + 512 cases, two sides each)
+    1,233   distinct stored engine-order board strings
+    1,184   distinct canonical final-setup fingerprints
+    ```
+
+    A Phase 9 pair stores each side already oriented for the player that
+    plays it, and `orient_setup` is a different map for Red and Blue. One
+    canonical arrangement that appears on a Red side in one case and a Blue
+    side in another therefore contributes *two* distinct stored board
+    strings while being *one* canonical identity — which is exactly the
+    1,184 + 49 = 1,233 arithmetic this function recomputes.
+
+    The isolation set is stated over canonical final-setup fingerprints
+    because that is the accepted Phase 7 setup identity and the thing a
+    Phase 10 case actually produces. This function is the receipt that the
+    canonical statement loses nothing: it walks the raw stored boards,
+    de-orients each by the player that played it, applies the exact Phase 10
+    fingerprint function, and requires the result to be both *total* (no
+    unmapped raw board) and *surjective* (no isolation identity unreached).
+
+    Deliberately separate from :func:`phase9_isolation_set`: that function's
+    manifest is embedded in both frozen bank manifests, so extending it
+    would re-identify banks this reconciliation is not permitted to rebuild.
+    """
+    from ..engine.constants import BLUE, RED
+    from ..engine.setup import deserialize_setup
+    from ..setups.identity import deorient_setup
+
+    base = repository_root() if root is None else Path(root)
+    isolation, isolation_manifest = phase9_isolation_set(base)
+
+    observations: list = []
+    for relative in PHASE9_BANK_ARTIFACTS:
+        payload = json.loads((base / relative).read_text())
+        pairs = {
+            pair["setup_pair_id"]: pair for pair in payload["bank"]["pairs"]
+        }
+        for record in payload["manifest"]["case_provenance"]:
+            pair = pairs[record["setup_pair_id"]]
+            for side, key, player in (
+                ("red", "red_setup", RED),
+                ("blue", "blue_setup", BLUE),
+            ):
+                observations.append(
+                    (pair[key], player, str(record[side]["final_setup_fingerprint"]))
+                )
+
+    round_trip_mismatches: list = []
+    reached: dict = {}
+    unmapped: list = []
+    seen: set = set()
+    for board, player, recorded in observations:
+        canonical = deorient_setup(deserialize_setup(board), player)
+        observed = content_fingerprint(canonical)
+        if observed != recorded:
+            round_trip_mismatches.append(f"{board} as player {player}")
+        if (board, player) in seen:
+            continue
+        seen.add((board, player))
+        reached.setdefault(observed, []).append(board)
+        if observed not in isolation:
+            unmapped.append(f"{board} as player {player}")
+
+    class_sizes: dict = {}
+    for boards in reached.values():
+        class_sizes[len(boards)] = class_sizes.get(len(boards), 0) + 1
+    unreached = sorted(isolation - set(reached))
+
+    checks = {
+        "round_trip_exact": not round_trip_mismatches,
+        "every_raw_board_maps": not unmapped,
+        "mapping_is_surjective": not unreached,
+        "cardinality_reconciles": len(reached) == len(isolation),
+        "members_account_for_every_raw_board": sum(
+            size * count for size, count in class_sizes.items()
+        )
+        == len(seen),
+    }
+
+    return {
+        "isolation_set_digest": isolation_manifest["set_digest"],
+        "held_out_sides": len(observations),
+        "distinct_raw_boards": len(seen),
+        "distinct_canonical_identities": len(reached),
+        "isolation_set_size": len(isolation),
+        "duplicate_classes": sum(
+            count for size, count in class_sizes.items() if size > 1
+        ),
+        "class_size_histogram": {
+            str(size): count for size, count in sorted(class_sizes.items())
+        },
+        "unmapped_raw_boards": unmapped,
+        "unreached_identities": unreached,
+        "round_trip_mismatches": round_trip_mismatches,
+        "why_the_counts_differ": (
+            "a Phase 9 pair stores each side oriented for the player that plays "
+            "it, so one canonical arrangement appearing on a Red side in one case "
+            "and a Blue side in another is two stored board strings and one "
+            "canonical identity"
+        ),
+        "checks": checks,
+        "all_pass": all(checks.values()),
+    }
+
+
 # ---------------------------------------------------------------------------
 # Case construction
 # ---------------------------------------------------------------------------
@@ -806,6 +918,7 @@ __all__ = [
     "cross_bank_isolation",
     "manifest_digest",
     "phase9_isolation_set",
+    "phase9_raw_board_coverage",
     "repository_root",
     "resolve_opponent_setup",
     "resolve_selector_seed",

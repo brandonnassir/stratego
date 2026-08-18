@@ -238,3 +238,74 @@ class TestSeedDocument:
     def test_document_records_the_root_reading_notes(self):
         notes = ps.seed_derivation_document()["root_reading_notes"]
         assert any("test-case root" in note for note in notes)
+
+
+class TestSelectorAuditDraws:
+    """Agent 4's 3.6M audit draws are addressable by draw id, not by counter."""
+
+    def test_draw_id_format_and_round_trip(self):
+        draw_id = ps.selector_audit_draw_id("P10-D", "validation", "red", 42)
+        assert draw_id == (
+            "phase10_selector_audit_v1|ms=2026081801|k=P10-D|s=validation|c=red|n=00042"
+        )
+        assert ps.parse_selector_audit_draw_id(draw_id) == {
+            "phase10_master_seed": 2026081801,
+            "candidate_id": "P10-D",
+            "split": "validation",
+            "color": "red",
+            "draw_ordinal": 42,
+        }
+
+    def test_the_frozen_audit_volume_sorts_lexicographically(self):
+        ordinals = [0, 9, 10, 99_999]
+        identifiers = [
+            ps.selector_audit_draw_id("P10-A", "train", "red", ordinal)
+            for ordinal in ordinals
+        ]
+        assert identifiers == sorted(identifiers)
+
+    @pytest.mark.parametrize(
+        "arguments",
+        [
+            ("P10-G", "train", "red", 0),
+            ("P10-A", "holdout", "red", 0),
+            ("P10-A", "train", "green", 0),
+            ("P10-A", "train", "red", -1),
+        ],
+    )
+    def test_malformed_draw_identities_are_refused(self, arguments):
+        with pytest.raises(ps.Phase10SeedError):
+            ps.selector_audit_draw_id(*arguments)
+
+    def test_consecutive_ordinals_receive_unrelated_streams(self):
+        first = ps.selector_audit_seed("P10-A", "train", "red", 0)
+        second = ps.selector_audit_seed("P10-A", "train", "red", 1)
+        assert first != second
+        assert abs(first - second) > 1
+
+    def test_every_identity_input_separates_the_stream(self):
+        base = ps.selector_audit_seed("P10-A", "train", "red", 7)
+        assert base != ps.selector_audit_seed("P10-B", "train", "red", 7)
+        assert base != ps.selector_audit_seed("P10-A", "validation", "red", 7)
+        assert base != ps.selector_audit_seed("P10-A", "train", "blue", 7)
+
+    def test_audit_seeds_never_collide_with_bank_case_seeds(self):
+        case_seeds = set()
+        for bank in ("phase10_validation_bank_v1", "phase10_test_bank_v1"):
+            for ordinal in range(32):
+                case_id = ps.phase10_case_id(bank, "F00", ordinal)
+                for color in ps.COLORS:
+                    case_seeds.add(ps.case_selector_seed(case_id, color, 0))
+        audit_seeds = {
+            ps.selector_audit_seed("P10-A", split, color, ordinal)
+            for split in ("train", "validation", "test")
+            for color in ps.COLORS
+            for ordinal in range(512)
+        }
+        assert not case_seeds & audit_seeds
+
+    def test_the_domain_hangs_off_an_existing_root(self):
+        assert ps.DOMAIN_SELECTOR_AUDIT in ps.STREAM_DOMAINS
+        assert ps.DOMAIN_ROOTS[ps.DOMAIN_SELECTOR_AUDIT] == ps.SELECTOR_DRAW_SEED
+        assert len(ps.CANONICAL_PHASE10_SEEDS) == 8
+        assert len(ps.STREAM_DOMAINS) == 10

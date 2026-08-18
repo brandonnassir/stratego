@@ -707,9 +707,25 @@ def stage_banks(_args) -> dict:
     cross = pb.cross_bank_isolation(built["validation"]["cases"], built["test"]["cases"])
     require(cross["zero_overlap"], "the two Phase 10 banks share a final-setup fingerprint", problems)
 
+    log("banks: reconciling the accepted Phase 9 raw board universe")
+    coverage = pb.phase9_raw_board_coverage()
+    require(
+        coverage["all_pass"],
+        f"Phase 9 raw-board coverage failed: {coverage['checks']}",
+        problems,
+    )
+    require(
+        not coverage["unmapped_raw_boards"],
+        f"{len(coverage['unmapped_raw_boards'])} accepted Phase 9 held-out boards fall "
+        "outside the Phase 10 isolation universe; the isolation set and every "
+        "dependent bank/manifest/contract digest must be rebuilt before Agent 2",
+        problems,
+    )
+
     payload = {
         "stage": "banks",
         "isolation": isolation_manifest,
+        "phase9_raw_board_coverage": coverage,
         "cross_bank_isolation": cross,
         "banks": {
             bank: {
@@ -1088,6 +1104,8 @@ def stage_artifacts(args) -> dict:
         "candidate_matrix": contracts["candidate_matrix"],
         "boundary_evidence": acceptance["boundary_evidence"],
         "test_bank_access_log": banks["test_bank_access_log"],
+        "phase9_isolation_reconciliation": banks["phase9_raw_board_coverage"],
+        "agents_5_7_obligations": AGENTS_5_7_OBLIGATIONS,
         "discipline": {
             "phase10_outcome_games_played": 0,
             "utility_models_fit": 0,
@@ -1112,6 +1130,31 @@ def stage_artifacts(args) -> dict:
     log(f"artifacts: status {status}")
     return acceptance_artifact
 
+
+#: Binding reporting obligations Agent 1 places on the later agents. These
+#: live in the acceptance record rather than in a frozen contract document
+#: on purpose: they add no design decision and must not re-identify a
+#: contract whose digest downstream agents already verify.
+AGENTS_5_7_OBLIGATIONS = {
+    "learned_selector_phase9_fingerprint_collisions": {
+        "requirement": (
+            "enumerate, per candidate, arm, matchup and bank, both the count "
+            "and the rate of produced final setups whose fingerprint lies in "
+            "the accepted Phase 9 held-out fingerprint set"
+        ),
+        "status": "report-only diagnostic",
+        "must_not": (
+            "be used for candidate selection, for any acceptance gate, or as "
+            "grounds for evaluation-time rejection sampling of learned draws"
+        ),
+        "rationale": (
+            "rejecting a learned draw at evaluation time would distort the "
+            "very mixed distribution the diversity contract is stated over; "
+            "measuring it keeps the residual visible instead of unmeasured"
+        ),
+        "isolation_universe": "stratego.evaluation.phase10_banks.phase9_isolation_set",
+    },
+}
 
 #: Recorded readings of the common contract where it does not spell a
 #: decision out letter by letter. Each is a narrowing, never a widening.
@@ -1155,6 +1198,28 @@ DEVIATIONS = [
             "a summed BCE would make 1e-3 effectively no regularization at "
             "16,384 games; the mean is the reading under which the stated "
             "coefficient does the job the contract gives it"
+        ),
+    },
+    {
+        "topic": "selector-audit randomness domain (review reconciliation)",
+        "contract_text": (
+            "100,000 draws per candidate x color x split ... resume must be exact "
+            "set subtraction by draw id"
+        ),
+        "reading": (
+            "Agent 4's audit needs a selector seed per addressable draw id and the "
+            "first freeze produced none — case_selector_seed covers only the 1,280 "
+            "bank-case seeds — so a tenth derived domain, selector_audit, was added "
+            "under the existing selector_draw_seed root 2026081805"
+        ),
+        "why_safe": (
+            "no root seed was added or changed and no threshold, candidate, bank, "
+            "schedule or utility definition moved; it removes an unfrozen choice "
+            "Agent 4 would otherwise have had to invent, and it moves exactly two "
+            "contract digests (phase10_setup_contract_v1, phase10_setup_selector_v1) "
+            "plus the bundle, leaving both bank digests, both bank manifests, the "
+            "schedule digest, the scaler digest and the isolation-set digest "
+            "byte-identical"
         ),
     },
     {
@@ -1220,6 +1285,7 @@ def completion_gates(verify, contracts, schedule, banks, acceptance, tests_after
         ]
         and test["audit"]["checks"]["phase9_fingerprint_overlap_zero"],
         "phase10_val_test_fingerprint_overlap_zero": banks["cross_bank_isolation"]["zero_overlap"],
+        "phase9_heldout_board_coverage_complete": banks["phase9_raw_board_coverage"]["all_pass"],
         "test_bank_neural_outcome_access_zero": all(
             not record["neural"] and not record["outcomes"]
             for record in banks["test_bank_access_log"]
@@ -1330,6 +1396,7 @@ def write_report_section(acceptance_artifact, bank_artifacts, schedule, contract
     digests = contracts["contract_digests"]
     validation = bank_artifacts["validation"]
     test = bank_artifacts["test"]
+    coverage = banks["phase9_raw_board_coverage"]
     walk = {
         name: sum(
             int(count)
@@ -1418,10 +1485,32 @@ def write_report_section(acceptance_artifact, bank_artifacts, schedule, contract
             "validation bootstrap      2026081807     final-test bootstrap      2026081808",
             "```",
             "",
-            "All nine streams derive through `blake2b(person='strat-s10')` over",
+            "Those are the **eight root seeds**. Beneath them sit **ten derived",
+            "domains** — a distinct one per randomness need, several sharing a root —",
+            "so \"streams\" in this report always means derived domains, never seeds:",
+            "",
+            "```text",
+            "corpus_setup     corpus_match     bank_opponent    bank_selector",
+            "bank_match       selector_branch  selector_base    selector_audit",
+            "utility_fit      bootstrap",
+            "```",
+            "",
+            "All ten derive through `blake2b(person='strat-s10')` over",
             "`identity_version:domain:domain_root:parts`, a tag disjoint from every",
-            "accepted upstream tag. No derivation reads worker count, arrival order,",
-            "process id, wall clock or a storage path.",
+            "accepted upstream tag, so two domains sharing a root still cannot",
+            "collide. No derivation reads worker count, arrival order, process id,",
+            "wall clock or a storage path.",
+            "",
+            "`selector_audit` was added during Agent 1 review reconciliation, on the",
+            "one randomness need the first freeze left unfrozen: Agent 4 must run",
+            "100,000 selector draws per candidate x colour x split, addressable by",
+            "draw id, with resume as exact set subtraction by draw id — and nothing",
+            "produced that draw's selector seed. `case_selector_seed` covers only the",
+            "1,280 bank-case seeds. Leaving it open would have made Agent 4 invent a",
+            "derivation Agent 1 owes it. No root seed was added or changed; the domain",
+            "hangs off the existing `selector_draw_seed` 2026081805, and consecutive",
+            "audit ordinals receive unrelated hashed streams rather than adjacent",
+            "integers.",
             "",
             f"The collision audit enumerated "
             f"{contracts['seed_collision_audit']['total_seeds']:,} seeds across the frozen",
@@ -1505,8 +1594,43 @@ def write_report_section(acceptance_artifact, bank_artifacts, schedule, contract
             "phases already used the same held-out base pool — so it claims what it can",
             "prove.",
             "",
+            "The accepted Phase 9 held-out universe can be counted two ways, and both",
+            "counts are correct. A Phase 9 pair stores each side already oriented for",
+            "the player that plays it, and the Red and Blue orientation maps differ, so",
+            "one canonical arrangement appearing on a Red side in one case and a Blue",
+            "side in another is *two* stored board strings and *one* canonical",
+            "identity. That is the whole difference:",
+            "",
             "```text",
-            f"Phase 9 held-out fingerprint set   {banks['isolation']['distinct_fingerprints']:,} arrangements",
+            f"held-out sides                     {coverage['held_out_sides']:,}",
+            f"distinct stored engine boards      {coverage['distinct_raw_boards']:,}",
+            f"distinct canonical identities      {coverage['distinct_canonical_identities']:,}"
+            f"   ({coverage['duplicate_classes']} of them seen in both orientations)",
+            f"  {coverage['distinct_canonical_identities']:,} + {coverage['duplicate_classes']} "
+            f"= {coverage['distinct_raw_boards']:,}",
+            "```",
+            "",
+            "The isolation set is stated over canonical final-setup fingerprints",
+            "because that is the accepted Phase 7 setup identity and the thing a",
+            "Phase 10 case actually produces. `phase9_raw_board_coverage` is the",
+            "receipt that the canonical statement loses nothing: every stored board is",
+            "de-oriented by the player that played it, run through the exact Phase 10",
+            "fingerprint function, and required to land in the set.",
+            "",
+            "```text",
+            f"raw boards mapped                  {coverage['distinct_raw_boards']:,} / "
+            f"{coverage['distinct_raw_boards']:,}",
+            f"unmapped raw boards                {len(coverage['unmapped_raw_boards'])}",
+            f"round-trip mismatches              {len(coverage['round_trip_mismatches'])}",
+            f"identities never reached           {len(coverage['unreached_identities'])}   "
+            "(the map is onto the whole set)",
+            f"duplicate classes                  {coverage['duplicate_classes']}, "
+            f"every one of size exactly 2",
+            "```",
+            "",
+            "```text",
+            f"isolation set                      {banks['isolation']['distinct_fingerprints']:,} "
+            "canonical identities",
             f"  set digest                       {banks['isolation']['set_digest']}",
             f"frozen Phase 10 arrangements       {3 * (validation['case_count'] + test['case_count']):,} "
             "(opponent + both neutral own-side draws per case)",
@@ -1526,8 +1650,13 @@ def write_report_section(acceptance_artifact, bank_artifacts, schedule, contract
             "One residual is recorded rather than hidden: a learned selector's own-side",
             "draw cannot be enumerated before the selector exists. Rejecting such a draw",
             "at evaluation time would distort the very mixed distribution the diversity",
-            "contract is stated over, so Agents 5-7 record its Phase 9 landings as a",
-            "report-only diagnostic instead.",
+            "contract is stated over, so it stays a report-only diagnostic. Agents 5-7",
+            "carry the standing obligation to enumerate, per candidate, arm, matchup and",
+            "bank, both the **count and the rate** of produced final setups landing in",
+            "this set — and to use neither for selection, for any gate, or as grounds",
+            "for evaluation-time rejection sampling. That obligation lives in the",
+            "acceptance artifact rather than in a frozen contract, so it adds no design",
+            "decision and re-identifies no digest downstream agents already verify.",
             "",
             "### 1.9 Acceptance",
             "",
