@@ -1,0 +1,403 @@
+{
+  "agent": 4,
+  "artifact": "agent_04_selector_contract",
+  "candidates": [
+    {
+      "candidate_id": "P10-A",
+      "selector_identity": "learned_setup_source_v1|k=P10-A|m=model_F|T=0.75",
+      "temperature": 0.75,
+      "utility_model": "model_F"
+    },
+    {
+      "candidate_id": "P10-B",
+      "selector_identity": "learned_setup_source_v1|k=P10-B|m=model_F|T=1.25",
+      "temperature": 1.25,
+      "utility_model": "model_F"
+    },
+    {
+      "candidate_id": "P10-C",
+      "selector_identity": "learned_setup_source_v1|k=P10-C|m=model_F|T=2.00",
+      "temperature": 2.0,
+      "utility_model": "model_F"
+    },
+    {
+      "candidate_id": "P10-D",
+      "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+      "temperature": 0.75,
+      "utility_model": "model_T"
+    },
+    {
+      "candidate_id": "P10-E",
+      "selector_identity": "learned_setup_source_v1|k=P10-E|m=model_T|T=1.25",
+      "temperature": 1.25,
+      "utility_model": "model_T"
+    },
+    {
+      "candidate_id": "P10-F",
+      "selector_identity": "learned_setup_source_v1|k=P10-F|m=model_T|T=2.00",
+      "temperature": 2.0,
+      "utility_model": "model_T"
+    }
+  ],
+  "deterministic_api": {
+    "audit_draw": "source.audit_draw(draw_ordinal, color, split) -> (draw_id, SelectorDraw)",
+    "construct": "LearnedSetupSource(candidate(candidate_id), load_scorer(), load_library_index())",
+    "draw": "source.draw(request) -> SelectorDraw",
+    "engine_handoff": "SelectorDraw.oriented(player)",
+    "neutral_baseline": "phase10_selector.neutral_baseline_draw(split, seed)",
+    "request": "SelectorRequest(split=..., color=..., selector_seed=...)",
+    "request_from_untrusted_mapping": "SelectorRequest.from_payload(payload)",
+    "source": "stratego.training.phase10_selector.LearnedSetupSource"
+  },
+  "distribution_digests": {
+    "P10-A": {
+      "blue": {
+        "test": "5ccd36bdf6871c8399a30f33b3c55300233efbe3bad253ec07a5118996df2c5e",
+        "train": "a39629e6bdc8c3519d60235eb111a493819cc264faeb399327d6406c887d117f",
+        "validation": "79897ba0a81ba155c5cbf499427a09238623cef8bcde1ff69fd0e6e9fd74954f"
+      },
+      "red": {
+        "test": "934dcdeb90d74c5b40db68a93ed99c86dea789aa72c4dee21d6c59266c5898d7",
+        "train": "6632bb394247adc9327dbc9c048559d25f74faa7377509aec121ac461a8eb168",
+        "validation": "b32118a6ff2b6f0484258dde54b215aa2ec834614bc57aebdfa495ac9566e398"
+      }
+    },
+    "P10-B": {
+      "blue": {
+        "test": "b1cc99ee93842ad6443d790f522ff38de79c451983e6c72f203ebef2f341ff27",
+        "train": "5658c6e6a41043360f134ad14a986b53bbcab8470c358577bd2a14acb71f83d2",
+        "validation": "1191055edd9c11779953a7d71d4f85424fa5cdd3c3939b11c4394db1fc515bc0"
+      },
+      "red": {
+        "test": "7ec7a6218162162cca3ba8113da4d8d571fd2130cffd41bdb3127067ff0be64a",
+        "train": "6bbcf2ec971abefca104196cb52212736cb6bdc511adc0e9848a45e4dfd5a17b",
+        "validation": "04caf1d805e2786f3054a9a7663eb614bdd78c0321fe6f10fbba7f21f7486730"
+      }
+    },
+    "P10-C": {
+      "blue": {
+        "test": "be157f961ae2bede2bd4157ca1e71743f6a1836c756bf511700f9fe5d2f8fd2e",
+        "train": "950b674d38dae1f7066e39e1298dcea30560eb2aefcc235251d855bc602c45b3",
+        "validation": "44b67a198fe392722cde4d7a6ead2ca8bcb694311d67cfc84cf310331a649d4b"
+      },
+      "red": {
+        "test": "f76650f566ca19aa4ce487f1ba4b13bd6c36e21c3bec15b4c7cab2bc5e7db2a3",
+        "train": "a03601dc47a35abdad5ff73ee750b421a6d3cb31adf09c2b0e43233144d72bbf",
+        "validation": "011a7bdef33ddbf3ff309dae4a15f0fc1cc8c7320835cf7d6617129cd503e55d"
+      }
+    },
+    "P10-D": {
+      "blue": {
+        "test": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+        "train": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+        "validation": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6"
+      },
+      "red": {
+        "test": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+        "train": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+        "validation": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1"
+      }
+    },
+    "P10-E": {
+      "blue": {
+        "test": "4e8ef96e6af1f6534e6c67458e8a88a4f4dbadc7eb2af7c208128570cd575df1",
+        "train": "4faaf2d5053866172ee32d2c54a2438ddbeaee348c8ade6d3a99f2aab5f24b5e",
+        "validation": "3d508b5af53015b180d0e087643ef65c6b920b166bc9993ec166055f54f50b61"
+      },
+      "red": {
+        "test": "019c066826b69372b82dba0c73a7ad297ea740bb00c66487f9aa77b28f0436f4",
+        "train": "5dae29c8ace50e4ac5d45104d80c718230fd7f939d0fa21c2f196170b57b2892",
+        "validation": "60cf8b1f795cf294022ce99e60aa72f084b343a1173bc99b1a5a44b91cec5ee3"
+      }
+    },
+    "P10-F": {
+      "blue": {
+        "test": "7a9261cc3595a4762de260bf22b26dee88d1628232c0820b92afb4d563da8994",
+        "train": "98d74fcba08c2d35b86b352168a2709ac7d5b2d5a1322467dab7b3eae1988a87",
+        "validation": "2e84181502966093088eb0e177c749bcb473f669c37ae6b4aaa17c672e8f6135"
+      },
+      "red": {
+        "test": "283c7ba2d7afd68468f05b0bdd76cdfd22746d6ec722702b3bd6af7bccab695c",
+        "train": "b67b21bfc276648405487ce104be6e32f58ce88c72ad48dcdfd7b63f865c412f",
+        "validation": "446409e504afc45fda6de14ee3a1c6dd9b6d7764c9b08337481195330fd6cc1e"
+      }
+    }
+  },
+  "phase": 10,
+  "seed_collision_audit": {
+    "collisions": 0,
+    "distinct_seeds": 10858792,
+    "no_collisions": true,
+    "streams": {
+      "agent1_frozen_universe": {
+        "count": 58792,
+        "distinct": 58792,
+        "duplicates": 0
+      },
+      "selector_audit": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      },
+      "selector_base": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      },
+      "selector_branch": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      }
+    },
+    "total_seeds": 10858792
+  },
+  "selector_contract": {
+    "adapter_proof": "neutral_branch_matches_accepted_sampler compares a neutral-branch draw field for field against sample_setup(split, seed, 'neutral_v1'); learned_branch_shares_phase7_decisions checks that a learned draw differs from that baseline in the base alone",
+    "allowed_request_fields": [
+      "color",
+      "selector_seed",
+      "split"
+    ],
+    "audit_counters": [
+      "illegal_setups",
+      "inventory_errors",
+      "stranded_sampled_setups",
+      "split_violations",
+      "provenance_mismatches",
+      "determinism_mismatches",
+      "non_finite_selector_values"
+    ],
+    "audit_draw_identity": "phase10_selector_audit_v1|ms=<master>|k=<candidate>|s=<split>|c=<colour>|n=<ordinal:05d>, seeded by selector_audit_seed",
+    "audit_draws_per_candidate_colour_split": 100000,
+    "base_order": "ascending (family_index, base_index) over the requested split, i.e. the frozen library enumeration order restricted to that split",
+    "baseline_is_not_a_candidate": true,
+    "baseline_profile": "neutral_v1",
+    "candidate_count": 6,
+    "candidates": [
+      {
+        "candidate_id": "P10-A",
+        "selector_identity": "learned_setup_source_v1|k=P10-A|m=model_F|T=0.75",
+        "temperature": 0.75,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-B",
+        "selector_identity": "learned_setup_source_v1|k=P10-B|m=model_F|T=1.25",
+        "temperature": 1.25,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-C",
+        "selector_identity": "learned_setup_source_v1|k=P10-C|m=model_F|T=2.00",
+        "temperature": 2.0,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-D",
+        "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+        "temperature": 0.75,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-E",
+        "selector_identity": "learned_setup_source_v1|k=P10-E|m=model_T|T=1.25",
+        "temperature": 1.25,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-F",
+        "selector_identity": "learned_setup_source_v1|k=P10-F|m=model_T|T=2.00",
+        "temperature": 2.0,
+        "utility_model": "model_T"
+      }
+    ],
+    "distribution_digest": {
+      "domain": "phase10_selector_distribution_v1",
+      "payload": "domain, label, candidate id, utility model, T, colour, split, base count, then '<base id>:<float.hex()>' per base in the frozen base order; SHA-256 over the newline-joined text"
+    },
+    "distribution_digests": {
+      "P10-A": {
+        "blue": {
+          "test": "5ccd36bdf6871c8399a30f33b3c55300233efbe3bad253ec07a5118996df2c5e",
+          "train": "a39629e6bdc8c3519d60235eb111a493819cc264faeb399327d6406c887d117f",
+          "validation": "79897ba0a81ba155c5cbf499427a09238623cef8bcde1ff69fd0e6e9fd74954f"
+        },
+        "red": {
+          "test": "934dcdeb90d74c5b40db68a93ed99c86dea789aa72c4dee21d6c59266c5898d7",
+          "train": "6632bb394247adc9327dbc9c048559d25f74faa7377509aec121ac461a8eb168",
+          "validation": "b32118a6ff2b6f0484258dde54b215aa2ec834614bc57aebdfa495ac9566e398"
+        }
+      },
+      "P10-B": {
+        "blue": {
+          "test": "b1cc99ee93842ad6443d790f522ff38de79c451983e6c72f203ebef2f341ff27",
+          "train": "5658c6e6a41043360f134ad14a986b53bbcab8470c358577bd2a14acb71f83d2",
+          "validation": "1191055edd9c11779953a7d71d4f85424fa5cdd3c3939b11c4394db1fc515bc0"
+        },
+        "red": {
+          "test": "7ec7a6218162162cca3ba8113da4d8d571fd2130cffd41bdb3127067ff0be64a",
+          "train": "6bbcf2ec971abefca104196cb52212736cb6bdc511adc0e9848a45e4dfd5a17b",
+          "validation": "04caf1d805e2786f3054a9a7663eb614bdd78c0321fe6f10fbba7f21f7486730"
+        }
+      },
+      "P10-C": {
+        "blue": {
+          "test": "be157f961ae2bede2bd4157ca1e71743f6a1836c756bf511700f9fe5d2f8fd2e",
+          "train": "950b674d38dae1f7066e39e1298dcea30560eb2aefcc235251d855bc602c45b3",
+          "validation": "44b67a198fe392722cde4d7a6ead2ca8bcb694311d67cfc84cf310331a649d4b"
+        },
+        "red": {
+          "test": "f76650f566ca19aa4ce487f1ba4b13bd6c36e21c3bec15b4c7cab2bc5e7db2a3",
+          "train": "a03601dc47a35abdad5ff73ee750b421a6d3cb31adf09c2b0e43233144d72bbf",
+          "validation": "011a7bdef33ddbf3ff309dae4a15f0fc1cc8c7320835cf7d6617129cd503e55d"
+        }
+      },
+      "P10-D": {
+        "blue": {
+          "test": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+          "train": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+          "validation": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6"
+        },
+        "red": {
+          "test": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+          "train": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+          "validation": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1"
+        }
+      },
+      "P10-E": {
+        "blue": {
+          "test": "4e8ef96e6af1f6534e6c67458e8a88a4f4dbadc7eb2af7c208128570cd575df1",
+          "train": "4faaf2d5053866172ee32d2c54a2438ddbeaee348c8ade6d3a99f2aab5f24b5e",
+          "validation": "3d508b5af53015b180d0e087643ef65c6b920b166bc9993ec166055f54f50b61"
+        },
+        "red": {
+          "test": "019c066826b69372b82dba0c73a7ad297ea740bb00c66487f9aa77b28f0436f4",
+          "train": "5dae29c8ace50e4ac5d45104d80c718230fd7f939d0fa21c2f196170b57b2892",
+          "validation": "60cf8b1f795cf294022ce99e60aa72f084b343a1173bc99b1a5a44b91cec5ee3"
+        }
+      },
+      "P10-F": {
+        "blue": {
+          "test": "7a9261cc3595a4762de260bf22b26dee88d1628232c0820b92afb4d563da8994",
+          "train": "98d74fcba08c2d35b86b352168a2709ac7d5b2d5a1322467dab7b3eae1988a87",
+          "validation": "2e84181502966093088eb0e177c749bcb473f669c37ae6b4aaa17c672e8f6135"
+        },
+        "red": {
+          "test": "283c7ba2d7afd68468f05b0bdd76cdfd22746d6ec722702b3bd6af7bccab695c",
+          "train": "b67b21bfc276648405487ce104be6e32f58ce88c72ad48dcdfd7b63f865c412f",
+          "validation": "446409e504afc45fda6de14ee3a1c6dd9b6d7764c9b08337481195330fd6cc1e"
+        }
+      }
+    },
+    "diversity": {
+      "scope": "the final mixed distribution, for every candidate, colour and split",
+      "thresholds": {
+        "effective_families_min": 10.0,
+        "family_probability_max": 0.18,
+        "family_probability_min": 0.015,
+        "max_conditional_base_probability": 0.1,
+        "normalized_family_entropy_min": 0.85,
+        "within_family_normalized_base_entropy_min": 0.7
+      }
+    },
+    "learned_distribution": "p_learned(s | c, split) = softmax(u(s, c) / T)",
+    "mixture": {
+      "formula": "p_phase10 = 0.35 * p_neutral_v1 + 0.65 * p_learned",
+      "learned_weight": 0.65,
+      "neutral_weight": 0.35
+    },
+    "neutral_branch_definition": "the base the accepted setup_sampler_v1 would have taken for (split, selector_seed, profile='neutral_v1'), so a neutral-branch draw is bit-identical to the neutral baseline's draw",
+    "no_strength_selection": "this module fits nothing, plays no game, reads no outcome and selects no candidate; Agent 5 owns selection and Agent 7 acceptance",
+    "post_selection_delegation": "build_descendant, the accepted sampler's single construction path, shared with sample_setup and rebuild_from_provenance",
+    "post_selection_path": {
+      "hamming_distance_window": [
+        2,
+        12
+      ],
+      "perturbation_probability": 0.5,
+      "perturbation_version": "setup_perturbation_v1",
+      "reflection_probability": 0.5,
+      "retry_semantics": "unchanged setup_perturbation_v1 semantics",
+      "sampler_version": "setup_sampler_v1",
+      "swap_count_distribution": "uniform over 1..6",
+      "swap_counts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "production_source_version": "learned_setup_source_v1",
+    "sampler_profile_reading": "setup_provenance.sampler_profile is 'neutral_v1' on both branches because it names the frozen post-selection profile that was used (reflection 0.5, perturbation 0.5, uniform 1..6); the branch and the learned identity live in the Phase 10 selector provenance beside it",
+    "selector_inputs": [
+      "own colour",
+      "requested Phase 7 split",
+      "selector identity",
+      "selector seed",
+      "the candidate base's own family",
+      "the candidate base's own trait vector"
+    ],
+    "selector_version": "phase10_setup_selector_v1",
+    "streams": {
+      "independence": "every stream is a pure hash of the draw's logical identity; no mutable global RNG cursor exists, so worker count, shard boundaries, call order and process restarts cannot move a draw",
+      "learned_base_draw": "phase10_seed.selector_base_uniform (selector_base)",
+      "mixture_branch": "phase10_seed.selector_branch_uniform (selector_branch)",
+      "neutral_base_draw": "setup_sampler_v1 family/base streams under neutral_v1",
+      "perturbation_decision": "setup_sampler_v1 perturbation stream under neutral_v1",
+      "perturbation_seed": "setup_sampler_v1 intensity + perturbation_seed streams under neutral_v1, folded into the seed_encoding_v1 composite",
+      "reflection": "setup_sampler_v1 orientation stream under neutral_v1"
+    }
+  },
+  "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
+  "streams": {
+    "independence": "every stream is a pure hash of the draw's logical identity; no mutable global RNG cursor exists, so worker count, shard boundaries, call order and process restarts cannot move a draw",
+    "learned_base_draw": "phase10_seed.selector_base_uniform (selector_base)",
+    "mixture_branch": "phase10_seed.selector_branch_uniform (selector_branch)",
+    "neutral_base_draw": "setup_sampler_v1 family/base streams under neutral_v1",
+    "perturbation_decision": "setup_sampler_v1 perturbation stream under neutral_v1",
+    "perturbation_seed": "setup_sampler_v1 intensity + perturbation_seed streams under neutral_v1, folded into the seed_encoding_v1 composite",
+    "reflection": "setup_sampler_v1 orientation stream under neutral_v1"
+  },
+  "timestamp": "2026-08-18T16:39:07-0400",
+  "upstream": {
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "neutral_profile": {
+      "default_profile_is_neutral": true,
+      "intensity_weights": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "perturbation_probability": 0.5,
+      "profile_name": "neutral_v1",
+      "reflection_probability": 0.5,
+      "swap_counts": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "utility": {
+      "coefficient_digests_recomputed": {
+        "model_F": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+        "model_T": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+      },
+      "file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+      "matches_tracked_agent3_record": true,
+      "own_side_only_findings": [],
+      "path": "checkpoints/phase10/setup_utility_v1.json",
+      "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9"
+    }
+  }
+}

@@ -1,0 +1,537 @@
+{
+  "agent": 4,
+  "artifact": "agent_04_acceptance",
+  "bank_access_log": [
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    }
+  ],
+  "boundary": {
+    "allowed_request_fields": [
+      "color",
+      "selector_seed",
+      "split"
+    ],
+    "injection_controls_rejected": 16,
+    "injection_controls_total": 16,
+    "leaked_fields": [],
+    "opponent_invariance_all_identical": true
+  },
+  "carried_forward_obligations": [
+    {
+      "for_agent": 5,
+      "obligation": "candidate selection uses the validation bank only; the test bank stays sealed until Agent 7 and no corpus outcome may select"
+    },
+    {
+      "for_agent": 5,
+      "obligation": "record, per candidate/arm/matchup/bank, the count and rate of produced final setups landing in the Phase 9 held-out fingerprint set as a report-only diagnostic, never as a gate and never as grounds for evaluation-time rejection (Agent 1's standing obligation). Agent 4 measured it over all 3,600,000 audit draws: train 0.0000 (the held-out universe is validation/test only), validation 0.0381, test 0.1338. Those rates corroborate Agent 1's rejection walk (7/256 validation, 141/1024 test seeds) and are the expected consequence of the unperturbed branch reproducing a held-out base template; Agent 5 should expect the same order of magnitude and must not treat it as a defect"
+    },
+    {
+      "for_agent": 5,
+      "obligation": "the six selector configurations and both utility models are frozen; no refit, no retune, no seventh candidate, and neutral_v1 is the baseline rather than a competitor"
+    }
+  ],
+  "completion_gates": {
+    "agents1_3_pass": true,
+    "all_16_families_represented": true,
+    "all_diversity_thresholds_recorded": true,
+    "candidate_count_exactly_six": true,
+    "distribution_diversity_audit_complete": true,
+    "full_suite_green": true,
+    "illegal_setups_zero": true,
+    "inventory_violations_zero": true,
+    "mixture_35_65_exact": true,
+    "neutral_v1_unchanged": true,
+    "no_strength_selection_games": true,
+    "no_test_outcome_access": true,
+    "opponent_hidden_inputs_rejected": true,
+    "phase9_checkpoint_unchanged": true,
+    "probabilities_finite": true,
+    "probabilities_sum_to_one": true,
+    "provenance_mismatches_zero": true,
+    "seed_collision_audit_clean": true,
+    "selector_contract_frozen": true,
+    "selector_draws_ge_required": true,
+    "split_violations_zero": true,
+    "stranded_sampled_setups_zero": true,
+    "topology_reproducibility_pass": true,
+    "utility_digests_match": true
+  },
+  "corpus_preservation": {
+    "committed_games": 16384,
+    "content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "records_read_by_agent_4": 0,
+    "state": "SEALED",
+    "usable": true
+  },
+  "deviations": [
+    {
+      "contract_text": "After base selection, delegate to the accepted Phase 7 reflection/perturbation implementation unchanged ... Any adapter must prove identical output.",
+      "reading": "the selector re-derives the accepted setup_sampler_v1 decision streams through the public derive_stream_seed under the accepted neutral_v1 profile object \u2014 reading that profile's own reflection probability, perturbation probability and intensity weights rather than restating them \u2014 and then calls the accepted build_descendant, the sampler's single construction path. No Phase 7 byte is touched. The adapter's identity is proven, not asserted: every one of the audited neutral-branch draws is compared field for field against sample_setup(split, seed, 'neutral_v1') and every learned-branch draw is required to share that baseline's reflection, perturbation coin and swap count, differing in the base alone"
+    },
+    {
+      "contract_text": "setup_sampler_v1 provenance field `sampler_profile`",
+      "reading": "a learned-branch draw records sampler_profile='neutral_v1' because that field names the frozen post-selection profile actually used (reflection 0.5, perturbation 0.5, uniform 1..6), which is true on both branches and is what makes a neutral-branch draw bit-identical to the baseline. It says nothing about base selection: the branch, the candidate and the selector identity live in the Phase 10 selector provenance beside it, so no consumer has to infer the arm from a Phase 7 field"
+    },
+    {
+      "contract_text": "no_test_outcome_access",
+      "reading": "the diversity contract is stated over all three splits, so the audit draws from the Phase 7 test *split*. That is structural sampling of base templates and is not access to phase10_test_bank_v1: no bank case was played, scored or shown to a model, the only bank reads are the two structural digest recomputations in the access log, and no outcome exists on either bank to read"
+    },
+    {
+      "contract_text": "at least 100,000 draws per candidate x color x split",
+      "reading": "exactly 100,000 per cell, 3,600,000 in total, each carrying the full verification burden \u2014 construction through the accepted validation stack, a rebuild from its own provenance, and the accepted-sampler cross-check \u2014 rather than a larger count with a lighter check"
+    }
+  ],
+  "discipline": {
+    "c1_optimizer_steps": 0,
+    "candidates_selected": 0,
+    "corpus_records_read": 0,
+    "games_played": 0,
+    "human_games_used": 0,
+    "neural_inference_on_either_bank": 0,
+    "strength_evaluations": 0,
+    "test_bank_outcome_access": 0,
+    "utility_models_fit": 0,
+    "validation_bank_outcome_access": 0
+  },
+  "diversity": {
+    "candidate_eligibility": {
+      "P10-A": true,
+      "P10-B": true,
+      "P10-C": true,
+      "P10-D": true,
+      "P10-E": true,
+      "P10-F": true
+    },
+    "verdict": {
+      "all_pass": true,
+      "checks": {
+        "conditional_base_probability_max": true,
+        "effective_families": true,
+        "family_probability_max": true,
+        "family_probability_min": true,
+        "normalized_family_entropy": true,
+        "within_family_base_entropy": true
+      },
+      "failed": [],
+      "thresholds": {
+        "effective_families_min": 10.0,
+        "family_probability_max": 0.18,
+        "family_probability_min": 0.015,
+        "max_conditional_base_probability": 0.1,
+        "normalized_family_entropy_min": 0.85,
+        "within_family_normalized_base_entropy_min": 0.7
+      }
+    },
+    "worst_case": {
+      "max_conditional_base_probability": 0.035616949808666074,
+      "max_family_probability": 0.13208105447414017,
+      "min_effective_families": 15.207213080540713,
+      "min_family_probability": 0.04417494035972362,
+      "min_normalized_family_entropy": 0.9816709698888034,
+      "min_within_family_normalized_base_entropy": 0.993719832725632
+    }
+  },
+  "environment": {
+    "cpu_count": 14,
+    "draw_workers": 12,
+    "mps_available": true,
+    "mps_built": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "9147e9b",
+    "torch_version": "2.13.0",
+    "working_tree_state": "dirty"
+  },
+  "false_gates": [],
+  "frozen_inputs": {
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "model_F_coefficient_digest": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+    "model_T_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+    "outcome_schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "setup_utility_v1_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d"
+  },
+  "gates_total": 24,
+  "gates_true": 24,
+  "handoff_to_agent_5": {
+    "audit_evidence": {
+      "counter_totals": {
+        "determinism_mismatches": 0,
+        "illegal_setups": 0,
+        "inventory_errors": 0,
+        "non_finite_selector_values": 0,
+        "provenance_mismatches": 0,
+        "split_violations": 0,
+        "stranded_sampled_setups": 0
+      },
+      "topology_reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+      "total_draws": 3600000
+    },
+    "deterministic_api": {
+      "draw": "source.draw(SelectorRequest(split, color, selector_seed)) -> SelectorDraw",
+      "engine_handoff": "SelectorDraw.oriented(player)",
+      "legal_inputs": [
+        "color",
+        "selector_seed",
+        "split"
+      ],
+      "module": "stratego.training.phase10_selector",
+      "neutral_baseline": "neutral_baseline_draw(split, seed) \u2014 the accepted Phase 7 sampler",
+      "source": "LearnedSetupSource(candidate(candidate_id), load_scorer(), load_library_index())"
+    },
+    "distribution_digests": {
+      "P10-A": {
+        "blue": {
+          "test": "5ccd36bdf6871c8399a30f33b3c55300233efbe3bad253ec07a5118996df2c5e",
+          "train": "a39629e6bdc8c3519d60235eb111a493819cc264faeb399327d6406c887d117f",
+          "validation": "79897ba0a81ba155c5cbf499427a09238623cef8bcde1ff69fd0e6e9fd74954f"
+        },
+        "red": {
+          "test": "934dcdeb90d74c5b40db68a93ed99c86dea789aa72c4dee21d6c59266c5898d7",
+          "train": "6632bb394247adc9327dbc9c048559d25f74faa7377509aec121ac461a8eb168",
+          "validation": "b32118a6ff2b6f0484258dde54b215aa2ec834614bc57aebdfa495ac9566e398"
+        }
+      },
+      "P10-B": {
+        "blue": {
+          "test": "b1cc99ee93842ad6443d790f522ff38de79c451983e6c72f203ebef2f341ff27",
+          "train": "5658c6e6a41043360f134ad14a986b53bbcab8470c358577bd2a14acb71f83d2",
+          "validation": "1191055edd9c11779953a7d71d4f85424fa5cdd3c3939b11c4394db1fc515bc0"
+        },
+        "red": {
+          "test": "7ec7a6218162162cca3ba8113da4d8d571fd2130cffd41bdb3127067ff0be64a",
+          "train": "6bbcf2ec971abefca104196cb52212736cb6bdc511adc0e9848a45e4dfd5a17b",
+          "validation": "04caf1d805e2786f3054a9a7663eb614bdd78c0321fe6f10fbba7f21f7486730"
+        }
+      },
+      "P10-C": {
+        "blue": {
+          "test": "be157f961ae2bede2bd4157ca1e71743f6a1836c756bf511700f9fe5d2f8fd2e",
+          "train": "950b674d38dae1f7066e39e1298dcea30560eb2aefcc235251d855bc602c45b3",
+          "validation": "44b67a198fe392722cde4d7a6ead2ca8bcb694311d67cfc84cf310331a649d4b"
+        },
+        "red": {
+          "test": "f76650f566ca19aa4ce487f1ba4b13bd6c36e21c3bec15b4c7cab2bc5e7db2a3",
+          "train": "a03601dc47a35abdad5ff73ee750b421a6d3cb31adf09c2b0e43233144d72bbf",
+          "validation": "011a7bdef33ddbf3ff309dae4a15f0fc1cc8c7320835cf7d6617129cd503e55d"
+        }
+      },
+      "P10-D": {
+        "blue": {
+          "test": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+          "train": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+          "validation": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6"
+        },
+        "red": {
+          "test": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+          "train": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+          "validation": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1"
+        }
+      },
+      "P10-E": {
+        "blue": {
+          "test": "4e8ef96e6af1f6534e6c67458e8a88a4f4dbadc7eb2af7c208128570cd575df1",
+          "train": "4faaf2d5053866172ee32d2c54a2438ddbeaee348c8ade6d3a99f2aab5f24b5e",
+          "validation": "3d508b5af53015b180d0e087643ef65c6b920b166bc9993ec166055f54f50b61"
+        },
+        "red": {
+          "test": "019c066826b69372b82dba0c73a7ad297ea740bb00c66487f9aa77b28f0436f4",
+          "train": "5dae29c8ace50e4ac5d45104d80c718230fd7f939d0fa21c2f196170b57b2892",
+          "validation": "60cf8b1f795cf294022ce99e60aa72f084b343a1173bc99b1a5a44b91cec5ee3"
+        }
+      },
+      "P10-F": {
+        "blue": {
+          "test": "7a9261cc3595a4762de260bf22b26dee88d1628232c0820b92afb4d563da8994",
+          "train": "98d74fcba08c2d35b86b352168a2709ac7d5b2d5a1322467dab7b3eae1988a87",
+          "validation": "2e84181502966093088eb0e177c749bcb473f669c37ae6b4aaa17c672e8f6135"
+        },
+        "red": {
+          "test": "283c7ba2d7afd68468f05b0bdd76cdfd22746d6ec722702b3bd6af7bccab695c",
+          "train": "b67b21bfc276648405487ce104be6e32f58ce88c72ad48dcdfd7b63f865c412f",
+          "validation": "446409e504afc45fda6de14ee3a1c6dd9b6d7764c9b08337481195330fd6cc1e"
+        }
+      }
+    },
+    "diversity_eligibility": {
+      "P10-A": true,
+      "P10-B": true,
+      "P10-C": true,
+      "P10-D": true,
+      "P10-E": true,
+      "P10-F": true
+    },
+    "diversity_worst_case": {
+      "max_conditional_base_probability": 0.035616949808666074,
+      "max_family_probability": 0.13208105447414017,
+      "min_effective_families": 15.207213080540713,
+      "min_family_probability": 0.04417494035972362,
+      "min_normalized_family_entropy": 0.9816709698888034,
+      "min_within_family_normalized_base_entropy": 0.993719832725632
+    },
+    "final_test_prohibition": "phase10_test_bank_v1 is sealed until Agent 7: no neural inference, no game, no metric, no candidate selection and no threshold change may use it, and Agent 4 accessed it only for the structural digest check",
+    "for_agent": 5,
+    "mission": "bounded validation selection on phase10_validation_bank_v1 only",
+    "phase9_unchanged": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "score_and_tie_break": {
+      "eligibility": "a candidate failing correctness, diversity or reproducibility is ineligible regardless of score; if no candidate is eligible, overall Phase 10 returns FAIL and later agents stop",
+      "formula": "S10 = 0.40*Delta_D + 0.30*Delta_Strategic + 0.20*Delta_Tactical + 0.10*Delta_Phase8",
+      "guards": {
+        "basic_min": 0.8,
+        "random_overall_min": 0.95
+      },
+      "tie_break_order": [
+        "higher S10",
+        "higher Delta_Strategic",
+        "higher Delta_D",
+        "higher normalized family entropy",
+        "higher effective base diversity",
+        "lexicographically smaller candidate id"
+      ],
+      "weights": {
+        "delta_direct": 0.4,
+        "delta_phase8_anchor": 0.1,
+        "delta_strategic": 0.3,
+        "delta_tactical": 0.2
+      }
+    },
+    "selector_configs": [
+      {
+        "candidate_id": "P10-A",
+        "selector_identity": "learned_setup_source_v1|k=P10-A|m=model_F|T=0.75",
+        "temperature": 0.75,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-B",
+        "selector_identity": "learned_setup_source_v1|k=P10-B|m=model_F|T=1.25",
+        "temperature": 1.25,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-C",
+        "selector_identity": "learned_setup_source_v1|k=P10-C|m=model_F|T=2.00",
+        "temperature": 2.0,
+        "utility_model": "model_F"
+      },
+      {
+        "candidate_id": "P10-D",
+        "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+        "temperature": 0.75,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-E",
+        "selector_identity": "learned_setup_source_v1|k=P10-E|m=model_T|T=1.25",
+        "temperature": 1.25,
+        "utility_model": "model_T"
+      },
+      {
+        "candidate_id": "P10-F",
+        "selector_identity": "learned_setup_source_v1|k=P10-F|m=model_T|T=2.00",
+        "temperature": 2.0,
+        "utility_model": "model_T"
+      }
+    ],
+    "validation_bank": {
+      "bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f",
+      "bank_version": "phase10_validation_bank_v1",
+      "case_selector_seed": "phase10_seed.case_selector_seed(case_id, colour, attempt)",
+      "cases": 128,
+      "manifest_digest": "459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e"
+    }
+  },
+  "new_digests": {
+    "distribution_digests": {
+      "P10-A": {
+        "blue": {
+          "test": "5ccd36bdf6871c8399a30f33b3c55300233efbe3bad253ec07a5118996df2c5e",
+          "train": "a39629e6bdc8c3519d60235eb111a493819cc264faeb399327d6406c887d117f",
+          "validation": "79897ba0a81ba155c5cbf499427a09238623cef8bcde1ff69fd0e6e9fd74954f"
+        },
+        "red": {
+          "test": "934dcdeb90d74c5b40db68a93ed99c86dea789aa72c4dee21d6c59266c5898d7",
+          "train": "6632bb394247adc9327dbc9c048559d25f74faa7377509aec121ac461a8eb168",
+          "validation": "b32118a6ff2b6f0484258dde54b215aa2ec834614bc57aebdfa495ac9566e398"
+        }
+      },
+      "P10-B": {
+        "blue": {
+          "test": "b1cc99ee93842ad6443d790f522ff38de79c451983e6c72f203ebef2f341ff27",
+          "train": "5658c6e6a41043360f134ad14a986b53bbcab8470c358577bd2a14acb71f83d2",
+          "validation": "1191055edd9c11779953a7d71d4f85424fa5cdd3c3939b11c4394db1fc515bc0"
+        },
+        "red": {
+          "test": "7ec7a6218162162cca3ba8113da4d8d571fd2130cffd41bdb3127067ff0be64a",
+          "train": "6bbcf2ec971abefca104196cb52212736cb6bdc511adc0e9848a45e4dfd5a17b",
+          "validation": "04caf1d805e2786f3054a9a7663eb614bdd78c0321fe6f10fbba7f21f7486730"
+        }
+      },
+      "P10-C": {
+        "blue": {
+          "test": "be157f961ae2bede2bd4157ca1e71743f6a1836c756bf511700f9fe5d2f8fd2e",
+          "train": "950b674d38dae1f7066e39e1298dcea30560eb2aefcc235251d855bc602c45b3",
+          "validation": "44b67a198fe392722cde4d7a6ead2ca8bcb694311d67cfc84cf310331a649d4b"
+        },
+        "red": {
+          "test": "f76650f566ca19aa4ce487f1ba4b13bd6c36e21c3bec15b4c7cab2bc5e7db2a3",
+          "train": "a03601dc47a35abdad5ff73ee750b421a6d3cb31adf09c2b0e43233144d72bbf",
+          "validation": "011a7bdef33ddbf3ff309dae4a15f0fc1cc8c7320835cf7d6617129cd503e55d"
+        }
+      },
+      "P10-D": {
+        "blue": {
+          "test": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+          "train": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+          "validation": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6"
+        },
+        "red": {
+          "test": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+          "train": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+          "validation": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1"
+        }
+      },
+      "P10-E": {
+        "blue": {
+          "test": "4e8ef96e6af1f6534e6c67458e8a88a4f4dbadc7eb2af7c208128570cd575df1",
+          "train": "4faaf2d5053866172ee32d2c54a2438ddbeaee348c8ade6d3a99f2aab5f24b5e",
+          "validation": "3d508b5af53015b180d0e087643ef65c6b920b166bc9993ec166055f54f50b61"
+        },
+        "red": {
+          "test": "019c066826b69372b82dba0c73a7ad297ea740bb00c66487f9aa77b28f0436f4",
+          "train": "5dae29c8ace50e4ac5d45104d80c718230fd7f939d0fa21c2f196170b57b2892",
+          "validation": "60cf8b1f795cf294022ce99e60aa72f084b343a1173bc99b1a5a44b91cec5ee3"
+        }
+      },
+      "P10-F": {
+        "blue": {
+          "test": "7a9261cc3595a4762de260bf22b26dee88d1628232c0820b92afb4d563da8994",
+          "train": "98d74fcba08c2d35b86b352168a2709ac7d5b2d5a1322467dab7b3eae1988a87",
+          "validation": "2e84181502966093088eb0e177c749bcb473f669c37ae6b4aaa17c672e8f6135"
+        },
+        "red": {
+          "test": "283c7ba2d7afd68468f05b0bdd76cdfd22746d6ec722702b3bd6af7bccab695c",
+          "train": "b67b21bfc276648405487ce104be6e32f58ce88c72ad48dcdfd7b63f865c412f",
+          "validation": "446409e504afc45fda6de14ee3a1c6dd9b6d7764c9b08337481195330fd6cc1e"
+        }
+      }
+    },
+    "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
+    "topology_reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c"
+  },
+  "phase": 10,
+  "phase9_preservation": {
+    "after": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "before": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "unchanged": true
+  },
+  "sampling_audit": {
+    "cells": 36,
+    "counter_totals": {
+      "determinism_mismatches": 0,
+      "illegal_setups": 0,
+      "inventory_errors": 0,
+      "non_finite_selector_values": 0,
+      "provenance_mismatches": 0,
+      "split_violations": 0,
+      "stranded_sampled_setups": 0
+    },
+    "draws_per_cell": 100000,
+    "draws_per_second": 6538.660687152535,
+    "required_total": 3600000,
+    "seconds": 550.5714659690857,
+    "total_draws": 3600000,
+    "workers": 12
+  },
+  "seed_collision_audit": {
+    "collisions": 0,
+    "distinct_seeds": 10858792,
+    "no_collisions": true,
+    "streams": {
+      "agent1_frozen_universe": {
+        "count": 58792,
+        "distinct": 58792,
+        "duplicates": 0
+      },
+      "selector_audit": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      },
+      "selector_base": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      },
+      "selector_branch": {
+        "count": 3600000,
+        "distinct": 3600000,
+        "duplicates": 0
+      }
+    },
+    "total_seeds": 10858792
+  },
+  "status": "PASS",
+  "suite": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 5078,
+    "returncode": 0,
+    "seconds": 304.18454813957214,
+    "skipped": 3,
+    "summary": "5078 passed, 3 skipped in 303.03s (0:05:03)"
+  },
+  "suite_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "9147e9b",
+    "passed": 5023,
+    "seconds": 303.94,
+    "skipped": 3,
+    "summary": "5023 passed, 3 skipped in 303.94s (0:05:03)"
+  },
+  "timestamp": "2026-08-18T16:44:11-0400",
+  "topology": {
+    "all_configurations_identical": true,
+    "configuration_count": 12,
+    "draw_ids": 18000,
+    "fresh_process": {
+      "digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+      "identical_to_reference": true,
+      "python": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python"
+    },
+    "reference_digest": "a6b31fa72f4633370fbd04f81aa68839de86c269992c28e9ada2dd403229e63c",
+    "resume": {
+      "expected_remaining": 3600,
+      "partition_is_disjoint": true,
+      "partition_is_exact": true,
+      "records_match_reference": true,
+      "remaining_count": 3600
+    }
+  }
+}

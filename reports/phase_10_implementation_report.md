@@ -832,3 +832,284 @@ millions of draw ids exist — Agent 1's 58,792-seed audit does not cover
 them; (2) Agent 2's 32-game CPU-vs-MPS probe is evidence about those games
 only, never to be cited as exhaustive backend identity — the corpus is
 authoritative as pure-CPU float32 evidence.
+
+## 4. Agent 4 — Selector and Production Setup Source
+
+Status: **PASS** — 24/24 completion gates true.
+Agent 4 builds the setup source and proves it. It fits nothing, plays no
+game, computes no strength signal and selects no candidate: all six
+candidates go forward to Agent 5 exactly as Agent 1 froze them.
+
+### 4.1 Verified prerequisites
+
+Every identity was recomputed from live bytes before a distribution existed.
+
+```text
+Agents 1, 2, 3                  all PASS, zero false completion gates
+contract bundle digest          257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f
+setup_utility_v1 file SHA-256   50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d
+model_F coefficient digest      7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935
+model_T coefficient digest      d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc
+trait scaler digest             fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9
+Phase 9 checkpoint SHA-256      dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+Phase 9 model-state digest      f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+Phase 7 library content         7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+splits                          6400 / 800 / 800
+neutral_v1                      reflection 0.5, perturbation 0.5, uniform 1..6
+sealed corpus                   1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50 (0 records read)
+bank neural/outcome access      0
+```
+
+Both coefficient digests are **recomputed from the live coefficients**, not
+read back from the artifact's own stored labels, and the production file —
+gitignored by Agent 1's policy — is compared field for field against the
+tracked Agent 3 record it was reviewed as. A matching label on tampered
+bytes therefore cannot pass.
+
+Three prerequisites are checked mechanically rather than declared:
+
+```text
+six candidates          match Agent 1's frozen matrix: True, and Agent 3's handoff: True
+                        6 distinct selector identities
+test-bank outcome access Agents 1/2/3/4 all zero: True
+plays no game           the selector module imports no neural framework, checkpoint reader,
+                        Phase 9 module, evaluation harness or match runner (AST check): True
+```
+
+`no_strength_selection_games` is a claim about code, so it is checked
+against the code: the selector *cannot* produce a strength signal because
+it imports nothing that could, whatever any record asserts.
+
+### 4.2 The selector
+
+A selector call reads six things and nothing else: own colour, requested
+split, selector identity, selector seed, and the candidate base's own
+family and own trait vector. Utility is consumed only through Agent 3's
+accepted own-side scorer, whose entire surface is
+`utility(model_id, colour, family_id, trait_vector)` — there is no opponent
+argument to pass, no centering re-derived by hand, and no path in this
+agent reads the fitted Red-first intercept.
+
+```text
+branch      u < 0.35 -> neutral_v1 branch, else the learned branch
+neutral     the base the accepted setup_sampler_v1 would have taken for
+            (split, selector_seed, profile='neutral_v1')
+learned     inverse-CDF walk over the split's bases in ascending
+            (family_index, base_index), on float64 cumulative mass
+then        the accepted Phase 7 path unchanged: reflection coin,
+            perturbation coin, uniform swap count 1..6, frozen retry
+            rules, and the complete final-output validation stack
+```
+
+Six decisions draw from six domain-separated streams and no mutable global
+RNG cursor exists, so worker count, shard boundaries, call order and
+process restarts cannot move a single draw.
+
+The learned branch changes exactly one thing — which base is chosen. The
+reflection coin, the perturbation coin and the swap count are the accepted
+sampler's for that draw identity on both branches, which is what keeps the
+frozen post-selection marginals intact when a learned base is substituted.
+
+### 4.3 The 36 exact distributions
+
+Every candidate x colour x split distribution is exact arithmetic over the
+whole split, never an empirical frequency. All 36 are finite, non-negative,
+sum to 1 within 1e-12, and reproduce `0.35*p_neutral + 0.65*p_learned`
+**bit for bit** rather than to a tolerance.
+
+Worst case over all 36 cells, against the frozen thresholds:
+
+| metric | threshold | worst observed | pass |
+| --- | --- | --- | --- |
+| normalized family entropy | >= 0.85 | 0.9817 | yes |
+| effective families | >= 10.0 | 15.207 | yes |
+| min family probability | >= 0.015 | 0.0442 | yes |
+| max family probability | <= 0.18 | 0.1321 | yes |
+| within-family base entropy | >= 0.7 | 0.9937 | yes |
+| max conditional base probability | <= 0.1 | 0.03562 | yes |
+
+All 6 candidates are diversity-eligible.
+The 0.35 uniform component alone puts a floor of 0.35/16 = 0.021875 under
+every family probability, so the minimum-family-probability threshold
+cannot fail by construction; the other five are properties of the fitted
+utility at each temperature.
+
+Per-cell probability-vector digests are in `agent_04_selector_contract.json`
+and the raw per-family and per-base metrics in `agent_04_diversity_audit.json`.
+
+### 4.4 The seed universe
+
+Agent 3 carried forward an explicit obligation: Agent 1's 58,792-seed audit
+proved the *frozen* id space collision-free, but the millions of
+`selector_audit` draw ids did not exist then. They exist now, so every one
+was enumerated, together with the two production streams it feeds.
+
+```text
+agent1_frozen_universe         58,792 seeds      58,792 distinct
+selector_audit              3,600,000 seeds   3,600,000 distinct
+selector_base               3,600,000 seeds   3,600,000 distinct
+selector_branch             3,600,000 seeds   3,600,000 distinct
+combined                   10,858,792 seeds  10,858,792 distinct
+collisions                 0
+```
+
+### 4.5 The large sampling audit
+
+```text
+draws per candidate x colour x split   100,000
+cells                                  36
+total complete selector draws          3,600,000
+workers                                12
+wall clock                             9.2 min
+throughput                             6539 draws/s
+```
+
+Every draw went selector -> base -> reflection -> perturbation -> the
+accepted engine validation stack, was rebuilt from its own recorded
+provenance, and was compared against the accepted Phase 7 sampler for the
+same draw identity — a neutral-branch draw field for field, a learned-branch
+draw on every base-independent decision.
+
+```text
+determinism_mismatches           0
+illegal_setups                   0
+inventory_errors                 0
+non_finite_selector_values       0
+provenance_mismatches            0
+split_violations                 0
+stranded_sampled_setups          0
+all 16 families, every cell      True
+```
+
+**Diagnostics only** — these rank nothing and select nothing:
+
+```text
+empirical-vs-exact family total variation   worst 0.04332 over 36 cells
+empirical-vs-exact base total variation     worst 0.11226
+neutral-branch frequency                    0.3467 .. 0.3529   (frozen weight 0.35)
+reflection frequency                        0.4964 .. 0.5037   (frozen 0.5)
+perturbation-requested frequency            0.4961 .. 0.5021   (frozen 0.5)
+Phase 9 held-out fingerprint landings       206,355 of 3,600,000 draws
+  train                                           0 / 1,200,000 = 0.0000
+  validation                                 45,776 / 1,200,000 = 0.0381
+  test                                      160,579 / 1,200,000 = 0.1338
+```
+
+That last diagnostic is the residual Agent 1 recorded and deliberately
+left unrejected, so it is worth reading rather than skipping. Train lands
+**zero** times, which is the sanity check: the Phase 9 held-out universe is
+drawn from the validation and test splits, so a train draw cannot land in
+it. The validation and test rates independently corroborate Agent 1's
+rejection walk, which fired on 7 of 256 validation and 141 of 1,024 test
+selector seeds — 2.7% and 13.8% against the 3.8% and 13.4% measured here.
+The mechanism is the same one Agent 1 named: the unperturbed branch
+reproduces a held-out base template exactly, and roughly half of all draws
+are unperturbed.
+
+This is a **report-only diagnostic and never a gate**. Rejecting such draws
+at draw time would distort the very mixed distribution the diversity
+contract is stated over, which is precisely why Agent 1 forbade it. Base-id
+reuse across phases is allowed; what Phase 10 guarantees is that the setups
+a *case* fixes carry no exact Phase 9 fingerprint overlap, and that no
+Phase 9 per-case outcome informs any Phase 10 fit or selection.
+
+### 4.6 Topology, restart and resume
+
+```text
+fixed draw-id set             18,000 ids across all 36 cells
+worker counts                 1, 3, 8, 13
+orderings                     contiguous, round-robin, reversed
+configurations                12, all identical to the reference
+fresh process                 identical: True
+resume                        exact set subtraction by draw id; 3,600 recomputed, all identical
+```
+
+A replay's record is the canonical digest of the whole draw — base id,
+reflection, perturbation identity, final fingerprint and complete
+provenance — so 'identical' is the whole object, not a sampled field.
+
+### 4.7 The permitted-input boundary
+
+`SelectorRequest` carries exactly three fields — split, colour and selector
+seed — and refuses to be built from a mapping that carries anything else.
+All 16 positive controls were rejected:
+
+```text
+opponent_family, opponent_base_setup_id, opponent_setup_fingerprint, opponent_final_setup, opponent_seed, opponent_policy_id, opponent_checkpoint, game_outcome
+result, red_score, winner, matchup_token, match_seed, game_id, hidden_opponent_truth, storage_path
+```
+
+Varying hidden opponent truth across 16 whole opponent
+contexts left every draw bit-identical, no public selector API takes an
+opponent-shaped parameter, and a produced record carries no opponent,
+outcome, winner, Elo or reward field.
+
+### 4.8 Preservation
+
+```text
+Phase 9 SHA-256 before / after   dfd698e5b6cf536a523bdd35dd3a32a5... / unchanged
+Phase 9 model-state before/after f1df694d59e3435994be06f2537d9c60... / unchanged
+Phase 9 parameters               863,959
+C1 optimizer steps               0
+Agent 2 corpus                   SEALED, digest unchanged, 0 records read
+Agent 3 utility + scaler         byte-identical, 0 refits
+neutral_v1                       consumed, never redefined
+```
+
+### 4.9 Recorded readings
+
+- **After base selection, delegate to the accepted Phase 7 reflection/perturbation implementation un** — the selector re-derives the accepted setup_sampler_v1 decision streams through the public derive_stream_seed under the accepted neutral_v1 profile object — reading that profile's own reflection probability, perturbation probability and intensity weights rather than restating them — and then calls the accepted build_descendant, the sampler's single construction path. No Phase 7 byte is touched. The adapter's identity is proven, not asserted: every one of the audited neutral-branch draws is compared field for field against sample_setup(split, seed, 'neutral_v1') and every learned-branch draw is required to share that baseline's reflection, perturbation coin and swap count, differing in the base alone
+- **setup_sampler_v1 provenance field `sampler_profile`** — a learned-branch draw records sampler_profile='neutral_v1' because that field names the frozen post-selection profile actually used (reflection 0.5, perturbation 0.5, uniform 1..6), which is true on both branches and is what makes a neutral-branch draw bit-identical to the baseline. It says nothing about base selection: the branch, the candidate and the selector identity live in the Phase 10 selector provenance beside it, so no consumer has to infer the arm from a Phase 7 field
+- **no_test_outcome_access** — the diversity contract is stated over all three splits, so the audit draws from the Phase 7 test *split*. That is structural sampling of base templates and is not access to phase10_test_bank_v1: no bank case was played, scored or shown to a model, the only bank reads are the two structural digest recomputations in the access log, and no outcome exists on either bank to read
+- **at least 100,000 draws per candidate x color x split** — exactly 100,000 per cell, 3,600,000 in total, each carrying the full verification burden — construction through the accepted validation stack, a rebuild from its own provenance, and the accepted-sampler cross-check — rather than a larger count with a lighter check
+
+### 4.10 Evidence
+
+```text
+tests before   5023 passed, 3 skipped in 303.94s (0:05:03)
+tests after    5078 passed, 3 skipped in 303.03s (0:05:03)
+```
+
+```text
+reports/phase_10_data/agent_04_selector_contract.json
+reports/phase_10_data/agent_04_diversity_audit.json
+reports/phase_10_data/agent_04_acceptance.json
+```
+
+| gate | value |
+| --- | --- |
+| `agents1_3_pass` | true |
+| `all_16_families_represented` | true |
+| `all_diversity_thresholds_recorded` | true |
+| `candidate_count_exactly_six` | true |
+| `distribution_diversity_audit_complete` | true |
+| `full_suite_green` | true |
+| `illegal_setups_zero` | true |
+| `inventory_violations_zero` | true |
+| `mixture_35_65_exact` | true |
+| `neutral_v1_unchanged` | true |
+| `no_strength_selection_games` | true |
+| `no_test_outcome_access` | true |
+| `opponent_hidden_inputs_rejected` | true |
+| `phase9_checkpoint_unchanged` | true |
+| `probabilities_finite` | true |
+| `probabilities_sum_to_one` | true |
+| `provenance_mismatches_zero` | true |
+| `seed_collision_audit_clean` | true |
+| `selector_contract_frozen` | true |
+| `selector_draws_ge_required` | true |
+| `split_violations_zero` | true |
+| `stranded_sampled_setups_zero` | true |
+| `topology_reproducibility_pass` | true |
+| `utility_digests_match` | true |
+
+### 4.11 Handoff to Agent 5
+
+Agent 5 receives the six immutable selector configurations and their
+probability-vector digests, the deterministic selector API and the
+`neutral_v1` baseline API, the diversity eligibility of every candidate
+(all six eligible), the validation bank identity, and the frozen score and
+tie-break rule. It runs bounded validation selection on
+`phase10_validation_bank_v1` only: `phase10_test_bank_v1` stays sealed until
+Agent 7, and no corpus outcome may select. The two utility models and the
+six temperatures are frozen — no refit, no retune, no seventh candidate.
