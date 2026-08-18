@@ -1,0 +1,471 @@
+{
+ "agent": 1,
+ "artifact": "agent_01_acceptance",
+ "boundary_evidence": [
+  {
+   "at_threshold_passes": true,
+   "gate": "A",
+   "one_step_below_fails": true,
+   "threshold": "EWR >= 0.49 (non-strict)"
+  },
+  {
+   "at_threshold_passes": false,
+   "expected_at_threshold": false,
+   "gate": "A",
+   "threshold": "paired 95% LB > 0.47 (strict)"
+  },
+  {
+   "at_bound_threshold_passes": false,
+   "at_delta_threshold_passes": true,
+   "expected_at_bound_threshold": false,
+   "gate": "B",
+   "threshold": "Delta_L >= -0.01 (non-strict), LB > -0.03 (strict)"
+  },
+  {
+   "at_threshold_passes": false,
+   "expected_at_threshold": false,
+   "gate": "C",
+   "threshold": "paired LB > -0.03 (strict)"
+  },
+  {
+   "at_threshold_passes": true,
+   "gate": "D",
+   "threshold": "overall >= 0.95, per-colour >= 0.90, basic >= 0.80 (non-strict)"
+  },
+  {
+   "at_threshold_passes": true,
+   "gate": "E",
+   "one_step_below_fails": true,
+   "threshold": "every diversity threshold (non-strict)"
+  },
+  {
+   "all_zero_passes": true,
+   "gate": "F",
+   "missing_counter_fails": true,
+   "one_nonzero_fails": true,
+   "threshold": "nine counters, all exactly zero"
+  },
+  {
+   "all_links_pass": true,
+   "gate": "G",
+   "one_broken_link_fails": true,
+   "threshold": "every link of the selection chain reproduces"
+  },
+  {
+   "exact_identity_passes": true,
+   "gate": "H",
+   "one_optimizer_step_fails": true,
+   "threshold": "exact Phase 9 identity and zero C1 optimizer steps"
+  }
+ ],
+ "candidate_matrix": [
+  {
+   "candidate_id": "P10-A",
+   "temperature": 0.75,
+   "utility_model": "model_F"
+  },
+  {
+   "candidate_id": "P10-B",
+   "temperature": 1.25,
+   "utility_model": "model_F"
+  },
+  {
+   "candidate_id": "P10-C",
+   "temperature": 2.0,
+   "utility_model": "model_F"
+  },
+  {
+   "candidate_id": "P10-D",
+   "temperature": 0.75,
+   "utility_model": "model_T"
+  },
+  {
+   "candidate_id": "P10-E",
+   "temperature": 1.25,
+   "utility_model": "model_T"
+  },
+  {
+   "candidate_id": "P10-F",
+   "temperature": 2.0,
+   "utility_model": "model_T"
+  }
+ ],
+ "commands": [
+  "python scripts/run_phase10_agent01.py",
+  ".venv/bin/python -m pytest tests -q"
+ ],
+ "completion_gates": {
+  "candidate_matrix_exactly_six": true,
+  "final_acceptance_gates_frozen": true,
+  "full_suite_green": true,
+  "neutral_profile_verified": true,
+  "no_phase10_outcome_games": true,
+  "no_utility_fit": true,
+  "ordered_family_pair_counts_exact": true,
+  "outcome_schedule_exact_16384": true,
+  "phase10_contracts_frozen_and_hashed": true,
+  "phase10_seeds_frozen": true,
+  "phase10_val_test_fingerprint_overlap_zero": true,
+  "phase7_library_identity_verified": true,
+  "phase7_splits_verified": true,
+  "phase7_trait_vectors_reconstruct": true,
+  "phase9_bank_exact_fingerprint_overlap_zero": true,
+  "phase9_checkpoint_unchanged": true,
+  "phase9_final_identity_verified": true,
+  "phase9_model_finite": true,
+  "test_bank_frozen_and_hashed": true,
+  "test_bank_neural_outcome_access_zero": true,
+  "utility_fit_protocol_frozen": true,
+  "validation_bank_frozen_and_hashed": true
+ },
+ "cpu_count": 14,
+ "deviations": [
+  {
+   "contract_text": "validation cases: 2026081806",
+   "reading": "the contract names a validation-case root but no separate test-case root, so 2026081806 roots the case schedule of both banks, domain-separated by their two distinct bank versions",
+   "topic": "case-schedule seed root",
+   "why_safe": "no root is added, no stream is reused, and the exhaustive collision audit proves every validation and test stream disjoint"
+  },
+  {
+   "contract_text": "x(s) is the frozen 35-field trait vector",
+   "reading": "the 35 frozen fields include four per-rank histograms, so the feature vector is their lossless flattening: 47 float64 scalars, nothing dropped and nothing invented",
+   "topic": "trait feature dimensionality",
+   "why_safe": "the alternative would require discarding schema information by hand; the 16 exact linear relations this surfaces leave rank 31, and the frozen L2 penalty of 1e-3 makes the minimizer unique"
+  },
+  {
+   "contract_text": "full-batch BCE + L2 1e-3 on family/trait parameters",
+   "reading": "BCE is the mean over the 16,384 scheduled games and the penalty is lambda times the sum of squares of the raw family offsets and trait weights; the intercept is unpenalized",
+   "topic": "objective reduction",
+   "why_safe": "a summed BCE would make 1e-3 effectively no regularization at 16,384 games; the mean is the reading under which the stated coefficient does the job the contract gives it"
+  },
+  {
+   "contract_text": "zero exact final-setup fingerprint overlap with Phase 9 validation/test cases",
+   "reading": "hard, rejection-enforced over every arrangement a Phase 10 case fixes \u2014 the opponent setup and both neutral_v1 own-side draws; a learned selector's own-side draw cannot exist before the selector does, so Agents 5-7 record its Phase 9 landings as a report-only diagnostic",
+   "topic": "fingerprint isolation of learned draws",
+   "why_safe": "rejecting a learned draw at evaluation time would distort the very mixed distribution the diversity contract is stated over, and the diagnostic keeps the residual visible rather than unmeasured"
+  }
+ ],
+ "discipline": {
+  "c1_optimizer_steps": 0,
+  "held_out_bases_in_fitting_path": 0,
+  "neural_inference_on_either_bank": 0,
+  "phase10_outcome_games_played": 0,
+  "test_bank_outcome_access": 0,
+  "utility_models_fit": 0
+ },
+ "engine_version": "phase2_1_reference_1.2.0",
+ "false_gates": [],
+ "frozen_inputs": {
+  "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+  "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "phase7_library_manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+  "phase7_library_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+  "phase9_amendment_v1_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+  "phase9_amendment_v2_digest": "92ad4f67fb07a14551ef555335b71000d6369cd817dad59c839d793888de9e71",
+  "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "phase9_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+  "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "phase9_parameters": 863959
+ },
+ "gates_total": 22,
+ "gates_true": 22,
+ "handoff_to_agent_2": {
+  "bank_identities": {
+   "test": {
+    "bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "bank_version": "phase10_test_bank_v1",
+    "manifest_digest": "c6f21bcdb829fe77b208e49d9960b05a1b65bcf1dc7944d3f10420bea132a755"
+   },
+   "validation": {
+    "bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f",
+    "bank_version": "phase10_validation_bank_v1",
+    "manifest_digest": "459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e"
+   }
+  },
+  "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+  "contract_digests": {
+   "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
+   "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
+   "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
+   "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+   "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
+   "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+   "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
+   "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
+  },
+  "crash_resume_identity": "a missing game is regenerated from its game id alone through rebuild_game + resolve_side; no derivation reads worker count, arrival order, process id, wall clock or a storage path",
+  "exact_game_count": 16384,
+  "for_agent": 2,
+  "mission": "collect phase10_setup_outcome_corpus_v1; make no learning-design decision",
+  "outcome_record_schema": {
+   "corpus_version": "phase10_setup_outcome_corpus_v1",
+   "field_count": 27,
+   "fields": [
+    {
+     "description": "the corpus version this record belongs to",
+     "name": "corpus_version"
+    },
+    {
+     "description": "the logical Phase 10 outcome game id",
+     "name": "game_id"
+    },
+    {
+     "description": "scheduled Red setup family",
+     "name": "red_family"
+    },
+    {
+     "description": "scheduled Blue setup family",
+     "name": "blue_family"
+    },
+    {
+     "description": "the game's ordinal inside its ordered family pair",
+     "name": "ordinal"
+    },
+    {
+     "description": "the setup split both sides drew from; always 'train'",
+     "name": "split"
+    },
+    {
+     "description": "the frozen match-level randomness seed",
+     "name": "match_seed"
+    },
+    {
+     "description": "the accepted sampler draw seed of the Red side",
+     "name": "red_setup_draw_seed"
+    },
+    {
+     "description": "the accepted sampler draw seed of the Blue side",
+     "name": "blue_setup_draw_seed"
+    },
+    {
+     "description": "the accepted family-rejection attempt index for Red",
+     "name": "red_setup_attempt"
+    },
+    {
+     "description": "the accepted family-rejection attempt index for Blue",
+     "name": "blue_setup_attempt"
+    },
+    {
+     "description": "the Red side's Phase 7 base identity",
+     "name": "red_base_setup_id"
+    },
+    {
+     "description": "the Blue side's Phase 7 base identity",
+     "name": "blue_base_setup_id"
+    },
+    {
+     "description": "the Red side's complete setup_sampler_v1 provenance record",
+     "name": "red_provenance"
+    },
+    {
+     "description": "the Blue side's complete setup_sampler_v1 provenance record",
+     "name": "blue_provenance"
+    },
+    {
+     "description": "the trait-vector identity both sides were scored under",
+     "name": "trait_schema_version"
+    },
+    {
+     "description": "'red_win', 'draw' or 'red_loss', from the Red perspective",
+     "name": "result"
+    },
+    {
+     "description": "the Red-perspective target 1.0 / 0.5 / 0.0",
+     "name": "red_score"
+    },
+    {
+     "description": "game length in plies",
+     "name": "plies"
+    },
+    {
+     "description": "the engine's terminal reason token",
+     "name": "terminal_reason"
+    },
+    {
+     "description": "the move-policy identity both sides played under",
+     "name": "move_policy_identity"
+    },
+    {
+     "description": "the accepted Phase 9 checkpoint file SHA-256",
+     "name": "move_checkpoint_sha256"
+    },
+    {
+     "description": "the accepted Phase 9 model-state digest",
+     "name": "move_model_state_digest"
+    },
+    {
+     "description": "the Phase 7 library content digest in force",
+     "name": "library_content_digest"
+    },
+    {
+     "description": "SHA-256 over this record's canonical outcome payload",
+     "name": "payload_digest"
+    },
+    {
+     "description": "SHA-256 over the shard/segment metadata this record sits in",
+     "name": "metadata_digest"
+    },
+    {
+     "description": "the corpus commit identity that sealed this record",
+     "name": "commit_digest"
+    }
+   ],
+   "forbidden_fields": "no opponent-private information, no model score, no strength signal, and no physical storage path may appear in a record",
+   "replay_claim": "game_id rebuilds both side draw seeds; each side's provenance rebuilds its exact final setup through the frozen sampler; the move-policy identity and checkpoint digests name the weights that moved; so any single record replays independently of every other record",
+   "result_targets": {
+    "draw": 0.5,
+    "red_loss": 0.0,
+    "red_win": 1.0
+   },
+   "target_orientation": "red perspective"
+  },
+  "phase9_byte_preservation": "Phase 9 checkpoint before Phase 10 == Phase 9 checkpoint after Phase 10, in both file SHA-256 and model-state digest, with zero C1 optimizer steps",
+  "phase9_evaluation_only_identity": {
+   "behaviour": {
+    "batch_policy": "single_request",
+    "checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "decision_mode": "greedy",
+    "dtype": "float32",
+    "optimizer_steps": 0,
+    "policy": "accepted Phase 9 checkpoint, both sides",
+    "search": "none"
+   },
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "role": "evaluation only; zero optimizer steps",
+   "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  },
+  "schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+  "schedule_enumerator": "stratego.training.phase10_schedule.enumerate_schedule",
+  "schedule_rebuilder": "stratego.training.phase10_schedule.rebuild_game",
+  "sealing": {
+   "access_log_rule": "every test-bank access is recorded with its purpose",
+   "allowed_before_agent_7": [
+    "structural_build",
+    "structural_audit",
+    "digest_computation",
+    "fingerprint_isolation_check",
+    "structural_artifact_write"
+   ],
+   "forbidden_before_agent_7": [
+    "neural inference on a case",
+    "playing any game on a case",
+    "computing any model metric on a case",
+    "candidate selection using a case",
+    "hyperparameter or threshold selection using a case"
+   ],
+   "sealed_until": "Agent 7"
+  },
+  "setup_derivations": {
+   "match_seed": "phase10_seed.corpus_match_seed(game_id)",
+   "rule": "first attempt whose sample_setup('train', seed, profile='neutral_v1') primary family equals the scheduled family",
+   "side_draw_seed": "phase10_seed.corpus_setup_seed(game_id, color, attempt)"
+  },
+  "side_draw_resolver": "stratego.training.phase10_schedule.resolve_side",
+  "storage_policy": {
+   "absent_external_volume_rule": "a configured root naming an unmounted /Volumes/... volume is BLOCKED; never silently create an internal replacement path",
+   "corpus_version": "phase10_setup_outcome_corpus_v1",
+   "hard_coded_volume_paths_forbidden": "no logical scheduling, model or selector identity may contain a /Volumes/... path; the resolved root appears only in manifests as a diagnostic",
+   "identity_rule": "the resolved corpus root is an operational diagnostic, never an identity: Phase 10 corpus identity is corpus version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same corpus",
+   "logical_identity_is_path_independent": true,
+   "preferred_location": "the verified external volume for substantial corpus/replay bytes, recorded through the pointer file",
+   "resolution_order": [
+    "STRATEGO_PHASE10_CORPUS_ROOT",
+    "data/phase10_corpus_root.txt",
+    "data/phase10/corpus"
+   ]
+  },
+  "train_only_rule": "every corpus setup comes from the Phase 7 train split; a validation or test base anywhere in the corpus is a BLOCKED leak"
+ },
+ "mps_available": true,
+ "mps_built": true,
+ "new_digests": {
+  "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+  "outcome_schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+  "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
+  "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
+  "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
+  "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+  "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
+  "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+  "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
+  "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d",
+  "phase9_isolation_set_digest": "c714c6e721e65d2624b34b27a529fa95f69369d0f1070d31b134d1b69aac16ce",
+  "test_bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+  "test_bank_manifest_digest": "c6f21bcdb829fe77b208e49d9960b05a1b65bcf1dc7944d3f10420bea132a755",
+  "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+  "validation_bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f",
+  "validation_bank_manifest_digest": "459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e"
+ },
+ "observation_version": "observation_v2_1_127ch",
+ "phase": 10,
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "problems": [],
+ "python_version": "3.13.2",
+ "rules_version": "stratego_project_v1",
+ "seeds": {
+  "case_schedule_seed": 2026081806,
+  "outcome_schedule_seed": 2026081802,
+  "phase10_master_seed": 2026081801,
+  "selector_draw_seed": 2026081805,
+  "setup_draw_seed": 2026081803,
+  "test_bootstrap_seed": 2026081808,
+  "utility_fit_seed": 2026081804,
+  "validation_bootstrap_seed": 2026081807
+ },
+ "source_revision": "427b963",
+ "status": "PASS",
+ "test_bank_access_log": [
+  {
+   "neural": false,
+   "outcomes": false,
+   "purpose": "structural_build",
+   "stage": "banks"
+  },
+  {
+   "neural": false,
+   "outcomes": false,
+   "purpose": "digest_computation",
+   "stage": "banks"
+  },
+  {
+   "neural": false,
+   "outcomes": false,
+   "purpose": "structural_audit",
+   "stage": "banks"
+  },
+  {
+   "neural": false,
+   "outcomes": false,
+   "purpose": "fingerprint_isolation_check",
+   "stage": "banks"
+  },
+  {
+   "neural": false,
+   "outcomes": false,
+   "purpose": "structural_artifact_write",
+   "stage": "artifacts"
+  }
+ ],
+ "tests_after": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "failed": 0,
+  "passed": 4858,
+  "returncode": 0,
+  "seconds": 296.58,
+  "skipped": 3,
+  "summary": "4858 passed, 3 skipped in 295.45s (0:04:55)"
+ },
+ "tests_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "failed": 0,
+  "measured_at_commit": "427b963",
+  "passed": 4621,
+  "seconds": 283.69,
+  "skipped": 3,
+  "summary": "4621 passed, 3 skipped in 283.69s (0:04:43)"
+ },
+ "timestamp": "2026-08-18T12:20:10-0400",
+ "torch_version": "2.13.0",
+ "working_tree_state": "dirty"
+}

@@ -1,0 +1,1796 @@
+{
+ "agent": 1,
+ "artifact": "agent_01_setup_selection_contract",
+ "contract_bundle_digest": "1cfa5b4667bb75bfb9b323f450ec23d5f812dba629e80a9bce0b19dabb02b395",
+ "contract_digests": {
+  "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
+  "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
+  "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
+  "phase10_setup_contract_v1": "94a1d17161fc936b8f11ed10289fe3fd4aed7bab484dac927d5baa035cc935ad",
+  "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
+  "phase10_setup_selector_v1": "8a3459fbfb88a45f207fe0965dd6c743524ef16168a78b8ab748ff4efd2bd0b2",
+  "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
+  "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
+ },
+ "contract_versions": [
+  "phase10_setup_contract_v1",
+  "phase10_setup_outcome_corpus_v1",
+  "phase10_setup_utility_v1",
+  "phase10_setup_selector_v1",
+  "phase10_selector_schedule_v1",
+  "phase10_eval_bank_v1",
+  "phase10_acceptance_v1",
+  "phase10_system_v1"
+ ],
+ "contracts": {
+  "phase10_acceptance_v1": {
+   "acceptance_version": "phase10_acceptance_v1",
+   "all_gates_are_hard": true,
+   "classifications": {
+    "BLOCKED": "prerequisite identity/sealing/discipline evidence cannot be verified",
+    "FAIL": "the experiment runs correctly but a hard gate fails",
+    "PASS-IMPROVED": "all eight hard gates pass AND Gate A's improved criterion passes AND Gate B is significantly positive",
+    "PASS-NONINFERIOR": "all eight hard gates pass but the improved criteria are not both met"
+   },
+   "diagnostic_rule": "report-only diagnostics never rescue a failed gate",
+   "evaluated_by": "Agent 7, on the single frozen winner",
+   "evaluated_on": "phase10_test_bank_v1",
+   "gate_count": 8,
+   "hard_gate_ids": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+   ],
+   "hard_gates": [
+    {
+     "gate": "A",
+     "improved": {
+      "ewr_min": 0.52,
+      "ewr_min_strict": false,
+      "lb_min": 0.5,
+      "lb_min_strict": true
+     },
+     "name": "direct learned-v-neutral non-inferiority",
+     "ordinary": {
+      "ewr_min": 0.49,
+      "ewr_min_strict": false,
+      "lb_min": 0.47,
+      "lb_min_strict": true
+     }
+    },
+    {
+     "delta_l_min": -0.01,
+     "delta_l_min_strict": false,
+     "gate": "B",
+     "lb_min": -0.03,
+     "lb_min_strict": true,
+     "league_weights": {
+      "delta_phase8_anchor": 0.2,
+      "delta_strategic": 0.45,
+      "delta_tactical": 0.35
+     },
+     "name": "strong-opponent league non-inferiority",
+     "significant": {
+      "delta_l_min": 0.0,
+      "delta_l_min_strict": true,
+      "lb_min": 0.0,
+      "lb_min_strict": true
+     }
+    },
+    {
+     "gate": "C",
+     "lb_min": -0.03,
+     "lb_min_strict": true,
+     "name": "individual strong-opponent guards",
+     "opponents": [
+      "vs_strategic",
+      "vs_tactical",
+      "vs_phase8_anchor"
+     ]
+    },
+    {
+     "basic_min": 0.8,
+     "gate": "D",
+     "min_strict": false,
+     "name": "easy-opponent guards",
+     "paired_lb_min": -0.03,
+     "paired_lb_min_strict": true,
+     "paired_opponents": [
+      "vs_random",
+      "vs_basic"
+     ],
+     "random_blue_min": 0.9,
+     "random_overall_min": 0.95,
+     "random_red_min": 0.9
+    },
+    {
+     "gate": "E",
+     "name": "diversity",
+     "thresholds": {
+      "effective_families_min": 10.0,
+      "family_probability_max": 0.18,
+      "family_probability_min": 0.015,
+      "max_conditional_base_probability": 0.1,
+      "normalized_family_entropy_min": 0.85,
+      "within_family_normalized_base_entropy_min": 0.7
+     }
+    },
+    {
+     "gate": "F",
+     "name": "correctness and information safety",
+     "zero_tolerance": [
+      "illegal setups",
+      "inventory errors",
+      "stranded sampled setups",
+      "split leakage",
+      "provenance mismatch",
+      "hidden-opponent selector inputs",
+      "illegal neural moves",
+      "non-finite selector outputs",
+      "inference failures"
+     ]
+    },
+    {
+     "gate": "G",
+     "name": "reproducibility",
+     "rule": "logical game id + selector seed + selector identity + requested split + colour -> same base -> same reflection -> same perturbation -> same final fingerprint, independent of worker order and process restart"
+    },
+    {
+     "c1_optimizer_steps": 0,
+     "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "gate": "H",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "name": "Phase 9 preservation",
+     "parameters": 863959
+    }
+   ],
+   "inequality_semantics": "thresholds marked strict use '>' and unmarked thresholds use '>='; every gate below states its own strictness explicitly",
+   "statistics": {
+    "confidence": 0.95,
+    "final_bootstrap_root": 2026081808,
+    "method": "paired_unit_percentile_bootstrap",
+    "recompute_rule": "gate booleans and selection scores must be recomputed from the primitive recorded outcomes, never read back from a summary",
+    "replicates": 10000,
+    "rng": "numpy_pcg64",
+    "token_rule": "each matchup and each learned-minus-neutral difference receives a domain-separated token through bootstrap_stream_seed(bank, token)",
+    "unit": "paired logical setup case",
+    "validation_bootstrap_root": 2026081807
+   }
+  },
+  "phase10_eval_bank_v1": {
+   "banks": [
+    {
+     "bank": "validation",
+     "bank_version": "phase10_validation_bank_v1",
+     "bootstrap_root": 2026081807,
+     "case_count": 128,
+     "cases_per_opponent_family": 8,
+     "split": "validation"
+    },
+    {
+     "bank": "test",
+     "bank_version": "phase10_test_bank_v1",
+     "bootstrap_root": 2026081808,
+     "case_count": 512,
+     "cases_per_opponent_family": 32,
+     "split": "test"
+    }
+   ],
+   "case_structure": {
+    "bootstrap_unit": "the logical case, scoring the mean of its two games",
+    "colour_pairing": "the selector under test plays Red in game 0 and Blue in game 1 against the same fixed opponent setup",
+    "family_identity": "the opponent setup's primary family",
+    "match_seeds": "one seed per (case, game index, matchup), independent of arm and candidate, so a rule-based opponent draws identical randomness in both arms",
+    "opponent_setup": "one held-out setup drawn by neutral_v1 from the bank's split, conditioned on the case family; the same physical arrangement plays in every matchup and in both arms",
+    "selector_seeds": "one seed per (case, colour), identical for the learned candidate and the neutral baseline, so a difference is measured on one draw identity"
+   },
+   "colour_pairing": {
+    "0": "red",
+    "1": "blue"
+   },
+   "colours": [
+    "red",
+    "blue"
+   ],
+   "eval_bank_version": "phase10_eval_bank_v1",
+   "family_order": [
+    "F00",
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15"
+   ],
+   "isolation": {
+    "base_id_reuse": "allowed across phases; exact final fingerprint reuse is not",
+    "claim": "Phase 10 does not claim a wholly unseen base-template universe; it guarantees new logical case ids, new Phase 10 seeds, new procedural descendants, zero exact final-setup fingerprint overlap with the Phase 9 held-out evaluation banks over every setup a Phase 10 case fixes, and zero use of any Phase 9 per-case outcome in Phase 10 fitting or selection",
+    "frozen_setups_per_case": "the fixed opponent setup and the two neutral_v1 own-side draws (one per colour) \u2014 every arrangement a case determines before a selector exists",
+    "rejection_rule": "walk the frozen attempt streams and accept the first draw that is family-correct, outside the Phase 9 held-out fingerprint set, and distinct from the case's other frozen setups",
+    "runtime_monitor": "a learned selector's own-side draw cannot be enumerated before the selector exists, so Agents 5-7 record \u2014 as a report-only diagnostic, never a gate \u2014 how many produced final setups land in the Phase 9 held-out fingerprint set; rejecting them at draw time would distort the very mixed distribution the diversity contract is stated over"
+   },
+   "master_seed": 2026081801,
+   "matchup_tokens": [
+    "learned_vs_neutral",
+    "vs_strategic",
+    "vs_tactical",
+    "vs_phase8_anchor",
+    "vs_random",
+    "vs_basic"
+   ],
+   "max_attempts": 2048,
+   "no_outcome_selection": "construction plays no game and reads no strength signal; draws are rejected only for family identity, fingerprint isolation and within-case distinctness",
+   "sealing": {
+    "access_log_rule": "every test-bank access is recorded with its purpose",
+    "allowed_before_agent_7": [
+     "structural_build",
+     "structural_audit",
+     "digest_computation",
+     "fingerprint_isolation_check",
+     "structural_artifact_write"
+    ],
+    "forbidden_before_agent_7": [
+     "neural inference on a case",
+     "playing any game on a case",
+     "computing any model metric on a case",
+     "candidate selection using a case",
+     "hyperparameter or threshold selection using a case"
+    ],
+    "sealed_until": "Agent 7"
+   }
+  },
+  "phase10_selector_schedule_v1": {
+   "deltas": {
+    "delta_direct": "EWR(learned selector vs neutral selector) - 0.5",
+    "delta_opponent": "EWR(Phase9+learned vs O) - EWR(Phase9+neutral vs O)"
+   },
+   "eligibility": "a candidate failing correctness, diversity or reproducibility is ineligible regardless of score; if no candidate is eligible, overall Phase 10 returns FAIL and later agents stop",
+   "matchup_count": 6,
+   "matchups": [
+    {
+     "neutral_arm": false,
+     "opponent": "neutral_v1 selector, accepted Phase 9 policy both sides",
+     "opponent_policy_id": null,
+     "role": "direct setup-selector comparison (Delta_D)",
+     "token": "learned_vs_neutral"
+    },
+    {
+     "neutral_arm": true,
+     "opponent": "strategic_rule_based",
+     "opponent_policy_id": "strategic_rule_based",
+     "role": "strong-opponent league component",
+     "token": "vs_strategic"
+    },
+    {
+     "neutral_arm": true,
+     "opponent": "tactical_rule_based",
+     "opponent_policy_id": "tactical_rule_based",
+     "role": "strong-opponent league component",
+     "token": "vs_tactical"
+    },
+    {
+     "neutral_arm": true,
+     "opponent": "Phase 8 anchor checkpoint",
+     "opponent_policy_id": "phase8_anchor",
+     "role": "strong-opponent league component",
+     "token": "vs_phase8_anchor"
+    },
+    {
+     "neutral_arm": true,
+     "opponent": "random_legal",
+     "opponent_policy_id": "random_legal",
+     "role": "easy-opponent guard",
+     "token": "vs_random"
+    },
+    {
+     "neutral_arm": true,
+     "opponent": "basic_heuristic",
+     "opponent_policy_id": "basic_heuristic",
+     "role": "easy-opponent guard",
+     "token": "vs_basic"
+    }
+   ],
+   "move_behavior": {
+    "batch_policy": "single_request",
+    "decision_mode": "greedy",
+    "dtype": "float32",
+    "search": "none"
+   },
+   "move_policy": "accepted Phase 9 checkpoint on the evaluated side in every matchup",
+   "neutral_arm_rule": "for matchups 2-6 the Phase9+neutral_v1 arm is evaluated on the exact same logical cases, so a setup-selector delta is a paired quantity",
+   "schedule_version": "phase10_selector_schedule_v1",
+   "selection_data": "candidate selection uses the validation bank only; the test bank is sealed until Agent 7 and corpus outcomes may never select",
+   "selection_score": {
+    "excluded_matchups": [
+     "vs_random",
+     "vs_basic"
+    ],
+    "formula": "S10 = 0.40*Delta_D + 0.30*Delta_Strategic + 0.20*Delta_Tactical + 0.10*Delta_Phase8",
+    "weights": {
+     "delta_direct": 0.4,
+     "delta_phase8_anchor": 0.1,
+     "delta_strategic": 0.3,
+     "delta_tactical": 0.2
+    }
+   },
+   "tie_break_order": [
+    "higher S10",
+    "higher Delta_Strategic",
+    "higher Delta_D",
+    "higher normalized family entropy",
+    "higher effective base diversity",
+    "lexicographically smaller candidate id"
+   ],
+   "validation_guards": {
+    "basic_min": 0.8,
+    "random_overall_min": 0.95,
+    "role": "guards, not score components"
+   }
+  },
+  "phase10_setup_contract_v1": {
+   "accepted_move_model": {
+    "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "parameters": 863959,
+    "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   },
+   "accepted_phase9_chain": {
+    "amendment_v1_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_v2_digest": "92ad4f67fb07a14551ef555335b71000d6369cd817dad59c839d793888de9e71",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34"
+   },
+   "contract_version": "phase10_setup_contract_v1",
+   "frozen_phase7_stack": {
+    "bases": 8000,
+    "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "families": 16,
+    "frozen_identities": [
+     "setup_generator_contract_v1",
+     "setup_family_v1",
+     "setup_trait_vector_v1",
+     "setup_diversity_standard_v1",
+     "setup_perturbation_v1",
+     "setup_sampler_v1",
+     "setup_source_v1"
+    ],
+    "library_version": "setup_library_v1",
+    "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+    "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+    "profile_baseline": "neutral_v1",
+    "test": 800,
+    "train": 6400,
+    "validation": 800
+   },
+   "frozen_runtime_identities": {
+    "backend": "KEEP_PYTHON",
+    "engine_action_encoding": "source_destination_10000_v1",
+    "model_action_frame": "perspective_normalized_squares",
+    "model_contract": "model_contract_v2",
+    "observation": "observation_v2_1_127ch",
+    "reference_engine": "phase2_1_reference_1.2.0",
+    "rules": "stratego_project_v1",
+    "trajectory": "trajectory_v1"
+   },
+   "identity_version": "phase10_identity_v1",
+   "mission": "learned setup selection over the frozen Phase 7 setup library, with the accepted Phase 9 move policy unchanged; not a move-policy training phase and not a setup Transformer",
+   "non_goals": [
+    "update C1 policy/value/belief weights",
+    "run PPO or continue Phase 9 RL",
+    "change the Phase 7 library, splits, family definitions, reflection or perturbation semantics",
+    "use opponent true setup/family/base/seed or other hidden opponent information as selector input",
+    "change rules, observation channels, action encoding or engine semantics",
+    "build a full setup Transformer",
+    "perform Phase 11 belief redesign or Phase 12 search",
+    "use human games",
+    "begin the official 168-hour campaign",
+    "use Phase 10 final-test outcomes for candidate selection or threshold changes"
+   ],
+   "phase9_preservation_invariant": "Phase 9 checkpoint before Phase 10 == Phase 9 checkpoint after Phase 10, in both file SHA-256 and model-state digest, with zero C1 optimizer steps",
+   "pipeline": "setup_library_v1 -> lightweight setup utility -> setup_selector_v1 -> frozen reflection/perturbation -> initial setup, plus the accepted Phase 9 C1 move policy, unchanged",
+   "seeds": {
+    "arm_independence": "case selector seeds and case match seeds are independent of which selector is under test, so learned and neutral arms differ only in the selector and the paired difference is not polluted by the opponent's randomness",
+    "case_id_format": "<bank_version>|ms=<master>|f=<opponent-setup family>|c=<ordinal:03d>",
+    "colour_pairing": {
+     "game_colour": {
+      "0": "red",
+      "1": "blue"
+     },
+     "game_indices": [
+      0,
+      1
+     ],
+     "rule": "the selector under test plays Red in game 0 and Blue in game 1"
+    },
+    "derivation": "blake2b(person='strat-s10', digest_size=8) over 'phase10_identity_v1:domain:domain_root:part:part:...', big-endian, right-shifted one bit",
+    "domains": {
+     "bank_match": {
+      "identity_parts": [
+       "case_id",
+       "game_index",
+       "matchup_token"
+      ],
+      "root_seed": 2026081806
+     },
+     "bank_opponent": {
+      "identity_parts": [
+       "case_id",
+       "attempt"
+      ],
+      "root_seed": 2026081803
+     },
+     "bank_selector": {
+      "identity_parts": [
+       "case_id",
+       "color",
+       "attempt"
+      ],
+      "root_seed": 2026081805
+     },
+     "bootstrap": {
+      "identity_parts": [
+       "bootstrap_root",
+       "bank",
+       "matchup_token"
+      ],
+      "root_seed": 2026081801
+     },
+     "corpus_match": {
+      "identity_parts": [
+       "game_id"
+      ],
+      "root_seed": 2026081802
+     },
+     "corpus_setup": {
+      "identity_parts": [
+       "game_id",
+       "color",
+       "attempt"
+      ],
+      "root_seed": 2026081803
+     },
+     "selector_base": {
+      "identity_parts": [
+       "selector_identity",
+       "split",
+       "color",
+       "selector_seed"
+      ],
+      "root_seed": 2026081805
+     },
+     "selector_branch": {
+      "identity_parts": [
+       "selector_identity",
+       "split",
+       "color",
+       "selector_seed"
+      ],
+      "root_seed": 2026081805
+     },
+     "utility_fit": {
+      "identity_parts": [
+       "model_id"
+      ],
+      "root_seed": 2026081804
+     }
+    },
+    "identity_version": "phase10_identity_v1",
+    "independence": "no derivation reads worker count, task arrival order, process id, wall clock, or a physical storage path, so any corpus game or bank case rebuilds alone and re-sharding cannot change a single draw",
+    "outcome_game_id_format": "phase10_outcome_v1|ms=<master>|rf=<red family>|bf=<blue family>|g=<ordinal:02d>",
+    "outcome_version": "phase10_outcome_v1",
+    "personalization": "strat-s10",
+    "root_reading_notes": [
+     "the common contract names a validation-case root but no separate test-case root, so case_schedule_seed roots both banks' case schedules, domain-separated by the two distinct bank versions",
+     "bank opponent-setup draws are Phase 10 setup draws (setup_draw_seed); bank selector seeds are selector draws (selector_draw_seed)"
+    ],
+    "root_seeds": {
+     "case_schedule_seed": 2026081806,
+     "outcome_schedule_seed": 2026081802,
+     "phase10_master_seed": 2026081801,
+     "selector_draw_seed": 2026081805,
+     "setup_draw_seed": 2026081803,
+     "test_bootstrap_seed": 2026081808,
+     "utility_fit_seed": 2026081804,
+     "validation_bootstrap_seed": 2026081807
+    },
+    "unit_uniform": "seed / 2**63, an exact binary division, giving a [0, 1) uniform reproducible on every platform"
+   },
+   "stop_conditions": {
+    "BLOCKED": [
+     "an accepted upstream identity mismatches",
+     "held-out data enters fitting",
+     "selector inputs require opponent-private information",
+     "exact bank fingerprint isolation cannot be established",
+     "final-test outcomes are accessed before Agent 7",
+     "storage identity or mount safety fails"
+    ],
+    "FAIL": [
+     "no candidate survives validation",
+     "a final strength or diversity gate fails"
+    ],
+    "never": [
+     "reopen Phase 9",
+     "change Phase 7",
+     "add candidates",
+     "retune after results"
+    ]
+   },
+   "storage_semantics": "logical identities are path-independent; resolver/pointer semantics carry Phase 10 bytes; a pointer naming an absent external volume is BLOCKED, never a silent internal replacement"
+  },
+  "phase10_setup_outcome_corpus_v1": {
+   "arithmetic": "256 ordered family pairs x 64 games = 16,384",
+   "conditional_distribution": "exactly neutral_v1 conditioned on the scheduled family: the sampler's family draw is uniform and independent of its base, reflection, perturbation and intensity streams, so rejecting on family leaves every other accepted Phase 7 decision untouched",
+   "corpus_version": "phase10_setup_outcome_corpus_v1",
+   "family_count": 16,
+   "family_order": [
+    "F00",
+    "F01",
+    "F02",
+    "F03",
+    "F04",
+    "F05",
+    "F06",
+    "F07",
+    "F08",
+    "F09",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F14",
+    "F15"
+   ],
+   "games_per_ordered_pair": 64,
+   "held_out_bases_used": 0,
+   "identity_independence": "no game id, seed or record field depends on worker count, task arrival order, process id, wall clock, or a physical storage path",
+   "master_seed": 2026081801,
+   "max_family_attempts": 2048,
+   "move_behavior": {
+    "batch_policy": "single_request",
+    "checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "decision_mode": "greedy",
+    "dtype": "float32",
+    "optimizer_steps": 0,
+    "policy": "accepted Phase 9 checkpoint, both sides",
+    "search": "none"
+   },
+   "ordered_family_pairs": 256,
+   "outcome_record_schema": {
+    "corpus_version": "phase10_setup_outcome_corpus_v1",
+    "field_count": 27,
+    "fields": [
+     {
+      "description": "the corpus version this record belongs to",
+      "name": "corpus_version"
+     },
+     {
+      "description": "the logical Phase 10 outcome game id",
+      "name": "game_id"
+     },
+     {
+      "description": "scheduled Red setup family",
+      "name": "red_family"
+     },
+     {
+      "description": "scheduled Blue setup family",
+      "name": "blue_family"
+     },
+     {
+      "description": "the game's ordinal inside its ordered family pair",
+      "name": "ordinal"
+     },
+     {
+      "description": "the setup split both sides drew from; always 'train'",
+      "name": "split"
+     },
+     {
+      "description": "the frozen match-level randomness seed",
+      "name": "match_seed"
+     },
+     {
+      "description": "the accepted sampler draw seed of the Red side",
+      "name": "red_setup_draw_seed"
+     },
+     {
+      "description": "the accepted sampler draw seed of the Blue side",
+      "name": "blue_setup_draw_seed"
+     },
+     {
+      "description": "the accepted family-rejection attempt index for Red",
+      "name": "red_setup_attempt"
+     },
+     {
+      "description": "the accepted family-rejection attempt index for Blue",
+      "name": "blue_setup_attempt"
+     },
+     {
+      "description": "the Red side's Phase 7 base identity",
+      "name": "red_base_setup_id"
+     },
+     {
+      "description": "the Blue side's Phase 7 base identity",
+      "name": "blue_base_setup_id"
+     },
+     {
+      "description": "the Red side's complete setup_sampler_v1 provenance record",
+      "name": "red_provenance"
+     },
+     {
+      "description": "the Blue side's complete setup_sampler_v1 provenance record",
+      "name": "blue_provenance"
+     },
+     {
+      "description": "the trait-vector identity both sides were scored under",
+      "name": "trait_schema_version"
+     },
+     {
+      "description": "'red_win', 'draw' or 'red_loss', from the Red perspective",
+      "name": "result"
+     },
+     {
+      "description": "the Red-perspective target 1.0 / 0.5 / 0.0",
+      "name": "red_score"
+     },
+     {
+      "description": "game length in plies",
+      "name": "plies"
+     },
+     {
+      "description": "the engine's terminal reason token",
+      "name": "terminal_reason"
+     },
+     {
+      "description": "the move-policy identity both sides played under",
+      "name": "move_policy_identity"
+     },
+     {
+      "description": "the accepted Phase 9 checkpoint file SHA-256",
+      "name": "move_checkpoint_sha256"
+     },
+     {
+      "description": "the accepted Phase 9 model-state digest",
+      "name": "move_model_state_digest"
+     },
+     {
+      "description": "the Phase 7 library content digest in force",
+      "name": "library_content_digest"
+     },
+     {
+      "description": "SHA-256 over this record's canonical outcome payload",
+      "name": "payload_digest"
+     },
+     {
+      "description": "SHA-256 over the shard/segment metadata this record sits in",
+      "name": "metadata_digest"
+     },
+     {
+      "description": "the corpus commit identity that sealed this record",
+      "name": "commit_digest"
+     }
+    ],
+    "forbidden_fields": "no opponent-private information, no model score, no strength signal, and no physical storage path may appear in a record",
+    "replay_claim": "game_id rebuilds both side draw seeds; each side's provenance rebuilds its exact final setup through the frozen sampler; the move-policy identity and checkpoint digests name the weights that moved; so any single record replays independently of every other record",
+    "result_targets": {
+     "draw": 0.5,
+     "red_loss": 0.0,
+     "red_win": 1.0
+    },
+    "target_orientation": "red perspective"
+   },
+   "outcome_version": "phase10_outcome_v1",
+   "sampler_profile": "neutral_v1",
+   "selection_prohibition": "corpus outcomes fit the two utility models and nothing else; no candidate may be selected, and no threshold changed, from them",
+   "side_draw_rule": "side draw = first attempt k with sample_setup('train', corpus_setup_seed(game_id, color, k), profile='neutral_v1').family_id == the side's scheduled family",
+   "split": "train",
+   "total_games": 16384
+  },
+  "phase10_setup_selector_v1": {
+   "allowed_inputs": [
+    "own color",
+    "requested Phase 7 split",
+    "candidate base's own family",
+    "candidate base's own trait vector",
+    "selector identity",
+    "selector seed"
+   ],
+   "base_order": "ascending (family_index, base_index) over the requested split, i.e. the frozen library enumeration order restricted to that split",
+   "baseline_is_not_a_candidate": true,
+   "baseline_profile": "neutral_v1",
+   "candidate_count": 6,
+   "candidates": [
+    {
+     "candidate_id": "P10-A",
+     "temperature": 0.75,
+     "utility_model": "model_F"
+    },
+    {
+     "candidate_id": "P10-B",
+     "temperature": 1.25,
+     "utility_model": "model_F"
+    },
+    {
+     "candidate_id": "P10-C",
+     "temperature": 2.0,
+     "utility_model": "model_F"
+    },
+    {
+     "candidate_id": "P10-D",
+     "temperature": 0.75,
+     "utility_model": "model_T"
+    },
+    {
+     "candidate_id": "P10-E",
+     "temperature": 1.25,
+     "utility_model": "model_T"
+    },
+    {
+     "candidate_id": "P10-F",
+     "temperature": 2.0,
+     "utility_model": "model_T"
+    }
+   ],
+   "diversity": {
+    "audit_draws_per_candidate_colour_split": 100000,
+    "requirements": [
+     "all 16 families represented across the audited draws"
+    ],
+    "scope": "the final mixed distribution p_phase10 = 0.35*p_neutral_v1 + 0.65*p_learned, for every candidate, colour and split",
+    "thresholds": {
+     "effective_families_min": 10.0,
+     "family_probability_max": 0.18,
+     "family_probability_min": 0.015,
+     "max_conditional_base_probability": 0.1,
+     "normalized_family_entropy_min": 0.85,
+     "within_family_normalized_base_entropy_min": 0.7
+    },
+    "zero_tolerance": [
+     "illegal setups",
+     "inventory errors",
+     "stranded sampled setups",
+     "split violations",
+     "provenance mismatches",
+     "determinism mismatches",
+     "non-finite selector values"
+    ]
+   },
+   "draw_procedure": [
+    "branch = neutral if selector_branch_uniform(...) < 0.35 else learned",
+    "neutral branch: take the base the accepted setup_sampler_v1 would have taken for (split, selector_seed, profile='neutral_v1'), so a neutral-branch draw is bit-identical to the neutral baseline's draw",
+    "learned branch: inverse-CDF walk of selector_base_uniform(...) over the split's bases in the frozen base order, using float64 cumulative softmax mass, with the last base as the float tail guard",
+    "then the accepted Phase 7 path, unchanged: reflection coin, perturbation coin, uniform swap count, frozen perturbation and the complete final-output validation stack"
+   ],
+   "forbidden_inputs": [
+    "opponent true setup",
+    "opponent family",
+    "opponent base id",
+    "opponent seed",
+    "any other hidden opponent information",
+    "any game outcome of the case being played",
+    "any physical storage path"
+   ],
+   "learned_distribution": "p_learned(s | c, split) = softmax(u(s, c) / T)",
+   "learned_support": "every base of the requested split, all 16 families",
+   "mixture": {
+    "formula": "p_phase10 = 0.35 * p_neutral_v1 + 0.65 * p_learned",
+    "learned_weight": 0.65,
+    "neutral_weight": 0.35
+   },
+   "neutral_branch_definition": "p_neutral_v1 is the accepted sampler's base choice: uniform over the 16 families and uniform over that family's bases inside the split; because every family contributes equally many bases to a split, it is uniform over the split's bases",
+   "no_seventh_candidate": "exactly six candidates; the two utility models are fit once and candidate-specific refitting is forbidden; neutral_v1 is a baseline",
+   "post_selection_path": {
+    "hamming_distance_window": [
+     2,
+     12
+    ],
+    "perturbation_probability": 0.5,
+    "perturbation_version": "setup_perturbation_v1",
+    "reflection_probability": 0.5,
+    "retry_semantics": "unchanged setup_perturbation_v1 semantics",
+    "sampler_version": "setup_sampler_v1",
+    "swap_count_distribution": "uniform over 1..6",
+    "swap_counts": [
+     1,
+     2,
+     3,
+     4,
+     5,
+     6
+    ]
+   },
+   "production_source_version": "learned_setup_source_v1",
+   "reproducibility": "logical game id + selector seed + selector identity + requested split + colour -> same base -> same reflection -> same perturbation -> same final fingerprint, independent of worker order and process restart",
+   "selector_version": "phase10_setup_selector_v1",
+   "utility_domain": "u is a function of a Phase 7 base setup's own family and own trait vector only, so every selector input stays legal at choice time"
+  },
+  "phase10_setup_utility_v1": {
+   "candidate_specific_refitting": "forbidden; the two models are fit once",
+   "family_centering": "effective offset b_eff[c, f] = b_raw[c, f] - mean_f b_raw[c, :]; the logit uses b_eff and the L2 penalty uses b_raw, so the unique minimizer satisfies mean_f b_raw[c, :] = 0 for each colour",
+   "feature": {
+    "feature_count": 47,
+    "feature_names": [
+     "flag_rank",
+     "flag_file",
+     "flag_edge_distance",
+     "flag_orth_bomb_guards",
+     "flag_diag_bomb_guards",
+     "flag_zone_bomb_count_r2",
+     "bomb_rank_histogram[0]",
+     "bomb_rank_histogram[1]",
+     "bomb_rank_histogram[2]",
+     "bomb_rank_histogram[3]",
+     "bomb_front2_count",
+     "bomb_back2_count",
+     "bomb_front_rank_count",
+     "bomb_distinct_files",
+     "bomb_adjacent_pairs",
+     "bomb_mean_pairwise_manhattan",
+     "scout_rank_histogram[0]",
+     "scout_rank_histogram[1]",
+     "scout_rank_histogram[2]",
+     "scout_rank_histogram[3]",
+     "scout_front2_count",
+     "scout_back2_count",
+     "scout_front_rank_count",
+     "miner_rank_histogram[0]",
+     "miner_rank_histogram[1]",
+     "miner_rank_histogram[2]",
+     "miner_rank_histogram[3]",
+     "miner_front2_count",
+     "miner_back2_count",
+     "miner_front_rank_count",
+     "high_rank_histogram[0]",
+     "high_rank_histogram[1]",
+     "high_rank_histogram[2]",
+     "high_rank_histogram[3]",
+     "high_front2_count",
+     "high_back2_count",
+     "marshal_rank",
+     "general_rank",
+     "spy_rank",
+     "movable_front_rank_count",
+     "front_rank_immovable_count",
+     "open_file_movable_front_count",
+     "decoy_pocket_bombs",
+     "bomb_rank_entropy_bits",
+     "scout_rank_entropy_bits",
+     "miner_rank_entropy_bits",
+     "unconventional_feature_count"
+    ],
+    "feature_version": "phase10_trait_feature_v1",
+    "flattening": "TRAIT_SCHEMA order; int and float6 fields contribute one scalar; int_list4 fields contribute their four rank components as name[0]..name[3]; nothing is dropped and nothing is invented",
+    "non_reflection_invariant_features": [
+     "flag_file"
+    ],
+    "non_reflection_invariant_note": "flag_file describes the stored class representative's orientation; it is a deterministic property of the base and therefore a legal selector input, but it is not a property of the reflection class",
+    "source_fields": 35,
+    "trait_schema_version": "setup_trait_vector_v1"
+   },
+   "fit_protocol": {
+    "batching": "single full-batch closure; no shuffling, no minibatches",
+    "bce_reduction": "mean over the N scheduled games",
+    "device": "cpu",
+    "history_size": 50,
+    "hyperparameter_search": "forbidden",
+    "initialisation": "exact all-zero parameter vector",
+    "intercept_penalty": "none",
+    "l2_applies_to": [
+     "family_offsets",
+     "trait_weights"
+    ],
+    "l2_lambda": 0.001,
+    "line_search_fn": "strong_wolfe",
+    "lr": 1.0,
+    "max_iterations": 500,
+    "objective": "full_batch_bce_plus_l2",
+    "optimizer": "deterministic full-batch L-BFGS",
+    "precision": "float64",
+    "tolerance_change": 1e-12,
+    "tolerance_grad": 1e-10
+   },
+   "fit_seed": {
+    "consumed_in_v1": false,
+    "reason": "the frozen protocol starts from an exact all-zero vector",
+    "root": "utility_fit_seed 2026081804"
+   },
+   "game_logit": "eta = red_first_intercept + u(red_setup, red) - u(blue_setup, blue)",
+   "held_out_use": "the standardizer and both models see train-split bases only; a validation or test base entering either is a BLOCKED leak",
+   "intercept_role": "fit diagnostic only; never used to rank setups",
+   "model_count": 2,
+   "models": [
+    {
+     "colour_order": [
+      "red",
+      "blue"
+     ],
+     "family_offsets": {
+      "count": 32,
+      "shape": [
+       2,
+       16
+      ]
+     },
+     "family_order": [
+      "F00",
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F15"
+     ],
+     "feature_order": [],
+     "model_id": "model_F",
+     "red_first_intercept": {
+      "count": 1,
+      "shape": []
+     },
+     "total_parameters": 33,
+     "trait_weights": null,
+     "utility": "u_F(s, c) = b_eff[c, family(s)]",
+     "utility_domain": "phase 7 base setup (its primary family and stored trait vector)"
+    },
+    {
+     "colour_order": [
+      "red",
+      "blue"
+     ],
+     "family_offsets": {
+      "count": 32,
+      "shape": [
+       2,
+       16
+      ]
+     },
+     "family_order": [
+      "F00",
+      "F01",
+      "F02",
+      "F03",
+      "F04",
+      "F05",
+      "F06",
+      "F07",
+      "F08",
+      "F09",
+      "F10",
+      "F11",
+      "F12",
+      "F13",
+      "F14",
+      "F15"
+     ],
+     "feature_order": [
+      "flag_rank",
+      "flag_file",
+      "flag_edge_distance",
+      "flag_orth_bomb_guards",
+      "flag_diag_bomb_guards",
+      "flag_zone_bomb_count_r2",
+      "bomb_rank_histogram[0]",
+      "bomb_rank_histogram[1]",
+      "bomb_rank_histogram[2]",
+      "bomb_rank_histogram[3]",
+      "bomb_front2_count",
+      "bomb_back2_count",
+      "bomb_front_rank_count",
+      "bomb_distinct_files",
+      "bomb_adjacent_pairs",
+      "bomb_mean_pairwise_manhattan",
+      "scout_rank_histogram[0]",
+      "scout_rank_histogram[1]",
+      "scout_rank_histogram[2]",
+      "scout_rank_histogram[3]",
+      "scout_front2_count",
+      "scout_back2_count",
+      "scout_front_rank_count",
+      "miner_rank_histogram[0]",
+      "miner_rank_histogram[1]",
+      "miner_rank_histogram[2]",
+      "miner_rank_histogram[3]",
+      "miner_front2_count",
+      "miner_back2_count",
+      "miner_front_rank_count",
+      "high_rank_histogram[0]",
+      "high_rank_histogram[1]",
+      "high_rank_histogram[2]",
+      "high_rank_histogram[3]",
+      "high_front2_count",
+      "high_back2_count",
+      "marshal_rank",
+      "general_rank",
+      "spy_rank",
+      "movable_front_rank_count",
+      "front_rank_immovable_count",
+      "open_file_movable_front_count",
+      "decoy_pocket_bombs",
+      "bomb_rank_entropy_bits",
+      "scout_rank_entropy_bits",
+      "miner_rank_entropy_bits",
+      "unconventional_feature_count"
+     ],
+     "model_id": "model_T",
+     "red_first_intercept": {
+      "count": 1,
+      "shape": []
+     },
+     "total_parameters": 127,
+     "trait_weights": {
+      "count": 94,
+      "shape": [
+       2,
+       47
+      ]
+     },
+     "utility": "u_T(s, c) = b_eff[c, family(s)] + w[c] . x(s)",
+     "utility_domain": "phase 7 base setup (its primary family and stored trait vector)"
+    }
+   ],
+   "objective": "L = mean_i BCE(sigmoid(eta_i), y_i) + lambda * sum(theta_pen^2), theta_pen = raw family offsets and trait weights, intercept excluded",
+   "scaler": {
+    "base_count": 6400,
+    "ddof": 0,
+    "feature_names": [
+     "flag_rank",
+     "flag_file",
+     "flag_edge_distance",
+     "flag_orth_bomb_guards",
+     "flag_diag_bomb_guards",
+     "flag_zone_bomb_count_r2",
+     "bomb_rank_histogram[0]",
+     "bomb_rank_histogram[1]",
+     "bomb_rank_histogram[2]",
+     "bomb_rank_histogram[3]",
+     "bomb_front2_count",
+     "bomb_back2_count",
+     "bomb_front_rank_count",
+     "bomb_distinct_files",
+     "bomb_adjacent_pairs",
+     "bomb_mean_pairwise_manhattan",
+     "scout_rank_histogram[0]",
+     "scout_rank_histogram[1]",
+     "scout_rank_histogram[2]",
+     "scout_rank_histogram[3]",
+     "scout_front2_count",
+     "scout_back2_count",
+     "scout_front_rank_count",
+     "miner_rank_histogram[0]",
+     "miner_rank_histogram[1]",
+     "miner_rank_histogram[2]",
+     "miner_rank_histogram[3]",
+     "miner_front2_count",
+     "miner_back2_count",
+     "miner_front_rank_count",
+     "high_rank_histogram[0]",
+     "high_rank_histogram[1]",
+     "high_rank_histogram[2]",
+     "high_rank_histogram[3]",
+     "high_front2_count",
+     "high_back2_count",
+     "marshal_rank",
+     "general_rank",
+     "spy_rank",
+     "movable_front_rank_count",
+     "front_rank_immovable_count",
+     "open_file_movable_front_count",
+     "decoy_pocket_bombs",
+     "bomb_rank_entropy_bits",
+     "scout_rank_entropy_bits",
+     "miner_rank_entropy_bits",
+     "unconventional_feature_count"
+    ],
+    "feature_version": "phase10_trait_feature_v1",
+    "mean": [
+     0.28515625,
+     5.0809375,
+     1.95203125,
+     1.00921875,
+     0.3059375,
+     2.43265625,
+     2.16546875,
+     1.74515625,
+     1.26625,
+     0.823125,
+     2.089375,
+     3.910625,
+     0.823125,
+     5.05078125,
+     1.24765625,
+     4.499968755312511,
+     0.97140625,
+     1.7128125,
+     2.35125,
+     2.96453125,
+     5.31578125,
+     2.68421875,
+     2.96453125,
+     1.3796875,
+     1.4540625,
+     1.37125,
+     0.795,
+     2.16625,
+     2.83375,
+     0.795,
+     1.819375,
+     1.900625,
+     1.950625,
+     1.329375,
+     3.28,
+     3.72,
+     1.34890625,
+     1.379375,
+     1.2675,
+     9.15859375,
+     0.84140625,
+     5.488125,
+     1.5834375,
+     1.4836009520312217,
+     1.5462157512499706,
+     1.4239667823437643,
+     1.11515625
+    ],
+    "scaler_version": "phase10_trait_scaler_v1",
+    "split": "train",
+    "std": [
+     0.5930047749267602,
+     2.863402542621912,
+     1.4298313708348802,
+     1.00362281991211,
+     0.5266305593998292,
+     1.2328178370448408,
+     1.13411368159168,
+     1.0269303350695311,
+     0.9793420942142852,
+     0.9527737057533543,
+     1.364441134448454,
+     1.364441134448454,
+     0.9527737057533543,
+     0.7254843310840265,
+     1.0507783457209023,
+     0.8248282631496673,
+     1.058873763704116,
+     1.2053364011112224,
+     1.1898260114403447,
+     1.4436795758663032,
+     1.6654018890791558,
+     1.6654018890791558,
+     1.4436795758663032,
+     0.9859449286566341,
+     1.01631183506529,
+     0.9938804945766752,
+     0.8682813484119026,
+     1.2351056381945766,
+     1.2351056381945766,
+     0.8682813484119026,
+     1.1428580880297636,
+     1.1703897254226943,
+     1.1648764352389427,
+     1.0925656087279434,
+     1.5088406145117021,
+     1.5088406145117021,
+     1.0534090747240357,
+     1.0383940048820033,
+     1.0627235059035745,
+     0.9711484296754193,
+     0.9711484296754193,
+     0.7244715207480129,
+     0.6793200155992152,
+     0.3178270190035487,
+     0.2884829231537804,
+     0.35979166116394756,
+     1.012587175548823
+    ],
+    "trait_schema_version": "setup_trait_vector_v1",
+    "zero_std_features": [],
+    "zero_std_rule": "a zero-std feature standardizes to the constant 0.0"
+   },
+   "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "target_orientation": "red perspective",
+   "targets": {
+    "draw": 0.5,
+    "red_loss": 0.0,
+    "red_win": 1.0
+   },
+   "train_feature_rank": {
+    "columns": 47,
+    "largest_singular_value": 221.9002889744464,
+    "note": "collinearity is expected and exactly accounted for: each of the four histograms sums to a fixed inventory count (4 relations), the schema's front2 and back2 aggregates are sums of those components (8), the Bomb/Scout/Miner front_rank aggregates repeat component 3 (3), and movable_front_rank_count + front_rank_immovable_count = 10 (1) -- 16 relations, hence rank 31 of 47; the frozen L2 penalty makes the minimizer unique regardless",
+    "rank": 31,
+    "rank_deficiency": 16,
+    "rows": 6400,
+    "smallest_singular_value": 1.463556736250629e-30,
+    "tolerance": 3.153392767877199e-10
+   },
+   "utility_version": "phase10_setup_utility_v1"
+  },
+  "phase10_system_v1": {
+   "bound_now": {
+    "baseline_profile": "neutral_v1",
+    "library": {
+     "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+     "library_version": "setup_library_v1",
+     "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+     "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+    },
+    "move_model": {
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "mutability": "byte-identical throughout Phase 10",
+     "parameters": 863959,
+     "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "post_selection_path": {
+     "hamming_distance_window": [
+      2,
+      12
+     ],
+     "perturbation_probability": 0.5,
+     "perturbation_version": "setup_perturbation_v1",
+     "reflection_probability": 0.5,
+     "retry_semantics": "unchanged setup_perturbation_v1 semantics",
+     "sampler_version": "setup_sampler_v1",
+     "swap_count_distribution": "uniform over 1..6",
+     "swap_counts": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+     ]
+    }
+   },
+   "phase11_preservation": [
+    "neutral_v1",
+    "learned_setup_source_v1",
+    "accepted Phase 10 selector config/utility",
+    "checkpoints/phase9/selfplay_c1_v1.pt"
+   ],
+   "separation_rule": "the move model and the selector remain separate artifacts; binding them into one system document never merges their bytes",
+   "system_version": "phase10_system_v1",
+   "unbound_slots": [
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "utility_version phase10_setup_utility_v1",
+      "model id in {model_F, model_T}",
+      "the parameter digest of the single fit of that model",
+      "the corpus digest the fit consumed"
+     ],
+     "slot": "accepted_utility_model"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "scaler_version phase10_trait_scaler_v1",
+      "the train-only scaler digest frozen by Agent 1"
+     ],
+     "slot": "accepted_trait_scaler"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "one candidate id from the frozen six",
+      "its temperature",
+      "the 0.35/0.65 mixture, unchanged",
+      "learned_setup_source_v1"
+     ],
+     "slot": "selected_selector_config"
+    }
+   ]
+  }
+ },
+ "cpu_count": 14,
+ "engine_version": "phase2_1_reference_1.2.0",
+ "mps_available": true,
+ "mps_built": true,
+ "observation_version": "observation_v2_1_127ch",
+ "outcome_schedule": {
+  "audit": {
+   "all_pass": true,
+   "checks": {
+    "game_ids_unique": true,
+    "games_per_pair_exact": true,
+    "isolated_rebuild_exact": true,
+    "match_seeds_unique": true,
+    "no_path_in_identity": true,
+    "ordered_pair_count_exact": true,
+    "ordered_pairs_complete": true,
+    "seed_streams_disjoint": true,
+    "setup_seeds_unique": true,
+    "total_games_exact": true,
+    "train_split_only": true
+   },
+   "corpus_version": "phase10_setup_outcome_corpus_v1",
+   "distinct_first_attempt_setup_seeds": 32768,
+   "distinct_game_ids": 16384,
+   "distinct_match_seeds": 16384,
+   "games_per_ordered_pair": [
+    64
+   ],
+   "ordered_pair_count": 256,
+   "rebuild_failures": [],
+   "split_violations": [],
+   "total_games": 16384
+  },
+  "schedule_digest": "1a49f05032e300a8ecef81aa09776ed0d0766149576afb8eaa74a97e974e98b0",
+  "side_draw_samples": [
+   {
+    "accepted_attempt": 3,
+    "accepted_draw_seed": 8121013727890024238,
+    "base_setup_id": "setup_library_v1:F00:231",
+    "color": "red",
+    "family_id": "F00",
+    "final_setup_fingerprint": "1f7bfc49f20c14451f48fc9c8df741724b00ca08e6015a29d478546833b25f3e",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F00|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 6,
+    "accepted_draw_seed": 9221545411837110755,
+    "base_setup_id": "setup_library_v1:F00:364",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "542ef70fa966e70db0fc5ed6ab8dae0aca149081b697d923ceafcfee9c862937",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F00|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 2,
+    "accepted_draw_seed": 6847566840996722696,
+    "base_setup_id": "setup_library_v1:F02:392",
+    "color": "red",
+    "family_id": "F02",
+    "final_setup_fingerprint": "427497692ec36ef0053f8a3d4a0fce03dd9e4d3612030d74c325c5982b86599a",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F02|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 9,
+    "accepted_draw_seed": 3455667566011822130,
+    "base_setup_id": "setup_library_v1:F00:093",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "8e6dbf66775bc22a066477ef5510936862f7aa0b1439dec16c6cf56dc1aca480",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F02|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 13,
+    "accepted_draw_seed": 8819469806722783828,
+    "base_setup_id": "setup_library_v1:F04:014",
+    "color": "red",
+    "family_id": "F04",
+    "final_setup_fingerprint": "cce4aad55fd175fc2c70272ea8ea4628924714e8fa7602514bee203c7d44dfe8",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F04|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 7,
+    "accepted_draw_seed": 2676777875126864499,
+    "base_setup_id": "setup_library_v1:F00:189",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "9d79398afabdf945f51aa523dad7d40855282a1e58f3486be9bd78dbff7a5cb1",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F04|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 45,
+    "accepted_draw_seed": 4701613227656701244,
+    "base_setup_id": "setup_library_v1:F06:003",
+    "color": "red",
+    "family_id": "F06",
+    "final_setup_fingerprint": "952c1b09ac11a0ca6ad591dba8ccc79068362fbb4bfe4b914c9c5b6f0abd1042",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F06|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 21,
+    "accepted_draw_seed": 712482422723673847,
+    "base_setup_id": "setup_library_v1:F00:233",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "d34913e5c3a4466fb740b3210e98f391874885bfebb8c6b485eed28b19577cf2",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F06|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 23,
+    "accepted_draw_seed": 2640565452791420304,
+    "base_setup_id": "setup_library_v1:F08:134",
+    "color": "red",
+    "family_id": "F08",
+    "final_setup_fingerprint": "e04e727907d4f25fc99d453da7674786b4c401fcbc9dde77ac7e136909b694bd",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F08|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 8,
+    "accepted_draw_seed": 574049191569364359,
+    "base_setup_id": "setup_library_v1:F00:137",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "3fdec249f57e4cddbe040b38f3a8ef25736a88208814f41e1ced75219b94445a",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F08|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 64,
+    "accepted_draw_seed": 522743268538246270,
+    "base_setup_id": "setup_library_v1:F10:098",
+    "color": "red",
+    "family_id": "F10",
+    "final_setup_fingerprint": "5375b3e1e67968725af28ea18276877ab2a4cd77dc7713ff0d8ecf0fad6782cc",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F10|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 8,
+    "accepted_draw_seed": 17882450940583330,
+    "base_setup_id": "setup_library_v1:F00:366",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "e8be4ccec4da4dd1abd543274c7ae475a13b43963a92cec0e197146b31b31f83",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F10|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 5,
+    "accepted_draw_seed": 904051020734453502,
+    "base_setup_id": "setup_library_v1:F12:215",
+    "color": "red",
+    "family_id": "F12",
+    "final_setup_fingerprint": "5e8a635a7e5593c532eb0145561a78758f7200d45858f8914d79dd266df42233",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F12|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 11,
+    "accepted_draw_seed": 7550389785646951311,
+    "base_setup_id": "setup_library_v1:F00:359",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "a78d4a8771a6e71ff0d8db59031e61d1f8919868c01ee4f65fbe21d132bab89a",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F12|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 13,
+    "accepted_draw_seed": 8755246576911436294,
+    "base_setup_id": "setup_library_v1:F14:327",
+    "color": "red",
+    "family_id": "F14",
+    "final_setup_fingerprint": "00d8128f9139206b506a5cb4f29e9c56378da7c984566e971edf56550dc18106",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F14|bf=F00|g=00"
+   },
+   {
+    "accepted_attempt": 6,
+    "accepted_draw_seed": 6799784771716265375,
+    "base_setup_id": "setup_library_v1:F00:197",
+    "color": "blue",
+    "family_id": "F00",
+    "final_setup_fingerprint": "707774a91ad04f92d23515ab3e9a3e1214283ec14ea1b14f2770915a18495fa4",
+    "game_id": "phase10_outcome_v1|ms=2026081801|rf=F14|bf=F00|g=00"
+   }
+  ]
+ },
+ "phase": 10,
+ "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+ "problems": [],
+ "python_version": "3.13.2",
+ "rules_version": "stratego_project_v1",
+ "seed_collision_audit": {
+  "distinct_seeds": 58792,
+  "findings": [],
+  "no_collisions": true,
+  "total_seeds": 58792
+ },
+ "seed_derivation": {
+  "arm_independence": "case selector seeds and case match seeds are independent of which selector is under test, so learned and neutral arms differ only in the selector and the paired difference is not polluted by the opponent's randomness",
+  "case_id_format": "<bank_version>|ms=<master>|f=<opponent-setup family>|c=<ordinal:03d>",
+  "colour_pairing": {
+   "game_colour": {
+    "0": "red",
+    "1": "blue"
+   },
+   "game_indices": [
+    0,
+    1
+   ],
+   "rule": "the selector under test plays Red in game 0 and Blue in game 1"
+  },
+  "derivation": "blake2b(person='strat-s10', digest_size=8) over 'phase10_identity_v1:domain:domain_root:part:part:...', big-endian, right-shifted one bit",
+  "domains": {
+   "bank_match": {
+    "identity_parts": [
+     "case_id",
+     "game_index",
+     "matchup_token"
+    ],
+    "root_seed": 2026081806
+   },
+   "bank_opponent": {
+    "identity_parts": [
+     "case_id",
+     "attempt"
+    ],
+    "root_seed": 2026081803
+   },
+   "bank_selector": {
+    "identity_parts": [
+     "case_id",
+     "color",
+     "attempt"
+    ],
+    "root_seed": 2026081805
+   },
+   "bootstrap": {
+    "identity_parts": [
+     "bootstrap_root",
+     "bank",
+     "matchup_token"
+    ],
+    "root_seed": 2026081801
+   },
+   "corpus_match": {
+    "identity_parts": [
+     "game_id"
+    ],
+    "root_seed": 2026081802
+   },
+   "corpus_setup": {
+    "identity_parts": [
+     "game_id",
+     "color",
+     "attempt"
+    ],
+    "root_seed": 2026081803
+   },
+   "selector_base": {
+    "identity_parts": [
+     "selector_identity",
+     "split",
+     "color",
+     "selector_seed"
+    ],
+    "root_seed": 2026081805
+   },
+   "selector_branch": {
+    "identity_parts": [
+     "selector_identity",
+     "split",
+     "color",
+     "selector_seed"
+    ],
+    "root_seed": 2026081805
+   },
+   "utility_fit": {
+    "identity_parts": [
+     "model_id"
+    ],
+    "root_seed": 2026081804
+   }
+  },
+  "identity_version": "phase10_identity_v1",
+  "independence": "no derivation reads worker count, task arrival order, process id, wall clock, or a physical storage path, so any corpus game or bank case rebuilds alone and re-sharding cannot change a single draw",
+  "outcome_game_id_format": "phase10_outcome_v1|ms=<master>|rf=<red family>|bf=<blue family>|g=<ordinal:02d>",
+  "outcome_version": "phase10_outcome_v1",
+  "personalization": "strat-s10",
+  "root_reading_notes": [
+   "the common contract names a validation-case root but no separate test-case root, so case_schedule_seed roots both banks' case schedules, domain-separated by the two distinct bank versions",
+   "bank opponent-setup draws are Phase 10 setup draws (setup_draw_seed); bank selector seeds are selector draws (selector_draw_seed)"
+  ],
+  "root_seeds": {
+   "case_schedule_seed": 2026081806,
+   "outcome_schedule_seed": 2026081802,
+   "phase10_master_seed": 2026081801,
+   "selector_draw_seed": 2026081805,
+   "setup_draw_seed": 2026081803,
+   "test_bootstrap_seed": 2026081808,
+   "utility_fit_seed": 2026081804,
+   "validation_bootstrap_seed": 2026081807
+  },
+  "unit_uniform": "seed / 2**63, an exact binary division, giving a [0, 1) uniform reproducible on every platform"
+ },
+ "seed_streams": {
+  "bank_match": {
+   "count": 7680,
+   "distinct": 7680
+  },
+  "bank_opponent_attempt0": {
+   "count": 640,
+   "distinct": 640
+  },
+  "bank_selector_attempt0": {
+   "count": 1280,
+   "distinct": 1280
+  },
+  "bootstrap": {
+   "count": 38,
+   "distinct": 38
+  },
+  "corpus_match": {
+   "count": 16384,
+   "distinct": 16384
+  },
+  "corpus_setup_attempt0": {
+   "count": 32768,
+   "distinct": 32768
+  },
+  "utility_fit": {
+   "count": 2,
+   "distinct": 2
+  }
+ },
+ "seeds": {
+  "case_schedule_seed": 2026081806,
+  "outcome_schedule_seed": 2026081802,
+  "phase10_master_seed": 2026081801,
+  "selector_draw_seed": 2026081805,
+  "setup_draw_seed": 2026081803,
+  "test_bootstrap_seed": 2026081808,
+  "utility_fit_seed": 2026081804,
+  "validation_bootstrap_seed": 2026081807
+ },
+ "source_revision": "427b963",
+ "storage_policy": {
+  "absent_external_volume_rule": "a configured root naming an unmounted /Volumes/... volume is BLOCKED; never silently create an internal replacement path",
+  "corpus_version": "phase10_setup_outcome_corpus_v1",
+  "hard_coded_volume_paths_forbidden": "no logical scheduling, model or selector identity may contain a /Volumes/... path; the resolved root appears only in manifests as a diagnostic",
+  "identity_rule": "the resolved corpus root is an operational diagnostic, never an identity: Phase 10 corpus identity is corpus version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same corpus",
+  "logical_identity_is_path_independent": true,
+  "preferred_location": "the verified external volume for substantial corpus/replay bytes, recorded through the pointer file",
+  "resolution_order": [
+   "STRATEGO_PHASE10_CORPUS_ROOT",
+   "data/phase10_corpus_root.txt",
+   "data/phase10/corpus"
+  ]
+ },
+ "storage_resolution": {
+  "environment_value": "",
+  "environment_variable": "STRATEGO_PHASE10_CORPUS_ROOT",
+  "identity_rule": "the resolved corpus root is an operational diagnostic, never an identity: Phase 10 corpus identity is corpus version + logical game ids + payload/metadata digests + commit identities, so the same bytes copied to another volume are the same corpus",
+  "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10_corpus_root.txt",
+  "pointer_value": "",
+  "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10/corpus",
+  "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10/corpus",
+  "source": "repository_default"
+ },
+ "timestamp": "2026-08-18T12:15:13-0400",
+ "torch_version": "2.13.0",
+ "trait_feature_count": 47,
+ "trait_feature_names": [
+  "flag_rank",
+  "flag_file",
+  "flag_edge_distance",
+  "flag_orth_bomb_guards",
+  "flag_diag_bomb_guards",
+  "flag_zone_bomb_count_r2",
+  "bomb_rank_histogram[0]",
+  "bomb_rank_histogram[1]",
+  "bomb_rank_histogram[2]",
+  "bomb_rank_histogram[3]",
+  "bomb_front2_count",
+  "bomb_back2_count",
+  "bomb_front_rank_count",
+  "bomb_distinct_files",
+  "bomb_adjacent_pairs",
+  "bomb_mean_pairwise_manhattan",
+  "scout_rank_histogram[0]",
+  "scout_rank_histogram[1]",
+  "scout_rank_histogram[2]",
+  "scout_rank_histogram[3]",
+  "scout_front2_count",
+  "scout_back2_count",
+  "scout_front_rank_count",
+  "miner_rank_histogram[0]",
+  "miner_rank_histogram[1]",
+  "miner_rank_histogram[2]",
+  "miner_rank_histogram[3]",
+  "miner_front2_count",
+  "miner_back2_count",
+  "miner_front_rank_count",
+  "high_rank_histogram[0]",
+  "high_rank_histogram[1]",
+  "high_rank_histogram[2]",
+  "high_rank_histogram[3]",
+  "high_front2_count",
+  "high_back2_count",
+  "marshal_rank",
+  "general_rank",
+  "spy_rank",
+  "movable_front_rank_count",
+  "front_rank_immovable_count",
+  "open_file_movable_front_count",
+  "decoy_pocket_bombs",
+  "bomb_rank_entropy_bits",
+  "scout_rank_entropy_bits",
+  "miner_rank_entropy_bits",
+  "unconventional_feature_count"
+ ],
+ "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+ "upstream_identities": {
+  "phase7_library": {
+   "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "entry_count": 8000,
+   "library_version": "setup_library_v1",
+   "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+   "manifest_digest_recomputed": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+   "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+   "per_family_split_counts_exact": true,
+   "split_totals": {
+    "test": 800,
+    "train": 6400,
+    "validation": 800
+   },
+   "trait_field_count": 35,
+   "trait_mismatches": [],
+   "trait_vectors_reconstructed": 8000
+  },
+  "phase9_chain": {
+   "chain_intact": true,
+   "expected": {
+    "amendment_v1_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_v2_binds_v1": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_v2_digest": "92ad4f67fb07a14551ef555335b71000d6369cd817dad59c839d793888de9e71",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34"
+   },
+   "observed": {
+    "amendment_v1_digest": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_v2_binds_v1": "ee4b05078c676128f78c8e5c31bd10ce4f0841e34a57c4c7c3fca6616e083ac4",
+    "amendment_v2_digest": "92ad4f67fb07a14551ef555335b71000d6369cd817dad59c839d793888de9e71",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34"
+   }
+  },
+  "phase9_checkpoint": {
+   "all_parameters_finite": true,
+   "behavior_snapshot_identity": "B041",
+   "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "parameters": 863959,
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "rl_iteration": 41,
+   "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "snapshot_role": "behavior_snapshot",
+   "train_config_candidate": "P9-C"
+  },
+  "setup_semantics": {
+   "default_profile_is_neutral": true,
+   "hamming_window": [
+    2,
+    12
+   ],
+   "intensity_weights": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "perturbation_probability": 0.5,
+   "perturbation_version": "setup_perturbation_v1",
+   "profile_name": "neutral_v1",
+   "reflection_probability": 0.5,
+   "sampler_version": "setup_sampler_v1",
+   "swap_counts": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  }
+ },
+ "working_tree_state": "dirty"
+}

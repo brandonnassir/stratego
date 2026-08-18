@@ -16,6 +16,11 @@ checkpoints/phase8/
 # reports/phase_9_data.
 checkpoints/phase9/
 data/phase9/
+# Phase 10 Agent 1 harness stage dumps and later production selector/utility
+# bytes: reproducible from the frozen phase10 contract; compact
+# manifests/digests are tracked in reports/phase_10_data.
+checkpoints/phase10/
+data/phase10/
 __pycache__/
 *.py[cod]
 .pytest_cache/
