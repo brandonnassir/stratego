@@ -2418,3 +2418,209 @@ access ledger; and all hard-stop counters at zero.
 never constructed a test-bank object and ran no model over it:
 `test_bank_model_access = 0`. **Agent 8 owns the first final-test neural
 evaluation, and performs no training.**
+
+## 8. Agent 8 — Independent Final Acceptance and Phase 9 Freeze
+
+### 8.1 Mission and harness
+
+Agent 8 performed the first and only sealed final evaluation of the frozen
+Phase 9 checkpoint and recommends formal acceptance. Everything ran through
+`scripts/run_phase9_agent08.py` in four stages — `verify`, `discipline`,
+`final`, `artifacts` — plus `--record-final-suite`. No training, no tuning,
+no checkpoint replacement, no threshold change. The full pre-edit suite was
+recorded first (4,582 passed / 3 skipped, commit `87fd903`).
+
+### 8.2 Administrative freeze
+
+Agent 7 was formally accepted subject only to freezing the exact reviewed
+working tree into a stable commit before final-test access. Verified from
+live git state: the tracked tree is byte-identical to HEAD `87fd903`, which
+carries all four Agent 7 artifacts; the freeze was re-checked immediately
+before the sealed bank opened. The only untracked entries are pre-existing
+non-Phase-9 clutter (Phase 6b state dumps, an `.Rhistory`, a docs copy),
+recorded in the stage evidence.
+
+### 8.3 Identity verification from live bytes
+
+Every identity was recomputed rather than read from handoff prose:
+
+```text
+contract                 ad3dba3c…  (12 h ceiling preserved unedited)
+example contract         a6b17a94…
+amendment v1 (15 h)      ee4b0507…
+amendment v2 (24 h)      92ad4f67…  verify_chain_untouched() -> []
+train-config documents   9284fbc6… (12 h)  22ac552d… (15 h)  f3b1efdb… (24 h, executed)
+trainer runtime          77af4d45…  (measured unchanged by both amendments)
+Phase 8 anchor           f7e9c40d… / model state f2ec4fc2… / 863,959 parameters
+Phase 9 frozen           dfd698e5… / model state f1df694d… / 863,959 parameters
+validation bank          3d28d544…  (full deterministic rebuild)
+test bank                f38e4055…  (full rebuild + all-case structural audit)
+Phase 7 library          7b8a6660…
+corpus                   resolver + all three accepted digests
+seeds                    all eight (2026081601–08)
+```
+
+Field-level reconciliation of the three train-config documents proved only
+`wall_clock_ceiling_hours` differs across the chain (12 → 15 → 24); every
+learning-design field is byte-identical. All 66 parameter tensors and a
+train-split probe forward pass are finite.
+
+**B041 lineage.** The frozen checkpoint's bytes are identical to
+`behavior_B041.pt` — the post-iteration-40 snapshot — and its payload records
+`produced_after_iteration = 40`, `snapshot_role = behavior_snapshot`, and the
+collecting behavior of its source rollout as `B040`'s file SHA (`8a607394…`).
+`B040` hashes differently and carries a different model state (`622ba7dc…`) —
+the negative control. Archive member `H040` (created after iteration 40)
+carries exactly the frozen model state — an independent second confirmation.
+The selection recomputes as a strict argmax at iteration 40 (0.836621) over
+the twelve cadence passes; the iteration-40 pass evaluated `behavior_B041.pt`
+under the same SHA, and iteration 60 (0.776074) is correctly not selected.
+
+### 8.4 Training-discipline evidence
+
+```text
+fresh Phase 8 start        optimizer step 0, no pilot state, anchor model state
+pilot candidates           exactly six namespaces; P9-C unique winner
+selection evidence         validation bank only; final-test access before Agent 8 = 0
+no post-selection training frozen SHA unchanged; payload step 47,086 = journal
+                           updates through iteration 40 (79,004 total); 60
+                           distinct behavior snapshots B002–B061
+hard stops                 all counters zero in all five sessions
+```
+
+### 8.5 Observer-safety reconciliation (resumed iteration 30)
+
+The raw observer-probe session tally under-counts the resumed portion of
+iteration 30: the completing session recorded 4,036 probes over its own
+2,021 games, while the 27 games committed by the pre-restart session carried
+no session summary. Reconciled from durable evidence, with nothing invented:
+
+- **The 27 games remained valid committed games.** `w00.commit.jsonl` holds
+  exactly 27 hash-anchored commits and `w01` 2,021; all 2,048 decode
+  digest-clean; the sealed rollout digest recomputed from the commit journals
+  equals the recorded digest and the digest training bound
+  (`97b54bd5…`); the state history shows two COLLECTING entries and one
+  behavior identity (`B030`) through COMMITTED.
+- **The probe-count rule was measured, not assumed.** Probes fire on neural
+  actors only (current and historical sides are neural; rule/stress games are
+  neural only on the learner's plies, red acting first), capped at two per
+  game: `probes(game) = min(2, neural plies)`. This rule reconstructs the
+  recorded probe count of **all 60 iterations exactly** — including the
+  handful of genuine 1–2-ply scout-to-flag games some unusual setup families
+  produce, and iteration 30's own resumed portion.
+- **The lost session's probes reconstruct exactly: 54** (27 games, each with
+  at least two neural plies). Re-executing the probes from stored bytes gives
+  54 probes, **0 unsafe**. Corrected full-run total: **245,490** (recorded
+  245,436 + 54); recorded failures 0; no observer-related halt or harness
+  fault anywhere in the journal.
+
+### 8.6 The sealed final evaluation
+
+The bank opened once, under
+`check_test_bank_access("final_evaluation", phase9_agent=8)` — the first
+neural access to `phase9_test_bank_v1`. Frozen protocol throughout: greedy
+argmax, `single_request`, float32, `color_swap_same_board`, match root seed
+20260401, bootstrap seed 2026081608 (paired-unit percentile, 10,000
+replicates); the candidate evaluated under its accepted identity
+(`canonical_it40`, bitwise-verified export), the anchor under `c1_warmstart`
+through Agent 1's bitwise-verified export.
+
+```text
+matchup                             games   W/D/L         EWR     95% CI
+candidate vs Phase 8 anchor         1,024   862/5/157     0.8442  [0.8228, 0.8647]
+candidate vs strategic              1,024   828/4/192     0.8105  [0.7871, 0.8330]
+candidate vs tactical               1,024   856/3/165     0.8374  [0.8149, 0.8584]
+candidate vs random                 1,024   1,012/0/12    0.9883  [0.9814, 0.9941]
+candidate vs basic                  1,024   873/2/149     0.8535  [0.8330, 0.8735]
+anchor    vs strategic              1,024   450/10/564    0.4443  [0.4180, 0.4702]
+anchor    vs tactical               1,024   475/8/541     0.4678  [0.4419, 0.4941]
+```
+
+### 8.7 Hard gates — all eight pass
+
+```text
+A  vs Phase 8 anchor   EWR 0.8442 >= 0.58     paired LB 0.8228 > 0.53      PASS
+B  Strategic           EWR 0.8105 >= 0.52     improvement +0.3662 >= 0.05
+                       improvement CI [0.3320, 0.3999], LB > 0             PASS
+C  Tactical            EWR 0.8374 >= 0.52     improvement +0.3696 >= 0.05
+                       improvement CI [0.3345, 0.4038], LB > 0             PASS
+D  Random guard        overall 0.9883 >= 0.94  red 0.9902 / blue 0.9863
+                       >= 0.90                paired LB 0.9814 > 0.92      PASS
+E  Basic guard         EWR 0.8535 >= 0.65     paired LB 0.8330 > 0.60      PASS
+F  Safety              0 illegal / 0 failures / 0 non-finite /
+                       0 observer failures (11,763 probes)                 PASS
+G  Policy collapse     0.0417 of 613,719 decisions > 0.999 (< 0.25)        PASS
+H  Belief retention    CE ratio 0.9408 <= 0.98 [0.9396, 0.9420]
+                       top-1 0.2650 > remaining-count 0.2036               PASS
+```
+
+Both stretch targets (Strategic/Tactical ≥ 0.55) are met; they remain
+report-only. The paired improvements used the frozen paired-difference
+bootstrap under `diff|candidate|anchor|opponent` tokens; the gate-A interval
+was additionally reproduced bit-for-bit by an independent from-scratch
+bootstrap implementation (`paired_bootstrap_exact = true`).
+
+### 8.8 The replay audit behind gates F and G
+
+Every one of the final candidate's **613,719** decisions across all 5,888 of
+its final-test games (five core matchups and the six-policy stress schedule)
+was replayed through the frozen model at the game-time single-request shape:
+the greedy action reproduced the recorded action **613,719/613,719**, every
+policy row was finite, legal-softmax max-probability exceeded 0.999 in 4.17%
+of decisions (worst matchup: Basic at 6.89%), and observer-safety probes at
+the frozen collection density (11,763 probes) found **0** violations.
+
+### 8.9 Report-only diagnostics
+
+```text
+stress (64 pairs each)  information_miser 1.0000  chaos 0.9766
+                        draw_seeker 0.9727        berserker 0.9531
+                        scout_rush 0.9297         miner_rush 0.8555
+```
+
+Belief retention ran the accepted Phase 8 held-out benchmark unchanged
+(4,000 games, 249,924 examples, 6,850,575 supervised pieces; original
+remaining-count baseline, nothing refit): CE 2.0797 vs baseline 2.2107.
+Phase 8-style teacher-policy imitation CE is report-only in Phase 9 and now
+sits above its uniform-legal baseline (ratio 1.319) — the RL policy has
+moved away from the synthetic teacher while beating every opponent tier, as
+expected. Value-head diagnostics were sampled at 76,711 replayed decisions.
+`agent_08_league_matrix.csv` (960 rows) aggregates the sealed canonical
+rollouts by iteration and opponent: the current policy's training-time EWR
+against each historical member, rule tier, and stress policy for all 60
+iterations, with colour splits for the self-play bucket. Report-only metrics
+rescue no gate.
+
+### 8.10 Artifacts and final suite
+
+```text
+reports/phase_9_data/agent_08_final_acceptance.json   hard-gate table + 30 completion gates
+reports/phase_9_data/agent_08_strength_results.csv    13 matchups, digests included
+reports/phase_9_data/agent_08_league_matrix.csv       60 iterations x opponent identity
+```
+
+The acceptance artifact validates itself: shared logic
+(`recompute_gate_booleans` / `validate_acceptance_artifact`) recomputes every
+hard-gate boolean from its own observed/threshold rows both when the artifact
+is written and in the artifact-gated tests, with negative controls proving a
+tampered boolean, a boundary CI, or an inconsistent recommendation is caught.
+
+Targeted Agent 8 tests: 21 harness + 18 artifact-gated. Full suite with all
+Agent 8 artifacts in place: the first pass failed exactly one *new* Agent 8
+artifact test that still used the stale `historical_policy` token (the same
+token subtlety the probe-rule work uncovered; fixed in the test), and the
+converged steady state is **4,621 passed / 3 skipped** — recorded twice, the
+second time with the final PASS-state acceptance artifact on disk. The
+pre-edit baseline was 4,582 passed / 3 skipped, so Agent 8 adds 39 tests and
+breaks none.
+
+### 8.11 Recommendation
+
+Every hard gate passes, every identity and discipline gate is clean, and the
+full suite is green with the artifacts in place.
+
+```text
+PHASE 9 RECOMMENDATION: PASS
+```
+
+Formal Phase 9 closure belongs to the reviewing chat.
