@@ -6,6 +6,13 @@
 # `data/warmstart_corpus_root.txt`; its bytes stay out of version control.
 data/warmstart/
 data/stratego_phase8/
+# Phase 6b soak shards and worker state: production bytes, not report
+# attachments. Compact Phase 6b reports stay tracked under reports/phase_6_data.
+data/stratego_phase6b/
+.phase6b_final_state/
+# Local leftovers that must not appear as GitHub Desktop "changes".
+stratego_project_docs 2/
+reports/.Rhistory
 # Phase 8 training checkpoints and Agent 4 engineering-run state: production
 # data reproducible by `python scripts/run_phase8_agent04.py --full`; the
 # JSON/CSV artifacts that describe them are tracked in reports/phase_8_data.
