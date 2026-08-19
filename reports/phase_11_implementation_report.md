@@ -445,3 +445,159 @@ Full suite: `.venv/bin/python -m pytest tests -q` — 5427 passed, 3 skipped in 
 | `validation_strata_exact` | true |
 
 Agent 2 stops here and waits for reviewer acceptance. Agent 3 is authorized for the constrained sampler and its large audit over the validation public states; the test bank stays sealed with zero scored access, proven through the ledger.
+
+## 3. Agent 3 — `belief_sampler_v1` and the Complete-World Audit
+
+**Status: PASS** — 26/26 completion gates true, 251,262 learned worlds over 13,959 frozen validation public states (13,959 distinct), every zero-tolerance counter zero, zero optimizer steps, zero scored test-bank accesses.
+
+Agent 3 implements the learned `belief_sampler_v1` exactly from the Agent 1 frozen mathematics — `weight = learned_probability * remaining_count`, the deterministic piece order, the inverse-CDF categorical walk, the counts-only zero-mass fallback and the completion-feasibility guard — and audits it at scale on the frozen validation public states. It runs no neural forward, plays no game, opens no truth shard, and reads no game outcome. The validation reading `R_CE = 0.9750` (a Gate A risk) was treated as diagnostic only: no belief weight, mask, baseline, sampler weighting, guard or threshold moved in response.
+
+### 3.1 Verified identities
+
+Every identity below was recomputed from live bytes before sampling.
+
+```text
+Agent 1 status                  PASS, 31/31 gates; Agent 2 PASS, 24/24 gates
+contract bundle                 ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d
+sampler contract digest         a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9
+validation bank digest          bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023
+test bank digest                566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404 (structural re-hash only)
+prediction-store manifest       4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7
+Phase 9 checkpoint SHA-256      dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+Phase 9 model-state digest      f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+Phase 9 parameters              863,959
+belief-head digest              a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7
+P10-D config SHA-256            6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668
+Phase 7 library content         7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+```
+
+### 3.2 The learned sampler and the shared skeleton
+
+`stratego/evaluation/phase11_sampler.py` implements the twelve frozen steps on the accepted skeleton primitives (`feasible_ranks`, `inverse_cdf_choice`, `validate_world`), so the learned sampler and the accepted `count_uniform_world_sampler_v1` differ in exactly one place: step 7's weight. The request boundary is a frozen dataclass with the four allowed fields and nothing else; `from_payload` raises on any unknown field, and the audit probed every named rejected input (12 probes, all refused).
+
+```text
+stratego/evaluation/phase11_sampler.py           a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8
+stratego/evaluation/phase11_sampler_audit.py     26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a
+```
+
+**The completion-feasibility guard reads public constraints only.** Its three inputs — `movable_remaining` (public inventory summed over movable ranks), `moved_unresolved_remaining` (public `has_moved` flags over the not-yet-assigned pieces), and the current piece's public mask — are all derived from the public-state document; the request type has no field hidden truth could arrive in, the injection controls were rejected structurally, and the independent path recomputed the guard from the raw document on 763,863 steps with zero disagreements (4,558 of those steps visibly pruned a movable rank, and every pruned walk still completed).
+
+### 3.3 The large audit
+
+```text
+states sampled                  13,959 (13,959 distinct identities)
+learned worlds                  251,262 (floor 250,000)
+worlds validated                251,262 (100%)
+baseline worlds                 55,836 (count_uniform_world_sampler_v1, same states)
+independent second-path worlds  25,127 (floor 25,000)
+strata covered                  8/8; colours ['blue', 'red']
+progress buckets                {'early': 5296, 'late': 4169, 'middle': 4494}
+moved/unmoved uncertainty       12,221 / 13,959 states
+unresolved pieces               mean 30.404, max 40
+wall clock                      275s (1115.6 worlds/s)
+```
+
+Zero-tolerance counters, learned sampler (all must be and are zero):
+
+```text
+dead_end_events                  0
+hidden_input_accesses            0
+immobility_violations            0
+impossible_assignments           0
+inventory_errors                 0
+known_rank_violations            0
+nonfinite_probability_rows       0
+provenance_mismatches            0
+public_knowledge_violations      0
+```
+
+Store integrity: 1,024 public shards re-hashed against the Agent 2 manifest (0 mismatches); every selected decision's rebuilt document matched its stored identity, observation digest, hidden-slot set, masks and counts exactly (0/0/0 identity/mask/count mismatches). The baseline sampler produced 55,836 valid worlds on the same states with all counters zero; no strength comparison was run.
+
+### 3.4 Independent audit, determinism, collisions, controls
+
+The second implementation path (`stratego/evaluation/phase11_sampler_audit.py`) imports no Phase 11 module: it rebuilds the inventory, masks, multiset, public facts and the raw-`blake2b` seed derivation from the engine authority and the published contract text, and re-runs every audited walk with scalar arithmetic. 25,127 worlds re-derived exactly, 0 disagreements, 0 float knife-edge events across 763,863 recomputed steps.
+
+```text
+deterministic repeats           10,062 worlds re-sampled bit-identically (0 mismatches)
+call-order reversal             559 states re-sampled in reverse ordinal order (0 mismatches)
+seed collision audit            19,152,614 seeds (19,152,614 distinct), no collisions: True
+  world_sample                  307,098 derived, 307,098 distinct
+  world_order                   9,337,152 derived, 9,337,152 distinct
+  world_categorical             9,337,152 derived, 9,337,152 distinct
+```
+
+The collision audit ran `stream_collision_audit` over every `world_sample`, `world_order` and `world_categorical` seed the audit actually derived — exhaustively, learned and baseline tokens alike — combined with the complete re-derived Agent 1 enumerable universe (bank, soak, safety, repro, benchmark, bootstrap), so the frozen downstream obligation is discharged against the whole relevant seed space, not just the new streams.
+
+Negative controls (each must fire and did):
+
+```text
+remove_one_remaining_rank        fired=True
+bomb_or_flag_on_moved_piece      fired=True
+duplicate_marshal_count          fired=True
+alter_public_known_rank          fired=True
+mutate_sample_seed               fired=True
+inject_true_hidden_rank          fired=True
+corrupt_provenance               fired=True
+```
+
+### 3.5 Report-only diagnostics
+
+Zero-mass fallback: 0 steps in 0 of 251,262 worlds (rate 0.0). Per-state distinct-world counts, empirical-vs-learned marginal L1 agreement and learned entropy are in `agent_03_sampler_diagnostics.csv` (13,959 rows). No diversity threshold is frozen, so these rank nothing.
+
+### 3.6 Preservation and the seal
+
+```text
+Phase 9 checkpoint unchanged    True
+belief head unchanged           True
+optimizer step delta            0 (steps run: 0)
+P10-D / anchor / Phase 7        True / True / True
+prediction store unchanged      True
+bank artifacts unchanged        True
+test bank                       structural-only, 0 scored / 0 truth / 0 outcome / 0 inference accesses
+```
+
+### 3.7 Completion gates
+
+| # | Gate | Result |
+|---|------|--------|
+| 1 | `agents1_2_pass` | true |
+| 2 | `all_8_strata_covered` | true |
+| 3 | `all_zero_tolerance_counters_zero` | true |
+| 4 | `baseline_world_sampler_valid` | true |
+| 5 | `both_colors_covered` | true |
+| 6 | `categorical_draw_seeded` | true |
+| 7 | `complete_world_validation_exact` | true |
+| 8 | `deterministic_repeat_pass` | true |
+| 9 | `exact_inventory_enforced` | true |
+| 10 | `feasibility_guard_public_inputs_only` | true |
+| 11 | `full_suite_green` | true |
+| 12 | `independent_audit_pass` | true |
+| 13 | `known_ranks_locked` | true |
+| 14 | `negative_controls_fire` | true |
+| 15 | `no_belief_updates` | true |
+| 16 | `no_test_prediction_access` | true |
+| 17 | `piece_order_seeded` | true |
+| 18 | `public_masks_enforced` | true |
+| 19 | `sampler_contract_verified` | true |
+| 20 | `sampler_request_boundary_exact` | true |
+| 21 | `sampler_worlds_ge_250k` | true |
+| 22 | `thousands_distinct_states` | true |
+| 23 | `true_hidden_inputs_rejected` | true |
+| 24 | `upstream_artifacts_unchanged` | true |
+| 25 | `world_stream_collisions_zero` | true |
+| 26 | `zero_mass_fallback_exact` | true |
+
+Suite: `5497 passed, 3 skipped in 313.78s (0:05:13)`.
+
+### 3.8 Recorded readings and handoff to Agent 4
+
+- **gate_a_risk_acknowledged_nothing_retuned** — Agent 2's validation reading R_CE = 0.9750 would fail Gate A's <= 0.97 on the sealed test if it repeated. Agent 3 treats this as diagnostic only: the belief model, masks, baseline, sampler weighting (learned_probability * remaining_count), feasibility guard and every Phase 11 threshold are byte-identical to the Agent 1 freeze. Nothing was retuned in response.
+- **audit_schedule_frozen_before_sampling** — the audit samples the 16 evenly spaced eligible decisions of every validation game (floor(k*E/n), the accepted benchmark/soak spacing) and 18 learned worlds per state under W = max(16, ceil(250,000 / states)); realized 13959 states x 18 = 251,262 worlds. The rule was frozen in the contract artifact before any world existed and satisfies the contract floors; it moves no frozen threshold.
+- **sampler_audit_replays_are_structural** — the audit replays recorded public action histories through the engine to rebuild frozen public-state documents; no new game is played, no neural forward runs, no prediction is scored, no truth shard is opened, and the manifest's outcome fields (observer_result, terminal_reason) are not read. The ledger entry is therefore structural_only=true with all four counters zero.
+- **world_sample_root_seed_derived_for_the_collision_audit** — the frozen walk consumes the world_order and world_categorical child streams; the world_sample root seed of every materialized token is additionally derived and collision-checked, because the contract's downstream obligation names all three streams.
+- **independent_float_path_and_knife_edges** — the independent path re-runs the categorical walk with scalar arithmetic (math.fsum totals) against the primary's NumPy sums. The two can only disagree when a draw lands within a few ulps of a bin boundary; such knife-edge steps are counted and the audit observed 0 across 763,863 recomputed steps, with zero assignment disagreements.
+- **baseline_verification_scope** — count_uniform_world_sampler_v1 was verified on the same 13,959 states (55,836 worlds, all counters zero). No strength comparison was run, as the contract requires.
+
+Agent 4 receives the immutable sampler identity (`stratego/evaluation/phase11_sampler.py`, SHA-256 `a0119f0126a1100c...`), the provenance schema, the sample-token rules (production ordinals 0..63), the validation public-state list (the diagnostics CSV), the audit evidence, and the zero-mass fallback behaviour. Agent 4 must not change the sampler mathematics.
+
+**Agent 3 stops here.** Ending revision: uncommitted working tree over `2c12a5c`; per the commit discipline, the commit happens only after reviewing-chat acceptance.

@@ -1,0 +1,215 @@
+{
+ "agent": 3,
+ "artifact": "agent_03_sampler_contract",
+ "audit_schedule": {
+  "baseline_worlds_per_state": 4,
+  "independent_audit_min_worlds": 25000,
+  "independent_stride": 10,
+  "large_audit_min_worlds": 250000,
+  "repeat_state_stride": 25,
+  "state_selection": "per game, the 16 evenly spaced eligible recorded decisions floor(k * E / n) over the E decisions with at least one hidden target (the accepted benchmark/soak spacing pattern); every one of the 1,024 games contributes",
+  "worlds_per_state_rule": "W = max(16, ceil(250000 / selected_states))"
+ },
+ "contract_digest": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+ "contract_version": "phase11_belief_sampler_v1",
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "2c12a5c",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "feasibility_guard_public_inputs": {
+  "claim": "the completion-feasibility guard is a pure function of public constraints and can never see hidden truth",
+  "empirical_proof": "the independent audit path recomputes the guard from the raw document on every audited step and must agree exactly; the hidden-truth injection control must be rejected structurally",
+  "exactness": "every valid complete world remains reachable: if a valid world assigns rank r to the current piece, the remaining assignment in that world proves the guard inequality, so the guard only removes doomed prefixes",
+  "inputs": [
+   "movable_remaining: the sum of the public remaining inventory c[r] over the ten movable rank indices, where c[r] = initial[r] - publicly-known[r]",
+   "moved_unresolved_remaining: the count of public has_moved flags over the not-yet-assigned unresolved pieces after the current one",
+   "the current piece's public has_moved flag and its 12-entry public legal-rank mask"
+  ],
+  "structural_proof": "the request type has no field a true rank could arrive in, and from_payload raises on any field outside the frozen four-name allowlist; the guard receives only quantities derived from the public-state document"
+ },
+ "frozen_document": {
+  "algorithm_steps": [
+   "1. read the public belief state and the learned per-piece marginals only; hidden truth is structurally absent from the request",
+   "2. lock publicly known ranks (combat reveals and public Scout deductions are knowns, not masks)",
+   "3. compute the exact remaining hidden inventory c[r] = initial[r] - known[r] from public information",
+   "4. apply the public impossibility masks (a publicly moved hidden piece cannot be flag or bomb)",
+   "5. derive the deterministic random unresolved-piece order: ascending (world_order_key(sample_token, piece_slot), piece_slot)",
+   "6. for each unresolved piece in that order, legal ranks are the public legal ranks with remaining count > 0 that also satisfy the frozen completion-feasibility rule",
+   "7. weight each legal rank by learned_probability * remaining_count",
+   "8. renormalize in float64 and draw by inverse-CDF walk of world_categorical_uniform(sample_token, step_index) over the ranks in frozen rank-index order, last legal rank as the float tail guard",
+   "9. decrement the chosen rank's remaining count",
+   "10. if every legal weight is zero (zero learned mass on the legal set), fall back for that step to the normalized remaining counts over the same legal set",
+   "11. continue until every unresolved piece is assigned",
+   "12. verify the complete world against the frozen validation stack"
+  ],
+  "audit_volumes": {
+   "coverage": "thousands of distinct validation public states spanning all 8 strata, both colours, early/middle/late and moved/unmoved uncertainty",
+   "independent_audit_min_worlds": 25000,
+   "large_audit_min_worlds": 250000
+  },
+  "categorical_draw": "inverse-CDF walk of world_categorical_uniform(sample_token, step_index) over the ranks in frozen rank-index order, float64 cumulative mass, last legal rank as the float tail guard",
+  "contract_version": "phase11_belief_sampler_v1",
+  "count_decrement": "the chosen rank's remaining count decrements by one",
+  "diversity_thresholds": "none frozen \u2014 world-diversity statistics are report-only, as the common contract provides when Agent 1 freezes no threshold",
+  "feasibility_rule": {
+   "exactness": "every valid complete world remains reachable: if a valid world assigns rank r to the current piece, the remaining assignment in that world proves the guard inequality, so the guard only removes doomed prefixes",
+   "fallback_totality": "with the guard, the legal set of step 6 is never empty on a publicly consistent state, so step 10's counts-only fallback always has positive mass; a dead end is therefore impossible and `dead_end_events` is a zero-tolerance counter proving it",
+   "rule": "an unmoved unresolved piece may take a movable rank only when movable_remaining - 1 >= moved_unresolved_remaining (counted over the not-yet-assigned pieces after the current one); moved pieces and immovable choices need no guard beyond the public mask and counts",
+   "status": "an Agent 1 design reading amending step 6's legal-rank definition, recorded for reviewer acceptance at the Agent 1 handoff; the step-7 weighting is the common contract's, unchanged",
+   "why": "the common contract requires every walk to complete (steps 11-12) and tolerates zero invalid worlds, but the unguarded legal set can dead-end on a feasible instance: unmoved pieces drawn early can exhaust the movable inventory that later moved pieces need. The guard maintains the invariant movable_remaining >= moved_unresolved_remaining, which the true assignment guarantees at the start, so the walk provably never dead-ends"
+  },
+  "identity_inputs": [
+   "public_state_identity",
+   "belief_model_identity (label selfplay_c1_v1, digest-bound)",
+   "sampler_version",
+   "sample_ordinal"
+  ],
+  "piece_order": "ascending (world_order_key(sample_token, piece_slot), piece_slot) over the unresolved pieces",
+  "provenance_fields": [
+   "sample_token",
+   "sampler_version",
+   "public_state_identity",
+   "belief_model_label",
+   "sample_ordinal",
+   "piece_order",
+   "fallback_steps",
+   "assignment"
+  ],
+  "purity": "a sampled world is a pure function of the identity inputs; worker count, call order, process id, path, wall clock and previous calls appear in no derivation and no mutable RNG cursor exists",
+  "report_only_diagnostics": [
+   "zero-mass fallback count/rate",
+   "distinct worlds per position",
+   "marginal agreement between sampled worlds and the learned marginals",
+   "sampler entropy/diversity"
+  ],
+  "request_boundary": {
+   "allowed_fields": [
+    "sampler_version",
+    "public_state_document",
+    "learned_probabilities",
+    "sample_ordinal"
+   ],
+   "forbidden_tokens": [
+    "true",
+    "truth",
+    "label",
+    "target",
+    "private",
+    "winner",
+    "result",
+    "reward",
+    "outcome",
+    "future",
+    "path"
+   ],
+   "rejected_inputs": [
+    "true rank",
+    "private piece table",
+    "opponent setup truth",
+    "hidden start rank",
+    "winner/result/reward",
+    "future action/search result",
+    "storage path"
+   ]
+  },
+  "sampler_version": "belief_sampler_v1",
+  "validation_stack": [
+   "exact remaining-inventory match: assigned hidden multiset equals the publicly inferable remaining inventory, rank by rank",
+   "publicly known ranks locked: every known piece carries exactly its known rank",
+   "captured/dead pieces excluded: no assignment to a dead piece",
+   "immobility legality: no publicly moved piece is assigned flag or bomb (public Scout deductions are already locked knowns)",
+   "ownership and alive/dead status preserved exactly",
+   "public start information preserved: assignments are keyed by the public piece tracker (owner, setup slot), never by reindexing",
+   "known rank-by-start information preserved through the locked knowns",
+   "probability rows finite and non-negative at every step",
+   "provenance rebuilds: the recorded (public-state identity, model label, sampler version, sample ordinal) re-derives the identical world"
+  ],
+  "weighting": "weight = learned_probability * remaining_count",
+  "zero_mass_fallback": "when every legal weight is zero, that step reweights by the normalized remaining counts over the same legal set; with the feasibility rule this set is provably non-empty, and every fallback increments the report-only fallback diagnostic",
+  "zero_tolerance_counters": [
+   "inventory_errors",
+   "public_knowledge_violations",
+   "known_rank_violations",
+   "immobility_violations",
+   "impossible_assignments",
+   "nonfinite_probability_rows",
+   "provenance_mismatches",
+   "hidden_input_accesses",
+   "dead_end_events"
+  ]
+ },
+ "implementation_identity": {
+  "independent_audit_module": "stratego/evaluation/phase11_sampler_audit.py",
+  "independent_path_imports": "hashlib, json, math and the engine constants only; no phase11_* module",
+  "module_sha256": {
+   "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+  },
+  "primary_module": "stratego/evaluation/phase11_sampler.py",
+  "shared_skeleton": [
+   "stratego.evaluation.phase11_baselines.feasible_ranks",
+   "stratego.evaluation.phase11_baselines.inverse_cdf_choice",
+   "stratego.evaluation.phase11_baselines.validate_world"
+  ]
+ },
+ "phase": 11,
+ "request_boundary": {
+  "allowed_request_fields": [
+   "sampler_version",
+   "public_state_document",
+   "learned_probabilities",
+   "sample_ordinal"
+  ],
+  "forbidden_tokens": [
+   "true",
+   "truth",
+   "label",
+   "target",
+   "private",
+   "winner",
+   "result",
+   "reward",
+   "outcome",
+   "future",
+   "path"
+  ],
+  "guard_inputs": [
+   "public remaining inventory c[r] (initial army minus publicly known ranks)",
+   "public has_moved flags of the not-yet-assigned unresolved pieces",
+   "the current piece's public has_moved flag and legal-rank mask"
+  ],
+  "request_type_field_for_truth_exists": false,
+  "request_type_rejects_truth": true,
+  "sampler_version": "belief_sampler_v1"
+ },
+ "sample_id_rules": {
+  "audit_ordinals": "learned 0..W-1 per state (W frozen by the schedule below), baseline 0..3; the production request uses 0..63 (Agent 4's benchmark)",
+  "root_seed": 2026081904,
+  "streams": {
+   "world_categorical": [
+    "sample_token",
+    "step_index"
+   ],
+   "world_order": [
+    "sample_token",
+    "piece_slot"
+   ],
+   "world_sample": [
+    "sample_token"
+   ]
+  },
+  "token_format": "phase11_world_sample_v1|ms=<master>|model=selfplay_c1_v1|smp=<sampler version>|ps=<public-state sha256>|n=<ordinal:05d>"
+ },
+ "sampler_version": "belief_sampler_v1"
+}

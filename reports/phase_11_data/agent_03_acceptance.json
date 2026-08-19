@@ -1,0 +1,294 @@
+{
+ "agent": 3,
+ "artifact": "agent_03_acceptance",
+ "audit_summary": {
+  "baseline_counters": {
+   "dead_end_events": 0,
+   "hidden_input_accesses": 0,
+   "immobility_violations": 0,
+   "impossible_assignments": 0,
+   "inventory_errors": 0,
+   "known_rank_violations": 0,
+   "nonfinite_probability_rows": 0,
+   "provenance_mismatches": 0,
+   "public_knowledge_violations": 0
+  },
+  "baseline_worlds": 55836,
+  "determinism": {
+   "mutable_rng_cursor": "none: every draw is a pure function of (sample_token, piece_slot | step_index); Agent 4 owns the full topology/restart gate",
+   "repeat_mismatches": 0,
+   "repeat_states": 559,
+   "repeat_worlds": 10062,
+   "reversal_mismatches": 0,
+   "reversal_states": 559
+  },
+  "distinct_public_state_identities": 13959,
+  "fallback": {
+   "fallback_steps_total": 0,
+   "fallback_world_rate": 0.0,
+   "worlds_with_fallback": 0
+  },
+  "independent_worlds": 25127,
+  "learned_worlds": 251262,
+  "negative_controls": {
+   "alter_public_known_rank": true,
+   "bomb_or_flag_on_moved_piece": true,
+   "corrupt_provenance": true,
+   "duplicate_marshal_count": true,
+   "inject_true_hidden_rank": true,
+   "mutate_sample_seed": true,
+   "remove_one_remaining_rank": true
+  },
+  "seed_collision_audit": {
+   "distinct_seeds": 19152614,
+   "no_collisions": true,
+   "total_seeds": 19152614
+  },
+  "states": 13959,
+  "store_integrity": {
+   "count_mismatches": 0,
+   "identity_mismatches": 0,
+   "mask_mismatches": 0,
+   "observation_mismatches": 0,
+   "shard_digest_mismatches": 0,
+   "shards_verified": 1024,
+   "slot_alignment_mismatches": 0
+  },
+  "wall_clock_seconds": 275.267,
+  "world_stream_seed_counts": {
+   "world_categorical": {
+    "count": 9337152,
+    "distinct": 9337152
+   },
+   "world_order": {
+    "count": 9337152,
+    "distinct": 9337152
+   },
+   "world_sample": {
+    "count": 307098,
+    "distinct": 307098
+   }
+  },
+  "zero_tolerance_counters": {
+   "dead_end_events": 0,
+   "hidden_input_accesses": 0,
+   "immobility_violations": 0,
+   "impossible_assignments": 0,
+   "inventory_errors": 0,
+   "known_rank_violations": 0,
+   "nonfinite_probability_rows": 0,
+   "provenance_mismatches": 0,
+   "public_knowledge_violations": 0
+  }
+ },
+ "completion_gates": {
+  "agents1_2_pass": true,
+  "all_8_strata_covered": true,
+  "all_zero_tolerance_counters_zero": true,
+  "baseline_world_sampler_valid": true,
+  "both_colors_covered": true,
+  "categorical_draw_seeded": true,
+  "complete_world_validation_exact": true,
+  "deterministic_repeat_pass": true,
+  "exact_inventory_enforced": true,
+  "feasibility_guard_public_inputs_only": true,
+  "full_suite_green": true,
+  "independent_audit_pass": true,
+  "known_ranks_locked": true,
+  "negative_controls_fire": true,
+  "no_belief_updates": true,
+  "no_test_prediction_access": true,
+  "piece_order_seeded": true,
+  "public_masks_enforced": true,
+  "sampler_contract_verified": true,
+  "sampler_request_boundary_exact": true,
+  "sampler_worlds_ge_250k": true,
+  "thousands_distinct_states": true,
+  "true_hidden_inputs_rejected": true,
+  "upstream_artifacts_unchanged": true,
+  "world_stream_collisions_zero": true,
+  "zero_mass_fallback_exact": true
+ },
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "2c12a5c",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "false_gates": [],
+ "forbidden_operation_counters": {
+  "belief_calibration_operations": 0,
+  "belief_head_writes": 0,
+  "feasibility_rule_changes": 0,
+  "hidden_truth_inputs_to_sampling": 0,
+  "phase11_optimizer_steps": 0,
+  "sampler_weighting_changes": 0,
+  "test_bank_neural_inferences": 0,
+  "test_bank_outcome_reads": 0,
+  "test_bank_privileged_truth_reads": 0,
+  "test_bank_scored_accesses": 0,
+  "threshold_changes_after_evidence": 0,
+  "validation_outcome_reads": 0,
+  "validation_truth_shard_reads": 0
+ },
+ "frozen_inputs": {
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "contract_bundle_digest": "ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d",
+  "contract_digests": {
+   "phase11_acceptance_v1": "0121ecaac6849a59d78798833ec419f9ff12c14f8720f1bef259960f42c01fe5",
+   "phase11_belief_bank_v1": "874a2513427aebde69c9d31c9d06c6562d3daf2faa3f0dc4cd916656a175516d",
+   "phase11_belief_baseline_v1": "c017d51f78e8f7f5976abec62aa259fd8918508810c42bc41e88470c5998c197",
+   "phase11_belief_contract_v1": "13c4607619cca5fde621980b6ffa155d3c01378f000d5869319a069286186f75",
+   "phase11_belief_metrics_v1": "a2f7e5b4cc3944194d3b735f96ad805413670648ffd46acaac3a6a7f436368cb",
+   "phase11_belief_sampler_v1": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+   "phase11_information_safety_v1": "1b8160d544b5ee71eb1b03be025a868e7298ace1d61c486524e631ba68faab4d",
+   "phase11_system_v1": "9aa22d45ab85b65d5ed14e40288ef7cd4c3226e8d66f52508d9717929ac1adfe"
+  },
+  "phase10_closure_commit": "17188a5",
+  "phase7_library": {
+   "bases": 8000,
+   "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+   "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+  },
+  "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "phase9_parameters": 863959,
+  "phase9_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "prediction_store_manifest_digest": "4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7",
+  "sampler_contract_digest": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+  "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+  "test_bank_digest": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+  "validation_bank_digest": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+ },
+ "gates_total": 26,
+ "gates_true": 26,
+ "handoff_to_agent_4": {
+  "audit_evidence": "reports/phase_11_data/agent_03_sampler_audit.json",
+  "for_agent": 4,
+  "provenance_schema": {
+   "extra_field": "dead_end_events (always 0; the accepted skeleton's zero-tolerance marker)",
+   "fields": [
+    "sample_token",
+    "sampler_version",
+    "public_state_identity",
+    "belief_model_label",
+    "sample_ordinal",
+    "piece_order",
+    "fallback_steps",
+    "assignment"
+   ]
+  },
+  "sample_id_rules": {
+   "collision_obligation": "run stream_collision_audit over every world seed derived, as this audit did",
+   "production_ordinals": "0..63 per request (the frozen benchmark/repro request content)",
+   "token_format": "phase11_world_sample_v1|ms=<master>|model=selfplay_c1_v1|smp=<sampler version>|ps=<public-state sha256>|n=<ordinal:05d>"
+  },
+  "sampler": {
+   "entry_point": "stratego.evaluation.phase11_sampler.sample_belief_world",
+   "immutable": "Agent 4 must not change the sampler mathematics",
+   "module": "stratego/evaluation/phase11_sampler.py",
+   "module_sha256": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "request_type": "stratego.evaluation.phase11_sampler.Phase11SamplerRequest",
+   "sampler_version": "belief_sampler_v1"
+  },
+  "validation_public_states": {
+   "manifest_digest": "4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7",
+   "selection_rule": {
+    "baseline_worlds_per_state": 4,
+    "games": 1024,
+    "independent_stride": 10,
+    "repeat_state_stride": 25,
+    "selected_decisions_per_game": 16,
+    "worlds_per_state": 18
+   },
+   "state_list": "reports/phase_11_data/agent_03_sampler_diagnostics.csv",
+   "store_pointer": "data/phase11_prediction_root.txt"
+  },
+  "zero_mass_fallback": "when every learned weight on the legal set is zero, the step reweights by the remaining counts over the same legal set; observed on 0 of 251,262 audited worlds"
+ },
+ "new_digests": {
+  "audit_version": "phase11_agent03_sampler_audit_v1",
+  "implementation_sha256": {
+   "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+  },
+  "sampler_audit_artifact_sha256": "d992c8aead8db1de4edbfc163913391b633276eb9d632b4711a2178ab8b6bd2d",
+  "sampler_diagnostics_sha256": "240e67f2606dd0f3065149719be0fe40c8d6c0adf210d8710922b9eb71ee4acd",
+  "sampler_version": "belief_sampler_v1"
+ },
+ "phase": 11,
+ "preservation": {
+  "anchor_unchanged": true,
+  "bank_files_unchanged": true,
+  "belief_head_unchanged": true,
+  "checkpoint_unchanged": true,
+  "optimizer_step_after": 47086,
+  "optimizer_step_before": 47086,
+  "optimizer_step_delta": 0,
+  "optimizer_steps_run": 0,
+  "p10d_unchanged": true,
+  "phase7_unchanged": true,
+  "prediction_store_unchanged": true,
+  "problems": [],
+  "upstream_tracked_files_clean": true
+ },
+ "recorded_readings": [
+  {
+   "impact": "none on any frozen quantity; recorded so the reviewer sees the risk was known and deliberately not acted on",
+   "reading": "gate_a_risk_acknowledged_nothing_retuned",
+   "statement": "Agent 2's validation reading R_CE = 0.9750 would fail Gate A's <= 0.97 on the sealed test if it repeated. Agent 3 treats this as diagnostic only: the belief model, masks, baseline, sampler weighting (learned_probability * remaining_count), feasibility guard and every Phase 11 threshold are byte-identical to the Agent 1 freeze. Nothing was retuned in response."
+  },
+  {
+   "impact": "volume/coverage choice only",
+   "reading": "audit_schedule_frozen_before_sampling",
+   "statement": "the audit samples the 16 evenly spaced eligible decisions of every validation game (floor(k*E/n), the accepted benchmark/soak spacing) and 18 learned worlds per state under W = max(16, ceil(250,000 / states)); realized 13959 states x 18 = 251,262 worlds. The rule was frozen in the contract artifact before any world existed and satisfies the contract floors; it moves no frozen threshold."
+  },
+  {
+   "impact": "validation-bank access accounting",
+   "reading": "sampler_audit_replays_are_structural",
+   "statement": "the audit replays recorded public action histories through the engine to rebuild frozen public-state documents; no new game is played, no neural forward runs, no prediction is scored, no truth shard is opened, and the manifest's outcome fields (observer_result, terminal_reason) are not read. The ledger entry is therefore structural_only=true with all four counters zero."
+  },
+  {
+   "impact": "collision-audit scope; no algorithmic effect",
+   "reading": "world_sample_root_seed_derived_for_the_collision_audit",
+   "statement": "the frozen walk consumes the world_order and world_categorical child streams; the world_sample root seed of every materialized token is additionally derived and collision-checked, because the contract's downstream obligation names all three streams."
+  },
+  {
+   "impact": "makes float-path agreement checkable instead of assumed",
+   "reading": "independent_float_path_and_knife_edges",
+   "statement": "the independent path re-runs the categorical walk with scalar arithmetic (math.fsum totals) against the primary's NumPy sums. The two can only disagree when a draw lands within a few ulps of a bin boundary; such knife-edge steps are counted and the audit observed 0 across 763,863 recomputed steps, with zero assignment disagreements."
+  },
+  {
+   "impact": "baseline obligation discharged without ranking anything",
+   "reading": "baseline_verification_scope",
+   "statement": "count_uniform_world_sampler_v1 was verified on the same 13,959 states (55,836 worlds, all counters zero). No strength comparison was run, as the contract requires."
+  }
+ ],
+ "starting_revision": "2c12a5c",
+ "status": "PASS",
+ "suite": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "green": true,
+  "returncode": 0,
+  "summary": "5497 passed, 3 skipped in 313.78s (0:05:13)",
+  "wall_clock_seconds": 314.91
+ },
+ "test_bank_sealing": {
+  "neural_inference_total": 0,
+  "outcome_total": 0,
+  "privileged_truth_total": 0,
+  "scored_prediction_total": 0,
+  "test_bank_entries": 6,
+  "test_bank_structural_only": true
+ },
+ "timestamp": "2026-08-19T08:55:29-0400"
+}
