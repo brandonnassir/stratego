@@ -1,0 +1,616 @@
+{
+  "banks": {
+    "test": {
+      "access_justification": "Phase 10B sealed final-test bank: structural construction and audit; outcome evaluation is reserved to the single sealed final evaluation",
+      "bank": "test",
+      "bank_digest": "c545abd9630286380a28c3e6eeb4c89be301e91b9f04b71b9f47d55189680322",
+      "bank_version": "phase10b_test_bank_v1",
+      "bootstrap_unit": "logical case",
+      "case_count": 512,
+      "cases_per_family": 32,
+      "colour_pairing": {
+        "0": "red",
+        "1": "blue"
+      },
+      "construction_run": {
+        "seconds": 5.677404834015761
+      },
+      "distinct_frozen_fingerprints": 1427,
+      "family_counts": {
+        "F00": 32,
+        "F01": 32,
+        "F02": 32,
+        "F03": 32,
+        "F04": 32,
+        "F05": 32,
+        "F06": 32,
+        "F07": 32,
+        "F08": 32,
+        "F09": 32,
+        "F10": 32,
+        "F11": 32,
+        "F12": 32,
+        "F13": 32,
+        "F14": 32,
+        "F15": 32
+      },
+      "games_per_case": 2,
+      "isolation": {
+        "distinct_fingerprints": 2943,
+        "isolation_set_version": "phase10b_heldout_fingerprints_v1",
+        "rule": "no arrangement a Phase 10B case fixes may have a final setup fingerprint that any accepted Phase 9 or Phase 10 held-out evaluation case already fixed",
+        "set_digest": "edcec36968766c9fc525cf6d363e08e772e9c8017bed5d4bfe3e6f2e5a785cd4",
+        "sources": [
+          {
+            "artifact": "reports/phase_9_data/agent_01_validation_bank.json",
+            "fingerprints_read": 256,
+            "new_fingerprints": 248,
+            "phase": "phase9"
+          },
+          {
+            "artifact": "reports/phase_9_data/agent_01_test_bank.json",
+            "fingerprints_read": 1024,
+            "new_fingerprints": 936,
+            "phase": "phase9"
+          },
+          {
+            "artifact": "reports/phase_10_data/agent_01_validation_bank.json",
+            "fingerprints_read": 384,
+            "new_fingerprints": 373,
+            "phase": "phase10"
+          },
+          {
+            "artifact": "reports/phase_10_data/agent_01_test_bank.json",
+            "fingerprints_read": 1536,
+            "new_fingerprints": 1386,
+            "phase": "phase10"
+          }
+        ]
+      },
+      "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+      "manifest_digest": "1710102a01558b9f467c76422ec292203d16d3bb37ec25e24ed6acffa31bc7a4",
+      "matchups": [
+        "direct_p10d",
+        "neutral_rollback",
+        "strategic",
+        "tactical",
+        "phase8_anchor",
+        "random",
+        "basic"
+      ],
+      "sampler_profile": "neutral_v1",
+      "sampler_version": "setup_sampler_v1",
+      "split": "test",
+      "total_frozen_fingerprints": 1536
+    },
+    "validation": {
+      "access_justification": "Phase 10B validation bank: frozen checkpoint-selection cases for the optional setup-conditioned fine-tuning experiment",
+      "bank": "validation",
+      "bank_digest": "9295c2efc8467dced84ec32d0903d0e44f8b9f0819e908daa39812903be9a1a2",
+      "bank_version": "phase10b_validation_bank_v1",
+      "bootstrap_unit": "logical case",
+      "case_count": 256,
+      "cases_per_family": 16,
+      "colour_pairing": {
+        "0": "red",
+        "1": "blue"
+      },
+      "construction_run": {
+        "seconds": 2.27972829103237
+      },
+      "distinct_frozen_fingerprints": 719,
+      "family_counts": {
+        "F00": 16,
+        "F01": 16,
+        "F02": 16,
+        "F03": 16,
+        "F04": 16,
+        "F05": 16,
+        "F06": 16,
+        "F07": 16,
+        "F08": 16,
+        "F09": 16,
+        "F10": 16,
+        "F11": 16,
+        "F12": 16,
+        "F13": 16,
+        "F14": 16,
+        "F15": 16
+      },
+      "games_per_case": 2,
+      "isolation": {
+        "distinct_fingerprints": 2943,
+        "isolation_set_version": "phase10b_heldout_fingerprints_v1",
+        "rule": "no arrangement a Phase 10B case fixes may have a final setup fingerprint that any accepted Phase 9 or Phase 10 held-out evaluation case already fixed",
+        "set_digest": "edcec36968766c9fc525cf6d363e08e772e9c8017bed5d4bfe3e6f2e5a785cd4",
+        "sources": [
+          {
+            "artifact": "reports/phase_9_data/agent_01_validation_bank.json",
+            "fingerprints_read": 256,
+            "new_fingerprints": 248,
+            "phase": "phase9"
+          },
+          {
+            "artifact": "reports/phase_9_data/agent_01_test_bank.json",
+            "fingerprints_read": 1024,
+            "new_fingerprints": 936,
+            "phase": "phase9"
+          },
+          {
+            "artifact": "reports/phase_10_data/agent_01_validation_bank.json",
+            "fingerprints_read": 384,
+            "new_fingerprints": 373,
+            "phase": "phase10"
+          },
+          {
+            "artifact": "reports/phase_10_data/agent_01_test_bank.json",
+            "fingerprints_read": 1536,
+            "new_fingerprints": 1386,
+            "phase": "phase10"
+          }
+        ]
+      },
+      "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+      "manifest_digest": "3dbb7e6693905ceebaeec590c3371cb76ba243b127d276528e9f9c421d7aeea1",
+      "matchups": [
+        "direct_p10d",
+        "neutral_rollback",
+        "strategic",
+        "tactical",
+        "phase8_anchor",
+        "random",
+        "basic"
+      ],
+      "sampler_profile": "neutral_v1",
+      "sampler_version": "setup_sampler_v1",
+      "split": "validation",
+      "total_frozen_fingerprints": 768
+    }
+  },
+  "contract_digest": "7159966745199a1bf1c2f5b9f2bcf75e30cc4cd40af89b7de0f2a685eba0c5c0",
+  "contract_document": {
+    "budget": {
+      "games_per_iteration": 2048,
+      "max_iterations": 30,
+      "max_optimizer_epochs": 60,
+      "max_training_games": 61440,
+      "stop_rule": "the earliest of 30 completed iterations, the 12-hour ceiling, or a hard safety stop; never extended because results are weak",
+      "wall_clock_ceiling_hours": 12
+    },
+    "contract_version": "phase10b_contract_v1",
+    "final_evaluation": {
+      "bootstrap": {
+        "confidence": 0.95,
+        "method": "paired-unit percentile bootstrap over logical cases",
+        "replicates": 10000
+      },
+      "cases_per_matchup": 512,
+      "classifications": [
+        "PASS-CANDIDATE",
+        "FAIL",
+        "BLOCKED"
+      ],
+      "first_and_only": true,
+      "games_per_case": 2,
+      "gates": {
+        "gate_a_direct_adaptation": {
+          "ewr_min": 0.52,
+          "paired_lower_bound_min": 0.5
+        },
+        "gate_b_neutral_rollback": {
+          "ewr_min": 0.49,
+          "paired_lower_bound_min": 0.47
+        },
+        "gate_c_strong_composite": {
+          "lower_bound_min": -0.02,
+          "point_min": 0.0
+        },
+        "gate_d_individual_regression": {
+          "lower_bound_min": -0.03,
+          "opponents": [
+            "strategic",
+            "tactical",
+            "phase8_anchor"
+          ]
+        },
+        "gate_e_easy_opponents": {
+          "basic_min": 0.8,
+          "paired_lower_bound_min": -0.03,
+          "random_blue_min": 0.9,
+          "random_overall_min": 0.95,
+          "random_red_min": 0.9
+        },
+        "gate_f_training_safety": {
+          "hard_clip_fraction_violations_max": 0,
+          "hard_kl_violations_max": 0,
+          "illegal_training_actions_max": 0,
+          "nonfinite_gradients_max": 0,
+          "nonfinite_losses_max": 0,
+          "optimizer_corruption_max": 0
+        },
+        "gate_g_belief_preservation": {
+          "ce_ratio_max": 1.05,
+          "top1_degradation_max": 0.02
+        },
+        "gate_h_upstream_preservation": {
+          "byte_identical": [
+            "checkpoints/phase9/selfplay_c1_v1.pt",
+            "checkpoints/phase10/setup_utility_v1.json",
+            "reports/phase_10_data/agent_05_frozen_selector_config.json",
+            "reports/phase_10_data/agent_06_production_selector_manifest.json",
+            "data/setups/setup_library_v1.jsonl"
+          ]
+        }
+      },
+      "matchups": [
+        "direct_p10d",
+        "neutral_rollback",
+        "strategic",
+        "tactical",
+        "phase8_anchor",
+        "random",
+        "basic"
+      ],
+      "strong_opponent_weights": {
+        "phase8_anchor": 0.2,
+        "strategic": 0.45,
+        "tactical": 0.35
+      }
+    },
+    "history": {
+      "active_archive_window": 4,
+      "anchor": "P9A",
+      "anchor_is": "the accepted Phase 9 checkpoint; never evicted",
+      "archive_cadence_iterations": 5,
+      "pre_archive_rule": "before iteration 5 archives, the archive bucket's pool is exactly the anchor",
+      "sampling": "uniform over the active window; no performance weighting"
+    },
+    "namespace": "phase10b",
+    "optimization": {
+      "advantage_filter_floor": 0.01,
+      "advantage_filter_quantile": 0.75,
+      "advantage_standardization_epsilon": 1e-08,
+      "behavior_kl_target": 0.015,
+      "belief_loss_weight": 0.25,
+      "clip_fraction_hard_limit": 0.75,
+      "epochs_per_rollout": 2,
+      "gamma": 1.0,
+      "inherited_from": "accepted Phase 9 PPO/KL machinery",
+      "initial_kl_beta": 0.005,
+      "kl_beta_decrease_factor": 0.5,
+      "kl_beta_decrease_threshold": 0.0075,
+      "kl_beta_increase_factor": 2.0,
+      "kl_beta_increase_threshold": 0.03,
+      "kl_beta_max": 0.2,
+      "kl_beta_min": 0.0001,
+      "kl_hard_limit": 0.08,
+      "lambda_advantage": 0.5,
+      "lambda_value": 0.8,
+      "minibatch_size": 512,
+      "optimizer": {
+        "adam_betas": [
+          0.9,
+          0.999
+        ],
+        "adam_epsilon": 1e-08,
+        "device": "mps",
+        "epochs_per_rollout": 2,
+        "gradient_clip_norm": 1.0,
+        "learning_rate_schedule": "constant (no warmup, no decay)",
+        "minibatch_size": 512,
+        "optimizer": "AdamW",
+        "precision": "float32",
+        "weight_decay": 0.01
+      },
+      "phase9_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+      "ppo_clip_epsilon": 0.2,
+      "replay": "none",
+      "search_in_training": "forbidden",
+      "value_loss_weight": 0.5
+    },
+    "phase10b_schedule_departures": {
+      "entropy_coefficient": {
+        "end": 0.0005,
+        "schedule": "linear across 30 iterations",
+        "start": 0.001
+      },
+      "learning_rate": {
+        "final": 2.9999999999999997e-05,
+        "final_factor": 0.1,
+        "initial": 7.5e-05,
+        "initial_factor": 0.25,
+        "phase9_canonical_start": 0.0003,
+        "phase9_schedule_replaced": "constant (no warmup, no decay)",
+        "post_hoc_change": "forbidden in either direction",
+        "schedule": "linear decay across 30 iterations"
+      },
+      "rule": "the plan explicitly freezes these two and only these two; every other optimization constant is the accepted Phase 9 one"
+    },
+    "population": {
+      "allocation_rule": "largest remainder over the plan's percentages, ties broken by declared order",
+      "bucket_counts": {
+        "anchor": 409,
+        "archive": 205,
+        "current": 1229,
+        "opponent": 205
+      },
+      "colour_balance": "learner is red when (ordinal + iteration) % 2 == 0",
+      "games_per_iteration": 2048,
+      "opponent_counts": {
+        "basic_heuristic": 21,
+        "random_legal": 10,
+        "strategic_rule_based": 62,
+        "stress_information_miser": 21,
+        "stress_miner_rush": 20,
+        "stress_scout_rush": 20,
+        "tactical_rule_based": 51
+      },
+      "proportions": {
+        "anchor": 0.2,
+        "archive": 0.1,
+        "current": 0.6,
+        "opponent": 0.1
+      },
+      "training_eligibility": {
+        "anchor": "current-policy side only",
+        "archive": "current-policy side only",
+        "current": "both colors",
+        "opponent": "current-policy side only"
+      }
+    },
+    "prohibitions": [
+      "alter the accepted Phase 9 checkpoint",
+      "alter P10-D",
+      "refit the Phase 10 utility model",
+      "change the P10-D temperature",
+      "change the 0.35/0.65 mixture",
+      "change neutral_v1",
+      "mutate the Phase 7 setup library",
+      "change the 127-channel observation design",
+      "change the belief-head architecture",
+      "introduce search into training",
+      "use Phase 11 or Phase 12 test evidence for training",
+      "use Phase 10 final-test outcomes as training data",
+      "change Phase 9 PPO/KL mechanics beyond the two frozen departures",
+      "run a 168-hour final training budget",
+      "block, pause or alter Phase 11 execution"
+    ],
+    "promotion": "no automatic promotion; a PASS-CANDIDATE result returns to the reviewing chat and changes no Phase 9, Phase 10, Phase 11 or Phase 12 artifact",
+    "setup_conditioning": {
+      "blue_setup_source": "P10-D",
+      "red_setup_source": "P10-D",
+      "rule": "both sides draw independently through their own colour-specific frozen distribution; no draw may read the opponent's setup, hidden ranks, outcome prediction, checkpoint strength or matchup identity",
+      "split": "train"
+    },
+    "status": "optional side experiment; advisory only; never auto-promoted",
+    "upstream": {
+      "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+      "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+      "library_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+      "mixture_learned": 0.65,
+      "mixture_neutral": 0.35,
+      "model_t_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+      "phase10_system_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+      "phase9_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+      "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "phase9_parameters": 863959,
+      "phase9_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "read_only": true,
+      "selector_candidate": "P10-D",
+      "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+      "selector_temperature": 0.75,
+      "selector_utility_model": "model_T",
+      "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9"
+    },
+    "validation": {
+      "cadence_iterations": 5,
+      "cases_per_matchup": 256,
+      "eligibility": {
+        "basic_ewr_min": 0.8,
+        "neutral_rollback_ewr_min": 0.48,
+        "random_ewr_min": 0.95
+      },
+      "games_per_case": 2,
+      "guardrails_not_score_terms": [
+        "random",
+        "basic"
+      ],
+      "iterations": [
+        5,
+        10,
+        15,
+        20,
+        25,
+        30
+      ],
+      "may_not_change": [
+        "learning rate",
+        "population mix",
+        "setup selector",
+        "PPO thresholds",
+        "number of iterations",
+        "entropy schedule"
+      ],
+      "purpose": "checkpoint selection only",
+      "score_weights": {
+        "delta_direct": 0.4,
+        "delta_neutral": 0.2,
+        "delta_phase8": 0.1,
+        "delta_strategic": 0.15,
+        "delta_tactical": 0.15
+      },
+      "tie_break": [
+        "higher S10B",
+        "higher delta_direct",
+        "higher delta_neutral",
+        "higher delta_strategic",
+        "lower behavior KL",
+        "earlier iteration"
+      ]
+    },
+    "versions": {
+      "acceptance": "phase10b_acceptance_v1",
+      "population": "phase10b_population_v1",
+      "rollout": "phase10b_rollout_v1",
+      "schedule": "phase10b_rollout_schedule_v1",
+      "store": "phase10b_rollout_store_v1",
+      "test_bank": "phase10b_test_bank_v1",
+      "trainer": "phase10b_trainer_v1",
+      "validation_bank": "phase10b_validation_bank_v1"
+    }
+  },
+  "cross_bank_isolation": {
+    "disjoint": true,
+    "examples": [],
+    "shared": 0,
+    "test_fingerprints": 1427,
+    "validation_fingerprints": 719
+  },
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "17188a5",
+    "timestamp": "2026-08-19T00:46:30-0400",
+    "working_tree_state": "dirty"
+  },
+  "population_digest": "a51775d85c37eb3c573d934c8453c48d82b8928bb4cf1dda39f33b127af1e658",
+  "population_document": {
+    "anchor_identity": "P9A",
+    "anchor_policy_token": "phase9_selfplay_c1_v1",
+    "bucket_counts": {
+      "anchor": 409,
+      "archive": 205,
+      "current": 1229,
+      "opponent": 205
+    },
+    "buckets": [
+      "current",
+      "anchor",
+      "archive",
+      "opponent"
+    ],
+    "iterations": 30,
+    "namespace": "phase10b",
+    "opponent_counts": {
+      "basic_heuristic": 21,
+      "random_legal": 10,
+      "strategic_rule_based": 62,
+      "stress_information_miser": 21,
+      "stress_miner_rush": 20,
+      "stress_scout_rush": 20,
+      "tactical_rule_based": 51
+    },
+    "population_version": "phase10b_population_v1",
+    "schedule_version": "phase10b_rollout_schedule_v1",
+    "setup_environment_id": 0,
+    "setup_generation": 0
+  },
+  "seed_contract": {
+    "anchor_identity": "P9A",
+    "consumers": {
+      "action_sampling": "one neural decision's cumulative-walk uniform",
+      "archive_selection": "the uniform active-window draw of an archive game",
+      "blue_setup": "the Blue P10-D selector seed of one rollout game",
+      "bootstrap": "paired logical-case bootstrap resampling",
+      "opponent_identity": "the match-level policy seed of a rule/stress side",
+      "red_setup": "the Red P10-D selector seed of one rollout game",
+      "rollout_game": "setup_root_seed of one logical rollout game",
+      "training_order": "the minibatch shuffle of one optimizer epoch",
+      "validation_case": "evaluation case selector/opponent/match seeds"
+    },
+    "derivation": "blake2b(payload, digest_size=8, person='strat10b') >> 1 over '<rollout version>:<domain>:<domain root>:<identity parts>'",
+    "domain_roots": {
+      "action_sampling": 20260819021,
+      "archive_selection": 20260819023,
+      "blue_setup": 20260819024,
+      "bootstrap": 20260819027,
+      "opponent_bucket": 20260819023,
+      "opponent_identity": 20260819023,
+      "red_setup": 20260819024,
+      "rollout_game": 20260819022,
+      "training_order": 20260819025,
+      "validation_case": 20260819026
+    },
+    "domains": [
+      "rollout_game",
+      "opponent_bucket",
+      "opponent_identity",
+      "red_setup",
+      "blue_setup",
+      "action_sampling",
+      "training_order",
+      "archive_selection",
+      "validation_case",
+      "bootstrap"
+    ],
+    "game_id_format": "phase10b_rollout_v1|ms=20260819021|ns=phase10b|it=NNN|b=<bucket>|g=NNNN",
+    "independence": "no seed reads worker count, process id, path, wall clock or arrival order; the module performs no I/O of any kind",
+    "reserved": {
+      "opponent_bucket": "the population bucket and the opponent-bucket policy are assigned by contiguous ordinal subranges, so both are exact by construction and nothing is drawn; the domain is reserved so any future bucket-level draw has a separated home rather than borrowing another stream"
+    },
+    "roots": {
+      "final_bootstrap": 20260819028,
+      "master": 20260819021,
+      "opponent_selection": 20260819023,
+      "rollout_schedule": 20260819022,
+      "setup_selection": 20260819024,
+      "training_order": 20260819025,
+      "validation_bootstrap": 20260819027,
+      "validation_schedule": 20260819026
+    },
+    "seed_version": "phase10b_seed_v1"
+  },
+  "seed_contract_digest": "cba971802f393169ec9543ec8708c973f7fb5fde4c03e74251bf3c5490117196",
+  "setup_source": {
+    "allowed_inputs": [
+      "own colour",
+      "requested split",
+      "selector seed"
+    ],
+    "both_sides": true,
+    "candidate_id": "P10-D",
+    "contract_version": "phase10b_contract_v1",
+    "forbidden_inputs": [
+      "opponent setup",
+      "hidden rank truth",
+      "outcome prediction",
+      "checkpoint strength",
+      "matchup identity"
+    ],
+    "kind": "phase10_learned_selector",
+    "mixture": {
+      "learned": 0.65,
+      "neutral": 0.35
+    },
+    "produces_provenance": true,
+    "production_source_version": "learned_setup_source_v1",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "selector_version": "phase10_setup_selector_v1",
+    "setup_source_version": "phase10b_setup_source_v1",
+    "side_seed_derivation": "phase10b_seed.side_selector_seed(game_id, colour); red and blue descend from two different frozen domains",
+    "source_id": "phase10b_setup_source_v1_P10-D_train",
+    "split": "train",
+    "temperature": 0.75,
+    "utility_model": "model_T"
+  },
+  "trainer_semantics": {
+    "contract_version": "phase10b_contract_v1",
+    "controller": "stratego.training.phase9_trainer.KLController, unchanged",
+    "hard_vetoes": {
+      "abort_semantics": "a breached limit raises at the epoch boundary, the affected update does not land, and the Gate F counter is incremented",
+      "clip_fraction_hard_limit": 0.75,
+      "kl_hard_limit": 0.08
+    },
+    "loader": "the accepted Phase 9 multiprocess pipeline, Phase 10B train order",
+    "objective": "stratego.training.phase9_loss.phase9_batch_loss, unchanged",
+    "phase10b_own": [
+      "linear learning-rate decay across 30 iterations",
+      "0.0010 -> 0.0005 entropy schedule",
+      "training_order stream from the Phase 10B roots"
+    ],
+    "replay": "none",
+    "search": "never",
+    "targets": "stratego.training.phase9_targets, unchanged",
+    "trainer_version": "phase10b_trainer_v1"
+  }
+}

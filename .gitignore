@@ -29,6 +29,16 @@ data/phase9/
 # manifests/digests are tracked in reports/phase_10_data.
 checkpoints/phase10/
 data/phase10/
+# Phase 10b fine-tuning checkpoints and rollout shards.
+checkpoints/phase10b/
+data/phase10b/
+# Draft patch files are working material, not sealed artifacts.
+*.patch
+# Phase 11 harness stage dumps and any later belief-validation working state:
+# reproducible from the frozen phase11 contract; compact manifests/digests
+# are tracked in reports/phase_11_data.
+checkpoints/phase11/
+data/phase11/
 __pycache__/
 *.py[cod]
 .pytest_cache/

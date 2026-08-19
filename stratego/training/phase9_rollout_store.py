@@ -268,8 +268,20 @@ def build_rollout_metadata(
     return {field: metadata[field] for field in METADATA_FIELDS}
 
 
-def validate_rollout_metadata(metadata: dict, record: "GameRecord | None" = None) -> list:
-    """Every disagreement between a sidecar, its schedule and its payload."""
+def validate_rollout_metadata(
+    metadata: dict,
+    record: "GameRecord | None" = None,
+    *,
+    id_parser=None,
+) -> list:
+    """Every disagreement between a sidecar, its schedule and its payload.
+
+    `id_parser` is the only thing here that knows which experiment's rollout
+    ids these are; it defaults to the Phase 9 parser, so Phase 9 behaviour is
+    unchanged. Optional Phase 10B reuses this whole verification path with its
+    own parser rather than growing a second, less-audited copy of it.
+    """
+    parse = parse_phase9_game_id if id_parser is None else id_parser
     problems: list[str] = []
     missing = [field for field in METADATA_FIELDS if field not in metadata]
     if missing:
@@ -279,9 +291,9 @@ def validate_rollout_metadata(metadata: dict, record: "GameRecord | None" = None
         problems.append(f"metadata carries unknown fields: {extra}")
 
     try:
-        fields = parse_phase9_game_id(metadata["game_id"])
+        fields = parse(metadata["game_id"])
     except Exception as error:  # noqa: BLE001 - a malformed id is a finding
-        return problems + [f"game id is not a Phase 9 rollout id: {error}"]
+        return problems + [f"game id is not a recognised rollout id: {error}"]
 
     for key, expected in (
         ("namespace", fields["namespace"]),
@@ -492,6 +504,7 @@ class Phase9RolloutWriter:
         compression_level: int = DEFAULT_COMPRESSION_LEVEL,
         fsync_on_commit: bool = False,
         crash_hook=None,
+        metadata_validator=None,
     ) -> None:
         self.root = Path(root)
         self.namespace = str(namespace)
@@ -501,6 +514,11 @@ class Phase9RolloutWriter:
         self.compression_level = int(compression_level)
         self.fsync_on_commit = bool(fsync_on_commit)
         self.crash_hook = crash_hook
+        # Defaults to the Phase 9 sidecar validator; an experiment reusing this
+        # store with its own rollout-id scheme supplies its own.
+        self.metadata_validator = (
+            validate_rollout_metadata if metadata_validator is None else metadata_validator
+        )
 
         self.name = file_set_name(self.worker_id)
         self.shards_directory = shards_directory(self.root, self.namespace, self.iteration)
@@ -648,7 +666,7 @@ class Phase9RolloutWriter:
 
         started = time.perf_counter()
         problems = _verify_payload(payload, record)
-        problems.extend(validate_rollout_metadata(metadata, record))
+        problems.extend(self.metadata_validator(metadata, record))
         self.verify_seconds += time.perf_counter() - started
         if problems:
             raise Phase9RolloutStoreError(
@@ -1147,6 +1165,8 @@ def seal_iteration(
     *,
     expected_behavior_checkpoint: str,
     manifest_extra: "dict | None" = None,
+    scheduled_game_ids=None,
+    metadata_validator=None,
 ) -> dict:
     """Run every seal precondition, then move `COLLECTING -> SEALED`.
 
@@ -1159,7 +1179,16 @@ def seal_iteration(
     root = Path(root)
     reconciled = reconcile_iteration(root, namespace, iteration)
     reader = Phase9RolloutReader(root, namespace, iteration)
-    scheduled = set(iteration_game_ids(namespace, iteration))
+    # The scheduled set and the sidecar validator default to the Phase 9 ones;
+    # an experiment reusing this store supplies its own schedule instead.
+    scheduled = set(
+        iteration_game_ids(namespace, iteration)
+        if scheduled_game_ids is None
+        else scheduled_game_ids
+    )
+    validate = (
+        validate_rollout_metadata if metadata_validator is None else metadata_validator
+    )
     committed = set(reader.commits)
 
     problems: list[str] = []
@@ -1188,7 +1217,7 @@ def seal_iteration(
             continue
         decoded += 1
         record_problems = validate_game_record(record)
-        record_problems.extend(validate_rollout_metadata(metadata, record))
+        record_problems.extend(validate(metadata, record))
         if record_problems:
             problems.append(f"{game_id}: {record_problems[:3]}")
         behavior_identities.add(metadata["behavior_snapshot_id"])

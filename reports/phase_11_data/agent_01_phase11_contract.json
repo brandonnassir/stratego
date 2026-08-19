@@ -1,0 +1,1132 @@
+{
+ "agent": 1,
+ "artifact": "agent_01_phase11_contract",
+ "contract_bundle_digest": "ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d",
+ "contract_digests": {
+  "phase11_acceptance_v1": "0121ecaac6849a59d78798833ec419f9ff12c14f8720f1bef259960f42c01fe5",
+  "phase11_belief_bank_v1": "874a2513427aebde69c9d31c9d06c6562d3daf2faa3f0dc4cd916656a175516d",
+  "phase11_belief_baseline_v1": "c017d51f78e8f7f5976abec62aa259fd8918508810c42bc41e88470c5998c197",
+  "phase11_belief_contract_v1": "13c4607619cca5fde621980b6ffa155d3c01378f000d5869319a069286186f75",
+  "phase11_belief_metrics_v1": "a2f7e5b4cc3944194d3b735f96ad805413670648ffd46acaac3a6a7f436368cb",
+  "phase11_belief_sampler_v1": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+  "phase11_information_safety_v1": "1b8160d544b5ee71eb1b03be025a868e7298ace1d61c486524e631ba68faab4d",
+  "phase11_system_v1": "9aa22d45ab85b65d5ed14e40288ef7cd4c3226e8d66f52508d9717929ac1adfe"
+ },
+ "contract_versions": [
+  "phase11_belief_contract_v1",
+  "phase11_belief_baseline_v1",
+  "phase11_belief_bank_v1",
+  "phase11_belief_metrics_v1",
+  "phase11_belief_sampler_v1",
+  "phase11_information_safety_v1",
+  "phase11_acceptance_v1",
+  "phase11_system_v1"
+ ],
+ "documents": {
+  "phase11_acceptance_v1": {
+   "acceptance_version": "phase11_acceptance_v1",
+   "all_gates_are_hard": true,
+   "classification_rule": "exactly one of PASS-SEARCH-READY / FAIL / BLOCKED, recomputed from the gate booleans by classify_phase11; no discretionary override",
+   "classifications": {
+    "BLOCKED": "integrity, sealing or prerequisite evidence cannot be established; the sealed test is not opened",
+    "FAIL": "the experiment runs correctly but at least one hard gate fails",
+    "PASS-SEARCH-READY": "all eight hard gates A-H pass"
+   },
+   "diagnostic_rule": "report-only diagnostics never rescue a failed gate",
+   "evaluated_by": "Agent 7, first and only sealed scored evaluation",
+   "evaluated_on": "phase11_test_bank_v1",
+   "gate_count": 8,
+   "hard_gate_ids": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+   ],
+   "hard_gates": [
+    {
+     "ce_delta": "paired 95% bootstrap upper bound of CE_learned - CE_baseline",
+     "ce_delta_upper_max": 0.0,
+     "ce_delta_upper_max_strict": true,
+     "gate": "A",
+     "name": "predictive superiority",
+     "r_ce_max": 0.97,
+     "r_ce_max_strict": false
+    },
+    {
+     "delta_top1": "paired 95% bootstrap lower bound of top1_learned - top1_baseline",
+     "delta_top1_lower_min": 0.0,
+     "delta_top1_lower_min_strict": true,
+     "delta_top1_min": 0.03,
+     "delta_top1_min_strict": false,
+     "gate": "B",
+     "name": "top-1 improvement"
+    },
+    {
+     "brier_delta": "paired 95% bootstrap upper bound of Brier_learned - Brier_baseline",
+     "brier_delta_upper_max": 0.01,
+     "brier_delta_upper_max_strict": false,
+     "ece_overall_max": 0.08,
+     "ece_overall_max_strict": false,
+     "gate": "C",
+     "name": "calibration",
+     "stratum_ece_max": 0.12,
+     "stratum_ece_max_strict": false
+    },
+    {
+     "gate": "D",
+     "name": "robustness",
+     "scope": "every one of the eight opponent strata",
+     "stratum_r_ce_max": 1.05,
+     "stratum_r_ce_max_strict": false
+    },
+    {
+     "gate": "E",
+     "name": "sampler correctness",
+     "zero_tolerance": [
+      "inventory_errors",
+      "public_knowledge_violations",
+      "known_rank_violations",
+      "immobility_violations",
+      "impossible_assignments",
+      "nonfinite_probability_rows",
+      "provenance_mismatches",
+      "hidden_input_accesses",
+      "dead_end_events"
+     ]
+    },
+    {
+     "gate": "F",
+     "name": "information safety",
+     "zero_tolerance": [
+      "belief_output_differences",
+      "fixed_seed_sample_differences",
+      "forbidden_hidden_input_accesses",
+      "injection_acceptances"
+     ]
+    },
+    {
+     "gate": "G",
+     "name": "reproducibility and runtime",
+     "p95_forward_64_max_ms": 500.0,
+     "p95_forward_64_max_ms_strict": false,
+     "requires_all_exact": true,
+     "topology_legs": [
+      "workers_1",
+      "workers_4",
+      "workers_12",
+      "forward_order",
+      "reverse_order",
+      "round_robin_sharded",
+      "fresh_process",
+      "kill_resume_set_subtraction"
+     ]
+    },
+    {
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "gate": "H",
+     "global_optimizer_step": 47086,
+     "name": "preservation",
+     "phase11_optimizer_steps": 0,
+     "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+     "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "phase9_parameters": 863959,
+     "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+     "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+     "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+    }
+   ],
+   "inequality_semantics": "thresholds marked strict use the strict operator ('<' or '>') and unmarked thresholds use the non-strict one ('<=' or '>='); every gate states its own strictness explicitly; a non-finite quantity fails its comparison",
+   "on_fail": "Phase 12 is not authorized; a separate belief-repair phase must be designed",
+   "statistics": {
+    "case_aggregate": "the unweighted arithmetic mean of the metric's per-event values over every prediction event of the case's two games, pooled",
+    "confidence": 0.95,
+    "delta_metrics": "per-case delta = case-aggregate learned minus case-aggregate baseline; overall delta = mean of per-case deltas; the pairing is the case",
+    "ece_aggregation": "ECE pools prediction events (equal event weight) \u2014 a binned calibration summary, not a case mean; overall and per-stratum alike",
+    "final_bootstrap_root": 2026081908,
+    "interval": "percentile interval via the accepted linear-interpolation quantile (stratego.evaluation.statistics.quantile) at (1-confidence)/2 and 1-(1-confidence)/2 over the sorted replicate statistics",
+    "method": "case_percentile_bootstrap",
+    "overall_point_estimate": "the unweighted arithmetic mean of the case aggregates (equal case weight)",
+    "ratio_metrics": "R_CE = mean-of-case-aggregate learned CE / mean-of-case-aggregate baseline CE, recomputed from the resampled case aggregates inside every bootstrap replicate",
+    "recompute_rule": "gate booleans must be recomputed from the primitive recorded rows, never read back from a summary",
+    "replicates": 10000,
+    "resampling": "resample the bank's logical case ids with replacement (stratum CIs resample that stratum's cases only); never bootstrap pieces, events or games independently \u2014 predictions within a game are correlated",
+    "rng": "numpy_pcg64_default_rng",
+    "stream_rule": "every bootstrapped quantity draws from bootstrap_stream_seed(bank, metric_token); stratum slices use '<metric_token>|st=<stratum>'",
+    "unit": "logical paired case (both colour games kept together)",
+    "validation_bootstrap_root": 2026081907
+   }
+  },
+  "phase11_belief_bank_v1": {
+   "banks": [
+    {
+     "bank": "validation",
+     "bank_version": "phase11_validation_bank_v1",
+     "bootstrap_root": 2026081907,
+     "case_count": 512,
+     "cases_per_cell": 32,
+     "cases_per_stratum": 64,
+     "game_count": 1024,
+     "split": "validation"
+    },
+    {
+     "bank": "test",
+     "bank_version": "phase11_test_bank_v1",
+     "bootstrap_root": 2026081908,
+     "case_count": 2048,
+     "cases_per_cell": 128,
+     "cases_per_stratum": 256,
+     "game_count": 4096,
+     "split": "test"
+    }
+   ],
+   "case_structure": {
+    "bootstrap_unit": "the logical case, both colour games together",
+    "case_id_rule": "case_index = ((stratum_index * 2) + source_index) * cases_per_cell + ordinal, strata in the frozen order, sources p10d then neutral \u2014 balance over strata, sources and colours is a property of the id space",
+    "colour_pairing": "the observer plays Red in game 0 and Blue in game 1 against the same opponent stratum",
+    "match_seeds": "game_match_seed(game_id), independent of everything but the frozen game identity; rule opponents draw their randomness from the accepted runner derivations rooted here",
+    "no_rejection": "draws are pure first-attempt draws from the frozen sources \u2014 no fingerprint-isolation or distinctness rejection, because Phase 11 selects nothing and rejection would distort the production distributions the belief system must be measured under (an Agent 1 reading, recorded)",
+    "setup_draws": "each seat of each game draws its own setup from its frozen source conditioned on its colour, under case_setup_seed(case_id, game_index, role) \u2014 four draws per case, materialized and hashed at bank construction, so a P10-D seat's colour-conditional distribution is never distorted by mirroring"
+   },
+   "contract_version": "phase11_belief_bank_v1",
+   "isolated_rebuild": "every case rebuilds from its case id alone, independent of worker count, order and path",
+   "ledger": {
+    "entry_fields": [
+     "ledger_version",
+     "agent",
+     "stage",
+     "bank_version",
+     "purpose",
+     "structural_only",
+     "neural_inference_count",
+     "scored_prediction_count",
+     "privileged_truth_count",
+     "outcome_count"
+    ],
+    "ledger_version": "phase11_bank_ledger_v1",
+    "path": "reports/phase_11_data/phase11_bank_access_ledger.jsonl",
+    "rules": [
+     "append-only: entries are never edited or removed",
+     "every agent-harness bank access writes one entry before that agent's artifacts freeze; suite tests re-exercise the same structural code paths under the recorded suite measurement rather than writing per-invocation entries",
+     "before Agent 7, every phase11_test_bank_v1 entry must carry structural_only=true and all four counters zero",
+     "Agent 7 harvests the complete ledger as the first-scored-access proof"
+    ]
+   },
+   "master_seed": 2026081901,
+   "observer": {
+    "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "move_behavior": {
+     "batch_policy": "single_request",
+     "decision_mode": "greedy",
+     "dtype": "float32",
+     "search": "none"
+    },
+    "policy": "the accepted Phase 9 policy + belief head, on the observer seat of every game of every stratum",
+    "setup_source": {
+     "candidate_id": "P10-D",
+     "constant_across_banks": true,
+     "mixture": {
+      "learned_weight": 0.65,
+      "neutral_weight": 0.35
+     },
+     "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+     "source": "learned_setup_source_v1"
+    }
+   },
+   "opponent_setup_sources": {
+    "neutral": {
+     "profile": "neutral_v1",
+     "source": "setup_sampler_v1"
+    },
+    "p10d": {
+     "candidate_id": "P10-D",
+     "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+     "source": "learned_setup_source_v1"
+    }
+   },
+   "outcomes": "game outcomes are report-only and rank nothing",
+   "sealing": {
+    "allowed_before_agent_7": [
+     "structural_build",
+     "structural_audit",
+     "digest_computation",
+     "structural_artifact_write"
+    ],
+    "forbidden_before_agent_7": [
+     "neural inference on a test case",
+     "playing any game on a test case",
+     "scoring any prediction on a test case",
+     "reading privileged truth on a test case",
+     "reading any outcome of a test case"
+    ],
+    "sealed_until": "Agent 7"
+   },
+   "setup_sources": [
+    "p10d",
+    "neutral"
+   ],
+   "split_reading": "the common contract names no Phase 7 split; the frozen reading follows the accepted Phase 9/10 precedent \u2014 the validation bank draws every setup from the validation split, the test bank from the test split",
+   "strata": [
+    {
+     "description": "accepted Phase 9 policy (self-play opponent)",
+     "opponent_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "opponent_policy_id": null,
+     "stratum": "phase9_selfplay"
+    },
+    {
+     "description": "accepted Phase 8 anchor checkpoint",
+     "opponent_checkpoint_sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda",
+     "opponent_policy_id": null,
+     "stratum": "phase8_anchor"
+    },
+    {
+     "description": "strategic rule opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "strategic_rule_based",
+     "stratum": "strategic_rule"
+    },
+    {
+     "description": "tactical rule opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "tactical_rule_based",
+     "stratum": "tactical_rule"
+    },
+    {
+     "description": "basic rule opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "basic_heuristic",
+     "stratum": "basic_rule"
+    },
+    {
+     "description": "information-hoarding stress opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "stress_information_miser",
+     "stratum": "information_miser"
+    },
+    {
+     "description": "scout-rush stress opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "stress_scout_rush",
+     "stratum": "scout_rush"
+    },
+    {
+     "description": "miner-rush stress opponent",
+     "opponent_checkpoint_sha256": null,
+     "opponent_policy_id": "stress_miner_rush",
+     "stratum": "miner_rush"
+    }
+   ],
+   "stratum_order": [
+    "phase9_selfplay",
+    "phase8_anchor",
+    "strategic_rule",
+    "tactical_rule",
+    "basic_rule",
+    "information_miser",
+    "scout_rush",
+    "miner_rush"
+   ]
+  },
+  "phase11_belief_baseline_v1": {
+   "baseline_count": 2,
+   "contract_version": "phase11_belief_baseline_v1",
+   "count_uniform_world_sampler_v1": {
+    "algorithm": "the frozen belief_sampler_v1 skeleton (same identity streams under its own sampler-version token, same piece order, same categorical walk, same feasibility rule, same validation stack) with the step-7 weight replaced by remaining_count alone \u2014 no learned factor anywhere",
+    "role": "search fallback / joint-sampling baseline only; never a predictive-gate input",
+    "stream_separation": "its sample tokens carry smp=count_uniform_world_sampler_v1, so every stream is domain-separated from the learned sampler's",
+    "version": "count_uniform_world_sampler_v1"
+   },
+   "no_hidden_truth": "neither baseline may read hidden truth; both are pure functions of the public-state document (plus, for the world sampler, the sample ordinal)",
+   "remaining_count_belief_v1": {
+    "count_conservation": "sum_r c[r] equals the number of unresolved opponent pieces; checked as a baseline correctness invariant",
+    "inputs": "public information only; hidden truth is unreadable",
+    "per_piece_distribution": "q[r] = c[r] * mask[r] / sum_r' c[r'] * mask[r'], float64, where mask is the piece's public legal-rank mask",
+    "remaining_inventory": "c[r] = initial_counts[r] - known[r], where known[r] counts opponent pieces of rank r whose exact rank the observer legally knows, alive or captured (every captured piece is known through its combat reveal)",
+    "role": "primary predictive baseline",
+    "version": "remaining_count_belief_v1",
+    "well_definedness": "the denominator is at least 1 in every legal public state: the piece's own true rank contributes a positive masked count, so the baseline's true-rank probability is always positive"
+   }
+  },
+  "phase11_belief_contract_v1": {
+   "accepted_belief_model": {
+    "belief_head": {
+     "digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "digest_recipe": "sha256 over (name, str(shape), float32 C-order bytes) of the belief-head tensors in sorted name order \u2014 the accepted model-state-digest recipe restricted to the head",
+     "tensor_names": [
+      "belief_output.bias",
+      "belief_output.weight"
+     ],
+     "tensor_shapes": {
+      "belief_output.bias": [
+       12
+      ],
+      "belief_output.weight": [
+       12,
+       128
+      ]
+     }
+    },
+    "c1_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+    "global_optimizer_step": 47086,
+    "model_label": "selfplay_c1_v1",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "parameters": 863959,
+    "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   },
+   "accepted_phase10_selector": {
+    "candidate_id": "P10-D",
+    "config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "mixture": {
+     "learned_weight": 0.65,
+     "neutral_weight": 0.35
+    },
+    "phase10_system_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "temperature": 0.75,
+    "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+    "utility_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "utility_model": "model_T"
+   },
+   "accepted_phase8_anchor": {
+    "path": "checkpoints/phase9/agent01/anchor_eval.pt",
+    "sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda"
+   },
+   "belief_target": {
+    "decision_index": "the pre-action total_moves of the observer decision that produced the forward",
+    "hidden_targets": "live opponent pieces whose exact rank the observer may not legally know (the accepted engine belief_target semantics: combat reveals and public Scout multi-square deductions make a piece known)",
+    "known_exclusion": "publicly known ranks (own pieces, revealed opponent pieces, captured pieces, empty squares, lakes) are never prediction events and can never inflate hidden-rank accuracy",
+    "legal_rank_mask": "12 binary entries; a publicly moved hidden piece excludes flag and bomb, an unmoved one excludes nothing \u2014 the mask records movement impossibility only and never consults counts; recorded, and consumed by the sampler and baseline, never applied to the learned scoring vector",
+    "moved_unmoved": "an event is 'moved' exactly when the target piece's public has_moved flag is true at the decision",
+    "probability_extraction": "learned 12-vector = softmax over the observer's belief-head logits at the piece's perspective-normalized square, computed in float64 (subtract max, exponentiate, normalize), full simplex, no masking, no epsilon \u2014 the head is measured exactly as trained and exactly as the sampler consumes it",
+    "progress_buckets": [
+     {
+      "bucket": "early",
+      "max_total_moves": 39,
+      "min_total_moves": 0
+     },
+     {
+      "bucket": "middle",
+      "max_total_moves": 119,
+      "min_total_moves": 40
+     },
+     {
+      "bucket": "late",
+      "max_total_moves": null,
+      "min_total_moves": 120
+     }
+    ],
+    "recording_rule": "prediction events are recorded at every decision where the observer is the acting player in a non-terminal state \u2014 the same forward that chooses the observer's move \u2014 one event per hidden target; a decision with an empty hidden-target set contributes no events (allowed, counted)",
+    "zero_true_rank_probability": "CE floors the scored probability at 1e-12 inside the logarithm only; stored vectors are unfloored and floored events increment the report-only log_floor_events diagnostic"
+   },
+   "contract_version": "phase11_belief_contract_v1",
+   "frozen_phase7_stack": {
+    "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "frozen_identities": [
+     "setup_generator_contract_v1",
+     "setup_family_v1",
+     "setup_trait_vector_v1",
+     "setup_diversity_standard_v1",
+     "setup_perturbation_v1",
+     "setup_sampler_v1",
+     "setup_source_v1"
+    ],
+    "library_version": "setup_library_v1",
+    "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+    "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+   },
+   "frozen_runtime_identities": {
+    "backend": "KEEP_PYTHON",
+    "engine_action_encoding": "source_destination_10000_v1",
+    "model_action_frame": "perspective_normalized_squares",
+    "model_contract": "model_contract_v2",
+    "observation": "observation_v2_1_127ch",
+    "reference_engine": "phase2_1_reference_1.2.0",
+    "rules": "stratego_project_v1",
+    "trajectory": "trajectory_v1"
+   },
+   "identity_version": "phase11_identity_v1",
+   "mission": "validate that the accepted Phase 9 belief head produces accurate, calibrated, information-safe, reproducible beliefs about hidden opponent ranks, and that those marginals convert into complete legal hidden worlds fast enough for Phase 12 search; a validation phase, never a training or repair phase",
+   "non_goals": [
+    "update any Phase 9 neural parameter",
+    "run a belief optimizer step",
+    "calibrate or temperature-scale the belief head",
+    "change the 127-channel observation design",
+    "change P10-D, utility, scaler, temperature, or mixture",
+    "modify Phase 7 setup generation",
+    "begin Phase 12 search",
+    "use Phase 11 test evidence to repair or retune anything",
+    "use hidden opponent truth as an input to belief inference or sampling",
+    "silently change a frozen metric, threshold, bank, seed, or statistical procedure"
+   ],
+   "phase10_closure_commit": "17188a5",
+   "phase9_preservation_invariant": "Phase 9 checkpoint before Phase 11 == Phase 9 checkpoint after Phase 11, in file SHA-256, model-state digest and belief-head digest, with zero Phase 11 optimizer steps",
+   "prediction_record": {
+    "fields": [
+     "record_version",
+     "bank_version",
+     "case_id",
+     "game_id",
+     "prediction_id",
+     "decision_index",
+     "observer_color",
+     "opponent_stratum",
+     "opponent_setup_source",
+     "public_state_identity",
+     "observation_sha256",
+     "piece_slot",
+     "piece_square",
+     "piece_moved",
+     "progress_bucket",
+     "legal_rank_mask",
+     "remaining_counts",
+     "learned_probabilities",
+     "baseline_probabilities",
+     "true_rank_index",
+     "model_identity",
+     "prediction_identity"
+    ],
+    "privileged_fields": [
+     "true_rank_index"
+    ],
+    "privileged_rule": "true_rank_index is written by the privileged evaluator only after the prediction vectors exist, on a scoring path isolated from production inference",
+    "record_version": "phase11_prediction_record_v1"
+   },
+   "production_request": {
+    "allowed_fields": [
+     "request_version",
+     "request_id",
+     "observer_color",
+     "public_state_document",
+     "observation"
+    ],
+    "forbidden_tokens": [
+     "true",
+     "truth",
+     "label",
+     "target",
+     "private",
+     "winner",
+     "result",
+     "reward",
+     "outcome",
+     "future",
+     "path"
+    ],
+    "request_version": "phase11_belief_request_v1",
+    "rule": "the Agent 2 production request type must reject any field outside the allowlist structurally (raise, never drop), the accepted SelectorRequest.from_payload pattern"
+   },
+   "public_state_document": {
+    "document_version": "phase11_public_state_v1",
+    "fields": [
+     "document_version",
+     "observer_color",
+     "acting_player_color",
+     "total_moves",
+     "battleless_moves",
+     "rules_version",
+     "engine_version",
+     "observation_version",
+     "pieces",
+     "recent_moves",
+     "observation_sha256"
+    ],
+    "identity": "public_state_identity = sha256 over the document's canonical JSON; the document embeds observation_sha256 (sha256 over the 127x10x10 float32 C-order observation bytes), so the identity covers the complete model input and the sampled-world purity claim is exact",
+    "observer_relative": "the document holds exactly what the observer may legally see; ranks appear only through the known-to-observer gate",
+    "piece_fields": [
+     "piece_slot",
+     "owner_color",
+     "alive",
+     "current_square",
+     "has_moved",
+     "known_to_observer",
+     "known_rank_index",
+     "starting_square"
+    ]
+   },
+   "rank_space": {
+    "immovable_rank_indices": [
+     10,
+     11
+    ],
+    "initial_counts": [
+     1,
+     8,
+     5,
+     4,
+     4,
+     4,
+     3,
+     2,
+     1,
+     1,
+     1,
+     6
+    ],
+    "order_authority": "the accepted engine PIECE_TYPE_NAMES enumeration \u2014 the exact index order the belief head was trained under (dense_belief_target_v1); index i of every Phase 11 12-vector means rank_names[i]",
+    "rank_count": 12,
+    "rank_names": [
+     "spy",
+     "scout",
+     "miner",
+     "sergeant",
+     "lieutenant",
+     "captain",
+     "major",
+     "colonel",
+     "general",
+     "marshal",
+     "flag",
+     "bomb"
+    ]
+   },
+   "seeds": {
+    "benchmark_state_id_format": "phase11_benchmark_state_v1|ms=<master>|n=<ordinal:03d>",
+    "case_id_format": "<bank_version>|ms=<master>|st=<opponent stratum>|src=<setup source>|c=<ordinal:03d>",
+    "derivation": "blake2b(person='strat-b11', digest_size=8) over 'phase11_identity_v1:domain:domain_root:part:part:...', big-endian, right-shifted one bit; string parts may not contain ':' so the payload encoding is injective",
+    "domains": {
+     "bank_match": {
+      "identity_parts": [
+       "case_id",
+       "game_index"
+      ],
+      "root_seed": 2026081903
+     },
+     "bank_observer_setup": {
+      "identity_parts": [
+       "case_id",
+       "game_index"
+      ],
+      "root_seed": 2026081902
+     },
+     "bank_opponent_setup": {
+      "identity_parts": [
+       "case_id",
+       "game_index"
+      ],
+      "root_seed": 2026081902
+     },
+     "benchmark": {
+      "identity_parts": [
+       "purpose",
+       "ordinal"
+      ],
+      "root_seed": 2026081906
+     },
+     "bootstrap": {
+      "identity_parts": [
+       "bootstrap_root",
+       "bank",
+       "metric_token"
+      ],
+      "root_seed": 2026081901
+     },
+     "repro_schedule": {
+      "identity_parts": [
+       "purpose",
+       "ordinal"
+      ],
+      "root_seed": 2026081906
+     },
+     "safety_trial": {
+      "identity_parts": [
+       "trial_id",
+       "purpose",
+       "draw_ordinal"
+      ],
+      "root_seed": 2026081905
+     },
+     "soak_match": {
+      "identity_parts": [
+       "soak_game_id"
+      ],
+      "root_seed": 2026081903
+     },
+     "soak_setup": {
+      "identity_parts": [
+       "soak_game_id",
+       "role"
+      ],
+      "root_seed": 2026081902
+     },
+     "world_categorical": {
+      "identity_parts": [
+       "sample_token",
+       "step_index"
+      ],
+      "root_seed": 2026081904
+     },
+     "world_order": {
+      "identity_parts": [
+       "sample_token",
+       "piece_slot"
+      ],
+      "root_seed": 2026081904
+     },
+     "world_sample": {
+      "identity_parts": [
+       "sample_token"
+      ],
+      "root_seed": 2026081904
+     }
+    },
+    "downstream_collision_obligation": "the world-sample id space is keyed by public-state identities that do not exist until games are played; every agent that realizes part of that space (Agents 3, 4, 6, 7) must run stream_collision_audit over every seed it actually derived and report zero collisions",
+    "game_id_format": "<case_id>|g=<0|1>; observer red in game 0, blue in game 1",
+    "identity_version": "phase11_identity_v1",
+    "independence": "no derivation reads worker count, task arrival order, process id, wall clock, or a physical storage path, so any bank case, world sample, safety trial or soak request rebuilds alone and re-sharding cannot change a single draw",
+    "personalization": "strat-b11",
+    "prediction_id_format": "<game_id>|d=<pre-action total_moves:04d>|p=<opponent piece slot:02d>",
+    "repro_request_id_format": "phase11_repro_request_v1|ms=<master>|n=<ordinal:05d>",
+    "root_reading_notes": [
+     "the common contract froze no dedicated Agent 6 soak root, so the soak's setup/match streams hang off the bank-schedule and match-randomness roots under distinct domain tokens, frozen now (closing the Phase 10 soak-namespace deviation in advance)",
+     "both banks' streams hang off the single bank/case-schedule root, domain-separated by the two distinct bank-version tokens inside every case id (the accepted Phase 10 reading, reused)"
+    ],
+    "root_seeds": {
+     "bank_schedule_seed": 2026081902,
+     "information_safety_seed": 2026081905,
+     "match_randomness_seed": 2026081903,
+     "phase11_master_seed": 2026081901,
+     "repro_runtime_seed": 2026081906,
+     "test_bootstrap_seed": 2026081908,
+     "validation_bootstrap_seed": 2026081907,
+     "world_sampling_seed": 2026081904
+    },
+    "safety_trial_id_format": "phase11_safety_trial_v1|ms=<master>|n=<ordinal:05d>",
+    "sample_token_format": "phase11_world_sample_v1|ms=<master>|model=selfplay_c1_v1|smp=<sampler version>|ps=<public-state sha256>|n=<ordinal:05d>",
+    "soak_game_id_format": "phase11_soak_v1|ms=<master>|st=<stratum>|g=<ordinal:03d>; observer red on even ordinals, blue on odd",
+    "soak_request_id_format": "<soak_game_id>|r=<0..7>",
+    "unit_uniform": "seed / 2**63, an exact binary division, giving a [0, 1) uniform reproducible on every platform"
+   },
+   "stop_conditions": {
+    "BLOCKED": [
+     "an accepted upstream identity mismatches",
+     "the belief-head tensor identity cannot be re-derived",
+     "test-bank scored access is observed before Agent 7",
+     "exact bank rebuild cannot be established",
+     "sealing or ledger integrity fails"
+    ],
+    "FAIL": [
+     "a hard gate A-H fails on the sealed test"
+    ],
+    "never": [
+     "retrain, refit or calibrate the belief head",
+     "change P10-D, the utility, the scaler or Phase 7",
+     "turn this validation phase into a repair loop",
+     "rerun the sealed test to rescue a result"
+    ]
+   },
+   "storage_semantics": "logical identities are path-independent; prediction storage may live on the external volume behind a tracked pointer, and a pointer naming an absent volume is BLOCKED, never a silent internal replacement"
+  },
+  "phase11_belief_metrics_v1": {
+   "contract_version": "phase11_belief_metrics_v1",
+   "diagnostic_slices": [
+    "opponent_stratum",
+    "observer_color",
+    "progress_bucket",
+    "piece_moved",
+    "true_rank",
+    "opponent_setup_source"
+   ],
+   "formulas": {
+    "brier": "Brier = sum_r (p[r] - 1[r == true_rank_index])^2 over the 12 ranks",
+    "ce": "CE = -ln(max(p[true_rank_index], 1e-12)); natural log",
+    "ece": {
+     "accuracy": "top-1 correctness (argmax, first-occurrence tie rule)",
+     "bin_rule": "bin k = [k/15, (k+1)/15) for k < 14; bin 14 = [14/15, 1]",
+     "bins": 15,
+     "confidence": "max probability of the scored 12-vector",
+     "formula": "ECE = sum_k (n_k / N) * |accuracy_k - confidence_k|",
+     "weighting": "equal event weight, pooled"
+    },
+    "entropy": "H = -sum_r p[r] * ln(p[r]) with 0*ln(0) = 0; natural log",
+    "float_policy": "all metric arithmetic in float64; a non-finite metric value fails its gate (comparisons with NaN are false) and is itself a finding",
+    "probability_source": "learned 12-vector = softmax over the observer's belief-head logits at the piece's perspective-normalized square, computed in float64 (subtract max, exponentiate, normalize), full simplex, no masking, no epsilon \u2014 the head is measured exactly as trained and exactly as the sampler consumes it",
+    "r_ce": "R_CE = CE_learned / CE_remaining_count (overall aggregates)",
+    "top1": "top1 = 1[argmax(p) == true_rank_index]; first occurrence wins ties",
+    "true_rank_probability": "p[true_rank_index], unfloored"
+   },
+   "log_probability_floor": 1e-12,
+   "overall_metric_tokens": [
+    "ce_learned",
+    "ce_baseline",
+    "ce_delta",
+    "r_ce",
+    "top1_learned",
+    "top1_baseline",
+    "top1_delta",
+    "brier_learned",
+    "brier_baseline",
+    "brier_delta",
+    "true_rank_probability_learned",
+    "true_rank_probability_baseline",
+    "entropy_learned",
+    "entropy_baseline"
+   ],
+   "slice_aggregation": "gate-feeding stratum metrics aggregate that stratum's complete cases exactly as the overall metrics do; every other slice is a report-only pooled-event mean",
+   "statistics": {
+    "case_aggregate": "the unweighted arithmetic mean of the metric's per-event values over every prediction event of the case's two games, pooled",
+    "confidence": 0.95,
+    "delta_metrics": "per-case delta = case-aggregate learned minus case-aggregate baseline; overall delta = mean of per-case deltas; the pairing is the case",
+    "ece_aggregation": "ECE pools prediction events (equal event weight) \u2014 a binned calibration summary, not a case mean; overall and per-stratum alike",
+    "final_bootstrap_root": 2026081908,
+    "interval": "percentile interval via the accepted linear-interpolation quantile (stratego.evaluation.statistics.quantile) at (1-confidence)/2 and 1-(1-confidence)/2 over the sorted replicate statistics",
+    "method": "case_percentile_bootstrap",
+    "overall_point_estimate": "the unweighted arithmetic mean of the case aggregates (equal case weight)",
+    "ratio_metrics": "R_CE = mean-of-case-aggregate learned CE / mean-of-case-aggregate baseline CE, recomputed from the resampled case aggregates inside every bootstrap replicate",
+    "recompute_rule": "gate booleans must be recomputed from the primitive recorded rows, never read back from a summary",
+    "replicates": 10000,
+    "resampling": "resample the bank's logical case ids with replacement (stratum CIs resample that stratum's cases only); never bootstrap pieces, events or games independently \u2014 predictions within a game are correlated",
+    "rng": "numpy_pcg64_default_rng",
+    "stream_rule": "every bootstrapped quantity draws from bootstrap_stream_seed(bank, metric_token); stratum slices use '<metric_token>|st=<stratum>'",
+    "unit": "logical paired case (both colour games kept together)",
+    "validation_bootstrap_root": 2026081907
+   },
+   "stratum_token_rule": "'<metric_token>|st=<stratum>'",
+   "validation_role": "validation-bank values are diagnostics and readiness evidence; they never retune weights, thresholds, bins, baselines, banks or strata"
+  },
+  "phase11_belief_sampler_v1": {
+   "algorithm_steps": [
+    "1. read the public belief state and the learned per-piece marginals only; hidden truth is structurally absent from the request",
+    "2. lock publicly known ranks (combat reveals and public Scout deductions are knowns, not masks)",
+    "3. compute the exact remaining hidden inventory c[r] = initial[r] - known[r] from public information",
+    "4. apply the public impossibility masks (a publicly moved hidden piece cannot be flag or bomb)",
+    "5. derive the deterministic random unresolved-piece order: ascending (world_order_key(sample_token, piece_slot), piece_slot)",
+    "6. for each unresolved piece in that order, legal ranks are the public legal ranks with remaining count > 0 that also satisfy the frozen completion-feasibility rule",
+    "7. weight each legal rank by learned_probability * remaining_count",
+    "8. renormalize in float64 and draw by inverse-CDF walk of world_categorical_uniform(sample_token, step_index) over the ranks in frozen rank-index order, last legal rank as the float tail guard",
+    "9. decrement the chosen rank's remaining count",
+    "10. if every legal weight is zero (zero learned mass on the legal set), fall back for that step to the normalized remaining counts over the same legal set",
+    "11. continue until every unresolved piece is assigned",
+    "12. verify the complete world against the frozen validation stack"
+   ],
+   "audit_volumes": {
+    "coverage": "thousands of distinct validation public states spanning all 8 strata, both colours, early/middle/late and moved/unmoved uncertainty",
+    "independent_audit_min_worlds": 25000,
+    "large_audit_min_worlds": 250000
+   },
+   "categorical_draw": "inverse-CDF walk of world_categorical_uniform(sample_token, step_index) over the ranks in frozen rank-index order, float64 cumulative mass, last legal rank as the float tail guard",
+   "contract_version": "phase11_belief_sampler_v1",
+   "count_decrement": "the chosen rank's remaining count decrements by one",
+   "diversity_thresholds": "none frozen \u2014 world-diversity statistics are report-only, as the common contract provides when Agent 1 freezes no threshold",
+   "feasibility_rule": {
+    "exactness": "every valid complete world remains reachable: if a valid world assigns rank r to the current piece, the remaining assignment in that world proves the guard inequality, so the guard only removes doomed prefixes",
+    "fallback_totality": "with the guard, the legal set of step 6 is never empty on a publicly consistent state, so step 10's counts-only fallback always has positive mass; a dead end is therefore impossible and `dead_end_events` is a zero-tolerance counter proving it",
+    "rule": "an unmoved unresolved piece may take a movable rank only when movable_remaining - 1 >= moved_unresolved_remaining (counted over the not-yet-assigned pieces after the current one); moved pieces and immovable choices need no guard beyond the public mask and counts",
+    "status": "an Agent 1 design reading amending step 6's legal-rank definition, recorded for reviewer acceptance at the Agent 1 handoff; the step-7 weighting is the common contract's, unchanged",
+    "why": "the common contract requires every walk to complete (steps 11-12) and tolerates zero invalid worlds, but the unguarded legal set can dead-end on a feasible instance: unmoved pieces drawn early can exhaust the movable inventory that later moved pieces need. The guard maintains the invariant movable_remaining >= moved_unresolved_remaining, which the true assignment guarantees at the start, so the walk provably never dead-ends"
+   },
+   "identity_inputs": [
+    "public_state_identity",
+    "belief_model_identity (label selfplay_c1_v1, digest-bound)",
+    "sampler_version",
+    "sample_ordinal"
+   ],
+   "piece_order": "ascending (world_order_key(sample_token, piece_slot), piece_slot) over the unresolved pieces",
+   "provenance_fields": [
+    "sample_token",
+    "sampler_version",
+    "public_state_identity",
+    "belief_model_label",
+    "sample_ordinal",
+    "piece_order",
+    "fallback_steps",
+    "assignment"
+   ],
+   "purity": "a sampled world is a pure function of the identity inputs; worker count, call order, process id, path, wall clock and previous calls appear in no derivation and no mutable RNG cursor exists",
+   "report_only_diagnostics": [
+    "zero-mass fallback count/rate",
+    "distinct worlds per position",
+    "marginal agreement between sampled worlds and the learned marginals",
+    "sampler entropy/diversity"
+   ],
+   "request_boundary": {
+    "allowed_fields": [
+     "sampler_version",
+     "public_state_document",
+     "learned_probabilities",
+     "sample_ordinal"
+    ],
+    "forbidden_tokens": [
+     "true",
+     "truth",
+     "label",
+     "target",
+     "private",
+     "winner",
+     "result",
+     "reward",
+     "outcome",
+     "future",
+     "path"
+    ],
+    "rejected_inputs": [
+     "true rank",
+     "private piece table",
+     "opponent setup truth",
+     "hidden start rank",
+     "winner/result/reward",
+     "future action/search result",
+     "storage path"
+    ]
+   },
+   "sampler_version": "belief_sampler_v1",
+   "validation_stack": [
+    "exact remaining-inventory match: assigned hidden multiset equals the publicly inferable remaining inventory, rank by rank",
+    "publicly known ranks locked: every known piece carries exactly its known rank",
+    "captured/dead pieces excluded: no assignment to a dead piece",
+    "immobility legality: no publicly moved piece is assigned flag or bomb (public Scout deductions are already locked knowns)",
+    "ownership and alive/dead status preserved exactly",
+    "public start information preserved: assignments are keyed by the public piece tracker (owner, setup slot), never by reindexing",
+    "known rank-by-start information preserved through the locked knowns",
+    "probability rows finite and non-negative at every step",
+    "provenance rebuilds: the recorded (public-state identity, model label, sampler version, sample ordinal) re-derives the identical world"
+   ],
+   "weighting": "weight = learned_probability * remaining_count",
+   "zero_mass_fallback": "when every legal weight is zero, that step reweights by the normalized remaining counts over the same legal set; with the feasibility rule this set is provably non-empty, and every fallback increments the report-only fallback diagnostic",
+   "zero_tolerance_counters": [
+    "inventory_errors",
+    "public_knowledge_violations",
+    "known_rank_violations",
+    "immobility_violations",
+    "impossible_assignments",
+    "nonfinite_probability_rows",
+    "provenance_mismatches",
+    "hidden_input_accesses",
+    "dead_end_events"
+   ]
+  },
+  "phase11_information_safety_v1": {
+   "backend_discipline": "the benchmark backend/device is frozen here, before any measurement exists; switching after seeing results is forbidden",
+   "contract_version": "phase11_information_safety_v1",
+   "hidden_truth_attack": {
+    "checks": [
+     "belief logits/probabilities byte-identical",
+     "public legal-rank masks byte-identical",
+     "sampler request byte-identical",
+     "fixed-seed sampled world byte-identical",
+     "sampler provenance byte-identical",
+     "instrumented hidden-input access counters zero"
+    ],
+    "injection_controls": "requests carrying private fields (true rank, private piece table, opponent setup truth, hidden start rank, winner/result/reward, future action/search result, storage path) must be rejected structurally",
+    "no_alternative_rule": "a state admitting no altered legal truth (for example, all unresolved pieces share one rank) is skipped and the trial deterministically walks to the next candidate state in its state_selection stream \u2014 trials are never silently dropped",
+    "permutation": "construct an alternative private hidden truth by permuting the true ranks among the unresolved pieces, driven by the trial's truth_permutation stream, subject to: identical public state and history bytes, identical remaining inventory (automatic for a permutation), no publicly moved piece receiving flag or bomb, and at least one piece's true rank changed",
+    "state_pool": "validation-bank public states with at least two unresolved opponent pieces, selected deterministically by the trial's state_selection stream",
+    "trial_id_format": "phase11_safety_trial_v1|ms=<master>|n=<ordinal:05d>",
+    "trials": 50000,
+    "zero_tolerance_counters": [
+     "belief_output_differences",
+     "fixed_seed_sample_differences",
+     "forbidden_hidden_input_accesses",
+     "injection_acceptances"
+    ]
+   },
+   "reproducibility": {
+    "comparison": "the canonical digest of every request must be identical across every leg; one differing byte fails Gate G",
+    "legs": [
+     "workers_1",
+     "workers_4",
+     "workers_12",
+     "forward_order",
+     "reverse_order",
+     "round_robin_sharded",
+     "fresh_process",
+     "kill_resume_set_subtraction"
+    ],
+    "purity": "a sampled world is a pure function of public-state identity, belief-model identity, sampler identity and sample ordinal; worker count, call order, process id, path, wall clock and previous calls must be absent from every derivation",
+    "request_content": "one belief forward plus complete worlds for sample ordinals 0..63, digested canonically (beliefs, masks, worlds, provenance)",
+    "request_id_format": "phase11_repro_request_v1|ms=<master>|n=<ordinal:05d>",
+    "request_set": "2048 frozen requests: per stratum, the distinct validation public states ordered by public_state_identity, taking the first 256 \u2014 a hash-order deterministic rule consuming no randomness"
+   },
+   "runtime_benchmark": {
+    "backend": "cpu",
+    "ceiling_ms": 500.0,
+    "components": "model-forward time and sampling time recorded separately per request, plus RSS and backend/device",
+    "dtype": "float32",
+    "gate_quantity": "p95(forward_plus_64_worlds)",
+    "measured_configurations": [
+     "forward_only",
+     "forward_plus_16_worlds",
+     "forward_plus_32_worlds",
+     "forward_plus_64_worlds"
+    ],
+    "process_model": "single process, single request at a time",
+    "state_count": 480,
+    "state_selection": "10 states per (stratum x colour x progress bucket) cell over the 48 cells: order the cell's distinct validation public states by unresolved-piece count then public_state_identity and take evenly spaced picks, so unresolved-count variation is covered deterministically; a cell with fewer states contributes what it has (recorded)",
+    "statistics": "median/p90/p95/p99/max over states, per configuration",
+    "timer": "time.perf_counter_ns around the complete request",
+    "torch_threads": 1,
+    "warmup": "32 global warmup requests, then 1 discarded warmup per state"
+   },
+   "soak": {
+    "game_count": 1024,
+    "games_per_stratum": 128,
+    "observer_color_rule": "red on even game ordinals, blue on odd",
+    "outcome_rule": "soak outcomes/results are report-only",
+    "request_count": 8192,
+    "request_rule": "request k of a game attaches to observer-decision index min(floor(k * D / 8), D - 1) of the game's D observer decisions (the game is deterministic, so the attachment is a pure function of the game identity); each request runs one real belief forward plus worlds for sample ordinals 0..63; two requests landing on one decision of a short game must produce byte-identical worlds \u2014 purity, demonstrated",
+    "requests_per_game": 8,
+    "restart_rule": "at least three legs with different worker counts, one real SIGKILL after committed work exists, resume by exact request-id set subtraction; the final store holds exactly the 8,192 scheduled ids",
+    "setup_source": "both seats draw from the accepted P10-D production source under soak_setup_seed \u2014 the production-shaped exercise",
+    "soak_version": "phase11_soak_v1",
+    "split": "train"
+   }
+  },
+  "phase11_system_v1": {
+   "bound_now": {
+    "acceptance_version": "phase11_acceptance_v1",
+    "bank_versions": [
+     "phase11_validation_bank_v1",
+     "phase11_test_bank_v1"
+    ],
+    "baselines": {
+     "predictive": "remaining_count_belief_v1",
+     "world": "count_uniform_world_sampler_v1"
+    },
+    "belief_model": {
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "belief_head_tensor_names": [
+      "belief_output.bias",
+      "belief_output.weight"
+     ],
+     "model_label": "selfplay_c1_v1",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "mutability": "byte-identical throughout Phase 11",
+     "parameters": 863959,
+     "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "library": {
+     "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+     "library_version": "setup_library_v1",
+     "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+     "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+    },
+    "model_contract": "model_contract_v2",
+    "observation": "observation_v2_1_127ch",
+    "sampler_contract": "belief_sampler_v1",
+    "setup_selector": {
+     "config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+     "phase10_system_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+     "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+     "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+     "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+    }
+   },
+   "filling_rules": "Agent 6 fills every unbound slot with accepted values only, changes nothing bound now, and adds no slot; Agent 7 verifies the filled instance against this template by slot walk, judging on values",
+   "no_absolute_paths": "no absolute path appears in any logical identity",
+   "phase12_rule": "if Phase 11 ends PASS-SEARCH-READY, the filled phase11_system_v1 is the only belief stack Phase 12 may query",
+   "system_version": "phase11_system_v1",
+   "unbound_slots": [
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "evaluator version phase11_belief_evaluator_v1",
+      "the accepted Agent 2 implementation identity/digest"
+     ],
+     "slot": "evaluator_implementation"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "sampler version belief_sampler_v1",
+      "the accepted Agent 3 implementation digest",
+      "the Agent 3 audit evidence digest"
+     ],
+     "slot": "sampler_implementation"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "info-safety contract phase11_information_safety_v1",
+      "the Agent 4 attack/reproducibility evidence digests"
+     ],
+     "slot": "information_safety_evidence"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "the frozen benchmark configuration, unchanged",
+      "the measured p95 forward+64 result and its artifact digest"
+     ],
+     "slot": "runtime_benchmark"
+    },
+    {
+     "filled_by": "Agent 6",
+     "requires": [
+      "the Agent 1 validation and test bank digests, verbatim"
+     ],
+     "slot": "bank_digests"
+    }
+   ]
+  }
+ },
+ "phase": 11,
+ "root_seeds": {
+  "bank_schedule_seed": 2026081902,
+  "information_safety_seed": 2026081905,
+  "match_randomness_seed": 2026081903,
+  "phase11_master_seed": 2026081901,
+  "repro_runtime_seed": 2026081906,
+  "test_bootstrap_seed": 2026081908,
+  "validation_bootstrap_seed": 2026081907,
+  "world_sampling_seed": 2026081904
+ },
+ "seed_collision_audit": {
+  "distinct_seeds": 171212,
+  "findings": [],
+  "million_scale_obligation": "the world-sample space is keyed by public-state identities that do not exist yet; Agents 3, 4, 6 and 7 must run this audit over every world_sample/world_order/world_categorical seed they actually derive",
+  "no_collisions": true,
+  "streams": {
+   "bank_match": {
+    "count": 5120,
+    "distinct": 5120
+   },
+   "bank_observer_setup": {
+    "count": 5120,
+    "distinct": 5120
+   },
+   "bank_opponent_setup": {
+    "count": 5120,
+    "distinct": 5120
+   },
+   "benchmark_state_selection": {
+    "count": 480,
+    "distinct": 480
+   },
+   "bootstrap": {
+    "count": 252,
+    "distinct": 252
+   },
+   "repro_replay": {
+    "count": 2048,
+    "distinct": 2048
+   },
+   "safety_sample_check": {
+    "count": 50000,
+    "distinct": 50000
+   },
+   "safety_state_selection": {
+    "count": 50000,
+    "distinct": 50000
+   },
+   "safety_truth_permutation": {
+    "count": 50000,
+    "distinct": 50000
+   },
+   "soak_match": {
+    "count": 1024,
+    "distinct": 1024
+   },
+   "soak_setup": {
+    "count": 2048,
+    "distinct": 2048
+   }
+  },
+  "total_seeds": 171212
+ }
+}
