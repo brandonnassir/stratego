@@ -1205,3 +1205,443 @@ tie-break rule. It runs bounded validation selection on
 `phase10_validation_bank_v1` only: `phase10_test_bank_v1` stays sealed until
 Agent 7, and no corpus outcome may select. The two utility models and the
 six temperatures are frozen — no refit, no retune, no seventh candidate.
+
+## 5. Agent 5 — Bounded Validation Selection
+
+Status: **PASS** — 17/17 completion gates true.
+Agent 5 evaluates exactly the six frozen candidates on the validation
+bank, applies the predeclared eligibility rules, and freezes one selector
+configuration. It fits nothing, refits nothing, changes no temperature or
+mixture weight, adds no candidate, and never opens the test bank.
+
+### 5.1 Verified prerequisites
+
+Every identity was recomputed from live bytes before a game existed.
+
+```text
+Agents 1, 2, 3, 4               all PASS, zero false completion gates
+contract bundle digest          257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f
+setup_utility_v1 file SHA-256   50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d
+model_F coefficient digest      7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935
+model_T coefficient digest      d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc
+trait scaler digest             fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9
+selector contract digest        ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59
+Phase 9 checkpoint SHA-256      dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+Phase 9 model-state digest      f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+Phase 9 parameters              863,959
+Phase 8 anchor export SHA-256   cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda
+Phase 7 library content         7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+validation bank digest          a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f
+validation manifest digest      459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e
+test bank digest                be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad (structural only)
+sealed corpus                   1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50 (0 records read)
+neutral_v1                      reflection 0.5, perturbation 0.5, uniform 1..6
+```
+
+All 36 published probability-vector digests — six candidates x two
+colours x three splits — were **rebuilt from the coefficients and
+compared**, not read back from Agent 4's record, and every rebuilt
+distribution was required to satisfy `p_mixed == 0.35*p_neutral +
+0.65*p_learned` bitwise.
+
+Agent 5 began from commit `e1df780`. The intermediate `258644e` carried
+the defective sampler; no sampling evidence produced under it was read,
+and none is admissible for candidate selection.
+
+### 5.2 The learned branch, re-derived before the first game
+
+The Agent 4 review found that the learned branch had walked
+`cumsum(p_mixed)`, double-applying the 0.35 neutral weight. That fix is
+upstream of everything Agent 5 measures, so Agent 5 re-derives it
+independently rather than inheriting the claim — three readings, none of
+them a re-run of Agent 4's own assertions, all completed **before any
+validation game was played**.
+
+Structural, by parsing the production source:
+
+```text
+branch-coin calls in draw()      1
+base-uniform calls in draw()     1
+mixture-weight comparisons       ['branch_uniform < NEUTRAL_MIXTURE_WEIGHT']
+bare 0.35/0.65 literals          none
+attributes the walk reads        ['base_count', 'cumulative_learned', 'searchsorted']
+ladder construction              cumulative_learned = np.cumsum(p_learned)
+```
+
+The 0.35/0.65 choice occurs exactly once, as `branch_uniform <
+NEUTRAL_MIXTURE_WEIGHT`, at the branch decision. The inverse-CDF walk
+reads `cumulative_learned` and `base_count` and nothing else; `p_mixed`
+is not in its reachable set, so the defect cannot recur by editing a
+constant.
+
+Exact, over all 36 candidate x colour x split cells: the ladder was
+recomputed from `p_learned` alone and matched **bitwise** in every cell;
+it differs from `cumsum(p_mixed)` in every cell, so the check
+discriminates; the inverse-CDF interval widths reproduce `p_learned` to
+5.5e-17; and `0.35*p_neutral + 0.65*p_learned` equals the published
+`p_mixed` bitwise.
+
+Runtime, over frozen draws:
+
+```text
+draws                            2,000
+branch-coin calls                2,000  (one per draw: true)
+base-uniform calls               1,283  (learned-branch draws: 1,283)
+```
+
+#### The structural negative control
+
+A check that only ever passes proves nothing about its own sensitivity.
+A shadow walk over `cumsum(p_mixed)` was therefore run on the *identical*
+branch coins and base uniforms, and is required to visibly reproduce the
+superseded behaviour. In closed form the shadow realizes
+`0.5775*neutral + 0.4225*learned` rather than the frozen 0.35/0.65.
+
+```text
+cell                    production TV   p_mixed-ladder TV   TV to the 0.5775/0.4225 blend
+P10-A/red                   0.003897           0.037118                     0.004307
+P10-A/blue                  0.005376           0.039858                     0.004967
+P10-D/red                   0.004319           0.039300                     0.003285
+P10-D/blue                  0.004845           0.042351                     0.004157
+```
+
+Production sits at the sampling-noise scale against the published
+distribution; the shadow ladder sits roughly an order of magnitude away
+from it and at the noise scale against the double-mixed blend. The
+P10-D/blue row reproduces the value the Agent 4 review challenged
+(0.04332 reported, 0.043318 recomputed there). These total variations are
+diagnostics: they add no acceptance threshold, and the fix is pinned by an
+exact structural test, not by a statistical one.
+
+### 5.3 What was played
+
+```text
+bank                    phase10_validation_bank_v1, 128 logical paired cases
+selector seat           accepted Phase 9 checkpoint, in all six matchups
+opposing seat           the Phase 9 checkpoint in learned_vs_neutral; otherwise
+                        the matchup's own opponent
+move behaviour          greedy, float32, single_request, no search
+colour pairing          the evaluated selector plays Red in game 0, Blue in game 1
+bootstrap unit          the logical case, scoring the mean of its two games
+learned arm             6 candidates x 6 matchups x 128 cases x 2 games
+neutral arm             5 matchups x 128 cases x 2 games, on the identical cases
+games                   10,496 in 317s on 12 workers (cpu)
+inference failures      0
+```
+
+A case fixes the held-out opponent setup, the two selector draw seeds and
+the two `neutral_v1` own-side draws, so the learned arm and the baseline
+arm differ in exactly one thing: which base the selector chose. Every
+candidate saw the same 128 cases, the same opponent setups and the same
+bootstrap units; only the cell identity — arm, candidate, matchup — is
+candidate-specific, and it is carried in `match_id` so no two cells can
+share a cached game.
+
+`learned_vs_neutral` has two sides and two selectors, so the held-out
+opponent setup has no seat in it: the neutral side plays the case's frozen
+`neutral_v1` draw for the colour it was dealt. The other five matchups seat
+that held-out setup opposite the selector under test, identically in both
+arms.
+
+The rule-based opponents play on the frozen
+`case_match_seed(case_id, game_index, matchup)`, which is independent of arm
+and candidate exactly as Agent 1 required, so Strategic, Tactical, Random
+and Basic draw identical randomness in both arms. The accepted runner
+derives a side's seed from `match_id`, which here must stay
+candidate-specific, so the two requirements are met on different objects:
+identity through `match_id`, randomness through a thin delegating wrapper
+that replaces only the request's two seed fields. Handed the runner's own
+seed the wrapper is a no-op — 12 control games compared bit-identical on
+every recorded field — and the selector-under-test side is never wrapped,
+because greedy neural play reads no seed at all.
+
+#### Seat reconciliation
+
+The move policy is not the same on both seats of every game, and an earlier
+draft of this section said it was. Rather than reword it and move on, the
+claim was reconciled against the recorded games exhaustively: for all 10,496
+of them the intended match specification was rebuilt and its identifier
+compared with the recorded one. `match_id` is a blake2b hash over the whole
+specification, both policy tokens included, so this is a cryptographic seat
+check rather than a re-read of a stored label — a game played with a
+different policy on either seat could not carry the identifier it carries.
+
+```text
+matchup              games   seat policy                                        role        red  blue  total
+learned_vs_neutral    1536   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   opposing    768   768   1536
+learned_vs_neutral    1536   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    768   768   1536
+vs_strategic          1792   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    896   896   1792
+vs_strategic          1792   strategic_rule_based@1.1.0                         opposing    896   896   1792
+vs_tactical           1792   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    896   896   1792
+vs_tactical           1792   tactical_rule_based@1.0.0                          opposing    896   896   1792
+vs_phase8_anchor      1792   phase6_c1_warmstart_greedy@0.2.0+float32           opposing    896   896   1792
+vs_phase8_anchor      1792   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    896   896   1792
+vs_random             1792   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    896   896   1792
+vs_random             1792   random_legal@1.0.0                                 opposing    896   896   1792
+vs_basic              1792   basic_heuristic@1.0.0                              opposing    896   896   1792
+vs_basic              1792   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   selector    896   896   1792
+
+aggregate seats                                    observed  expected
+basic_heuristic@1.0.0                                  1792      1792   match
+phase6_c1_warmstart_greedy@0.2.0+float32               1792      1792   match
+phase6_phase10_eval_move_v1_greedy@0.2.0+float32      12032     12032   match
+random_legal@1.0.0                                     1792      1792   match
+strategic_rule_based@1.1.0                             1792      1792   match
+tactical_rule_based@1.0.0                              1792      1792   match
+```
+
+20,992 seats over 10,496 games, **0 mismatches** — in the seat policy, the
+cell token, the frozen match seed and the colour pairing alike. Every
+matchup is exactly half Red and half Blue on both seats. The aggregate
+counts are derived from the frozen mapping rather than read off the data,
+and they agree: the selector seat is the Phase 9 checkpoint in all six
+matchups, which with the direct matchup's second Phase 9 seat gives 12,032,
+and each of the five external opponents holds one seat in six candidate
+cells plus the baseline cell, giving 1,792 each.
+
+A token proves which policy a seat named; it does not prove which checkpoint
+answered for it. That was checked separately, with a control in both
+directions:
+
+```text
+matchup              seat under test                                    bound          reproduces  swap changes
+learned_vs_neutral   phase6_phase10_eval_move_v1_greedy@0.2.0+float32   phase9              12/12         12/12
+vs_phase8_anchor     phase6_c1_warmstart_greedy@0.2.0+float32           phase8_anchor       12/12         12/12
+```
+
+Replayed under the checkpoint the harness bound to that seat, every sampled
+game reproduces its recorded replay digest; replayed with the other
+checkpoint behind the same token, every one of them changes. The second half
+is what makes the first half worth anything.
+
+The audit reran no scheduled game (48 replays for the control, none
+recorded) and changed nothing about the frozen selection.
+
+### 5.4 The fixed neutral baseline
+
+`neutral_v1` is the baseline, never a seventh candidate. Its own-side draws
+were rebuilt live through the accepted Phase 7 sampler and required to
+fingerprint exactly as Agent 1 froze them, so a moved sampler would have
+stopped the run rather than quietly shifting every delta.
+
+```text
+matchup              EWR      W /  D /  L
+vs Strategic         0.8516   218 /  0 /  38
+vs Tactical          0.8047   206 /  0 /  50
+vs Phase 8 anchor    0.8438   216 /  0 /  40
+vs Random            0.9922   254 /  0 /   2
+vs Basic             0.8613   220 /  1 /  35
+```
+
+These sit where the accepted Phase 9 evaluation put this checkpoint
+(Random 0.9883, Basic 0.8535 on the Phase 9 test bank), which is the
+cheapest available evidence that the harness reproduces the accepted move
+model rather than a degraded copy of it. A stronger check was run directly:
+a game played through this harness and through Agent 2's accepted collector
+path on the same two setups produced an **identical action history**.
+
+Sharding does not enter a result either: one recorded work unit (P10-D
+vs_strategic, cases 32-48, 32 games) was deleted and rebuilt by a fresh
+process running 1 worker instead of 12, and every recorded field came back
+identical, digest included.
+
+### 5.5 Candidate results
+
+```text
+id      model    T      S10      Delta_D  Delta_St  Delta_Ta  Delta_P8   Random   Basic
+P10-A  model_F  0.75  +0.02891  +0.04492  -0.00781  +0.05469  +0.02344   0.9785  0.8652
+P10-B  model_F  1.25  +0.03008  +0.05469  +0.01172  +0.02344  +0.00000   0.9844  0.8613
+P10-C  model_F  2.00  -0.01328  -0.00391  -0.01953  -0.01562  -0.02734   0.9844  0.8301
+P10-D  model_T  0.75  +0.04023  +0.05664  +0.02344  +0.04297  +0.01953   0.9883  0.8965
+P10-E  model_T  1.25  -0.00586  -0.00586  -0.01758  +0.01172  -0.00586   0.9961  0.8438
+P10-F  model_T  2.00  +0.02070  +0.03125  -0.00391  +0.03516  +0.02344   0.9922  0.8398
+```
+
+`Delta_D` is the direct learned-vs-neutral EWR minus 0.5; each `Delta_O` is
+the learned-minus-neutral EWR difference on the same cases. Random and Basic
+are guards and never score components.
+
+Per-matchup EWR of every candidate, learned arm:
+
+```text
+id      direct   vs Strat  vs Tact   vs P8     vs Rand   vs Basic
+P10-A  0.5449    0.8438    0.8594    0.8672    0.9785    0.8652   
+P10-B  0.5547    0.8633    0.8281    0.8438    0.9844    0.8613   
+P10-C  0.4961    0.8320    0.7891    0.8164    0.9844    0.8301   
+P10-D  0.5566    0.8750    0.8477    0.8633    0.9883    0.8965   
+P10-E  0.4941    0.8340    0.8164    0.8379    0.9961    0.8438   
+P10-F  0.5312    0.8477    0.8398    0.8672    0.9922    0.8398   
+```
+
+### 5.6 Eligibility
+
+A candidate is eligible only if Agent 4's correctness, reproducibility and
+diversity all pass, validation Random EWR >= 0.95, validation Basic EWR >=
+0.80, and every correctness counter is zero. A high score cannot rescue an
+ineligible candidate.
+
+```text
+id      diversity   Random >= 0.95   Basic >= 0.80   correctness   eligible
+P10-A  True        True             True            True          True
+P10-B  True        True             True            True          True
+P10-C  True        True             True            True          True
+P10-D  True        True             True            True          True
+P10-E  True        True             True            True          True
+P10-F  True        True             True            True          True
+```
+
+All 6 of 6 candidates are eligible. Across 10,496 games the
+zero-tolerance counters are all zero: no illegal setup, no illegal action,
+no engine rejection, no policy exception, no contract violation, no
+non-finite score, no inference failure and no unscored game.
+
+### 5.7 The winner
+
+```text
+ranking          P10-D > P10-B > P10-A > P10-F > P10-E > P10-C
+winner           P10-D  (model_T, T=0.75)
+S10              +0.040234
+  0.40*Delta_D          +0.022656   (Delta_D +0.056641)
+  0.30*Delta_Strategic  +0.007031   (Delta_S +0.023438)
+  0.20*Delta_Tactical   +0.008594   (Delta_T +0.042969)
+  0.10*Delta_Phase8     +0.001953   (Delta_8 +0.019531)
+tie-break        decided at level 1 (higher S10)
+```
+
+The score was recomputed from the primitive per-case game scores
+independently of the helper that produced it, and the two agree to within
+1e-15 for every candidate. The ranking was reproduced by the frozen
+tie-break key and matches. No tie reached the candidate-id level.
+
+P10-D is the family+traits model at the lowest temperature, and the only one
+of the six whose four score components are all strictly positive.
+
+Concentrating the distribution is what a low temperature does, and it is
+exactly what the diversity contract exists to bound — so it is worth saying
+plainly that P10-D is also the tightest candidate in the field: lowest
+normalized family entropy (0.9817) and lowest effective base diversity
+(748.4) of the six, and the worst cell in Agent 4's entire 36-cell audit. It
+clears the 0.85 entropy floor and the 10-family effective count with wide
+margin anyway: the frozen 35% uniform component puts a floor under
+concentration that no temperature in the candidate matrix can reach.
+
+The frozen configuration is `phase10_selector_config_v1`, written to
+`reports/phase_10_data/agent_05_frozen_selector_config.json`. The selector
+config and the utility coefficients remain separate artifacts, and no C1
+checkpoint was created or altered.
+
+### 5.8 Phase 9 fingerprint landings — report-only
+
+Agent 1's standing obligation, carried forward by Agent 4, at the
+granularity Agent 5 owes: candidate x arm x matchup x bank, count and rate.
+A learned selector's own-side draw could not be enumerated when the banks
+were built, and rejecting such a draw at evaluation time would distort the
+very mixed distribution the diversity contract is stated over — so Agent 1
+forbade rejecting it and required recording it instead.
+
+```text
+candidate    arm       per matchup   total          rate
+P10-A        learned     5 / 256       30 /  1536   0.0195
+P10-B        learned     4 / 256       24 /  1536   0.0156
+P10-C        learned     6 / 256       36 /  1536   0.0234
+P10-D        learned     7 / 256       42 /  1536   0.0273
+P10-E        learned     2 / 256       12 /  1536   0.0078
+P10-F        learned     9 / 256       54 /  1536   0.0352
+neutral_v1   neutral     0 / 256        0 /  1280   0.0000
+```
+
+The per-matchup count is constant within a candidate because an own-side
+draw depends on the case, the colour and the candidate — never on the
+opponent — so the same setups play in all six matchups. The rates sit in
+the band Agent 4 predicted from 3.6M audit draws (0.0381 on the validation
+split). The baseline arm records zero by construction: Agent 1's rejection
+walk already excluded the frozen `neutral_v1` own-side draws from the
+Phase 9 held-out set.
+
+**These values changed nothing.** They gate nothing, triggered no retry,
+entered no score, no eligibility test and no tie-break.
+
+### 5.9 Access discipline and Phase 9 preservation
+
+```text
+validation-bank game outcomes read   10,496
+test-bank game outcomes read         0
+test-bank neural inference           0
+test-bank access                     structural digest recomputation only
+utility models fit                   0
+candidates added                     0
+temperature / mixture changes        0 / 0
+rescue reruns                        0
+corpus records read                  0
+human games used                     0
+C1 optimizer steps                   0
+```
+
+The Phase 9 checkpoint was hashed before the work and again after it:
+
+```text
+before   dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+after    dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+state    f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd (unchanged: true)
+```
+
+### 5.10 Recorded readings
+
+- **one held-out opponent setup ... plays in every matchup and in both arms** — the held-out opponent setup seats opposite the selector under test in the five externally-opposed matchups, in both arms and for all six candidates. It has no seat in learned_vs_neutral, which has two sides and two selectors: the learned draw plays the neutral_v1 draw of the colour the other seat was dealt, which is exactly the pair of neutral own-side draws Agent 1 froze per case. A third setup cannot enter a two-sided game.
+- **match_seeds: one seed per (case, game index, matchup), independent of arm and candidate, so a rule-based opponent draws identical randomness in both arms** — the accepted runner derives a side's seed from match_id, and Agent 5 must also keep game identities candidate-specific, so the two requirements are met on different objects: match_id carries the cell (arm, candidate, matchup) through MatchSpec.setup_bank_version, while the opponent actually plays on case_match_seed(case_id, game_index, matchup) through a thin FrozenSeedPolicy wrapper that replaces only the request's two seed fields. The selector-under-test side is the accepted Phase 9 checkpoint playing greedy in all six matchups and reads no seed at all.
+- **Stress, if run, is report-only** — no stress evaluation was run. Agent 5's mission is bounded to the six frozen candidates on the validation bank, and a report-only diagnostic cannot change a selection, so running one would add cost and no evidence.
+- **full_suite_green** — the gate is a claim about a suite that contains the test asserting it, so a single run cannot evidence it: a false gate fails the suite, which keeps the gate false. The measurement therefore lives in its own recorded stage (`--record-suite`), the artifact test checks that the gate agrees with that measurement rather than asserting it directly, and the recorded run is the one taken with the artifact in its final state. The confirming run is reported alongside it.
+- **Record every validation-bank game-outcome access** — the access log records one entry per stage and bank rather than one per game; the per-game count is carried alongside it as discipline.validation_bank_outcome_access, so the number of outcome reads is exact and the log stays readable.
+
+### 5.11 Artifacts and completion gates
+
+```text
+reports/phase_10_data/agent_05_candidate_results.csv
+reports/phase_10_data/agent_05_frozen_selector_config.json
+reports/phase_10_data/agent_05_acceptance.json
+```
+
+Full suite: `.venv/bin/python -m pytest tests -q` — 5132 passed, 3 skipped in 315.48s (0:05:15).
+
+`full_suite_green` is a claim about a suite that contains the test asserting
+it, so one run cannot evidence it — a false gate would fail the suite and
+keep the gate false. The measurement is recorded in its own stage, the
+artifact test checks the gate against that measurement instead of asserting
+it, and the run above was taken with the artifact in its final state. A
+confirming run reproduced it exactly.
+
+| gate | value |
+| --- | --- |
+| `agents1_4_pass` | true |
+| `candidate_count_6` | true |
+| `eligibility_rules_exact` | true |
+| `frozen_selector_config_complete` | true |
+| `full_suite_green` | true |
+| `learned_branch_independently_verified` | true |
+| `neutral_baseline_fixed` | true |
+| `no_final_test_outcome_access` | true |
+| `no_seventh_candidate` | true |
+| `phase9_checkpoint_unchanged` | true |
+| `same_cases_across_candidates` | true |
+| `score_recomputes_exactly` | true |
+| `tie_break_recomputes_exactly` | true |
+| `unregistered_candidates_zero` | true |
+| `utility_models_not_refit` | true |
+| `validation_bank_identity_verified` | true |
+| `winner_unique_or_tiebreak_resolved` | true |
+
+### 5.12 Handoff to Agent 6
+
+Agent 6 receives the frozen `phase10_selector_config_v1` (P10-D), its
+SHA-256 `6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668`, the
+unchanged utility artifact and trait scaler, the winner's train-split
+production distribution digests, the `neutral_v1` baseline identity, the
+accepted Phase 9 identity, and the complete validation evidence. Selection
+is closed: Agent 6 may not reopen it, add a candidate, refit a utility or
+change the 0.35/0.65 mixture.
+
+`phase10_test_bank_v1` remains sealed. Its digest
+`be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad` was recomputed structurally and
+matches; zero games, zero neural inferences and zero outcome reads touched
+it. Agent 7 owns the first final-test evaluation.
+

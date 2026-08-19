@@ -1,0 +1,251 @@
+{
+  "c1_checkpoint_created_or_altered": false,
+  "distribution_digests": {
+    "blue": {
+      "test": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+      "train": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+      "validation": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6"
+    },
+    "red": {
+      "test": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+      "train": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+      "validation": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1"
+    }
+  },
+  "diversity": {
+    "effective_base_diversity": 748.4473714192854,
+    "normalized_family_entropy": 0.9816709698888034,
+    "per_color_validation": {
+      "blue": {
+        "bases_per_family": 50,
+        "effective_base_diversity": 748.4473714192854,
+        "effective_families": 15.207213080540713,
+        "families": 16,
+        "family_entropy_nats": 2.721769860063884,
+        "family_probabilities": {
+          "F00": 0.13208105447414017,
+          "F01": 0.08380256523051899,
+          "F02": 0.07382993221737462,
+          "F03": 0.050158292077865534,
+          "F04": 0.05542852014708673,
+          "F05": 0.05681129781020201,
+          "F06": 0.044491604770933356,
+          "F07": 0.04498609361287307,
+          "F08": 0.05731504603460528,
+          "F09": 0.04650662011301473,
+          "F10": 0.05605652429166414,
+          "F11": 0.0538493883298774,
+          "F12": 0.055395223089492074,
+          "F13": 0.05305983244906541,
+          "F14": 0.08575437084695893,
+          "F15": 0.050473634504327486
+        },
+        "max_conditional_base_probability": 0.035616949808666074,
+        "max_conditional_base_probability_per_family": {
+          "F00": 0.025807712698036184,
+          "F01": 0.03133736849438355,
+          "F02": 0.030212959340203963,
+          "F03": 0.028775044531904975,
+          "F04": 0.03478114712942622,
+          "F05": 0.02967433575725084,
+          "F06": 0.02753046665336632,
+          "F07": 0.032097695661241155,
+          "F08": 0.035616949808666074,
+          "F09": 0.027776672946384473,
+          "F10": 0.03242306029764962,
+          "F11": 0.0335954352412513,
+          "F12": 0.030015927501761113,
+          "F13": 0.03129294243109005,
+          "F14": 0.028796817888691952,
+          "F15": 0.029067121567640183
+        },
+        "max_family_probability": 0.13208105447414017,
+        "max_within_family_normalized_base_entropy": 0.9978875640640067,
+        "min_family_probability": 0.044491604770933356,
+        "min_within_family_normalized_base_entropy": 0.9940198335695564,
+        "normalized_family_entropy": 0.9816709698888034,
+        "split": "validation",
+        "within_family_normalized_base_entropy": {
+          "F00": 0.9972690543012774,
+          "F01": 0.9940198335695564,
+          "F02": 0.9963347353707742,
+          "F03": 0.997319858353598,
+          "F04": 0.9942683101360582,
+          "F05": 0.9959215050677078,
+          "F06": 0.9977779531803208,
+          "F07": 0.997186276251321,
+          "F08": 0.9945830095381167,
+          "F09": 0.9978875640640067,
+          "F10": 0.9956148201147091,
+          "F11": 0.9962876878027035,
+          "F12": 0.9945230605517715,
+          "F13": 0.9962072317665303,
+          "F14": 0.9955700994505284,
+          "F15": 0.9949265762502769
+        }
+      },
+      "red": {
+        "bases_per_family": 50,
+        "effective_base_diversity": 758.0752210418358,
+        "effective_families": 15.351064610154536,
+        "families": 16,
+        "family_entropy_nats": 2.7311848273386032,
+        "family_probabilities": {
+          "F00": 0.1275466344788705,
+          "F01": 0.08057443148803813,
+          "F02": 0.07414908114313988,
+          "F03": 0.05186729130899661,
+          "F04": 0.05424003809289288,
+          "F05": 0.05769839835905608,
+          "F06": 0.04577019928451807,
+          "F07": 0.04418611773690512,
+          "F08": 0.05830701602882309,
+          "F09": 0.04955535899088987,
+          "F10": 0.05670483483222557,
+          "F11": 0.06201147363224792,
+          "F12": 0.052643405439707296,
+          "F13": 0.053740826922076365,
+          "F14": 0.07503794668635676,
+          "F15": 0.05596694557525592
+        },
+        "max_conditional_base_probability": 0.03271065152098846,
+        "max_conditional_base_probability_per_family": {
+          "F00": 0.025707510653861978,
+          "F01": 0.02870296204093703,
+          "F02": 0.028384367626110203,
+          "F03": 0.026746295978688987,
+          "F04": 0.02997129882107803,
+          "F05": 0.028480006436696348,
+          "F06": 0.02602189474427405,
+          "F07": 0.028279856027182335,
+          "F08": 0.03120342853138354,
+          "F09": 0.028039555187051826,
+          "F10": 0.031286420430870474,
+          "F11": 0.029966493284978975,
+          "F12": 0.028245330905009386,
+          "F13": 0.03035677682644134,
+          "F14": 0.026893233363751774,
+          "F15": 0.03271065152098846
+        },
+        "max_family_probability": 0.1275466344788705,
+        "max_within_family_normalized_base_entropy": 0.9982902892525478,
+        "min_family_probability": 0.04418611773690512,
+        "min_within_family_normalized_base_entropy": 0.9942113667776943,
+        "normalized_family_entropy": 0.9850667015381457,
+        "split": "validation",
+        "within_family_normalized_base_entropy": {
+          "F00": 0.998103659433692,
+          "F01": 0.9960061093400737,
+          "F02": 0.9973750044415042,
+          "F03": 0.997477413422171,
+          "F04": 0.9967653535270814,
+          "F05": 0.9962324860990894,
+          "F06": 0.997918292944736,
+          "F07": 0.997718753821771,
+          "F08": 0.9955427351130015,
+          "F09": 0.9982902892525478,
+          "F10": 0.9957970428471659,
+          "F11": 0.996072824386733,
+          "F12": 0.9966959015079528,
+          "F13": 0.9962988077020508,
+          "F14": 0.9976704131527833,
+          "F15": 0.9942113667776943
+        }
+      }
+    }
+  },
+  "mixture": {
+    "applied": "exactly once, at the branch decision",
+    "learned_weight": 0.65,
+    "neutral_weight": 0.35
+  },
+  "phase10_seeds": {
+    "case_schedule_seed": 2026081806,
+    "outcome_schedule_seed": 2026081802,
+    "phase10_master_seed": 2026081801,
+    "selector_draw_seed": 2026081805,
+    "setup_draw_seed": 2026081803,
+    "test_bootstrap_seed": 2026081808,
+    "utility_fit_seed": 2026081804,
+    "validation_bootstrap_seed": 2026081807
+  },
+  "phase7_identity": {
+    "baseline_profile": "neutral_v1",
+    "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "library_metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980",
+    "perturbation_probability": 0.5,
+    "reflection_probability": 0.5,
+    "swap_count": "1..6 uniform"
+  },
+  "phase9_identity": {
+    "c1_optimizer_steps": 0,
+    "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "parameters": 863959
+  },
+  "score": {
+    "components": {
+      "delta_direct": 0.056640625,
+      "delta_phase8_anchor": 0.01953125,
+      "delta_strategic": 0.0234375,
+      "delta_tactical": 0.04296875
+    },
+    "s10": 0.040234375,
+    "tie_break_decided_at_level": 1,
+    "tie_break_order": [
+      "higher S10",
+      "higher Delta_Strategic",
+      "higher Delta_D",
+      "higher normalized family entropy",
+      "higher effective base diversity",
+      "lexicographically smaller candidate id"
+    ],
+    "weights": {
+      "delta_direct": 0.4,
+      "delta_phase8_anchor": 0.1,
+      "delta_strategic": 0.3,
+      "delta_tactical": 0.2
+    }
+  },
+  "selector_config_version": "phase10_selector_config_v1",
+  "status": "SELECTED",
+  "test_split_digests": {
+    "blue": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+    "red": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333"
+  },
+  "train_split_production_digests": {
+    "blue": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+    "red": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f"
+  },
+  "utility": {
+    "artifact": "checkpoints/phase10/setup_utility_v1.json",
+    "coefficient_digests": {
+      "model_F": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+      "model_T": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+    },
+    "file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "refit_by_agent_5": false,
+    "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "separate_artifact_from_this_config": true
+  },
+  "validation_identity": {
+    "bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f",
+    "bank_version": "phase10_validation_bank_v1",
+    "bootstrap_root": 2026081807,
+    "cases": 128,
+    "manifest_digest": "459cef36d7032beb8fc9665efa7692dac3c40c68109e9f0bcdefa6141bd0906e"
+  },
+  "versions": {
+    "learned_setup_source": "learned_setup_source_v1",
+    "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
+    "selector_schedule": "phase10_selector_schedule_v1",
+    "setup_selector": "phase10_setup_selector_v1",
+    "validation_evaluation": "phase10_validation_eval_v1"
+  },
+  "winner": {
+    "candidate_id": "P10-D",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "temperature": 0.75,
+    "utility_model": "model_T"
+  }
+}
