@@ -1062,3 +1062,240 @@ Suite after: `5742 passed, 3 skipped in 318.66s (0:05:18)` (320s).
 
 Agent 6 receives the single frozen Phase 11 implementation identity `phase11_validation_freeze_v1` (digest `ad2562af538abc6c...`), its entry point `stratego.evaluation.phase11_pipeline.run_phase11_pipeline`, and the immutable dependencies: belief head `a9df48a1adcd29b1...`, `phase11_belief_evaluator_v1`, `remaining_count_belief_v1`, `belief_sampler_v1` (`a0119f0126a1100c...`), `phase11_information_safety_v1`, the frozen statistics and the measured CPU runtime configuration. Agent 6 performs the production soak and the `phase11_system_v1` freeze only.
 
+## 6. Agent 6 — production integration soak and the `phase11_system_v1` freeze
+
+Starting revision `25ce827`. Status **PASS**, 36/36 completion gates.
+
+### 6.1 Identities recomputed from live bytes
+
+Every load-bearing identity was re-derived before a single soak request existed. The Agent 5 implementation freeze in particular was not compared as a string: `phase11_pipeline.implementation_freeze` reconstructed the whole document from the live checkpoint, the live contract bundle, the live bank artifacts, the live Agent 4 runtime result and the live bytes of all 17 frozen implementation modules, and the digest of that reconstruction was compared.
+
+| quantity | value |
+|---|---|
+| Phase 9 checkpoint SHA-256 | dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea |
+| model-state digest | f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd |
+| parameters | 863,959 |
+| global optimizer step | 47,086 |
+| belief-head digest | a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7 |
+| `phase11_validation_freeze_v1` | ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912 |
+| freeze re-derives exactly | true (differing fields: none) |
+| frozen modules unchanged | 17/17 |
+| `phase11_validation_bank_v1` | bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023 |
+| `phase11_test_bank_v1` | 566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404 |
+
+### 6.2 The soak
+
+Agent 1's frozen `phase11_soak_v1` schedule, unchanged: 1,053 `train`-split games (131 per opponent stratum), both seats drawn from the accepted `p10d` production source, observer colour by the frozen ordinal parity, 8,192 production belief requests, each one real belief forward plus 64 complete legal worlds — 524,288 worlds in total.
+
+| quantity | value |
+|---|---|
+| schedule digest | 1c10201cde18ec65337732cc4e4982a7537e1119f744c4837013dc9b344fb3b3 |
+| store content digest | e8b5d35e3ca118dd6b775743ff95689ae6451bea1d4310eab26ab77fa797a031 |
+| games | 1,053 |
+| requests | 8,192 |
+| worlds | 524,288 |
+| distinct public states | 7,303 |
+| observer colours | blue 3,968, red 4,224 |
+| progress buckets | early 4,109, late 1,822, middle 2,261 |
+| opponent strata exercised | 8/8 |
+| non-bank / train-only | shared bank game ids 0, shared match seeds 0, shared setups 0 |
+
+**The frozen 8,192 was not realizable on the original range, and the deficit was closed by reviewer authorization rather than by substitution.** 29 of the 1,024 original soak games give the observer no decision at all, so Agent 1's frozen arithmetic (1,024 x 8 = 8,192) realized 7,960 — 232 short. The cause sits in the frozen rules, not in the soak: a scout may move and strike in one turn, so a first-player scout on the front rank can sprint the empty middle rows and capture a front-rank flag at ply 1, and the second-seat observer never decides. **This is a property of the environment: the accepted validation prediction store has 26 of its own 1,024 games with zero observer decisions.** Agent 6 reported the shortfall and changed nothing; the reviewer then authorized a supplement on unchanged rules, recorded verbatim in the harness header.
+
+**The supplement extends Agent 1's rules; it does not amend them.** `stratego/training/phase11_seed.py` is one of the 17 modules the Agent 5 freeze digest covers, and its `phase11_soak_game_id` refuses an ordinal past the frozen range by a range check. Editing it would have changed the frozen `phase11_validation_freeze_v1` digest, so nothing frozen was touched: the supplement formats the **same** id, calls the **same** `derive_phase11_seed` under the **same** domain tokens, and applies the same train split, P10-D-on-both-seats source, stratum mapping, observer-colour parity and eight-request attachment rule — with the ordinal range continued. That identity is proven, not asserted: 13,312 comparisons against the frozen helpers over every one of the 1,024 frozen games, 0 mismatches, before a single supplemental game was drawn.
+
+| schedule quantity | value |
+|---|---|
+| frozen schedule | 8,192 |
+| original range realized | 7,960 from 1,024 games |
+| original shortfall | 232 |
+| supplemental ordinals | 128..131, ordinal-major over the frozen stratum order |
+| supplemental games enumerated | 29 (29 playable, 0 zero-decision) |
+| supplemental requests | 232 |
+| supplemental strata | basic_rule 4, information_miser 3, miner_rush 3, phase8_anchor 4, phase9_selfplay 4, scout_rush 3, strategic_rule 4, tactical_rule 4 |
+| supplemental observer colours | blue 13, red 16 |
+| combined realized | 8,192 |
+| original requests preserved exactly | true |
+| every playable game gave 8 | true |
+
+The stopping rule reads only whether the observer ever had a decision: the enumeration is ordinal-major arithmetic over the frozen stratum order, a zero-decision game contributes nothing and is recorded rather than skipped, and no outcome, belief value, runtime or sampler quantity reaches the candidate order, the stopping rule or any seed. All 7,960 original requests are the byte-identical prefix of the combined schedule — same ids, ordinals, soak game ids, decision indices and public-state identities, with no difference at any index.
+
+### 6.3 Crash and restart
+
+The 8,192 requests were committed across 3 legs with 3 different worker counts, into one store. Each result is appended and `fsync`ed before the next request starts, so a process death leaves a store whose contents are exactly the requests that finished.
+
+| leg | workers | scheduled | committed | signal | committed before kill | resumed | wall clock |
+|---|---|---|---|---|---|---|---|
+| leg_1_workers_1 | 1 | 2,731 | 2,731 | — | — | — | 123.5s |
+| leg_2_workers_4 | 4 | 2,730 | 2,730 | — | — | — | 33.4s |
+| leg_3_workers_12_kill_resume | 12 | 2,731 | 2,731 | SIGKILL | 24 | 204 | 25.1s |
+
+The killed worker was really signalled (`SIGKILL`, return code confirms it), had committed 24 requests when it died, and the resume worker was handed the scheduled ids minus the committed ids and nothing else. 0 requests were computed on both sides of the kill.
+
+| set-algebra quantity | value |
+|---|---|
+| scheduled ids | 8,192 |
+| committed rows | 8,192 |
+| missing | 0 |
+| duplicate | 0 |
+| unscheduled | 0 |
+
+### 6.4 The per-request audit
+
+Every one of the 8,192 committed requests was re-derived from scratch in a separate process: the position replayed from public bytes alone, the public-state identity re-derived by the independent Agent 3 implementation, the belief forward re-run, all 64 sample identities re-derived from the public identity and the ordinal, all 64 worlds rebuilt and each one re-walked by `verify_world_independently` — a second implementation that re-derives the piece order, the fallback steps and the complete assignment and then re-checks the inventory and every public fact on the assignment itself. That is 524,288 complete worlds independently verified.
+
+| zero-tolerance counter | value |
+|---|---|
+| audit_findings | 0 |
+| hidden_input_accesses | 0 |
+| inventory_errors | 0 |
+| nondeterministic_requests | 0 |
+| provenance_mismatches | 0 |
+| public_constraint_errors | 0 |
+
+The hidden-input claim is measured, not asserted: for every request the document is rebuilt from a state whose hidden ranks are traced by `phase11_safety.instrument_hidden_types`, and the trace counted 0 reads while producing a byte-identical document.
+
+**Cross-topology replay.** 2,048 evenly spaced requests were re-executed on 6 workers in reverse order, in fresh processes with a scrubbed environment and `cwd=/`. Digest mismatches: 0.
+
+**Purity, demonstrated.** On the 152 games with fewer than eight observer decisions, more than one scheduled request lands on the same decision: 257 decisions carry 1142 requests between them. Their worlds are byte-identical in every case — different request ids, same public state, same worlds.
+
+### 6.4b Materialized-stream collision audit
+
+Identity-only reconciliation: nothing here replays a forward, samples a world, kills a process or touches a bank. The universe is **reconstructed from the final recorded 8,192-request schedule and the frozen derivation rules**, never inferred from a reported total. The condition tested is the one that matters: *two different logical identities must not map to the same derived 63-bit seed*.
+
+| domain | logical identities | distinct seeds | intentional reuse | internal collisions | cross-universe collisions |
+|---|---|---|---|---|---|
+| `soak_match` | 1,053 | 1,053 | 1,024 | 0 | 0 |
+| `soak_setup` | 2,106 | 2,106 | 2,048 | 0 | 0 |
+| `world_categorical` | 14,778,432 | 14,778,432 | 0 | 0 | 0 |
+| `world_order` | 14,778,432 | 14,778,432 | 0 | 0 | 0 |
+| `world_sample` | 467,392 | 467,392 | 0 | 0 | 0 |
+
+| quantity | value |
+|---|---|
+| total Agent 6 unique logical identities | 30,027,415 |
+| total Agent 6 distinct seeds | 30,027,415 |
+| identities new relative to Agent 4 | 30,024,343 |
+| identities intentionally shared with Agent 4 | 3,072 |
+| combined unique logical identities | 60,258,738 |
+| combined distinct seeds | 60,258,738 |
+| **total accidental collisions** | **0** |
+| expected random collisions at 63 bits | 0.000197 |
+
+**Intentional reuse is deduplicated before the comparison, never counted as a collision.** 885 of the 8,192 requests attach to a public position another request also uses; 4 further positions in different games reach one public-state identity; and the 524,288 request x world-ordinal pairs collapse to 467,392 distinct world identities — identical public state, sampler version and ordinal *must* reproduce one identity, which is the sampler's purity, not a defect. The 1,024 original games' `soak_setup` and `soak_match` identities are the same identities Agent 1 enumerated and Agent 4 carried; only the 29 supplemental games' are new.
+
+**Reconstruction fidelity.**
+
+| evidence | value |
+|---|---|
+| recorded requests represented | 8,192 scheduled = 8,192 committed (true) |
+| original prefix + supplement | 7,960 + 232 = 8,192, both represented |
+| soak/setup identities reconstructed | 1,053 games (29 supplemental), 7,307 positions replayed from public bytes; every reconstructed public-state identity equals the recorded one |
+| world tokens represented | 467,392 used = 467,392 enumerated (true) |
+| bulk vs public helper agreement | 16,000 derivations re-run through `world_sample_seed`, `world_order_key` and `world_categorical_uniform`, 0 mismatches |
+| Agent 4 universe reproduced exactly | 30,234,395 identities, true |
+
+### 6.5 `phase11_system_v1`
+
+Filled by Agent 1's own rule — *fills every unbound slot with accepted values only, changes nothing bound now, and adds no slot*. `bound_now` is carried through verbatim from the live contract artifact; the five unbound slots are filled from accepted upstream values; and the deferred bank bindings resolve to the already-frozen Agent 1 bank identities, re-derived from the live bank artifacts, rather than to anything Agent 6 chose.
+
+| slot | filled with |
+|---|---|
+| `evaluator_implementation` | `phase11_belief_evaluator_v1`, the accepted Agent 2 owner/request/extraction identity and the live module bytes |
+| `sampler_implementation` | `belief_sampler_v1`, the accepted Agent 3 entry point, provenance schema and audit-evidence digest |
+| `information_safety_evidence` | `phase11_information_safety_v1` and the four Agent 4 evidence digests |
+| `runtime_benchmark` | the frozen benchmark configuration unchanged, the measured p95 and the runtime artifact digest |
+| `bank_digests` | Agent 1's validation and test bank digests, verbatim |
+
+`phase11_system_v1` digest **`e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101`**. No absolute path appears anywhere in it. If Phase 11 ends `PASS-SEARCH-READY`, this is the only belief stack Phase 12 may query.
+
+### 6.6 Preservation
+
+| preserved identity | exact |
+|---|---|
+| Phase 9 checkpoint SHA | true |
+| belief-head identity | true |
+| P10-D config / utility / scaler | true |
+| Phase 7 library | true |
+| Agent 5 frozen implementation | true |
+| optimizer-step delta | 0 |
+| Phase 11 optimizer steps | 0 |
+
+### 6.7 Recorded readings
+
+- **`soak_outcomes_are_report_only`** — the soak's W/D/L over 1053 games is {'draw': 6, 'loss': 341, 'win': 706}; Agent 1 froze soak outcomes as report-only and no gate reads them.
+- **`requests_with_zero_hidden_pieces`** — 0 of 8192 scheduled requests land on a decision with no unresolved opponent piece. The frozen attachment rule spaces requests over all D observer decisions and does not exclude them; each still runs a real forward and 64 (empty) worlds, and each is audited like any other.
+- **`short_games_share_a_decision`** — 152 games have fewer than 8 observer decisions, so 885 scheduled requests share a decision with another. Agent 1 froze this deliberately: their worlds must be byte-identical, and 257 shared decisions agreed exactly.
+- **`frozen_soak_request_count_needed_an_authorized_supplement`** — 29 of the 1,024 original soak games give the observer no decision at all, so Agent 1's frozen arithmetic (1,024 games x 8 = 8,192) realized 7,960 and fell 232 short. Cause, fully diagnosed: the frozen rules let a scout move and strike in one turn, so a first-player scout on the front rank can sprint the empty middle rows and capture a front-rank flag at ply 1; the second-seat observer never decides. This is not a soak property — the accepted validation store has 26 of its own 1,024 games with zero observer decisions. Agent 6 reported the shortfall rather than repairing it, and the reviewer authorized the supplement recorded verbatim in the harness header: continue from the next sequential ordinal on unchanged rules until exactly 29 further playable games have contributed their eight requests. 29 games were enumerated at ordinals 128..131, 29 playable and 0 not, yielding exactly 232 supplemental requests and 8,192 in total. Nothing frozen was edited: phase11_seed.py is one of the 17 modules the Agent 5 freeze digest covers, so the supplement formats the same id and calls the same derive_phase11_seed under the same domain tokens, and that identity was proven against the frozen helpers on 13,312 comparisons over the whole frozen range before a supplemental game was drawn.
+- **`original_soak_evidence_untouched_by_the_supplement`** — all 1,024 original games and all 7,960 original requests are preserved exactly: the original schedule is the byte-identical prefix of the combined one on request id, ordinal, soak game id, decision index and public-state identity, with no difference at any index. The supplement only appends.
+- **`soak_store_identity_is_content_only`** — the soak store's identity is a content digest over request id, public-state identity, world count and request digest. No wall clock enters it, so it is comparable across runs — the Agent 5 store_manifest_digest_embeds_a_wall_clock_duration reading is not repeated in the soak store.
+
+- **`validation_R_CE_0_9750_carried_unchanged`** — the Agent 5 validation reading `R_CE = 0.9750` fails Gate A's `<= 0.97` threshold. Agent 6 preserves it as a diagnostic and changes nothing: no calibration, no model change, no sampler change, no threshold change, no repair. Phase 11 is a validation phase, not a repair loop, and the sealed test evaluation is Agent 7's to run.
+- **`store_manifest_digest_embeds_a_wall_clock_duration` is not repaired** — the Agent 5 finding stands as recorded. Agent 6 treats `store_content_digest` as the cross-run prediction-store content identity and `manifest_digest` as within-run integrity metadata only, and patched neither `phase11_records` nor the recorder.
+
+### 6.8 Test-bank seal
+
+The append-only ledger holds 39 entries, 14 of them naming `phase11_test_bank_v1`, every one structural-only with all four counters zero. `run_phase11_pipeline` refuses the sealed bank without an explicit `sealed_bank_authorized=True`, which this harness never passes. **Test-bank scored access remains 0.** Agent 7 is the first agent permitted to score it.
+
+### 6.9 Completion gates
+
+| # | gate | value |
+|---|---|---|
+| 1 | `agent5_implementation_unchanged` | true |
+| 2 | `agent6_materialized_stream_collisions_zero` | true |
+| 3 | `agent6_stream_universe_reconstruction_faithful` | true |
+| 4 | `agents1_5_pass` | true |
+| 5 | `all_eight_strata_exercised` | true |
+| 6 | `all_game_progress_buckets_covered` | true |
+| 7 | `belief_head_unchanged` | true |
+| 8 | `both_colors_covered` | true |
+| 9 | `cross_topology_replay_pass` | true |
+| 10 | `deterministic_rebuild_pass` | true |
+| 11 | `duplicate_request_ids_zero` | true |
+| 12 | `every_playable_game_gave_eight_requests` | true |
+| 13 | `every_request_forward_plus_64_worlds` | true |
+| 14 | `full_suite_green` | true |
+| 15 | `hidden_input_access_zero` | true |
+| 16 | `inventory_errors_zero` | true |
+| 17 | `missing_request_ids_zero` | true |
+| 18 | `no_absolute_path_in_system_identity` | true |
+| 19 | `no_optimizer_steps` | true |
+| 20 | `original_requests_preserved_exactly` | true |
+| 21 | `phase10_selector_unchanged` | true |
+| 22 | `phase11_system_v1_frozen` | true |
+| 23 | `phase9_checkpoint_unchanged` | true |
+| 24 | `provenance_mismatches_zero` | true |
+| 25 | `public_constraint_errors_zero` | true |
+| 26 | `restart_resume_pass` | true |
+| 27 | `shared_decision_worlds_identical` | true |
+| 28 | `soak_nonbank_train_only` | true |
+| 29 | `soak_requests_ge_8192` | true |
+| 30 | `soak_store_equals_realizable_schedule` | true |
+| 31 | `supplemental_playable_games_exact` | true |
+| 32 | `supplemental_requests_exact` | true |
+| 33 | `supplemental_rules_identical_to_frozen` | true |
+| 34 | `test_scored_access_zero` | true |
+| 35 | `thousands_unique_states` | true |
+| 36 | `unscheduled_request_ids_zero` | true |
+
+| forbidden operation | count |
+|---|---|
+| `accidental_stream_seed_collisions` | 0 |
+| `bank_changes` | 0 |
+| `belief_head_updates` | 0 |
+| `calibration_operations` | 0 |
+| `hidden_input_accesses` | 0 |
+| `hidden_truth_inputs_to_inference` | 0 |
+| `optimizer_steps` | 0 |
+| `preserved_identity_changes` | 0 |
+| `sampler_rule_changes` | 0 |
+| `test_bank_privileged_truth_reads` | 0 |
+| `test_bank_scored_predictions` | 0 |
+| `threshold_changes` | 0 |
+
+Full suite: `.venv/bin/python -m pytest tests -q` — 5818 passed, 3 skipped in 352.04s (0:05:52)
+
+### 6.10 Handoff to Agent 7
+
+Frozen `phase11_system_v1` digest `e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101`, over the `phase11_validation_freeze_v1` implementation `ad2562af538abc6c...`. Final-test entry point `stratego.evaluation.phase11_pipeline.run_phase11_pipeline`, test bank `566ac35214ac04d5...` (2,048 cases / 4,096 games), scored access so far 0.
+

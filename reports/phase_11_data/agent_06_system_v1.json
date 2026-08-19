@@ -1,0 +1,190 @@
+{
+ "agent": 6,
+ "artifact": "agent_06_system_v1",
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "25ce827",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "phase": 11,
+ "phase11_system_v1": {
+  "acceptance_version": "phase11_acceptance_v1",
+  "bound_now": {
+   "acceptance_version": "phase11_acceptance_v1",
+   "bank_versions": [
+    "phase11_validation_bank_v1",
+    "phase11_test_bank_v1"
+   ],
+   "baselines": {
+    "predictive": "remaining_count_belief_v1",
+    "world": "count_uniform_world_sampler_v1"
+   },
+   "belief_model": {
+    "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+    "belief_head_tensor_names": [
+     "belief_output.bias",
+     "belief_output.weight"
+    ],
+    "model_label": "selfplay_c1_v1",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "mutability": "byte-identical throughout Phase 11",
+    "parameters": 863959,
+    "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   },
+   "library": {
+    "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "library_version": "setup_library_v1",
+    "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+    "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+   },
+   "model_contract": "model_contract_v2",
+   "observation": "observation_v2_1_127ch",
+   "sampler_contract": "belief_sampler_v1",
+   "setup_selector": {
+    "config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "phase10_system_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+   }
+  },
+  "filled_slots": {
+   "bank_digests": {
+    "phase11_test_bank_v1": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+    "phase11_validation_bank_v1": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+   },
+   "evaluator_implementation": {
+    "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+    "belief_owner": "stratego.evaluation.phase11_belief.Phase11BeliefOwner",
+    "evaluator_version": "phase11_belief_evaluator_v1",
+    "module_sha256": {
+     "stratego/evaluation/phase11_belief.py": "187c4d89917f575f52fab8b0629af5f5c422503997a2411c1a75f13d055bfdeb",
+     "stratego/evaluation/phase11_evaluator.py": "89a070cae2d298799dbeff1082d4db4050916126a436bb97bcc4d3f0c1c7b5b6",
+     "stratego/evaluation/phase11_public_state.py": "71e572a4c420df25c2905f88ed58241a15f2528be85e9dc092b0aebdfe0d8529"
+    },
+    "probability_extraction": "stratego.evaluation.phase11_belief.softmax_float64",
+    "probability_representation": "float64 softmax of the head's 12 float32 logits at the piece's perspective-normalized square; full simplex, no masking, no epsilon",
+    "public_state_document_builder": "stratego.evaluation.phase11_public_state.build_public_state_document",
+    "public_state_document_version": "phase11_public_state_v1",
+    "public_state_identity": "stratego.evaluation.phase11_public_state.public_state_identity",
+    "request_type": "stratego.evaluation.phase11_belief.Phase11BeliefRequest",
+    "request_version": "phase11_belief_request_v1"
+   },
+   "information_safety_evidence": {
+    "attack_evidence_digest": "8945f0284172e9869fccfa9bd78c7dec15aedba192aa6ef1194fcf0d0ecd5afc",
+    "frozen_sets_digest": "58f1b7a614a32068471786342c5643e730abf73dc608fd14e8bed69ad74e6229",
+    "information_safety_version": "phase11_information_safety_v1",
+    "reproducibility_evidence_digest": "e07b2922363cbd91ef06f19dbc32672c3e77af2c2ef6f00f05b8b066f278efc4",
+    "stream_identity_evidence_digest": "dd25c7a9c3e3606865897e662fa24daa39352b35896b68e9cb0a271b34fbb308"
+   },
+   "runtime_benchmark": {
+    "artifact_digest": "b079b930c021b93204763c02b601d1790b8a63a5907fae4bd0368358f795672d",
+    "backend": "cpu",
+    "benchmark_configuration": {
+     "backend": "cpu",
+     "ceiling_ms": 500.0,
+     "components": "model-forward time and sampling time recorded separately per request, plus RSS and backend/device",
+     "dtype": "float32",
+     "gate_quantity": "p95(forward_plus_64_worlds)",
+     "measured_configurations": [
+      "forward_only",
+      "forward_plus_16_worlds",
+      "forward_plus_32_worlds",
+      "forward_plus_64_worlds"
+     ],
+     "process_model": "single process, single request at a time",
+     "state_count": 480,
+     "state_selection": "10 states per (stratum x colour x progress bucket) cell over the 48 cells: order the cell's distinct validation public states by unresolved-piece count then public_state_identity and take evenly spaced picks, so unresolved-count variation is covered deterministically; a cell with fewer states contributes what it has (recorded)",
+     "statistics": "median/p90/p95/p99/max over states, per configuration",
+     "timer": "time.perf_counter_ns around the complete request",
+     "torch_threads": 1,
+     "warmup": "32 global warmup requests, then 1 discarded warmup per state"
+    },
+    "ceiling_ms": 500.0,
+    "configuration_unchanged": true,
+    "dtype": "float32",
+    "measured_p95_forward_64_ms": 48.5122542,
+    "process_model": "single process, single request at a time",
+    "torch_threads": 1
+   },
+   "sampler_implementation": {
+    "audit_evidence_digest": "d992c8aead8db1de4edbfc163913391b633276eb9d632b4711a2178ab8b6bd2d",
+    "entry_point": "stratego.evaluation.phase11_sampler.sample_belief_world",
+    "module_sha256": {
+     "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+     "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+    },
+    "production_ordinals": "0..63 per request (the frozen benchmark/repro request content)",
+    "provenance_fields": [
+     "sample_token",
+     "sampler_version",
+     "public_state_identity",
+     "belief_model_label",
+     "sample_ordinal",
+     "piece_order",
+     "fallback_steps",
+     "assignment"
+    ],
+    "request_type": "stratego.evaluation.phase11_sampler.Phase11SamplerRequest",
+    "sample_token_format": "phase11_world_sample_v1|ms=<master>|model=selfplay_c1_v1|smp=<sampler version>|ps=<public-state sha256>|n=<ordinal:05d>",
+    "sampler_contract_digest": "e28b771a8a0359a786575dac70fe68ed1210ca3be2381a91cec28dcc4f561759",
+    "sampler_version": "belief_sampler_v1"
+   }
+  },
+  "filling_rules": "Agent 6 fills every unbound slot with accepted values only, changes nothing bound now, and adds no slot; Agent 7 verifies the filled instance against this template by slot walk, judging on values",
+  "no_absolute_paths": "no absolute path appears in any logical identity",
+  "phase12_rule": "if Phase 11 ends PASS-SEARCH-READY, the filled phase11_system_v1 is the only belief stack Phase 12 may query",
+  "system_digest": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101",
+  "system_version": "phase11_system_v1",
+  "validation_freeze": {
+   "freeze_digest": "ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912",
+   "freeze_version": "phase11_validation_freeze_v1"
+  }
+ },
+ "preservation": {
+  "after": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase7_library_reference_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "before": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase7_library_reference_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "belief_head_unchanged": true,
+  "exact": true,
+  "optimizer_step_delta": 0,
+  "phase10_selector_unchanged": true,
+  "phase11_optimizer_steps": 0,
+  "phase7_library_unchanged": true,
+  "phase9_checkpoint_unchanged": true
+ }
+}

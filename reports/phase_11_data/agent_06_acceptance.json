@@ -1,0 +1,420 @@
+{
+ "agent": 6,
+ "artifact": "agent_06_acceptance",
+ "audit_summary": {
+  "audit_findings": 0,
+  "hidden_input_accesses": 0,
+  "inventory_errors": 0,
+  "nondeterministic_requests": 0,
+  "provenance_mismatches": 0,
+  "public_constraint_errors": 0
+ },
+ "completion_gates": {
+  "agent5_implementation_unchanged": true,
+  "agent6_materialized_stream_collisions_zero": true,
+  "agent6_stream_universe_reconstruction_faithful": true,
+  "agents1_5_pass": true,
+  "all_eight_strata_exercised": true,
+  "all_game_progress_buckets_covered": true,
+  "belief_head_unchanged": true,
+  "both_colors_covered": true,
+  "cross_topology_replay_pass": true,
+  "deterministic_rebuild_pass": true,
+  "duplicate_request_ids_zero": true,
+  "every_playable_game_gave_eight_requests": true,
+  "every_request_forward_plus_64_worlds": true,
+  "full_suite_green": true,
+  "hidden_input_access_zero": true,
+  "inventory_errors_zero": true,
+  "missing_request_ids_zero": true,
+  "no_absolute_path_in_system_identity": true,
+  "no_optimizer_steps": true,
+  "original_requests_preserved_exactly": true,
+  "phase10_selector_unchanged": true,
+  "phase11_system_v1_frozen": true,
+  "phase9_checkpoint_unchanged": true,
+  "provenance_mismatches_zero": true,
+  "public_constraint_errors_zero": true,
+  "restart_resume_pass": true,
+  "shared_decision_worlds_identical": true,
+  "soak_nonbank_train_only": true,
+  "soak_requests_ge_8192": true,
+  "soak_store_equals_realizable_schedule": true,
+  "supplemental_playable_games_exact": true,
+  "supplemental_requests_exact": true,
+  "supplemental_rules_identical_to_frozen": true,
+  "test_scored_access_zero": true,
+  "thousands_unique_states": true,
+  "unscheduled_request_ids_zero": true
+ },
+ "diagnostic_carried_forward": {
+  "reading": "the Agent 5 validation R_CE = 0.9750 fails Gate A's <= 0.97 threshold. Agent 6 carries it as a diagnostic and changes nothing: no calibration, no model change, no sampler change, no threshold change. The sealed test evaluation is Agent 7's.",
+  "validation_R_CE": 0.975
+ },
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "25ce827",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "false_gates": [],
+ "forbidden_operation_counters": {
+  "accidental_stream_seed_collisions": 0,
+  "bank_changes": 0,
+  "belief_head_updates": 0,
+  "calibration_operations": 0,
+  "hidden_input_accesses": 0,
+  "hidden_truth_inputs_to_inference": 0,
+  "optimizer_steps": 0,
+  "preserved_identity_changes": 0,
+  "sampler_rule_changes": 0,
+  "test_bank_privileged_truth_reads": 0,
+  "test_bank_scored_predictions": 0,
+  "threshold_changes": 0
+ },
+ "frozen_inputs": {
+  "bank_digests": {
+   "phase11_test_bank_v1": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+   "phase11_validation_bank_v1": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+  },
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "validation_freeze_digest": "ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912"
+ },
+ "gates_total": 36,
+ "gates_true": 36,
+ "handoff_to_agent_7": {
+  "administrative_freeze_requirements": [
+   "the 17 frozen implementation modules must re-hash to the Agent 5 freeze before the sealed run",
+   "phase11_system_v1 must slot-walk against Agent 1's template and match on values",
+   "the Phase 9 checkpoint, belief head, P10-D chain, utility, scaler and Phase 7 library must re-hash exactly",
+   "the sealed test evaluation runs once; it is never rerun to create a commit"
+  ],
+  "diagnostic": "the validation R_CE = 0.9750 fails Gate A's threshold. It is carried unchanged; Agent 7 must not retune in response to it",
+  "final_test_entry_point": "stratego.evaluation.phase11_pipeline.run_phase11_pipeline",
+  "for_agent": 7,
+  "hard_gates": [
+   "Gate A - R_CE <= 0.97 and paired 95% upper bound for CE_learned - CE_baseline < 0",
+   "Gate B - Delta_top1 >= +0.03 and paired 95% lower bound > 0",
+   "Gate C - overall ECE <= 0.08, no stratum ECE > 0.12, learned-minus-baseline Brier 95% upper bound <= +0.01",
+   "Gate D - every opponent stratum R_CE <= 1.05",
+   "Gate E - all sampler correctness counters zero",
+   "Gate F - all information-safety counters zero",
+   "Gate G - all deterministic topology/restart comparisons exact and p95 forward+64 <= 500 ms",
+   "Gate H - exact Phase 9 SHA/state, 863,959 parameters, C1 optimizer steps 0, exact belief-head identity, exact P10-D config, exact Phase 10 utility/scaler, exact Phase 7 library"
+  ],
+  "phase11_system_v1_artifact": "reports/phase_11_data/agent_06_system_v1.json",
+  "phase11_system_v1_digest": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101",
+  "soak_store_content_digest": "e8b5d35e3ca118dd6b775743ff95689ae6451bea1d4310eab26ab77fa797a031",
+  "test_bank": {
+   "authorization": "run_phase11_pipeline refuses the test bank without an explicit sealed_bank_authorized=True; Agent 7 is the first and only agent permitted to pass it",
+   "bank_digest": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+   "bank_version": "phase11_test_bank_v1",
+   "cases": 2048,
+   "games": 4096,
+   "scored_access_so_far": 0,
+   "sealing_proof": {
+    "ledger_entries": 39,
+    "neural_inference_total": 0,
+    "outcome_total": 0,
+    "privileged_truth_total": 0,
+    "scored_prediction_total": 0,
+    "test_bank_entries": 14,
+    "test_bank_structural_only": true,
+    "test_refused_without_authorization": true,
+    "violations": []
+   }
+  },
+  "validation_freeze": {
+   "freeze_digest": "ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912",
+   "freeze_version": "phase11_validation_freeze_v1"
+  }
+ },
+ "new_digests": {
+  "phase11_soak_schedule_digest": "1c10201cde18ec65337732cc4e4982a7537e1119f744c4837013dc9b344fb3b3",
+  "phase11_soak_store_content_digest": "e8b5d35e3ca118dd6b775743ff95689ae6451bea1d4310eab26ab77fa797a031",
+  "phase11_system_v1_digest": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101"
+ },
+ "phase": 11,
+ "preservation": {
+  "after": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase7_library_reference_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "before": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase7_library_reference_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "belief_head_unchanged": true,
+  "exact": true,
+  "optimizer_step_delta": 0,
+  "phase10_selector_unchanged": true,
+  "phase11_optimizer_steps": 0,
+  "phase7_library_unchanged": true,
+  "phase9_checkpoint_unchanged": true
+ },
+ "recorded_readings": [
+  {
+   "detail": "the soak's W/D/L over 1053 games is {'draw': 6, 'loss': 341, 'win': 706}; Agent 1 froze soak outcomes as report-only and no gate reads them",
+   "reading": "soak_outcomes_are_report_only"
+  },
+  {
+   "detail": "0 of 8192 scheduled requests land on a decision with no unresolved opponent piece. The frozen attachment rule spaces requests over all D observer decisions and does not exclude them; each still runs a real forward and 64 (empty) worlds, and each is audited like any other",
+   "reading": "requests_with_zero_hidden_pieces"
+  },
+  {
+   "detail": "152 games have fewer than 8 observer decisions, so 885 scheduled requests share a decision with another. Agent 1 froze this deliberately: their worlds must be byte-identical, and 257 shared decisions agreed exactly",
+   "reading": "short_games_share_a_decision"
+  },
+  {
+   "detail": "29 of the 1,024 original soak games give the observer no decision at all, so Agent 1's frozen arithmetic (1,024 games x 8 = 8,192) realized 7,960 and fell 232 short. Cause, fully diagnosed: the frozen rules let a scout move and strike in one turn, so a first-player scout on the front rank can sprint the empty middle rows and capture a front-rank flag at ply 1; the second-seat observer never decides. This is not a soak property \u2014 the accepted validation store has 26 of its own 1,024 games with zero observer decisions. Agent 6 reported the shortfall rather than repairing it, and the reviewer authorized the supplement recorded verbatim in the harness header: continue from the next sequential ordinal on unchanged rules until exactly 29 further playable games have contributed their eight requests. 29 games were enumerated at ordinals 128..131, 29 playable and 0 not, yielding exactly 232 supplemental requests and 8,192 in total. Nothing frozen was edited: phase11_seed.py is one of the 17 modules the Agent 5 freeze digest covers, so the supplement formats the same id and calls the same derive_phase11_seed under the same domain tokens, and that identity was proven against the frozen helpers on 13,312 comparisons over the whole frozen range before a supplemental game was drawn",
+   "reading": "frozen_soak_request_count_needed_an_authorized_supplement"
+  },
+  {
+   "detail": "all 1,024 original games and all 7,960 original requests are preserved exactly: the original schedule is the byte-identical prefix of the combined one on request id, ordinal, soak game id, decision index and public-state identity, with no difference at any index. The supplement only appends",
+   "reading": "original_soak_evidence_untouched_by_the_supplement"
+  },
+  {
+   "detail": "the soak store's identity is a content digest over request id, public-state identity, world count and request digest. No wall clock enters it, so it is comparable across runs \u2014 the Agent 5 store_manifest_digest_embeds_a_wall_clock_duration reading is not repeated in the soak store",
+   "reading": "soak_store_identity_is_content_only"
+  }
+ ],
+ "soak_summary": {
+  "coverage": {
+   "all_progress_buckets_covered": true,
+   "both_colors_covered": true,
+   "distinct_public_states": 7303,
+   "games_with_shared_decisions": 152,
+   "observer_decisions_total": 96061,
+   "outcomes_report_only": {
+    "draw": 6,
+    "loss": 341,
+    "win": 706
+   },
+   "requests_by_observer_color": {
+    "blue": 3968,
+    "red": 4224
+   },
+   "requests_by_progress_bucket": {
+    "early": 4109,
+    "late": 1822,
+    "middle": 2261
+   },
+   "requests_by_stratum": {
+    "basic_rule": 1000,
+    "information_miser": 1048,
+    "miner_rush": 1016,
+    "phase8_anchor": 1040,
+    "phase9_selfplay": 1024,
+    "scout_rush": 992,
+    "strategic_rule": 1024,
+    "tactical_rule": 1048
+   },
+   "requests_with_zero_hidden_pieces": 0,
+   "shared_decision_requests": 885,
+   "strata_covered": 8
+  },
+  "games": 1053,
+  "nonbank_proof": {
+   "bank_game_ids": 5120,
+   "nonbank_train_only": true,
+   "shared_game_ids": [],
+   "shared_match_seeds": [],
+   "shared_setup_arrangements": 0,
+   "soak_game_ids": 1053,
+   "soak_namespace_only": true,
+   "split": [
+    "train"
+   ]
+  },
+  "nonbank_train_only": true,
+  "requests": 8192,
+  "schedule_digest": "1c10201cde18ec65337732cc4e4982a7537e1119f744c4837013dc9b344fb3b3",
+  "schedule_findings": {
+   "combined_requests": 8192,
+   "every_playable_game_gave_eight": true,
+   "first_difference": null,
+   "frozen_request_count": 8192,
+   "games": 1053,
+   "original": {
+    "games": 1024,
+    "requests": 7960
+   },
+   "original_requests": 7960,
+   "original_requests_preserved_exactly": true,
+   "realizable_request_count": 8192,
+   "schedule_is_complete": true,
+   "supplement": {
+    "authorization": "reviewer, recorded verbatim in the harness header",
+    "authorized": true,
+    "enumeration": "ordinal-major over the frozen stratum order",
+    "first_ordinal": 128,
+    "games_enumerated": 29,
+    "last_ordinal": 131,
+    "playable": 29,
+    "playable_by_observer_color": {
+     "blue": 13,
+     "red": 16
+    },
+    "playable_by_stratum": {
+     "basic_rule": 4,
+     "information_miser": 3,
+     "miner_rush": 3,
+     "phase8_anchor": 4,
+     "phase9_selfplay": 4,
+     "scout_rush": 3,
+     "strategic_rule": 4,
+     "tactical_rule": 4
+    },
+    "requests": 232,
+    "rules_proof": {
+     "comparisons": 13312,
+     "frozen_games_covered": 1024,
+     "mismatches": 0,
+     "rules_identical": true
+    },
+    "stopping_rule": "stop at the 29th playable game; a zero-observer-decision game contributes nothing and is recorded",
+    "unplayable": 0,
+    "unplayable_games": []
+   },
+   "supplemental_requests": 232,
+   "unrealizable_requests": 0,
+   "zero_decision_by_observer_color": {
+    "blue": 29
+   },
+   "zero_decision_by_stratum": {
+    "basic_rule": 7,
+    "miner_rush": 4,
+    "phase8_anchor": 2,
+    "phase9_selfplay": 4,
+    "scout_rush": 7,
+    "strategic_rule": 4,
+    "tactical_rule": 1
+   },
+   "zero_decision_game_ids": [
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=029",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=037",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=041",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=089",
+    "phase11_soak_v1|ms=2026081901|st=phase8_anchor|g=031",
+    "phase11_soak_v1|ms=2026081901|st=phase8_anchor|g=045",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=031",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=061",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=099",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=103",
+    "phase11_soak_v1|ms=2026081901|st=tactical_rule|g=083",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=055",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=063",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=075",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=083",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=089",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=097",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=127",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=035",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=053",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=063",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=069",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=071",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=115",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=121",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=033",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=069",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=083",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=101"
+   ],
+   "zero_decision_games": 29,
+   "zero_decision_terminal_reasons": {
+    "flag_capture": 29
+   }
+  },
+  "setup_source": "p10d",
+  "soak_version": "phase11_soak_v1",
+  "split": "train",
+  "store_content_digest": "e8b5d35e3ca118dd6b775743ff95689ae6451bea1d4310eab26ab77fa797a031",
+  "timings_report_only": {
+   "forward_plus_64_worlds_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 154.088625,
+    "mean_ms": 46.425640889038085,
+    "median_ms": 46.742979000000005,
+    "min_ms": 18.9985,
+    "p90_ms": 57.3248035,
+    "p95_ms": 60.67622325,
+    "p99_ms": 67.82850247000002
+   },
+   "model_forward_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 79.131625,
+    "mean_ms": 1.902811166381836,
+    "median_ms": 1.731667,
+    "min_ms": 1.408541,
+    "p90_ms": 1.9632789000000002,
+    "p95_ms": 2.4533463499999995,
+    "p99_ms": 4.6871399700000005
+   },
+   "note": "report-only; the frozen runtime result is Agent 4's benchmark",
+   "sampling_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 125.832334,
+    "mean_ms": 44.21481781665039,
+    "median_ms": 44.803895499999996,
+    "min_ms": 17.063125,
+    "p90_ms": 54.83861280000001,
+    "p95_ms": 58.10636249999999,
+    "p99_ms": 64.75389322000001
+   }
+  },
+  "worlds": 524288,
+  "worlds_per_request": 64
+ },
+ "starting_revision": "25ce827",
+ "status": "PASS",
+ "stream_audit_summary": {
+  "agent4_universe_reproduced_exactly": true,
+  "agent6_distinct_seeds": 30027415,
+  "agent6_unique_logical_identities": 30027415,
+  "combined_distinct_seeds": 60258738,
+  "combined_unique_logical_identities": 60258738,
+  "identities_intentionally_shared_with_agent4": 3072,
+  "identities_new_relative_to_agent4": 30024343,
+  "total_accidental_collisions": 0
+ },
+ "suite": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "green": true,
+  "returncode": 0,
+  "summary": "5818 passed, 3 skipped in 352.04s (0:05:52)",
+  "wall_clock_seconds": 353.24
+ },
+ "timestamp": "2026-08-19T14:58:24-0400"
+}

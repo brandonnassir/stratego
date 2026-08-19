@@ -1,0 +1,307 @@
+{
+ "agent": 6,
+ "artifact": "agent_06_soak_manifest",
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "25ce827",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "frozen_inputs": {
+  "bank_digests": {
+   "phase11_test_bank_v1": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+   "phase11_validation_bank_v1": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+  },
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "validation_freeze_digest": "ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912"
+ },
+ "legs": [
+  {
+   "assignment": "round robin over the leg's ordinal slice",
+   "committed": 2731,
+   "leg": "leg_1_workers_1",
+   "scheduled": 2731,
+   "shard_sizes": [
+    2731
+   ],
+   "wall_clock_seconds": 123.528,
+   "workers": 1
+  },
+  {
+   "assignment": "round robin over the leg's ordinal slice",
+   "committed": 2730,
+   "leg": "leg_2_workers_4",
+   "scheduled": 2730,
+   "shard_sizes": [
+    683,
+    683,
+    682,
+    682
+   ],
+   "wall_clock_seconds": 33.365,
+   "workers": 4
+  },
+  {
+   "assignment": "round robin over the leg's ordinal slice",
+   "committed": 2731,
+   "committed_before_kill": 24,
+   "kill_after_threshold": 24,
+   "kill_signal": "SIGKILL",
+   "killed_worker": 0,
+   "leg": "leg_3_workers_12_kill_resume",
+   "really_signalled": true,
+   "recomputed_on_both_sides": 0,
+   "resume_rule": "exact logical request-id set subtraction",
+   "resumed_committed": 204,
+   "resumed_requests": 204,
+   "scheduled": 2731,
+   "shard_sizes": [
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    228,
+    227,
+    227,
+    227,
+    227,
+    227
+   ],
+   "wall_clock_seconds": 25.061,
+   "worker_returncode": -9,
+   "workers": 12
+  }
+ ],
+ "phase": 11,
+ "reconciliation": {
+  "committed": 8192,
+  "distinct_committed": 8192,
+  "duplicate_request_ids_zero": true,
+  "exactly_scheduled": true,
+  "missing_request_ids_zero": true,
+  "scheduled": 8192,
+  "unscheduled_request_ids_zero": true
+ },
+ "restart": {
+  "committed_before_kill": [
+   24
+  ],
+  "distinct_worker_counts": [
+   1,
+   4,
+   12
+  ],
+  "kill_legs": 1,
+  "kill_signal": "SIGKILL",
+  "legs": 3,
+  "legs_ge_3": true,
+  "pass": true,
+  "really_signalled": true,
+  "recomputed_on_both_sides": 0,
+  "resume_rule": "exact logical request-id set subtraction",
+  "worker_counts_distinct": true
+ },
+ "soak": {
+  "coverage": {
+   "all_progress_buckets_covered": true,
+   "both_colors_covered": true,
+   "distinct_public_states": 7303,
+   "games_with_shared_decisions": 152,
+   "observer_decisions_total": 96061,
+   "outcomes_report_only": {
+    "draw": 6,
+    "loss": 341,
+    "win": 706
+   },
+   "requests_by_observer_color": {
+    "blue": 3968,
+    "red": 4224
+   },
+   "requests_by_progress_bucket": {
+    "early": 4109,
+    "late": 1822,
+    "middle": 2261
+   },
+   "requests_by_stratum": {
+    "basic_rule": 1000,
+    "information_miser": 1048,
+    "miner_rush": 1016,
+    "phase8_anchor": 1040,
+    "phase9_selfplay": 1024,
+    "scout_rush": 992,
+    "strategic_rule": 1024,
+    "tactical_rule": 1048
+   },
+   "requests_with_zero_hidden_pieces": 0,
+   "shared_decision_requests": 885,
+   "strata_covered": 8
+  },
+  "games": 1053,
+  "nonbank_proof": {
+   "bank_game_ids": 5120,
+   "nonbank_train_only": true,
+   "shared_game_ids": [],
+   "shared_match_seeds": [],
+   "shared_setup_arrangements": 0,
+   "soak_game_ids": 1053,
+   "soak_namespace_only": true,
+   "split": [
+    "train"
+   ]
+  },
+  "nonbank_train_only": true,
+  "requests": 8192,
+  "schedule_digest": "1c10201cde18ec65337732cc4e4982a7537e1119f744c4837013dc9b344fb3b3",
+  "schedule_findings": {
+   "combined_requests": 8192,
+   "every_playable_game_gave_eight": true,
+   "first_difference": null,
+   "frozen_request_count": 8192,
+   "games": 1053,
+   "original": {
+    "games": 1024,
+    "requests": 7960
+   },
+   "original_requests": 7960,
+   "original_requests_preserved_exactly": true,
+   "realizable_request_count": 8192,
+   "schedule_is_complete": true,
+   "supplement": {
+    "authorization": "reviewer, recorded verbatim in the harness header",
+    "authorized": true,
+    "enumeration": "ordinal-major over the frozen stratum order",
+    "first_ordinal": 128,
+    "games_enumerated": 29,
+    "last_ordinal": 131,
+    "playable": 29,
+    "playable_by_observer_color": {
+     "blue": 13,
+     "red": 16
+    },
+    "playable_by_stratum": {
+     "basic_rule": 4,
+     "information_miser": 3,
+     "miner_rush": 3,
+     "phase8_anchor": 4,
+     "phase9_selfplay": 4,
+     "scout_rush": 3,
+     "strategic_rule": 4,
+     "tactical_rule": 4
+    },
+    "requests": 232,
+    "rules_proof": {
+     "comparisons": 13312,
+     "frozen_games_covered": 1024,
+     "mismatches": 0,
+     "rules_identical": true
+    },
+    "stopping_rule": "stop at the 29th playable game; a zero-observer-decision game contributes nothing and is recorded",
+    "unplayable": 0,
+    "unplayable_games": []
+   },
+   "supplemental_requests": 232,
+   "unrealizable_requests": 0,
+   "zero_decision_by_observer_color": {
+    "blue": 29
+   },
+   "zero_decision_by_stratum": {
+    "basic_rule": 7,
+    "miner_rush": 4,
+    "phase8_anchor": 2,
+    "phase9_selfplay": 4,
+    "scout_rush": 7,
+    "strategic_rule": 4,
+    "tactical_rule": 1
+   },
+   "zero_decision_game_ids": [
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=029",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=037",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=041",
+    "phase11_soak_v1|ms=2026081901|st=phase9_selfplay|g=089",
+    "phase11_soak_v1|ms=2026081901|st=phase8_anchor|g=031",
+    "phase11_soak_v1|ms=2026081901|st=phase8_anchor|g=045",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=031",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=061",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=099",
+    "phase11_soak_v1|ms=2026081901|st=strategic_rule|g=103",
+    "phase11_soak_v1|ms=2026081901|st=tactical_rule|g=083",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=055",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=063",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=075",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=083",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=089",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=097",
+    "phase11_soak_v1|ms=2026081901|st=basic_rule|g=127",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=035",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=053",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=063",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=069",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=071",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=115",
+    "phase11_soak_v1|ms=2026081901|st=scout_rush|g=121",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=033",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=069",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=083",
+    "phase11_soak_v1|ms=2026081901|st=miner_rush|g=101"
+   ],
+   "zero_decision_games": 29,
+   "zero_decision_terminal_reasons": {
+    "flag_capture": 29
+   }
+  },
+  "setup_source": "p10d",
+  "soak_version": "phase11_soak_v1",
+  "split": "train",
+  "store_content_digest": "e8b5d35e3ca118dd6b775743ff95689ae6451bea1d4310eab26ab77fa797a031",
+  "timings_report_only": {
+   "forward_plus_64_worlds_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 154.088625,
+    "mean_ms": 46.425640889038085,
+    "median_ms": 46.742979000000005,
+    "min_ms": 18.9985,
+    "p90_ms": 57.3248035,
+    "p95_ms": 60.67622325,
+    "p99_ms": 67.82850247000002
+   },
+   "model_forward_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 79.131625,
+    "mean_ms": 1.902811166381836,
+    "median_ms": 1.731667,
+    "min_ms": 1.408541,
+    "p90_ms": 1.9632789000000002,
+    "p95_ms": 2.4533463499999995,
+    "p99_ms": 4.6871399700000005
+   },
+   "note": "report-only; the frozen runtime result is Agent 4's benchmark",
+   "sampling_ms": {
+    "all_finite": true,
+    "count": 8192,
+    "max_ms": 125.832334,
+    "mean_ms": 44.21481781665039,
+    "median_ms": 44.803895499999996,
+    "min_ms": 17.063125,
+    "p90_ms": 54.83861280000001,
+    "p95_ms": 58.10636249999999,
+    "p99_ms": 64.75389322000001
+   }
+  },
+  "worlds": 524288,
+  "worlds_per_request": 64
+ }
+}
