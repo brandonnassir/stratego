@@ -1,0 +1,674 @@
+{
+ "agent": 4,
+ "artifact": "agent_04_acceptance",
+ "audit_version": "phase11_agent04_safety_repro_runtime_v1",
+ "completion_gates": {
+  "agent4_materialized_stream_collisions_zero": true,
+  "agents1_3_pass": true,
+  "all_topology_legs_exact": true,
+  "belief_head_unchanged": true,
+  "belief_output_changes_zero": true,
+  "benchmark_config_frozen": true,
+  "benchmark_states_representative": true,
+  "fixed_seed_sample_changes_zero": true,
+  "forbidden_hidden_access_zero": true,
+  "forward_reverse_exact": true,
+  "fresh_process_exact": true,
+  "full_suite_green": true,
+  "hidden_truth_trials_ge_50k": true,
+  "injection_controls_rejected": true,
+  "mutable_rng_absent": true,
+  "negative_controls_fire": true,
+  "no_belief_updates": true,
+  "no_test_prediction_access": true,
+  "one_distinct_rollup_digest": true,
+  "p95_64_worlds_le_500ms": true,
+  "p95_64_worlds_recorded": true,
+  "phase9_checkpoint_unchanged": true,
+  "recorded_logits_reproduce_exactly": true,
+  "restart_resume_exact": true,
+  "round_robin_sharded_exact": true,
+  "runtime_metrics_finite": true,
+  "safety_detail_counters_zero": true,
+  "sampler_identity_unchanged": true,
+  "stream_universe_reconstruction_faithful": true,
+  "topology_request_set_frozen": true,
+  "upstream_artifacts_unchanged": true,
+  "worker_12_exact": true,
+  "worker_1_exact": true,
+  "worker_4_exact": true
+ },
+ "diagnostic_gate_readings": {
+  "gate_f": {
+   "checks": {
+    "all_counters_present": true,
+    "all_counters_zero": true
+   },
+   "gate": "F",
+   "passed": true
+  },
+  "gate_g": {
+   "checks": {
+    "all_legs_exact": true,
+    "all_legs_present": true,
+    "p95_forward_64_le_500ms": true
+   },
+   "gate": "G",
+   "passed": true
+  },
+  "note": "validation-side readings of the two gates Agent 4 supplies evidence for; Agent 7 recomputes every gate on the sealed test bank and no threshold here may move"
+ },
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "4ee1175",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "false_gates": [],
+ "forbidden_operation_counters": {
+  "backend_changes_after_measurement": 0,
+  "belief_calibration_operations": 0,
+  "belief_head_writes": 0,
+  "hidden_truth_inputs_to_inference": 0,
+  "hidden_truth_inputs_to_sampling": 0,
+  "p10d_changes": 0,
+  "phase11_optimizer_steps": 0,
+  "sampler_redesign_operations": 0,
+  "test_bank_neural_inferences": 0,
+  "test_bank_outcome_reads": 0,
+  "test_bank_privileged_truth_reads": 0,
+  "test_bank_scored_accesses": 0,
+  "threshold_changes_after_evidence": 0,
+  "validation_outcome_reads": 0,
+  "validation_truth_shard_reads": 0
+ },
+ "frozen_inputs": {
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "contract_bundle_digest": "ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d",
+  "contract_digests": {
+   "phase11_acceptance_v1": "0121ecaac6849a59d78798833ec419f9ff12c14f8720f1bef259960f42c01fe5",
+   "phase11_belief_bank_v1": "874a2513427aebde69c9d31c9d06c6562d3daf2faa3f0dc4cd916656a175516d",
+   "phase11_belief_baseline_v1": "c017d51f78e8f7f5976abec62aa259fd8918508810c42bc41e88470c5998c197",
+   "phase11_belief_contract_v1": "13c4607619cca5fde621980b6ffa155d3c01378f000d5869319a069286186f75",
+   "phase11_belief_metrics_v1": "a2f7e5b4cc3944194d3b735f96ad805413670648ffd46acaac3a6a7f436368cb",
+   "phase11_belief_sampler_v1": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+   "phase11_information_safety_v1": "1b8160d544b5ee71eb1b03be025a868e7298ace1d61c486524e631ba68faab4d",
+   "phase11_system_v1": "9aa22d45ab85b65d5ed14e40288ef7cd4c3226e8d66f52508d9717929ac1adfe"
+  },
+  "information_safety_contract_digest": "1b8160d544b5ee71eb1b03be025a868e7298ace1d61c486524e631ba68faab4d",
+  "phase10_closure_commit": "17188a5",
+  "phase7_library": {
+   "bases": 8000,
+   "content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "manifest_digest": "53139ab7e21c4e8a31987507d6fb1eabf93f36cdc1221fe85d08042963488f31",
+   "metadata_digest": "d86f486182a820d546d470ef4ebce92ff60c6259aed80c481bc985bce8c64980"
+  },
+  "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "phase9_parameters": 863959,
+  "phase9_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "prediction_store_manifest_digest": "4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7",
+  "sampler_contract_digest": "a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9",
+  "sampler_module_sha256": {
+   "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+  },
+  "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+  "test_bank_digest": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+  "validation_bank_digest": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+ },
+ "gates_total": 34,
+ "gates_true": 34,
+ "handoff_to_agent_5": {
+  "evaluator_identity": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "belief_owner": "stratego.evaluation.phase11_belief.Phase11BeliefOwner",
+   "evaluator_version": "phase11_belief_evaluator_v1",
+   "request_type": "stratego.evaluation.phase11_belief.Phase11BeliefRequest"
+  },
+  "for_agent": 5,
+  "frozen_sets": "reports/phase_11_data/agent_04_frozen_sets.json",
+  "measured_runtime": {
+   "backend": "cpu",
+   "ceiling_ms": 500.0,
+   "dtype": "float32",
+   "headroom_factor": 10.31,
+   "p95_forward_64_ms": 48.5122542,
+   "process_model": "single process, single request at a time",
+   "torch_threads": 1
+  },
+  "prohibition": "Agent 5 integrates and freezes; it may not retrain, recalibrate, redesign the sampler or open the sealed test bank",
+  "request_definition": {
+   "content": "one belief forward plus complete worlds for sample ordinals 0..63",
+   "digest": "stratego.evaluation.phase11_repro.request_digest",
+   "implementation": "stratego.evaluation.phase11_repro.execute_request"
+  },
+  "runtime_evidence": "reports/phase_11_data/agent_04_runtime.csv",
+  "safety_evidence": "reports/phase_11_data/agent_04_information_safety.json",
+  "sampler_identity": {
+   "entry_point": "stratego.evaluation.phase11_sampler.sample_belief_world",
+   "immutable": "Agent 5 must not change the sampler mathematics",
+   "module_sha256": {
+    "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+    "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+   },
+   "sampler_version": "belief_sampler_v1"
+  },
+  "stream_identity_evidence": "reports/phase_11_data/agent_04_stream_audit.json",
+  "topology_evidence": "reports/phase_11_data/agent_04_reproducibility.json"
+ },
+ "information_safety_summary": {
+  "coverage": {
+   "by_observer_color": {
+    "blue": 25120,
+    "red": 24880
+   },
+   "by_progress_bucket": {
+    "early": 7939,
+    "late": 29599,
+    "middle": 12462
+   },
+   "by_stratum": {
+    "basic_rule": 2822,
+    "information_miser": 7969,
+    "miner_rush": 10965,
+    "phase8_anchor": 3595,
+    "phase9_selfplay": 6990,
+    "scout_rush": 10004,
+    "strategic_rule": 3824,
+    "tactical_rule": 3831
+   }
+  },
+  "detail_counters": {
+   "belief_logit_probability_differences": 0,
+   "illegal_alternative_truths": 0,
+   "instrumented_document_mismatches": 0,
+   "inventory_changes": 0,
+   "legal_action_mask_differences": 0,
+   "observation_differences": 0,
+   "public_document_differences": 0,
+   "public_mask_differences": 0,
+   "sampled_world_differences": 0,
+   "sampler_provenance_differences": 0,
+   "sampler_request_differences": 0,
+   "unchanged_alternative_truths": 0
+  },
+  "injection_controls": {
+   "all_rejected": true,
+   "injection_acceptances": 0,
+   "probes_total": 288,
+   "states_probed": 8
+  },
+  "permutation": {
+   "attempt_budget": 32,
+   "attempt_histogram": {
+    "1": 20929,
+    "10": 537,
+    "11": 436,
+    "12": 404,
+    "13": 344,
+    "14": 285,
+    "15": 259,
+    "16": 257,
+    "17": 206,
+    "18": 200,
+    "19": 181,
+    "2": 7354,
+    "20": 171,
+    "21": 167,
+    "22": 131,
+    "23": 137,
+    "24": 116,
+    "25": 139,
+    "26": 105,
+    "27": 92,
+    "28": 101,
+    "29": 94,
+    "3": 3843,
+    "30": 90,
+    "31": 86,
+    "32": 87,
+    "33": 5852,
+    "4": 2308,
+    "5": 1677,
+    "6": 1202,
+    "7": 883,
+    "8": 731,
+    "9": 596
+   },
+   "changed_pieces": {
+    "max": 40,
+    "mean": 20.3491,
+    "min": 2
+   },
+   "hidden_pieces": {
+    "max": 40,
+    "mean": 26.5859,
+    "min": 2
+   },
+   "method_counts": {
+    "shuffle": 44148,
+    "transposition": 5852
+   }
+  },
+  "trial_rollup_digest": "7757fe016044bad26a8fe8775de6540f2364919d2f4247259a98c1009996c8bb",
+  "trials": {
+   "belief_forwards": 100000,
+   "distinct_games": 939,
+   "distinct_states": 39895,
+   "executed": 50000,
+   "floor": 50000,
+   "instrumented_rebuilds": 100000,
+   "meets_floor": true,
+   "requested": 50000,
+   "sampled_worlds": 100000,
+   "wall_clock_seconds": 761.765
+  },
+  "zero_tolerance_counters": {
+   "belief_output_differences": 0,
+   "fixed_seed_sample_differences": 0,
+   "forbidden_hidden_input_accesses": 0,
+   "injection_acceptances": 0
+  }
+ },
+ "new_digests": {
+  "audit_version": "phase11_agent04_safety_repro_runtime_v1",
+  "frozen_sets_digest": {
+   "benchmark_state_set": "1ec642e8c2b509848d0db1565b052bc7e892c71cc3ab8e8764de6eb7b2869a48",
+   "safety_candidate_pool": "5512bc56c18e6aac2cafe641dd064a537b8b6659cbc5fb16135cf31de12e5552",
+   "topology_request_set": "83e58f00984b427d9ecbb09d40b343297dce0717898e3599fbbfcf26667bcd84"
+  },
+  "implementation_sha256": {
+   "stratego/evaluation/phase11_repro.py": "a3cd5d58f598ae2938fda80c6fb39a315cb90741bb027bc135be73d6200fde01",
+   "stratego/evaluation/phase11_safety.py": "b0dfdb737f78193b3a28e09e5e047883dc115e2f07b1b8c107f530249a1ea077",
+   "stratego/evaluation/phase11_streams.py": "48a3c3f8a22d0bb660b587f4ffbbc0c3529588c9a85bec4934f9a7670d0149a7"
+  },
+  "reproducibility_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+  "runtime_csv_sha256": "b079b930c021b93204763c02b601d1790b8a63a5907fae4bd0368358f795672d",
+  "safety_trial_rollup_digest": "7757fe016044bad26a8fe8775de6540f2364919d2f4247259a98c1009996c8bb",
+  "stream_audit_artifact_sha256": "dd25c7a9c3e3606865897e662fa24daa39352b35896b68e9cb0a271b34fbb308"
+ },
+ "phase": 11,
+ "preservation": {
+  "anchor_unchanged": true,
+  "bank_files_unchanged": true,
+  "belief_arithmetic_unchanged": "proved by the recorded-logit agreement pass; see reproducibility.recorded_logit_agreement",
+  "belief_head_unchanged": true,
+  "belief_request_boundary_hardened": true,
+  "checkpoint_unchanged": true,
+  "optimizer_step_after": 47086,
+  "optimizer_step_before": 47086,
+  "optimizer_step_delta": 0,
+  "optimizer_steps_run": 0,
+  "p10d_unchanged": true,
+  "phase7_unchanged": true,
+  "prediction_store_unchanged": true,
+  "problems": [],
+  "sampler_identity_unchanged": true,
+  "upstream_tracked_files_clean": true
+ },
+ "recorded_readings": [
+  {
+   "impact": "none on any frozen quantity; recorded so the reviewer sees the risk was known and not acted on",
+   "reading": "gate_a_risk_acknowledged_nothing_retuned",
+   "statement": "Agent 2's validation reading R_CE = 0.9750 would fail Gate A's <= 0.97 on the sealed test if it repeated. Agent 4 treats it as diagnostic only: the belief model, the masks, the baseline, the sampler weighting, the feasibility guard and every Phase 11 threshold are byte-identical to the Agent 1 freeze, and this agent's own thresholds (50,000 trials, eight legs, 500 ms) are Agent 1's."
+  },
+  {
+   "impact": "validation-bank access accounting only; the test bank is untouched",
+   "reading": "permutation_attack_reads_truth_on_its_construction_path",
+   "statement": "the attack must build an alternative hidden truth, so it reads the validation position's true ranks on its own privileged construction path \u2014 the contract's `permutation` rule requires exactly this. Those ranks never enter a belief request, a sampler request or any derivation: both request types have no field they could arrive in, and the instrumented counter proves the public products were built without a single hidden-rank read. No truth shard was opened and no game outcome was read."
+  },
+  {
+   "impact": "which states a trial may land on; never which comparison it runs",
+   "reading": "admits_alternative_is_the_constructive_predicate",
+   "statement": "a candidate state is usable when a valid transposition of two unresolved pieces exists \u2014 different ranks, and neither piece left publicly-moved-and-immovable. A transposition *is* an alternative truth, so the predicate is sufficient by construction, and it is the exact rule the frozen no-alternative walk uses. On this pool 169 of 107190 candidates were skipped by it; no trial was dropped."
+  },
+  {
+   "impact": "a refusal added to an accepted request type; no metric, threshold, weight or recorded output moved",
+   "reading": "belief_request_boundary_hardened_to_the_frozen_document_schema",
+   "statement": "the injection controls found one gap: `Phase11BeliefRequest` scanned only the *top-level* document keys for forbidden tokens, so a private field nested inside a piece entry (`pieces[0]['true_rank_index']`) was accepted, while the sampler boundary refused the same payload. The frozen rule is 'requests carrying private fields must be rejected structurally', and such a request carries one, so the belief request now applies the same exact-schema refusal the sampler already did, over the document, its pieces and its recent moves. This adds a refusal and touches no arithmetic: the recorded-logit agreement pass re-ran the live forward on all 2048 frozen requests and reproduced Agent 2's stored float32 logits byte for byte on 53868 rows, with 0 mismatches. Every document Phase 11 builds already satisfies the schema, because the accepted builder raises on drift itself."
+  },
+  {
+   "impact": "the two domains contribute their frozen enumerable entries only; no draw was invented",
+   "reading": "repro_schedule_and_benchmark_domains_are_not_instantiated",
+   "statement": "Agent 1 froze a `repro_schedule` and a `benchmark` stream so that any schedule step needing a draw would have a domain-separated source instead of an invented one. Neither frozen selection rule needs one: the 2,048-request set is the distinct validation public states ordered by identity, and the 480-state benchmark orders each cell by unresolved count then identity. The harness therefore calls `repro_schedule_seed` and `benchmark_seed` nowhere, and the stream audit records both domains as materially uninstantiated while still carrying Agent 1's enumerable entries into the combined injectivity check."
+  },
+  {
+   "impact": "makes the measured quantity conservative; the ceiling is unchanged",
+   "reading": "measured_request_includes_public_product_construction",
+   "statement": "the benchmark timer wraps the whole request as Phase 12 will issue it: build the public view, the 127-channel observation and the frozen document, run the forward, then sample the worlds. The engine replay that puts the harness at the position is excluded \u2014 a searcher already holds the position \u2014 and the document, forward and sampling components are recorded separately so the split is visible rather than asserted."
+  },
+  {
+   "impact": "comparison bookkeeping; every leg is compared to every other through it",
+   "reading": "forward_order_is_the_reference_leg",
+   "statement": "the eight legs are compared pairwise against `forward_order`, the only leg that runs inside the harness process itself, and it runs there after that process has already executed the 2048-request recorded-logit agreement pass and driven the three worker legs \u2014 so it is the leg most exposed to 'previous calls', and comparing every other leg to it is strictly harder than comparing them to a fresh process. All 8 legs produced one rollup digest: 267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb."
+  },
+  {
+   "impact": "none; it is the restart evidence itself",
+   "reading": "kill_resume_uses_a_real_sigkill",
+   "statement": "the restart leg starts a real subprocess, waits until it has fsynced 192 committed requests, sends SIGKILL, then resumes with exactly the ordinals the store does not hold. 0 requests were recomputed on both sides of the kill, and the union is the complete frozen set."
+  }
+ ],
+ "reproducibility_summary": {
+  "all_legs_exact": true,
+  "distinct_rollup_digests": [
+   "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb"
+  ],
+  "leg_exact": {
+   "forward_order": true,
+   "fresh_process": true,
+   "kill_resume_set_subtraction": true,
+   "reverse_order": true,
+   "round_robin_sharded": true,
+   "workers_1": true,
+   "workers_12": true,
+   "workers_4": true
+  },
+  "legs": {
+   "forward_order": {
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 89.658,
+    "workers": 1
+   },
+   "fresh_process": {
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 91.4,
+    "workers": 1
+   },
+   "kill_resume_set_subtraction": {
+    "committed_before_kill": 192,
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "recomputed_on_both_sides": 0,
+    "requests": 2048,
+    "resumed_requests": 1856,
+    "wall_clock_seconds": 92.087,
+    "workers": 1
+   },
+   "reverse_order": {
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 90.229,
+    "workers": 1
+   },
+   "round_robin_sharded": {
+    "assignment": "round robin, ordinal mod worker count",
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 19.737,
+    "workers": 5
+   },
+   "workers_1": {
+    "assignment": "contiguous chunks",
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 91.482,
+    "workers": 1
+   },
+   "workers_12": {
+    "assignment": "contiguous chunks",
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 11.152,
+    "workers": 12
+   },
+   "workers_4": {
+    "assignment": "contiguous chunks",
+    "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+    "requests": 2048,
+    "wall_clock_seconds": 25.16,
+    "workers": 4
+   }
+  },
+  "recorded_logit_agreement": {
+   "exact": true,
+   "meaning": "the live belief forward reproduces Agent 2's recorded float32 logits byte for byte",
+   "public_state_identity_mismatches": 0,
+   "request_mismatches": 0,
+   "requests_compared": 2048,
+   "requests_missing_from_store": 0,
+   "row_mismatches": 0,
+   "rows_compared": 53868
+  },
+  "requests": 2048,
+  "worlds_per_leg": 131072,
+  "worlds_per_request": 64
+ },
+ "runtime_summary": {
+  "ceiling_ms": 500.0,
+  "configuration": {
+   "backend": "cpu",
+   "ceiling_ms": 500.0,
+   "components": "model-forward time and sampling time recorded separately per request, plus RSS and backend/device",
+   "dtype": "float32",
+   "gate_quantity": "p95(forward_plus_64_worlds)",
+   "measured_configurations": [
+    "forward_only",
+    "forward_plus_16_worlds",
+    "forward_plus_32_worlds",
+    "forward_plus_64_worlds"
+   ],
+   "process_model": "single process, single request at a time",
+   "state_count": 480,
+   "state_selection": "10 states per (stratum x colour x progress bucket) cell over the 48 cells: order the cell's distinct validation public states by unresolved-piece count then public_state_identity and take evenly spaced picks, so unresolved-count variation is covered deterministically; a cell with fewer states contributes what it has (recorded)",
+   "statistics": "median/p90/p95/p99/max over states, per configuration",
+   "timer": "time.perf_counter_ns around the complete request",
+   "torch_threads": 1,
+   "warmup": "32 global warmup requests, then 1 discarded warmup per state"
+  },
+  "measurements": 1920,
+  "p95_forward_64_le_500ms": true,
+  "p95_forward_64_ms": 48.5122542,
+  "peak_rss_mib": 255.7,
+  "states": 480,
+  "summary": {
+   "forward_only": {
+    "forward_median_ms": 1.5156,
+    "max_ms": 2.3098,
+    "median_ms": 1.8969,
+    "p90_ms": 2.102,
+    "p95_ms": 2.1398,
+    "p99_ms": 2.2381,
+    "sampling_median_ms": 0.108,
+    "worlds": 0
+   },
+   "forward_plus_16_worlds": {
+    "forward_median_ms": 1.2919,
+    "max_ms": 14.1422,
+    "median_ms": 11.9407,
+    "p90_ms": 13.1659,
+    "p95_ms": 13.4096,
+    "p99_ms": 13.7871,
+    "sampling_median_ms": 10.3838,
+    "worlds": 16
+   },
+   "forward_plus_32_worlds": {
+    "forward_median_ms": 1.3485,
+    "max_ms": 26.3068,
+    "median_ms": 22.2336,
+    "p90_ms": 24.6981,
+    "p95_ms": 25.1008,
+    "p99_ms": 25.6197,
+    "sampling_median_ms": 20.5757,
+    "worlds": 32
+   },
+   "forward_plus_64_worlds": {
+    "forward_median_ms": 1.4209,
+    "max_ms": 53.0866,
+    "median_ms": 42.7459,
+    "p90_ms": 47.8036,
+    "p95_ms": 48.5123,
+    "p99_ms": 49.6602,
+    "sampling_median_ms": 41.0127,
+    "worlds": 64
+   }
+  }
+ },
+ "sensitivity_controls": {
+  "belief_probability_perturbed": true,
+  "mutable_global_rng": true,
+  "private_truth_read": true,
+  "provenance_corrupted": true,
+  "sample_seed_changed": true
+ },
+ "starting_revision": "4ee1175",
+ "status": "PASS",
+ "stream_identity_summary": {
+  "accidental_collisions": 0,
+  "agent3_reconstruction": {
+   "world_categorical": {
+    "agent3_recorded": 9337152,
+    "matches": true,
+    "reconstructed": 9337152
+   },
+   "world_order": {
+    "agent3_recorded": 9337152,
+    "matches": true,
+    "reconstructed": 9337152
+   },
+   "world_sample": {
+    "agent3_recorded": 307098,
+    "matches": true,
+    "reconstructed": 307098
+   }
+  },
+  "agent4_materialized_identities": 11231781,
+  "deduplication_rule": "intentional reuse of one logical identity is deduplicated, never counted as a collision: the original and permuted sides of a safety trial share one sampler identity by design, the eight topology legs reissue identical request and sample identities by design, and Agent 1's draw-0 safety enumeration is the first draw of the same trial stream the attack consumed",
+  "distinct_seeds": 30234395,
+  "domains_not_instantiated": [
+   "benchmark",
+   "repro_schedule"
+  ],
+  "fast_path_check": {
+   "derivations_checked": 15666,
+   "exact": true,
+   "mismatches": 0
+  },
+  "per_domain": {
+   "bank_match": {
+    "distinct_seeds": 5120,
+    "identities": 5120,
+    "internal_duplicates": 0
+   },
+   "bank_observer_setup": {
+    "distinct_seeds": 5120,
+    "identities": 5120,
+    "internal_duplicates": 0
+   },
+   "bank_opponent_setup": {
+    "distinct_seeds": 5120,
+    "identities": 5120,
+    "internal_duplicates": 0
+   },
+   "benchmark:state_selection": {
+    "distinct_seeds": 480,
+    "identities": 480,
+    "internal_duplicates": 0
+   },
+   "bootstrap": {
+    "distinct_seeds": 252,
+    "identities": 252,
+    "internal_duplicates": 0
+   },
+   "repro_schedule:replay": {
+    "distinct_seeds": 2048,
+    "identities": 2048,
+    "internal_duplicates": 0
+   },
+   "safety_trial:sample_check": {
+    "distinct_seeds": 50000,
+    "identities": 50000,
+    "internal_duplicates": 0
+   },
+   "safety_trial:state_selection": {
+    "distinct_seeds": 50063,
+    "identities": 50063,
+    "internal_duplicates": 0
+   },
+   "safety_trial:truth_permutation": {
+    "distinct_seeds": 362655,
+    "identities": 362655,
+    "internal_duplicates": 0
+   },
+   "soak_match": {
+    "distinct_seeds": 1024,
+    "identities": 1024,
+    "internal_duplicates": 0
+   },
+   "soak_setup": {
+    "distinct_seeds": 2048,
+    "identities": 2048,
+    "internal_duplicates": 0
+   },
+   "world_categorical": {
+    "distinct_seeds": 14621713,
+    "identities": 14621713,
+    "internal_duplicates": 0
+   },
+   "world_order": {
+    "distinct_seeds": 14621713,
+    "identities": 14621713,
+    "internal_duplicates": 0
+   },
+   "world_sample": {
+    "distinct_seeds": 507039,
+    "identities": 507039,
+    "internal_duplicates": 0
+   }
+  },
+  "safety_draw_consumption": {
+   "agent1_enumerated_draw0_only": 150000,
+   "by_purpose": {
+    "sample_check": 50000,
+    "state_selection": 50063,
+    "truth_permutation": 362655
+   },
+   "method_counts": {
+    "shuffle": 44148,
+    "transposition": 5852
+   },
+   "trials": 50000
+  },
+  "scope": "every world_sample / world_order / world_categorical identity Agent 4 materialized in the safety attack, the eight topology/restart legs, the runtime benchmark and the sensitivity controls, plus every safety_trial draw the attack consumed, deduplicated by logical identity and combined with Agent 3's materialized world-stream universe and the complete enumerable Agent 1 universe",
+  "tokens": {
+   "agent3_reconstructed": 307098,
+   "agent4_controls": 8,
+   "agent4_distinct": 209248,
+   "agent4_new_to_agent4": 199941,
+   "agent4_runtime": 30720,
+   "agent4_safety": 49820,
+   "agent4_shared_with_agent3": 9307,
+   "agent4_topology": 131072,
+   "combined_distinct": 507039,
+   "control_note": "the sensitivity controls sample ordinals 0..7 of topology request 0, a strict subset of that request's 0..63"
+  },
+  "total_identities": 30234395
+ },
+ "suite": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "green": true,
+  "returncode": 0,
+  "summary": "5621 passed, 3 skipped in 315.50s (0:05:15)",
+  "wall_clock_seconds": 316.62
+ },
+ "test_bank_sealing": {
+  "ledger_entries": 28,
+  "neural_inference_total": 0,
+  "outcome_total": 0,
+  "privileged_truth_total": 0,
+  "scored_prediction_total": 0,
+  "test_bank_entries": 11,
+  "test_bank_structural_only": true,
+  "violations": []
+ },
+ "timestamp": "2026-08-19T11:03:36-0400"
+}

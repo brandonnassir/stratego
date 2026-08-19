@@ -47,6 +47,8 @@ from ..training.phase11_contract import (
     BELIEF_REQUEST_VERSION,
     EVALUATOR_VERSION,
     FORBIDDEN_BELIEF_REQUEST_TOKENS,
+    PUBLIC_PIECE_FIELDS,
+    PUBLIC_STATE_DOCUMENT_FIELDS,
     Phase11ContractError,
     RANK_COUNT,
 )
@@ -72,6 +74,59 @@ def _forbidden_token_in(name: str) -> "str | None":
         if token in lowered:
             return token
     return None
+
+
+#: The frozen fields of one `recent_moves` entry, exactly as the accepted
+#: document builder emits them. Two names carry the substring "target" —
+#: they name the *publicly attacked piece*, which both players watch — so
+#: nested frozen content is checked by exact schema equality, never by a
+#: token scan of the frozen names themselves.
+_MOVE_FIELD_SET = frozenset(
+    {
+        "ply",
+        "player_color",
+        "piece_slot",
+        "piece_owner_color",
+        "source",
+        "destination",
+        "was_attack",
+        "target_piece_slot",
+        "target_owner_color",
+    }
+)
+_DOCUMENT_FIELD_SET = frozenset(PUBLIC_STATE_DOCUMENT_FIELDS)
+_PIECE_FIELD_SET = frozenset(PUBLIC_PIECE_FIELDS)
+
+
+def _refuse_schema_drift(kind: str, keys, frozen: frozenset) -> None:
+    """Refuse any container whose fields are not exactly the frozen schema.
+
+    The frozen contract's injection rule is about *requests carrying
+    private fields*, and a private field nested inside the public-state
+    document is such a request. A top-level token scan cannot see it, so
+    the document, its pieces and its recent moves are checked for exact
+    schema equality — the same refusal
+    :class:`~stratego.evaluation.phase11_sampler.Phase11SamplerRequest`
+    applies. The refusal names the unexpected fields and any forbidden
+    token they carry, so a smuggling attempt is called what it is.
+    """
+    keys = set(keys)
+    if keys == frozen:
+        return
+    unexpected = sorted(keys - frozen)
+    missing = sorted(frozen - keys)
+    tokens = sorted(
+        {
+            token
+            for token in (_forbidden_token_in(key) for key in unexpected)
+            if token is not None
+        }
+    )
+    suffix = f"; forbidden tokens: {', '.join(tokens)}" if tokens else ""
+    raise Phase11BeliefError(
+        f"the document's {kind} fields are not exactly the frozen schema "
+        f"(unexpected {unexpected}, missing {missing}{suffix})"
+    )
 
 
 @dataclass(frozen=True)
@@ -117,6 +172,15 @@ class Phase11BeliefRequest:
             raise Phase11BeliefError(
                 "the request and its document disagree about the observer"
             )
+        _refuse_schema_drift("top-level", document, _DOCUMENT_FIELD_SET)
+        for piece in document["pieces"]:
+            if not isinstance(piece, dict):
+                raise Phase11BeliefError("a document piece is not a mapping")
+            _refuse_schema_drift("piece", piece, _PIECE_FIELD_SET)
+        for move in document["recent_moves"]:
+            if not isinstance(move, dict):
+                raise Phase11BeliefError("a document move is not a mapping")
+            _refuse_schema_drift("recent-move", move, _MOVE_FIELD_SET)
         digest = observation_digest(self.observation)
         if document.get("observation_sha256") != digest:
             raise Phase11BeliefError(

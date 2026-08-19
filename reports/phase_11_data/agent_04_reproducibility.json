@@ -1,0 +1,267 @@
+{
+ "agent": 4,
+ "all_legs_exact": true,
+ "artifact": "agent_04_reproducibility",
+ "audit_version": "phase11_agent04_safety_repro_runtime_v1",
+ "comparison": {
+  "forward_order": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "fresh_process": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "kill_resume_set_subtraction": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "reverse_order": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "round_robin_sharded": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "workers_1": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "workers_12": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  },
+  "workers_4": {
+   "exact": true,
+   "first_mismatches": [],
+   "mismatches": 0,
+   "requests_compared": 2048
+  }
+ },
+ "contract_version": "phase11_information_safety_v1",
+ "distinct_rollup_digests": [
+  "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb"
+ ],
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "4ee1175",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "leg_exact": {
+  "forward_order": true,
+  "fresh_process": true,
+  "kill_resume_set_subtraction": true,
+  "reverse_order": true,
+  "round_robin_sharded": true,
+  "workers_1": true,
+  "workers_12": true,
+  "workers_4": true
+ },
+ "legs": {
+  "forward_order": {
+   "in_process": true,
+   "leg": "forward_order",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "order": "forward_order",
+   "requests": 2048,
+   "wall_clock_seconds": 89.658,
+   "workers": 1
+  },
+  "fresh_process": {
+   "cwd": "/",
+   "environment": "scrubbed to PATH/HOME",
+   "leg": "fresh_process",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "requests": 2048,
+   "wall_clock_seconds": 91.4,
+   "workers": 1
+  },
+  "kill_resume_set_subtraction": {
+   "committed_before_kill": 192,
+   "kill_after_threshold": 192,
+   "kill_signal": "SIGKILL",
+   "leg": "kill_resume_set_subtraction",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "recomputed_on_both_sides": 0,
+   "requests": 2048,
+   "resume_rule": "exact request-id set subtraction",
+   "resumed_committed": 1856,
+   "resumed_requests": 1856,
+   "union_covers_set": true,
+   "wall_clock_seconds": 92.087,
+   "worker_returncode": -9,
+   "workers": 1
+  },
+  "reverse_order": {
+   "in_process": true,
+   "leg": "reverse_order",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "order": "reverse_order",
+   "requests": 2048,
+   "wall_clock_seconds": 90.229,
+   "workers": 1
+  },
+  "round_robin_sharded": {
+   "assignment": "round robin, ordinal mod worker count",
+   "leg": "round_robin_sharded",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "requests": 2048,
+   "shard_sizes": [
+    410,
+    410,
+    410,
+    409,
+    409
+   ],
+   "wall_clock_seconds": 19.737,
+   "workers": 5
+  },
+  "workers_1": {
+   "assignment": "contiguous chunks",
+   "leg": "workers_1",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "requests": 2048,
+   "shard_sizes": [
+    2048
+   ],
+   "wall_clock_seconds": 91.482,
+   "workers": 1
+  },
+  "workers_12": {
+   "assignment": "contiguous chunks",
+   "leg": "workers_12",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "requests": 2048,
+   "shard_sizes": [
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    171,
+    167
+   ],
+   "wall_clock_seconds": 11.152,
+   "workers": 12
+  },
+  "workers_4": {
+   "assignment": "contiguous chunks",
+   "leg": "workers_4",
+   "leg_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+   "requests": 2048,
+   "shard_sizes": [
+    512,
+    512,
+    512,
+    512
+   ],
+   "wall_clock_seconds": 25.16,
+   "workers": 4
+  }
+ },
+ "phase": 11,
+ "problems": [],
+ "purity_scan": {
+  "findings": [],
+  "markers": [
+   "random.random(",
+   "random.randint(",
+   "random.shuffle(",
+   "random.choice(",
+   "np.random.seed",
+   "np.random.rand",
+   "np.random.randint",
+   "np.random.choice",
+   "np.random.permutation",
+   "numpy.random.seed",
+   "torch.rand",
+   "torch.randint",
+   "torch.randperm",
+   "torch.manual_seed",
+   "time.time(",
+   "datetime.now(",
+   "os.getpid(",
+   "os.urandom(",
+   "uuid4("
+  ],
+  "mutable_rng_absent": true,
+  "scanned_modules": [
+   "stratego/evaluation/phase11_sampler.py",
+   "stratego/evaluation/phase11_belief.py",
+   "stratego/evaluation/phase11_public_state.py",
+   "stratego/evaluation/phase11_baselines.py",
+   "stratego/evaluation/phase11_repro.py",
+   "stratego/training/phase11_seed.py"
+  ]
+ },
+ "recorded_logit_agreement": {
+  "exact": true,
+  "meaning": "the live belief forward reproduces Agent 2's recorded float32 logits byte for byte",
+  "public_state_identity_mismatches": 0,
+  "request_mismatches": 0,
+  "requests_compared": 2048,
+  "requests_missing_from_store": 0,
+  "row_mismatches": 0,
+  "rows_compared": 53868
+ },
+ "reference_leg": "forward_order",
+ "reference_rollup_digest": "267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb",
+ "request_set": {
+  "belief_forwards_per_leg": 2048,
+  "by_observer_color": {
+   "blue": 969,
+   "red": 1079
+  },
+  "by_progress_bucket": {
+   "early": 431,
+   "late": 1046,
+   "middle": 571
+  },
+  "by_stratum": {
+   "basic_rule": 256,
+   "information_miser": 256,
+   "miner_rush": 256,
+   "phase8_anchor": 256,
+   "phase9_selfplay": 256,
+   "scout_rush": 256,
+   "strategic_rule": 256,
+   "tactical_rule": 256
+  },
+  "frozen_before_execution": true,
+  "plan_sha256": "d6f61cd4161e47fc7de34970fd4533f300c436c10b2f8ce650fab53508319e1c",
+  "requests": 2048,
+  "set_digest": "83e58f00984b427d9ecbb09d40b343297dce0717898e3599fbbfcf26667bcd84",
+  "worlds_per_leg": 131072,
+  "worlds_per_request": 64
+ }
+}

@@ -1,0 +1,462 @@
+{
+ "agent": 4,
+ "artifact": "agent_04_frozen_sets",
+ "audit_version": "phase11_agent04_safety_repro_runtime_v1",
+ "benchmark_state_set": {
+  "backend": "cpu",
+  "by_observer_color": {
+   "blue": 240,
+   "red": 240
+  },
+  "by_progress_bucket": {
+   "early": 160,
+   "late": 160,
+   "middle": 160
+  },
+  "by_stratum": {
+   "basic_rule": 60,
+   "information_miser": 60,
+   "miner_rush": 60,
+   "phase8_anchor": 60,
+   "phase9_selfplay": 60,
+   "scout_rush": 60,
+   "strategic_rule": 60,
+   "tactical_rule": 60
+  },
+  "cells": [
+   {
+    "distinct_states": 1188,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 1927,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 5487,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 1024,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 1643,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 3658,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "phase9_selfplay"
+   },
+   {
+    "distinct_states": 1055,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 1886,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 1924,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 878,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 1294,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 772,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "phase8_anchor"
+   },
+   {
+    "distinct_states": 1155,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1897,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1534,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1045,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1474,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1142,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "strategic_rule"
+   },
+   {
+    "distinct_states": 1095,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1720,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1638,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1036,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1279,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1474,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "tactical_rule"
+   },
+   {
+    "distinct_states": 1038,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 1452,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 1016,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 944,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 1039,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 547,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "basic_rule"
+   },
+   {
+    "distinct_states": 1122,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 1243,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 3736,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 1276,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 2374,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 7418,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "information_miser"
+   },
+   {
+    "distinct_states": 1114,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 1758,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 6438,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 1105,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 2153,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 8883,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "scout_rush"
+   },
+   {
+    "distinct_states": 1098,
+    "observer_color": "red",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "miner_rush"
+   },
+   {
+    "distinct_states": 1816,
+    "observer_color": "red",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "miner_rush"
+   },
+   {
+    "distinct_states": 8932,
+    "observer_color": "red",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "miner_rush"
+   },
+   {
+    "distinct_states": 1039,
+    "observer_color": "blue",
+    "progress_bucket": "early",
+    "selected": 10,
+    "stratum": "miner_rush"
+   },
+   {
+    "distinct_states": 1658,
+    "observer_color": "blue",
+    "progress_bucket": "middle",
+    "selected": 10,
+    "stratum": "miner_rush"
+   },
+   {
+    "distinct_states": 8920,
+    "observer_color": "blue",
+    "progress_bucket": "late",
+    "selected": 10,
+    "stratum": "miner_rush"
+   }
+  ],
+  "cells_short": [],
+  "cells_total": 48,
+  "configurations": [
+   "forward_only",
+   "forward_plus_16_worlds",
+   "forward_plus_32_worlds",
+   "forward_plus_64_worlds"
+  ],
+  "distinct_public_states": 480,
+  "dtype": "float32",
+  "expected_state_count": 480,
+  "plan_file": "checkpoints/phase11/agent04/benchmark_plan.json",
+  "plan_sha256": "c4ea0d551657bc883c68b31efbbfe35f893e1b42854415d85e66e9f1ea38c15b",
+  "rule": "10 states per (stratum x colour x progress bucket) cell over the 48 cells: order the cell's distinct validation public states by unresolved-piece count then public_state_identity and take evenly spaced picks, so unresolved-count variation is covered deterministically; a cell with fewer states contributes what it has (recorded)",
+  "set_digest": "1ec642e8c2b509848d0db1565b052bc7e892c71cc3ab8e8764de6eb7b2869a48",
+  "state_count": 480,
+  "torch_threads": 1,
+  "unresolved_pieces": {
+   "distinct": 40,
+   "max": 40,
+   "min": 1
+  }
+ },
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "4ee1175",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "frozen_before_any_measurement": true,
+ "phase": 11,
+ "safety_candidate_pool": {
+  "admitting": 107021,
+  "below_minimum_unresolved": 156,
+  "candidates": 107190,
+  "no_alternative_rule": "a state admitting no altered legal truth (for example, all unresolved pieces share one rank) is skipped and the trial deterministically walks to the next candidate state in its state_selection stream \u2014 trials are never silently dropped",
+  "non_admitting": 169,
+  "pool_digest": "5512bc56c18e6aac2cafe641dd064a537b8b6659cbc5fb16135cf31de12e5552",
+  "pool_file": "checkpoints/phase11/agent04/safety_pool.json",
+  "pool_sha256": "5325295eecf533e36eb1012280584396356a1c338afd454333bcc1a8a4bdbc88",
+  "rule": "validation-bank public states with at least two unresolved opponent pieces, selected deterministically by the trial's state_selection stream",
+  "trials": 50000
+ },
+ "source": {
+  "prediction_store_manifest_digest": "4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7",
+  "recorded_decisions": 107346,
+  "rule": "built from the recorded public shards and the frozen bank; no replay, no outcome field, no truth shard",
+  "validation_bank_digest": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023"
+ },
+ "topology_request_set": {
+  "by_observer_color": {
+   "blue": 969,
+   "red": 1079
+  },
+  "by_progress_bucket": {
+   "early": 431,
+   "late": 1046,
+   "middle": 571
+  },
+  "by_setup_source": {
+   "neutral": 1046,
+   "p10d": 1002
+  },
+  "by_stratum": {
+   "basic_rule": 256,
+   "information_miser": 256,
+   "miner_rush": 256,
+   "phase8_anchor": 256,
+   "phase9_selfplay": 256,
+   "scout_rush": 256,
+   "strategic_rule": 256,
+   "tactical_rule": 256
+  },
+  "distinct_public_states": 2048,
+  "expected_request_count": 2048,
+  "plan_file": "checkpoints/phase11/agent04/repro_plan.json",
+  "plan_sha256": "d6f61cd4161e47fc7de34970fd4533f300c436c10b2f8ce650fab53508319e1c",
+  "request_content": "one belief forward plus complete worlds for sample ordinals 0..63, digested canonically (beliefs, masks, worlds, provenance)",
+  "request_count": 2048,
+  "requests_per_stratum": 256,
+  "rule": "2048 frozen requests: per stratum, the distinct validation public states ordered by public_state_identity, taking the first 256 \u2014 a hash-order deterministic rule consuming no randomness",
+  "set_digest": "83e58f00984b427d9ecbb09d40b343297dce0717898e3599fbbfcf26667bcd84",
+  "unresolved_pieces": {
+   "distinct": 40,
+   "max": 40,
+   "min": 1
+  },
+  "worlds_per_request": 64
+ }
+}

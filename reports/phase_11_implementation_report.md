@@ -601,3 +601,259 @@ Suite: `5497 passed, 3 skipped in 313.78s (0:05:13)`.
 Agent 4 receives the immutable sampler identity (`stratego/evaluation/phase11_sampler.py`, SHA-256 `a0119f0126a1100c...`), the provenance schema, the sample-token rules (production ordinals 0..63), the validation public-state list (the diagnostics CSV), the audit evidence, and the zero-mass fallback behaviour. Agent 4 must not change the sampler mathematics.
 
 **Agent 3 stops here.** Ending revision: uncommitted working tree over `2c12a5c`; per the commit discipline, the commit happens only after reviewing-chat acceptance.
+
+## 4. Agent 4 — Information Safety, Reproducibility, and Runtime
+
+**Status: PASS** — 34/34 completion gates true, 50,000 hidden-truth permutation trials with every information-safety counter zero, all 8 topology/restart legs byte-identical over 2,048 frozen requests (131,072 complete worlds per leg), and p95(forward + 64 worlds) = 48.5 ms against the 500 ms ceiling.
+
+Agent 4 proves the three properties Phase 12 needs from the belief system: it cannot see hidden truth, it reproduces exactly under every required topology and restart, and it is fast enough for search. It trains nothing, calibrates nothing, redesigns no sampler rule, touches no P10-D artifact and scores no test-bank prediction. The validation `R_CE = 0.9750` Gate A risk stays diagnostic: every threshold this agent tested against — 50,000 trials, eight legs, 500 ms — is Agent 1's, unchanged.
+
+### 4.1 Verified identities
+
+Every identity below was recomputed from live bytes before any measurement.
+
+```text
+Agent 1 status                  PASS; Agent 2 PASS; Agent 3 PASS
+contract bundle                 ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d
+information-safety contract     1b8160d544b5ee71eb1b03be025a868e7298ace1d61c486524e631ba68faab4d
+sampler contract digest         a113d2e9588a6c4d7c2dcff954773e693ae876d19465904e4b277e86675afca9
+validation bank digest          bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023
+test bank digest                566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404 (structural re-hash only)
+prediction-store manifest       4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7
+Phase 9 checkpoint SHA-256      dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+Phase 9 model-state digest      f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd
+Phase 9 parameters              863,959
+belief-head digest              a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7
+stratego/evaluation/phase11_sampler.py  a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8
+stratego/evaluation/phase11_sampler_audit.py  26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a
+P10-D config SHA-256            6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668
+Phase 7 library content         7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777
+```
+
+### 4.2 The frozen sets
+
+Both sets were materialised from Agent 1's hash-order rules over the Agent 2 prediction store — no seed stream, no clock, no replay — and written before any trial, leg or measurement existed.
+
+```text
+topology request set            2,048 requests, 2,048 distinct public states
+  digest                        83e58f00984b427d9ecbb09d40b343297dce0717898e3599fbbfcf26667bcd84
+  per stratum                   256 x 8
+  observer colour               {'blue': 969, 'red': 1079}
+  progress bucket               {'early': 431, 'late': 1046, 'middle': 571}
+  unresolved pieces             1-40
+benchmark state set             480 states over 48 cells, 0 short
+  digest                        1ec642e8c2b509848d0db1565b052bc7e892c71cc3ab8e8764de6eb7b2869a48
+  unresolved pieces             1-40 (40 distinct counts)
+safety candidate pool           107,190 candidates, 107,021 admitting an altered legal truth
+  digest                        5512bc56c18e6aac2cafe641dd064a537b8b6659cbc5fb16135cf31de12e5552
+```
+
+### 4.3 Part A — the hidden-truth permutation attack
+
+Each trial takes a validation position, permutes the true ranks of the unresolved opponent pieces into a different but publicly indistinguishable truth, and re-runs the production belief path and the frozen sampler on both. The permutation preserves the remaining inventory by construction and never puts a Flag or a Bomb on a publicly moved piece.
+
+```text
+trials                          50,000 (floor 50,000)
+belief forwards                 100,000
+fixed-seed worlds               100,000
+instrumented public rebuilds    100,000
+distinct positions              39,895 over 939 games
+changed hidden ranks per trial  mean 20.3491, max 40
+strata                          {'basic_rule': 2822, 'information_miser': 7969, 'miner_rush': 10965, 'phase8_anchor': 3595, 'phase9_selfplay': 6990, 'scout_rush': 10004, 'strategic_rule': 3824, 'tactical_rule': 3831}
+observer colour                 {'blue': 25120, 'red': 24880}
+progress bucket                 {'early': 7939, 'late': 29599, 'middle': 12462}
+wall clock                      762s
+```
+
+Gate F zero-tolerance counters (all must be and are zero):
+
+```text
+belief_output_differences               0
+fixed_seed_sample_differences           0
+forbidden_hidden_input_accesses         0
+injection_acceptances                   0
+```
+
+The six contract checks are recorded separately, so a difference could not hide inside an aggregate:
+
+```text
+belief_logit_probability_differences    0
+illegal_alternative_truths              0
+instrumented_document_mismatches        0
+inventory_changes                       0
+legal_action_mask_differences           0
+observation_differences                 0
+public_document_differences             0
+public_mask_differences                 0
+sampled_world_differences               0
+sampler_provenance_differences          0
+sampler_request_differences             0
+unchanged_alternative_truths            0
+```
+
+**Injection controls.** 288 probes across 8 positions pushed every named private field — true rank, private piece table, opponent setup truth, hidden start rank, winner/result/reward, future action/search result and storage path — at *both* request boundaries, including two nested smuggles that hide a private field inside the frozen public document. Every probe was refused structurally; `injection_acceptances = 0`.
+
+**The hidden-rank access counter is instrumented, not asserted.** Each trial rebuilds both positions' public products a second time with the unresolved opponent pieces replaced by records whose `true_type` is a counting property, so any read of a hidden rank while building the `PublicView`, the 127-channel observation or the frozen document is tallied. Across 100,000 instrumented rebuilds the count is 0, and every instrumented document matched its plain counterpart byte for byte.
+
+### 4.4 Part B — topology and restart reproducibility
+
+One definition of a request serves every leg and the benchmark (`stratego.evaluation.phase11_repro.execute_request`): one belief forward plus complete worlds for sample ordinals 0..63, summarised by a SHA-256 over the raw bytes of the logits, the float64 probabilities, the public legal-rank masks, all 64 worlds and every provenance field. Each leg replays every request from the initial setup, so nothing survives between requests.
+
+```text
+leg                              workers  requests   seconds  rollup digest
+workers_1                              1      2048      91.5  267c20efb9fe3456
+workers_4                              4      2048      25.2  267c20efb9fe3456
+workers_12                            12      2048      11.2  267c20efb9fe3456
+forward_order                          1      2048      89.7  267c20efb9fe3456
+reverse_order                          1      2048      90.2  267c20efb9fe3456
+round_robin_sharded                    5      2048      19.7  267c20efb9fe3456
+fresh_process                          1      2048      91.4  267c20efb9fe3456
+kill_resume_set_subtraction            1      2048      92.1  267c20efb9fe3456
+```
+
+All 8 legs produced exactly one rollup digest (`267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb`), with 0 request mismatches against the reference leg in every comparison. The restart leg sent a real `SIGKILL` after 192 fsynced requests and resumed with exactly the 1856 ordinals the store did not hold; 0 requests were recomputed on both sides of the kill.
+
+**No mutable RNG cursor exists on the production path.** A literal scan over the live source of 6 derivation modules for 19 markers — module-level `random`/`numpy.random`/`torch` draws, wall clock, process id, `os.urandom`, `uuid4` — returned no findings, and the `mutable_global_rng` sensitivity control shows what a cursor-driven order would have done to the leg comparison.
+
+### 4.5 Part C — the runtime benchmark
+
+Backend and device were frozen by Agent 1 before any measurement existed (cpu / float32 / 1 torch thread, single process, single request at a time) and did not move after results. 32 global warmups and one discarded warmup per state precede the measurements; the timer is `time.perf_counter_ns` around the complete request.
+
+```text
+configuration                median      p90      p95      p99      max   forward  sampling
+forward_only                    1.9      2.1      2.1      2.2      2.3      1.52      0.11
+forward_plus_16_worlds         11.9     13.2     13.4     13.8     14.1      1.29     10.38
+forward_plus_32_worlds         22.2     24.7     25.1     25.6     26.3      1.35     20.58
+forward_plus_64_worlds         42.7     47.8     48.5     49.7     53.1      1.42     41.01
+(milliseconds; forward and sampling columns are medians of the components)
+```
+
+**Gate G quantity: p95(forward + 64 worlds) = 48.51 ms <= 500 ms**, a 10.31x headroom, at a peak RSS of 255.7 MiB over 480 states and 1,920 measured requests. Every recorded metric is finite.
+
+### 4.6 Part D — sensitivity controls
+
+Each control sabotages one thing the evidence depends on; each must fire, and each did.
+
+```text
+belief_probability_perturbed            fired
+mutable_global_rng                      fired
+private_truth_read                      fired
+provenance_corrupted                    fired
+sample_seed_changed                     fired
+```
+
+### 4.7 Materialized random-stream identities
+
+Every Phase 11 draw is a `blake2b` of a logical identity, so two different identities sharing a seed would silently couple two independent draws. Agent 3 proved injectivity over its own world streams and Agent 1's enumerable universe; Agent 4 materializes identities neither covered — sample ordinals up to 63 on states Agent 3 never sampled, and `safety_trial` draws beyond ordinal 0, which is all Agent 1 enumerates.
+
+Intentional reuse is deduplicated by logical identity before any seed is compared: the original and permuted sides of a safety trial share one sampler identity **by design**, the eight legs reissue identical request and sample identities **by design**, and Agent 1's draw-0 safety entries are the first draw of the same trial streams the attack consumed. What remains is one entry per distinct identity.
+
+```text
+sample tokens                            count
+  Agent 3 (reconstructed)              307,098
+  Agent 4 safety attack                 49,820
+  Agent 4 topology legs                131,072
+  Agent 4 runtime benchmark             30,720
+  Agent 4 controls (subset)                  8
+  Agent 4 distinct                     209,248
+  new to Agent 4                       199,941
+  shared with Agent 3                    9,307
+  combined distinct                    507,039
+```
+
+Per-domain identity counts of the combined universe:
+
+```text
+domain                               identities  distinct seeds  internal dup
+bank_match                                5,120           5,120             0
+bank_observer_setup                       5,120           5,120             0
+bank_opponent_setup                       5,120           5,120             0
+benchmark:state_selection                   480             480             0
+bootstrap                                   252             252             0
+repro_schedule:replay                     2,048           2,048             0
+safety_trial:sample_check                50,000          50,000             0
+safety_trial:state_selection             50,063          50,063             0
+safety_trial:truth_permutation          362,655         362,655             0
+soak_match                                1,024           1,024             0
+soak_setup                                2,048           2,048             0
+world_categorical                    14,621,713      14,621,713             0
+world_order                          14,621,713      14,621,713             0
+world_sample                            507,039         507,039             0
+
+combined                             30,234,395      30,234,395             0
+```
+
+**30,234,395 distinct logical identities map to 30,234,395 distinct seeds — 0 accidental collisions**, of which 11,231,781 are Agent 4's own new identities. The `repro_schedule` and `benchmark` domains are materially uninstantiated (both frozen selection rules are hash-order rules that consume no randomness), so they contribute only Agent 1's enumerable entries.
+
+Two things make the combination trustworthy rather than merely large. The Agent 3 universe is *reconstructed* from its diagnostics and the recorded store, and the reconstruction reproduces its recorded stream counts exactly (world_categorical 9,337,152, world_order 9,337,152, world_sample 307,098). And the bulk enumeration calls `derive_phase11_seed` directly to avoid tens of millions of token re-parses, so 15,666 of those derivations were re-run through the accepted public helpers (`world_sample_seed`, `world_order_key`, `world_categorical_uniform`, `safety_trial_seed`) with 0 mismatches.
+
+The attack's own stream consumption was recomputed in a fresh process from the frozen pool alone and reproduced the recorded run's permutation-method split exactly ({'shuffle': 44148, 'transposition': 5852}), which is an independent determinism check on Part A.
+
+### 4.8 Preservation and the seal
+
+```text
+Phase 9 checkpoint unchanged    True
+belief head unchanged           True
+sampler identity unchanged      True
+optimizer steps                 47086 -> 47086 (delta 0)
+P10-D unchanged                 True
+Phase 7 library unchanged       True
+prediction store unchanged      True
+test-bank entries               11, structural-only True
+test-bank counters              forwards 0, scored 0, truth 0, outcomes 0
+```
+
+### 4.9 Completion gates
+
+```text
+agent4_materialized_stream_collisions_zeroTrue
+agents1_3_pass                          True
+all_topology_legs_exact                 True
+belief_head_unchanged                   True
+belief_output_changes_zero              True
+benchmark_config_frozen                 True
+benchmark_states_representative         True
+fixed_seed_sample_changes_zero          True
+forbidden_hidden_access_zero            True
+forward_reverse_exact                   True
+fresh_process_exact                     True
+full_suite_green                        True
+hidden_truth_trials_ge_50k              True
+injection_controls_rejected             True
+mutable_rng_absent                      True
+negative_controls_fire                  True
+no_belief_updates                       True
+no_test_prediction_access               True
+one_distinct_rollup_digest              True
+p95_64_worlds_le_500ms                  True
+p95_64_worlds_recorded                  True
+phase9_checkpoint_unchanged             True
+recorded_logits_reproduce_exactly       True
+restart_resume_exact                    True
+round_robin_sharded_exact               True
+runtime_metrics_finite                  True
+safety_detail_counters_zero             True
+sampler_identity_unchanged              True
+stream_universe_reconstruction_faithful True
+topology_request_set_frozen             True
+upstream_artifacts_unchanged            True
+worker_12_exact                         True
+worker_1_exact                          True
+worker_4_exact                          True
+```
+
+Suite: `5621 passed, 3 skipped in 315.50s (0:05:15)`
+
+### 4.10 Recorded readings and handoff to Agent 5
+
+- **gate_a_risk_acknowledged_nothing_retuned** — Agent 2's validation reading R_CE = 0.9750 would fail Gate A's <= 0.97 on the sealed test if it repeated. Agent 4 treats it as diagnostic only: the belief model, the masks, the baseline, the sampler weighting, the feasibility guard and every Phase 11 threshold are byte-identical to the Agent 1 freeze, and this agent's own thresholds (50,000 trials, eight legs, 500 ms) are Agent 1's. *Impact:* none on any frozen quantity; recorded so the reviewer sees the risk was known and not acted on
+- **permutation_attack_reads_truth_on_its_construction_path** — the attack must build an alternative hidden truth, so it reads the validation position's true ranks on its own privileged construction path — the contract's `permutation` rule requires exactly this. Those ranks never enter a belief request, a sampler request or any derivation: both request types have no field they could arrive in, and the instrumented counter proves the public products were built without a single hidden-rank read. No truth shard was opened and no game outcome was read. *Impact:* validation-bank access accounting only; the test bank is untouched
+- **admits_alternative_is_the_constructive_predicate** — a candidate state is usable when a valid transposition of two unresolved pieces exists — different ranks, and neither piece left publicly-moved-and-immovable. A transposition *is* an alternative truth, so the predicate is sufficient by construction, and it is the exact rule the frozen no-alternative walk uses. On this pool 169 of 107190 candidates were skipped by it; no trial was dropped. *Impact:* which states a trial may land on; never which comparison it runs
+- **belief_request_boundary_hardened_to_the_frozen_document_schema** — the injection controls found one gap: `Phase11BeliefRequest` scanned only the *top-level* document keys for forbidden tokens, so a private field nested inside a piece entry (`pieces[0]['true_rank_index']`) was accepted, while the sampler boundary refused the same payload. The frozen rule is 'requests carrying private fields must be rejected structurally', and such a request carries one, so the belief request now applies the same exact-schema refusal the sampler already did, over the document, its pieces and its recent moves. This adds a refusal and touches no arithmetic: the recorded-logit agreement pass re-ran the live forward on all 2048 frozen requests and reproduced Agent 2's stored float32 logits byte for byte on 53868 rows, with 0 mismatches. Every document Phase 11 builds already satisfies the schema, because the accepted builder raises on drift itself. *Impact:* a refusal added to an accepted request type; no metric, threshold, weight or recorded output moved
+- **repro_schedule_and_benchmark_domains_are_not_instantiated** — Agent 1 froze a `repro_schedule` and a `benchmark` stream so that any schedule step needing a draw would have a domain-separated source instead of an invented one. Neither frozen selection rule needs one: the 2,048-request set is the distinct validation public states ordered by identity, and the 480-state benchmark orders each cell by unresolved count then identity. The harness therefore calls `repro_schedule_seed` and `benchmark_seed` nowhere, and the stream audit records both domains as materially uninstantiated while still carrying Agent 1's enumerable entries into the combined injectivity check. *Impact:* the two domains contribute their frozen enumerable entries only; no draw was invented
+- **measured_request_includes_public_product_construction** — the benchmark timer wraps the whole request as Phase 12 will issue it: build the public view, the 127-channel observation and the frozen document, run the forward, then sample the worlds. The engine replay that puts the harness at the position is excluded — a searcher already holds the position — and the document, forward and sampling components are recorded separately so the split is visible rather than asserted. *Impact:* makes the measured quantity conservative; the ceiling is unchanged
+- **forward_order_is_the_reference_leg** — the eight legs are compared pairwise against `forward_order`, the only leg that runs inside the harness process itself, and it runs there after that process has already executed the 2048-request recorded-logit agreement pass and driven the three worker legs — so it is the leg most exposed to 'previous calls', and comparing every other leg to it is strictly harder than comparing them to a fresh process. All 8 legs produced one rollup digest: 267c20efb9fe34569ec23df29eee76156ec03cea7fd2230d088b66920614febb. *Impact:* comparison bookkeeping; every leg is compared to every other through it
+- **kill_resume_uses_a_real_sigkill** — the restart leg starts a real subprocess, waits until it has fsynced 192 committed requests, sends SIGKILL, then resumes with exactly the ordinals the store does not hold. 0 requests were recomputed on both sides of the kill, and the union is the complete frozen set. *Impact:* none; it is the restart evidence itself
+
+Agent 5 receives the immutable evaluator identity (`phase11_belief_evaluator_v1`, belief head `a9df48a1adcd29b1...`), the immutable sampler identity (`belief_sampler_v1`, `a0119f0126a1100c...`), the safety and topology evidence, and the measured runtime configuration (cpu / float32 / 1 thread, p95 48.51 ms). Agent 5 integrates and freezes; it may not retrain, recalibrate, redesign the sampler or open the sealed test bank.
+
