@@ -13,6 +13,7 @@ data/stratego_phase6b/
 # Local leftovers that must not appear as GitHub Desktop "changes".
 stratego_project_docs 2/
 reports/.Rhistory
+instructions/phase_11_sequential_agent_plan.zip
 # Phase 8 training checkpoints and Agent 4 engineering-run state: production
 # data reproducible by `python scripts/run_phase8_agent04.py --full`; the
 # JSON/CSV artifacts that describe them are tracked in reports/phase_8_data.

@@ -1,0 +1,1301 @@
+{
+  "administrative_freeze": {
+    "commit": "97751ef0bfd60b46fb1c17a688e4fd8bf1711ad0",
+    "commit_matches": true,
+    "expected_commit": "97751ef0bfd60b46fb1c17a688e4fd8bf1711ad0",
+    "tracked_modifications": [],
+    "untracked_files": [
+      "scripts/run_phase10_agent07.py",
+      "stratego/evaluation/phase10_final.py",
+      "tests/evaluation/test_phase10_final.py",
+      "tests/training/test_phase10_agent07_artifacts.py"
+    ],
+    "untracked_note": "untracked files are Agent 7's own new code, work directories and artifacts; no tracked byte differs from the freeze commit"
+  },
+  "agent": 7,
+  "artifact": "agent_07_final_acceptance",
+  "audit_summary": {
+    "actions_replayed": 2249057,
+    "games_audited": 11264,
+    "seat_mismatches": 0,
+    "seats_audited": 22528,
+    "weights_binding": [
+      {
+        "bound_checkpoint": "phase9",
+        "correct_owner_reproduces": 12,
+        "matchup": "learned_vs_neutral",
+        "sampled_games": 12,
+        "seat_under_test": "phase6_phase10_eval_move_v1_greedy@0.2.0+float32",
+        "swapped_checkpoint": "phase8_anchor",
+        "swapped_owner_changes_the_game": 12
+      },
+      {
+        "bound_checkpoint": "phase8_anchor",
+        "correct_owner_reproduces": 12,
+        "matchup": "vs_phase8_anchor",
+        "sampled_games": 12,
+        "seat_under_test": "phase6_c1_warmstart_greedy@0.2.0+float32",
+        "swapped_checkpoint": "phase9",
+        "swapped_owner_changes_the_game": 12
+      }
+    ]
+  },
+  "bank": {
+    "bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "bank_version": "phase10_test_bank_v1",
+    "bootstrap_replicates": 10000,
+    "bootstrap_root": 2026081808,
+    "bootstrap_unit": "phase10_logical_case",
+    "cases": 512
+  },
+  "bank_access_log": [
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_rebuild_audit",
+      "stage": "banks"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_rebuild_audit",
+      "stage": "banks"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": true,
+      "outcomes": true,
+      "purpose": "final_evaluation",
+      "stage": "games"
+    }
+  ],
+  "classification": "PASS-NONINFERIOR",
+  "classification_logic": {
+    "evidence_complete": true,
+    "gate_a_improved": false,
+    "gate_b_significantly_positive": false,
+    "hard_gates_all_pass": true,
+    "recomputed_from_gate_rows": "PASS-NONINFERIOR",
+    "rule": "BLOCKED if identity/sealing/discipline evidence is incomplete; FAIL if any hard gate fails after correct execution; PASS-IMPROVED if all eight gates pass, Gate A meets the improved criterion and Gate B is significantly positive; PASS-NONINFERIOR otherwise"
+  },
+  "closure": {
+    "formal_closure": "belongs to the reviewing chat",
+    "on_pass_freeze_permanently": [
+      "neutral_v1",
+      "learned_setup_source_v1 (accepted P10-D configuration)",
+      "phase10_selector_config_v1 6e227815",
+      "setup_utility_v1 model_T d898782a + trait scaler fa6eb1c1",
+      "accepted Phase 9 selfplay_c1_v1.pt dfd698e5"
+    ],
+    "phase11": "belief validation; does not retune setup selection"
+  },
+  "completion_gates": {
+    "administrative_freeze_verified": true,
+    "agents1_6_pass": true,
+    "candidate_count_6_verified": true,
+    "classification_recomputes_from_gate_rows": true,
+    "final_setup_replay_audit_pass": true,
+    "full_suite_green": true,
+    "gate_a_recomputed": true,
+    "gate_b_recomputed": true,
+    "gate_c_recomputed": true,
+    "gate_d_recomputed": true,
+    "gate_e_recomputed": true,
+    "gate_f_recomputed": true,
+    "gate_g_recomputed": true,
+    "gate_h_recomputed": true,
+    "illegal_actions_zero": true,
+    "nonfinite_zero": true,
+    "opponent_hidden_selector_inputs_zero": true,
+    "outcome_corpus_train_only_verified": true,
+    "phase10_contracts_verified": true,
+    "phase10_system_identity_verified": true,
+    "phase7_identity_verified": true,
+    "phase9_checkpoint_unchanged_after_eval": true,
+    "phase9_checkpoint_unchanged_before_eval": true,
+    "phase9_identity_verified": true,
+    "pre_agent7_test_outcome_access_zero": true,
+    "selection_validation_only_verified": true,
+    "test_bank_rebuild_verified": true,
+    "test_bank_structural_audit_pass": true,
+    "utility_and_selector_digests_verified": true,
+    "validation_bank_rebuild_verified": true
+  },
+  "correctness_report": {
+    "hidden_opponent_selector_inputs": 0,
+    "illegal_neural_moves": 0,
+    "illegal_setups": 0,
+    "inference_failures": 0,
+    "inventory_errors": 0,
+    "non_finite_selector_outputs": 0,
+    "provenance_mismatch": 0,
+    "split_leakage": 0,
+    "stranded_sampled_setups": 0,
+    "supporting": {
+      "audit_counters": {
+        "games": 11264,
+        "illegal_setups": 0,
+        "inventory_errors": 0,
+        "replayed_actions": 2249057,
+        "replayed_games": 11264,
+        "seat_mismatches": 0,
+        "setup_reconstruction_mismatches": 0,
+        "split_violations": 0,
+        "stranded_sampled_setups": 0
+      },
+      "contract_violations": 0,
+      "policy_errors": 0,
+      "policy_exceptions": 0,
+      "total_safety": {
+        "contract_violations": 0,
+        "engine_rejections": 0,
+        "illegal_actions": 0,
+        "illegal_setups": 0,
+        "non_finite_scores": 0,
+        "policy_errors": 0,
+        "policy_exceptions": 0,
+        "unscored_games": 0
+      },
+      "unscored_games": 0
+    }
+  },
+  "critical_identities": {
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "contract_digests": {
+      "phase10_acceptance_v1": "a76f79b7a710f327d2ee097aa922203f1e19ec7bb7619d5baac559e73af7e88b",
+      "phase10_eval_bank_v1": "8e4158426e783f55590086164e9e5fccbd331373b04e1e36a9b7358aaf87f22b",
+      "phase10_selector_schedule_v1": "30ad8ede3fe342d071a5a5d7dc65510bf6cdea3ff20c70554d3e181d97b86dc4",
+      "phase10_setup_contract_v1": "058df41f304a2b2225222bf69df7b462bb90426ca0924992f792f5c7bcb1c71a",
+      "phase10_setup_outcome_corpus_v1": "951025f102dab1a103d02f21e5df414265bc594b37bd02283a64fe02585fe6d5",
+      "phase10_setup_selector_v1": "5e2b9c3a0192215545ba5c0d7164e4833d7c77dd27a3209f7d81bab6037f3efe",
+      "phase10_setup_utility_v1": "2778ddea8bb1c85b998a3abaefaf794816bc9b6eb476010b44d040087758f456",
+      "phase10_system_v1": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
+    },
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "phase10_system_v1_instance_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "phase10_system_v1_template_digest": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d",
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "phase9_parameters": 863959,
+    "production_train_digests": {
+      "blue": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+      "red": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f"
+    },
+    "root_seeds": {
+      "case_schedule_seed": 2026081806,
+      "outcome_schedule_seed": 2026081802,
+      "phase10_master_seed": 2026081801,
+      "selector_draw_seed": 2026081805,
+      "setup_draw_seed": 2026081803,
+      "test_bootstrap_seed": 2026081808,
+      "utility_fit_seed": 2026081804,
+      "validation_bootstrap_seed": 2026081807
+    },
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
+    "soak_content_digest": "f2922d6b5bf339f642aaf33864b510b3a1099683bf3270c7e5e10b5796ef670e",
+    "test_bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "utility_coefficient_digests": {
+      "model_F": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+      "model_T": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+    },
+    "utility_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "validation_bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f"
+  },
+  "discipline": {
+    "c1_optimizer_steps": 0,
+    "candidates_added": 0,
+    "candidates_evaluated_on_test_bank": 1,
+    "human_games_used": 0,
+    "mixture_changes": 0,
+    "report_only_metrics_used_in_gates": 0,
+    "rescue_reruns": 0,
+    "temperature_changes": 0,
+    "test_bank_outcome_access_by_agent_7": 11264,
+    "threshold_changes": 0,
+    "utility_models_fit": 0,
+    "winner_switches_after_test": 0
+  },
+  "diversity_report": {
+    "max_conditional_base_probability": 0.035616949808666074,
+    "max_family_probability": 0.13208105447414017,
+    "min_effective_families": 15.207213080540713,
+    "min_family_probability": 0.04417494035972362,
+    "min_normalized_family_entropy": 0.9816709698888034,
+    "min_within_family_normalized_base_entropy": 0.993719832725632,
+    "production_candidate_cells": {
+      "blue/test": {
+        "all_thresholds_pass": true,
+        "digest": "fecbf34b8a86d2cef68c4ad8a15194097dce7c41076f7bee7f42295603214cdd",
+        "metrics": {
+          "effective_base_diversity": 752.9896681990435,
+          "effective_families": 15.305637012226933,
+          "max_conditional_base_probability": 0.0348377325459525,
+          "max_family_probability": 0.12349742656904193,
+          "min_family_probability": 0.04543720996373093,
+          "min_within_family_normalized_base_entropy": 0.993719832725632,
+          "normalized_family_entropy": 0.9839977962947488
+        }
+      },
+      "blue/train": {
+        "all_thresholds_pass": true,
+        "digest": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+        "metrics": {
+          "effective_base_diversity": 5998.636148614989,
+          "effective_families": 15.24673363110255,
+          "max_conditional_base_probability": 0.006182172292501207,
+          "max_family_probability": 0.12937967042680854,
+          "min_family_probability": 0.04576811068459166,
+          "min_within_family_normalized_base_entropy": 0.9953032702836944,
+          "normalized_family_entropy": 0.9826070740800751
+        }
+      },
+      "blue/validation": {
+        "all_thresholds_pass": true,
+        "digest": "f9c8af0b19621d262213f8e1dabce3c42623ba6cd286c1347acdf25cdc9fbaf6",
+        "metrics": {
+          "effective_base_diversity": 748.4473714192854,
+          "effective_families": 15.207213080540713,
+          "max_conditional_base_probability": 0.035616949808666074,
+          "max_family_probability": 0.13208105447414017,
+          "min_family_probability": 0.044491604770933356,
+          "min_within_family_normalized_base_entropy": 0.9940198335695564,
+          "normalized_family_entropy": 0.9816709698888034
+        }
+      },
+      "red/test": {
+        "all_thresholds_pass": true,
+        "digest": "08fe01fda3e9edfbca8df0315a51e2921e9dd99491dd66bd0c1428db1ac06333",
+        "metrics": {
+          "effective_base_diversity": 761.982664652061,
+          "effective_families": 15.43215818170835,
+          "max_conditional_base_probability": 0.034000039508473356,
+          "max_family_probability": 0.12134669418699151,
+          "min_family_probability": 0.04417494035972362,
+          "min_within_family_normalized_base_entropy": 0.993873781963299,
+          "normalized_family_entropy": 0.9869669828205199
+        }
+      },
+      "red/train": {
+        "all_thresholds_pass": true,
+        "digest": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+        "metrics": {
+          "effective_base_diversity": 6071.540828192829,
+          "effective_families": 15.373156341148343,
+          "max_conditional_base_probability": 0.00537938710822037,
+          "max_family_probability": 0.12665226866405382,
+          "min_family_probability": 0.044525529248631956,
+          "min_within_family_normalized_base_entropy": 0.995525319061363,
+          "normalized_family_entropy": 0.9855853743515682
+        }
+      },
+      "red/validation": {
+        "all_thresholds_pass": true,
+        "digest": "5df8f37a9871d19cde18beb00d7694819543aff25b20cd16c2e4c630aae9b4d1",
+        "metrics": {
+          "effective_base_diversity": 758.0752210418358,
+          "effective_families": 15.351064610154536,
+          "max_conditional_base_probability": 0.03271065152098846,
+          "max_family_probability": 0.1275466344788705,
+          "min_family_probability": 0.04418611773690512,
+          "min_within_family_normalized_base_entropy": 0.9942113667776943,
+          "normalized_family_entropy": 0.9850667015381457
+        }
+      }
+    },
+    "scope": "worst case over every candidate, colour and split"
+  },
+  "environment": {
+    "cpu_count": 14,
+    "mps_available": true,
+    "mps_built": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "97751ef",
+    "torch_version": "2.13.0",
+    "working_tree_state": "dirty"
+  },
+  "evaluated_system": {
+    "baseline": "neutral_v1",
+    "candidate_id": "P10-D",
+    "phase10_system_v1_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "temperature": 0.75,
+    "utility_model": "model_T"
+  },
+  "false_gates": [],
+  "final_evaluation_access": {
+    "count": 1,
+    "entries": [
+      {
+        "bank": "phase10_test_bank_v1",
+        "neural": true,
+        "outcomes": true,
+        "purpose": "final_evaluation",
+        "stage": "games"
+      }
+    ],
+    "statement": "exactly one outcome-bearing access exists: the Agent 7 games stage, purpose final_evaluation"
+  },
+  "games": {
+    "device": "cpu",
+    "inference": {
+      "failures_returned": 0,
+      "requests_served": 11570785
+    },
+    "learned_arm": 6144,
+    "neutral_arm": 5120,
+    "total": 11264,
+    "wall_clock_seconds": 301.81553566700313,
+    "workers": 12
+  },
+  "gates": {
+    "A": {
+      "ewr": 0.51513671875,
+      "gate": "A",
+      "improved": false,
+      "improved_checks": {
+        "ewr_ok": false,
+        "lb_ok": false
+      },
+      "lower_bound": 0.48828125,
+      "ordinary_checks": {
+        "ewr_ok": true,
+        "lb_ok": true
+      },
+      "pass": true,
+      "thresholds": {
+        "improved": {
+          "ewr_min": 0.52,
+          "ewr_min_strict": false,
+          "lb_min": 0.5,
+          "lb_min_strict": true
+        },
+        "ordinary": {
+          "ewr_min": 0.49,
+          "ewr_min_strict": false,
+          "lb_min": 0.47,
+          "lb_min_strict": true
+        }
+      }
+    },
+    "B": {
+      "checks": {
+        "delta_l_ok": true,
+        "lb_ok": true
+      },
+      "components": {
+        "delta_phase8_anchor": 0.0185546875,
+        "delta_strategic": 0.02001953125,
+        "delta_tactical": -0.00048828125
+      },
+      "delta_l": 0.012548828125,
+      "gate": "B",
+      "interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.004077758789062492,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 4717448723336249437,
+        "token": "league:delta_l",
+        "upper": 0.030054321289062495,
+        "width": 0.03413208007812499
+      },
+      "pass": true,
+      "significant_checks": {
+        "delta_l_ok": true,
+        "lb_ok": false
+      },
+      "significantly_positive": false,
+      "thresholds": {
+        "delta_l_min": -0.01,
+        "lb_min": -0.03,
+        "significant": {
+          "delta_l_min": 0.0,
+          "delta_l_min_strict": true,
+          "lb_min": 0.0,
+          "lb_min_strict": true
+        }
+      },
+      "weights": {
+        "delta_phase8_anchor": 0.2,
+        "delta_strategic": 0.45,
+        "delta_tactical": 0.35
+      }
+    },
+    "C": {
+      "checks": {
+        "vs_phase8_anchor": true,
+        "vs_strategic": true,
+        "vs_tactical": true
+      },
+      "gate": "C",
+      "lower_bounds": {
+        "vs_phase8_anchor": -0.00537109375,
+        "vs_strategic": -0.00390625,
+        "vs_tactical": -0.02490234375
+      },
+      "pass": true,
+      "threshold": -0.03
+    },
+    "D": {
+      "basic": 0.859375,
+      "checks": {
+        "basic": true,
+        "random_blue": true,
+        "random_overall": true,
+        "random_red": true,
+        "vs_basic_paired_lb": true,
+        "vs_random_paired_lb": true
+      },
+      "gate": "D",
+      "paired_lower_bounds": {
+        "vs_basic": -0.0244140625,
+        "vs_random": -0.00830078125
+      },
+      "pass": true,
+      "random_blue": 0.98828125,
+      "random_overall": 0.9873046875,
+      "random_red": 0.986328125,
+      "thresholds": {
+        "basic_min": 0.8,
+        "min_strict": false,
+        "paired_lb_min": -0.03,
+        "paired_lb_min_strict": true,
+        "paired_opponents": [
+          "vs_random",
+          "vs_basic"
+        ],
+        "random_blue_min": 0.9,
+        "random_overall_min": 0.95,
+        "random_red_min": 0.9
+      }
+    },
+    "E": {
+      "checks": {
+        "conditional_base_probability_max": true,
+        "effective_families": true,
+        "family_probability_max": true,
+        "family_probability_min": true,
+        "normalized_family_entropy": true,
+        "within_family_base_entropy": true
+      },
+      "gate": "E",
+      "observed": {
+        "conditional_base_probability_max": 0.035616949808666074,
+        "effective_families": 15.207213080540713,
+        "family_probability_max": 0.13208105447414017,
+        "family_probability_min": 0.04417494035972362,
+        "normalized_family_entropy": 0.9816709698888034,
+        "within_family_base_entropy": 0.993719832725632
+      },
+      "pass": true,
+      "scope": "worst case over every candidate, colour and split",
+      "thresholds": {
+        "effective_families_min": 10.0,
+        "family_probability_max": 0.18,
+        "family_probability_min": 0.015,
+        "max_conditional_base_probability": 0.1,
+        "normalized_family_entropy_min": 0.85,
+        "within_family_normalized_base_entropy_min": 0.7
+      }
+    },
+    "F": {
+      "checks": {
+        "hidden_opponent_selector_inputs": true,
+        "illegal_neural_moves": true,
+        "illegal_setups": true,
+        "inference_failures": true,
+        "inventory_errors": true,
+        "non_finite_selector_outputs": true,
+        "provenance_mismatch": true,
+        "split_leakage": true,
+        "stranded_sampled_setups": true
+      },
+      "counters": {
+        "hidden_opponent_selector_inputs": 0,
+        "illegal_neural_moves": 0,
+        "illegal_setups": 0,
+        "inference_failures": 0,
+        "inventory_errors": 0,
+        "non_finite_selector_outputs": 0,
+        "provenance_mismatch": 0,
+        "split_leakage": 0,
+        "stranded_sampled_setups": 0
+      },
+      "gate": "F",
+      "pass": true
+    },
+    "G": {
+      "checks": {
+        "process_restart_independent": true,
+        "same_base": true,
+        "same_final_fingerprint": true,
+        "same_perturbation": true,
+        "same_reflection": true,
+        "worker_order_independent": true
+      },
+      "gate": "G",
+      "pass": true
+    },
+    "H": {
+      "checks": {
+        "c1_optimizer_steps_zero": true,
+        "checkpoint_sha256": true,
+        "model_state_digest": true,
+        "parameters": true
+      },
+      "expected": {
+        "c1_optimizer_steps": 0,
+        "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+        "gate": "H",
+        "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+        "name": "Phase 9 preservation",
+        "parameters": 863959
+      },
+      "gate": "H",
+      "observed": {
+        "c1_optimizer_steps_zero": null,
+        "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+        "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+        "parameters": 863959
+      },
+      "pass": true
+    }
+  },
+  "gates_total": 8,
+  "gates_true": 8,
+  "hard_gate_ids": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H"
+  ],
+  "independent_check": {
+    "all_agree": true,
+    "checks": {
+      "league": {
+        "delta_l_matches": true,
+        "delta_l_recomputed": 0.012548828125000001,
+        "interval_matches": true
+      },
+      "learned_vs_neutral": {
+        "learned_ewr_recomputed": 0.51513671875,
+        "learned_interval_matches": true,
+        "matches": true
+      },
+      "vs_basic": {
+        "delta_interval_matches": true,
+        "delta_matches": true,
+        "delta_recomputed": -0.00146484375,
+        "learned_ewr_recomputed": 0.859375,
+        "learned_interval_matches": true,
+        "matches": true
+      },
+      "vs_phase8_anchor": {
+        "delta_interval_matches": true,
+        "delta_matches": true,
+        "delta_recomputed": 0.0185546875,
+        "learned_ewr_recomputed": 0.86376953125,
+        "learned_interval_matches": true,
+        "matches": true
+      },
+      "vs_random": {
+        "delta_interval_matches": true,
+        "delta_matches": true,
+        "delta_recomputed": 0.0,
+        "learned_ewr_recomputed": 0.9873046875,
+        "learned_interval_matches": true,
+        "matches": true
+      },
+      "vs_strategic": {
+        "delta_interval_matches": true,
+        "delta_matches": true,
+        "delta_recomputed": 0.02001953125,
+        "learned_ewr_recomputed": 0.8388671875,
+        "learned_interval_matches": true,
+        "matches": true
+      },
+      "vs_tactical": {
+        "delta_interval_matches": true,
+        "delta_matches": true,
+        "delta_recomputed": -0.00048828125,
+        "learned_ewr_recomputed": 0.83447265625,
+        "learned_interval_matches": true,
+        "matches": true
+      }
+    },
+    "mismatches": []
+  },
+  "landing_diagnostic": {
+    "gate": false,
+    "granularity": "candidate x arm x matchup x bank",
+    "isolation_set_size": 1184,
+    "rows": [
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "learned_vs_neutral"
+      },
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "vs_basic"
+      },
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "vs_phase8_anchor"
+      },
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "vs_random"
+      },
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "vs_strategic"
+      },
+      {
+        "arm": "learned",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "P10-D",
+        "games": 1024,
+        "landing_rate": 0.06640625,
+        "landings": 68,
+        "matchup": "vs_tactical"
+      },
+      {
+        "arm": "neutral",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "neutral_v1",
+        "games": 1024,
+        "landing_rate": 0.0,
+        "landings": 0,
+        "matchup": "vs_basic"
+      },
+      {
+        "arm": "neutral",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "neutral_v1",
+        "games": 1024,
+        "landing_rate": 0.0,
+        "landings": 0,
+        "matchup": "vs_phase8_anchor"
+      },
+      {
+        "arm": "neutral",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "neutral_v1",
+        "games": 1024,
+        "landing_rate": 0.0,
+        "landings": 0,
+        "matchup": "vs_random"
+      },
+      {
+        "arm": "neutral",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "neutral_v1",
+        "games": 1024,
+        "landing_rate": 0.0,
+        "landings": 0,
+        "matchup": "vs_strategic"
+      },
+      {
+        "arm": "neutral",
+        "bank": "phase10_test_bank_v1",
+        "candidate_id": "neutral_v1",
+        "games": 1024,
+        "landing_rate": 0.0,
+        "landings": 0,
+        "matchup": "vs_tactical"
+      }
+    ],
+    "statement": "recorded and never read: no retry, no gate, no score and no rejection sampling consulted these counts; rejecting a learned draw at evaluation time would distort the frozen mixed distribution",
+    "use": "report_only"
+  },
+  "matchups": {
+    "learned_vs_neutral": {
+      "bank": "test",
+      "case_count": 512,
+      "learned_blue_ewr": 0.52734375,
+      "learned_ewr": 0.51513671875,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.48828125,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 6248399939427833763,
+        "token": "learned_vs_neutral:learned",
+        "upper": 0.5419921875,
+        "width": 0.0537109375
+      },
+      "learned_red_ewr": 0.5029296875,
+      "token": "learned_vs_neutral"
+    },
+    "vs_basic": {
+      "bank": "test",
+      "case_count": 512,
+      "delta": -0.00146484375,
+      "delta_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.0244140625,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 8646422384985806383,
+        "token": "vs_basic:delta",
+        "upper": 0.02099609375,
+        "width": 0.04541015625
+      },
+      "learned_blue_ewr": 0.8642578125,
+      "learned_ewr": 0.859375,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.837890625,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 5563917309985603113,
+        "token": "vs_basic:learned",
+        "upper": 0.8798950195312498,
+        "width": 0.04200439453124982
+      },
+      "learned_red_ewr": 0.8544921875,
+      "neutral_ewr": 0.86083984375,
+      "neutral_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.83984375,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 7966445246135784516,
+        "token": "vs_basic:neutral",
+        "upper": 0.880859375,
+        "width": 0.041015625
+      },
+      "token": "vs_basic"
+    },
+    "vs_phase8_anchor": {
+      "bank": "test",
+      "case_count": 512,
+      "delta": 0.0185546875,
+      "delta_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.00537109375,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 3978966914456510628,
+        "token": "vs_phase8_anchor:delta",
+        "upper": 0.04150390625,
+        "width": 0.046875
+      },
+      "learned_blue_ewr": 0.8671875,
+      "learned_ewr": 0.86376953125,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.841796875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 1438792641296824375,
+        "token": "vs_phase8_anchor:learned",
+        "upper": 0.8842895507812498,
+        "width": 0.04249267578124982
+      },
+      "learned_red_ewr": 0.8603515625,
+      "neutral_ewr": 0.84521484375,
+      "neutral_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.82275390625,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 874952802248237652,
+        "token": "vs_phase8_anchor:neutral",
+        "upper": 0.8671997070312498,
+        "width": 0.04444580078124982
+      },
+      "token": "vs_phase8_anchor"
+    },
+    "vs_random": {
+      "bank": "test",
+      "case_count": 512,
+      "delta": 0.0,
+      "delta_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.00830078125,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 2064350010027596982,
+        "token": "vs_random:delta",
+        "upper": 0.0078125,
+        "width": 0.01611328125
+      },
+      "learned_blue_ewr": 0.98828125,
+      "learned_ewr": 0.9873046875,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.98046875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 862740785673858469,
+        "token": "vs_random:learned",
+        "upper": 0.994140625,
+        "width": 0.013671875
+      },
+      "learned_red_ewr": 0.986328125,
+      "neutral_ewr": 0.9873046875,
+      "neutral_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.98046875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 3304910281317255240,
+        "token": "vs_random:neutral",
+        "upper": 0.9931640625,
+        "width": 0.0126953125
+      },
+      "token": "vs_random"
+    },
+    "vs_strategic": {
+      "bank": "test",
+      "case_count": 512,
+      "delta": 0.02001953125,
+      "delta_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.00390625,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 888844571371281408,
+        "token": "vs_strategic:delta",
+        "upper": 0.0439453125,
+        "width": 0.0478515625
+      },
+      "learned_blue_ewr": 0.8642578125,
+      "learned_ewr": 0.8388671875,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.81591796875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 4051494067863671503,
+        "token": "vs_strategic:learned",
+        "upper": 0.861328125,
+        "width": 0.04541015625
+      },
+      "learned_red_ewr": 0.8134765625,
+      "neutral_ewr": 0.81884765625,
+      "neutral_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.794921875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 3088459737840566440,
+        "token": "vs_strategic:neutral",
+        "upper": 0.84228515625,
+        "width": 0.04736328125
+      },
+      "token": "vs_strategic"
+    },
+    "vs_tactical": {
+      "bank": "test",
+      "case_count": 512,
+      "delta": -0.00048828125,
+      "delta_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": -0.02490234375,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 2531259071676487822,
+        "token": "vs_tactical:delta",
+        "upper": 0.0244140625,
+        "width": 0.04931640625
+      },
+      "learned_blue_ewr": 0.8369140625,
+      "learned_ewr": 0.83447265625,
+      "learned_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.810546875,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 1623475664380433906,
+        "token": "vs_tactical:learned",
+        "upper": 0.857421875,
+        "width": 0.046875
+      },
+      "learned_red_ewr": 0.83203125,
+      "neutral_ewr": 0.8349609375,
+      "neutral_interval": {
+        "bank": "test",
+        "confidence": 0.95,
+        "engine": "numpy_pcg64",
+        "lower": 0.8115234375,
+        "method": "paired_unit_percentile_bootstrap",
+        "resamples": 10000,
+        "resampling_unit": "phase10_logical_case",
+        "sample_size": 512,
+        "seed": 7503239385463728618,
+        "token": "vs_tactical:neutral",
+        "upper": 0.85791015625,
+        "width": 0.04638671875
+      },
+      "token": "vs_tactical"
+    }
+  },
+  "phase": 10,
+  "phase10_system_v1": {
+    "all_filling_rules_pass": true,
+    "distinction": "the template digest is the Agent 1 contract identity (slots and filling rules, part of the frozen bundle); the instance digest is Agent 6's filled production document. They are different objects with different digests by design, and the instance is verified against the template's filling rules rather than against the template's digest",
+    "filled_instance_accepted": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "filled_instance_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "filling_rules": {
+      "accepted_trait_scaler": true,
+      "accepted_utility_model": true,
+      "binding_schema_digest_recomputed": true,
+      "bound_library_unchanged": true,
+      "bound_move_model_unchanged": true,
+      "bound_post_selection_path_unchanged": true,
+      "evaluation_banks_bound": true,
+      "neutral_v1_not_redefined": true,
+      "no_filesystem_path_in_identity": true,
+      "production_train_digests_bound": true,
+      "selected_selector_config": true,
+      "separation_rule_carried": true
+    },
+    "frozen_template_digest": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d",
+    "frozen_template_pinned": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d"
+  },
+  "phase9_preservation": {
+    "after": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "all_parameters_finite": true,
+    "before": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "c1_optimizer_steps": 0,
+    "parameters": 863959,
+    "unchanged": true
+  },
+  "pre_agent7_ledger_entries": [
+    {
+      "agent": 1,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_build",
+      "source": "agent_01_acceptance.json",
+      "stage": "banks"
+    },
+    {
+      "agent": 1,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "source": "agent_01_acceptance.json",
+      "stage": "banks"
+    },
+    {
+      "agent": 1,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_audit",
+      "source": "agent_01_acceptance.json",
+      "stage": "banks"
+    },
+    {
+      "agent": 1,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "fingerprint_isolation_check",
+      "source": "agent_01_acceptance.json",
+      "stage": "banks"
+    },
+    {
+      "agent": 1,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_artifact_write",
+      "source": "agent_01_acceptance.json",
+      "stage": "artifacts"
+    },
+    {
+      "agent": 2,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "source": "agent_02_acceptance.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 3,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "source": "agent_03_acceptance.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 4,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "source": "agent_04_acceptance.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 5,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "source": "agent_05_acceptance.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 6,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "source": "agent_06_acceptance.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 5,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "source": "checkpoints/phase10/agent05/stages/stage_verify.json",
+      "stage": "verify"
+    },
+    {
+      "agent": 6,
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "source": "checkpoints/phase10/agent06/stages/stage_verify.json",
+      "stage": "verify"
+    }
+  ],
+  "pre_agent7_test_bank_access": {
+    "agent5_test_bank_outcome_access": 0,
+    "agent6_test_bank_unopened": {
+      "games": 0,
+      "neural_inference": 0,
+      "outcomes_read": 0
+    },
+    "all_entries_structural": true,
+    "cells_naming_test_bank": [],
+    "conclusion": "every recorded pre-Agent-7 test-bank access is structural digest recomputation with neural=false and outcomes=false; no stored evaluation cell names the test bank; Agent 7 performs the first outcome evaluation",
+    "prior_outcome_evaluations": 0,
+    "stored_evaluation_cells_checked": 41
+  },
+  "preservation_report": {
+    "all_parameters_finite": true,
+    "c1_optimizer_steps": 0,
+    "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "optimizer_note": "no optimizer object, no backward pass and no parameter write exists anywhere in the Agent 7 harness or the final evaluation path",
+    "parameters": 863959
+  },
+  "recommendation": "PASS-NONINFERIOR",
+  "reproduce": {
+    "cross_topology_disagreements": 0,
+    "draws_reconstructed": 2048,
+    "hidden_input_control": {
+      "all_raised": true,
+      "attempts": [
+        {
+          "field": "opponent_family",
+          "raised": true
+        },
+        {
+          "field": "opponent_base_id",
+          "raised": true
+        },
+        {
+          "field": "outcome",
+          "raised": true
+        },
+        {
+          "field": "path",
+          "raised": true
+        },
+        {
+          "field": "final_setup_fingerprint",
+          "raised": true
+        }
+      ]
+    },
+    "topologies": {
+      "forward": {
+        "order": "ascending",
+        "workers": 5
+      },
+      "reverse": {
+        "order": "descending",
+        "workers": 3
+      }
+    },
+    "unit_replay": {
+      "digest_after": "62f63bc318dcdb5945af3d8562757d57cd6da779af5324a066b4db2637b3ca6c",
+      "digest_before": "62f63bc318dcdb5945af3d8562757d57cd6da779af5324a066b4db2637b3ca6c",
+      "every_field_identical": true,
+      "fresh_process": true,
+      "games": 64,
+      "recorded_workers": 12,
+      "replay_workers": 1,
+      "unit": {
+        "arm": "learned",
+        "candidate_id": "P10-D",
+        "matchup": "vs_strategic",
+        "start": 128,
+        "stop": 160
+      }
+    }
+  },
+  "reproducibility_report": {
+    "process_restart_independent": true,
+    "same_base": true,
+    "same_final_fingerprint": true,
+    "same_perturbation": true,
+    "same_reflection": true,
+    "worker_order_independent": true
+  },
+  "status": "PASS-NONINFERIOR",
+  "suite": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 5199,
+    "returncode": 0,
+    "seconds": 321.1496693750378,
+    "skipped": 3,
+    "summary": "5199 passed, 3 skipped in 319.96s (0:05:19)"
+  },
+  "suite_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "97751ef",
+    "passed": 5168,
+    "seconds": 320.05,
+    "skipped": 3,
+    "summary": "5168 passed, 3 skipped in 320.05s (0:05:20)"
+  },
+  "timestamp": "2026-08-18T23:16:04-0400"
+}

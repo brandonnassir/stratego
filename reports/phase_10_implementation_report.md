@@ -1784,3 +1784,227 @@ Full suite: `5168 passed, 3 skipped in 317.03s (0:05:17)` (recorded via `--recor
 ### 6.10 Handoff to Agent 7
 
 Agent 7 receives `phase10_system_v1` (digest `615cc3c3a4fab6e4…`), the production manifest with both frozen train-split vectors, the selected selector/utility/scaler identities, Agent 5's validation selection record, the intact Phase 9 identity, Agent 4's diversity evidence, both final bank identities, and proof that final-test outcome access is still zero. Agent 7 performs the first final-test outcome evaluation on `phase10_test_bank_v1` and no training.
+
+## 7. Agent 7 — Independent Final Acceptance and Phase 10 Freeze
+
+Status: **PASS-NONINFERIOR** — recommendation `PASS-NONINFERIOR`, 8/8 hard gates pass, 30/30 completion gates true.
+
+Agent 7 independently recomputed every Agent 1-6 identity and discipline
+claim from live bytes, rebuilt and exhaustively audited both frozen banks,
+proved from the recorded access ledgers that `phase10_test_bank_v1` had
+zero prior outcome evaluation, and then performed the first and only
+final-test evaluation: the permanently selected P10-D configuration against
+the fixed `neutral_v1` baseline on the 512 sealed cases. No training, no
+candidate replacement, no threshold change, no rescue rerun; report-only
+diagnostics rescued nothing. Formal closure belongs to the reviewing chat.
+
+### 7.1 Prerequisites, from live bytes
+
+Agents 1-6 all report `PASS` with every completion gate recomputing true.
+The working tree stands at the administrative freeze commit `97751ef` with zero tracked
+modifications; untracked files are Agent 7's own code and artifacts. The
+eight contract digests and the bundle recompute exactly; the eight root
+seeds match the contract; the Phase 9 checkpoint hashes to the accepted
+`dfd698e5b6cf536a…` with the accepted model-state digest and
+863,959 finite parameters; the Phase 7 library re-digests exactly with
+6,400/800/800 splits; the utility artifact, both coefficient digests, the
+train-only scaler, the frozen P10-D selector config and all 36 published
+distribution digests recompute exactly; the production train vectors match
+red `9ac5b52edbbf0ff9…` / blue `abef229983e2f4b6…`; the sealed corpus
+(`1977bb6f5e2611b0…`, 16,384 train-only games) and
+the sealed soak (`f2922d6b5bf339f6…`, 8,192 games)
+re-verify from live bytes.
+
+### 7.2 The two `phase10_system_v1` identities, distinguished
+
+```text
+frozen template  (Agent 1 contract)   a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d
+filled instance  (Agent 6 production) 615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2
+```
+
+The template digest is part of the frozen Agent 1 bundle and recomputes
+unchanged, so no upstream contract moved. The instance is a different
+document by design — the same binding schema with its three slots filled —
+and it was verified against the template's *filling rules* rather than its
+digest: utility slot names `phase10_setup_utility_v1`/`model_T` with the
+accepted coefficient digest and fit-corpus digest and `single_fit: true`;
+scaler slot names `phase10_trait_scaler_v1` with the accepted train-only
+digest; selector slot names P10-D from the frozen six at T=0.75 under the
+unchanged 0.35/0.65 mixture through `learned_setup_source_v1`; every
+bound-now field (move model, library, reflection/perturbation path,
+`neutral_v1` untouched) is byte-equal to the template's; and no filesystem
+path appears in the identity. All 12 filling rules pass.
+
+### 7.3 Bank rebuild and sealing
+
+```text
+validation bank   rebuilt a37ff113d03a0f67… == accepted, every case audited
+test bank         rebuilt be04b891ba5ab142… == accepted, every case audited
+isolated rebuild  every case of both banks rebuilt alone (sample_every=1)
+cross-bank overlap 0
+Phase 9 isolation  1184 identities, coverage reconciliation exact
+```
+
+Every recorded pre-Agent-7 test-bank access across all six prior agents is
+structural (`neural=false`, `outcomes=false`); Agent 5 records zero
+test-bank outcome reads; Agent 6 records the bank unopened; no stored
+evaluation cell anywhere names the test bank version. The games stage was
+therefore the bank's first game, first neural inference and first outcome
+read.
+
+### 7.4 What was played
+
+```text
+bank              phase10_test_bank_v1, 512 logical paired cases
+learned arm       P10-D (model_T, T=0.75), 6 matchups x 512 cases x 2 games
+neutral arm       neutral_v1, 5 matchups x 512 cases x 2 games
+games             11,264 in 302s on 12 workers (cpu)
+move behaviour    accepted Phase 9 checkpoint, greedy float32 single_request,
+                  no search, both arms on identical logical cases
+inference         11,570,785 requests, 0 failures
+```
+
+### 7.5 Final results and the eight hard gates
+
+```text
+matchup              learned EWR   neutral EWR   delta      delta 95% CI
+learned_vs_neutral   0.5151        —             —          [0.4883, 0.5420] (EWR CI)
+vs_strategic         0.8389        0.8188        +0.0200    [-0.0039, +0.0439]
+vs_tactical          0.8345        0.8350        -0.0005    [-0.0249, +0.0244]
+vs_phase8_anchor     0.8638        0.8452        +0.0186    [-0.0054, +0.0415]
+vs_random            0.9873        0.9873        +0.0000    [-0.0083, +0.0078]
+vs_basic             0.8594        0.8608        -0.0015    [-0.0244, +0.0210]
+```
+
+```text
+A direct         EWR 0.5151, paired 95% LB 0.4883  -> PASS
+B league         Delta_L +0.0125, LB -0.0041  -> PASS
+C individual     LBs: phase8_anchor -0.0054, strategic -0.0039, tactical -0.0249  -> PASS
+D easy           Random 0.9873 (R 0.9863/B 0.9883), Basic 0.8594  -> PASS
+E diversity      worst H/log16 0.9817, eff fams 15.21  -> PASS
+F correctness    nine counters all zero: True  -> PASS
+G reproducible   all six checks true: True  -> PASS
+H preservation   exact SHA/state/params, zero steps: True  -> PASS
+```
+
+Classification: **PASS-NONINFERIOR** — recomputed independently from the gate rows, and every
+point estimate and interval bound was re-derived from the raw stored rows
+by direct arithmetic and an independently assembled bootstrap under the
+frozen final-test root 2026081808 (10,000 paired replicates, logical-case
+resampling), agreeing to the last bit.
+
+### 7.6 Final replay/safety audit
+
+```text
+games audited               11,264
+actions replayed            2,249,057 (every stored history re-applied through a fresh engine)
+seats reconciled            22,528 (cryptographic match_id check)
+setup reconstructions       every game's own-side draw re-derived from identity/seed alone
+draws re-derived twice      2,048 across two worker topologies (5 fwd / 3 rev)
+cross-topology mismatches   0
+unit replay                 64 games under 1 worker, every field identical
+hidden-input control        5/5 forbidden fields rejected
+```
+
+### 7.7 Phase 9 fingerprint landings — report-only
+
+Agent 1's standing obligation at the required granularity — candidate x
+arm x matchup x bank, count and rate. Recorded and never read: no gate, no
+retry, no rejection sampling consulted these values.
+
+```text
+arm      selector     matchup               landings / games     rate
+learned  P10-D        learned_vs_neutral     68 /  1024       0.0664
+learned  P10-D        vs_basic               68 /  1024       0.0664
+learned  P10-D        vs_phase8_anchor       68 /  1024       0.0664
+learned  P10-D        vs_random              68 /  1024       0.0664
+learned  P10-D        vs_strategic           68 /  1024       0.0664
+learned  P10-D        vs_tactical            68 /  1024       0.0664
+neutral  neutral_v1   vs_basic                0 /  1024       0.0000
+neutral  neutral_v1   vs_phase8_anchor        0 /  1024       0.0000
+neutral  neutral_v1   vs_random               0 /  1024       0.0000
+neutral  neutral_v1   vs_strategic            0 /  1024       0.0000
+neutral  neutral_v1   vs_tactical             0 /  1024       0.0000
+```
+
+The per-matchup count is constant within an arm because an own-side draw
+depends on the case, the colour and the selector — never on the opponent.
+The learned rate sits well below Agent 4's unconditioned test-split
+measurement (~0.136 for P10-D over 200k free draws) for a structural
+reason: the bank's accepted selector seeds were chosen so their
+`neutral_v1` draws are isolation-clean, so the 35% neutral branch cannot
+land by construction and only learned-branch draws can. The baseline arm
+records zero by the same walk. Higher than the validation-bank rate
+(0.0273) because the Phase 9 test bank drew 1,024 of the isolation set's
+sides from this same test split.
+
+### 7.8 Phase 9 preservation and discipline
+
+```text
+before   dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+after    dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea
+state    f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd (unchanged: True)
+parameters 863,959 all finite; C1 optimizer steps 0
+```
+
+Utility models fit 0; candidates added 0; candidates evaluated on the test
+bank 1 (the permanently selected P10-D); temperature/mixture/threshold
+changes 0/0/0; rescue reruns 0; winner switches after test 0; report-only
+metrics used in gates 0; human games 0.
+
+### 7.9 Artifacts and completion gates
+
+```text
+reports/phase_10_data/agent_07_final_acceptance.json
+reports/phase_10_data/agent_07_strength_results.csv
+reports/phase_10_data/agent_07_diversity_results.csv
+```
+
+Full suite: `.venv/bin/python -m pytest tests -q` — 5199 passed, 3 skipped in 319.96s (0:05:19)
+(recorded via `--record-suite`; the artifact test checks the gate against
+the recorded measurement, and a confirming re-record was taken with the
+artifacts in their final state).
+
+| gate | value |
+| --- | --- |
+| `agents1_6_pass` | true |
+| `administrative_freeze_verified` | true |
+| `phase9_identity_verified` | true |
+| `phase7_identity_verified` | true |
+| `phase10_contracts_verified` | true |
+| `utility_and_selector_digests_verified` | true |
+| `phase10_system_identity_verified` | true |
+| `validation_bank_rebuild_verified` | true |
+| `test_bank_rebuild_verified` | true |
+| `test_bank_structural_audit_pass` | true |
+| `pre_agent7_test_outcome_access_zero` | true |
+| `outcome_corpus_train_only_verified` | true |
+| `candidate_count_6_verified` | true |
+| `selection_validation_only_verified` | true |
+| `phase9_checkpoint_unchanged_before_eval` | true |
+| `gate_a_recomputed` | true |
+| `gate_b_recomputed` | true |
+| `gate_c_recomputed` | true |
+| `gate_d_recomputed` | true |
+| `gate_e_recomputed` | true |
+| `gate_f_recomputed` | true |
+| `gate_g_recomputed` | true |
+| `gate_h_recomputed` | true |
+| `final_setup_replay_audit_pass` | true |
+| `illegal_actions_zero` | true |
+| `nonfinite_zero` | true |
+| `opponent_hidden_selector_inputs_zero` | true |
+| `phase9_checkpoint_unchanged_after_eval` | true |
+| `classification_recomputes_from_gate_rows` | true |
+| `full_suite_green` | true |
+
+### 7.10 Recommendation and closure
+
+Recommendation: **`PASS-NONINFERIOR`**
+
+On acceptance by the reviewing chat, the following are frozen permanently:
+`neutral_v1`; the accepted `learned_setup_source_v1` (P10-D, model_T,
+T=0.75, 0.35/0.65 mixture, config `6e227815…`); the accepted utility
+(`model_T` `d898782a…`) and trait scaler (`fa6eb1c1…`); and the accepted
+Phase 9 `selfplay_c1_v1.pt` (`dfd698e5…`). Phase 11 validates the belief
+system and does not retune setup selection.
