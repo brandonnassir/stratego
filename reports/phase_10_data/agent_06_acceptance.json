@@ -1,0 +1,265 @@
+{
+  "agent": 6,
+  "artifact": "agent_06_acceptance",
+  "bank_access_log": [
+    {
+      "bank": "phase10_validation_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "digest_computation",
+      "stage": "verify"
+    },
+    {
+      "bank": "phase10_test_bank_v1",
+      "neural": false,
+      "outcomes": false,
+      "purpose": "structural_digest_only",
+      "stage": "verify"
+    }
+  ],
+  "completion_gates": {
+    "agents1_5_pass": true,
+    "all_16_families_seen_in_soak": true,
+    "duplicate_game_ids_zero": true,
+    "full_suite_green": true,
+    "hidden_opponent_selector_inputs_zero": true,
+    "inventory_errors_zero": true,
+    "missing_game_ids_zero": true,
+    "no_c1_optimizer_steps": true,
+    "no_reselection": true,
+    "no_test_outcome_access": true,
+    "phase10_system_v1_frozen": true,
+    "phase9_checkpoint_unchanged": true,
+    "production_blue_distribution_frozen": true,
+    "production_distribution_rebuild_exact": true,
+    "production_red_distribution_frozen": true,
+    "provenance_mismatches_zero": true,
+    "restart_resume_pass": true,
+    "selector_config_digest_verified": true,
+    "setup_legality_errors_zero": true,
+    "soak_games_ge_8192": true,
+    "stranded_sampled_setups_zero": true
+  },
+  "deviations": [
+    {
+      "contract_text": "Use a dedicated soak namespace, deterministic ids",
+      "reading": "Agent 1 froze no soak stream, so Agent 6 derives the soak namespace with the frozen derivation function under the distinct payload prefix phase10_soak_v1: selector draws hang off the frozen selector-draw root and match seeds off the phase master root. The distinct first token makes cross-namespace payload equality impossible, and the recorded collision audit checks disjointness against the materialized corpus, bank and selector-audit streams by enumeration rather than argument. No frozen stream, root or domain is redefined"
+    },
+    {
+      "contract_text": "balanced colors",
+      "reading": "both seats of every soak game are the same frozen policy and the same production setup source, so the source is exercised exactly equally as Red and as Blue: 8,192 draws per colour, each under its own colour's distribution. A colour-swapped duplicate of a game would be a new draw identity rather than a control, so none is scheduled"
+    },
+    {
+      "contract_text": "Measure bytes/game if persisted",
+      "reading": "every soak game is persisted as one canonical JSON commit line; bytes/game is the committed journal bytes divided by committed games"
+    },
+    {
+      "contract_text": "peak RSS/MPS",
+      "reading": "the soak runs the corpus's accepted operational choice \u2014 CPU float32, torch_threads=1 per worker \u2014 because it is faster than the single-owner MPS topology for this model and bit-exact run to run. Peak RSS is recorded per worker; MPS is present but unused, and the device is part of no identity"
+    },
+    {
+      "contract_text": "at least one genuine process restart",
+      "reading": "the soak ran as three separate OS processes with distinct pids and different worker topologies (6, 4, 12): leg A exited cleanly at its game limit, leg B was terminated by SIGKILL mid-flight with no cleanup, and leg C reconciled the store and resumed by logical game id to completion \u2014 two genuine restarts, one of them a hard kill"
+    },
+    {
+      "contract_text": "provenance_mismatches_zero",
+      "reading": "gated on three counters at once \u2014 provenance rebuild mismatches, independent-redraw determinism mismatches and seed re-derivation mismatches \u2014 because a failure of any of them means a stored game's provenance does not reconstruct deterministically"
+    },
+    {
+      "contract_text": "full_suite_green",
+      "reading": "Agent 5's recorded-stage reading, reused: the suite contains the test asserting the gate, so the measurement lives in its own recorded stage (--record-suite), the artifact embeds that recorded run, the artifact test checks the gate against the recorded measurement, and a confirming re-record is taken with the artifacts in their final state"
+    },
+    {
+      "contract_text": "No filesystem path in logical identity",
+      "reading": "phase10_system_v1 names artifacts by repository-relative identifiers \u2014 the same convention the frozen Agent 1 binding schema uses \u2014 and carries no absolute or volume path; resolved storage roots appear only in manifests and stage records as operational diagnostics"
+    }
+  ],
+  "environment": {
+    "cpu_count": 14,
+    "mps_available": true,
+    "mps_built": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python_version": "3.13.2",
+    "source_revision": "48061bf",
+    "torch_version": "2.13.0",
+    "working_tree_state": "dirty"
+  },
+  "false_gates": [],
+  "frozen_inputs": {
+    "contract_bundle_digest": "257f140dadddc00e4f75217ecedfe726390167de8769db0b5c40021e4388612f",
+    "corpus_content_digest": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "phase9_parameters": 863959,
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "selector_contract_digest": "ed1198f3a4bfc8f73264cf22602f6d8ba89d9458e9ae5c8a8ddf7f0543e35e59",
+    "test_bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+    "utility_coefficient_digests": {
+      "model_F": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+      "model_T": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+    },
+    "utility_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "validation_bank_digest": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f"
+  },
+  "gates_total": 21,
+  "gates_true": 21,
+  "handoff_to_agent_7": {
+    "agent_7_performs": "first final-test outcome evaluation; no training",
+    "diversity_evidence": "reports/phase_10_data/agent_04_diversity_audit.json",
+    "final_bank_identities": {
+      "test": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+      "validation": "a37ff113d03a0f67e760e447a462cc0d0d8de83f063d395715aeb77be355657f"
+    },
+    "final_test_outcome_access": {
+      "games": 0,
+      "neural_inference": 0,
+      "outcomes_read": 0,
+      "proof": "every Agent 6 test-bank access in bank_access_log is structural digest recomputation with neural=false and outcomes=false; the soak namespace contains no bank case by construction"
+    },
+    "for_agent": 7,
+    "mission": "independent final acceptance and Phase 10 freeze",
+    "phase10_system_v1_digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "phase9_identity": {
+      "checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+    },
+    "production_manifest": "reports/phase_10_data/agent_06_production_selector_manifest.json",
+    "production_train_digests": {
+      "blue": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+      "red": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f"
+    },
+    "selected_selector": {
+      "candidate_id": "P10-D",
+      "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+      "temperature": 0.75,
+      "utility_model": "model_T"
+    },
+    "selector_config_artifact": "reports/phase_10_data/agent_05_frozen_selector_config.json",
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "soak_evidence": "reports/phase_10_data/agent_06_integration_soak.json",
+    "utility_identity": {
+      "coefficient_digests": {
+        "model_F": "7bc2539af6045e478cd3dbbf78e16c6123616d285a3f32dd1b1a5c1da96ad935",
+        "model_T": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+      },
+      "file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+      "scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9"
+    },
+    "validation_selection_record": "reports/phase_10_data/agent_05_acceptance.json"
+  },
+  "phase": 10,
+  "phase10_system_v1": {
+    "binding_schema_digest": "a8b44e1a12bcc31ed446d031c188129dc82584ed64086601ed9b9edb7830a48d",
+    "digest": "615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2",
+    "slots_filled_by_agent_6": [
+      "accepted_utility_model",
+      "accepted_trait_scaler",
+      "selected_selector_config"
+    ]
+  },
+  "phase9_preservation": {
+    "after": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "all_parameters_finite": true,
+    "before": {
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "c1_optimizer_steps": 0,
+    "parameters": 863959,
+    "unchanged": true
+  },
+  "production_freeze": {
+    "blue_train_digest": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f",
+    "manifest_artifact": "reports/phase_10_data/agent_06_production_selector_manifest.json",
+    "rebuild_exact": true,
+    "red_train_digest": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f"
+  },
+  "selection_closed": {
+    "reopened": false,
+    "statement": "Agent 6 instantiated exactly one selector configuration \u2014 the permanently selected P10-D \u2014 and evaluated no candidate, refit no utility, and changed no temperature, mixture or threshold; every soak outcome is report-only",
+    "winner": {
+      "candidate_id": "P10-D",
+      "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+      "temperature": 0.75,
+      "utility_model": "model_T"
+    }
+  },
+  "soak_summary": {
+    "artifact": "reports/phase_10_data/agent_06_integration_soak.json",
+    "committed_games": 8192,
+    "content_digest": "f2922d6b5bf339f642aaf33864b510b3a1099683bf3270c7e5e10b5796ef670e",
+    "counters": {
+      "determinism_mismatches": 0,
+      "hidden_opponent_input_fields": 0,
+      "illegal_setups": 0,
+      "inventory_errors": 0,
+      "non_finite_selector_values": 0,
+      "outcome_inconsistencies": 0,
+      "provenance_mismatches": 0,
+      "seed_derivation_mismatches": 0,
+      "selector_identity_mismatches": 0,
+      "split_violations": 0,
+      "stranded_sampled_setups": 0,
+      "unscheduled_game_ids": 0
+    },
+    "families_seen": {
+      "blue": 16,
+      "red": 16
+    },
+    "phase9_fingerprint_landings": {
+      "isolation_set_size": 1184,
+      "landing_rate": 0.0,
+      "landings": 0,
+      "role": "report-only diagnostic; never used for rejection sampling or selection \u2014 rejecting at draw time would distort the frozen mixed distribution",
+      "sides_checked": 16384
+    },
+    "result_rates": {
+      "draw": 0.0159912109375,
+      "red_loss": 0.484130859375,
+      "red_win": 0.4998779296875
+    },
+    "unique_final_setups": 14058
+  },
+  "status": "PASS",
+  "suite": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "passed": 5168,
+    "returncode": 0,
+    "seconds": 318.18352108297404,
+    "skipped": 3,
+    "summary": "5168 passed, 3 skipped in 317.03s (0:05:17)"
+  },
+  "suite_before": {
+    "command": ".venv/bin/python -m pytest tests -q",
+    "failed": 0,
+    "measured_at_commit": "48061bf",
+    "passed": 5132,
+    "seconds": 316.63,
+    "skipped": 3,
+    "summary": "5132 passed, 3 skipped in 315.48s (0:05:15)"
+  },
+  "test_bank_unopened": {
+    "access": "structural_digest_only",
+    "bank_digest": "be04b891ba5ab142aacbd937ab24f79054843310e8d28f6b8cbee65daef931ad",
+    "bank_version": "phase10_test_bank_v1",
+    "cases": 512,
+    "games": 0,
+    "manifest_digest": "c6f21bcdb829fe77b208e49d9960b05a1b65bcf1dc7944d3f10420bea132a755",
+    "neural_inference": 0,
+    "outcomes_read": 0
+  },
+  "timestamp": "2026-08-18T21:13:42-0400",
+  "upstream_byte_preservation": {
+    "all_unchanged": true,
+    "corpus_content_digest_after": "1977bb6f5e2611b0498c7976f6129718fdfe7f6f44216f3b3f1932c8192b3c50",
+    "corpus_seal_after_all_pass": true,
+    "selector_config_sha256_after": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "utility_file_sha256_after": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d"
+  }
+}

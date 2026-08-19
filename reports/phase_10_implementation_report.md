@@ -1645,3 +1645,142 @@ change the 0.35/0.65 mixture.
 matches; zero games, zero neural inferences and zero outcome reads touched
 it. Agent 7 owns the first final-test evaluation.
 
+## 6. Agent 6 — Integration Soak and Production Freeze
+
+Status: **PASS** — 21/21 completion gates true.
+
+Agent 6 took Agent 5's permanently selected configuration — P10-D, `model_T` at T=0.75 under the frozen 0.35/0.65 mixture — without retraining or reselection, froze the production train-split distributions, played an 8,192-game integration soak through the complete production path, audited every committed game against its own logical identity, and froze `phase10_system_v1`. Selection stayed closed throughout: no candidate was evaluated, no utility refit, no temperature, mixture or threshold changed, and every soak outcome is report-only.
+
+### 6.1 Prerequisites, from live bytes
+
+Agents 1–5 all report `PASS` with every completion gate true. The eight contract digests and the bundle (`257f140dadddc00e…`) recompute exactly; the Phase 9 checkpoint hashes to the accepted `dfd698e5b6cf536a…` with the accepted model-state digest and 863,959 finite parameters; the fitted utility, both coefficient digests and the train-only scaler recompute to Agent 3's accepted values; the sealed Agent 2 corpus re-verifies from live bytes at `1977bb6f5e2611b0…` (16,384 games); and both evaluation banks recompute their accepted structural digests — the test bank through a digest-only access with zero games, zero neural inference and zero outcomes read.
+
+The frozen selector configuration artifact hashes to the accepted `6e227815bc3cb44f…`, names P10-D/`model_T`/T=0.75 as the permanent winner, and all six of its published P10-D distribution digests (2 colours × 3 splits) recompute exactly from the utility artifact and the frozen library. The soak seed namespace was proven collision-free against the materialized corpus, bank and selector-audit streams (105,500 seeds, 105,500 distinct).
+
+### 6.2 Production probability freeze
+
+The canonical train-split probability vectors were materialized for both colours — 6,400 bases in the frozen selector base order with exact `float.hex()` probabilities, per-family aggregation, utility scores and every component digest:
+
+```text
+red  p_phase10  9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f
+blue p_phase10  abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f
+```
+
+Both equal the digests Agent 5 published at selection time, so the production distribution is byte-identical to the selected one. An independent rebuild in a fresh process (pid 69137 vs parent 69135) reproduced the canonical serialization exactly (`dc96c9599956143f…`, 1,346,464 bytes). Production vectors use the train split only; the exact per-cell diversity metrics all pass the frozen thresholds (normalized family entropy 0.9856 red / 0.9826 blue).
+
+### 6.3 Integration soak
+
+8,192 complete games were played through the full production path — the accepted Phase 9 checkpoint greedy/float32/`single_request` on both sides, both initial setups drawn by the selected `learned_setup_source_v1` configuration through the audited `SelectorRequest` boundary, then the accepted Phase 7 reflection/perturbation path unchanged. Games live in a dedicated soak namespace (`phase10_soak_v1|ms=2026081801|g=#####`), train split only, with per-(game, colour) selector seeds and per-game match seeds derived by domain-separated hashing from the frozen roots. No validation or test bank case entered the soak.
+
+Three collection legs exercised parallelism and genuine restart:
+
+```text
+leg A:  6 workers,  2730 games,  10.27 games/s,   3597.3 decisions/s
+leg B:  4 workers, killed by SIGKILL after 399s mid-flight (exit -9)
+leg C: 12 workers,  2593 games,  14.89 games/s,   5219.4 decisions/s  (resumed after SIGKILL)
+```
+
+Committed games after each leg: A 2,730, B 5,599 (killed), C 8,192. Each leg was a separate OS process; leg C's reconcile truncated 0 torn bytes and resumed by exact set subtraction over logical game ids. The sealed store holds exactly the schedule — no duplicate, no missing id — at content digest `f2922d6b5bf339f6…`.
+
+### 6.4 Per-game integration audit
+
+All 8,192 committed games were audited across 8 processes, each side re-derived from identity alone: selector seeds and match seed recompute; the branch coin and (learned) inverse-CDF uniform recompute; an independent redraw reproduces base, branch, family, fingerprint and both provenance halves; the stored Phase 7 provenance rebuilds to the identical setup; the final arrangement re-passes the complete validation stack (exact inventory, engine legality, mobility, family predicates, round-trips); and neutral-branch draws match the accepted sampler bit for bit while learned-branch draws differ from it in the base alone. Every zero-tolerance counter is zero:
+
+```text
+illegal_setups                   0
+inventory_errors                 0
+stranded_sampled_setups          0
+split_violations                 0
+provenance_mismatches            0
+determinism_mismatches           0
+non_finite_selector_values       0
+selector_identity_mismatches     0
+seed_derivation_mismatches       0
+hidden_opponent_input_fields     0
+outcome_inconsistencies          0
+unscheduled_game_ids             0
+```
+
+Selector requests carried exactly `{split, color, selector_seed}` in all 16,384 draws, and the positive control — injecting `opponent_family`, `opponent_base_id`, `outcome` and `path` fields — raised on every attempt. The cross-topology replay probe replayed 256 games end to end under a fifth worker topology and reproduced every result, ply count, terminal reason and fingerprint exactly.
+
+### 6.5 Actual-game diversity and outcome diagnostics (report-only)
+
+```text
+                              red        blue
+families seen                  16          16
+family entropy (norm.)     0.9866      0.9808
+effective families          15.42       15.17
+distinct bases               4486        4462
+neutral-branch rate         0.3442      0.3492
+reflection rate             0.4965      0.4965
+perturbation rate           0.4973      0.5051
+empirical-vs-exact TV       0.01514     0.01346
+  sampling-noise expectation 0.01689     0.01685
+```
+
+Unique final setups: 14,058 of 16,384 sides. Swap counts over 8,212 perturbed sides: 1→1288, 2→1419, 3→1412, 4→1369, 5→1362, 6→1362. Empirical family frequencies sit within sampling expectation of the exact mixed distribution on both colours, so the implementation and the frozen arithmetic agree; the hard diversity acceptance remains Agent 4's exact distribution metrics, which these soak frequencies cannot override.
+
+Phase 9 fingerprint landings (report-only, never rejection): 0 of 16,384 sides (0.0000%) landed in the 1,184-fingerprint Phase 9 held-out set — consistent with Agent 4's train-split landing rate of 0.0000 over 1.2M audited train draws.
+
+Outcomes (report-only): red_win 0.4999, draw 0.0160, red_loss 0.4841; plies min/mean/max 1/352.2/1764; terminal reasons battleless_move_limit_draw 131, flag_capture 7891, opponent_no_legal_move 170.
+
+### 6.6 Storage and throughput
+
+```text
+journal bytes              41,893,807
+bytes/game                    5,114.0
+peak worker RSS           314,572,800  (device cpu, torch_threads 1, MPS unused)
+inference failures                  0
+```
+
+Soak bytes live on the verified external volume through the `data/phase10_soak_root.txt` pointer; the resolved root is an operational diagnostic, never an identity — the sealed content digest is computed over committed payload digests in canonical game-id order. The write/fsync/read-back probe passed at collection and at audit time.
+
+### 6.7 phase10_system_v1
+
+The three slots Agent 1 left unbound were filled and the system was frozen:
+
+```text
+phase10_system_v1 digest   615cc3c3a4fab6e4400e20a5a93b13a08c43ab6c3ca63828c6a64742e98175d2
+accepted_utility_model     model_T, coefficients d898782a2ae7cf4e…, corpus 1977bb6f5e2611b0…
+accepted_trait_scaler      phase10_trait_scaler_v1, fa6eb1c112defc4c…
+selected_selector_config   P10-D, T=0.75, mixture 0.35/0.65, config 6e227815bc3cb44f…
+production train digests   red 9ac5b52edbbf0ff9…, blue abef229983e2f4b6…
+```
+
+The document binds the Phase 9 checkpoint identity, the Phase 7 library digests, the utility/scaler identity, the selector config identity, both production train distribution digests, `learned_setup_source_v1`, `neutral_v1` (consumed, never redefined), the reflection/perturbation versions and probabilities, all eight Phase 10 root seeds, the acceptance contract digest and both evaluation bank identities. No absolute or volume path appears anywhere in it; the move model and the selector remain separate artifacts.
+
+### 6.8 Phase 9 preservation and discipline
+
+The Phase 9 checkpoint was hashed before and after the soak: file SHA `dfd698e5b6cf536a…` and model-state digest `f1df694d59e34359…` are unchanged and equal the accepted values, with 863,959 finite parameters and zero C1 optimizer steps — no gradient, no backward path, no parameter write exists anywhere in the soak machinery. The sealed corpus, the utility artifact and the frozen selector config also re-hash unchanged after the run. The test bank was never opened for games: every access was structural digest recomputation, and Agent 7 retains first final-test outcome access.
+
+### 6.9 Completion gates
+
+```text
+agents1_5_pass                           True
+all_16_families_seen_in_soak             True
+duplicate_game_ids_zero                  True
+full_suite_green                         True
+hidden_opponent_selector_inputs_zero     True
+inventory_errors_zero                    True
+missing_game_ids_zero                    True
+no_c1_optimizer_steps                    True
+no_reselection                           True
+no_test_outcome_access                   True
+phase10_system_v1_frozen                 True
+phase9_checkpoint_unchanged              True
+production_blue_distribution_frozen      True
+production_distribution_rebuild_exact    True
+production_red_distribution_frozen       True
+provenance_mismatches_zero               True
+restart_resume_pass                      True
+selector_config_digest_verified          True
+setup_legality_errors_zero               True
+soak_games_ge_8192                       True
+stranded_sampled_setups_zero             True
+```
+
+Full suite: `5168 passed, 3 skipped in 317.03s (0:05:17)` (recorded via `--record-suite`; the artifact test checks the gate against the recorded measurement, and a confirming re-record was taken with the artifacts in their final state).
+
+### 6.10 Handoff to Agent 7
+
+Agent 7 receives `phase10_system_v1` (digest `615cc3c3a4fab6e4…`), the production manifest with both frozen train-split vectors, the selected selector/utility/scaler identities, Agent 5's validation selection record, the intact Phase 9 identity, Agent 4's diversity evidence, both final bank identities, and proof that final-test outcome access is still zero. Agent 7 performs the first final-test outcome evaluation on `phase10_test_bank_v1` and no training.
