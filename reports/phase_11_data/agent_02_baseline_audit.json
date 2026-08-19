@@ -1,0 +1,205 @@
+{
+ "agent": 2,
+ "artifact": "agent_02_baseline_audit",
+ "audit_version": "phase11_agent02_audit_v1",
+ "bank_version": "phase11_validation_bank_v1",
+ "baseline_edge_cases": {
+  "audit_version": "phase11_agent02_audit_v1",
+  "baseline_zero_on_true_rank": 0,
+  "conservation_failures": 0,
+  "count_mismatches": 0,
+  "decisions": 23205,
+  "distribution_mismatches": 0,
+  "edge_case_coverage_complete": true,
+  "edge_cases_missing": [],
+  "edge_cases_seen": {
+   "capture": 21958,
+   "moved_unknown": 129892,
+   "near_endgame_exhaustion": 13834,
+   "public_scout_deduction": 4503,
+   "revealed_rank": 21958,
+   "single_legal_rank": 126
+  },
+  "findings": [],
+  "hidden_pieces": 638105,
+  "mask_mismatches": 0,
+  "pass": true
+ },
+ "count_uniform_world_sampler": {
+  "all_counters_zero": true,
+  "audit_version": "phase11_agent02_audit_v1",
+  "counters": {
+   "dead_end_events": 0,
+   "hidden_input_accesses": 0,
+   "immobility_violations": 0,
+   "impossible_assignments": 0,
+   "inventory_errors": 0,
+   "known_rank_violations": 0,
+   "nonfinite_probability_rows": 0,
+   "provenance_mismatches": 0,
+   "public_knowledge_violations": 0
+  },
+  "findings": [],
+  "mean_distinct_worlds_per_state": 7.634765625,
+  "pass": true,
+  "public_states": 512,
+  "sampler_version": "count_uniform_world_sampler_v1",
+  "worlds": 4096,
+  "worlds_equal_to_truth_report_only": 114,
+  "worlds_per_state": 8
+ },
+ "negative_controls": {
+  "all_fire": true,
+  "fired": {
+   "hidden_truth_injected_into_request": true,
+   "known_pieces_in_hidden_denominator": true,
+   "permuted_probability_columns": true,
+   "reversed_rank_mapping": true,
+   "wrong_remaining_inventory": true,
+   "wrong_true_rank_label": true
+  },
+  "first_reveal_position": {
+   "all_fire": true,
+   "audit_version": "phase11_agent02_audit_v1",
+   "controls": [
+    {
+     "control": "reversed_rank_mapping",
+     "detail": {
+      "corrupted_ce": 3.5433317204186556,
+      "reference_ce": 2.26379941037499
+     },
+     "fired": true
+    },
+    {
+     "control": "wrong_true_rank_label",
+     "detail": {
+      "corrupted_top1": 0.03871829105473965,
+      "reference_top1": 0.15353805073431243
+     },
+     "fired": true
+    },
+    {
+     "control": "wrong_remaining_inventory",
+     "detail": {
+      "honest_total": 37,
+      "tampered_total": 38,
+      "unresolved_pieces": 37
+     },
+     "fired": true
+    },
+    {
+     "control": "known_pieces_in_hidden_denominator",
+     "detail": {
+      "honest_conserved": true,
+      "honest_hidden": 37,
+      "known_alive_opponent_pieces": 1,
+      "polluted_denominator": 38,
+      "remaining_total": 37
+     },
+     "fired": true
+    },
+    {
+     "control": "hidden_truth_injected_into_request",
+     "detail": {
+      "refusal": "belief request carries fields outside the frozen allowlist: storage_path"
+     },
+     "fired": true
+    },
+    {
+     "control": "permuted_probability_columns",
+     "detail": {
+      "corrupted_ce": 3.1158616166173982,
+      "reference_ce": 2.26379941037499
+     },
+     "fired": true
+    }
+   ],
+   "events_scored": 1498
+  },
+  "opening_position": {
+   "all_fire": false,
+   "audit_version": "phase11_agent02_audit_v1",
+   "controls": [
+    {
+     "control": "reversed_rank_mapping",
+     "detail": {
+      "corrupted_ce": 3.5433317204186556,
+      "reference_ce": 2.26379941037499
+     },
+     "fired": true
+    },
+    {
+     "control": "wrong_true_rank_label",
+     "detail": {
+      "corrupted_top1": 0.03871829105473965,
+      "reference_top1": 0.15353805073431243
+     },
+     "fired": true
+    },
+    {
+     "control": "wrong_remaining_inventory",
+     "detail": {
+      "honest_total": 40,
+      "tampered_total": 41,
+      "unresolved_pieces": 40
+     },
+     "fired": true
+    },
+    {
+     "control": "known_pieces_in_hidden_denominator",
+     "detail": {
+      "honest_conserved": true,
+      "honest_hidden": 40,
+      "known_alive_opponent_pieces": 0,
+      "note": "the sampled position reveals no live opponent rank, so the control has nothing to detect here",
+      "polluted_denominator": 40,
+      "remaining_total": 40
+     },
+     "fired": false
+    },
+    {
+     "control": "hidden_truth_injected_into_request",
+     "detail": {
+      "refusal": "belief request carries fields outside the frozen allowlist: storage_path"
+     },
+     "fired": true
+    },
+    {
+     "control": "permuted_probability_columns",
+     "detail": {
+      "corrupted_ce": 3.1158616166173982,
+      "reference_ce": 2.26379941037499
+     },
+     "fired": true
+    }
+   ],
+   "events_scored": 1498
+  }
+ },
+ "phase": 11,
+ "scalar_recompute": {
+  "cases": 32,
+  "ece_learned": 0.03298919580589466,
+  "events": 80786,
+  "games": 64,
+  "max_case_aggregate_deviation": 4.440892098500626e-16,
+  "overall": {
+   "brier_baseline": 0.857549587668672,
+   "brier_delta": -0.01992433521516157,
+   "brier_learned": 0.8376252524535104,
+   "ce_baseline": 2.136732467984527,
+   "ce_delta": -0.03608446186410674,
+   "ce_learned": 2.1006480061204202,
+   "entropy_baseline": 2.149209639585969,
+   "entropy_learned": 2.0111981312170086,
+   "r_ce": 0.9831123163967534,
+   "top1_baseline": 0.2208143078032855,
+   "top1_delta": 0.03122851193929302,
+   "top1_learned": 0.2520428197425785
+  },
+  "tolerance": 1e-09,
+  "within_tolerance": true
+ },
+ "store_manifest_digest": "4246b156a023d8475448e5e7a6f276ad6938dda66aaec0bf655c436e391634d7",
+ "wall_clock_seconds": 21.093
+}

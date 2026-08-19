@@ -1,0 +1,244 @@
+[
+  {
+    "bank_version": "phase10b_validation_bank_v1",
+    "behavior_kl": 0.013464433933056554,
+    "candidate_checkpoint": {
+      "export_sha256": "db85dc9208e8a5fd148c7737564e908a6bf97b3887b21784425be2ed4c9ebbdd",
+      "path": "checkpoints/phase10b/validation_it005.pt",
+      "sha256": "9637388fc62431fac7b27cfb919655bc1599b7e03ca129dcb4746777215bd715"
+    },
+    "cases": 256,
+    "deltas": {
+      "delta_direct": 0.0810546875,
+      "delta_neutral": 0.005859375,
+      "delta_phase8": -0.0224609375,
+      "delta_strategic": -0.021484375,
+      "delta_tactical": 0.009765625
+    },
+    "eligibility": {
+      "basic_ewr": 0.880859375,
+      "basic_ewr_min": 0.8,
+      "basic_pass": true,
+      "eligible": true,
+      "neutral_rollback_ewr": 0.505859375,
+      "neutral_rollback_ewr_min": 0.48,
+      "neutral_rollback_pass": true,
+      "no_evaluation_errors": true,
+      "random_ewr": 0.994140625,
+      "random_ewr_min": 0.95,
+      "random_pass": true
+    },
+    "games": 6144,
+    "guards": {
+      "basic": {
+        "baseline_ewr": 0.8876953125,
+        "candidate_ewr": 0.880859375,
+        "color_split": {
+          "blue": 0.859375,
+          "red": 0.90234375
+        }
+      },
+      "random": {
+        "baseline_ewr": 0.986328125,
+        "candidate_ewr": 0.994140625,
+        "color_split": {
+          "blue": 0.99609375,
+          "red": 0.9921875
+        }
+      }
+    },
+    "iteration": 5,
+    "per_matchup": {
+      "direct_p10d": {
+        "baseline_ewr": null,
+        "candidate_ewr": 0.5810546875,
+        "cases": 256,
+        "delta": 0.0810546875,
+        "interval": {
+          "confidence": 0.95,
+          "engine": "numpy_pcg64",
+          "lower": 0.0458984375,
+          "method": "paired_unit_percentile_bootstrap",
+          "resamples": 10000,
+          "resampling_unit": "logical_case",
+          "sample_size": 256,
+          "seed": 7562911361772575518,
+          "upper": 0.1162109375,
+          "width": 0.0703125
+        },
+        "term": "delta_direct"
+      },
+      "neutral_rollback": {
+        "baseline_ewr": null,
+        "candidate_ewr": 0.505859375,
+        "cases": 256,
+        "delta": 0.005859375,
+        "interval": {
+          "confidence": 0.95,
+          "engine": "numpy_pcg64",
+          "lower": -0.03125,
+          "method": "paired_unit_percentile_bootstrap",
+          "resamples": 10000,
+          "resampling_unit": "logical_case",
+          "sample_size": 256,
+          "seed": 8004456104390396507,
+          "upper": 0.041015625,
+          "width": 0.072265625
+        },
+        "term": "delta_neutral"
+      },
+      "phase8_anchor": {
+        "baseline_ewr": 0.8603515625,
+        "candidate_ewr": 0.837890625,
+        "cases": 256,
+        "delta": -0.0224609375,
+        "interval": {
+          "confidence": 0.95,
+          "engine": "numpy_pcg64",
+          "lower": -0.05859375,
+          "method": "paired_unit_percentile_bootstrap",
+          "resamples": 10000,
+          "resampling_unit": "logical_case",
+          "sample_size": 256,
+          "seed": 3100231872035761435,
+          "upper": 0.013671875,
+          "width": 0.072265625
+        },
+        "term": "delta_phase8"
+      },
+      "strategic": {
+        "baseline_ewr": 0.8505859375,
+        "candidate_ewr": 0.8291015625,
+        "cases": 256,
+        "delta": -0.021484375,
+        "interval": {
+          "confidence": 0.95,
+          "engine": "numpy_pcg64",
+          "lower": -0.0615234375,
+          "method": "paired_unit_percentile_bootstrap",
+          "resamples": 10000,
+          "resampling_unit": "logical_case",
+          "sample_size": 256,
+          "seed": 3056393774884109818,
+          "upper": 0.017602539062499645,
+          "width": 0.07912597656249964
+        },
+        "term": "delta_strategic"
+      },
+      "tactical": {
+        "baseline_ewr": 0.830078125,
+        "candidate_ewr": 0.83984375,
+        "cases": 256,
+        "delta": 0.009765625,
+        "interval": {
+          "confidence": 0.95,
+          "engine": "numpy_pcg64",
+          "lower": -0.0244140625,
+          "method": "paired_unit_percentile_bootstrap",
+          "resamples": 10000,
+          "resampling_unit": "logical_case",
+          "sample_size": 256,
+          "seed": 8951535622323339802,
+          "upper": 0.0439453125,
+          "width": 0.068359375
+        },
+        "term": "delta_tactical"
+      }
+    },
+    "safety_counters": {
+      "phase10b|basic": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|direct_p10d": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|neutral_rollback": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|phase8_anchor": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|random": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|strategic": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase10b|tactical": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase9|basic": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase9|phase8_anchor": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase9|random": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase9|strategic": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      },
+      "phase9|tactical": {
+        "distinct_replay_digests": 512,
+        "errored_games": 0,
+        "games": 512,
+        "missing_scores": 0,
+        "policy_errors": 0
+      }
+    },
+    "score": 0.029589843750000004,
+    "score_weights": {
+      "delta_direct": 0.4,
+      "delta_neutral": 0.2,
+      "delta_phase8": 0.1,
+      "delta_strategic": 0.15,
+      "delta_tactical": 0.15
+    },
+    "seconds": 211.2179013339919
+  }
+]

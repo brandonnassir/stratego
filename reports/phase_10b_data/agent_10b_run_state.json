@@ -1,0 +1,105 @@
+{
+  "all_safety_counters_zero": true,
+  "artifact": "agent_10b_run_state",
+  "checkpoints": {
+    "archives": {
+      "A005": "3fbe89dd6f4dd96ce670fbaf1fecbdd98ea4f1cec5414570e2f09d61410fd6e2"
+    },
+    "behavior_snapshots": {
+      "B001": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "B002": "683db9c33e5e945bf7ccdb95c15096a0c74347d426866a28e066223b9df2a5ad",
+      "B003": "cc6f823d8cb56fe8ada1836282f962e21e5df1cdf5fe5195ed60584b6c0804da",
+      "B004": "441e9a9ce8d29cd4e3a21a05be486ee3170abf83568bae12958126eba99d20cf",
+      "B005": "962ce393d51771c8d97939f3b401245f7c517e1b891def2ac4d7531ad77e894e",
+      "B006": "2cf98fecf50aa8573bb12ecc1977129274343a3cede3610cfe2e7062228b8479"
+    },
+    "canonical_candidate_written": false,
+    "resume": {
+      "path": "checkpoints/phase10b/resume.pt",
+      "sha256": "0728be541873ca378bd11c545d30803f07210d578e487b2421df92d022a1647c"
+    },
+    "validation_it005": {
+      "path": "checkpoints/phase10b/validation_it005.pt",
+      "sha256": "9637388fc62431fac7b27cfb919655bc1599b7e03ca129dcb4746777215bd715"
+    }
+  },
+  "classification": null,
+  "classification_note": "no Phase 10B classification exists. Selection, the sealed final evaluation and Gates A-H have not run. The sealed test bank has never been opened for outcome evaluation.",
+  "environment": {
+    "source_revision": "6761308",
+    "timestamp": "2026-08-19T07:54:17-0400"
+  },
+  "identities": {
+    "contract_digest": "7159966745199a1bf1c2f5b9f2bcf75e30cc4cd40af89b7de0f2a685eba0c5c0",
+    "population_digest": "a51775d85c37eb3c573d934c8453c48d82b8928bb4cf1dda39f33b127af1e658",
+    "seed_contract_digest": "cba971802f393169ec9543ec8708c973f7fb5fde4c03e74251bf3c5490117196",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "test_bank_digest": "c545abd9630286380a28c3e6eeb4c89be301e91b9f04b71b9f47d55189680322",
+    "validation_bank_digest": "9295c2efc8467dced84ec32d0903d0e44f8b9f0819e908daa39812903be9a1a2"
+  },
+  "partial_iteration": {
+    "iteration": 6,
+    "resume_rule": "collect_iteration reconciles, subtracts committed ids and regenerates the remainder",
+    "state": "COLLECTING (interrupted; only committed games survive)"
+  },
+  "paused_by": "operator request after the iteration-5 validation pass",
+  "phase": "10B",
+  "progress": {
+    "examples_consumed": 4643142,
+    "iterations_completed": 5,
+    "max_iterations": 30,
+    "max_optimizer_epochs": 60,
+    "max_training_games": 61440,
+    "next_iteration": 6,
+    "optimizer_epochs": 10,
+    "optimizer_steps": 9074,
+    "training_games": 10240,
+    "validation_passes_completed": [
+      5
+    ],
+    "validation_passes_scheduled": [
+      5,
+      10,
+      15,
+      20,
+      25,
+      30
+    ],
+    "wall_clock_ceiling_seconds": 43200,
+    "wall_clock_remaining_seconds": 35989.07072012499,
+    "wall_clock_seconds_consumed": 7210.92927987501
+  },
+  "rollout_store": {
+    "anchor_exists": true,
+    "bytes_free": 993901207552,
+    "bytes_total": 999960829952,
+    "bytes_used": 6059622400,
+    "environment_value": "",
+    "environment_variable": "STRATEGO_PHASE10B_ROLLOUT_ROOT",
+    "identity_rule": "a logical Phase 10B identity never contains a path; the resolved root is recorded as a diagnostic so a relocation is auditable",
+    "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10b_rollout_root.txt",
+    "pointer_value": "/Volumes/Brandon_Washington/stratego_phase10b/rollouts",
+    "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase10b/rollouts",
+    "resolved_mount_anchor": "/Volumes/Brandon_Washington/stratego_phase10b/rollouts",
+    "root": "/Volumes/Brandon_Washington/stratego_phase10b/rollouts",
+    "source": "pointer_file"
+  },
+  "status": "PAUSED_INCOMPLETE",
+  "training_safety_counters": {
+    "behavior_identity_mismatches": 0,
+    "checkpoint_errors": 0,
+    "clip_fraction_hard_limit_breaches": 0,
+    "data_mismatches": 0,
+    "illegal_targets": 0,
+    "kl_hard_limit_breaches": 0,
+    "non_finite_gradients": 0,
+    "non_finite_losses": 0,
+    "non_finite_parameters": 0,
+    "rollout_identity_mismatches": 0
+  },
+  "upstream_unchanged": {
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/selfplay_c1_v1.pt",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "unchanged": true
+  }
+}

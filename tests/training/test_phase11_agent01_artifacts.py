@@ -231,9 +231,18 @@ def test_the_ledger_proves_structural_only_access(acceptance):
     assert sealed["outcome_total"] == 0
     assert sealed["neural_inference_total"] == 0
     assert acceptance["ledger"]["test_bank_structural_only"]
+    # The frozen ledger rule is about the *test bank*, and the ledger is
+    # explicitly append-only across agents ("every agent-harness bank access
+    # writes one entry"). So: every Agent 1 entry is structural, and every
+    # test-bank entry from any agent is structural until Agent 7 — a later
+    # agent's scored validation-bank entry is the ledger working, not a
+    # violation.
     for entry in entries:
-        assert entry["agent"] == 1
-        assert entry["structural_only"] is True
+        if entry["agent"] == 1:
+            assert entry["structural_only"] is True
+        if entry["bank_version"] == pc.TEST_BANK_VERSION:
+            assert entry["structural_only"] is True
+    assert any(entry["agent"] == 1 for entry in entries)
 
 
 def test_forbidden_operation_counters_are_zero(acceptance):
