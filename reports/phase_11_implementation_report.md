@@ -857,3 +857,208 @@ Suite: `5621 passed, 3 skipped in 315.50s (0:05:15)`
 
 Agent 5 receives the immutable evaluator identity (`phase11_belief_evaluator_v1`, belief head `a9df48a1adcd29b1...`), the immutable sampler identity (`belief_sampler_v1`, `a0119f0126a1100c...`), the safety and topology evidence, and the measured runtime configuration (cpu / float32 / 1 thread, p95 48.51 ms). Agent 5 integrates and freezes; it may not retrain, recalibrate, redesign the sampler or open the sealed test bank.
 
+## 5. Agent 5 — Integrated Validation and the Implementation Freeze
+
+Starting revision `b2600c6` (the accepted Agent 4 commit). Status **PASS**, 22/22 completion gates.
+
+Agent 5 ran the complete Phase 11 scored pipeline on `phase11_validation_bank_v1` exactly as it will run on the sealed test, recomputed every quantity independently, bound the Agent 3 and Agent 4 evidence, audited leakage, and froze one implementation identity for Agents 6 and 7. It trained nothing, calibrated nothing, changed no threshold, bin, baseline, bank, stratum or sampler rule, and did not react to the known validation reading `R_CE = 0.9750`.
+
+### 5.1 Verified identities
+
+```text
+Agent 1  PASS  31/31 gates   bundle ad16f921c602c1e1...
+Agent 2  PASS  24/24 gates   R_CE 0.9750
+Agent 3  PASS  26/26 gates   251,262 learned worlds
+Agent 4  PASS  34/34 gates   p95 48.51 ms
+Phase 9 checkpoint    dfd698e5b6cf536a...  863,959 parameters
+belief head           a9df48a1adcd29b1...  optimizer step 47,086
+belief_sampler_v1     a0119f0126a1100c...
+validation bank       bba6860549c05ebd...  512 cases
+test bank             566ac35214ac04d5...  sealed, structural-only
+```
+
+### 5.2 The integrated run
+
+```text
+pipeline              phase11_validation_freeze_v1
+entry point           stratego.evaluation.phase11_pipeline.run_phase11_pipeline
+stages                generate -> targets -> score -> metrics -> slices -> sampler_checks -> bound_evidence -> gate_quantities
+games                 1,024 (512 cases x 2 colour games, exact)
+observer decisions    107,346
+prediction events     2,850,966
+store manifest        531e172342f0527a...  (frozen digest; see 5.2.1)
+store content         fac5f450a692f025...
+reproduces Agent 2    yes, on every content digest
+wall clock            505.9s
+```
+
+The run replays the bank from scratch into its own store rather than reading Agent 2's. All 1,024 public-shard digests, truth-shard digests and replay digests agree with Agent 2's, as do the decision counts, event counts, match seeds, terminal reasons, belief-forward counts and the run-level request rollup — so the whole pipeline is demonstrably a pure function of the frozen bank and the frozen model.
+
+#### 5.2.1 A defect in the store identity, found and not patched
+
+The two stores' **frozen** `manifest_digest` values differ. The cause is structural: each game's manifest entry carries `forward_seconds`, a wall-clock measurement, and `phase11_records.manifest_digest` excludes only `store_root`, `written_at` and `duration_seconds`, so a duration enters the store identity. Two executions of the same frozen bank therefore cannot agree on it. The digests differ on those 998 timings and on nothing else — every logical field, top-level and per game, is identical.
+
+No hard gate reads the manifest digest. Gate G's reproducibility rests on `phase11_repro.request_digest`, which covers beliefs, masks, worlds and provenance and carries no timing; it was exact across all eight topology legs. No Phase 11 conclusion moves.
+
+Agent 5 did not patch `phase11_records`, the recorder or the frozen digest — the instruction is to stop and return a structural defect to the reviewer, not to silently repair it. Instead Agent 5 added `store_content_digest`, a new Agent 5 quantity over the fields a replay determines, and both stores hash to `fac5f450a692f0254b1eb0159d296b9b...`. **The reviewer should decide whether `manifest_digest` is repaired in a later phase.** Until then the store's cross-run identity is the content digest and the frozen digest is a within-run self-consistency check.
+
+### 5.3 Predictive metrics
+
+| metric | learned | `remaining_count_belief_v1` | delta (95% CI) |
+| --- | --- | --- | --- |
+| cross-entropy | 2.1050 | 2.1591 | -0.0541 [-0.0620, -0.0463] |
+| top-1 accuracy | 0.2489 | 0.2146 | 0.0343 [0.0300, 0.0384] |
+| Brier | 0.8403 | 0.8640 | -0.0237 [-0.0265, -0.0212] |
+| true-rank probability | 0.1722 | 0.1345 | — |
+| entropy (nats) | 2.0018 | 2.1676 | — |
+| ECE (15 bins, pooled) | 0.0423 | 0.0020 | — |
+| `R_CE` | 0.9750 [0.9712, 0.9786] | — | — |
+
+2,850,966 events over 512 cases; 0 case(s) contributed no event. The CE floor fired on 0 event(s).
+
+### 5.4 Validation readings of the eight hard gates
+
+| gate | quantity | threshold | reading | validation |
+| --- | --- | --- | --- | --- |
+| A | `R_CE` / CE-delta upper | <= 0.97 / < 0 | 0.9750 / -0.0463 | **FAIL** |
+| B | `Delta_top1` / lower | >= +0.03 / > 0 | +0.0343 / +0.0300 | PASS |
+| C | ECE / stratum ECE / Brier upper | <= 0.08 / <= 0.12 / <= +0.01 | 0.0423 / 0.0476 / -0.0212 | PASS |
+| D | worst stratum `R_CE` | <= 1.05 | 0.9925 | PASS |
+| E | sampler counters | all zero | 239,488 + 251,262 worlds, all zero | PASS |
+| F | safety counters | all zero | 50,000 trials, all zero | PASS |
+| G | legs exact / p95 forward+64 | all / <= 500 ms | 8/8 / 48.51 ms | PASS |
+| H | preservation | exact | every identity re-derived | PASS |
+
+**These are diagnostics, not retuning signals.** `R_CE = 0.9750` exceeds Gate A's 0.97 ceiling, so Gate A would fail on the sealed test if this reading repeated. Agent 5 recorded it and changed nothing: no weight, no calibration, no threshold, no bin edge, no baseline, no bank, no stratum and no sampler rule moved after it was seen. The reviewer decides whether to proceed to the sealed test with Gate A at real risk; turning this phase into a repair loop is exactly what the common contract forbids.
+
+### 5.5 Per-stratum readings
+
+| stratum | events | `R_CE` | ECE | Gate D | Gate C |
+| --- | --- | --- | --- | --- | --- |
+| `basic_rule` | 151,052 | 0.9843 | 0.0369 | ok | ok |
+| `information_miser` | 487,053 | 0.9725 | 0.0419 | ok | ok |
+| `miner_rush` | 590,591 | 0.9802 | 0.0470 | ok | ok |
+| `phase8_anchor` | 190,586 | 0.9759 | 0.0413 | ok | ok |
+| `phase9_selfplay` | 441,148 | 0.9433 | 0.0371 | ok | ok |
+| `scout_rush` | 576,331 | 0.9925 | 0.0476 | ok | ok |
+| `strategic_rule` | 208,004 | 0.9799 | 0.0406 | ok | ok |
+| `tactical_rule` | 206,201 | 0.9704 | 0.0411 | ok | ok |
+
+Full per-stratum intervals, both deltas and the independent recomputation of each ratio are in `reports/phase_11_data/agent_05_validation_strata.csv`.
+
+### 5.6 The integrated sampler pass
+
+```text
+rule                  4 evenly spaced eligible decisions per game
+schedule nominal      4,096 slots
+schedule attainable   3,742 slots (26 games have no eligible decision, 104 more are below quota)
+schedule realized     3,742 states  (== attainable: true)
+eligible games served 998/998
+ordinals per state    64 (the Phase 12 request shape)
+complete worlds       239,488  (this pass alone; frozen floor 250,000)
+with the bound audit  490,750  (Agent 3 contributed 251,262)
+distinct states       3,722
+distinct worlds/state 63.46 mean
+request rollup        94c368334c0ef63d...
+zero-tolerance        all nine counters zero
+```
+
+Each scheduled state is replayed from public bytes alone and served through the frozen production request — one belief forward plus 64 complete worlds, the same object Gate G's runtime ceiling is stated about. Gate E reads the sum of this pass and Agent 3's 251,262-world audit, so a counter that fired in either would be non-zero.
+
+This pass alone falls **below** the frozen 250,000-world floor. A game offers only the decisions at which the observer faced a hidden target: 26 of 1,024 games offer none at all, and 104 more offer fewer than the quota, so the schedule can reach 3,742 of a nominal 4,096 slots and reaches exactly that. The shortfall is accounted for, never made up from another game. The 250,000 floor is Agent 3's large-audit floor and is met by Agent 3's 251,262 worlds, which Agent 5 binds; the integrated pass is an integration check at the production request shape, not a second large audit. **The schedule rule was not adjusted after the shortfall was seen.**
+
+### 5.7 Independent recomputation
+
+```text
+path                  phase11_independent_recompute_v1
+imports               no phase11_* module: contract constants restated, seeds re-derived
+events rebuilt        2,850,966 over 512 cases
+quantities compared   72
+max deviation         4.271e-13  (tolerance 1e-09)
+both-NaN comparisons  0
+```
+
+Cross-entropy is rebuilt from a log-sum-exp of the recorded logits rather than a softmax followed by a log, the Brier score is expanded rather than summed over a one-hot difference, every case aggregate and replicate mean uses `math.fsum` over Python floats, and the quantile is re-implemented from the frozen linear-interpolation rule. Every bootstrap stream seed was re-derived from the written rule and reproduced exactly. CE learned/baseline/ratio, both deltas, ECE, the per-stratum ratios and all 72 bootstrap intervals agree.
+
+### 5.8 Leakage audit
+
+| claim | evidence |
+| --- | --- |
+| targets used only after prediction | neither request type has a field a target could arrive in (0 of 9 fields name a private token); the truth pass runs on its own replay after both vectors exist, re-deriving 107,346 decisions with 0 identity, alignment, count or mask mismatches and 0 unlabelled events |
+| no test predictions or truth | the append-only ledger holds 12 test-bank entries, all structural-only, with 0 scored predictions, 0 truth reads, 0 neural inferences and 0 outcome reads; the pipeline refuses the sealed bank without an authorization Agent 5 never passes |
+| no game result as a belief feature | 0 of 13 recorded shard arrays name a result; outcomes live in the manifest and are report-only |
+| no diagnostic slice alters the implementation | the frozen slice list is produced whole (6 slices); only `opponent_stratum` feeds a gate, and Agent 1 froze it as gate-bearing before any prediction existed |
+
+### 5.9 The implementation freeze
+
+```text
+freeze version        phase11_validation_freeze_v1
+freeze digest         ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912
+final-test entry      stratego.evaluation.phase11_pipeline.run_phase11_pipeline
+belief head           a9df48a1adcd29b1...
+evaluator             phase11_belief_evaluator_v1
+baseline              remaining_count_belief_v1 / count_uniform_world_sampler_v1
+sampler               belief_sampler_v1
+information safety    phase11_information_safety_v1
+statistics            10,000 replicates, 0.95, 15 ECE bins, phase11_independent_recompute_v1
+runtime backend       cpu / float32 / 1 thread, p95 48.51 ms
+modules frozen        17 tracked files
+bound evidence        12 artifacts, re-hashed
+```
+
+The freeze digest is taken over the logical document only — versions, module bytes, model and sampler identity, statistics and runtime configuration. No path, volume or timestamp enters it.
+
+### 5.10 Preservation and the seal
+
+```text
+checkpoint unchanged      true
+belief head unchanged     true
+sampler unchanged         true
+bound evidence unchanged  true
+optimizer step            47,086 -> 47,086 (delta 0)
+P10-D / anchor / Phase 7  unchanged
+test bank                 13 entries, all structural-only, 0 scored
+```
+
+### 5.11 Completion gates
+
+| gate | value |
+| --- | --- |
+| `agents1_4_pass` | true |
+| `all_slices_complete` | true |
+| `bootstrap_complete` | true |
+| `final_implementation_freeze_complete` | true |
+| `full_pipeline_complete` | true |
+| `full_suite_green` | true |
+| `independent_recompute_pass` | true |
+| `no_belief_update` | true |
+| `no_calibration` | true |
+| `no_sampler_change` | true |
+| `no_test_prediction_access` | true |
+| `no_test_truth_access` | true |
+| `no_threshold_change` | true |
+| `predictive_metrics_complete` | true |
+| `reproducibility_evidence_bound` | true |
+| `runtime_evidence_bound` | true |
+| `safety_evidence_bound` | true |
+| `sampler_evidence_bound` | true |
+| `upstream_assets_unchanged` | true |
+| `validation_bank_exact` | true |
+| `validation_games_exact` | true |
+| `validation_privileged_boundary_clean` | true |
+
+Suite after: `5742 passed, 3 skipped in 318.66s (0:05:18)` (320s).
+
+### 5.12 Recorded readings and handoff to Agent 6
+
+- **gate_a_would_fail_on_validation_nothing_retuned** — the integrated validation reading R_CE = 0.9750 exceeds Gate A's <= 0.97, so Gate A reads FAIL on validation. This is a readiness diagnostic, not a retuning signal: the belief head, the masks, the baseline, the sampler weighting, the ECE bins, the bootstrap procedure and every Phase 11 threshold are byte-identical to the Agent 1 freeze, and Agent 5 changed none of them after seeing it. The paired CE-delta upper bound -0.0463 is below zero, so the learned head is significantly better than the baseline while not being better by the required margin. *Impact:* none on any frozen quantity; the reviewer decides whether to proceed to the sealed test knowing Gate A is at real risk
+- **store_manifest_digest_embeds_a_wall_clock_duration** — **a structural defect in the accepted store identity, found before the Agent 5 artifact freeze and deliberately not patched.** Each game's manifest entry carries `forward_seconds`, a wall-clock measurement, and `phase11_records.manifest_digest` excludes only `store_root`, `written_at` and `duration_seconds` — so the duration enters the store identity. Two executions of the same frozen bank therefore cannot agree on it, and Agent 5's regenerated manifest digest 531e172342f0527a... differs from Agent 2's 4246b156a023d847... on those 998 timings and nothing else. No hard gate reads the manifest digest: Gate G's reproducibility rests on `phase11_repro.request_digest`, which is content-only and was exact across all eight topology legs, so no Phase 11 conclusion moves. Agent 5 patched neither `phase11_records` nor the recorder, and instead added `store_content_digest`, a new Agent 5 quantity over the fields a replay determines. *Impact:* the reviewer should decide whether `manifest_digest` is repaired in a later phase; until then the store's cross-run identity is `store_content_digest` and the frozen digest is a within-run self-consistency check only
+- **pipeline_regenerates_the_agent2_store_exactly** — the integrated run replays the bank from scratch into its own store rather than reading Agent 2's, and the resulting content digest fac5f450a692f025... reproduces Agent 2's exactly over all 1,024 games. Every public-shard digest, truth-shard digest and replay digest agrees, as do the decision counts, event counts, match seeds, terminal reasons, belief-forward counts and the run-level request rollup, and every recomputed metric reproduces Agent 2's to 1e-12. This is the end-to-end statement that the pipeline is a pure function of the frozen bank and the frozen model. *Impact:* confirms the entry point Agent 7 will call is the accepted computation
+- **integrated_schedule_realizes_fewer_slots_than_nominal** — the frozen rule takes 4 evenly spaced *eligible* decisions from each game — eligible meaning the observer faced at least one hidden target there — so its nominal size is 4,096 slots but its attainable size is 3,742. 26 of 1,024 games offer no eligible decision at all and have nothing to contribute, and 104 more offer fewer than the quota. Every eligible game contributes and the realized schedule equals the attainable one exactly (3,742 states), so nothing was dropped and no shortfall was made up from another game. That gives 239,488 complete worlds — below the frozen 250,000-world floor on this pass alone. That floor is Agent 3's large-audit floor and is met by Agent 3's 251,262-world audit, which Agent 5 binds; the two passes together give 490,750 worlds with every zero-tolerance counter at zero in both. **The schedule rule was not adjusted after the shortfall was seen**. *Impact:* the integrated pass is an integration check at the production request shape, not a second large audit; Gate E rests on both passes and neither the rule nor the floor moved
+- **integrated_sampler_pass_is_a_second_independent_pass** — the frozen schedule takes 3,742 states (64 world ordinals each, the Phase 12 request shape) for 239,488 complete worlds over 3,722 distinct public states, averaging 63.46 distinct worlds per state. It is a second *independent* sampler pass on Agent 5's own bytes, at the production request shape rather than Agent 3's audit shape — not a re-run of Agent 3's audit and not large enough to be one on its own (see `integrated_schedule_realizes_fewer_slots_than_nominal`). Every zero-tolerance counter is zero here as well as in Agent 3's audit, and Gate E reads the sum of the two passes so a counter that fired in either would be non-zero. *Impact:* Gate E rests on two independent passes rather than one
+- **independent_recompute_shares_the_resampling_index_by_design** — the independent path re-derives the bootstrap stream seed from the frozen written rule and re-draws the PCG64 resampling index, then computes every case aggregate, replicate mean, ratio, quantile and ECE bin with `math.fsum` over Python floats. The index is the frozen statistic itself, so replacing it would recompute a different interval rather than check the same one; every seed was reproduced exactly and the worst deviation over 72 quantities is 4.271e-13. *Impact:* defines what the independent recomputation does and does not prove
+- **sealed_bank_refusal_is_behavioural** — `run_phase11_pipeline` refuses `phase11_test_bank_v1` unless the caller passes `sealed_bank_authorized=True`, which defaults to False and is never derived from a bank name, an environment variable or an artifact. The verification stage exercises the refusal and never makes the authorizing call, and the Agent 5 pipeline run records `sealed_bank_authorized = false`. *Impact:* the seal is a property of the code Agent 7 will call, not a promise
+- **gate_h_is_observed_not_asserted** — the Gate H observation is re-derived from live bytes after the run: checkpoint SHA, model-state digest, parameter count 863,959, belief-head tensor identity, global optimizer step 47,086 (delta 0), the P10-D chain, the Phase 10 utility and scaler digests and the Phase 7 library content digest. *Impact:* Gate H's validation reading is a measurement, not a restatement
+
+Agent 6 receives the single frozen Phase 11 implementation identity `phase11_validation_freeze_v1` (digest `ad2562af538abc6c...`), its entry point `stratego.evaluation.phase11_pipeline.run_phase11_pipeline`, and the immutable dependencies: belief head `a9df48a1adcd29b1...`, `phase11_belief_evaluator_v1`, `remaining_count_belief_v1`, `belief_sampler_v1` (`a0119f0126a1100c...`), `phase11_information_safety_v1`, the frozen statistics and the measured CPU runtime configuration. Agent 6 performs the production soak and the `phase11_system_v1` freeze only.
+
