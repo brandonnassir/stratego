@@ -62,6 +62,16 @@ class Phase12SearchError(RuntimeError):
     """A Phase 12 search request was refused or an invariant was violated."""
 
 
+class Phase12SearchTimeout(Phase12SearchError):
+    """A search decision ran past its caller-supplied deadline.
+
+    Raised only when :meth:`Phase12SearchEngine.choose_action` is given a
+    `deadline`; the working player catches it and falls back to the direct
+    accepted Phase 9 action. It is a `Phase12SearchError` so callers that
+    predate the time cap keep working unchanged.
+    """
+
+
 # ---------------------------------------------------------------------------
 # Phase 12 seed streams
 # ---------------------------------------------------------------------------
@@ -199,6 +209,7 @@ __all__ = [
     "SEARCH_VERSION",
     "Phase12SearchConfig",
     "Phase12SearchError",
+    "Phase12SearchTimeout",
     "derive_phase12_seed",
     "search_preset",
 ]

@@ -88,7 +88,12 @@ from ...model.policy_adapter import (
     select_action,
 )
 from ...model.tokenization import observation_batch_from_numpy, observation_to_tokens
-from .contract import Phase12SearchConfig, Phase12SearchError, SEARCH_VERSION
+from .contract import (
+    Phase12SearchConfig,
+    Phase12SearchError,
+    Phase12SearchTimeout,
+    SEARCH_VERSION,
+)
 from .providers import Phase12BeliefProvider
 
 
@@ -311,7 +316,24 @@ class Phase12SearchEngine:
 
     # -- the decision --------------------------------------------------------
 
-    def choose_action(self, state: GameState, *, seed: int) -> Phase12SearchDecision:
+    def choose_action(
+        self,
+        state: GameState,
+        *,
+        seed: int,
+        deadline: "float | None" = None,
+    ) -> Phase12SearchDecision:
+        """One search decision; see the module docstring for the algorithm.
+
+        `deadline` is an optional absolute `time.perf_counter()` timestamp.
+        When set, the engine checks it cooperatively at its loop boundaries
+        (after the root forward, after world sampling, per materialized
+        world, and before each batched rollout forward) and raises
+        :class:`Phase12SearchTimeout` once it has passed. The checks are
+        pure control flow: with the same seed, a decision that completes is
+        bit-identical whether or not a deadline was supplied. The default
+        `None` is exactly the Agent 1-4 behaviour.
+        """
         started = time.perf_counter()
         if state.terminal:
             raise Phase12SearchError("a search decision was requested for a terminal state")
@@ -320,6 +342,13 @@ class Phase12SearchEngine:
         observation_seconds = 0.0
         forward_seconds = 0.0
         forward_batches: list[int] = []
+
+        def check_deadline() -> None:
+            if deadline is not None and time.perf_counter() > deadline:
+                raise Phase12SearchTimeout(
+                    f"search ran past its deadline at ply {state.total_moves} "
+                    f"({time.perf_counter() - started:.3f}s elapsed)"
+                )
 
         def timed_observation(target: GameState, player: int) -> np.ndarray:
             nonlocal observation_seconds
@@ -339,6 +368,7 @@ class Phase12SearchEngine:
         outputs, elapsed = self._forward([observation])
         forward_seconds += elapsed
         forward_batches.append(1)
+        check_deadline()
         policy_row = outputs.policy_logits.detach().to("cpu", torch.float32)[0]
         root_direct_value = float(
             expected_value(outputs.value_logits).detach().to("cpu", torch.float32)[0]
@@ -395,6 +425,7 @@ class Phase12SearchEngine:
                 f"the provider returned {len(assignments)} worlds, expected "
                 f"{config.worlds}"
             )
+        check_deadline()
 
         if config.deduplicate_worlds:
             buckets: dict[tuple, list] = {}
@@ -416,6 +447,7 @@ class Phase12SearchEngine:
         base_snapshot = create_snapshot(state, include_history=False)
         world_snapshots = []
         for assignment in unique_assignments:
+            check_deadline()
             world = restore_snapshot(base_snapshot)
             apply_assignment_in_place(world, root, assignment)
             if config.verify_world_public_surface:
@@ -457,6 +489,7 @@ class Phase12SearchEngine:
         # ---- lockstep rollouts ----------------------------------------------
         rollout_iterations = 0
         while active:
+            check_deadline()
             rollout_iterations += 1
             batch = np.stack(
                 [

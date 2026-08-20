@@ -1,10 +1,11 @@
-"""Phase 12: the minimal belief-guided search core.
+"""Phase 12: the minimal belief-guided search core and the working player.
 
 Public surface:
 
 - :mod:`.contract` — the search version, presets and configuration;
 - :mod:`.providers` — the four interchangeable belief providers;
-- :mod:`.engine` — the root-world search engine.
+- :mod:`.engine` — the root-world search engine;
+- :mod:`.player` — the production working player (Agent 5).
 """
 
 from .contract import (
@@ -21,6 +22,7 @@ from .contract import (
     SEARCH_VERSION,
     Phase12SearchConfig,
     Phase12SearchError,
+    Phase12SearchTimeout,
     search_preset,
 )
 from .engine import (
@@ -36,8 +38,33 @@ from .providers import (
     RemainingCountBeliefProvider,
     build_belief_provider,
 )
+from .player import (
+    CANDIDATE_ARTIFACT,
+    DEFAULT_MODE,
+    MODE_TIME_CAP_SECONDS,
+    ORACLE_AVAILABLE_IN_PRODUCTION,
+    PLAYER_MODES,
+    PLAYER_VERSION,
+    Phase12PlayerDecision,
+    Phase12PlayerSeat,
+    Phase12SearchPlayer,
+    build_candidate_record,
+    load_search_player,
+)
 
 __all__ = [
+    "CANDIDATE_ARTIFACT",
+    "DEFAULT_MODE",
+    "MODE_TIME_CAP_SECONDS",
+    "ORACLE_AVAILABLE_IN_PRODUCTION",
+    "PLAYER_MODES",
+    "PLAYER_VERSION",
+    "Phase12PlayerDecision",
+    "Phase12PlayerSeat",
+    "Phase12SearchPlayer",
+    "Phase12SearchTimeout",
+    "build_candidate_record",
+    "load_search_player",
     "ALL_PROVIDERS",
     "AdapterNeuralBeliefProvider",
     "OracleBeliefProvider",

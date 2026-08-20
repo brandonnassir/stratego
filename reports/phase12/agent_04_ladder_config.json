@@ -1,0 +1,19 @@
+{
+ "artifact": "phase12_agent04_budget_ladder_v1",
+ "budget_version": "phase12_budget_ladder_v1",
+ "search_version": "phase12_root_world_search_v1",
+ "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+ "belief_provider": "agent1c",
+ "rungs": "TINY(worlds 8, depth 4, candidates <= 8)  SMALL(worlds 16, depth 6, candidates <= 8)  MEDIUM(worlds 32, depth 8, candidates <= 8)",
+ "beta": 0.1,
+ "reference_arm": "direct accepted Phase 9 C1",
+ "opponents": "Phase 9 direct, Strategic, Tactical, Scout-rush",
+ "boards": 64,
+ "games_played": 256,
+ "setups": "accepted library split 'validation'",
+ "rules": "EVALUATION_RULES (accepted)",
+ "master seed": 2026082003,
+ "match_version": "phase12_match_test_v1",
+ "test bank": "False (never opened)",
+ "device": "cpu, 10 torch threads"
+}

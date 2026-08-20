@@ -1,0 +1,191 @@
+{
+ "artifact": "phase12_search_candidate_v1",
+ "phase": "phase12",
+ "agent": 5,
+ "generated_utc": "2026-08-20T18:17:30Z",
+ "move_model": "accepted Phase 9 C1",
+ "belief_model": "Agent1C",
+ "search_version": "phase12_root_world_search_v1",
+ "selected_preset": "TINY",
+ "worlds": 8,
+ "root_candidates": "<= 8",
+ "depth": 4,
+ "beta": 0.1,
+ "epsilon": 1e-06,
+ "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+ "belief_provider": "agent1c",
+ "move_model_identity": {
+  "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "parameters": 863959,
+  "trainable_parameters": 0,
+  "device": "cpu",
+  "dtype": "float32",
+  "architecture": "stratego_transformer_v1",
+  "candidate_id": "C1"
+ },
+ "belief_model_identity": {
+  "candidate_id": "agent01_1c_final_block_plus_mlp",
+  "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+  "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+  "checkpoint_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+  "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+  "dev_metrics": {
+   "metrics_version": "phase11b_metrics_v1",
+   "baseline_version": "remaining_count_belief_v1",
+   "split": "dev",
+   "samples": 1828,
+   "pieces": 55955,
+   "ce": 2.0762433648362477,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce": 0.9459282341313351,
+   "r_ce_ci95": [
+    0.9432082233653721,
+    0.9488427432103299
+   ],
+   "top1": 0.2638727548923242,
+   "baseline_top1": 0.2038423733357162,
+   "zero_mass_rows": 0,
+   "strata": {
+    "phase9_selfplay": {
+     "pieces": 15189,
+     "ce": 2.0247778550908007,
+     "baseline_ce": 2.172986317031842,
+     "r_ce": 0.9317950321272688,
+     "top1": 0.276450062545263,
+     "baseline_top1": 0.20205411811179141
+    },
+    "strategic_rule": {
+     "pieces": 13215,
+     "ce": 2.09355951802676,
+     "baseline_ce": 2.1903629650170755,
+     "r_ce": 0.9558048375833634,
+     "top1": 0.26394248959515704,
+     "baseline_top1": 0.20892924706772606
+    },
+    "tactical_rule": {
+     "pieces": 13697,
+     "ce": 2.0801737420082143,
+     "baseline_ce": 2.185095806245525,
+     "r_ce": 0.9519828540527063,
+     "top1": 0.2631233116740892,
+     "baseline_top1": 0.20880484777688546
+    },
+    "scout_rush": {
+     "pieces": 13854,
+     "ce": 2.1122648955845182,
+     "baseline_ce": 2.233054998063731,
+     "r_ce": 0.945908138140821,
+     "top1": 0.25075790385448243,
+     "baseline_top1": 0.1960444636927963
+    }
+   },
+   "worst_stratum": "strategic_rule",
+   "best_stratum": "phase9_selfplay",
+   "diagnostic_projected_ce": 2.0750485208059115,
+   "diagnostic_projected_r_ce": 0.9453838679347608
+  },
+  "feature_layer": "penultimate"
+ },
+ "player_version": "phase12_search_player_v1",
+ "modes": [
+  "direct",
+  "tiny",
+  "small",
+  "medium"
+ ],
+ "default_mode": "tiny",
+ "max_strength_mode": "medium",
+ "max_strength_preset": "MEDIUM",
+ "time_cap_seconds": 0.5,
+ "time_caps_by_mode": {
+  "tiny": 0.5,
+  "small": 1.5,
+  "medium": 3.5
+ },
+ "fallback_policy": "direct accepted Phase 9 C1",
+ "fallback_reasons": [
+  "timeout",
+  "search_error",
+  "unexpected_error",
+  "non_finite_score",
+  "illegal_action",
+  "direct_error"
+ ],
+ "expected_latency_median": "0.126 s/move",
+ "expected_latency_p95": "0.138 s/move",
+ "Agent4_quick_EWR": 0.6406,
+ "Agent4_direct_EWR": 0.5234,
+ "agent4_operating_point_exact": {
+  "source": "reports/phase12/agent_04_summary.json",
+  "preset_id": "TINY",
+  "games": 64,
+  "ewr": 0.640625,
+  "direct_ewr": 0.5234375,
+  "move_seconds_median": 0.12614,
+  "move_seconds_p95": 0.13816,
+  "move_seconds_max": 0.1929,
+  "search_seconds_per_game": 10.247821875
+ },
+ "quick_checks": {
+  "search_player_loads": true,
+  "phase9_checkpoint_identity": true,
+  "agent1c_checkpoint_identity": true,
+  "oracle_cannot_enter_production": true,
+  "direct_mode_works": true,
+  "normal_tiny_search_works": true,
+  "search_decision_deterministic": true,
+  "deadline_checks_are_behavior_neutral": true,
+  "timeout_fallback_works": true,
+  "forced_error_fallback_works": true,
+  "machine_interface_selects_search_mode": true,
+  "human_interface_selects_search_mode": true
+ },
+ "known_limitations": [
+  "Strength numbers are the Agent 4 engineering sample (64 games per rung): no significance claim, and scientific validation has not been performed.",
+  "The Agent 4 ladder did not separate TINY/SMALL/MEDIUM within the 0.10 engineering margin; TINY is the cheapest rung not meaningfully behind the strongest on that pack, not a proven optimum.",
+  "Latency, and therefore the 0.5 s cap's headroom, were measured on this machine (cpu, single process); a different device should re-derive the cap from its own profile, keeping the ~3.6x-over-p95 intent.",
+  "The accepted setup library places a flag on a front row on 47 of 64 match boards, so part of every pack is decided by opening scout races that no search budget can influence.",
+  "Agent 1C was trained on setups from the same accepted library family the match packs draw from; a mild optimistic residual is accepted for engineering purposes.",
+  "The time cap makes the fallback wall-clock-dependent by design; search decisions themselves are seed-deterministic."
+ ],
+ "environment": {
+  "device": "cpu",
+  "torch": "2.13.0",
+  "torch_threads": 10,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2"
+ },
+ "oracle_available_in_production": false,
+ "phase11_final_classification": "FAIL",
+ "phase11b_selection": "Agent1C",
+ "scientific_validation_status": "not performed",
+ "maximum_strength_candidate": {
+  "designation": "current maximum-strength candidate, by project direction; the production default remains the selected TINY preset",
+  "mode": "medium",
+  "preset": "MEDIUM",
+  "worlds": 32,
+  "root_candidates": "<= 8",
+  "depth": 8,
+  "time_cap_seconds": 3.5,
+  "expected_latency_median": "0.846 s/move",
+  "expected_latency_p95": "0.916 s/move",
+  "Agent4_quick_EWR": 0.6875,
+  "ewr_lead_over_selected": 0.0469,
+  "caveat": "strongest rung observed on the Agent 4 pack; its lead over TINY is inside the 0.10 engineering margin, so this is a designation of the strongest observed configuration, not a validated ordering",
+  "agent4_exact": {
+   "source": "reports/phase12/agent_04_summary.json",
+   "preset_id": "MEDIUM",
+   "games": 64,
+   "ewr": 0.6875,
+   "move_seconds_median": 0.84625,
+   "move_seconds_p95": 0.91635,
+   "move_seconds_max": 0.98072,
+   "search_seconds_per_game": 66.5451859375
+  }
+ },
+ "candidate_config_digest": "b33c486af457af18a2ecf2dba7b6338310a3b53e5a6d1c8b3562be7ed6c7f25f"
+}
