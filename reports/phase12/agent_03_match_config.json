@@ -1,0 +1,326 @@
+{
+ "artifact": "phase12_agent03_match_set_v1",
+ "search_version": "phase12_root_world_search_v1",
+ "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+ "preset_id": "SMALL",
+ "worlds": 16,
+ "rollout_depth": 6,
+ "max_root_candidates": 8,
+ "beta": 0.1,
+ "epsilon": 1e-06,
+ "match_version": "phase12_match_test_v1",
+ "master_seed": 2026082003,
+ "library_split": "validation",
+ "strata": [
+  "phase9_selfplay",
+  "strategic_rule",
+  "tactical_rule",
+  "scout_rush"
+ ],
+ "setup_sources": 2,
+ "colors": 2,
+ "games_per_opponent": 8,
+ "boards": 32,
+ "games_played": 0,
+ "arms": [
+  {
+   "arm_id": "direct_c1",
+   "kind": "direct",
+   "label": "direct accepted Phase 9 C1",
+   "provider_id": null,
+   "diagnostic_only": false
+  },
+  {
+   "arm_id": "search_remaining_count",
+   "kind": "search",
+   "label": "search + remaining_count",
+   "provider_id": "remaining_count",
+   "diagnostic_only": false
+  },
+  {
+   "arm_id": "search_original_phase11",
+   "kind": "search",
+   "label": "search + original_phase11",
+   "provider_id": "original_phase11",
+   "diagnostic_only": false
+  },
+  {
+   "arm_id": "search_agent1c",
+   "kind": "search",
+   "label": "search + agent1c",
+   "provider_id": "agent1c",
+   "diagnostic_only": false
+  },
+  {
+   "arm_id": "search_oracle",
+   "kind": "search",
+   "label": "search + oracle (diagnostic)",
+   "provider_id": "oracle",
+   "diagnostic_only": true
+  }
+ ],
+ "rules": "EVALUATION_RULES (accepted)",
+ "player_setup_source": "p10d (accepted Phase 10 learned selector)",
+ "phase11_test_bank_used": false,
+ "phase11b_corpus_reused": false,
+ "device": "cpu",
+ "torch_threads": 10,
+ "boards_list": [
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=red|g=00",
+   "stratum": "phase9_selfplay",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 7263287746899184326
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=blue|g=00",
+   "stratum": "phase9_selfplay",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 161342282523682505
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=red|g=00",
+   "stratum": "phase9_selfplay",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 5006192079482762035
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=blue|g=00",
+   "stratum": "phase9_selfplay",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 2052920304602606711
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=red|g=00",
+   "stratum": "strategic_rule",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 8300730509423641537
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=blue|g=00",
+   "stratum": "strategic_rule",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 2955088759727232670
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=red|g=00",
+   "stratum": "strategic_rule",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 8759675013390968786
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=blue|g=00",
+   "stratum": "strategic_rule",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 2338249370756297655
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=red|g=00",
+   "stratum": "tactical_rule",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 3579022166253873940
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=blue|g=00",
+   "stratum": "tactical_rule",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 6622490401527769063
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=red|g=00",
+   "stratum": "tactical_rule",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 6424549789378663962
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=blue|g=00",
+   "stratum": "tactical_rule",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 8319376072850542723
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=red|g=00",
+   "stratum": "scout_rush",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 6944160823561032723
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=blue|g=00",
+   "stratum": "scout_rush",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 4626322206300222730
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=red|g=00",
+   "stratum": "scout_rush",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 0,
+   "match_seed": 4989177101720221570
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=blue|g=00",
+   "stratum": "scout_rush",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 0,
+   "match_seed": 412051907603409915
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=red|g=01",
+   "stratum": "phase9_selfplay",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 4109561292899244546
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=blue|g=01",
+   "stratum": "phase9_selfplay",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 8042003694217877356
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=red|g=01",
+   "stratum": "phase9_selfplay",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 8443566604079686160
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=blue|g=01",
+   "stratum": "phase9_selfplay",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 3636207767752119174
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=red|g=01",
+   "stratum": "strategic_rule",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 7853367772295826663
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=blue|g=01",
+   "stratum": "strategic_rule",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 2787367739552690180
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=red|g=01",
+   "stratum": "strategic_rule",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 3496259599582214218
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=blue|g=01",
+   "stratum": "strategic_rule",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 8539910957728540550
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=red|g=01",
+   "stratum": "tactical_rule",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 9199209258655265626
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=blue|g=01",
+   "stratum": "tactical_rule",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 8858919496056358213
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=red|g=01",
+   "stratum": "tactical_rule",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 4088209411074717497
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=blue|g=01",
+   "stratum": "tactical_rule",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 902436454068290194
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=red|g=01",
+   "stratum": "scout_rush",
+   "setup_source": "p10d",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 6867424408072712752
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=blue|g=01",
+   "stratum": "scout_rush",
+   "setup_source": "p10d",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 4778289845447346275
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=red|g=01",
+   "stratum": "scout_rush",
+   "setup_source": "neutral",
+   "player_color": "red",
+   "ordinal": 1,
+   "match_seed": 1281082173523356733
+  },
+  {
+   "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=blue|g=01",
+   "stratum": "scout_rush",
+   "setup_source": "neutral",
+   "player_color": "blue",
+   "ordinal": 1,
+   "match_seed": 7758015820989339812
+  }
+ ]
+}

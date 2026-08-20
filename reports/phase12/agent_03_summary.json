@@ -1,0 +1,1544 @@
+{
+ "artifact": "phase12_agent03_first_match_test_v1",
+ "phase": "phase12",
+ "agent": 3,
+ "generated_utc": "2026-08-20T08:23:33Z",
+ "search_version": "phase12_root_world_search_v1",
+ "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+ "device": "cpu",
+ "match_configuration": {
+  "artifact": "phase12_agent03_match_set_v1",
+  "search_version": "phase12_root_world_search_v1",
+  "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+  "preset_id": "SMALL",
+  "worlds": 16,
+  "rollout_depth": 6,
+  "max_root_candidates": 8,
+  "beta": 0.1,
+  "epsilon": 1e-06,
+  "match_version": "phase12_match_test_v1",
+  "master_seed": 2026082003,
+  "library_split": "validation",
+  "strata": [
+   "phase9_selfplay",
+   "strategic_rule",
+   "tactical_rule",
+   "scout_rush"
+  ],
+  "setup_sources": 2,
+  "colors": 2,
+  "games_per_opponent": {
+   "phase9_selfplay": 8,
+   "strategic_rule": 8,
+   "tactical_rule": 8,
+   "scout_rush": 8
+  },
+  "boards": 32,
+  "games_played": 160,
+  "arms": [
+   {
+    "arm_id": "direct_c1",
+    "kind": "direct",
+    "label": "direct accepted Phase 9 C1",
+    "provider_id": null,
+    "diagnostic_only": false
+   },
+   {
+    "arm_id": "search_remaining_count",
+    "kind": "search",
+    "label": "search + remaining_count",
+    "provider_id": "remaining_count",
+    "diagnostic_only": false
+   },
+   {
+    "arm_id": "search_original_phase11",
+    "kind": "search",
+    "label": "search + original_phase11",
+    "provider_id": "original_phase11",
+    "diagnostic_only": false
+   },
+   {
+    "arm_id": "search_agent1c",
+    "kind": "search",
+    "label": "search + agent1c",
+    "provider_id": "agent1c",
+    "diagnostic_only": false
+   },
+   {
+    "arm_id": "search_oracle",
+    "kind": "search",
+    "label": "search + oracle (diagnostic)",
+    "provider_id": "oracle",
+    "diagnostic_only": true
+   }
+  ],
+  "rules": "EVALUATION_RULES (accepted)",
+  "player_setup_source": "p10d (accepted Phase 10 learned selector)",
+  "phase11_test_bank_used": false,
+  "phase11b_corpus_reused": false,
+  "device": "cpu",
+  "torch_threads": 10,
+  "boards_list": [
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=red|g=00",
+    "stratum": "phase9_selfplay",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 7263287746899184326
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=blue|g=00",
+    "stratum": "phase9_selfplay",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 161342282523682505
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=red|g=00",
+    "stratum": "phase9_selfplay",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 5006192079482762035
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=blue|g=00",
+    "stratum": "phase9_selfplay",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 2052920304602606711
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=red|g=00",
+    "stratum": "strategic_rule",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 8300730509423641537
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=blue|g=00",
+    "stratum": "strategic_rule",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 2955088759727232670
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=red|g=00",
+    "stratum": "strategic_rule",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 8759675013390968786
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=blue|g=00",
+    "stratum": "strategic_rule",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 2338249370756297655
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=red|g=00",
+    "stratum": "tactical_rule",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 3579022166253873940
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=blue|g=00",
+    "stratum": "tactical_rule",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 6622490401527769063
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=red|g=00",
+    "stratum": "tactical_rule",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 6424549789378663962
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=blue|g=00",
+    "stratum": "tactical_rule",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 8319376072850542723
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=red|g=00",
+    "stratum": "scout_rush",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 6944160823561032723
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=blue|g=00",
+    "stratum": "scout_rush",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 4626322206300222730
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=red|g=00",
+    "stratum": "scout_rush",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 0,
+    "match_seed": 4989177101720221570
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=blue|g=00",
+    "stratum": "scout_rush",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 0,
+    "match_seed": 412051907603409915
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=red|g=01",
+    "stratum": "phase9_selfplay",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 4109561292899244546
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=p10d|pl=blue|g=01",
+    "stratum": "phase9_selfplay",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 8042003694217877356
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=red|g=01",
+    "stratum": "phase9_selfplay",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 8443566604079686160
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=phase9_selfplay|src=neutral|pl=blue|g=01",
+    "stratum": "phase9_selfplay",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 3636207767752119174
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=red|g=01",
+    "stratum": "strategic_rule",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 7853367772295826663
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=p10d|pl=blue|g=01",
+    "stratum": "strategic_rule",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 2787367739552690180
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=red|g=01",
+    "stratum": "strategic_rule",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 3496259599582214218
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=strategic_rule|src=neutral|pl=blue|g=01",
+    "stratum": "strategic_rule",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 8539910957728540550
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=red|g=01",
+    "stratum": "tactical_rule",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 9199209258655265626
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=p10d|pl=blue|g=01",
+    "stratum": "tactical_rule",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 8858919496056358213
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=red|g=01",
+    "stratum": "tactical_rule",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 4088209411074717497
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=tactical_rule|src=neutral|pl=blue|g=01",
+    "stratum": "tactical_rule",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 902436454068290194
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=red|g=01",
+    "stratum": "scout_rush",
+    "setup_source": "p10d",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 6867424408072712752
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=p10d|pl=blue|g=01",
+    "stratum": "scout_rush",
+    "setup_source": "p10d",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 4778289845447346275
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=red|g=01",
+    "stratum": "scout_rush",
+    "setup_source": "neutral",
+    "player_color": "red",
+    "ordinal": 1,
+    "match_seed": 1281082173523356733
+   },
+   {
+    "board_id": "phase12_match_v1|ms=2026082003|st=scout_rush|src=neutral|pl=blue|g=01",
+    "stratum": "scout_rush",
+    "setup_source": "neutral",
+    "player_color": "blue",
+    "ordinal": 1,
+    "match_seed": 7758015820989339812
+   }
+  ]
+ },
+ "move_model_identity": {
+  "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "parameters": 863959,
+  "trainable_parameters": 0,
+  "device": "cpu",
+  "dtype": "float32",
+  "architecture": "stratego_transformer_v1",
+  "candidate_id": "C1"
+ },
+ "seats": {
+  "direct_c1": {
+   "arm": {
+    "arm_id": "direct_c1",
+    "kind": "direct",
+    "label": "direct accepted Phase 9 C1",
+    "provider_id": null,
+    "diagnostic_only": false
+   },
+   "seat": "accepted Phase 9 C1, greedy, one forward per decision",
+   "policy": {
+    "policy_id": "phase12_match_player_v1",
+    "policy_version": "phase12_match_test_v1",
+    "interface_version": "policy_interface_v1",
+    "requirements": {
+     "observation": true,
+     "legal_action_mask": true,
+     "public_view": false,
+     "public_events": false,
+     "public_setup": false
+    },
+    "stochastic": false,
+    "description": "Phase 6 checkpoint policy served by a long-lived inference owner; the decision rules are stratego.model.policy_adapter's, unchanged.",
+    "decision_mode": "greedy",
+    "transport": "in_process",
+    "neural_worker_version": "neural_worker_v1",
+    "holds_model_weights": false
+   }
+  },
+  "search_remaining_count": {
+   "arm": {
+    "arm_id": "search_remaining_count",
+    "kind": "search",
+    "label": "search + remaining_count",
+    "provider_id": "remaining_count",
+    "diagnostic_only": false
+   },
+   "seat": {
+    "search_version": "phase12_root_world_search_v1",
+    "config": {
+     "search_version": "phase12_root_world_search_v1",
+     "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+     "preset_id": "SMALL",
+     "worlds": 16,
+     "rollout_depth": 6,
+     "max_root_candidates": 8,
+     "beta": 0.1,
+     "epsilon": 1e-06,
+     "production": true,
+     "verify_world_public_surface": true,
+     "deduplicate_worlds": true
+    },
+    "provider": {
+     "provider_id": "remaining_count",
+     "uses_hidden_truth": false,
+     "marginals_version": "remaining_count_belief_v1",
+     "world_sampler_version": "count_uniform_world_sampler_v1",
+     "sampler_source": "stratego.evaluation.phase11_baselines (accepted, unmodified)"
+    },
+    "device": "cpu",
+    "dtype": "torch.float32",
+    "model_architecture_id": "stratego_transformer_v1",
+    "model_identity": {
+     "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "parameters": 863959,
+     "trainable_parameters": 0,
+     "device": "cpu",
+     "dtype": "float32",
+     "architecture": "stratego_transformer_v1",
+     "candidate_id": "C1"
+    },
+    "rollout_policy": "accepted Phase 9 greedy (both sides)",
+    "leaf_value": "V = P(win) - P(loss), terminal results override"
+   }
+  },
+  "search_original_phase11": {
+   "arm": {
+    "arm_id": "search_original_phase11",
+    "kind": "search",
+    "label": "search + original_phase11",
+    "provider_id": "original_phase11",
+    "diagnostic_only": false
+   },
+   "seat": {
+    "search_version": "phase12_root_world_search_v1",
+    "config": {
+     "search_version": "phase12_root_world_search_v1",
+     "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+     "preset_id": "SMALL",
+     "worlds": 16,
+     "rollout_depth": 6,
+     "max_root_candidates": 8,
+     "beta": 0.1,
+     "epsilon": 1e-06,
+     "production": true,
+     "verify_world_public_surface": true,
+     "deduplicate_worlds": true
+    },
+    "provider": {
+     "provider_id": "original_phase11",
+     "uses_hidden_truth": false,
+     "adapter": {
+      "interface_version": "phase11b_belief_interface_v1",
+      "candidate_id": "phase11_accepted_belief_head",
+      "sampler": "belief_sampler_v1",
+      "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+      "device": "cpu",
+      "reads_hidden_truth": false
+     },
+     "identity": {
+      "head": "linear(128->12) belief_output from the accepted Phase 9 checkpoint",
+      "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+      "feature_layer": "final"
+     }
+    },
+    "device": "cpu",
+    "dtype": "torch.float32",
+    "model_architecture_id": "stratego_transformer_v1",
+    "model_identity": {
+     "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "parameters": 863959,
+     "trainable_parameters": 0,
+     "device": "cpu",
+     "dtype": "float32",
+     "architecture": "stratego_transformer_v1",
+     "candidate_id": "C1"
+    },
+    "rollout_policy": "accepted Phase 9 greedy (both sides)",
+    "leaf_value": "V = P(win) - P(loss), terminal results override"
+   }
+  },
+  "search_agent1c": {
+   "arm": {
+    "arm_id": "search_agent1c",
+    "kind": "search",
+    "label": "search + agent1c",
+    "provider_id": "agent1c",
+    "diagnostic_only": false
+   },
+   "seat": {
+    "search_version": "phase12_root_world_search_v1",
+    "config": {
+     "search_version": "phase12_root_world_search_v1",
+     "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+     "preset_id": "SMALL",
+     "worlds": 16,
+     "rollout_depth": 6,
+     "max_root_candidates": 8,
+     "beta": 0.1,
+     "epsilon": 1e-06,
+     "production": true,
+     "verify_world_public_surface": true,
+     "deduplicate_worlds": true
+    },
+    "provider": {
+     "provider_id": "agent1c",
+     "uses_hidden_truth": false,
+     "adapter": {
+      "interface_version": "phase11b_belief_interface_v1",
+      "candidate_id": "agent01_1c_final_block_plus_mlp",
+      "sampler": "belief_sampler_v1",
+      "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+      "device": "cpu",
+      "reads_hidden_truth": false
+     },
+     "identity": {
+      "candidate_id": "agent01_1c_final_block_plus_mlp",
+      "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+      "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+      "checkpoint_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+      "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+      "dev_metrics": {
+       "metrics_version": "phase11b_metrics_v1",
+       "baseline_version": "remaining_count_belief_v1",
+       "split": "dev",
+       "samples": 1828,
+       "pieces": 55955,
+       "ce": 2.0762433648362477,
+       "baseline_ce": 2.1949269404596046,
+       "r_ce": 0.9459282341313351,
+       "r_ce_ci95": [
+        0.9432082233653721,
+        0.9488427432103299
+       ],
+       "top1": 0.2638727548923242,
+       "baseline_top1": 0.2038423733357162,
+       "zero_mass_rows": 0,
+       "strata": {
+        "phase9_selfplay": {
+         "pieces": 15189,
+         "ce": 2.0247778550908007,
+         "baseline_ce": 2.172986317031842,
+         "r_ce": 0.9317950321272688,
+         "top1": 0.276450062545263,
+         "baseline_top1": 0.20205411811179141
+        },
+        "strategic_rule": {
+         "pieces": 13215,
+         "ce": 2.09355951802676,
+         "baseline_ce": 2.1903629650170755,
+         "r_ce": 0.9558048375833634,
+         "top1": 0.26394248959515704,
+         "baseline_top1": 0.20892924706772606
+        },
+        "tactical_rule": {
+         "pieces": 13697,
+         "ce": 2.0801737420082143,
+         "baseline_ce": 2.185095806245525,
+         "r_ce": 0.9519828540527063,
+         "top1": 0.2631233116740892,
+         "baseline_top1": 0.20880484777688546
+        },
+        "scout_rush": {
+         "pieces": 13854,
+         "ce": 2.1122648955845182,
+         "baseline_ce": 2.233054998063731,
+         "r_ce": 0.945908138140821,
+         "top1": 0.25075790385448243,
+         "baseline_top1": 0.1960444636927963
+        }
+       },
+       "worst_stratum": "strategic_rule",
+       "best_stratum": "phase9_selfplay",
+       "diagnostic_projected_ce": 2.0750485208059115,
+       "diagnostic_projected_r_ce": 0.9453838679347608
+      },
+      "feature_layer": "penultimate"
+     }
+    },
+    "device": "cpu",
+    "dtype": "torch.float32",
+    "model_architecture_id": "stratego_transformer_v1",
+    "model_identity": {
+     "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "parameters": 863959,
+     "trainable_parameters": 0,
+     "device": "cpu",
+     "dtype": "float32",
+     "architecture": "stratego_transformer_v1",
+     "candidate_id": "C1"
+    },
+    "rollout_policy": "accepted Phase 9 greedy (both sides)",
+    "leaf_value": "V = P(win) - P(loss), terminal results override"
+   }
+  },
+  "search_oracle": {
+   "arm": {
+    "arm_id": "search_oracle",
+    "kind": "search",
+    "label": "search + oracle (diagnostic)",
+    "provider_id": "oracle",
+    "diagnostic_only": true
+   },
+   "seat": {
+    "search_version": "phase12_root_world_search_v1",
+    "config": {
+     "search_version": "phase12_root_world_search_v1",
+     "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+     "preset_id": "SMALL",
+     "worlds": 16,
+     "rollout_depth": 6,
+     "max_root_candidates": 8,
+     "beta": 0.1,
+     "epsilon": 1e-06,
+     "production": false,
+     "verify_world_public_surface": true,
+     "deduplicate_worlds": true
+    },
+    "provider": {
+     "provider_id": "oracle",
+     "uses_hidden_truth": true,
+     "role": "offline diagnostic upper bound",
+     "available_in_production": false
+    },
+    "device": "cpu",
+    "dtype": "torch.float32",
+    "model_architecture_id": "stratego_transformer_v1",
+    "model_identity": {
+     "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+     "parameters": 863959,
+     "trainable_parameters": 0,
+     "device": "cpu",
+     "dtype": "float32",
+     "architecture": "stratego_transformer_v1",
+     "candidate_id": "C1"
+    },
+    "rollout_policy": "accepted Phase 9 greedy (both sides)",
+    "leaf_value": "V = P(win) - P(loss), terminal results override"
+   }
+  }
+ },
+ "arms": {
+  "direct_c1": {
+   "arm_id": "direct_c1",
+   "label": "direct accepted Phase 9 C1",
+   "kind": "direct",
+   "provider_id": null,
+   "diagnostic_only": false,
+   "games": 32,
+   "wins": 16,
+   "draws": 1,
+   "losses": 15,
+   "ewr": 0.515625,
+   "by_opponent": {
+    "phase9_selfplay": {
+     "games": 8,
+     "wins": 2,
+     "draws": 0,
+     "losses": 6,
+     "ewr": 0.25
+    },
+    "strategic_rule": {
+     "games": 8,
+     "wins": 5,
+     "draws": 0,
+     "losses": 3,
+     "ewr": 0.625
+    },
+    "tactical_rule": {
+     "games": 8,
+     "wins": 4,
+     "draws": 1,
+     "losses": 3,
+     "ewr": 0.5625
+    },
+    "scout_rush": {
+     "games": 8,
+     "wins": 5,
+     "draws": 0,
+     "losses": 3,
+     "ewr": 0.625
+    }
+   },
+   "by_color": {
+    "red": {
+     "games": 16,
+     "wins": 12,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.75
+    },
+    "blue": {
+     "games": 16,
+     "wins": 4,
+     "draws": 1,
+     "losses": 11,
+     "ewr": 0.28125
+    }
+   },
+   "by_setup_source": {
+    "p10d": {
+     "games": 16,
+     "wins": 8,
+     "draws": 1,
+     "losses": 7,
+     "ewr": 0.53125
+    },
+    "neutral": {
+     "games": 16,
+     "wins": 8,
+     "draws": 0,
+     "losses": 8,
+     "ewr": 0.5
+    }
+   },
+   "plies_mean": 227.75,
+   "plies_median": 146.0,
+   "player_decisions": 3644,
+   "game_seconds_mean": 0.313534375,
+   "game_seconds_median": 0.15835,
+   "player_seconds_total": 6.5251,
+   "move_seconds_mean": 0.0017906668496158067,
+   "move_seconds_median": 0.00178,
+   "move_seconds_p90": 0.00191,
+   "move_seconds_max": 0.00604,
+   "search_calls": 0,
+   "c1_forwards_total": 3644,
+   "c1_forwards_per_move": 1.0,
+   "forward_positions_per_second": 558.4588741934989,
+   "move_change_rate": null,
+   "move_change_rate_by_opponent": {
+    "phase9_selfplay": null,
+    "strategic_rule": null,
+    "tactical_rule": null,
+    "scout_rush": null
+   },
+   "ewr_excluding_mirror_stratum": 0.6041666666666666,
+   "games_excluding_mirror_stratum": 24,
+   "terminal_reasons": {
+    "flag_capture": 31,
+    "battleless_move_limit_draw": 1
+   },
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.0,
+    "stdev": 0.0,
+    "standard_error": 0.0,
+    "better": 0,
+    "same": 32,
+    "worse": 0
+   }
+  },
+  "search_remaining_count": {
+   "arm_id": "search_remaining_count",
+   "label": "search + remaining_count",
+   "kind": "search",
+   "provider_id": "remaining_count",
+   "diagnostic_only": false,
+   "games": 32,
+   "wins": 21,
+   "draws": 0,
+   "losses": 11,
+   "ewr": 0.65625,
+   "by_opponent": {
+    "phase9_selfplay": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    },
+    "strategic_rule": {
+     "games": 8,
+     "wins": 4,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.5
+    },
+    "tactical_rule": {
+     "games": 8,
+     "wins": 5,
+     "draws": 0,
+     "losses": 3,
+     "ewr": 0.625
+    },
+    "scout_rush": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    }
+   },
+   "by_color": {
+    "red": {
+     "games": 16,
+     "wins": 14,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.875
+    },
+    "blue": {
+     "games": 16,
+     "wins": 7,
+     "draws": 0,
+     "losses": 9,
+     "ewr": 0.4375
+    }
+   },
+   "by_setup_source": {
+    "p10d": {
+     "games": 16,
+     "wins": 11,
+     "draws": 0,
+     "losses": 5,
+     "ewr": 0.6875
+    },
+    "neutral": {
+     "games": 16,
+     "wins": 10,
+     "draws": 0,
+     "losses": 6,
+     "ewr": 0.625
+    }
+   },
+   "plies_mean": 177.03125,
+   "plies_median": 131.0,
+   "player_decisions": 2835,
+   "game_seconds_mean": 28.817965625,
+   "game_seconds_median": 21.09085,
+   "player_seconds_total": 914.2370999999999,
+   "move_seconds_mean": 0.32248215873015873,
+   "move_seconds_median": 0.32428,
+   "move_seconds_p90": 0.34154,
+   "move_seconds_max": 0.40205,
+   "search_calls": 2835,
+   "c1_forwards_total": 2484241,
+   "c1_forwards_per_move": 876.2754850088184,
+   "forward_positions_per_second": 2717.2830767860987,
+   "move_change_rate": 0.13686067019400353,
+   "move_change_rate_by_opponent": {
+    "phase9_selfplay": 0.10054347826086957,
+    "strategic_rule": 0.10535405872193437,
+    "tactical_rule": 0.09012875536480687,
+    "scout_rush": 0.18026418026418026
+   },
+   "ewr_excluding_mirror_stratum": 0.625,
+   "games_excluding_mirror_stratum": 24,
+   "terminal_reasons": {
+    "flag_capture": 32
+   },
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.140625,
+    "stdev": 0.49569721182033255,
+    "standard_error": 0.08762771497335539,
+    "better": 7,
+    "same": 23,
+    "worse": 2
+   }
+  },
+  "search_original_phase11": {
+   "arm_id": "search_original_phase11",
+   "label": "search + original_phase11",
+   "kind": "search",
+   "provider_id": "original_phase11",
+   "diagnostic_only": false,
+   "games": 32,
+   "wins": 21,
+   "draws": 0,
+   "losses": 11,
+   "ewr": 0.65625,
+   "by_opponent": {
+    "phase9_selfplay": {
+     "games": 8,
+     "wins": 5,
+     "draws": 0,
+     "losses": 3,
+     "ewr": 0.625
+    },
+    "strategic_rule": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    },
+    "tactical_rule": {
+     "games": 8,
+     "wins": 4,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.5
+    },
+    "scout_rush": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    }
+   },
+   "by_color": {
+    "red": {
+     "games": 16,
+     "wins": 15,
+     "draws": 0,
+     "losses": 1,
+     "ewr": 0.9375
+    },
+    "blue": {
+     "games": 16,
+     "wins": 6,
+     "draws": 0,
+     "losses": 10,
+     "ewr": 0.375
+    }
+   },
+   "by_setup_source": {
+    "p10d": {
+     "games": 16,
+     "wins": 10,
+     "draws": 0,
+     "losses": 6,
+     "ewr": 0.625
+    },
+    "neutral": {
+     "games": 16,
+     "wins": 11,
+     "draws": 0,
+     "losses": 5,
+     "ewr": 0.6875
+    }
+   },
+   "plies_mean": 192.34375,
+   "plies_median": 147.0,
+   "player_decisions": 3080,
+   "game_seconds_mean": 31.215615624999998,
+   "game_seconds_median": 22.7794,
+   "player_seconds_total": 990.3667,
+   "move_seconds_mean": 0.32154758116883114,
+   "move_seconds_median": 0.3259,
+   "move_seconds_p90": 0.34332,
+   "move_seconds_max": 0.39555,
+   "search_calls": 3080,
+   "c1_forwards_total": 2676478,
+   "c1_forwards_per_move": 868.9863636363636,
+   "forward_positions_per_second": 2702.5121099083804,
+   "move_change_rate": 0.1366883116883117,
+   "move_change_rate_by_opponent": {
+    "phase9_selfplay": 0.10173160173160173,
+    "strategic_rule": 0.10159651669085631,
+    "tactical_rule": 0.12280701754385964,
+    "scout_rush": 0.1848264729620662
+   },
+   "ewr_excluding_mirror_stratum": 0.6666666666666666,
+   "games_excluding_mirror_stratum": 24,
+   "terminal_reasons": {
+    "flag_capture": 31,
+    "opponent_no_legal_move": 1
+   },
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.140625,
+    "stdev": 0.3859294394809296,
+    "standard_error": 0.06822333092912215,
+    "better": 5,
+    "same": 26,
+    "worse": 1
+   }
+  },
+  "search_agent1c": {
+   "arm_id": "search_agent1c",
+   "label": "search + agent1c",
+   "kind": "search",
+   "provider_id": "agent1c",
+   "diagnostic_only": false,
+   "games": 32,
+   "wins": 20,
+   "draws": 0,
+   "losses": 12,
+   "ewr": 0.625,
+   "by_opponent": {
+    "phase9_selfplay": {
+     "games": 8,
+     "wins": 3,
+     "draws": 0,
+     "losses": 5,
+     "ewr": 0.375
+    },
+    "strategic_rule": {
+     "games": 8,
+     "wins": 7,
+     "draws": 0,
+     "losses": 1,
+     "ewr": 0.875
+    },
+    "tactical_rule": {
+     "games": 8,
+     "wins": 4,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.5
+    },
+    "scout_rush": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    }
+   },
+   "by_color": {
+    "red": {
+     "games": 16,
+     "wins": 12,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.75
+    },
+    "blue": {
+     "games": 16,
+     "wins": 8,
+     "draws": 0,
+     "losses": 8,
+     "ewr": 0.5
+    }
+   },
+   "by_setup_source": {
+    "p10d": {
+     "games": 16,
+     "wins": 9,
+     "draws": 0,
+     "losses": 7,
+     "ewr": 0.5625
+    },
+    "neutral": {
+     "games": 16,
+     "wins": 11,
+     "draws": 0,
+     "losses": 5,
+     "ewr": 0.6875
+    }
+   },
+   "plies_mean": 171.25,
+   "plies_median": 112.5,
+   "player_decisions": 2742,
+   "game_seconds_mean": 27.840165625,
+   "game_seconds_median": 18.4673,
+   "player_seconds_total": 882.3451,
+   "move_seconds_mean": 0.3217887636761488,
+   "move_seconds_median": 0.327885,
+   "move_seconds_p90": 0.34908,
+   "move_seconds_max": 0.40235,
+   "search_calls": 2742,
+   "c1_forwards_total": 2362214,
+   "c1_forwards_per_move": 861.4930707512765,
+   "forward_positions_per_second": 2677.199658047628,
+   "move_change_rate": 0.15061998541210794,
+   "move_change_rate_by_opponent": {
+    "phase9_selfplay": 0.12080536912751678,
+    "strategic_rule": 0.11538461538461539,
+    "tactical_rule": 0.18454935622317598,
+    "scout_rush": 0.186155285313377
+   },
+   "ewr_excluding_mirror_stratum": 0.7083333333333334,
+   "games_excluding_mirror_stratum": 24,
+   "terminal_reasons": {
+    "flag_capture": 32
+   },
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.109375,
+    "stdev": 0.35319680614491367,
+    "standard_error": 0.06243696417962472,
+    "better": 4,
+    "same": 27,
+    "worse": 1
+   }
+  },
+  "search_oracle": {
+   "arm_id": "search_oracle",
+   "label": "search + oracle (diagnostic)",
+   "kind": "search",
+   "provider_id": "oracle",
+   "diagnostic_only": true,
+   "games": 32,
+   "wins": 23,
+   "draws": 0,
+   "losses": 9,
+   "ewr": 0.71875,
+   "by_opponent": {
+    "phase9_selfplay": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    },
+    "strategic_rule": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    },
+    "tactical_rule": {
+     "games": 8,
+     "wins": 5,
+     "draws": 0,
+     "losses": 3,
+     "ewr": 0.625
+    },
+    "scout_rush": {
+     "games": 8,
+     "wins": 6,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.75
+    }
+   },
+   "by_color": {
+    "red": {
+     "games": 16,
+     "wins": 14,
+     "draws": 0,
+     "losses": 2,
+     "ewr": 0.875
+    },
+    "blue": {
+     "games": 16,
+     "wins": 9,
+     "draws": 0,
+     "losses": 7,
+     "ewr": 0.5625
+    }
+   },
+   "by_setup_source": {
+    "p10d": {
+     "games": 16,
+     "wins": 11,
+     "draws": 0,
+     "losses": 5,
+     "ewr": 0.6875
+    },
+    "neutral": {
+     "games": 16,
+     "wins": 12,
+     "draws": 0,
+     "losses": 4,
+     "ewr": 0.75
+    }
+   },
+   "plies_mean": 149.96875,
+   "plies_median": 116.5,
+   "player_decisions": 2403,
+   "game_seconds_mean": 3.12694375,
+   "game_seconds_median": 2.4466,
+   "player_seconds_total": 97.0612,
+   "move_seconds_mean": 0.04039165210153974,
+   "move_seconds_median": 0.04144,
+   "move_seconds_p90": 0.04227,
+   "move_seconds_max": 0.08581,
+   "search_calls": 2403,
+   "c1_forwards_total": 131168,
+   "c1_forwards_per_move": 54.585101955888476,
+   "forward_positions_per_second": 1351.3947900912,
+   "move_change_rate": 0.19600499375780275,
+   "move_change_rate_by_opponent": {
+    "phase9_selfplay": 0.1328125,
+    "strategic_rule": 0.18340611353711792,
+    "tactical_rule": 0.17346938775510204,
+    "scout_rush": 0.2779255319148936
+   },
+   "ewr_excluding_mirror_stratum": 0.7083333333333334,
+   "games_excluding_mirror_stratum": 24,
+   "terminal_reasons": {
+    "flag_capture": 32
+   },
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.203125,
+    "stdev": 0.4727983782243895,
+    "standard_error": 0.08357973484411697,
+    "better": 8,
+    "same": 23,
+    "worse": 1
+   }
+  }
+ },
+ "efficiency": {
+  "direct_c1": {
+   "available": true,
+   "ewr_gain_vs_direct": 0.0,
+   "extra_seconds_per_move": 0.0,
+   "extra_seconds_per_game": 0.0,
+   "ewr_gain_per_extra_search_second_per_move": null,
+   "ewr_gain_per_extra_search_second_per_game": null
+  },
+  "search_remaining_count": {
+   "available": true,
+   "ewr_gain_vs_direct": 0.140625,
+   "extra_seconds_per_move": 0.3206914918805429,
+   "extra_seconds_per_game": 28.366,
+   "ewr_gain_per_extra_search_second_per_move": 0.43850555303282757,
+   "ewr_gain_per_extra_search_second_per_game": 0.004957519565677219
+  },
+  "search_original_phase11": {
+   "available": true,
+   "ewr_gain_vs_direct": 0.140625,
+   "extra_seconds_per_move": 0.3197569143192153,
+   "extra_seconds_per_game": 30.745050000000003,
+   "ewr_gain_per_extra_search_second_per_move": 0.4397872061637835,
+   "ewr_gain_per_extra_search_second_per_game": 0.004573907019178696
+  },
+  "search_agent1c": {
+   "available": true,
+   "ewr_gain_vs_direct": 0.109375,
+   "extra_seconds_per_move": 0.31999809682653296,
+   "extra_seconds_per_game": 27.369375,
+   "ewr_gain_per_extra_search_second_per_move": 0.34179890782066386,
+   "ewr_gain_per_extra_search_second_per_game": 0.003996254938229317
+  },
+  "search_oracle": {
+   "available": true,
+   "ewr_gain_vs_direct": 0.203125,
+   "extra_seconds_per_move": 0.03860098525192394,
+   "extra_seconds_per_game": 2.829253125,
+   "ewr_gain_per_extra_search_second_per_move": 5.262171384339883,
+   "ewr_gain_per_extra_search_second_per_game": 0.07179456592453176
+  }
+ },
+ "highlights": {
+  "agent1c_vs_direct": {
+   "available": true,
+   "left": "search_agent1c",
+   "right": "direct_c1",
+   "left_ewr": 0.625,
+   "right_ewr": 0.515625,
+   "ewr_delta": 0.109375,
+   "left_record": "20/0/12",
+   "right_record": "16/1/15",
+   "paired": {
+    "boards": 32,
+    "mean_score_delta": 0.109375,
+    "stdev": 0.35319680614491367,
+    "standard_error": 0.06243696417962472,
+    "better": 4,
+    "same": 27,
+    "worse": 1
+   }
+  },
+  "agent1c_vs_original": {
+   "available": true,
+   "left": "search_agent1c",
+   "right": "search_original_phase11",
+   "left_ewr": 0.625,
+   "right_ewr": 0.65625,
+   "ewr_delta": -0.03125,
+   "left_record": "20/0/12",
+   "right_record": "21/0/11",
+   "paired": {
+    "boards": 32,
+    "mean_score_delta": -0.03125,
+    "stdev": 0.4003526671130294,
+    "standard_error": 0.07077302144543589,
+    "better": 2,
+    "same": 27,
+    "worse": 3
+   }
+  },
+  "agent1c_vs_count": {
+   "available": true,
+   "left": "search_agent1c",
+   "right": "search_remaining_count",
+   "left_ewr": 0.625,
+   "right_ewr": 0.65625,
+   "ewr_delta": -0.03125,
+   "left_record": "20/0/12",
+   "right_record": "21/0/11",
+   "paired": {
+    "boards": 32,
+    "mean_score_delta": -0.03125,
+    "stdev": 0.4741290827367313,
+    "standard_error": 0.08381497239022509,
+    "better": 3,
+    "same": 25,
+    "worse": 4
+   }
+  }
+ },
+ "noise_scale": {
+  "note": "Descriptive spread of this match set, not an inference. No significance claim is made in this agent.",
+  "unpaired_standard_error_typical": 0.08533145840376401,
+  "paired_standard_error_typical": 0.07546693623155482,
+  "decisive_margin": 0.1
+ },
+ "probes": {
+  "direct_c1": {
+   "expects_hidden_truth": false,
+   "permutation_checks": 16,
+   "permutation_assignments_changed": 16,
+   "permutation_sensitive": 0,
+   "direct_agreement_checks": 0,
+   "failures": [],
+   "passed": true
+  },
+  "search_remaining_count": {
+   "expects_hidden_truth": false,
+   "permutation_checks": 16,
+   "permutation_assignments_changed": 16,
+   "permutation_sensitive": 0,
+   "direct_agreement_checks": 16,
+   "failures": [],
+   "passed": true
+  },
+  "search_original_phase11": {
+   "expects_hidden_truth": false,
+   "permutation_checks": 16,
+   "permutation_assignments_changed": 16,
+   "permutation_sensitive": 0,
+   "direct_agreement_checks": 16,
+   "failures": [],
+   "passed": true
+  },
+  "search_agent1c": {
+   "expects_hidden_truth": false,
+   "permutation_checks": 16,
+   "permutation_assignments_changed": 16,
+   "permutation_sensitive": 0,
+   "direct_agreement_checks": 16,
+   "failures": [],
+   "passed": true
+  },
+  "search_oracle": {
+   "expects_hidden_truth": true,
+   "permutation_checks": 16,
+   "permutation_assignments_changed": 16,
+   "permutation_sensitive": 2,
+   "direct_agreement_checks": 16,
+   "failures": [],
+   "passed": true
+  }
+ },
+ "preserved_configuration": {
+  "preserved": true,
+  "search_version": "phase12_root_world_search_v1",
+  "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+  "preset_id": "SMALL",
+  "worlds": 16,
+  "rollout_depth": 6,
+  "max_root_candidates": 8,
+  "beta": 0.1,
+  "epsilon": 1e-06,
+  "belief_provider": "agent1c",
+  "move_model": {
+   "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+  },
+  "belief_checkpoint": {
+   "candidate_id": "agent01_1c_final_block_plus_mlp",
+   "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+   "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+   "checkpoint_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+   "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+   "dev_metrics": {
+    "metrics_version": "phase11b_metrics_v1",
+    "baseline_version": "remaining_count_belief_v1",
+    "split": "dev",
+    "samples": 1828,
+    "pieces": 55955,
+    "ce": 2.0762433648362477,
+    "baseline_ce": 2.1949269404596046,
+    "r_ce": 0.9459282341313351,
+    "r_ce_ci95": [
+     0.9432082233653721,
+     0.9488427432103299
+    ],
+    "top1": 0.2638727548923242,
+    "baseline_top1": 0.2038423733357162,
+    "zero_mass_rows": 0,
+    "strata": {
+     "phase9_selfplay": {
+      "pieces": 15189,
+      "ce": 2.0247778550908007,
+      "baseline_ce": 2.172986317031842,
+      "r_ce": 0.9317950321272688,
+      "top1": 0.276450062545263,
+      "baseline_top1": 0.20205411811179141
+     },
+     "strategic_rule": {
+      "pieces": 13215,
+      "ce": 2.09355951802676,
+      "baseline_ce": 2.1903629650170755,
+      "r_ce": 0.9558048375833634,
+      "top1": 0.26394248959515704,
+      "baseline_top1": 0.20892924706772606
+     },
+     "tactical_rule": {
+      "pieces": 13697,
+      "ce": 2.0801737420082143,
+      "baseline_ce": 2.185095806245525,
+      "r_ce": 0.9519828540527063,
+      "top1": 0.2631233116740892,
+      "baseline_top1": 0.20880484777688546
+     },
+     "scout_rush": {
+      "pieces": 13854,
+      "ce": 2.1122648955845182,
+      "baseline_ce": 2.233054998063731,
+      "r_ce": 0.945908138140821,
+      "top1": 0.25075790385448243,
+      "baseline_top1": 0.1960444636927963
+     }
+    },
+    "worst_stratum": "strategic_rule",
+    "best_stratum": "phase9_selfplay",
+    "diagnostic_projected_ce": 2.0750485208059115,
+    "diagnostic_projected_r_ce": 0.9453838679347608
+   },
+   "feature_layer": "penultimate"
+  },
+  "measured": {
+   "match_set": "phase12_match_test_v1",
+   "games": 32,
+   "ewr": 0.625,
+   "ewr_vs_direct": 0.109375,
+   "paired_vs_direct": {
+    "boards": 32,
+    "mean_score_delta": 0.109375,
+    "stdev": 0.35319680614491367,
+    "standard_error": 0.06243696417962472,
+    "better": 4,
+    "same": 27,
+    "worse": 1
+   },
+   "seconds_per_move": 0.3217887636761488,
+   "c1_forwards_per_move": 861.4930707512765,
+   "move_change_rate": 0.15061998541210794
+  },
+  "caveats": [
+   "Preserved on an engineering margin, not a validated one: the match set does not separate agent1c from the other two belief providers, and a count-based baseline scored at least as well.",
+   "oracle_available_in_production = False. The oracle arm exists only as an offline upper bound on this mechanism."
+  ]
+ },
+ "games": {
+  "path": "reports/phase12/agent_03_games.csv",
+  "rows": 160,
+  "columns": 20,
+  "sha256": "eaa7b9a40c355d7569dae543e24e5103b54bf5e363eda726375fa5b897c38aa9"
+ },
+ "stopped_early": false,
+ "seconds_total": 2922.461,
+ "environment": {
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "torch_threads": 10,
+  "mps_available": true
+ },
+ "history": {
+  "phase11_final_classification": "FAIL",
+  "phase12_authorized_by_phase11": false,
+  "phase11b_selection": "Agent1C"
+ },
+ "limitations": [
+  "32 games per arm over four opponents is an engineering sample, not a powered experiment: an EWR difference below the stated noise scale is not evidence of an ordering.",
+  "One budget (SMALL), one beta, one candidate rule, one search version. No tuning was attempted and none is implied by the result.",
+  "The arms share boards, opponent seeds and per-ply search seeds, which removes setup variance but leaves the arms correlated: paired numbers and unpaired numbers must not be mixed.",
+  "The oracle arm is an offline diagnostic upper bound on the search mechanism, never a playable configuration, and its latency is not comparable to the belief arms' (it collapses to one world).",
+  "The match driver holds the true engine state so the search seat can materialize worlds; the boundary is enforced structurally by the Agent 1 engine and checked at run time by the permutation probe, not by the policy-input isolation the accepted match runner provides.",
+  "Setups come from the accepted library's 'validation' split, the same pool Phase 11B's dev split drew from, so a mild optimistic residual for agent1c is accepted for an engineering match test."
+ ],
+ "deliverables": [
+  "stratego/search/phase12/matchplay.py           (new; Agent 1 and 2 modules untouched)",
+  "tests/search/test_phase12_matchplay.py",
+  "reports/phase12/agent_03_match_config.json",
+  "reports/phase12/agent_03_games.jsonl",
+  "reports/phase12/agent_03_games.csv",
+  "reports/phase12/agent_03_report.md",
+  "reports/phase12/agent_03_summary.json"
+ ],
+ "status": {
+  "phase11_final_classification": "FAIL",
+  "phase11b_selection": "Agent1C",
+  "scientific_validation_status": "not performed",
+  "oracle_available_in_production": false,
+  "phase11_test_bank_used": false,
+  "search_core_modified": false,
+  "budget_above_small_used": false,
+  "budget_changed_during_run": false,
+  "agent_4_launched": false
+ },
+ "stop_condition": "Stop condition reached: the compact match test is complete. No budget above SMALL was run, no world count or depth was raised to compensate, and Agent 4 is not launched.",
+ "verdict": {
+  "statement": "SEARCH BEAT DIRECT C1 ON THIS 32-GAME SET AT THE SMALL BUDGET\nevery search arm was ahead (+0.1094 to +0.1406 EWR); the three belief providers did not separate from each other",
+  "findings": [
+   "Direct accepted Phase 9 C1 scored EWR 0.5156 (16 / 1 / 15) over 32 games; search + remaining_count 0.6562 (21 / 0 / 11), search + original_phase11 0.6562 (21 / 0 / 11), search + agent1c 0.6250 (20 / 0 / 12).",
+   "The offline oracle arm \u2014 the same search, the same rollouts and the same leaf value on the one true world \u2014 scored 0.7188 (23 / 0 / 9), +0.2031 against direct C1 and +0.0625 against the best production arm.",
+   "The three belief providers spread 0.0312 EWR \u2014 1.0 game of 32 \u2014 from search + remaining_count down to search + agent1c, so this match set does not separate them. Agent 2's position-level diagnostic reached the same conclusion by a different route.",
+   "Paired against direct C1 on the same boards: search + remaining_count 7 better / 23 same / 2 worse, search + original_phase11 5 better / 26 same / 1 worse, search + agent1c 4 better / 27 same / 1 worse. 23-27 of 32 boards ended the same way whichever arm played them, which is why the paired standard error (0.075) is tighter than the unpaired one (0.085).",
+   "Two slices of the same boards disagree. Head to head against the direct player itself (the Phase 9 direct stratum, 8 games): search + remaining_count 0.750, search + original_phase11 0.625, search + agent1c 0.375. Against the three rule opponents only: search + remaining_count 0.625, search + original_phase11 0.667, search + agent1c 0.708 (direct C1 0.604). The production ordering reverses between them.",
+   "Search changed the direct move in 13.7% (search + remaining_count), 13.7% (search + original_phase11), 15.1% (search + agent1c) of its decisions, at 0.322 s/move (search + remaining_count), 0.322 s/move (search + original_phase11), 0.322 s/move (search + agent1c) against 0.0018 s/move for direct C1."
+  ],
+  "interpretation": [
+   "The instruction's second branch applies. Search at SMALL \u2014 16 worlds, up to 8 root candidates, 6 rollout plies \u2014 beat the direct accepted Phase 9 player with every belief provider tried, by +0.1094 to +0.1406 EWR, and the oracle arm beat it by more. That is a working search, not a search that needs a bigger budget to justify itself, and no world count or depth was raised to obtain it. The direction survives every slice of the set \u2014 head to head against the direct player itself the search arms took 14 of 24 games, and against the three rule opponents every search arm again finished above direct C1 \u2014 but the size of the margin does not: it ranges from a couple of games to five depending on which boards are counted.",
+   "On the instruction's own test \u2014 does Agent1C search beat direct C1 \u2014 the answer here is yes: 0.6250 against 0.5156 (+0.1094, 3.5 games of 32), paired at 4 boards better and 1 worse. So the configuration is preserved for Agent 4. What the same table does not support is a claim that Agent1C beliefs are the reason: agent1c placed 3 of 3 among the production arms on the full set, behind a count-based baseline that carries no learned belief at all \u2014 and first of three once the mirror stratum is removed. A configuration that changes rank with the slice is preserved because it is the phase's candidate and it did not lose, not because this set showed it to be the best one.",
+   "Perfect hidden information is still worth something to this search: the oracle arm finished +0.0625 EWR above the best production arm (2.0 games of 32), on 1 world instead of 16 and at an eighth of the latency. That gap is the headroom a better belief could in principle recover \u2014 and at this sample size it is itself inside the noise, so it sizes a direction to look, not a quantity to trust.",
+   "Production arm ordering by EWR: search + remaining_count 0.6562 > search + original_phase11 0.6562 > search + agent1c 0.6250. The whole spread is 1.0 game, against an unpaired standard error of about 0.085, so the ordering is a record of what happened and not a ranking. Notably it does not reproduce the belief-quality ordering: `remaining_count` has the worst beliefs of the three by construction and finished level with the best.",
+   "What search costs here is not small: 0.322 s/move against 0.0018 s/move, roughly 180x the per-move compute and about 28 extra seconds per game, for roughly a tenth of a point of EWR. Search also shortens games: 228 mean plies for direct C1 against 177, 192, 171 for the search arms and 150 for the oracle. Every search arm resolves a game sooner than the direct player does; the three production arms do not order among themselves by belief quality, so this is a search-versus-no-search effect and not a belief effect."
+  ],
+  "flags": {
+   "search_improves_over_direct": true,
+   "agent1c_beats_direct": true,
+   "preserve_configuration_for_agent_4": true,
+   "belief_providers_separated": false,
+   "all_search_arms_beat_direct": true,
+   "all_search_arms_weaker_than_direct": false,
+   "agent1c_leads_production_arms": false,
+   "budget_raised_during_run": false,
+   "scale_budget_to_compensate": false,
+   "oracle_beats_direct": true,
+   "oracle_beats_every_production_arm": true
+  }
+ }
+}
