@@ -1,0 +1,301 @@
+{
+ "artifact": "phase11b_engineering_selection_v1",
+ "phase": "phase11b",
+ "phase11b_version": "phase11b_engineering_v1",
+ "identity_version": "phase11b_identity_v1",
+ "generated_utc": "2026-08-20T04:56:00Z",
+ "generated_by": "Phase 11B Closure Agent",
+ "instruction_source": "instructions/phase_12_sequential_agent_plan/01_PHASE_11B_CLOSURE_AGENT.md",
+ "git_base_commit": "3a0720c6745bfa3688e0cd185813a1004e8bd8eb",
+ "selected_candidate": "Agent1C",
+ "selected_candidate_id": "agent01_1c_final_block_plus_mlp",
+ "selected_candidate_R_CE": 0.946,
+ "selected_candidate_top1": 0.264,
+ "selection_type": "engineering",
+ "scientific_claim": "none",
+ "phase11_final_classification": "FAIL",
+ "phase11_reinterpreted": false,
+ "phase11_test_bank_spent": true,
+ "phase11_test_bank_used": false,
+ "phase11_fail_unchanged": true,
+ "phase12_authorized_by_this_artifact": false,
+ "phase11b_agent4_result": "recorded",
+ "phase11b_agent5_status": "cancelled_by_instructor",
+ "all_candidate_artifacts_preserved": true,
+ "selection_authority": {
+  "decided_by": "instructor, 01_PHASE_11B_CLOSURE_AGENT.md section 3",
+  "note": "Agent 1's own report preferred 1B under the Engineering Winner Rule (inside the 0.005 band of 1C and cheaper, no accepted C1 weight retrained). The closure instruction selects 1C, the leader by R_CE, for Phase 12 engineering regardless of Agent 4's result. Both readings are recorded; Agent 1's report is unmodified.",
+  "runner_up_fallback": "agent01_1b_attached_mlp_head"
+ },
+ "selected_candidate_description": "A copy of the accepted Phase 9 C1 in which the larger belief MLP and final C1 block were fine-tuned for supervised belief prediction.",
+ "selected_checkpoint": {
+  "path": "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+  "sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+  "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+  "state_dict_digest_algorithm": "stratego.training.phase9_behavior.state_dict_digest scheme applied to the checkpoint's saved state_dict (sorted tensor names, float32 numpy bytes)",
+  "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+  "trainer_version": "phase11b_attached_trainer_v1",
+  "tensors": 20,
+  "parameters_total_trained": 533388,
+  "parameter_description": {
+   "frozen": "Phase 9 C1 through the penultimate layer (token embedding and all transformer blocks except the last); the accepted checkpoint itself was never modified and remains the policy/value model",
+   "unfrozen_retrained_copy_of_c1": "final C1 transformer block (198,272 parameters) plus final encoder LayerNorm (256 parameters) = 198,528, re-trained as a copy inside this checkpoint",
+   "new_parameters": "belief MLP head 128->512->512->12 with GELU, 334,860 parameters, replacing the accepted 1,548-parameter linear belief head for belief prediction only",
+   "parameters_unfrozen_c1": 198528,
+   "parameters_new_head": 334860
+  },
+  "feature_layer": "penultimate",
+  "input_contract": "consumes the frozen Phase 9 C1 penultimate token field [B, 100, 128]; produces 12-way rank marginals per hidden piece",
+  "training_config": {
+   "epochs": 12,
+   "batch_size": 256,
+   "learning_rate": 0.001,
+   "block_learning_rate": 0.0001,
+   "weight_decay": 0.0001,
+   "optimizer": "adamw",
+   "schedule": "cosine",
+   "patience": 4,
+   "device": "cpu"
+  },
+  "training_seconds": 73.19,
+  "time_to_best_seconds": 73.189,
+  "best_epoch": 12,
+  "epochs_run": 12,
+  "stopped_because": "epochs_exhausted",
+  "inference_microseconds_per_piece": 2.7727
+ },
+ "development_metrics": {
+  "reported_first_pass": {
+   "r_ce": 0.945960003944266,
+   "r_ce_ci95": [
+    0.9433669523922269,
+    0.9488031986902516
+   ],
+   "top1": 0.26396211241175943,
+   "ce": 2.0763130972545434,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9316925629843068,
+    "strategic_rule": 0.9556856468951376,
+    "tactical_rule": 0.9523312270233046,
+    "scout_rush": 0.945918075480479
+   },
+   "worst_stratum": "strategic_rule",
+   "best_stratum": "phase9_selfplay",
+   "source": "reports/phase11b/agent_01_summary.json leaderboard"
+  },
+  "surviving_checkpoint": {
+   "r_ce": 0.9459282341313351,
+   "top1": 0.2638727548923242,
+   "source": "dev_metrics embedded in the surviving checkpoint; independently re-scored read-only by Agents 3 and 4 at 0.9459282341293967 (difference 2e-12, float recompute noise)"
+  },
+  "headline_precision_note": "R_CE 0.9460 holds for both passes at 4 decimals; top-1 is 0.2640 for the reported first pass and 0.2639 for the surviving checkpoint",
+  "dev_samples": 1828,
+  "dev_pieces": 55955
+ },
+ "checkpoint_provenance_finding": {
+  "finding": "Agent 1's harness ran a --repeat-train reproducibility pass that saved candidate checkpoints to the same paths, overwriting the first-pass files for 1B and 1C (1A's two passes were bit-identical, so its file matches its record). The summary field 'checkpoints_kept_from: first pass' is therefore correct only for 1A.",
+  "evidence": [
+   "surviving 1B re-scored by Agents 3 and 4 at dev R_CE 0.9494563404029118 \u2014 equal to Agent 1's recorded r_ce_repeat_pass to all 16 digits",
+   "surviving 1C embeds dev_metrics.r_ce 0.9459282341313351 \u2014 exactly Agent 1's recorded r_ce_repeat_pass; Agents 3/4 re-scored 0.9459282341293967 (2e-12 recompute noise)",
+   "checkpoint mtimes 2026-08-19 20:40:30 (1A), 20:40:43 (1B), 20:41:52 (1C) all fall inside Agent 1's run window",
+   "recorded first-pass sha256s f1cf50afe3a52b2b81e364c71053dc78de65f66949dd7d6b3fe5e733103cef70 (1B) and 9552d8ee9a50e2df7761a20d427ded7530ad7bc9bd999566d3f47437305bd1ef (1C) match no file on disk; checkpoints/phase11b is gitignored, so the first-pass bytes are unrecoverable"
+  ],
+  "materiality": "first-vs-repeat drift is 6.4e-5 (1B) / 3.2e-5 (1C) R_CE \u2014 Agent 1's own measured run-to-run training noise; no ranking, band membership, or selection changes under either reading",
+  "resolution": "Phase 12 binds to the surviving bytes recorded in selected_checkpoint; committed Phase 11B reports are preserved unmodified and this artifact is the reconciliation record",
+  "detected_by": "Phase 11B Closure Agent digest verification, 2026-08-20"
+ },
+ "training_corpus": {
+  "corpus_version": "phase11b_common_corpus_v1",
+  "corpus_format_version": "phase11b_corpus_store_v1",
+  "corpus_digest": "903bf10a3e34cfc0d91ba4a22761864fb91dc0cb832e7f5a07fc2a40bd743cf6",
+  "root": "data/phase11b/common_corpus_v1",
+  "split": "train",
+  "games": 2048,
+  "samples": 26898,
+  "hidden_pieces": 817255,
+  "library_split": "train",
+  "strata": {
+   "phase9_selfplay": 512,
+   "strategic_rule": 512,
+   "tactical_rule": 512,
+   "scout_rush": 512
+  }
+ },
+ "development_corpus": {
+  "corpus_version": "phase11b_common_corpus_v1",
+  "corpus_digest": "903bf10a3e34cfc0d91ba4a22761864fb91dc0cb832e7f5a07fc2a40bd743cf6",
+  "split": "dev",
+  "games": 512,
+  "samples": 1828,
+  "hidden_pieces": 55955,
+  "library_split": "validation",
+  "note": "engineering comparison set, not a sealed bank"
+ },
+ "interpretation": [
+  "dedicated supervised belief training produced the dominant gain (unchanged Phase 11 head 0.9834 -> same 1,548 parameters retrained 0.9531)",
+  "enlarging the head helped only modestly (1A 0.9531 -> 1B MLP 0.9495)",
+  "allowing the final C1 block to adapt produced the best result (1C 0.9460)",
+  "raw-observation and C1-feature CNNs were worse despite being larger (A2 0.9686, A3 0.9624, A4 hybrid 0.9614, each 3.9M parameters vs 1B's 334,860)",
+  "C1's representation appears highly useful and sample-efficient at the current data scale (same tower on C1 features beats raw pixels; adding raw pixels to C1 adds nothing measurable)"
+ ],
+ "final_leaderboard": [
+  {
+   "rank": 1,
+   "candidate_id": "agent01_1c_final_block_plus_mlp",
+   "r_ce": 0.945960003944266,
+   "r_ce_ci95": [
+    0.9433669523922269,
+    0.9488031986902516
+   ],
+   "top1": 0.26396211241175943,
+   "parameters": 533388,
+   "checkpoint_sha256_surviving": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+   "note": "selected; surviving checkpoint is the repeat pass, dev R_CE 0.9459282341313351"
+  },
+  {
+   "rank": 2,
+   "candidate_id": "agent01_1b_attached_mlp_head",
+   "r_ce": 0.9495208293289928,
+   "r_ce_ci95": [
+    0.9470872440172564,
+    0.9523716586838146
+   ],
+   "top1": 0.2602805826110267,
+   "parameters": 334860,
+   "checkpoint_sha256_surviving": "bd92a0eb690350f2d2b0bfe954cde3fdbdff98700b7f488b51a358e1f0a9b516",
+   "note": "Agent 1's in-band economy pick; surviving checkpoint is the repeat pass, dev R_CE 0.9494563404029118"
+  },
+  {
+   "rank": 3,
+   "candidate_id": "agent01_1a_existing_linear_head",
+   "r_ce": 0.953087213250343,
+   "r_ce_ci95": [
+    0.9507538766665469,
+    0.9557960019870273
+   ],
+   "top1": 0.254204271289429,
+   "parameters": 1548,
+   "checkpoint_sha256_surviving": "d8f9d463586f25725c8f4bd02451cbfdbcd4b79560675e605caa790fda1f3230",
+   "note": "matches recorded digest; both training passes bit-identical"
+  },
+  {
+   "rank": 4,
+   "candidate_id": "agent04_hybrid_raw_c1_cnn",
+   "r_ce": 0.9613537943873175,
+   "r_ce_ci95": [
+    0.9582125348631808,
+    0.9645582352891593
+   ],
+   "top1": 0.2560807791975695,
+   "parameters": 3897724,
+   "checkpoint_sha256_surviving": "e25afd2480092bb2528bbae75dd569d32830a27b77757e2401c02a829ec9c979",
+   "note": "matches recorded digest"
+  },
+  {
+   "rank": 5,
+   "candidate_id": "agent03_c1_feature_cnn",
+   "r_ce": 0.9623730712042,
+   "r_ce_ci95": [
+    0.9592,
+    0.9656
+   ],
+   "top1": 0.25692073988026093,
+   "parameters": 3898444,
+   "checkpoint_sha256_surviving": "1132c7007fd18a38c6763eb5b72a3a397d78deb35377947af69b739bf06cf912",
+   "note": "matches recorded digest"
+  },
+  {
+   "rank": 6,
+   "candidate_id": "agent02_raw_observation_cnn",
+   "r_ce": 0.9686067139968799,
+   "r_ce_ci95": [
+    0.966,
+    0.9713
+   ],
+   "top1": 0.25202394781520865,
+   "parameters": 3897004,
+   "checkpoint_sha256_surviving": "1fbb77b9292a1a316d19c845bf52e9187299160ceb32f209f594ad89a2a2b06d",
+   "note": "run1_declared, the reported candidate; matches recorded digest. run2_regularized also preserved (sha256 ab9ed23c58152ffc0fe9895ae3ceadf86cba30378abc5d71ba89d598386ef88b)"
+  },
+  {
+   "rank": 7,
+   "candidate_id": "phase11_head_unchanged_reference",
+   "r_ce": 0.9833591168982877,
+   "r_ce_ci95": [
+    0.9785003274240247,
+    0.9884287433412657
+   ],
+   "top1": 0.2302921990885533,
+   "parameters": 1548,
+   "checkpoint_sha256_surviving": null,
+   "note": "accepted Phase 11 belief head scored unchanged on the Phase 11B dev set; lives inside the Phase 9 checkpoint, belief_head_digest a9df48a1..."
+  }
+ ],
+ "uniform_floor_r_ce": 1.1321136043223727,
+ "baseline_denominator": {
+  "version": "remaining_count_belief_v1",
+  "dev_ce": 2.1949269404596046,
+  "dev_top1": 0.2038423733357162
+ },
+ "agent4_recorded_result": {
+  "candidate_id": "agent04_hybrid_raw_c1_cnn",
+  "completed_utc": "2026-08-20T03:53:25Z",
+  "r_ce": 0.9613537943873175,
+  "r_ce_ci95": [
+   0.9582125348631808,
+   0.9645582352891593
+  ],
+  "top1": 0.2560807791975695,
+  "parameters": 3897724,
+  "training_seconds": 105.831,
+  "time_to_best_seconds": 14.942,
+  "hybrid_minus_c1_only_r_ce": -0.0010192768168825195,
+  "paired_delta_ce_vs_c1_only": [
+   -0.006384226667783873,
+   0.002108265568139885
+  ],
+  "hybrid_minus_raw_only_r_ce": -0.007252919609562425,
+  "conclusion": "raw and C1 are not complementary: the fusion is indistinguishable from the C1-only branch; adding C1 to raw helps a lot, adding raw to C1 adds nothing measurable",
+  "repeat_run_bit_identical": true,
+  "suite_at_close": "6016 passed, 3 skipped",
+  "preserved_at_commit": "3a0720c6745bfa3688e0cd185813a1004e8bd8eb",
+  "preserved_files": [
+   "reports/phase11b/agent_04_report.md",
+   "reports/phase11b/agent_04_summary.json",
+   "reports/phase11b/agent_04_learning_curve.json",
+   "checkpoints/phase11b/agent04_hybrid_raw_c1_cnn.pt (gitignored, digest verified)"
+  ]
+ },
+ "agent5_cancellation": {
+  "phase11b_agent5_status": "cancelled_by_instructor",
+  "instruction": "01_PHASE_11B_CLOSURE_AGENT.md section 2",
+  "not_implemented": true,
+  "not_trained": true,
+  "not_benchmarked": true,
+  "not_partially_initialized": true,
+  "spec_preserved_at": "instructions/phase_11b_belief_engineering_sprint/05_AGENT_5_AUTOREGRESSIVE_TRANSFORMER.md"
+ },
+ "preservation_verification": {
+  "verified_utc": "2026-08-20T04:56:00Z",
+  "phase11_artifact_digests_checked": 15,
+  "phase11_artifact_digests_matched": 15,
+  "corpus_file_digests_checked": 12,
+  "corpus_file_digests_matched": 12,
+  "corpus_manifest_digest_matched": true,
+  "phase9_checkpoint_sha256_matched": true,
+  "phase11b_checkpoint_digests": {
+   "matched_records": [
+    "agent01_1a_existing_linear_head.pt",
+    "agent02_raw_observation_cnn_run1_declared.pt",
+    "agent03_c1_feature_cnn.pt",
+    "agent04_hybrid_raw_c1_cnn.pt"
+   ],
+   "superseded_by_repeat_pass": [
+    "agent01_1b_attached_mlp_head.pt",
+    "agent01_1c_final_block_plus_mlp.pt"
+   ]
+  },
+  "note": "see checkpoint_provenance_finding; no committed artifact was modified by this closure"
+ }
+}

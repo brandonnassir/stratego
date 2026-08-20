@@ -1,0 +1,84 @@
+{
+ "artifact": "phase11b_phase12_handoff_v1",
+ "phase": "phase11b",
+ "generated_utc": "2026-08-20T04:56:00Z",
+ "generated_by": "Phase 11B Closure Agent",
+ "git_base_commit": "3a0720c6745bfa3688e0cd185813a1004e8bd8eb",
+ "model_roles": {
+  "policy_value": "accepted Phase 9 C1",
+  "beliefs": "Agent 1C",
+  "statement": "Phase 9 C1 -> policy/value; Agent 1C -> belief only",
+  "warning": "do not assume Agent 1C's policy/value outputs remain equivalent to accepted Phase 9 after its final C1 block was fine-tuned; trunk sharing only as a later optimization if exact equivalence is demonstrated cheaply"
+ },
+ "accepted_phase9_checkpoint": {
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "parameters": 863959,
+  "global_optimizer_step": 47086,
+  "architecture": "stratego_transformer_v1 candidate C1",
+  "verified_on_disk_utc": "2026-08-20T04:56:00Z"
+ },
+ "agent1c_checkpoint": {
+  "candidate_id": "agent01_1c_final_block_plus_mlp",
+  "path": "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+  "sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+  "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+  "dev_r_ce": 0.9459282341313351,
+  "dev_top1": 0.2638727548923242,
+  "headline": "R_CE 0.9460, top-1 0.2640 (reported first pass; surviving bytes 0.9459/0.2639 \u2014 see selection artifact checkpoint_provenance_finding)",
+  "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+  "consumes": "frozen Phase 9 C1 penultimate token field [B, 100, 128]",
+  "role": "belief prediction only"
+ },
+ "original_phase11_belief": {
+  "system_version": "phase11_system_v1",
+  "system_digest": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101",
+  "record": "reports/phase_11_data/agent_06_system_v1.json",
+  "record_sha256": "14768cb319c0bce04568a51007e8c72266286641ac1f284bb2f25989bdba9db8",
+  "belief_head": "linear(128->12), 1,548 parameters, inside the accepted Phase 9 checkpoint",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "phase11_sealed_result": "R_CE 0.9746 [0.9726, 0.9764] -> Gate A FAIL",
+  "phase11b_dev_reference": {
+   "r_ce": 0.9833591168982877,
+   "top1": 0.2302921990885533
+  }
+ },
+ "remaining_count_baseline": {
+  "version": "remaining_count_belief_v1",
+  "module": "stratego/evaluation/phase11_baselines.py",
+  "module_sha256": "5f84c459cf6982b63c9ae09bc531cd86a229e4b53ae114d0e7c89c197447ff04",
+  "world_sampler_baseline": "count_uniform_world_sampler_v1 (same module)",
+  "phase11b_dev_ce": 2.1949269404596046,
+  "phase11b_dev_top1": 0.2038423733357162,
+  "note": "the R_CE denominator everywhere in Phase 11/11B"
+ },
+ "accepted_sampler_interface": {
+  "module": "stratego/evaluation/phase11_sampler.py",
+  "module_sha256": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+  "status": "accepted, unmodified since Phase 11",
+  "adapter": "stratego/belief/phase11b/interface.py",
+  "adapter_version": "phase11b_belief_interface_v1",
+  "surface": "Phase11BBeliefModel.predict_marginals(public_state) and .sample_worlds(public_state, n, seed)",
+  "public_state_module": "stratego/evaluation/phase11_public_state.py",
+  "public_state_module_sha256": "71e572a4c420df25c2905f88ed58241a15f2528be85e9dc092b0aebdfe0d8529",
+  "verified_for_selected_candidate": "16 positions x 8 worlds: marginals sum to one, all sampled worlds passed the accepted validation stack, seed-deterministic (agent_01_summary.json interface section)"
+ },
+ "phase11b_selection_artifact": {
+  "artifact": "phase11b_engineering_selection_v1",
+  "path": "reports/phase11b/phase11b_engineering_selection_v1.json",
+  "sha256": "af2d293db2efd8d845f7fa403cf1b99a9e84a1fbb05bf6dfdb42c3dd37ec5f96"
+ },
+ "search_belief_providers": [
+  "remaining_count",
+  "original_phase11",
+  "agent1c",
+  "oracle"
+ ],
+ "oracle_available_in_production": false,
+ "phase11_final_classification": "FAIL",
+ "phase12_authorized_by_phase11": false,
+ "phase11b_selection": "Agent1C",
+ "scientific_validation_status": "not performed"
+}
