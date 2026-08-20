@@ -1,0 +1,911 @@
+{
+ "agent": 3,
+ "agent2_contrast": {
+  "agent2_numbers_quoted_from": "reports/phase11b/agent_02_summary.json",
+  "agent2_raw_cnn_r_ce": 0.9686067139968799,
+  "agent2_rerun": false,
+  "agent3_c1_feature_cnn_r_ce": 0.9623730712042,
+  "difference_agent3_minus_agent2": -0.006233642792679905,
+  "equivalence_band": 0.005,
+  "interpretation": "Agent 3 is materially better than Agent 2: the frozen C1 representation is a better starting point for belief than a specialist encoder learned from this corpus",
+  "interpretation_source": "03_AGENT_3_C1_FEATURE_CNN.md, 'Interpretation'",
+  "paired_comparison": {
+   "bootstrap_unit": "game",
+   "ce_difference": -0.013682390502855007,
+   "ce_difference_ci95": [
+    -0.018537040033442514,
+    -0.009254028216726612
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": true,
+   "resamples": 4000
+  },
+  "within_equivalence_band": false
+ },
+ "backend_agreement": {
+  "absolute_difference": 2.188483949616682e-09,
+  "r_ce_cpu": 0.9623730712042,
+  "r_ce_training_backend": 0.9623730690157161,
+  "scoring_backend": "cpu",
+  "training_backend": "mps"
+ },
+ "checkpoint": {
+  "bytes": 15655599,
+  "path": "checkpoints/phase11b/agent03_c1_feature_cnn.pt",
+  "sha256": "1132c7007fd18a38c6763eb5b72a3a397d78deb35377947af69b739bf06cf912"
+ },
+ "common_corpus": {
+  "corpus_digest": "903bf10a3e34cfc0d91ba4a22761864fb91dc0cb832e7f5a07fc2a40bd743cf6",
+  "corpus_digest_matches_agent1": true,
+  "corpus_digest_matches_agent2": true,
+  "corpus_digest_matches_manifest": true,
+  "corpus_format_version": "phase11b_corpus_store_v1",
+  "corpus_version": "phase11b_common_corpus_v1",
+  "file_digest_drift": [],
+  "file_digests": {
+   "dev": {
+    "privileged/labels.npz": "26882b842ad3da4903214cdbacbc0552cedde8509b49498e77126687cc7c3dee",
+    "public/games.jsonl": "6fa51d3ed6ea0d0d0a766a4bfe743b8f2d856f1c862acba9c6b4dddfaa777934",
+    "public/identities.txt": "42b9892ce9f63d10f5c105926b94c8344e1c31abfbedb452aabcf4ad09d4daf1",
+    "public/observations.f32": "90b0728b2017434bd16735789f469f822073d6184b0a5e42a3d564f7132f2c06",
+    "public/pieces.npz": "d1cfad00a8facf58cd89422f34d3ad77898f1b71fb9e11e3eea8052567c64ef4",
+    "public/samples.npz": "1c260893fabac18a42f71467426fc625b8857780a5268634772192b2597d7bb1"
+   },
+   "train": {
+    "privileged/labels.npz": "26936e55192d8ad46cf76733ade3432abbf1b83e5d83809d2c77144abd78d475",
+    "public/games.jsonl": "59b7ed5328c8a09eaa0f5746e2fb2556e0c2a18ffc401a419a4eeda8c289e9e7",
+    "public/identities.txt": "fd5b6b24ed4220cef68be1987457ede45c0ad902feac8b885f4b919d4feb7bfe",
+    "public/observations.f32": "bd61bf84b45d2477b3ad90ba3d428f78effe73b51e4455f25fca5d2f30645468",
+    "public/pieces.npz": "43236d6716b107a476a1c1da59edc99437afd695e67d3e9ec162dbfef145219c",
+    "public/samples.npz": "94d90864850fa9348b7ee26c20456a42f2f4763e8d64210cf5d0ec004fbe57be"
+   }
+  },
+  "reused": "byte-for-byte; Agent 3 regenerated nothing",
+  "splits": {
+   "dev": {
+    "games": 512,
+    "hidden_pieces": 55955,
+    "library_split": "validation",
+    "samples": 1828
+   },
+   "train": {
+    "games": 2048,
+    "hidden_pieces": 817255,
+    "library_split": "train",
+    "samples": 26898
+   }
+  }
+ },
+ "decision": {
+  "agent3_materially_better_than_best_earlier": false,
+  "agent3_minus_best_earlier_r_ce": 0.016413067259933967,
+  "best_earlier_candidate": "agent01_1c_final_block_plus_mlp",
+  "equivalence_band": 0.005,
+  "leader_by_r_ce": "agent01_1c_final_block_plus_mlp",
+  "leader_r_ce": 0.945960003944266,
+  "paired_comparison_with_best_earlier": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.036095215926954805,
+   "ce_difference_ci95": [
+    0.032087086296424254,
+    0.04001148566336913
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  },
+  "scout_rush_r_ce": {
+   "agent01_1a_existing_linear_head": 0.9551865212598375,
+   "agent01_1b_attached_mlp_head": 0.9496834267321596,
+   "agent01_1c_final_block_plus_mlp": 0.945918075480479,
+   "agent02_raw_observation_cnn": 0.9720889913167128,
+   "agent03_c1_feature_cnn": 0.9618632214796041,
+   "phase11_head_unchanged_reference": 0.9997014257399724
+  },
+  "search_integration_note": "Agent 3 rides on C1's existing encode: a search already running C1 for its policy pays only the specialist's 2.96 ms per position, against 4.41 ms for a belief query in isolation. It is still a second network with its own checkpoint, unlike Agent 1's head.",
+  "within_band_of_leader": [
+   "agent01_1c_final_block_plus_mlp",
+   "agent01_1b_attached_mlp_head"
+  ]
+ },
+ "earlier_reference_rows": {
+  "agent01_1a_existing_linear_head": {
+   "architecture": "linear(128->12)",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "belief_parameters_total": 1548,
+   "best_epoch": 35,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "agent01_1a_existing_linear_head",
+   "ce": 2.091956800970746,
+   "checkpoint_sha256": "d8f9d463586f25725c8f4bd02451cbfdbcd4b79560675e605caa790fda1f3230",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9523181804087812,
+   "epochs_run": 40,
+   "inference_microseconds_per_piece": 0.017,
+   "parameters_added": 1548,
+   "parameters_unfrozen_c1": 0,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.953087213250343,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9379287019810619,
+    "scout_rush": 0.9551865212598375,
+    "strategic_rule": 0.9628083962269907,
+    "tactical_rule": 0.958232091956784
+   },
+   "r_ce_ci95": [
+    0.9507538766665469,
+    0.9557960019870273
+   ],
+   "retrains_accepted_c1_weights": false,
+   "stopped_because": "epochs_exhausted",
+   "time_to_best_seconds": 4.386,
+   "top1": 0.254204271289429,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.26927381657778654,
+    "scout_rush": 0.23906453009961023,
+    "strategic_rule": 0.25130533484676504,
+    "tactical_rule": 0.2556034168066
+   },
+   "trained_in_phase11b": true,
+   "training_seconds": 5.018,
+   "worst_stratum": "strategic_rule"
+  },
+  "agent01_1b_attached_mlp_head": {
+   "architecture": "mlp(128->512->512->12, gelu)",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "belief_parameters_total": 334860,
+   "best_epoch": 5,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "agent01_1b_attached_mlp_head",
+   "ce": 2.0841288488217526,
+   "checkpoint_sha256": "f1cf50afe3a52b2b81e364c71053dc78de65f66949dd7d6b3fe5e733103cef70",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9487067782564454,
+   "epochs_run": 10,
+   "inference_microseconds_per_piece": 0.4371,
+   "parameters_added": 334860,
+   "parameters_unfrozen_c1": 0,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.9495208293289928,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9350353973446659,
+    "scout_rush": 0.9496834267321596,
+    "strategic_rule": 0.9596123880731199,
+    "tactical_rule": 0.955567148481127
+   },
+   "r_ce_ci95": [
+    0.9470872440172564,
+    0.9523716586838146
+   ],
+   "retrains_accepted_c1_weights": false,
+   "stopped_because": "patience",
+   "time_to_best_seconds": 6.546,
+   "top1": 0.2602805826110267,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.2757916913555863,
+    "scout_rush": 0.24556084885231702,
+    "strategic_rule": 0.2597048808172531,
+    "tactical_rule": 0.25852376432795504
+   },
+   "trained_in_phase11b": true,
+   "training_seconds": 12.93,
+   "worst_stratum": "strategic_rule"
+  },
+  "agent01_1c_final_block_plus_mlp": {
+   "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "belief_parameters_total": 533388,
+   "best_epoch": 12,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "agent01_1c_final_block_plus_mlp",
+   "ce": 2.0763130972545434,
+   "checkpoint_sha256": "9552d8ee9a50e2df7761a20d427ded7530ad7bc9bd999566d3f47437305bd1ef",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9454199824340971,
+   "epochs_run": 12,
+   "inference_microseconds_per_piece": 2.7727,
+   "parameters_added": 533388,
+   "parameters_unfrozen_c1": 198528,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.945960003944266,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9316925629843068,
+    "scout_rush": 0.945918075480479,
+    "strategic_rule": 0.9556856468951376,
+    "tactical_rule": 0.9523312270233046
+   },
+   "r_ce_ci95": [
+    0.9433669523922269,
+    0.9488031986902516
+   ],
+   "retrains_accepted_c1_weights": true,
+   "stopped_because": "epochs_exhausted",
+   "time_to_best_seconds": 73.189,
+   "top1": 0.26396211241175943,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.27717427085390745,
+    "scout_rush": 0.25147971704922767,
+    "strategic_rule": 0.2631857737419599,
+    "tactical_rule": 0.26268525954588595
+   },
+   "trained_in_phase11b": true,
+   "training_seconds": 73.19,
+   "worst_stratum": "strategic_rule"
+  },
+  "agent02_raw_observation_cnn": {
+   "architecture": "raw_cnn(127 -> conv3x3 160 -> 8 x residual3x3 -> 1x1 128 -> 12/square, relu, batchnorm2d)",
+   "architecture_version": "phase11b_raw_observation_cnn_v1",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "best_epoch": 1,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "agent02_raw_observation_cnn",
+   "ce": 2.126020971261803,
+   "checkpoint_sha256": "1fbb77b9292a1a316d19c845bf52e9187299160ceb32f209f594ad89a2a2b06d",
+   "consumes_c1": false,
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9634688472780417,
+   "epochs_run": 6,
+   "inference_microseconds_per_piece": 26.3215,
+   "milliseconds_per_decision_batched": 0.8057,
+   "milliseconds_per_decision_single": 3.42,
+   "parameters": 3897004,
+   "parameters_trained": 3897004,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.9686067139968799,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9560358934256907,
+    "scout_rush": 0.9720889913167128,
+    "strategic_rule": 0.9759935473609599,
+    "tactical_rule": 0.9717260394015439
+   },
+   "r_ce_ci95": [
+    0.966042256729683,
+    0.971264051492634
+   ],
+   "retrains_accepted_c1_weights": false,
+   "stopped_because": "patience",
+   "time_to_best_seconds": 13.858,
+   "top1": 0.25202394781520865,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.2659161235104352,
+    "scout_rush": 0.23661036523747653,
+    "strategic_rule": 0.2522133938706016,
+    "tactical_rule": 0.25202599109294005
+   },
+   "trained_in_phase11b": true,
+   "training_device": "mps",
+   "training_seconds": 101.352,
+   "worst_stratum": "strategic_rule"
+  },
+  "phase11_head_unchanged_reference": {
+   "architecture": "linear(128->12)",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "belief_parameters_total": 1548,
+   "best_epoch": null,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "phase11_head_unchanged_reference",
+   "ce": 2.1584014178266173,
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9827272918806899,
+   "inference_microseconds_per_piece": null,
+   "parameters_added": 0,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.9833591168982877,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9613606287556152,
+    "scout_rush": 0.9997014257399724,
+    "strategic_rule": 0.9883216913833432,
+    "tactical_rule": 0.9859267753674913
+   },
+   "r_ce_ci95": [
+    0.9785003274240247,
+    0.9884287433412657
+   ],
+   "time_to_best_seconds": 0.0,
+   "top1": 0.2302921990885533,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.25070774902890247,
+    "scout_rush": 0.20326259564024832,
+    "strategic_rule": 0.23087400681044268,
+    "tactical_rule": 0.23443089727677593
+   },
+   "trained_in_phase11b": false,
+   "training_seconds": 0.0,
+   "worst_stratum": "scout_rush"
+  }
+ },
+ "earlier_reproduction": {
+  "agent01_1b_attached_mlp_head": {
+   "absolute_difference": 6.448892608101886e-05,
+   "ce": 2.083987300340536,
+   "r_ce_recomputed": 0.9494563404029118,
+   "r_ce_reported_by_its_agent": 0.9495208293289928,
+   "source": "loaded read-only and scored; not retrained",
+   "top1": 0.26015548208381734
+  },
+  "agent01_1c_final_block_plus_mlp": {
+   "absolute_difference": 3.1769814869297974e-05,
+   "ce": 2.0762433648319933,
+   "r_ce_recomputed": 0.9459282341293967,
+   "r_ce_reported_by_its_agent": 0.945960003944266,
+   "source": "loaded read-only and scored; not retrained",
+   "top1": 0.2638727548923242
+  },
+  "agent02_raw_observation_cnn": {
+   "absolute_difference": 0.0,
+   "ce": 2.126020971261803,
+   "r_ce_recomputed": 0.9686067139968799,
+   "r_ce_reported_by_its_agent": 0.9686067139968799,
+   "source": "loaded read-only and scored; not retrained",
+   "top1": 0.25202394781520865
+  },
+  "phase11_head_unchanged_reference": {
+   "absolute_difference": 0.0,
+   "ce": 2.1584014178266173,
+   "r_ce_recomputed": 0.9833591168982877,
+   "r_ce_reported_by_its_agent": 0.9833591168982877,
+   "source": "loaded read-only and scored; not retrained",
+   "top1": 0.2302921990885533
+  }
+ },
+ "earlier_reproduction_note": "the unchanged Phase 11 head reproduces exactly; the trained checkpoints reproduce to the scale of the run-to-run drift their own agents measured, two orders of magnitude below the gaps this leaderboard turns on. The recomputed values are used for the paired bootstraps so every candidate in a comparison comes from one scoring pass; the quoted leaderboard rows are left exactly as Agents 1 and 2 reported them.",
+ "earlier_rows_note": "quoted from reports/phase11b/agent_01_summary.json and agent_02_summary.json; no earlier experiment was rerun",
+ "environment": {
+  "mps_available": true,
+  "numpy": "2.5.1",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "processor": "arm",
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "torch_threads": 10
+ },
+ "experiment": {
+  "architecture_inheritance_reason": "Agent 2's tower verbatim (width 160, 8 residual 3x3 blocks, 1x1 read-out 128) so the only difference between the two candidates is the input representation",
+  "architecture_inherited_from": "agent02_raw_observation_cnn",
+  "architecture_sweep": false,
+  "architectures_trained": 1,
+  "hyperparameter_sweep": false,
+  "instruction": "instructions/phase_11b_belief_engineering_sprint/03_AGENT_3_C1_FEATURE_CNN.md",
+  "name": "C1-feature CNN belief specialist",
+  "optimization_configurations_declared": 1,
+  "prior_candidates_rerun": false,
+  "question": "does the final C1 move model already preserve enough belief-relevant information, and was the old small belief classifier mainly an extraction bottleneck?",
+  "trainer_shared_with": "agent02_raw_observation_cnn",
+  "trainer_version": "phase11b_raw_cnn_trainer_v1"
+ },
+ "feature_cache": {
+  "cache_device": "cpu",
+  "cache_device_note": "built on the accepted CPU evaluation backend even though MPS is available: the cache is what the specialist trains on and what the deployed interface recomputes live on CPU, and the two backends' encodes agree only to ~1e-7",
+  "caches": {
+   "dev": {
+    "bytes": 93593728,
+    "cache_version": "phase11b_c1_field_cache_v1",
+    "contains_labels": false,
+    "derived_from": "public observations + accepted frozen C1",
+    "digest": "33b3f83af328b63ed9f116c53de00f857f73dbaa8e23bde269e66b99582f6b7c",
+    "dtype": "float32",
+    "layer_token": "final",
+    "path": "checkpoints/phase11b/c1_field_dev.npy",
+    "reused_existing_file": true,
+    "seam_id": "c1_encoder_output_all_tokens",
+    "seconds": 0.0,
+    "shape": [
+     1828,
+     100,
+     128
+    ],
+    "split": "dev"
+   },
+   "train": {
+    "bytes": 1377177728,
+    "cache_version": "phase11b_c1_field_cache_v1",
+    "contains_labels": false,
+    "derived_from": "public observations + accepted frozen C1",
+    "digest": "d44453283cf8117fd83d91c0e8e4f2b058506847a786f45315c58de8869d4c93",
+    "dtype": "float32",
+    "layer_token": "final",
+    "path": "checkpoints/phase11b/c1_field_train.npy",
+    "reused_existing_file": true,
+    "seam_id": "c1_encoder_output_all_tokens",
+    "seconds": 0.0,
+    "shape": [
+     26898,
+     100,
+     128
+    ],
+    "split": "train"
+   }
+  },
+  "gradients_reaching_c1": false,
+  "total_seconds": 0.62,
+  "verification": {
+   "dev": {
+    "bit_identical": true,
+    "inputs": [
+     "public observation",
+     "accepted frozen C1 weights"
+    ],
+    "max_absolute_difference": 0.0,
+    "rows_checked": 64
+   },
+   "train": {
+    "bit_identical": true,
+    "inputs": [
+     "public observation",
+     "accepted frozen C1 weights"
+    ],
+    "max_absolute_difference": 0.0,
+    "rows_checked": 64
+   }
+  }
+ },
+ "frozen_model": {
+  "architecture": "stratego_transformer_v1",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "candidate_id": "C1",
+  "device": "cpu",
+  "dtype": "float32",
+  "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/phase9_c1_readonly_copy.pt",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "parameters": 863959,
+  "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "trainable_parameters": 0
+ },
+ "frozen_seam": {
+  "alternatives_rejected": {
+   "belief_output(hidden)": "already compressed 128 -> 12 by the accepted head",
+   "hidden.mean(dim=1)": "pooled to one global 128-vector; not per-square",
+   "penultimate block input": "per-square but one encoder block short of the heads",
+   "policy_query / policy_key": "a single head's own projection, not the shared tensor"
+  },
+  "c1_frozen": true,
+  "class": "ProductionModel",
+  "consumed_by_heads": [
+   "policy_head",
+   "value_head",
+   "belief_head"
+  ],
+  "definition": "encoder_norm(block_6(... block_1(input_projection(tokens) + position_embedding())))",
+  "derivable_from": [
+   "common public observation",
+   "accepted frozen C1 weights"
+  ],
+  "gradients_reaching_c1": false,
+  "is_per_square": true,
+  "is_pooled": false,
+  "layer_token": "final",
+  "module": "stratego.model.production_model",
+  "position_in_c1": "the shared tensor immediately before all three task heads",
+  "seam_id": "c1_encoder_output_all_tokens",
+  "shape": [
+   "batch",
+   100,
+   128
+  ],
+  "square_mapping": "token i is row-major normalized square i (row i // 10, column i % 10), the accepted observation_to_tokens order, so the field maps back to board cells with a transpose and a reshape and nothing else",
+  "tensor": "ProductionModel.encode(tokens)"
+ },
+ "generated_utc": "2026-08-20T03:13:46Z",
+ "identity_version": "phase11b_identity_v1",
+ "inference": {
+  "cpu": {
+   "batch_positions": 256,
+   "device": "cpu",
+   "end_to_end": {
+    "microseconds_per_piece_batched": 41.5988,
+    "milliseconds_per_decision_batched": 1.2733,
+    "milliseconds_per_decision_single": 4.4063,
+    "what": "public observation -> frozen C1 -> belief CNN"
+   },
+   "frozen_c1_encode": {
+    "microseconds_per_piece_batched": 8.1335,
+    "milliseconds_per_decision_batched": 0.249,
+    "milliseconds_per_decision_single": 1.4442,
+    "what": "the frozen C1 encode alone, which a search already pays for its policy"
+   },
+   "hidden_pieces_per_decision": 30.61,
+   "repeats": 10,
+   "specialist": {
+    "microseconds_per_piece_batched": 33.4653,
+    "milliseconds_per_decision_batched": 1.0244,
+    "milliseconds_per_decision_single": 2.9621,
+    "what": "the belief CNN alone, over an already-computed C1 field"
+   }
+  },
+  "mps": {
+   "batch_positions": 256,
+   "device": "mps",
+   "end_to_end": {
+    "microseconds_per_piece_batched": 6.9929,
+    "milliseconds_per_decision_batched": 0.2141,
+    "milliseconds_per_decision_single": 4.3683,
+    "what": "public observation -> frozen C1 -> belief CNN"
+   },
+   "frozen_c1_encode": {
+    "microseconds_per_piece_batched": 2.8553,
+    "milliseconds_per_decision_batched": 0.0874,
+    "milliseconds_per_decision_single": 2.9991,
+    "what": "the frozen C1 encode alone, which a search already pays for its policy"
+   },
+   "hidden_pieces_per_decision": 30.61,
+   "repeats": 10,
+   "specialist": {
+    "microseconds_per_piece_batched": 4.1376,
+    "milliseconds_per_decision_batched": 0.1267,
+    "milliseconds_per_decision_single": 1.3692,
+    "what": "the belief CNN alone, over an already-computed C1 field"
+   }
+  }
+ },
+ "interface": {
+  "all_marginals_sum_to_one": true,
+  "all_worlds_passed_accepted_validation_stack": true,
+  "candidate_id": "agent03_c1_feature_cnn",
+  "describe": {
+   "architecture": "c1_field(128) -> conv3x3 160 -> 8 x residual3x3 -> 1x1 128 -> 12/square, relu, batchnorm2d",
+   "architecture_version": "phase11b_c1_feature_cnn_v1",
+   "c1_frozen": true,
+   "candidate_id": "agent03_c1_feature_cnn",
+   "consumes_c1_features": true,
+   "consumes_public_observation": false,
+   "device": "cpu",
+   "interface_version": "phase11b_belief_interface_v1",
+   "parameters": 3898444,
+   "reads_hidden_truth": false,
+   "sampler": "belief_sampler_v1",
+   "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+   "seam_id": "c1_encoder_output_all_tokens"
+  },
+  "hidden_pieces_per_position": 32.75,
+  "interface_version": "phase11b_belief_interface_v1",
+  "positions_checked": 16,
+  "sample_worlds_seed_deterministic": true,
+  "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+  "worlds_per_position": 8,
+  "worlds_sampled": 128
+ },
+ "leaderboard": {
+  "agent03_c1_feature_cnn": {
+   "architecture": "c1_field(128) -> conv3x3 160 -> 8 x residual3x3 -> 1x1 128 -> 12/square, relu, batchnorm2d",
+   "architecture_version": "phase11b_c1_feature_cnn_v1",
+   "baseline_ce": 2.1949269404596046,
+   "baseline_top1": 0.2038423733357162,
+   "best_epoch": 2,
+   "best_stratum": "phase9_selfplay",
+   "candidate_id": "agent03_c1_feature_cnn",
+   "ce": 2.112338580758948,
+   "checkpoint_sha256": "1132c7007fd18a38c6763eb5b72a3a397d78deb35377947af69b739bf06cf912",
+   "consumes_c1": true,
+   "consumes_raw_observation": false,
+   "corpus_version": "phase11b_common_corpus_v1",
+   "dev_pieces": 55955,
+   "dev_samples": 1828,
+   "diagnostic_projected_r_ce": 0.9576593321962712,
+   "epochs_run": 7,
+   "inference_microseconds_per_piece": 33.4653,
+   "milliseconds_per_decision_batched": 1.0244,
+   "milliseconds_per_decision_single": 2.9621,
+   "milliseconds_per_decision_single_end_to_end": 4.4063,
+   "parameters": 3898444,
+   "parameters_trained": 3898444,
+   "phase11b_version": "phase11b_engineering_v1",
+   "r_ce": 0.9623730712042,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9501404551145834,
+    "scout_rush": 0.9618632214796041,
+    "strategic_rule": 0.9711615873231728,
+    "tactical_rule": 0.9678903242802833
+   },
+   "r_ce_ci95": [
+    0.9592145956116203,
+    0.9655764596077162
+   ],
+   "retrains_accepted_c1_weights": false,
+   "seam_id": "c1_encoder_output_all_tokens",
+   "stopped_because": "patience",
+   "time_to_best_seconds": 22.588,
+   "top1": 0.25692073988026093,
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.26861544538810983,
+    "scout_rush": 0.24339540926808143,
+    "strategic_rule": 0.25751040484298143,
+    "tactical_rule": 0.2570635905672775
+   },
+   "trained_in_phase11b": true,
+   "training_device": "mps",
+   "training_seconds": 118.847,
+   "worst_stratum": "strategic_rule"
+  }
+ },
+ "paired_comparisons": {
+  "agent03_c1_feature_cnn vs agent01_1b_attached_mlp_head": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.028351280418412367,
+   "ce_difference_ci95": [
+    0.02426599367884708,
+    0.03243300140479208
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  },
+  "agent03_c1_feature_cnn vs agent01_1c_final_block_plus_mlp": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.036095215926954805,
+   "ce_difference_ci95": [
+    0.032087086296424254,
+    0.04001148566336913
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  },
+  "agent03_c1_feature_cnn vs agent02_raw_observation_cnn": {
+   "bootstrap_unit": "game",
+   "ce_difference": -0.013682390502855007,
+   "ce_difference_ci95": [
+    -0.018537040033442514,
+    -0.009254028216726612
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": true,
+   "resamples": 4000
+  },
+  "agent03_c1_feature_cnn vs phase11_head_unchanged_reference": {
+   "bootstrap_unit": "game",
+   "ce_difference": -0.04606283706766951,
+   "ce_difference_ci95": [
+    -0.057158429790342774,
+    -0.03548357110693921
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": true,
+   "resamples": 4000
+  }
+ },
+ "peak_memory_bytes": 5048729600,
+ "peak_memory_note": "peak process RSS of the training stage: the materialized 1.4 GB C1 field tensor, the model and the metric arrays, not the model alone",
+ "phase": "phase11b",
+ "phase11_fail_unchanged": true,
+ "phase11_final_classification": "FAIL",
+ "phase11_test_bank_spent": true,
+ "phase11_test_bank_used": false,
+ "phase11b_version": "phase11b_engineering_v1",
+ "phase12_authorized_by_this_artifact": false,
+ "pilot": {
+  "agent2_parameters": 3897004,
+  "architecture": "c1_field(128) -> conv3x3 160 -> 8 x residual3x3 -> 1x1 128 -> 12/square, relu, batchnorm2d",
+  "architecture_version": "phase11b_c1_feature_cnn_v1",
+  "batch_positions": 256,
+  "consumes_raw_observation": false,
+  "cross_device_loss_agreement": 0.00027,
+  "device_chosen": "mps",
+  "device_rule": "MPS is used only when it is stable (finite, CPU-agreeing pilot losses) and materially faster (>= 1.5x); otherwise the accepted CPU backend",
+  "device_speedup_vs_cpu": 8.16,
+  "epoch_budget_basis": "20 target training minutes at the measured 13s/epoch, clamped to [12, 60]",
+  "epochs_declared": 60,
+  "field_cache_digest_verified": true,
+  "model_inputs": [
+   "frozen_c1_field_100x128"
+  ],
+  "parameter_band": [
+   3000000,
+   5000000
+  ],
+  "parameters": {
+   "block_dropout": 0.0,
+   "blocks": 8,
+   "conv3x3_layers": 17,
+   "frozen_c1_parameters": 863959,
+   "input_channels": 128,
+   "readout": 22284,
+   "readout_dropout": 0.0,
+   "readout_width": 128,
+   "residual_tower": 3691520,
+   "stem": 184640,
+   "total": 3898444,
+   "trainable_c1_parameters": 0,
+   "width": 160
+  },
+  "parameters_minus_agent2": 1440,
+  "probes": {
+   "cpu": {
+    "batch_positions": 256,
+    "device": "cpu",
+    "estimated_epoch_seconds": 106.6,
+    "finite": true,
+    "first_loss": 2.4432880878448486,
+    "last_loss": 2.3200159072875977,
+    "pieces_per_second": 7669.0,
+    "positions_per_second": 252.4,
+    "seconds_per_step": 1.0141,
+    "steps_measured": 6
+   },
+   "mps": {
+    "batch_positions": 256,
+    "device": "mps",
+    "estimated_epoch_seconds": 13.1,
+    "finite": true,
+    "first_loss": 2.4433391094207764,
+    "last_loss": 2.3197455406188965,
+    "pieces_per_second": 62591.2,
+    "positions_per_second": 2060.2,
+    "seconds_per_step": 0.1243,
+    "steps_measured": 6
+   }
+  },
+  "reads_hidden_truth": false,
+  "seam_id": "c1_encoder_output_all_tokens"
+ },
+ "preservation": {
+  "agent1_artifacts_modified": false,
+  "agent2_artifacts_modified": false,
+  "artifacts_unchanged_since_agent2": true,
+  "c1_modified": false,
+  "corpus_regenerated": false,
+  "phase11_test_bank_opened": false
+ },
+ "preserved_artifact_digests": {
+  "reports/phase11b/agent_01_learning_curves.json": "38eefffb6df1022f4fd8f948a1876511828b4508f707590ac0503a32d88d09b8",
+  "reports/phase11b/agent_01_report.md": "413c7ef05b9a193790651106626ba63c36be332a9d38f87b344619309ed0ce99",
+  "reports/phase11b/agent_01_summary.json": "92330ca8e96d9c48cf2348916ce73834dc5e31049e40fbe54283dcebb80da608",
+  "reports/phase11b/agent_02_learning_curve.json": "f491b39f113d762efcdc86f24f4f18329a368f4b9a22cb9a39a50339309f64fd",
+  "reports/phase11b/agent_02_report.md": "ba69256722efc39e49df85dfc773734b7b1d9e7c96aa7987ec310a6bedddbec0",
+  "reports/phase11b/agent_02_summary.json": "1f6151934f7d1bf3339b034a22ea625a3129e8b3c54887de8af1cc1fd1a7f0bd",
+  "reports/phase_11_data/agent_01_phase11_contract.json": "7d09d544b8aa9bc5c60ea3fc9db1e0dc28ce1b83bc30e27cd36a3c92555706d3",
+  "reports/phase_11_data/agent_01_test_bank.json": "608cc786725a30361ccc7cb276d5fc1319286c32b0fb5521b076b9129289351c",
+  "reports/phase_11_data/agent_01_validation_bank.json": "8f15008af137712fe8cf4168c6b541ef43edd11eaba06aa67f1c342537a92c96",
+  "reports/phase_11_data/agent_05_validation_freeze.json": "bcbbc3bac5d0fa0a8d6f2dc249be0549086bfea10278011273166d8d98197272",
+  "reports/phase_11_data/agent_06_system_v1.json": "14768cb319c0bce04568a51007e8c72266286641ac1f284bb2f25989bdba9db8",
+  "reports/phase_11_data/agent_07_final_acceptance.json": "19198c49418a3ac2dd34a072c02f2a9d21b256097bbb1676c7e741f4a92d4461",
+  "reports/phase_11_data/phase11_bank_access_ledger.jsonl": "429ff359cf67bdc079d523f8674df93d180824008a33ccb6420d0d2e4d6ca48b",
+  "reports/phase_11_implementation_report.md": "fbf0207ac1a6881b080fd1f93e3d3d0fd3cc2cc18fe229d7eeb0fa0c4b5686e9",
+  "stratego/belief/phase11b/build.py": "5efffb9513c4e62232a1d8ae3e5ee6370b55f6f627537bf466dc60d358f8851a",
+  "stratego/belief/phase11b/contract.py": "8431934e63b3d393c500684f585a4a59e18a4e015d15bfff7fa51bc8ee4bf9e6",
+  "stratego/belief/phase11b/corpus.py": "2df3b840bbac4f04bed6c26d618641aa2e9a72fa13b52c6073c396cc4b529fd8",
+  "stratego/belief/phase11b/features.py": "87aaf016ce8b2eff089e5c236aceecbdcced26d70f7c90a14de05734ceb5b6cb",
+  "stratego/belief/phase11b/heads.py": "fcad7fb889858f3255294365851324e6329ee7a00a13581647894f0d1573cf9f",
+  "stratego/belief/phase11b/interface.py": "f22559cb905e200a9a718d304034085b2926024cd25764419f7c5ea58b8d7c1b",
+  "stratego/belief/phase11b/metrics.py": "ae013cfb55125cfb940aa62cddc7e4d5dbf4f34729e427266be6d4b28ee926bf",
+  "stratego/belief/phase11b/raw_cnn.py": "1b6e9e05c9e218e188dca8e0807ccbe3c3c64e66ced2a1726f35c66b1e79c0c3",
+  "stratego/belief/phase11b/raw_train.py": "0c1fb53aa8602394d38f6981fe323c361e6d9ea8e1b1dfb4f7ac2d5c4ed69a6d",
+  "stratego/belief/phase11b/seeds.py": "eac9f32a4035f6b79dd09741589d7d9770436b44db800c1e4975ce46087ae146",
+  "stratego/belief/phase11b/storage.py": "75c4e186099a4bd7c56f02570a46de2c1ba573b2956eb00632aa381278463665",
+  "stratego/belief/phase11b/train.py": "e50f336b50beba07b134cf3eaeed7bb82190c5bba99ae61bfe647293807399c1",
+  "stratego/evaluation/phase11_baselines.py": "5f84c459cf6982b63c9ae09bc531cd86a229e4b53ae114d0e7c89c197447ff04",
+  "stratego/evaluation/phase11_public_state.py": "71e572a4c420df25c2905f88ed58241a15f2528be85e9dc092b0aebdfe0d8529",
+  "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+  "stratego/model/production_model.py": "11fcc39640afaea4c8ba0657c727dfe438b5b204374cc733651bd99c4d0fc0cc",
+  "stratego/training/belief_targets.py": "4ddb81b2e443be45f527002b443d6273bd16d9cead288dcdacbbc8f0cbfc2ac4",
+  "stratego/training/phase11_contract.py": "fadbddf2e225961ffcb9349700d95af190beafc55a3904f7ca54120c1c5ff288",
+  "stratego/training/phase11_seed.py": "7dbde000b8e3411a2452e1536550961253238ff0b026e2570f2c2d39573dae0c"
+ },
+ "repeat_run": {
+  "absolute_r_ce_difference": 0.0,
+  "best_step": 143,
+  "best_step_matches": true,
+  "checkpoint_written": false,
+  "epochs_run": 7,
+  "identical_config": {
+   "batch_positions": true,
+   "device": true,
+   "epochs": true,
+   "learning_rate": true,
+   "weight_decay": true
+  },
+  "identical_seed": true,
+  "is_the_reported_candidate": false,
+  "max_epoch_train_loss_difference": 0.0,
+  "pass": true,
+  "purpose": "run-to-run spread under the identical declared configuration",
+  "repeated_r_ce": 0.9623730690157161,
+  "repeated_top1": 0.25692073988026093,
+  "reported_r_ce": 0.9623730690157161,
+  "reported_top1": 0.25692073988026093,
+  "seconds": 120.983,
+  "stage": "repeat",
+  "stopped_because": "patience",
+  "training_seconds": 120.046
+ },
+ "scientific_claim": "none",
+ "seeds": {
+  "corpus_match_seed": 2026081912,
+  "corpus_setup_seed": 2026081911,
+  "interface_seed": 2026081914,
+  "phase11b_master_seed": 2026081910,
+  "training_seed": 2026081913
+ },
+ "status": "engineering_prototype",
+ "stop_condition": "Agent 3 trained one architecture and stopped. Agent 4's experiment was not begun. Phase 11 remains FAIL, phase11_test_bank_v1 remains spent and unopened, and nothing here authorizes Phase 12.",
+ "suite": {
+  "command": "python -m pytest tests -q",
+  "pass": true,
+  "returncode": 0,
+  "seconds": 349.9,
+  "summary_line": "5962 passed, 3 skipped in 348.71s (0:05:48)"
+ },
+ "training": {
+  "architectures_trained": 1,
+  "best_epoch": 2,
+  "best_epoch_fraction": 1.3491,
+  "best_step": 143,
+  "c1_parameters_updated": 0,
+  "config": {
+   "batch_positions": 256,
+   "block_dropout": 0.0,
+   "candidate_id": "agent03_c1_feature_cnn",
+   "device": "mps",
+   "epochs": 60,
+   "eval_batch_positions": 512,
+   "evaluations_per_epoch": 8,
+   "gradient_clip": 1.0,
+   "learning_rate": 0.001,
+   "max_seconds": 2400.0,
+   "optimizer": "adamw",
+   "patience": 5,
+   "readout_dropout": 0.0,
+   "run_id": "run1_declared",
+   "schedule": "cosine",
+   "stage_observations_on_device": true,
+   "trainer_version": "phase11b_raw_cnn_trainer_v1",
+   "weight_decay": 0.0001
+  },
+  "configurations_declared": 1,
+  "description": "Agent 2's declared optimization configuration, inherited unchanged so the two candidates differ in representation rather than in tuning",
+  "epochs_run": 7,
+  "evaluations": 64,
+  "features_staged_on_device": true,
+  "game_outcome_used": false,
+  "loss": "supervised hidden-rank cross-entropy over hidden pieces only",
+  "overfitting": {
+   "best_epoch": 2,
+   "best_epoch_fraction": 1.3491,
+   "best_step": 143,
+   "dev_ce_best": 2.1123385759553854,
+   "dev_ce_first_epoch": 2.1365228376950536,
+   "dev_ce_last_epoch": 3.333689012065012,
+   "dev_ce_rose_after_best": true,
+   "evaluations": 64,
+   "train_ce_first_epoch": 2.111268137128986,
+   "train_ce_last_epoch": 0.7358515448622355,
+   "train_minus_dev_at_best": -0.09241009397179045,
+   "train_minus_dev_at_last": -2.597837467202776
+  },
+  "policy_or_value_terms": false,
+  "run_id": "run1_declared",
+  "steps_per_epoch": 106,
+  "stopped_because": "patience",
+  "time_to_best_seconds": 22.588,
+  "train_pieces": 817255,
+  "train_positions": 26898,
+  "trainable_parameters": 3898444,
+  "training_seconds": 118.847
+ },
+ "uniform_floor": {
+  "ce": 2.484906649788001,
+  "r_ce": 1.1321136043223727,
+  "top1": 0.02575283710124207
+ }
+}

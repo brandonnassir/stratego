@@ -644,12 +644,25 @@ def test_the_test_bank_is_still_sealed(acceptance):
     assert sealing["outcome_total"] == 0
 
 
-def test_the_live_ledger_still_shows_the_seal():
+def test_the_live_ledger_shows_the_seal_held_until_agent_7():
+    """Agent 4's seal invariant in its permanent time-scoped form: the
+    pre-Agent-7 ledger prefix is structural-only, and the only
+    non-structural test-bank entries are Agent 7's single authorized
+    sealed evaluation, which postdates this agent."""
     from stratego.evaluation import phase11_banks as banks
 
-    sealing = banks.verify_test_bank_sealed()
-    assert sealing["test_bank_structural_only"] is True
     entries = banks.read_ledger()
+    sealing = banks.verify_test_bank_sealed(
+        [entry for entry in entries if entry["agent"] <= 6]
+    )
+    assert sealing["test_bank_structural_only"] is True
+    scored = [
+        entry
+        for entry in entries
+        if entry["bank_version"] == "phase11_test_bank_v1"
+        and not entry["structural_only"]
+    ]
+    assert all(entry["agent"] == 7 for entry in scored)
     agent4 = [entry for entry in entries if entry["agent"] == 4]
     assert agent4, "Agent 4 must record its bank access"
     assert any(

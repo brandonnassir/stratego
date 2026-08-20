@@ -1,0 +1,437 @@
+{
+ "agent": 7,
+ "artifact": "agent_07_final_acceptance",
+ "classification": {
+  "classification": "FAIL",
+  "experiment_valid": true,
+  "integrity_established": true,
+  "rule": "all A-H PASS -> PASS-SEARCH-READY; valid experiment with >=1 failed gate -> FAIL; integrity/sealing failure -> BLOCKED; no discretionary override"
+ },
+ "completion_gates": {
+  "administrative_freeze_verified": true,
+  "agent7_materialized_stream_collisions_zero": true,
+  "agent7_stream_universe_reconstruction_faithful": true,
+  "agents1_6_pass": true,
+  "all_prediction_events_recorded": true,
+  "belief_head_identity_verified": true,
+  "belief_head_unchanged_after_eval": true,
+  "classification_recomputes_from_gate_rows": true,
+  "final_sampler_audit_pass": true,
+  "frozen_implementation_unchanged": true,
+  "full_suite_green": true,
+  "gate_a_recomputed": true,
+  "gate_b_recomputed": true,
+  "gate_c_recomputed": true,
+  "gate_d_recomputed": true,
+  "gate_e_recomputed": true,
+  "gate_f_recomputed": true,
+  "gate_g_recomputed": true,
+  "gate_h_recomputed": true,
+  "hidden_input_access_zero": true,
+  "illegal_worlds_zero": true,
+  "independent_bootstrap_pass": true,
+  "metric_recompute_pass": true,
+  "no_rescue_rerun": true,
+  "nonfinite_zero": true,
+  "phase10_identity_verified": true,
+  "phase11_contracts_verified": true,
+  "phase11_optimizer_step_delta_zero": true,
+  "phase11_system_verified": true,
+  "phase7_identity_verified": true,
+  "phase9_checkpoint_unchanged_after_eval": true,
+  "phase9_identity_verified": true,
+  "pre_agent7_test_score_access_zero": true,
+  "test_bank_rebuild_verified": true,
+  "test_color_balance_exact": true,
+  "test_games_exact": true,
+  "test_setup_source_balance_exact": true,
+  "test_strata_exact": true,
+  "validation_bank_rebuild_verified": true
+ },
+ "ending_revision": null,
+ "environment": {
+  "cpu_count": 14,
+  "engine_version": "phase2_1_reference_1.2.0",
+  "eval_device": "cpu",
+  "mps_available": true,
+  "mps_built": true,
+  "observation_version": "observation_v2_1_127ch",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "rules_version": "stratego_project_v1",
+  "source_revision": "3fd9098",
+  "torch_threads": 1,
+  "torch_version": "2.13.0",
+  "working_tree_state": "dirty"
+ },
+ "false_gates": [],
+ "first_scored_access_proof": {
+  "post_run_ledger": {
+   "agent7_entries": 4,
+   "entries_total": 45,
+   "non_structural_test_entries": 2,
+   "non_structural_test_entries_all_agent7": true,
+   "pre_agent7_scored_total": 0,
+   "pre_agent7_still_structural_only": true,
+   "sealed_test_run_counts": {
+    "agent": 7,
+    "bank_version": "phase11_test_bank_v1",
+    "ledger_version": "phase11_bank_ledger_v1",
+    "neural_inference_count": 425523,
+    "outcome_count": 4096,
+    "privileged_truth_count": 11137746,
+    "purpose": "the complete frozen Phase 11 pipeline over the sealed test bank: generate, targets, score, metrics, slices, sampler checks, evidence binding, gate quantities \u2014 the first and only scored access",
+    "scored_prediction_count": 11137746,
+    "stage": "sealed_test_run",
+    "structural_only": false
+   },
+   "sealed_test_run_entries": 1,
+   "single_store_manifest": true
+  },
+  "pre_agent7_ledger": {
+   "entries": 41,
+   "neural_inference_total": 0,
+   "outcome_total": 0,
+   "privileged_truth_total": 0,
+   "scored_prediction_total": 0,
+   "structural_only": true,
+   "test_bank_entries": 15
+  },
+  "seal_behaviour": {
+   "authorization_call_sites": 1,
+   "test_refused_without_authorization": true
+  }
+ },
+ "forbidden_operation_counters": {
+  "backend_changes_after_measurement": 0,
+  "bank_changes": 0,
+  "baseline_changes": 0,
+  "belief_calibration_operations": 0,
+  "belief_head_writes": 0,
+  "ece_bin_changes": 0,
+  "manifest_digest_repairs": 0,
+  "model_swaps": 0,
+  "p10d_changes": 0,
+  "phase11_optimizer_steps": 0,
+  "pre_agent7_test_bank_privileged_truth_reads": 0,
+  "pre_agent7_test_bank_scored_accesses": 0,
+  "reactions_to_validation_r_ce": 0,
+  "rescue_reruns": 0,
+  "sampler_mathematics_changes": 0,
+  "stratum_changes": 0,
+  "threshold_changes": 0
+ },
+ "frozen_inputs": {
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "contract_bundle_digest": "ad16f921c602c1e1eb4975bee31fa6d1dff8dd4afdd09c332d9deaa94712192d",
+  "global_optimizer_step": 47086,
+  "phase11_system_v1_digest": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101",
+  "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "phase9_parameters": 863959,
+  "sampler_module_sha256": {
+   "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "stratego/evaluation/phase11_sampler_audit.py": "26fc32d8428942a9b09f1cdfda5f7e5455bd34e69c19a2a02027eaacc866b87a"
+  },
+  "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+  "test_bank_digest": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+  "validation_bank_digest": "bba6860549c05ebd59487d83d205e9d18b2109ab143d3816afbe793a13a04023",
+  "validation_freeze_digest": "ad2562af538abc6c78fc5b12bc1f57d3e32184172acde390417a00d500a0d912"
+ },
+ "gate_quantities": {
+  "brier_delta_upper": -0.022808030166929144,
+  "ce_delta_point": -0.05501185792702541,
+  "ce_delta_upper": -0.05087987850770345,
+  "delta_top1": 0.03522839097392522,
+  "delta_top1_lower": 0.0332265454220697,
+  "ece_overall": 0.040945696749746914,
+  "r_ce": 0.97455239112919,
+  "r_ce_lower": 0.9726382483414925,
+  "r_ce_upper": 0.9764473212409756,
+  "stratum_ece": {
+   "basic_rule": 0.03374160178763769,
+   "information_miser": 0.044120324705320985,
+   "miner_rush": 0.0367817369495,
+   "phase8_anchor": 0.040005026140171845,
+   "phase9_selfplay": 0.035588151414954854,
+   "scout_rush": 0.04832604513235619,
+   "strategic_rule": 0.0429395842525446,
+   "tactical_rule": 0.04159908796972177
+  },
+  "stratum_r_ce": {
+   "basic_rule": 0.9808511373307205,
+   "information_miser": 0.9745095659076053,
+   "miner_rush": 0.9748457405945408,
+   "phase8_anchor": 0.9766244252623976,
+   "phase9_selfplay": 0.9414854705185741,
+   "scout_rush": 0.9895103125864527,
+   "strategic_rule": 0.9822206202254936,
+   "tactical_rule": 0.9759632942949343
+  }
+ },
+ "gates_total": 39,
+ "gates_true": 39,
+ "handoff_to_reviewing_chat": {
+  "commit_rule": "Agent 7's work remains uncommitted until the reviewing chat accepts or rejects this recommendation; the sealed result is never rerun to create a commit",
+  "for": "reviewing chat",
+  "phase11_permanent_freeze_if_pass": {
+   "belief_model": "accepted Phase 9 model + belief head",
+   "predictive_baseline": "remaining_count_belief_v1",
+   "setup_selector": "accepted P10-D",
+   "system_identity": "e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101",
+   "world_sampler": "belief_sampler_v1"
+  },
+  "phase12_authorized": false,
+  "recommendation": "FAIL"
+ },
+ "hard_gate_booleans": {
+  "A": false,
+  "B": true,
+  "C": true,
+  "D": true,
+  "E": true,
+  "F": true,
+  "G": true,
+  "H": true
+ },
+ "hard_gate_failures": [
+  "A"
+ ],
+ "hard_gates": {
+  "A": {
+   "checks": {
+    "ce_delta_upper_lt_0": true,
+    "r_ce_le_0_97": false
+   },
+   "gate": "A",
+   "passed": false
+  },
+  "B": {
+   "checks": {
+    "delta_top1_ge_0_03": true,
+    "delta_top1_lower_gt_0": true
+   },
+   "gate": "B",
+   "passed": true
+  },
+  "C": {
+   "checks": {
+    "all_strata_present": true,
+    "brier_delta_upper_le_0_01": true,
+    "ece_overall_le_0_08": true,
+    "no_stratum_ece_gt_0_12": true
+   },
+   "gate": "C",
+   "passed": true
+  },
+  "D": {
+   "checks": {
+    "all_strata_present": true,
+    "every_stratum_r_ce_le_1_05": true
+   },
+   "gate": "D",
+   "passed": true
+  },
+  "E": {
+   "checks": {
+    "all_counters_present": true,
+    "all_counters_zero": true
+   },
+   "gate": "E",
+   "passed": true
+  },
+  "F": {
+   "checks": {
+    "all_counters_present": true,
+    "all_counters_zero": true
+   },
+   "gate": "F",
+   "passed": true
+  },
+  "G": {
+   "checks": {
+    "all_legs_exact": true,
+    "all_legs_present": true,
+    "p95_forward_64_le_500ms": true
+   },
+   "gate": "G",
+   "passed": true
+  },
+  "H": {
+   "checks": {
+    "belief_head_digest": true,
+    "global_optimizer_step": true,
+    "phase11_optimizer_steps": true,
+    "phase7_library_content_digest": true,
+    "phase9_checkpoint_sha256": true,
+    "phase9_model_state_digest": true,
+    "phase9_parameters": true,
+    "selector_config_sha256": true,
+    "trait_scaler_digest": true,
+    "utility_coefficient_digest": true
+   },
+   "gate": "H",
+   "passed": true
+  }
+ },
+ "independent_gate_quantities": {
+  "brier_delta_upper": -0.022808030166929377,
+  "ce_delta_upper": -0.0508798785077012,
+  "delta_top1": 0.03522839097392522,
+  "delta_top1_lower": 0.0332265454220697,
+  "ece_overall": 0.04094569674974508,
+  "r_ce": 0.9745523911291912,
+  "stratum_ece": {
+   "basic_rule": 0.03374160178763895,
+   "information_miser": 0.044120324705323864,
+   "miner_rush": 0.036781736949496144,
+   "phase8_anchor": 0.04000502614016812,
+   "phase9_selfplay": 0.03558815141495496,
+   "scout_rush": 0.04832604513235807,
+   "strategic_rule": 0.04293958425254583,
+   "tactical_rule": 0.041599087969721726
+  },
+  "stratum_r_ce": {
+   "basic_rule": 0.9808511373307193,
+   "information_miser": 0.9745095659076091,
+   "miner_rush": 0.9748457405945435,
+   "phase8_anchor": 0.9766244252623967,
+   "phase9_selfplay": 0.9414854705185742,
+   "scout_rush": 0.9895103125864562,
+   "strategic_rule": 0.9822206202254941,
+   "tactical_rule": 0.975963294294933
+  }
+ },
+ "independent_recompute": {
+  "both_nan_comparisons": 0,
+  "max_deviation": 7.740622379182049e-13,
+  "quantities_compared": 72,
+  "recompute_version": "phase11_independent_recompute_v1",
+  "tolerance": 1e-09,
+  "within_tolerance": true
+ },
+ "phase": 11,
+ "phase12_authorized": false,
+ "pipeline_gates_agree": true,
+ "pipeline_version": "phase11_validation_freeze_v1",
+ "preservation": {
+  "after": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "bank_files_unchanged": true,
+  "before": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "global_optimizer_step": 47086,
+   "phase11_optimizer_steps": 0,
+   "phase7_library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "phase9_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "phase9_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "phase9_parameters": 863959,
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+   "trait_scaler_digest": "fa6eb1c112defc4c1034831b84db8848181e1f674f8439c9c265916d89e8b7f9",
+   "utility_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc"
+  },
+  "belief_head_unchanged": true,
+  "bound_evidence_unchanged": true,
+  "clean": true,
+  "exact": true,
+  "frozen_modules_unchanged": true,
+  "optimizer_step_delta": 0,
+  "phase10_selector_unchanged": true,
+  "phase11_optimizer_steps": 0,
+  "phase7_library_unchanged": true,
+  "phase9_checkpoint_unchanged": true,
+  "problems": [],
+  "sampler_identity_unchanged": true
+ },
+ "recommendation": "FAIL",
+ "recorded_readings": [
+  {
+   "detail": "the sealed evaluation ran exactly once over 2,048 cases / 4,096 games; R_CE 0.9746, delta_top1 +0.0352, ECE 0.0409. No rerun, no tuning, no threshold or bank change followed the result; the harness structurally refuses a second sealed run.",
+   "reading": "first_sealed_test_result_is_final"
+  },
+  {
+   "detail": "the Agent 5 finding stands: phase11_records.manifest_digest embeds per-game forward_seconds, so two executions of one bank cannot agree on it. Agent 7 patched nothing; the cross-run identity of the sealed store is its store_content_digest f1f1cee5745f0adb..., and no hard gate reads the manifest digest.",
+   "reading": "store_manifest_digest_wall_clock_defect_not_repaired"
+  },
+  {
+   "detail": "the known validation reading R_CE = 0.9750 was carried unchanged into the sealed run: no calibration, threshold, bin, baseline, bank, stratum or sampler rule moved before or after the sealed result (sealed R_CE 0.9746, Gate A FAIL).",
+   "reading": "validation_r_ce_reading_carried_not_reacted_to"
+  },
+  {
+   "detail": "four suite tests asserted the live ledger showed zero scored test-bank access \u2014 the pre-Agent-7 invariant (test_phase11_agent01/02/03/04_artifacts). After the authorized sealed run they assert its permanent form: every pre-Agent-7 entry is structural-only with zero counters, and the only non-structural test-bank entries are Agent 7's authorized sealed evaluation. The pre-run suite was recorded green (including the original tests) before the bank opened; no frozen module, contract, threshold or artifact moved.",
+   "reading": "time_scoped_seal_tests_updated_after_first_authorized_access"
+  },
+  {
+   "detail": "the frozen 4-per-game spacing rule realized 14895 of 16384 nominal slots because 119 games offer no eligible decision and 431 offer fewer than the quota; realized equals attainable (True), nothing was made up from another game, and the rule was not adjusted. Gate E rests on this pass plus the bound Agent 3 large audit.",
+   "reading": "integrated_schedule_shortfall_accounted"
+  }
+ ],
+ "sampler_confirmation": {
+  "all_counters_zero": true,
+  "counters": {
+   "cross_process_digest_mismatches": 0,
+   "hidden_input_accesses": 0,
+   "inventory_errors": 0,
+   "provenance_mismatches": 0,
+   "public_constraint_errors": 0,
+   "recorded_identity_mismatches": 0,
+   "request_findings": 0
+  },
+  "requests_audited": 1024,
+  "worlds_verified": 65536
+ },
+ "sealed_run": {
+  "bank_digest": "566ac35214ac04d5928af2f2975308a03bb78eb2a19e2ea05e6367f839eff404",
+  "bank_version": "phase11_test_bank_v1",
+  "cases": 2048,
+  "games": 4096,
+  "observer_decisions": 410628,
+  "outcomes_report_only": {
+   "draw": 33,
+   "loss": 1254,
+   "win": 2809
+  },
+  "prediction_events": 11137746,
+  "run_ordinal": 1,
+  "sampler_worlds": 953280,
+  "sealed_bank_authorized": true,
+  "store_content_digest": "f1f1cee5745f0adb9798e3c7af59aa946ac0d07224f89c32132bd66c8cdcb034",
+  "store_manifest_digest": "04ebda54941ddc88882f790db3fd096fe8be8125429755996d3ff1273e9634a3",
+  "wall_clock_seconds": 1957.842
+ },
+ "starting_revision": "3fd9098",
+ "status": "PASS",
+ "stream_audit": {
+  "accidental_collisions": 0,
+  "agent7_new_identities": 61664512,
+  "combined_identities": 121923250,
+  "prior_combined_matches_accepted": true
+ },
+ "suite": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "green": true,
+  "returncode": 0,
+  "summary": "5832 passed, 3 skipped in 342.00s (0:05:42)",
+  "wall_clock_seconds": 343.19
+ },
+ "suite_before": {
+  "command": ".venv/bin/python -m pytest tests -q",
+  "green": true,
+  "returncode": 0,
+  "scope": "recorded before the sealed evaluation: the tracked tree at the administrative freeze, including the original pre-Agent-7 seal tests",
+  "summary": "5818 passed, 3 skipped in 342.28s (0:05:42)",
+  "wall_clock_seconds": 343.46
+ },
+ "timestamp": "2026-08-19T16:25:17-0400"
+}

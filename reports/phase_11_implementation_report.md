@@ -1299,3 +1299,204 @@ Full suite: `.venv/bin/python -m pytest tests -q` — 5818 passed, 3 skipped in 
 
 Frozen `phase11_system_v1` digest `e4452ba38b568a0ed3a5866f761324dcc7f1eea226d7ba6f94fde45ceb3b6101`, over the `phase11_validation_freeze_v1` implementation `ad2562af538abc6c...`. Final-test entry point `stratego.evaluation.phase11_pipeline.run_phase11_pipeline`, test bank `566ac35214ac04d5...` (2,048 cases / 4,096 games), scored access so far 0.
 
+## 7. Agent 7 — Independent Final Acceptance and the Sealed Test
+
+Starting revision `3fd9098` (the accepted Agent 6 commit). Status **PASS**, 39/39 completion gates. Final recommendation: **`FAIL`**.
+
+Agent 7 verified the complete administrative freeze from live bytes, then performed the **first and only sealed scored evaluation** of `phase11_test_bank_v1` — 2,048 logical paired cases / 4,096 games through the frozen `phase11_validation_freeze_v1` pipeline — recomputed every quantity independently, confirmed the sampler and stream universes, recomputed Gates A-H from the frozen contract evaluators, and classified with no discretionary override. Nothing was retrained, calibrated, rethresholded, rebinned, rebaselined, rebanked or resampled; the known `manifest_digest` wall-clock defect was not repaired; the known validation reading `R_CE = 0.9750` was carried, not reacted to. The sealed run happened exactly once and its result is final evidence.
+
+### 7.1 Stage 0 — the administrative freeze
+
+```text
+tracked tree           clean at 3fd9098 (head 3fd9098)
+Agent 1                PASS  31/31 gates
+Agent 2                PASS  24/24 gates
+Agent 3                PASS  26/26 gates
+Agent 4                PASS  34/34 gates
+Agent 5                PASS  22/22 gates
+Agent 6                PASS  36/36 gates
+contract bundle        ad16f921c602c1e1...  (8 contracts re-derived)
+eight root seeds       2026081901..2026081908 exact; test bootstrap root 2026081908
+Phase 9 checkpoint     dfd698e5b6cf536a...  863,959 parameters, optimizer step 47,086
+belief head            a9df48a1adcd29b1...
+validation freeze      ad2562af538abc6c...  rebuilt from live bytes, 17/17 modules exact
+phase11_system_v1      e4452ba38b568a0e...  re-filled by the Agent 1 rules, slot-walked against the Agent 6 artifact
+validation bank        bba6860549c05ebd...  rebuilt structurally, cases byte-equal
+test bank              566ac35214ac04d5...  rebuilt structurally, cases byte-equal
+pre-Agent-7 ledger     41 entries, 15 test-bank, scored 0 / inference 0 / truth 0 / outcomes 0
+suite before           5818 passed, 3 skipped in 342.28s (0:05:42)
+```
+
+Every load-bearing identity above is recomputed from live bytes, not compared as a recorded string: the eight contracts are rebuilt by the live contract module, the Agent 5 freeze document is reconstructed by `phase11_pipeline.implementation_freeze` and re-hashed, `phase11_system_v1` is re-filled slot by slot from Agent 1's template and the accepted upstream values, and both banks are rebuilt case-by-case from the frozen seeds (every stored setup seed, match seed and arrangement re-derives exactly; cross-bank overlap zero).
+
+### 7.2 Stage 1 — the first sealed test
+
+```text
+pipeline               phase11_validation_freeze_v1 (frozen entry point)
+authorization          sealed_bank_authorized=True — the only call site, ledgered
+games                  4,096 (2,048 cases x 2 colour games, exact)
+observer decisions     410,628
+prediction events      11,137,746
+store content          f1f1cee5745f0adb...  (cross-run identity)
+strata                 8/8 exact (512 games each)
+colours                red 2,048 / blue 2,048, paired per case
+wall clock             1957.8s
+```
+
+Game outcomes are report-only and altered no belief metric: {"draw": 33, "loss": 1254, "win": 2809}.
+
+### 7.3 Stage 2 — final predictive metrics
+
+| metric | learned | `remaining_count_belief_v1` | delta (95% CI) |
+|---|---|---|---|
+| cross-entropy | 2.1068 | 2.1618 | -0.0550 [-0.0591, -0.0509] |
+| top-1 accuracy | 0.2489 | 0.2137 | 0.0352 [0.0332, 0.0372] |
+| Brier | 0.8401 | 0.8642 | -0.0240 [-0.0253, -0.0228] |
+| true-rank probability | 0.1722 | 0.1342 | — |
+| entropy (nats) | 2.0029 | 2.1709 | — |
+| ECE (15 bins, pooled) | 0.0409 | 0.0042 | — |
+| `R_CE` | 0.9746 [0.9726, 0.9764] | — | — |
+
+11,137,746 events over 2,048 cases with events (0 without). Bootstrap: root `2026081908`, 10,000 replicates, logical-case resampling, both colour games pooled. Independent recomputation (`phase11_independent_recompute_v1`, no `phase11_*` import): 72 quantities, max deviation 7.741e-13 (tolerance 1e-09), 0 both-NaN comparisons.
+
+### 7.4 Per-stratum readings
+
+| stratum | events | `R_CE` | 95% CI | ECE | Gate D | Gate C |
+|---|---|---|---|---|---|---|
+| `basic_rule` | 647,702 | 0.9809 | [0.9765, 0.9853] | 0.0337 | ok | ok |
+| `information_miser` | 2,165,662 | 0.9745 | [0.9683, 0.9806] | 0.0441 | ok | ok |
+| `miner_rush` | 2,026,699 | 0.9748 | [0.9699, 0.9799] | 0.0368 | ok | ok |
+| `phase8_anchor` | 782,636 | 0.9766 | [0.9723, 0.9807] | 0.0400 | ok | ok |
+| `phase9_selfplay` | 1,832,263 | 0.9415 | [0.9359, 0.9471] | 0.0356 | ok | ok |
+| `scout_rush` | 1,989,303 | 0.9895 | [0.9846, 0.9944] | 0.0483 | ok | ok |
+| `strategic_rule` | 823,379 | 0.9822 | [0.9775, 0.9869] | 0.0429 | ok | ok |
+| `tactical_rule` | 870,102 | 0.9760 | [0.9708, 0.9811] | 0.0416 | ok | ok |
+
+### 7.5 Stage 3 — sampler and stream confirmation
+
+```text
+integrated pass        14,895 requests x 64 worlds = 953,280 worlds, all nine counters zero
+schedule accounting    nominal 16,384 / attainable 14,895 / realized 14,895 (realized == attainable: True)
+independent audit      1,024 predeclared requests re-executed in 2 fresh processes (forward/reverse); 65,536 worlds re-verified by verify_world_independently; all counters zero; cross-process digest mismatches 0
+hidden-input trace     0 reads over 1,024 traced document rebuilds
+stream audit           61,664,512 new Agent 7 world identities over 935,040 new tokens; combined 121,923,250 identities -> 121,923,250 distinct seeds; 0 accidental collisions
+prior universes        Agent 4 30,234,395 and Agent 6 30,027,415 re-enumerated by their own accepted code, both reproduced exactly
+```
+
+### 7.6 Stage 4 — the eight hard gates, recomputed
+
+| gate | threshold | sealed-test reading | result |
+|---|---|---|---|
+| A | <= 0.97 / < 0 | R_CE 0.9746 / CE-delta upper -0.0509 | **FAIL** |
+| B | >= +0.03 / > 0 | delta_top1 +0.0352 / lower +0.0332 | **PASS** |
+| C | <= 0.08 / <= 0.12 / <= +0.01 | ECE 0.0409 / worst stratum 0.0483 / Brier upper -0.0228 | **PASS** |
+| D | <= 1.05 | worst stratum R_CE 0.9895 | **PASS** |
+| E | all zero | 953,280 + 251,262 worlds, all zero | **PASS** |
+| F | all zero | 50,000 trials, all counters zero (bound Agent 4 evidence) | **PASS** |
+| G | all exact / <= 500 ms | 8/8 legs exact, p95 48.51 ms | **PASS** |
+| H | exact | every identity re-derived exact, optimizer delta 0 | **PASS** |
+
+Classification, recomputed from the gate rows alone: **`FAIL`**. The experiment is valid and at least one hard gate fails; **Phase 12 is not authorized**. A separate belief-repair phase must be designed; this validation phase does not become a repair loop.
+
+### 7.7 Test discipline and the first-access proof
+
+- the pre-Agent-7 ledger (41 entries, 15 naming the test bank) shows 0 scored predictions, 0 neural inferences, 0 privileged truth reads and 0 outcome reads — every entry structural-only
+- `run_phase11_pipeline` refuses the sealed bank without `sealed_bank_authorized=True`; the refusal was exercised at the freeze and the authorization was written exactly once, ledgered before the first scored byte
+- the sealed run happened once (run ordinal 1, 1 sealed_test_run entry); the harness refuses a second sealed run structurally, and no rescue rerun exists to refuse
+- the only non-structural test-bank ledger entries are Agent 7's authorized access (2 entries, all agent 7)
+
+### 7.8 Preservation after the sealed evaluation
+
+| preserved identity | exact |
+|---|---|
+| Phase 9 checkpoint SHA / state | true |
+| belief-head identity | true |
+| parameters | 863,959 |
+| optimizer-step delta | 0 |
+| Phase 11 optimizer steps | 0 |
+| P10-D / utility / scaler | true |
+| Phase 7 library | true |
+| 17 frozen implementation modules | true |
+| bound evidence artifacts | true |
+
+### 7.9 Completion gates
+
+| gate | value |
+|---|---|
+| administrative_freeze_verified | true |
+| agent7_materialized_stream_collisions_zero | true |
+| agent7_stream_universe_reconstruction_faithful | true |
+| agents1_6_pass | true |
+| all_prediction_events_recorded | true |
+| belief_head_identity_verified | true |
+| belief_head_unchanged_after_eval | true |
+| classification_recomputes_from_gate_rows | true |
+| final_sampler_audit_pass | true |
+| frozen_implementation_unchanged | true |
+| full_suite_green | true |
+| gate_a_recomputed | true |
+| gate_b_recomputed | true |
+| gate_c_recomputed | true |
+| gate_d_recomputed | true |
+| gate_e_recomputed | true |
+| gate_f_recomputed | true |
+| gate_g_recomputed | true |
+| gate_h_recomputed | true |
+| hidden_input_access_zero | true |
+| illegal_worlds_zero | true |
+| independent_bootstrap_pass | true |
+| metric_recompute_pass | true |
+| no_rescue_rerun | true |
+| nonfinite_zero | true |
+| phase10_identity_verified | true |
+| phase11_contracts_verified | true |
+| phase11_optimizer_step_delta_zero | true |
+| phase11_system_verified | true |
+| phase7_identity_verified | true |
+| phase9_checkpoint_unchanged_after_eval | true |
+| phase9_identity_verified | true |
+| pre_agent7_test_score_access_zero | true |
+| test_bank_rebuild_verified | true |
+| test_color_balance_exact | true |
+| test_games_exact | true |
+| test_setup_source_balance_exact | true |
+| test_strata_exact | true |
+| validation_bank_rebuild_verified | true |
+
+| forbidden operation | count |
+|---|---|
+| `backend_changes_after_measurement` | 0 |
+| `bank_changes` | 0 |
+| `baseline_changes` | 0 |
+| `belief_calibration_operations` | 0 |
+| `belief_head_writes` | 0 |
+| `ece_bin_changes` | 0 |
+| `manifest_digest_repairs` | 0 |
+| `model_swaps` | 0 |
+| `p10d_changes` | 0 |
+| `phase11_optimizer_steps` | 0 |
+| `pre_agent7_test_bank_privileged_truth_reads` | 0 |
+| `pre_agent7_test_bank_scored_accesses` | 0 |
+| `reactions_to_validation_r_ce` | 0 |
+| `rescue_reruns` | 0 |
+| `sampler_mathematics_changes` | 0 |
+| `stratum_changes` | 0 |
+| `threshold_changes` | 0 |
+
+Suite before the sealed run: `5818 passed, 3 skipped in 342.28s (0:05:42)`.
+Suite after: `5832 passed, 3 skipped in 342.00s (0:05:42)`.
+
+### 7.10 Recorded readings
+
+- **first_sealed_test_result_is_final** — the sealed evaluation ran exactly once over 2,048 cases / 4,096 games; R_CE 0.9746, delta_top1 +0.0352, ECE 0.0409. No rerun, no tuning, no threshold or bank change followed the result; the harness structurally refuses a second sealed run.
+- **store_manifest_digest_wall_clock_defect_not_repaired** — the Agent 5 finding stands: phase11_records.manifest_digest embeds per-game forward_seconds, so two executions of one bank cannot agree on it. Agent 7 patched nothing; the cross-run identity of the sealed store is its store_content_digest f1f1cee5745f0adb..., and no hard gate reads the manifest digest.
+- **validation_r_ce_reading_carried_not_reacted_to** — the known validation reading R_CE = 0.9750 was carried unchanged into the sealed run: no calibration, threshold, bin, baseline, bank, stratum or sampler rule moved before or after the sealed result (sealed R_CE 0.9746, Gate A FAIL).
+- **time_scoped_seal_tests_updated_after_first_authorized_access** — four suite tests asserted the live ledger showed zero scored test-bank access — the pre-Agent-7 invariant (test_phase11_agent01/02/03/04_artifacts). After the authorized sealed run they assert its permanent form: every pre-Agent-7 entry is structural-only with zero counters, and the only non-structural test-bank entries are Agent 7's authorized sealed evaluation. The pre-run suite was recorded green (including the original tests) before the bank opened; no frozen module, contract, threshold or artifact moved.
+- **integrated_schedule_shortfall_accounted** — the frozen 4-per-game spacing rule realized 14895 of 16384 nominal slots because 119 games offer no eligible decision and 431 offer fewer than the quota; realized equals attainable (True), nothing was made up from another game, and the rule was not adjusted. Gate E rests on this pass plus the bound Agent 3 large audit.
+
+### 7.11 Recommendation to the reviewing chat
+
+Agent 7 recommends **`FAIL`**. **Phase 12 is not authorized.** The sealed evidence stands as final; a separate belief-repair phase must be designed and the sealed test bank remains spent — a future repair phase needs fresh sealed evidence.
+
+This work remains uncommitted until the reviewing chat accepts or rejects the recommendation. The first valid sealed result is final evidence and is never rerun.
+

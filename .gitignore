@@ -39,6 +39,17 @@ data/phase10b/
 # are tracked in reports/phase_11_data.
 checkpoints/phase11/
 data/phase11/
+# Phase 11B engineering-sprint bytes: the common belief corpus, the frozen
+# C1 feature caches and the candidate checkpoints. Reproducible from the
+# Phase 11B contract by `python scripts/run_phase11b_agent01.py --full`, plus
+# `run_phase11b_agent03.py --stage cache` for the per-square C1 field caches
+# and `run_phase11b_agent04.py --stage cache` for the fused raw+C1 inputs;
+# the manifests, digests and metrics that describe them are tracked in
+# reports/phase11b.
+checkpoints/phase11b/
+data/phase11b/
+# Phase 11B harness stage caches: resumable working state, not deliverables.
+reports/phase11b/.*_stages.json
 __pycache__/
 *.py[cod]
 .pytest_cache/

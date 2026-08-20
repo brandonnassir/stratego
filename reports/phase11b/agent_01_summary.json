@@ -1,0 +1,632 @@
+{
+ "phase": "phase11b",
+ "agent": 1,
+ "phase11b_version": "phase11b_engineering_v1",
+ "identity_version": "phase11b_identity_v1",
+ "generated_utc": "2026-08-20T01:08:11Z",
+ "environment": {
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "numpy": "2.5.1",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "processor": "arm",
+  "mps_available": true,
+  "torch_threads": 8
+ },
+ "seeds": {
+  "phase11b_master_seed": 2026081910,
+  "corpus_setup_seed": 2026081911,
+  "corpus_match_seed": 2026081912,
+  "training_seed": 2026081913,
+  "interface_seed": 2026081914
+ },
+ "status": "engineering_prototype",
+ "phase11_fail_unchanged": true,
+ "phase11_test_bank_used": false,
+ "phase12_authorized_by_this_artifact": false,
+ "phase11_final_classification": "FAIL",
+ "phase11_test_bank_spent": true,
+ "scientific_claim": "none",
+ "starting_state": {
+  "phase9_checkpoint": {
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "belief_head_tensor_names": [
+    "belief_output.bias",
+    "belief_output.weight"
+   ],
+   "global_optimizer_step": 47086,
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "opened": "read_only",
+   "parameters": 863959,
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  },
+  "preserved_artifact_digests": {
+   "reports/phase_11_data/agent_01_phase11_contract.json": "7d09d544b8aa9bc5c60ea3fc9db1e0dc28ce1b83bc30e27cd36a3c92555706d3",
+   "reports/phase_11_data/agent_01_test_bank.json": "608cc786725a30361ccc7cb276d5fc1319286c32b0fb5521b076b9129289351c",
+   "reports/phase_11_data/agent_01_validation_bank.json": "8f15008af137712fe8cf4168c6b541ef43edd11eaba06aa67f1c342537a92c96",
+   "reports/phase_11_data/agent_05_validation_freeze.json": "bcbbc3bac5d0fa0a8d6f2dc249be0549086bfea10278011273166d8d98197272",
+   "reports/phase_11_data/agent_06_system_v1.json": "14768cb319c0bce04568a51007e8c72266286641ac1f284bb2f25989bdba9db8",
+   "reports/phase_11_data/agent_07_final_acceptance.json": "19198c49418a3ac2dd34a072c02f2a9d21b256097bbb1676c7e741f4a92d4461",
+   "reports/phase_11_data/phase11_bank_access_ledger.jsonl": "429ff359cf67bdc079d523f8674df93d180824008a33ccb6420d0d2e4d6ca48b",
+   "reports/phase_11_implementation_report.md": "fbf0207ac1a6881b080fd1f93e3d3d0fd3cc2cc18fe229d7eeb0fa0c4b5686e9",
+   "stratego/evaluation/phase11_baselines.py": "5f84c459cf6982b63c9ae09bc531cd86a229e4b53ae114d0e7c89c197447ff04",
+   "stratego/evaluation/phase11_public_state.py": "71e572a4c420df25c2905f88ed58241a15f2528be85e9dc092b0aebdfe0d8529",
+   "stratego/evaluation/phase11_sampler.py": "a0119f0126a1100c3fd74a20a703ea47c183d43e7fb1b6822aa15c7e34b921e8",
+   "stratego/model/production_model.py": "11fcc39640afaea4c8ba0657c727dfe438b5b204374cc733651bd99c4d0fc0cc",
+   "stratego/training/belief_targets.py": "4ddb81b2e443be45f527002b443d6273bd16d9cead288dcdacbbc8f0cbfc2ac4",
+   "stratego/training/phase11_contract.py": "fadbddf2e225961ffcb9349700d95af190beafc55a3904f7ca54120c1c5ff288",
+   "stratego/training/phase11_seed.py": "7dbde000b8e3411a2452e1536550961253238ff0b026e2570f2c2d39573dae0c"
+  },
+  "preservation_problems": []
+ },
+ "common_corpus": {
+  "corpus_version": "phase11b_common_corpus_v1",
+  "corpus_format_version": "phase11b_corpus_store_v1",
+  "corpus_digest": "903bf10a3e34cfc0d91ba4a22761864fb91dc0cb832e7f5a07fc2a40bd743cf6",
+  "root": "data/phase11b/common_corpus_v1",
+  "splits": {
+   "dev": {
+    "complete": true,
+    "corpus_format_version": "phase11b_corpus_store_v1",
+    "corpus_version": "phase11b_common_corpus_v1",
+    "decisions_per_game": 4,
+    "eligible_decisions": 49230,
+    "games": 512,
+    "games_expected": 512,
+    "hidden_pieces": 55955,
+    "library_split": "validation",
+    "observation_dtype": "float32",
+    "observation_shape": [
+     127,
+     10,
+     10
+    ],
+    "observer_colors": {
+     "blue": 256,
+     "red": 256
+    },
+    "observer_decisions": 49230,
+    "outcomes": {
+     "draw": 3,
+     "loss": 205,
+     "win": 304
+    },
+    "samples": 1828,
+    "sources": {
+     "neutral": 256,
+     "p10d": 256
+    },
+    "split": "dev",
+    "strata": {
+     "phase9_selfplay": 128,
+     "scout_rush": 128,
+     "strategic_rule": 128,
+     "tactical_rule": 128
+    },
+    "zero_sample_games": 15
+   },
+   "train": {
+    "complete": true,
+    "corpus_format_version": "phase11b_corpus_store_v1",
+    "corpus_version": "phase11b_common_corpus_v1",
+    "decisions_per_game": 16,
+    "eligible_decisions": 190901,
+    "games": 2048,
+    "games_expected": 2048,
+    "hidden_pieces": 817255,
+    "library_split": "train",
+    "observation_dtype": "float32",
+    "observation_shape": [
+     127,
+     10,
+     10
+    ],
+    "observer_colors": {
+     "blue": 1024,
+     "red": 1024
+    },
+    "observer_decisions": 190901,
+    "outcomes": {
+     "draw": 22,
+     "loss": 777,
+     "win": 1249
+    },
+    "samples": 26898,
+    "sources": {
+     "neutral": 1024,
+     "p10d": 1024
+    },
+    "split": "train",
+    "strata": {
+     "phase9_selfplay": 512,
+     "scout_rush": 512,
+     "strategic_rule": 512,
+     "tactical_rule": 512
+    },
+    "zero_sample_games": 80
+   }
+  },
+  "file_digests": {
+   "dev": {
+    "privileged/labels.npz": "26882b842ad3da4903214cdbacbc0552cedde8509b49498e77126687cc7c3dee",
+    "public/games.jsonl": "6fa51d3ed6ea0d0d0a766a4bfe743b8f2d856f1c862acba9c6b4dddfaa777934",
+    "public/identities.txt": "42b9892ce9f63d10f5c105926b94c8344e1c31abfbedb452aabcf4ad09d4daf1",
+    "public/observations.f32": "90b0728b2017434bd16735789f469f822073d6184b0a5e42a3d564f7132f2c06",
+    "public/pieces.npz": "d1cfad00a8facf58cd89422f34d3ad77898f1b71fb9e11e3eea8052567c64ef4",
+    "public/samples.npz": "1c260893fabac18a42f71467426fc625b8857780a5268634772192b2597d7bb1"
+   },
+   "train": {
+    "privileged/labels.npz": "26936e55192d8ad46cf76733ade3432abbf1b83e5d83809d2c77144abd78d475",
+    "public/games.jsonl": "59b7ed5328c8a09eaa0f5746e2fb2556e0c2a18ffc401a419a4eeda8c289e9e7",
+    "public/identities.txt": "fd5b6b24ed4220cef68be1987457ede45c0ad902feac8b885f4b919d4feb7bfe",
+    "public/observations.f32": "bd61bf84b45d2477b3ad90ba3d428f78effe73b51e4455f25fca5d2f30645468",
+    "public/pieces.npz": "43236d6716b107a476a1c1da59edc99437afd695e67d3e9ec162dbfef145219c",
+    "public/samples.npz": "94d90864850fa9348b7ee26c20456a42f2f4763e8d64210cf5d0ec004fbe57be"
+   }
+  },
+  "generation_seconds": {
+   "dev": 94.174,
+   "train": 384.325
+  },
+  "reusable_by": "phase11b agents 2-5, byte-for-byte",
+  "label_prior": {
+   "split": "train",
+   "hidden_pieces": 817255,
+   "observed": {
+    "spy": 0.026334497800564082,
+    "scout": 0.16562394846161846,
+    "miner": 0.13364005114682687,
+    "sergeant": 0.1022544982900074,
+    "lieutenant": 0.10276963738368074,
+    "captain": 0.10125970474331757,
+    "major": 0.07584168955833859,
+    "colonel": 0.04963689423741672,
+    "general": 0.024415879988498083,
+    "marshal": 0.023669478926406078,
+    "flag": 0.0329126160133618,
+    "bomb": 0.1616411034499636
+   },
+   "initial_army": {
+    "spy": 0.025,
+    "scout": 0.2,
+    "miner": 0.125,
+    "sergeant": 0.1,
+    "lieutenant": 0.1,
+    "captain": 0.1,
+    "major": 0.075,
+    "colonel": 0.05,
+    "general": 0.025,
+    "marshal": 0.025,
+    "flag": 0.025,
+    "bomb": 0.15
+   },
+   "largest_deficit": "scout",
+   "largest_surplus": "bomb",
+   "note": "the prior over *unresolved* ranks, not over an army: ranks that reveal themselves early are under-represented among hidden pieces"
+  }
+ },
+ "frozen_features": {
+  "cache_version": "phase11b_c1_feature_cache_v1",
+  "layer": "final",
+  "layers": [
+   "final",
+   "penultimate"
+  ],
+  "splits": {
+   "dev": {
+    "bytes": 28649088,
+    "digest": "f8d8356a42ef53f83ee56ace73f4a14293272e0c7753d4f72569b1845f49de41",
+    "path": "checkpoints/phase11b/c1_features_dev.npy",
+    "seconds": 0.472,
+    "shape": [
+     55955,
+     128
+    ]
+   },
+   "train": {
+    "bytes": 418434688,
+    "digest": "bca89c74304c7891e055d2d1458e2fb39b687badf368b8c48c7e1679f33870c2",
+    "path": "checkpoints/phase11b/c1_features_train.npy",
+    "seconds": 7.03,
+    "shape": [
+     817255,
+     128
+    ]
+   }
+  },
+  "caches": {
+   "final": {
+    "dev": {
+     "bytes": 28649088,
+     "digest": "f8d8356a42ef53f83ee56ace73f4a14293272e0c7753d4f72569b1845f49de41",
+     "path": "checkpoints/phase11b/c1_features_dev.npy",
+     "seconds": 0.472,
+     "shape": [
+      55955,
+      128
+     ]
+    },
+    "train": {
+     "bytes": 418434688,
+     "digest": "bca89c74304c7891e055d2d1458e2fb39b687badf368b8c48c7e1679f33870c2",
+     "path": "checkpoints/phase11b/c1_features_train.npy",
+     "seconds": 7.03,
+     "shape": [
+      817255,
+      128
+     ]
+    }
+   },
+   "penultimate": {
+    "dev": {
+     "bytes": 93593728,
+     "digest": "0185429dfc80ae24011f5be905999166c9adf43405ea7582c0b03d2190b7075c",
+     "path": "checkpoints/phase11b/c1_penultimate_dev.npy",
+     "seconds": 0.364,
+     "shape": [
+      1828,
+      100,
+      128
+     ]
+    },
+    "train": {
+     "bytes": 1377177728,
+     "digest": "0414e7960ceba8a288b78704ddf0e9d077400000009f827b1a85fa5fb786069e",
+     "path": "checkpoints/phase11b/c1_penultimate_train.npy",
+     "seconds": 5.299,
+     "shape": [
+      26898,
+      100,
+      128
+     ]
+    }
+   }
+  },
+  "frozen_model": {
+   "architecture": "stratego_transformer_v1",
+   "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+   "candidate_id": "C1",
+   "device": "cpu",
+   "dtype": "float32",
+   "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/phase9_c1_readonly_copy.pt",
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "parameters": 863959,
+   "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "trainable_parameters": 0
+  }
+ },
+ "leaderboard": {
+  "phase11_head_unchanged_reference": {
+   "candidate_id": "phase11_head_unchanged_reference",
+   "phase11b_version": "phase11b_engineering_v1",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "architecture": "linear(128->12)",
+   "ce": 2.1584014178266173,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce": 0.9833591168982877,
+   "r_ce_ci95": [
+    0.9785003274240247,
+    0.9884287433412657
+   ],
+   "top1": 0.2302921990885533,
+   "baseline_top1": 0.2038423733357162,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9613606287556152,
+    "strategic_rule": 0.9883216913833432,
+    "tactical_rule": 0.9859267753674913,
+    "scout_rush": 0.9997014257399724
+   },
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.25070774902890247,
+    "strategic_rule": 0.23087400681044268,
+    "tactical_rule": 0.23443089727677593,
+    "scout_rush": 0.20326259564024832
+   },
+   "worst_stratum": "scout_rush",
+   "best_stratum": "phase9_selfplay",
+   "dev_samples": 1828,
+   "dev_pieces": 55955,
+   "diagnostic_projected_r_ce": 0.9827272918806899,
+   "parameters_added": 0,
+   "belief_parameters_total": 1548,
+   "training_seconds": 0.0,
+   "time_to_best_seconds": 0.0,
+   "best_epoch": null,
+   "inference_microseconds_per_piece": null,
+   "trained_in_phase11b": false
+  },
+  "agent01_1a_existing_linear_head": {
+   "candidate_id": "agent01_1a_existing_linear_head",
+   "phase11b_version": "phase11b_engineering_v1",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "architecture": "linear(128->12)",
+   "ce": 2.091956800970746,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce": 0.953087213250343,
+   "r_ce_ci95": [
+    0.9507538766665469,
+    0.9557960019870273
+   ],
+   "top1": 0.254204271289429,
+   "baseline_top1": 0.2038423733357162,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9379287019810619,
+    "strategic_rule": 0.9628083962269907,
+    "tactical_rule": 0.958232091956784,
+    "scout_rush": 0.9551865212598375
+   },
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.26927381657778654,
+    "strategic_rule": 0.25130533484676504,
+    "tactical_rule": 0.2556034168066,
+    "scout_rush": 0.23906453009961023
+   },
+   "worst_stratum": "strategic_rule",
+   "best_stratum": "phase9_selfplay",
+   "dev_samples": 1828,
+   "dev_pieces": 55955,
+   "diagnostic_projected_r_ce": 0.9523181804087812,
+   "parameters_added": 1548,
+   "belief_parameters_total": 1548,
+   "parameters_unfrozen_c1": 0,
+   "retrains_accepted_c1_weights": false,
+   "training_seconds": 5.018,
+   "time_to_best_seconds": 4.386,
+   "best_epoch": 35,
+   "epochs_run": 40,
+   "stopped_because": "epochs_exhausted",
+   "inference_microseconds_per_piece": 0.017,
+   "checkpoint_sha256": "d8f9d463586f25725c8f4bd02451cbfdbcd4b79560675e605caa790fda1f3230",
+   "trained_in_phase11b": true
+  },
+  "agent01_1b_attached_mlp_head": {
+   "candidate_id": "agent01_1b_attached_mlp_head",
+   "phase11b_version": "phase11b_engineering_v1",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "architecture": "mlp(128->512->512->12, gelu)",
+   "ce": 2.0841288488217526,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce": 0.9495208293289928,
+   "r_ce_ci95": [
+    0.9470872440172564,
+    0.9523716586838146
+   ],
+   "top1": 0.2602805826110267,
+   "baseline_top1": 0.2038423733357162,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9350353973446659,
+    "strategic_rule": 0.9596123880731199,
+    "tactical_rule": 0.955567148481127,
+    "scout_rush": 0.9496834267321596
+   },
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.2757916913555863,
+    "strategic_rule": 0.2597048808172531,
+    "tactical_rule": 0.25852376432795504,
+    "scout_rush": 0.24556084885231702
+   },
+   "worst_stratum": "strategic_rule",
+   "best_stratum": "phase9_selfplay",
+   "dev_samples": 1828,
+   "dev_pieces": 55955,
+   "diagnostic_projected_r_ce": 0.9487067782564454,
+   "parameters_added": 334860,
+   "belief_parameters_total": 334860,
+   "parameters_unfrozen_c1": 0,
+   "retrains_accepted_c1_weights": false,
+   "training_seconds": 12.93,
+   "time_to_best_seconds": 6.546,
+   "best_epoch": 5,
+   "epochs_run": 10,
+   "stopped_because": "patience",
+   "inference_microseconds_per_piece": 0.4371,
+   "checkpoint_sha256": "f1cf50afe3a52b2b81e364c71053dc78de65f66949dd7d6b3fe5e733103cef70",
+   "trained_in_phase11b": true
+  },
+  "agent01_1c_final_block_plus_mlp": {
+   "candidate_id": "agent01_1c_final_block_plus_mlp",
+   "phase11b_version": "phase11b_engineering_v1",
+   "corpus_version": "phase11b_common_corpus_v1",
+   "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+   "ce": 2.0763130972545434,
+   "baseline_ce": 2.1949269404596046,
+   "r_ce": 0.945960003944266,
+   "r_ce_ci95": [
+    0.9433669523922269,
+    0.9488031986902516
+   ],
+   "top1": 0.26396211241175943,
+   "baseline_top1": 0.2038423733357162,
+   "r_ce_by_stratum": {
+    "phase9_selfplay": 0.9316925629843068,
+    "strategic_rule": 0.9556856468951376,
+    "tactical_rule": 0.9523312270233046,
+    "scout_rush": 0.945918075480479
+   },
+   "top1_by_stratum": {
+    "phase9_selfplay": 0.27717427085390745,
+    "strategic_rule": 0.2631857737419599,
+    "tactical_rule": 0.26268525954588595,
+    "scout_rush": 0.25147971704922767
+   },
+   "worst_stratum": "strategic_rule",
+   "best_stratum": "phase9_selfplay",
+   "dev_samples": 1828,
+   "dev_pieces": 55955,
+   "diagnostic_projected_r_ce": 0.9454199824340971,
+   "parameters_added": 533388,
+   "belief_parameters_total": 533388,
+   "parameters_unfrozen_c1": 198528,
+   "retrains_accepted_c1_weights": true,
+   "training_seconds": 73.19,
+   "time_to_best_seconds": 73.189,
+   "best_epoch": 12,
+   "epochs_run": 12,
+   "stopped_because": "epochs_exhausted",
+   "inference_microseconds_per_piece": 2.7727,
+   "checkpoint_sha256": "9552d8ee9a50e2df7761a20d427ded7530ad7bc9bd999566d3f47437305bd1ef",
+   "trained_in_phase11b": true
+  }
+ },
+ "leaderboard_order": [
+  "agent01_1c_final_block_plus_mlp",
+  "agent01_1b_attached_mlp_head",
+  "agent01_1a_existing_linear_head",
+  "phase11_head_unchanged_reference"
+ ],
+ "decision": {
+  "winner": "agent01_1b_attached_mlp_head",
+  "leader_by_r_ce": "agent01_1c_final_block_plus_mlp",
+  "equivalence_band": 0.005,
+  "inside_band": [
+   "agent01_1c_final_block_plus_mlp",
+   "agent01_1b_attached_mlp_head"
+  ],
+  "excluded_as_materially_worse": [
+   "agent01_1a_existing_linear_head"
+  ],
+  "r_ce_margin_to_leader": 0.0035608253847267957,
+  "scout_rush_check": {
+   "candidate": "agent01_1c_final_block_plus_mlp",
+   "scout_rush_r_ce": 0.945918075480479,
+   "winner_scout_rush_r_ce": 0.9496834267321596,
+   "advantage": 0.0037653512516805376,
+   "meaningful": false
+  },
+  "reason": "within 0.0036 R_CE of the leader agent01_1c_final_block_plus_mlp (0.9460) and materially cheaper and simpler (334,860 trained parameters against 533,388, and no accepted C1 weight retrained), so the Phase 11B engineering winner rule prefers it",
+  "rule": "00_PHASE_11B_OVERVIEW.md 'Engineering Winner Rule'",
+  "rule_application": "band measured against the leader only; the rule is not applied transitively down a chain of pairwise comparisons"
+ },
+ "paired_comparisons": {
+  "agent01_1a_existing_linear_head vs agent01_1b_attached_mlp_head": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.007827952148993294,
+   "ce_difference_ci95": [
+    0.005356767177341096,
+    0.010264279109851325
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  },
+  "agent01_1a_existing_linear_head vs agent01_1c_final_block_plus_mlp": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.01564370371620264,
+   "ce_difference_ci95": [
+    0.012595385366314747,
+    0.018566989547186254
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  },
+  "agent01_1b_attached_mlp_head vs agent01_1c_final_block_plus_mlp": {
+   "bootstrap_unit": "game",
+   "ce_difference": 0.007815751567209345,
+   "ce_difference_ci95": [
+    0.006305708229041649,
+    0.009296755991573535
+   ],
+   "distinguishable": true,
+   "games": 497,
+   "left_lower_ce": false,
+   "resamples": 4000
+  }
+ },
+ "reproducibility": {
+  "candidates": {
+   "agent01_1a_existing_linear_head": {
+    "absolute_drift": 0.0,
+    "r_ce_first_pass": 0.953087213250343,
+    "r_ce_repeat_pass": 0.953087213250343
+   },
+   "agent01_1b_attached_mlp_head": {
+    "absolute_drift": 6.448892608101886e-05,
+    "r_ce_first_pass": 0.9495208293289928,
+    "r_ce_repeat_pass": 0.9494563404029118
+   },
+   "agent01_1c_final_block_plus_mlp": {
+    "absolute_drift": 3.1769812930959596e-05,
+    "r_ce_first_pass": 0.945960003944266,
+    "r_ce_repeat_pass": 0.9459282341313351
+   }
+  },
+  "checkpoints_kept_from": "first pass",
+  "note": "identical configuration, identical corpus, identical frozen features; CPU float32 reductions are not bit-reproducible across runs, so this is the scale of run-to-run noise in a reported R_CE",
+  "worst_absolute_drift": 6.448892608101886e-05
+ },
+ "reference_note": "the accepted Phase 11 belief head, scored on the fresh Phase 11B development positions. Reference only: the spent phase11_test_bank_v1 was not opened, and this number is not the Phase 11 sealed-test result.",
+ "uniform_floor": {
+  "ce": 2.484906649788001,
+  "r_ce": 1.1321136043223727,
+  "top1": 0.02575283710124207
+ },
+ "interface": {
+  "candidates": {
+   "agent01_1a_existing_linear_head": {
+    "all_marginals_sum_to_one": true,
+    "all_worlds_passed_accepted_validation_stack": true,
+    "candidate_id": "agent01_1a_existing_linear_head",
+    "feature_layer": "final",
+    "hidden_pieces_per_position": 32.75,
+    "interface_version": "phase11b_belief_interface_v1",
+    "positions_checked": 16,
+    "sample_worlds_seed_deterministic": true,
+    "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+    "worlds_per_position": 8,
+    "worlds_sampled": 128
+   },
+   "agent01_1b_attached_mlp_head": {
+    "all_marginals_sum_to_one": true,
+    "all_worlds_passed_accepted_validation_stack": true,
+    "candidate_id": "agent01_1b_attached_mlp_head",
+    "feature_layer": "final",
+    "hidden_pieces_per_position": 32.75,
+    "interface_version": "phase11b_belief_interface_v1",
+    "positions_checked": 16,
+    "sample_worlds_seed_deterministic": true,
+    "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+    "worlds_per_position": 8,
+    "worlds_sampled": 128
+   },
+   "agent01_1c_final_block_plus_mlp": {
+    "all_marginals_sum_to_one": true,
+    "all_worlds_passed_accepted_validation_stack": true,
+    "candidate_id": "agent01_1c_final_block_plus_mlp",
+    "feature_layer": "penultimate",
+    "hidden_pieces_per_position": 32.75,
+    "interface_version": "phase11b_belief_interface_v1",
+    "positions_checked": 16,
+    "sample_worlds_seed_deterministic": true,
+    "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+    "worlds_per_position": 8,
+    "worlds_sampled": 128
+   }
+  },
+  "positions_checked": 16,
+  "seconds": 2.528
+ },
+ "experiment_1c": {
+  "run": true,
+  "condition": "01_AGENT_1: run 1C only if 1B is clearly promising and sufficient time remains",
+  "justification": "1B was the best candidate so far and beat both the unchanged Phase 11 head and 1A on every stratum, and the whole 1A+1B programme had cost under 20 seconds, so the budget was untouched. 1C answers the question 1B raised: whether the remaining shortfall is head capacity or the frozen representation.",
+  "epochs": 12
+ },
+ "suite": {
+  "command": "python -m pytest tests -q",
+  "returncode": 0,
+  "summary_line": "5871 passed, 3 skipped in 348.36s (0:05:48)",
+  "passed": 5871,
+  "skipped": 3,
+  "failed": 0,
+  "green": true,
+  "wall_clock_seconds": 349.53
+ },
+ "peak_memory_bytes": 7251345408,
+ "peak_memory_note": "peak process RSS at the end of the training stage: the memory-mapped corpus, the frozen feature caches and the trained candidates, not the head alone",
+ "stop_condition": "Agent 1 reports which of 1A/1B/1C was best and starts no other architecture."
+}

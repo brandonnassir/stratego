@@ -321,15 +321,29 @@ def test_every_forbidden_counter_is_zero(acceptance):
     assert all(value == 0 for value in counters.values()), counters
 
 
-def test_the_test_bank_is_still_sealed():
+def test_the_test_bank_seal_held_until_agent_7():
+    """Agent 3's seal invariant in its permanent time-scoped form: every
+    ledger entry up to and including Agent 6 is structural-only with zero
+    counters, and the only non-structural test-bank entries are Agent 7's
+    single authorized sealed evaluation, which postdates this agent."""
     from stratego.evaluation import phase11_banks as pb
 
-    sealing = pb.verify_test_bank_sealed()
+    entries = pb.read_ledger()
+    sealing = pb.verify_test_bank_sealed(
+        [entry for entry in entries if entry["agent"] <= 6]
+    )
     assert sealing["test_bank_structural_only"]
     assert sealing["scored_prediction_total"] == 0
     assert sealing["privileged_truth_total"] == 0
     assert sealing["neural_inference_total"] == 0
     assert sealing["outcome_total"] == 0
+    scored = [
+        entry
+        for entry in entries
+        if entry["bank_version"] == "phase11_test_bank_v1"
+        and not entry["structural_only"]
+    ]
+    assert all(entry["agent"] == 7 for entry in scored)
 
 
 def test_the_ledger_records_only_structural_agent_3_access():

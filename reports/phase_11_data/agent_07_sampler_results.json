@@ -1,0 +1,231 @@
+{
+ "agent": 7,
+ "artifact": "agent_07_sampler_results",
+ "bound_agent3_audit": {
+  "sampler_audit_counters": {
+   "dead_end_events": 0,
+   "hidden_input_accesses": 0,
+   "immobility_violations": 0,
+   "impossible_assignments": 0,
+   "inventory_errors": 0,
+   "known_rank_violations": 0,
+   "nonfinite_probability_rows": 0,
+   "provenance_mismatches": 0,
+   "public_knowledge_violations": 0
+  },
+  "sampler_audit_worlds": 251262
+ },
+ "combined_gate_e_counters": {
+  "dead_end_events": 0,
+  "hidden_input_accesses": 0,
+  "immobility_violations": 0,
+  "impossible_assignments": 0,
+  "inventory_errors": 0,
+  "known_rank_violations": 0,
+  "nonfinite_probability_rows": 0,
+  "provenance_mismatches": 0,
+  "public_knowledge_violations": 0
+ },
+ "independent_reconstruction": {
+  "agent": 7,
+  "all_counters_zero": true,
+  "counters": {
+   "cross_process_digest_mismatches": 0,
+   "hidden_input_accesses": 0,
+   "inventory_errors": 0,
+   "provenance_mismatches": 0,
+   "public_constraint_errors": 0,
+   "recorded_identity_mismatches": 0,
+   "request_findings": 0
+  },
+  "digest_mismatch_ids": [],
+  "distinct_public_states": 1022,
+  "passes": {
+   "forward": {
+    "rows": 1024
+   },
+   "reverse": {
+    "rows": 1024
+   }
+  },
+  "phase": 11,
+  "predeclared_rule": {
+   "alters_sampler_mathematics": false,
+   "declared_before_sealed_run": true,
+   "passes": [
+    "forward",
+    "reverse"
+   ],
+   "requests": 1024,
+   "rule": "1024 evenly spaced requests of the realized integrated sample schedule by the frozen floor(k * N / take) rule, each re-executed with 64 worlds in two fresh single processes (forward and reverse order); pass A verifies every world independently and traces the document rebuild for hidden-rank reads; the passes' per-request digests must agree exactly",
+   "world_ordinals": 64
+  },
+  "requests_audited": 1024,
+  "stage": "sampler",
+  "wall_clock_seconds": 123.06,
+  "worlds_verified": 65536
+ },
+ "materialized_stream_audit": {
+  "agent4": {
+   "reproduces_accepted_record": true,
+   "universe_identities": 30234395
+  },
+  "agent6": {
+   "distinct_positions_reconstructed": 7307,
+   "reproduces_accepted_record": true,
+   "universe_identities": 30027415
+  },
+  "agent7": {
+   "distinct_public_states": 14610,
+   "fast_path_check": {
+    "derivations_checked": 19840,
+    "exact": true,
+    "mismatches": 0
+   },
+   "internal_accidental_collisions": 0,
+   "new_identities_total": 61664512,
+   "schedule_requests": 14895,
+   "world_order_children_new": 30364736,
+   "world_tokens": 935040,
+   "world_tokens_new": 935040,
+   "world_tokens_shared_with_prior_universes": 0
+  },
+  "audit_version": "phase11_agent07_materialized_stream_audit_v1",
+  "combined": {
+   "accidental_collisions": 0,
+   "bit_width": 63,
+   "distinct_seeds": 121923250,
+   "expected_random_collisions": 0.000806,
+   "findings": [],
+   "no_collisions": true,
+   "per_domain": {
+    "bank_match": {
+     "distinct_seeds": 5120,
+     "identities": 5120,
+     "internal_duplicates": 0
+    },
+    "bank_observer_setup": {
+     "distinct_seeds": 5120,
+     "identities": 5120,
+     "internal_duplicates": 0
+    },
+    "bank_opponent_setup": {
+     "distinct_seeds": 5120,
+     "identities": 5120,
+     "internal_duplicates": 0
+    },
+    "benchmark:state_selection": {
+     "distinct_seeds": 480,
+     "identities": 480,
+     "internal_duplicates": 0
+    },
+    "bootstrap": {
+     "distinct_seeds": 252,
+     "identities": 252,
+     "internal_duplicates": 0
+    },
+    "repro_schedule:replay": {
+     "distinct_seeds": 2048,
+     "identities": 2048,
+     "internal_duplicates": 0
+    },
+    "safety_trial:sample_check": {
+     "distinct_seeds": 50000,
+     "identities": 50000,
+     "internal_duplicates": 0
+    },
+    "safety_trial:state_selection": {
+     "distinct_seeds": 50063,
+     "identities": 50063,
+     "internal_duplicates": 0
+    },
+    "safety_trial:truth_permutation": {
+     "distinct_seeds": 362655,
+     "identities": 362655,
+     "internal_duplicates": 0
+    },
+    "soak_match": {
+     "distinct_seeds": 1053,
+     "identities": 1053,
+     "internal_duplicates": 0
+    },
+    "soak_setup": {
+     "distinct_seeds": 2106,
+     "identities": 2106,
+     "internal_duplicates": 0
+    },
+    "world_categorical": {
+     "distinct_seeds": 59764881,
+     "identities": 59764881,
+     "internal_duplicates": 0
+    },
+    "world_order": {
+     "distinct_seeds": 59764881,
+     "identities": 59764881,
+     "internal_duplicates": 0
+    },
+    "world_sample": {
+     "distinct_seeds": 1909471,
+     "identities": 1909471,
+     "internal_duplicates": 0
+    }
+   },
+   "unique_logical_identities": 121923250
+  },
+  "condition_tested": "two different logical identities must not map to the same derived 63-bit seed",
+  "intentional_reuse": {
+   "bootstrap_seeds_member_of_agent1_universe": true,
+   "bootstrap_stream_seeds_used": 62,
+   "note": "the sealed run's bank setup/match draws and bootstrap streams re-materialize Agent 1's enumerated identities (carried in the Agent 4 universe) and are therefore deduplicated, never added twice; a world token shared with the Agent 4/6 universes is one logical identity and is counted once",
+   "test_bank_match_seeds_verified_member_of_agent1": 4096,
+   "test_bank_setup_seeds_verified_member_of_agent1": 8192
+  },
+  "phase": 11,
+  "prior_combined_identities": 60258738,
+  "prior_combined_matches_accepted": true,
+  "stage": "streams",
+  "total_accidental_collisions": 0,
+  "wall_clock_seconds": 298.728
+ },
+ "phase": 11,
+ "pipeline_sampler_checks": {
+  "all_counters_zero": true,
+  "counters": {
+   "dead_end_events": 0,
+   "hidden_input_accesses": 0,
+   "immobility_violations": 0,
+   "impossible_assignments": 0,
+   "inventory_errors": 0,
+   "known_rank_violations": 0,
+   "nonfinite_probability_rows": 0,
+   "provenance_mismatches": 0,
+   "public_knowledge_violations": 0
+  },
+  "distinct_public_states": 14610,
+  "forward_seconds": 23.204,
+  "mean_distinct_worlds_per_state": 63.488090349075975,
+  "meets_world_floor": true,
+  "request_rollup_digest": "3de32c07815ef8c1ebf2cfdbf076e22d81bf0ceed0cbbc0b336fd58e232e8f98",
+  "requests": 14895,
+  "sampler_version": "belief_sampler_v1",
+  "sampling_seconds": 607.535,
+  "schedule_accounting": {
+   "decisions_per_game": 4,
+   "every_eligible_game_contributes": true,
+   "games": 4096,
+   "games_below_quota": 431,
+   "games_contributing": 3977,
+   "games_with_eligible_decisions": 3977,
+   "games_without_eligible_decisions": 119,
+   "realized_equals_attainable": true,
+   "schedule_slots_attainable": 14895,
+   "schedule_slots_nominal": 16384,
+   "schedule_slots_realized": 14895
+  },
+  "schedule_version": "phase11_validation_freeze_v1",
+  "wall_clock_seconds": 787.297,
+  "world_floor": 250000,
+  "world_ordinals_per_request": 64,
+  "worlds": 953280
+ }
+}

@@ -224,7 +224,9 @@ def test_a_sample_of_stored_cases_rebuilds_in_isolation(bank_artifacts):
 
 def test_the_ledger_proves_structural_only_access(acceptance):
     entries = pb.read_ledger()
-    sealed = pb.verify_test_bank_sealed(entries)
+    sealed = pb.verify_test_bank_sealed(
+        [entry for entry in entries if entry["agent"] <= 6]
+    )
     assert sealed["test_bank_structural_only"]
     assert sealed["scored_prediction_total"] == 0
     assert sealed["privileged_truth_total"] == 0
@@ -236,12 +238,15 @@ def test_the_ledger_proves_structural_only_access(acceptance):
     # writes one entry"). So: every Agent 1 entry is structural, and every
     # test-bank entry from any agent is structural until Agent 7 — a later
     # agent's scored validation-bank entry is the ledger working, not a
-    # violation.
+    # violation. Agent 7's single authorized sealed evaluation is the only
+    # non-structural test-bank access the ledger may ever carry.
     for entry in entries:
         if entry["agent"] == 1:
             assert entry["structural_only"] is True
-        if entry["bank_version"] == pc.TEST_BANK_VERSION:
+        if entry["bank_version"] == pc.TEST_BANK_VERSION and entry["agent"] <= 6:
             assert entry["structural_only"] is True
+        if entry["bank_version"] == pc.TEST_BANK_VERSION and not entry["structural_only"]:
+            assert entry["agent"] == 7
     assert any(entry["agent"] == 1 for entry in entries)
 
 
