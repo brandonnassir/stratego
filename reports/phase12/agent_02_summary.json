@@ -1,0 +1,3101 @@
+{
+ "artifact": "phase12_agent02_belief_decision_diagnostic_v1",
+ "phase": "phase12",
+ "agent": 2,
+ "generated_utc": "2026-08-20T06:50:28Z",
+ "search_version": "phase12_root_world_search_v1",
+ "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+ "device": "cpu",
+ "presets_run": [
+  "TINY",
+  "SMALL"
+ ],
+ "primary_preset": "SMALL",
+ "search_configs": {
+  "TINY": {
+   "search_version": "phase12_root_world_search_v1",
+   "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+   "preset_id": "TINY",
+   "worlds": 8,
+   "rollout_depth": 4,
+   "max_root_candidates": 8,
+   "beta": 0.1,
+   "epsilon": 1e-06,
+   "production": true,
+   "verify_world_public_surface": true,
+   "deduplicate_worlds": true
+  },
+  "SMALL": {
+   "search_version": "phase12_root_world_search_v1",
+   "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+   "preset_id": "SMALL",
+   "worlds": 16,
+   "rollout_depth": 6,
+   "max_root_candidates": 8,
+   "beta": 0.1,
+   "epsilon": 1e-06,
+   "production": true,
+   "verify_world_public_surface": true,
+   "deduplicate_worlds": true
+  }
+ },
+ "move_model_identity": {
+  "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase12/phase9_c1_readonly_copy.pt",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+  "parameters": 863959,
+  "trainable_parameters": 0,
+  "device": "cpu",
+  "dtype": "float32",
+  "architecture": "stratego_transformer_v1",
+  "candidate_id": "C1"
+ },
+ "providers": {
+  "remaining_count": {
+   "provider_id": "remaining_count",
+   "uses_hidden_truth": false,
+   "marginals_version": "remaining_count_belief_v1",
+   "world_sampler_version": "count_uniform_world_sampler_v1",
+   "sampler_source": "stratego.evaluation.phase11_baselines (accepted, unmodified)"
+  },
+  "original_phase11": {
+   "provider_id": "original_phase11",
+   "uses_hidden_truth": false,
+   "adapter": {
+    "interface_version": "phase11b_belief_interface_v1",
+    "candidate_id": "phase11_accepted_belief_head",
+    "sampler": "belief_sampler_v1",
+    "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+    "device": "cpu",
+    "reads_hidden_truth": false
+   },
+   "identity": {
+    "head": "linear(128->12) belief_output from the accepted Phase 9 checkpoint",
+    "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+    "feature_layer": "final"
+   }
+  },
+  "agent1c": {
+   "provider_id": "agent1c",
+   "uses_hidden_truth": false,
+   "adapter": {
+    "interface_version": "phase11b_belief_interface_v1",
+    "candidate_id": "agent01_1c_final_block_plus_mlp",
+    "sampler": "belief_sampler_v1",
+    "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified)",
+    "device": "cpu",
+    "reads_hidden_truth": false
+   },
+   "identity": {
+    "candidate_id": "agent01_1c_final_block_plus_mlp",
+    "architecture": "c1_last_block + mlp(128->512->512->12, gelu)",
+    "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+    "checkpoint_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+    "state_dict_digest": "69104cd98c66ae1715b93990cc949b50ebad47bf66177b0d38eb6c958db7c2b8",
+    "dev_metrics": {
+     "metrics_version": "phase11b_metrics_v1",
+     "baseline_version": "remaining_count_belief_v1",
+     "split": "dev",
+     "samples": 1828,
+     "pieces": 55955,
+     "ce": 2.0762433648362477,
+     "baseline_ce": 2.1949269404596046,
+     "r_ce": 0.9459282341313351,
+     "r_ce_ci95": [
+      0.9432082233653721,
+      0.9488427432103299
+     ],
+     "top1": 0.2638727548923242,
+     "baseline_top1": 0.2038423733357162,
+     "zero_mass_rows": 0,
+     "strata": {
+      "phase9_selfplay": {
+       "pieces": 15189,
+       "ce": 2.0247778550908007,
+       "baseline_ce": 2.172986317031842,
+       "r_ce": 0.9317950321272688,
+       "top1": 0.276450062545263,
+       "baseline_top1": 0.20205411811179141
+      },
+      "strategic_rule": {
+       "pieces": 13215,
+       "ce": 2.09355951802676,
+       "baseline_ce": 2.1903629650170755,
+       "r_ce": 0.9558048375833634,
+       "top1": 0.26394248959515704,
+       "baseline_top1": 0.20892924706772606
+      },
+      "tactical_rule": {
+       "pieces": 13697,
+       "ce": 2.0801737420082143,
+       "baseline_ce": 2.185095806245525,
+       "r_ce": 0.9519828540527063,
+       "top1": 0.2631233116740892,
+       "baseline_top1": 0.20880484777688546
+      },
+      "scout_rush": {
+       "pieces": 13854,
+       "ce": 2.1122648955845182,
+       "baseline_ce": 2.233054998063731,
+       "r_ce": 0.945908138140821,
+       "top1": 0.25075790385448243,
+       "baseline_top1": 0.1960444636927963
+      }
+     },
+     "worst_stratum": "strategic_rule",
+     "best_stratum": "phase9_selfplay",
+     "diagnostic_projected_ce": 2.0750485208059115,
+     "diagnostic_projected_r_ce": 0.9453838679347608
+    },
+    "feature_layer": "penultimate"
+   }
+  },
+  "oracle": {
+   "provider_id": "oracle",
+   "uses_hidden_truth": true,
+   "role": "offline diagnostic upper bound",
+   "available_in_production": false
+  }
+ },
+ "position_set": {
+  "artifact": "phase12_diagnostic_positions_v1",
+  "manifest_path": "reports/phase12/agent_02_position_manifest.json",
+  "manifest_digest": "9b74a1cfeab57ec7f8bbd24565e0292198fac3dfd89d9c1a46c170be8f598f1d",
+  "master_seed": 2026082002,
+  "setup_library_split": "validation",
+  "eligibility": {
+   "observer_to_act": true,
+   "min_ply": 12,
+   "min_unresolved_opponent_pieces": 4,
+   "selection": "eligible decisions at the quantile midpoints of each game",
+   "positions_per_game": 2
+  },
+  "positions": 256,
+  "games_played": 156,
+  "games_contributing": 130,
+  "positions_by_behavior_group": {
+   "phase9_selfplay": 64,
+   "strategic_rule": 64,
+   "tactical_rule": 64,
+   "scout_rush": 64
+  },
+  "positions_by_observer_color": {
+   "red": 128,
+   "blue": 128
+  },
+  "shortfalls": [],
+  "phase11_test_bank_used": false,
+  "replay_verified": true
+ },
+ "position_mix": {
+  "median ply": 72,
+  "ply range": "13-1134",
+  "median unresolved": 32,
+  "unresolved range": "6-40",
+  "median moved hidden": 5,
+  "median legal actions": 22,
+  "positions early": 65,
+  "positions middle": 114,
+  "positions late": 77
+ },
+ "belief_quality": {
+  "remaining_count": {
+   "pieces": 7533,
+   "ce": 2.161375090199219,
+   "baseline_ce": 2.161375090199219,
+   "r_ce": 1.0,
+   "top1": 0.21226602947033055,
+   "by_behavior_group": {
+    "phase9_selfplay": {
+     "pieces": 2072,
+     "ce": 2.150575994646406,
+     "baseline_ce": 2.150575994646406,
+     "r_ce": 1.0,
+     "top1": 0.20173745173745175
+    },
+    "strategic_rule": {
+     "pieces": 1706,
+     "ce": 2.143554623040836,
+     "baseline_ce": 2.143554623040836,
+     "r_ce": 1.0,
+     "top1": 0.22801875732708088
+    },
+    "tactical_rule": {
+     "pieces": 1742,
+     "ce": 2.1122764995376198,
+     "baseline_ce": 2.1122764995376198,
+     "r_ce": 1.0,
+     "top1": 0.21871412169919632
+    },
+    "scout_rush": {
+     "pieces": 2013,
+     "ce": 2.2300820886543273,
+     "baseline_ce": 2.2300820886543273,
+     "r_ce": 1.0,
+     "top1": 0.20417287630402384
+    }
+   },
+   "sampled_world_rank_accuracy": 0.14167662285941857,
+   "sampled_world_pieces": 120528
+  },
+  "original_phase11": {
+   "pieces": 7533,
+   "ce": 2.0896128725998837,
+   "baseline_ce": 2.161375090199219,
+   "r_ce": 0.9667978881015415,
+   "top1": 0.24664808177352981,
+   "by_behavior_group": {
+    "phase9_selfplay": {
+     "pieces": 2072,
+     "ce": 2.0076601897667596,
+     "baseline_ce": 2.150575994646406,
+     "r_ce": 0.9335453361167344,
+     "top1": 0.26544401544401547
+    },
+    "strategic_rule": {
+     "pieces": 1706,
+     "ce": 2.091805832229399,
+     "baseline_ce": 2.143554623040836,
+     "r_ce": 0.9758584221483348,
+     "top1": 0.2508792497069168
+    },
+    "tactical_rule": {
+     "pieces": 1742,
+     "ce": 2.0319624837161685,
+     "baseline_ce": 2.1122764995376198,
+     "r_ce": 0.9619775082291394,
+     "top1": 0.27152698048220436
+    },
+    "scout_rush": {
+     "pieces": 2013,
+     "ce": 2.22199824127237,
+     "baseline_ce": 2.2300820886543273,
+     "r_ce": 0.9963750897677334,
+     "top1": 0.20218579234972678
+    }
+   },
+   "sampled_world_rank_accuracy": 0.16939632284614364,
+   "sampled_world_pieces": 120528
+  },
+  "agent1c": {
+   "pieces": 7533,
+   "ce": 2.0031701862225324,
+   "baseline_ce": 2.161375090199219,
+   "r_ce": 0.9268035868951815,
+   "top1": 0.28182662949688037,
+   "by_behavior_group": {
+    "phase9_selfplay": {
+     "pieces": 2072,
+     "ce": 1.941529939501769,
+     "baseline_ce": 2.150575994646406,
+     "r_ce": 0.9027953182472829,
+     "top1": 0.30694980694980695
+    },
+    "strategic_rule": {
+     "pieces": 1706,
+     "ce": 2.014161750139358,
+     "baseline_ce": 2.143554623040836,
+     "r_ce": 0.9396363071364506,
+     "top1": 0.276084407971864
+    },
+    "tactical_rule": {
+     "pieces": 1742,
+     "ce": 1.9639710205142191,
+     "baseline_ce": 2.1122764995376198,
+     "r_ce": 0.9297887946697012,
+     "top1": 0.2870264064293915
+    },
+    "scout_rush": {
+     "pieces": 2013,
+     "ce": 2.0912238026294876,
+     "baseline_ce": 2.2300820886543273,
+     "r_ce": 0.9377340023798723,
+     "top1": 0.2563338301043219
+    }
+   },
+   "sampled_world_rank_accuracy": 0.18041450949157042,
+   "sampled_world_pieces": 120528
+  },
+  "oracle": {
+   "pieces": null,
+   "ce": 0.0,
+   "baseline_ce": null,
+   "r_ce": 0.0,
+   "top1": 1.0,
+   "by_behavior_group": {},
+   "sampled_world_rank_accuracy": 1.0,
+   "sampled_world_pieces": 120528,
+   "note": "true hidden state; perfect by construction, offline diagnostic only"
+  }
+ },
+ "diagnostics": {
+  "TINY": {
+   "remaining_count": {
+    "oracle_headroom_positions": 74,
+    "oracle_fixed": 21,
+    "oracle_fix_rate": 0.28378378378378377,
+    "oracle_broken": 17,
+    "oracle_break_rate": 0.09340659340659341,
+    "net_oracle_moves": 4,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.203125,
+    "oracle_agreement_rate": 0.7265625,
+    "oracle_agreement_when_changed": 0.40384615384615385,
+    "score_delta_vs_direct": {
+     "mean": 0.015602441519245136,
+     "median": 0.0,
+     "max": 0.32373123196592823
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.02839580428553745,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 52,
+     "mean_score_delta": 0.07681201978705299,
+     "mean_q_delta": 0.13979472879033822,
+     "mean_prior_of_chosen": 0.15247963038920442,
+     "mean_prior_of_direct": 0.2802774673939106
+    },
+    "q_of_direct_action": {
+     "mean": -0.08661362341081258,
+     "median": -0.10493438877165318
+    },
+    "move_latency_seconds": {
+     "mean": 0.12155784878427767,
+     "median": 0.1222951874951832
+    },
+    "c1_forwards_per_move": 309.75,
+    "mean_unique_worlds": 7.984375,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 24,
+      "oracle_fixed": 9,
+      "oracle_fix_rate": 0.375,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.125,
+      "net_oracle_moves": 4,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.28125,
+      "oracle_agreement_rate": 0.6875,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.013221168538221834,
+       "median": 0.0,
+       "max": 0.2890666210397703
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.029659053951036185,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 18,
+       "mean_score_delta": 0.047008599247010965,
+       "mean_q_delta": 0.10545441404812866,
+       "mean_prior_of_chosen": 0.159065734632178,
+       "mean_prior_of_direct": 0.2640338469694112
+      },
+      "q_of_direct_action": {
+       "mean": -0.21143900899915025,
+       "median": -0.22579842805862427
+      },
+      "move_latency_seconds": {
+       "mean": 0.12407641923709889,
+       "median": 0.1250816665124148
+      },
+      "c1_forwards_per_move": 312.015625,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 3,
+      "oracle_fix_rate": 0.2,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.04081632653061224,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.125,
+      "oracle_agreement_rate": 0.78125,
+      "oracle_agreement_when_changed": 0.375,
+      "score_delta_vs_direct": {
+       "mean": 0.009585079505115935,
+       "median": 0.0,
+       "max": 0.32373123196592823
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.018533818307332695,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 8,
+       "mean_score_delta": 0.07668063604092748,
+       "mean_q_delta": 0.14827054645866156,
+       "mean_prior_of_chosen": 0.18074946481075324,
+       "mean_prior_of_direct": 0.35464919168126197
+      },
+      "q_of_direct_action": {
+       "mean": -0.01396375335752964,
+       "median": -0.035751521587371826
+      },
+      "move_latency_seconds": {
+       "mean": 0.1215579075678761,
+       "median": 0.12284012450254522
+      },
+      "c1_forwards_per_move": 309.53125,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 4,
+      "oracle_fix_rate": 0.2222222222222222,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.10869565217391304,
+      "net_oracle_moves": -1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.171875,
+      "oracle_agreement_rate": 0.703125,
+      "oracle_agreement_when_changed": 0.36363636363636365,
+      "score_delta_vs_direct": {
+       "mean": 0.018068570828305475,
+       "median": 0.0,
+       "max": 0.271071105480394
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.03399403585353866,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.10512623027377731,
+       "mean_q_delta": 0.1977834813296795,
+       "mean_prior_of_chosen": 0.1621835804229263,
+       "mean_prior_of_direct": 0.38898925181895017
+      },
+      "q_of_direct_action": {
+       "mean": -0.11448604671750218,
+       "median": -0.10363494791090488
+      },
+      "move_latency_seconds": {
+       "mean": 0.1203070826095427,
+       "median": 0.12064674950670451
+      },
+      "c1_forwards_per_move": 309.296875,
+      "mean_unique_worlds": 7.953125,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.29411764705882354,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.10638297872340426,
+      "net_oracle_moves": 0,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 0.734375,
+      "oracle_agreement_when_changed": 0.3333333333333333,
+      "score_delta_vs_direct": {
+       "mean": 0.0215349472053373,
+       "median": 0.0,
+       "max": 0.2812444116972504
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.031396309030242264,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.09188244140943916,
+       "mean_q_delta": 0.13395758519570033,
+       "mean_prior_of_chosen": 0.12238283024808078,
+       "mean_prior_of_direct": 0.18038291703836007
+      },
+      "q_of_direct_action": {
+       "mean": -0.006565684569068253,
+       "median": -0.033084576949477196
+      },
+      "move_latency_seconds": {
+       "mean": 0.12028998572259297,
+       "median": 0.12142149999272078
+      },
+      "c1_forwards_per_move": 308.15625,
+      "mean_unique_worlds": 7.984375,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 2,
+      "oracle_fix_rate": 0.11764705882352941,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.08333333333333333,
+      "net_oracle_moves": -2,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.16923076923076924,
+      "oracle_agreement_rate": 0.7076923076923077,
+      "oracle_agreement_when_changed": 0.18181818181818182,
+      "score_delta_vs_direct": {
+       "mean": 0.019639336475333932,
+       "median": 0.0,
+       "max": 0.32373123196592823
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.028379823038211235,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.11605062462697324,
+       "mean_q_delta": 0.16769895431670276,
+       "mean_prior_of_chosen": 0.17699626851379185,
+       "mean_prior_of_direct": 0.30371173349018676
+      },
+      "q_of_direct_action": {
+       "mean": -0.23168380942482214,
+       "median": -0.19413067400455475
+      },
+      "move_latency_seconds": {
+       "mean": 0.11649132438827879,
+       "median": 0.12094350002007559
+      },
+      "c1_forwards_per_move": 295.44615384615383,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 39,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.2564102564102564,
+      "oracle_broken": 8,
+      "oracle_break_rate": 0.10666666666666667,
+      "net_oracle_moves": 2,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.22807017543859648,
+      "oracle_agreement_rate": 0.6754385964912281,
+      "oracle_agreement_when_changed": 0.38461538461538464,
+      "score_delta_vs_direct": {
+       "mean": 0.012669383769916704,
+       "median": 0.0,
+       "max": 0.2567321135852445
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.028293440739313763,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 26,
+       "mean_score_delta": 0.05555037499117324,
+       "mean_q_delta": 0.1240558555492988,
+       "mean_prior_of_chosen": 0.1477575151683692,
+       "mean_prior_of_direct": 0.27769571008430954
+      },
+      "q_of_direct_action": {
+       "mean": -0.07612005666944019,
+       "median": -0.0918219592422247
+      },
+      "move_latency_seconds": {
+       "mean": 0.12306037679949791,
+       "median": 0.12271079153288156
+      },
+      "c1_forwards_per_move": 313.87719298245617,
+      "mean_unique_worlds": 7.991228070175438,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 9,
+      "oracle_fix_rate": 0.5,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.0847457627118644,
+      "net_oracle_moves": 4,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.19480519480519481,
+      "oracle_agreement_rate": 0.8181818181818182,
+      "oracle_agreement_when_changed": 0.6,
+      "score_delta_vs_direct": {
+       "mean": 0.016537122185188897,
+       "median": 0.0,
+       "max": 0.2890666210397703
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.028560846173144007,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.08489056055063635,
+       "mean_q_delta": 0.1466123436888059,
+       "mean_prior_of_chosen": 0.14268576214728804,
+       "mean_prior_of_direct": 0.26756738492661647
+      },
+      "q_of_direct_action": {
+       "mean": 0.02031229194495585,
+       "median": 0.009424436837434769
+      },
+      "move_latency_seconds": {
+       "mean": 0.12361026296615843,
+       "median": 0.1231399160460569
+      },
+      "c1_forwards_per_move": 315.7142857142857,
+      "mean_unique_worlds": 7.961038961038961,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "original_phase11": {
+    "oracle_headroom_positions": 74,
+    "oracle_fixed": 25,
+    "oracle_fix_rate": 0.33783783783783783,
+    "oracle_broken": 17,
+    "oracle_break_rate": 0.09340659340659341,
+    "net_oracle_moves": 8,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.203125,
+    "oracle_agreement_rate": 0.7421875,
+    "oracle_agreement_when_changed": 0.4807692307692308,
+    "score_delta_vs_direct": {
+     "mean": 0.013698708834585701,
+     "median": 0.0,
+     "max": 0.2592338726224514
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.026260103753884323,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 52,
+     "mean_score_delta": 0.06743979733949884,
+     "mean_q_delta": 0.1292805107883536,
+     "mean_prior_of_chosen": 0.1494354875293216,
+     "mean_prior_of_direct": 0.2648476292521732
+    },
+    "q_of_direct_action": {
+     "mean": -0.11800146092718933,
+     "median": -0.15477922931313515
+    },
+    "move_latency_seconds": {
+     "mean": 0.12410292416507218,
+     "median": 0.12487489549675956
+    },
+    "c1_forwards_per_move": 310.015625,
+    "mean_unique_worlds": 7.9609375,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 24,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.4166666666666667,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.1,
+      "net_oracle_moves": 6,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.265625,
+      "oracle_agreement_rate": 0.71875,
+      "oracle_agreement_when_changed": 0.5882352941176471,
+      "score_delta_vs_direct": {
+       "mean": 0.015272006398242298,
+       "median": 0.0,
+       "max": 0.18064070952381917
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.029101710009854287,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.057494612322794535,
+       "mean_q_delta": 0.1095593788606279,
+       "mean_prior_of_chosen": 0.14789955207932895,
+       "mean_prior_of_direct": 0.22398788003964953
+      },
+      "q_of_direct_action": {
+       "mean": -0.2640684064826928,
+       "median": -0.2674988117069006
+      },
+      "move_latency_seconds": {
+       "mean": 0.1290627774242239,
+       "median": 0.12745727100991644
+      },
+      "c1_forwards_per_move": 317.0625,
+      "mean_unique_worlds": 7.984375,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 4,
+      "oracle_fix_rate": 0.26666666666666666,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.04081632653061224,
+      "net_oracle_moves": 2,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.125,
+      "oracle_agreement_rate": 0.796875,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.006611984387982221,
+       "median": 0.0,
+       "max": 0.20632709765393242
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.014690902957227081,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 8,
+       "mean_score_delta": 0.052895875103857765,
+       "mean_q_delta": 0.11752722365781665,
+       "mean_prior_of_chosen": 0.1797057258792735,
+       "mean_prior_of_direct": 0.30302894701109134
+      },
+      "q_of_direct_action": {
+       "mean": -0.021611238073091954,
+       "median": -0.0536798071116209
+      },
+      "move_latency_seconds": {
+       "mean": 0.1234027675463949,
+       "median": 0.12491899952874519
+      },
+      "c1_forwards_per_move": 305.359375,
+      "mean_unique_worlds": 7.9375,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 6,
+      "oracle_fix_rate": 0.3333333333333333,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.10869565217391304,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.1875,
+      "oracle_agreement_rate": 0.734375,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.014897154375605593,
+       "median": 0.0,
+       "max": 0.2592338726224514
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.02648332971148193,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 12,
+       "mean_score_delta": 0.07945149000322983,
+       "mean_q_delta": 0.1412444251279036,
+       "mean_prior_of_chosen": 0.1915796095046763,
+       "mean_prior_of_direct": 0.33879241213938177
+      },
+      "q_of_direct_action": {
+       "mean": -0.10758803243516013,
+       "median": -0.09696647897362709
+      },
+      "move_latency_seconds": {
+       "mean": 0.12154776826628222,
+       "median": 0.1222004999872297
+      },
+      "c1_forwards_per_move": 308.734375,
+      "mean_unique_worlds": 7.9375,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.29411764705882354,
+      "oracle_broken": 6,
+      "oracle_break_rate": 0.1276595744680851,
+      "net_oracle_moves": -1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 0.71875,
+      "oracle_agreement_when_changed": 0.3333333333333333,
+      "score_delta_vs_direct": {
+       "mean": 0.018013690176512696,
+       "median": 0.0,
+       "max": 0.17943837237987875
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.034764472336973995,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.0768584114197875,
+       "mean_q_delta": 0.14832841530442237,
+       "mean_prior_of_chosen": 0.10131678967238847,
+       "mean_prior_of_direct": 0.23163614924517692
+      },
+      "q_of_direct_action": {
+       "mean": -0.07873816671781242,
+       "median": -0.12510080635547638
+      },
+      "move_latency_seconds": {
+       "mean": 0.12239838342338771,
+       "median": 0.12406077049672604
+      },
+      "c1_forwards_per_move": 308.90625,
+      "mean_unique_worlds": 7.984375,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.29411764705882354,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.08333333333333333,
+      "net_oracle_moves": 1,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.16923076923076924,
+      "oracle_agreement_rate": 0.7538461538461538,
+      "oracle_agreement_when_changed": 0.45454545454545453,
+      "score_delta_vs_direct": {
+       "mean": 0.015176706458451912,
+       "median": 0.0,
+       "max": 0.2592338726224514
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.028250032319472387,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.08968053816357949,
+       "mean_q_delta": 0.16693200916051865,
+       "mean_prior_of_chosen": 0.1448381842481993,
+       "mean_prior_of_direct": 0.3198013094808756
+      },
+      "q_of_direct_action": {
+       "mean": -0.28039805275889546,
+       "median": -0.2749970629811287
+      },
+      "move_latency_seconds": {
+       "mean": 0.11893241731181312,
+       "median": 0.12320904200896621
+      },
+      "c1_forwards_per_move": 296.67692307692306,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 39,
+      "oracle_fixed": 11,
+      "oracle_fix_rate": 0.28205128205128205,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.06666666666666667,
+      "net_oracle_moves": 6,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.20175438596491227,
+      "oracle_agreement_rate": 0.7105263157894737,
+      "oracle_agreement_when_changed": 0.4782608695652174,
+      "score_delta_vs_direct": {
+       "mean": 0.013485960291778192,
+       "median": 0.0,
+       "max": 0.17943837237987875
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.025990164560968417,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 23,
+       "mean_score_delta": 0.06684345535924843,
+       "mean_q_delta": 0.12882081565001738,
+       "mean_prior_of_chosen": 0.1567884927996497,
+       "mean_prior_of_direct": 0.2639969853327121
+      },
+      "q_of_direct_action": {
+       "mean": -0.09980675156571363,
+       "median": -0.08064217306673527
+      },
+      "move_latency_seconds": {
+       "mean": 0.12638237940355843,
+       "median": 0.1254791045212187
+      },
+      "c1_forwards_per_move": 316.9736842105263,
+      "mean_unique_worlds": 7.991228070175438,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 9,
+      "oracle_fix_rate": 0.5,
+      "oracle_broken": 8,
+      "oracle_break_rate": 0.13559322033898305,
+      "net_oracle_moves": 1,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.23376623376623376,
+      "oracle_agreement_rate": 0.7792207792207793,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.01276602686482924,
+       "median": 0.0,
+       "max": 0.18064070952381917
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.02497994415945821,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 18,
+       "mean_score_delta": 0.054610226032880634,
+       "mean_q_delta": 0.10685865001546012,
+       "mean_prior_of_chosen": 0.14284944391125484,
+       "mean_prior_of_direct": 0.23235175856505547
+      },
+      "q_of_direct_action": {
+       "mean": -0.007851050513518322,
+       "median": -0.034372661262750626
+      },
+      "move_latency_seconds": {
+       "mean": 0.12509285985694762,
+       "median": 0.12493833299959078
+      },
+      "c1_forwards_per_move": 310.97402597402595,
+      "mean_unique_worlds": 7.883116883116883,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "agent1c": {
+    "oracle_headroom_positions": 74,
+    "oracle_fixed": 32,
+    "oracle_fix_rate": 0.43243243243243246,
+    "oracle_broken": 23,
+    "oracle_break_rate": 0.12637362637362637,
+    "net_oracle_moves": 9,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.25390625,
+    "oracle_agreement_rate": 0.74609375,
+    "oracle_agreement_when_changed": 0.49230769230769234,
+    "score_delta_vs_direct": {
+     "mean": 0.022987035639645926,
+     "median": 0.0,
+     "max": 0.4684525430793379
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.04315124684944749,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 65,
+     "mean_score_delta": 0.09053355574999011,
+     "mean_q_delta": 0.16994952605320857,
+     "mean_prior_of_chosen": 0.1371526412034405,
+     "mean_prior_of_direct": 0.279590180956356
+    },
+    "q_of_direct_action": {
+     "mean": -0.056846114835934713,
+     "median": -0.057387085631489754
+    },
+    "move_latency_seconds": {
+     "mean": 0.12465273876136962,
+     "median": 0.12480254148249514
+    },
+    "c1_forwards_per_move": 310.40625,
+    "mean_unique_worlds": 7.9765625,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 24,
+      "oracle_fixed": 15,
+      "oracle_fix_rate": 0.625,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.1,
+      "net_oracle_moves": 11,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.328125,
+      "oracle_agreement_rate": 0.796875,
+      "oracle_agreement_when_changed": 0.7142857142857143,
+      "score_delta_vs_direct": {
+       "mean": 0.03816542248545251,
+       "median": 0.0,
+       "max": 0.4684525430793379
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.06931385421194136,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 21,
+       "mean_score_delta": 0.11631366852709336,
+       "mean_q_delta": 0.21124222236020224,
+       "mean_prior_of_chosen": 0.11718245487505073,
+       "mean_prior_of_direct": 0.28199936316541996
+      },
+      "q_of_direct_action": {
+       "mean": -0.1899091464583762,
+       "median": -0.12717276625335217
+      },
+      "move_latency_seconds": {
+       "mean": 0.12769962691982073,
+       "median": 0.12704400002257898
+      },
+      "c1_forwards_per_move": 315.34375,
+      "mean_unique_worlds": 7.984375,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 4,
+      "oracle_fix_rate": 0.26666666666666666,
+      "oracle_broken": 1,
+      "oracle_break_rate": 0.02040816326530612,
+      "net_oracle_moves": 3,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.09375,
+      "oracle_agreement_rate": 0.8125,
+      "oracle_agreement_when_changed": 0.6666666666666666,
+      "score_delta_vs_direct": {
+       "mean": 0.006472256840046296,
+       "median": 0.0,
+       "max": 0.1735759000264694
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.010212302615400404,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 6,
+       "mean_score_delta": 0.06903740629382717,
+       "mean_q_delta": 0.1089312278976043,
+       "mean_prior_of_chosen": 0.21080966745842084,
+       "mean_prior_of_direct": 0.3010933162035972
+      },
+      "q_of_direct_action": {
+       "mean": 0.036852666817139834,
+       "median": 0.03730291128158569
+      },
+      "move_latency_seconds": {
+       "mean": 0.12587931642519834,
+       "median": 0.12544506252743304
+      },
+      "c1_forwards_per_move": 306.875,
+      "mean_unique_worlds": 7.96875,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 6,
+      "oracle_fix_rate": 0.3333333333333333,
+      "oracle_broken": 8,
+      "oracle_break_rate": 0.17391304347826086,
+      "net_oracle_moves": -2,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 0.6875,
+      "oracle_agreement_when_changed": 0.4,
+      "score_delta_vs_direct": {
+       "mean": 0.018121833297236874,
+       "median": 0.0,
+       "max": 0.32830446887036285
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.03199344832682982,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.07731982206821067,
+       "mean_q_delta": 0.13650537952780722,
+       "mean_prior_of_chosen": 0.19872789690522327,
+       "mean_prior_of_direct": 0.3408711845039807
+      },
+      "q_of_direct_action": {
+       "mean": -0.09045640745898709,
+       "median": -0.08692024089396
+      },
+      "move_latency_seconds": {
+       "mean": 0.12182401889003813,
+       "median": 0.12280202098190784
+      },
+      "c1_forwards_per_move": 309.8125,
+      "mean_unique_worlds": 7.953125,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 7,
+      "oracle_fix_rate": 0.4117647058823529,
+      "oracle_broken": 10,
+      "oracle_break_rate": 0.2127659574468085,
+      "net_oracle_moves": -3,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.359375,
+      "oracle_agreement_rate": 0.6875,
+      "oracle_agreement_when_changed": 0.30434782608695654,
+      "score_delta_vs_direct": {
+       "mean": 0.029188629935848028,
+       "median": 0.0,
+       "max": 0.27261123024449924
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.06108538224361837,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 23,
+       "mean_score_delta": 0.08122053547366408,
+       "mean_q_delta": 0.16997671580832938,
+       "mean_prior_of_chosen": 0.09601363771820409,
+       "mean_prior_of_direct": 0.23181510743078382
+      },
+      "q_of_direct_action": {
+       "mean": 0.016128427756484598,
+       "median": 0.012077808380126953
+      },
+      "move_latency_seconds": {
+       "mean": 0.12320799281042127,
+       "median": 0.12416195851983503
+      },
+      "c1_forwards_per_move": 309.59375,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 6,
+      "oracle_fix_rate": 0.35294117647058826,
+      "oracle_broken": 7,
+      "oracle_break_rate": 0.14583333333333334,
+      "net_oracle_moves": -1,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.26153846153846155,
+      "oracle_agreement_rate": 0.7230769230769231,
+      "oracle_agreement_when_changed": 0.35294117647058826,
+      "score_delta_vs_direct": {
+       "mean": 0.03425292164521731,
+       "median": 0.0,
+       "max": 0.4684525430793379
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.05911754467166387,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.13096705334936032,
+       "mean_q_delta": 0.2260376708034207,
+       "mean_prior_of_chosen": 0.1496467834001165,
+       "mean_prior_of_direct": 0.3384534362273166
+      },
+      "q_of_direct_action": {
+       "mean": -0.19706943115362754,
+       "median": -0.12521136552095413
+      },
+      "move_latency_seconds": {
+       "mean": 0.11958864614045105,
+       "median": 0.1232415409758687
+      },
+      "c1_forwards_per_move": 296.8615384615385,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 39,
+      "oracle_fixed": 17,
+      "oracle_fix_rate": 0.4358974358974359,
+      "oracle_broken": 10,
+      "oracle_break_rate": 0.13333333333333333,
+      "net_oracle_moves": 7,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.2894736842105263,
+      "oracle_agreement_rate": 0.7192982456140351,
+      "oracle_agreement_when_changed": 0.5151515151515151,
+      "score_delta_vs_direct": {
+       "mean": 0.02613031731944266,
+       "median": 0.0,
+       "max": 0.32976007755699577
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.04782643015578128,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 33,
+       "mean_score_delta": 0.090268368921711,
+       "mean_q_delta": 0.16521857690178987,
+       "mean_prior_of_chosen": 0.1440004800486267,
+       "mean_prior_of_direct": 0.2735107224504803
+      },
+      "q_of_direct_action": {
+       "mean": -0.03311348392775184,
+       "median": -0.02373463101685047
+      },
+      "move_latency_seconds": {
+       "mean": 0.12615359356992453,
+       "median": 0.12520449998555705
+      },
+      "c1_forwards_per_move": 315.8157894736842,
+      "mean_unique_worlds": 8.0,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 9,
+      "oracle_fix_rate": 0.5,
+      "oracle_broken": 6,
+      "oracle_break_rate": 0.1016949152542373,
+      "net_oracle_moves": 3,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.19480519480519481,
+      "oracle_agreement_rate": 0.8051948051948052,
+      "oracle_agreement_when_changed": 0.6,
+      "score_delta_vs_direct": {
+       "mean": 0.008823182368750248,
+       "median": 0.0,
+       "max": 0.27261123024449924
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.022751503273264154,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.045292336159584605,
+       "mean_q_delta": 0.11679105013608933,
+       "mean_prior_of_chosen": 0.10792736792113147,
+       "mean_prior_of_direct": 0.22625330036219382
+      },
+      "q_of_direct_action": {
+       "mean": 0.02638759473701576,
+       "median": 0.046631354838609695
+      },
+      "move_latency_seconds": {
+       "mean": 0.12670557736116764,
+       "median": 0.1255800000508316
+      },
+      "c1_forwards_per_move": 313.83116883116884,
+      "mean_unique_worlds": 7.922077922077922,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "oracle": {
+    "oracle_headroom_positions": 74,
+    "oracle_fixed": 74,
+    "oracle_fix_rate": 1.0,
+    "oracle_broken": 0,
+    "oracle_break_rate": 0.0,
+    "net_oracle_moves": 74,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.2890625,
+    "oracle_agreement_rate": 1.0,
+    "oracle_agreement_when_changed": 1.0,
+    "score_delta_vs_direct": {
+     "mean": 0.0992603253176122,
+     "median": 0.0,
+     "max": 1.3414009886976987
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.13681249099317938,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 74,
+     "mean_score_delta": 0.3433870713690368,
+     "mean_q_delta": 0.4732972661385665,
+     "mean_prior_of_chosen": 0.12199121795839367,
+     "mean_prior_of_direct": 0.35622578237326213
+    },
+    "q_of_direct_action": {
+     "mean": -0.06536456616595387,
+     "median": -0.03671358525753021
+    },
+    "move_latency_seconds": {
+     "mean": 0.030063703283758514,
+     "median": 0.030405333498492837
+    },
+    "c1_forwards_per_move": 39.6953125,
+    "mean_unique_worlds": 1.0,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 24,
+      "oracle_fixed": 24,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 24,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.375,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.1609858564753091,
+       "median": 0.0,
+       "max": 1.0918414923523498
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.19724807795137167,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 24,
+       "mean_score_delta": 0.429295617267491,
+       "mean_q_delta": 0.5259948745369911,
+       "mean_prior_of_chosen": 0.11772860861994368,
+       "mean_prior_of_direct": 0.29338297605228786
+      },
+      "q_of_direct_action": {
+       "mean": -0.18269584933295846,
+       "median": -0.08623377978801727
+      },
+      "move_latency_seconds": {
+       "mean": 0.030399149737604603,
+       "median": 0.030548249516868964
+      },
+      "c1_forwards_per_move": 40.328125,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 15,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 15,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.06951951113698226,
+       "median": 0.0,
+       "max": 1.3414009886976987
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.09606927586719394,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.29661658085112436,
+       "mean_q_delta": 0.4098955770333608,
+       "mean_prior_of_chosen": 0.13395157275275374,
+       "mean_prior_of_direct": 0.40874465802110505
+      },
+      "q_of_direct_action": {
+       "mean": 0.012166857719421387,
+       "median": 0.019439607858657837
+      },
+      "move_latency_seconds": {
+       "mean": 0.03016691076754796,
+       "median": 0.030560999497538432
+      },
+      "c1_forwards_per_move": 38.890625,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 18,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 18,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.28125,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.07784182651160779,
+       "median": 0.0,
+       "max": 1.258459021546305
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.13731553964316845,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 18,
+       "mean_score_delta": 0.27677093870793884,
+       "mean_q_delta": 0.4882330298423767,
+       "mean_prior_of_chosen": 0.13909292879919996,
+       "mean_prior_of_direct": 0.4980013055849666
+      },
+      "q_of_direct_action": {
+       "mean": -0.09699804848060012,
+       "median": -0.061108171939849854
+      },
+      "move_latency_seconds": {
+       "mean": 0.02995306706543488,
+       "median": 0.030322166479891166
+      },
+      "c1_forwards_per_move": 39.90625,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 17,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 17,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.265625,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.08869410714654963,
+       "median": 0.0,
+       "max": 0.9720494697381991
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.11661707051098347,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.3339072269046574,
+       "mean_q_delta": 0.43902897133546714,
+       "mean_prior_of_chosen": 0.09934807131562223,
+       "mean_prior_of_direct": 0.24848959408944213
+      },
+      "q_of_direct_action": {
+       "mean": 0.006068775430321693,
+       "median": 0.013584330677986145
+      },
+      "move_latency_seconds": {
+       "mean": 0.029735685564446612,
+       "median": 0.03029739551129751
+      },
+      "c1_forwards_per_move": 39.65625,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 17,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 17,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.26153846153846155,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.15387377897035479,
+       "median": 0.0,
+       "max": 1.3414009886976987
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.20542043951841502,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.588340919592533,
+       "mean_q_delta": 0.7854310922762927,
+       "mean_prior_of_chosen": 0.07878108646974473,
+       "mean_prior_of_direct": 0.3918079520174747
+      },
+      "q_of_direct_action": {
+       "mean": -0.17986017969938425,
+       "median": -0.10688045620918274
+      },
+      "move_latency_seconds": {
+       "mean": 0.028313799943022716,
+       "median": 0.030212958983611315
+      },
+      "c1_forwards_per_move": 37.276923076923076,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 39,
+      "oracle_fixed": 39,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 39,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.34210526315789475,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.10332113334650954,
+       "median": 0.0,
+       "max": 1.0937406230664544
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.13964050589946278,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 39,
+       "mean_score_delta": 0.3020156205513356,
+       "mean_q_delta": 0.4081799403215066,
+       "mean_prior_of_chosen": 0.1494207922983272,
+       "mean_prior_of_direct": 0.3479898568389721
+      },
+      "q_of_direct_action": {
+       "mean": -0.038368789773238335,
+       "median": -0.025659561157226562
+      },
+      "move_latency_seconds": {
+       "mean": 0.03031474452827273,
+       "median": 0.030401270487345755
+      },
+      "c1_forwards_per_move": 40.333333333333336,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 18,
+      "oracle_fixed": 18,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 18,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.23376623376623376,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.047145953853682795,
+       "median": 0.0,
+       "max": 1.1410989778070189
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.07470975913010634,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 18,
+       "mean_score_delta": 0.20167991370742083,
+       "mean_q_delta": 0.31959174738989937,
+       "mean_prior_of_chosen": 0.10337004218337278,
+       "mean_prior_of_direct": 0.340464905255801
+      },
+      "q_of_direct_action": {
+       "mean": -0.008680197712662933,
+       "median": 0.01288864016532898
+      },
+      "move_latency_seconds": {
+       "mean": 0.031169222962631325,
+       "median": 0.030652166984509677
+      },
+      "c1_forwards_per_move": 40.79220779220779,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "direct_c1": {
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.0,
+    "oracle_agreement_rate": 0.7109375,
+    "note": "the accepted Phase 9 greedy action; the arms' common baseline",
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.625
+     },
+     "strategic_rule": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.765625
+     },
+     "tactical_rule": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.71875
+     },
+     "scout_rush": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.734375
+     }
+    }
+   }
+  },
+  "SMALL": {
+   "remaining_count": {
+    "oracle_headroom_positions": 82,
+    "oracle_fixed": 19,
+    "oracle_fix_rate": 0.23170731707317074,
+    "oracle_broken": 13,
+    "oracle_break_rate": 0.07471264367816093,
+    "net_oracle_moves": 6,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.19140625,
+    "oracle_agreement_rate": 0.703125,
+    "oracle_agreement_when_changed": 0.3877551020408163,
+    "score_delta_vs_direct": {
+     "mean": 0.012962902198013618,
+     "median": 0.0,
+     "max": 0.230546531902813
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.023962884886714164,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 49,
+     "mean_score_delta": 0.06772455025900992,
+     "mean_q_delta": 0.12519384757140462,
+     "mean_prior_of_chosen": 0.15327689922747587,
+     "mean_prior_of_direct": 0.2533833343541183
+    },
+    "q_of_direct_action": {
+     "mean": -0.10285970742552308,
+     "median": -0.10487277712672949
+    },
+    "move_latency_seconds": {
+     "mean": 0.32208006913720055,
+     "median": 0.3277410209993832
+    },
+    "c1_forwards_per_move": 855.37109375,
+    "mean_unique_worlds": 15.953125,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 26,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.38461538461538464,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.05263157894736842,
+      "net_oracle_moves": 8,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 0.71875,
+      "oracle_agreement_when_changed": 0.6666666666666666,
+      "score_delta_vs_direct": {
+       "mean": 0.012098436892728357,
+       "median": 0.0,
+       "max": 0.20708991487767525
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.025252558756619692,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.05161999740897433,
+       "mean_q_delta": 0.10774425069491068,
+       "mean_prior_of_chosen": 0.1588995773637006,
+       "mean_prior_of_direct": 0.24368189643209515
+      },
+      "q_of_direct_action": {
+       "mean": -0.21609352278755978,
+       "median": -0.23007024731487036
+      },
+      "move_latency_seconds": {
+       "mean": 0.332732944016243,
+       "median": 0.33285439599421807
+      },
+      "c1_forwards_per_move": 865.078125,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 3,
+      "oracle_fix_rate": 0.2,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.04081632653061224,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.125,
+      "oracle_agreement_rate": 0.78125,
+      "oracle_agreement_when_changed": 0.375,
+      "score_delta_vs_direct": {
+       "mean": 0.0040433031979119315,
+       "median": 0.0,
+       "max": 0.09896189922053322
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.009095682587940246,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 8,
+       "mean_score_delta": 0.03234642558329545,
+       "mean_q_delta": 0.07276546070352197,
+       "mean_prior_of_chosen": 0.18530166950756657,
+       "mean_prior_of_direct": 0.25598871216629726
+      },
+      "q_of_direct_action": {
+       "mean": -0.023713746923021972,
+       "median": -0.06484648212790489
+      },
+      "move_latency_seconds": {
+       "mean": 0.3171943352817834,
+       "median": 0.3255625205056276
+      },
+      "c1_forwards_per_move": 856.8125,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 20,
+      "oracle_fixed": 2,
+      "oracle_fix_rate": 0.1,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.11363636363636363,
+      "net_oracle_moves": -3,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.1875,
+      "oracle_agreement_rate": 0.640625,
+      "oracle_agreement_when_changed": 0.16666666666666666,
+      "score_delta_vs_direct": {
+       "mean": 0.014110472398015677,
+       "median": 0.0,
+       "max": 0.1750384616003265
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.028566463413881138,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 12,
+       "mean_score_delta": 0.07525585278941695,
+       "mean_q_delta": 0.1523544715406994,
+       "mean_prior_of_chosen": 0.1689780046783688,
+       "mean_prior_of_direct": 0.3334324151030809
+      },
+      "q_of_direct_action": {
+       "mean": -0.1286927831824869,
+       "median": -0.09799236711114645
+      },
+      "move_latency_seconds": {
+       "mean": 0.3184948703610644,
+       "median": 0.3259902285062708
+      },
+      "c1_forwards_per_move": 849.703125,
+      "mean_unique_worlds": 15.828125,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 21,
+      "oracle_fixed": 4,
+      "oracle_fix_rate": 0.19047619047619047,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.09302325581395349,
+      "net_oracle_moves": 0,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.21875,
+      "oracle_agreement_rate": 0.671875,
+      "oracle_agreement_when_changed": 0.2857142857142857,
+      "score_delta_vs_direct": {
+       "mean": 0.021599396303398504,
+       "median": 0.0,
+       "max": 0.230546531902813
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.03293683478841558,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 14,
+       "mean_score_delta": 0.09874009738696458,
+       "mean_q_delta": 0.1505683876041855,
+       "mean_prior_of_chosen": 0.11549464210641784,
+       "mean_prior_of_direct": 0.1936754470216443
+      },
+      "q_of_direct_action": {
+       "mean": -0.04293877680902369,
+       "median": -0.05978110432624817
+      },
+      "move_latency_seconds": {
+       "mean": 0.3198981268897114,
+       "median": 0.3292677715071477
+      },
+      "c1_forwards_per_move": 849.890625,
+      "mean_unique_worlds": 15.984375,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 3,
+      "oracle_fix_rate": 0.17647058823529413,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.041666666666666664,
+      "net_oracle_moves": 1,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.16923076923076924,
+      "oracle_agreement_rate": 0.7538461538461538,
+      "oracle_agreement_when_changed": 0.2727272727272727,
+      "score_delta_vs_direct": {
+       "mean": 0.011710140337863804,
+       "median": 0.0,
+       "max": 0.20510576343940415
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.02157685710833623,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.06919628381464975,
+       "mean_q_delta": 0.12749961018562317,
+       "mean_prior_of_chosen": 0.1624367539154065,
+       "mean_prior_of_direct": 0.2556068358655322
+      },
+      "q_of_direct_action": {
+       "mean": -0.25159131257006756,
+       "median": -0.23325341381132603
+      },
+      "move_latency_seconds": {
+       "mean": 0.3043485608596641,
+       "median": 0.3217542080092244
+      },
+      "c1_forwards_per_move": 809.3384615384615,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 40,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.25,
+      "oracle_broken": 9,
+      "oracle_break_rate": 0.12162162162162163,
+      "net_oracle_moves": 1,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.23684210526315788,
+      "oracle_agreement_rate": 0.6578947368421053,
+      "oracle_agreement_when_changed": 0.37037037037037035,
+      "score_delta_vs_direct": {
+       "mean": 0.013982367696956254,
+       "median": 0.0,
+       "max": 0.230546531902813
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.027222313738444394,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 27,
+       "mean_score_delta": 0.059036663609370855,
+       "mean_q_delta": 0.11493865800676523,
+       "mean_prior_of_chosen": 0.1554102108909383,
+       "mean_prior_of_direct": 0.26129577507535184
+      },
+      "q_of_direct_action": {
+       "mean": -0.08862986788153648,
+       "median": -0.08886496163904667
+      },
+      "move_latency_seconds": {
+       "mean": 0.32731904488939206,
+       "median": 0.328553979517892
+      },
+      "c1_forwards_per_move": 869.1228070175439,
+      "mean_unique_worlds": 15.991228070175438,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 25,
+      "oracle_fixed": 6,
+      "oracle_fix_rate": 0.24,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.038461538461538464,
+      "net_oracle_moves": 4,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.14285714285714285,
+      "oracle_agreement_rate": 0.7272727272727273,
+      "oracle_agreement_when_changed": 0.5454545454545454,
+      "score_delta_vs_direct": {
+       "mean": 0.012511089912692543,
+       "median": 0.0,
+       "max": 0.20708991487767525
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.021151416269796237,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.08757762938884779,
+       "mean_q_delta": 0.14805991388857365,
+       "mean_prior_of_chosen": 0.1388807340928647,
+       "mean_prior_of_direct": 0.2317383874360403
+      },
+      "q_of_direct_action": {
+       "mean": 0.0016253916183849434,
+       "median": 0.04266168363392353
+      },
+      "move_latency_seconds": {
+       "mean": 0.32929181981629196,
+       "median": 0.3288835829589516
+      },
+      "c1_forwards_per_move": 873.8701298701299,
+      "mean_unique_worlds": 15.857142857142858,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "original_phase11": {
+    "oracle_headroom_positions": 82,
+    "oracle_fixed": 26,
+    "oracle_fix_rate": 0.3170731707317073,
+    "oracle_broken": 15,
+    "oracle_break_rate": 0.08620689655172414,
+    "net_oracle_moves": 11,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.203125,
+    "oracle_agreement_rate": 0.72265625,
+    "oracle_agreement_when_changed": 0.5,
+    "score_delta_vs_direct": {
+     "mean": 0.01122869449861585,
+     "median": 0.0,
+     "max": 0.21521628176119156
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.02195309815579094,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 52,
+     "mean_score_delta": 0.0552797267624165,
+     "mean_q_delta": 0.10807679092081693,
+     "mean_prior_of_chosen": 0.15462131965727793,
+     "mean_prior_of_direct": 0.24876642288097667
+    },
+    "q_of_direct_action": {
+     "mean": -0.1303602161933668,
+     "median": -0.15616186149418354
+    },
+    "move_latency_seconds": {
+     "mean": 0.32751873444135526,
+     "median": 0.33115597898722626
+    },
+    "c1_forwards_per_move": 857.859375,
+    "mean_unique_worlds": 15.8828125,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 26,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.38461538461538464,
+      "oracle_broken": 3,
+      "oracle_break_rate": 0.07894736842105263,
+      "net_oracle_moves": 7,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.25,
+      "oracle_agreement_rate": 0.703125,
+      "oracle_agreement_when_changed": 0.625,
+      "score_delta_vs_direct": {
+       "mean": 0.011353135470775483,
+       "median": 0.0,
+       "max": 0.21521628176119156
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.024107738601742312,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 16,
+       "mean_score_delta": 0.04541254188310193,
+       "mean_q_delta": 0.09643095440696925,
+       "mean_prior_of_chosen": 0.15529204605388117,
+       "mean_prior_of_direct": 0.23105440202952268
+      },
+      "q_of_direct_action": {
+       "mean": -0.27387209501466714,
+       "median": -0.2822023779153824
+      },
+      "move_latency_seconds": {
+       "mean": 0.3465789421870795,
+       "median": 0.33659724998869933
+      },
+      "c1_forwards_per_move": 880.734375,
+      "mean_unique_worlds": 15.953125,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 4,
+      "oracle_fix_rate": 0.26666666666666666,
+      "oracle_broken": 2,
+      "oracle_break_rate": 0.04081632653061224,
+      "net_oracle_moves": 2,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.125,
+      "oracle_agreement_rate": 0.796875,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.006642592266688526,
+       "median": 0.0,
+       "max": 0.15287233997375937
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.015427847538376227,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 8,
+       "mean_score_delta": 0.05314073813350821,
+       "mean_q_delta": 0.12342278030700982,
+       "mean_prior_of_chosen": 0.16522889005924185,
+       "mean_prior_of_direct": 0.31271685435929786
+      },
+      "q_of_direct_action": {
+       "mean": -0.039062209107214585,
+       "median": -0.07434383500367403
+      },
+      "move_latency_seconds": {
+       "mean": 0.3179195964203245,
+       "median": 0.32812079149880446
+      },
+      "c1_forwards_per_move": 843.296875,
+      "mean_unique_worlds": 15.828125,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 20,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.25,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.09090909090909091,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.171875,
+      "oracle_agreement_rate": 0.703125,
+      "oracle_agreement_when_changed": 0.45454545454545453,
+      "score_delta_vs_direct": {
+       "mean": 0.01144897386377163,
+       "median": 0.0,
+       "max": 0.1866330534519764
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.022167685645399615,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 11,
+       "mean_score_delta": 0.06661221157103495,
+       "mean_q_delta": 0.12897562557323414,
+       "mean_prior_of_chosen": 0.19247641860983,
+       "mean_prior_of_direct": 0.3279845340898103
+      },
+      "q_of_direct_action": {
+       "mean": -0.11237467417959124,
+       "median": -0.10075732879340649
+      },
+      "move_latency_seconds": {
+       "mean": 0.31927647400243586,
+       "median": 0.32955043751280755
+      },
+      "c1_forwards_per_move": 848.265625,
+      "mean_unique_worlds": 15.765625,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 21,
+      "oracle_fixed": 7,
+      "oracle_fix_rate": 0.3333333333333333,
+      "oracle_broken": 6,
+      "oracle_break_rate": 0.13953488372093023,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.265625,
+      "oracle_agreement_rate": 0.6875,
+      "oracle_agreement_when_changed": 0.4117647058823529,
+      "score_delta_vs_direct": {
+       "mean": 0.015470076393227764,
+       "median": 0.0,
+       "max": 0.21295809071831945
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.026109120837645605,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.05824028759803394,
+       "mean_q_delta": 0.09829316080054816,
+       "mean_prior_of_chosen": 0.12450377412554638,
+       "mean_prior_of_direct": 0.1840834616162428
+      },
+      "q_of_direct_action": {
+       "mean": -0.09613188647199422,
+       "median": -0.1158231869339943
+      },
+      "move_latency_seconds": {
+       "mean": 0.32629992515558115,
+       "median": 0.3331738125125412
+      },
+      "c1_forwards_per_move": 859.140625,
+      "mean_unique_worlds": 15.984375,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 3,
+      "oracle_fix_rate": 0.17647058823529413,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.08333333333333333,
+      "net_oracle_moves": -1,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.13846153846153847,
+      "oracle_agreement_rate": 0.7230769230769231,
+      "oracle_agreement_when_changed": 0.3333333333333333,
+      "score_delta_vs_direct": {
+       "mean": 0.006309838940752891,
+       "median": 0.0,
+       "max": 0.1866330534519764
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.012662436727147836,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 9,
+       "mean_score_delta": 0.04557105901654866,
+       "mean_q_delta": 0.09145093191828993,
+       "mean_prior_of_chosen": 0.16272663854429034,
+       "mean_prior_of_direct": 0.2475239470020425
+      },
+      "q_of_direct_action": {
+       "mean": -0.2853912478742691,
+       "median": -0.281503489241004
+      },
+      "move_latency_seconds": {
+       "mean": 0.3104863936914346,
+       "median": 0.32850295898970217
+      },
+      "c1_forwards_per_move": 823.3384615384615,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 40,
+      "oracle_fixed": 13,
+      "oracle_fix_rate": 0.325,
+      "oracle_broken": 6,
+      "oracle_break_rate": 0.08108108108108109,
+      "net_oracle_moves": 7,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.24561403508771928,
+      "oracle_agreement_rate": 0.7105263157894737,
+      "oracle_agreement_when_changed": 0.4642857142857143,
+      "score_delta_vs_direct": {
+       "mean": 0.012920586175003756,
+       "median": 0.0,
+       "max": 0.15518691530602485
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.027732792245060728,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 28,
+       "mean_score_delta": 0.052605243712515286,
+       "mean_q_delta": 0.11291208271203297,
+       "mean_prior_of_chosen": 0.15325655918148948,
+       "mean_prior_of_direct": 0.2623185031616414
+      },
+      "q_of_direct_action": {
+       "mean": -0.1129407144004577,
+       "median": -0.10163709614425898
+      },
+      "move_latency_seconds": {
+       "mean": 0.33560772517465237,
+       "median": 0.33188404151587747
+      },
+      "c1_forwards_per_move": 879.1052631578947,
+      "mean_unique_worlds": 15.991228070175438,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 25,
+      "oracle_fixed": 10,
+      "oracle_fix_rate": 0.4,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.09615384615384616,
+      "net_oracle_moves": 5,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.19480519480519481,
+      "oracle_agreement_rate": 0.7402597402597403,
+      "oracle_agreement_when_changed": 0.6666666666666666,
+      "score_delta_vs_direct": {
+       "mean": 0.012876096578523271,
+       "median": 0.0,
+       "max": 0.21521628176119156
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.021238914606246082,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.06609729576975279,
+       "mean_q_delta": 0.10902642831206322,
+       "mean_prior_of_chosen": 0.15230568121320892,
+       "mean_prior_of_direct": 0.2242146918844297
+      },
+      "q_of_direct_action": {
+       "mean": -0.025279776519769197,
+       "median": -0.06134102866053581
+      },
+      "move_latency_seconds": {
+       "mean": 0.32992077606666664,
+       "median": 0.33381595800165087
+      },
+      "c1_forwards_per_move": 855.5454545454545,
+      "mean_unique_worlds": 15.623376623376624,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "agent1c": {
+    "oracle_headroom_positions": 82,
+    "oracle_fixed": 31,
+    "oracle_fix_rate": 0.3780487804878049,
+    "oracle_broken": 21,
+    "oracle_break_rate": 0.1206896551724138,
+    "net_oracle_moves": 10,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.265625,
+    "oracle_agreement_rate": 0.71875,
+    "oracle_agreement_when_changed": 0.45588235294117646,
+    "score_delta_vs_direct": {
+     "mean": 0.022545574644066528,
+     "median": 0.0,
+     "max": 0.5297574439785975
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.041169783609802835,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 68,
+     "mean_score_delta": 0.08487745748354458,
+     "mean_q_delta": 0.15499212653102243,
+     "mean_prior_of_chosen": 0.14480181406657372,
+     "mean_prior_of_direct": 0.2767169184336487
+    },
+    "q_of_direct_action": {
+     "mean": -0.065676990278007,
+     "median": -0.05547840613871813
+    },
+    "move_latency_seconds": {
+     "mean": 0.326755230634717,
+     "median": 0.33019895799225196
+    },
+    "c1_forwards_per_move": 855.78515625,
+    "mean_unique_worlds": 15.8828125,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 26,
+      "oracle_fixed": 18,
+      "oracle_fix_rate": 0.6923076923076923,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.13157894736842105,
+      "net_oracle_moves": 13,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.40625,
+      "oracle_agreement_rate": 0.796875,
+      "oracle_agreement_when_changed": 0.6923076923076923,
+      "score_delta_vs_direct": {
+       "mean": 0.03932782851656699,
+       "median": 0.0,
+       "max": 0.5297574439785975
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.07092726067639887,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 26,
+       "mean_score_delta": 0.09680696250231875,
+       "mean_q_delta": 0.1745901801265203,
+       "mean_prior_of_chosen": 0.14441124060672023,
+       "mean_prior_of_direct": 0.29160420416974364
+      },
+      "q_of_direct_action": {
+       "mean": -0.18851667596027255,
+       "median": -0.14403857104480267
+      },
+      "move_latency_seconds": {
+       "mean": 0.3442478892620784,
+       "median": 0.33532383348210715
+      },
+      "c1_forwards_per_move": 873.21875,
+      "mean_unique_worlds": 15.953125,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 3,
+      "oracle_fix_rate": 0.2,
+      "oracle_broken": 5,
+      "oracle_break_rate": 0.10204081632653061,
+      "net_oracle_moves": -2,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.140625,
+      "oracle_agreement_rate": 0.734375,
+      "oracle_agreement_when_changed": 0.3333333333333333,
+      "score_delta_vs_direct": {
+       "mean": 0.007538299351581976,
+       "median": 0.0,
+       "max": 0.178797116666622
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.018375401763478294,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 9,
+       "mean_score_delta": 0.053605684277916274,
+       "mean_q_delta": 0.1306695236514012,
+       "mean_prior_of_chosen": 0.15307466257589503,
+       "mean_prior_of_direct": 0.33259285248792975
+      },
+      "q_of_direct_action": {
+       "mean": 0.016327313001966104,
+       "median": -0.0066392505541443825
+      },
+      "move_latency_seconds": {
+       "mean": 0.3187468144487866,
+       "median": 0.3271575829712674
+      },
+      "c1_forwards_per_move": 848.59375,
+      "mean_unique_worlds": 15.859375,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 20,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.25,
+      "oracle_broken": 4,
+      "oracle_break_rate": 0.09090909090909091,
+      "net_oracle_moves": 1,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.203125,
+      "oracle_agreement_rate": 0.703125,
+      "oracle_agreement_when_changed": 0.38461538461538464,
+      "score_delta_vs_direct": {
+       "mean": 0.01632801343353487,
+       "median": 0.0,
+       "max": 0.3664893834189405
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.03216909826733172,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 13,
+       "mean_score_delta": 0.08038406613432551,
+       "mean_q_delta": 0.1583709453160946,
+       "mean_prior_of_chosen": 0.18071891965066728,
+       "mean_prior_of_direct": 0.3245965369786752
+      },
+      "q_of_direct_action": {
+       "mean": -0.09343843001988716,
+       "median": -0.09433063678443432
+      },
+      "move_latency_seconds": {
+       "mean": 0.31823180734318157,
+       "median": 0.32905458347522654
+      },
+      "c1_forwards_per_move": 847.5,
+      "mean_unique_worlds": 15.71875,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 21,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.23809523809523808,
+      "oracle_broken": 7,
+      "oracle_break_rate": 0.16279069767441862,
+      "net_oracle_moves": -2,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.3125,
+      "oracle_agreement_rate": 0.640625,
+      "oracle_agreement_when_changed": 0.25,
+      "score_delta_vs_direct": {
+       "mean": 0.026988157274582276,
+       "median": 0.0,
+       "max": 0.2119480732487941
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.04320737373200245,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 20,
+       "mean_score_delta": 0.08636210327866328,
+       "mean_q_delta": 0.13826359594240784,
+       "mean_prior_of_chosen": 0.11824065910552788,
+       "mean_prior_of_direct": 0.20109752459803157
+      },
+      "q_of_direct_action": {
+       "mean": 0.002919831866165623,
+       "median": -0.01062250416725874
+      },
+      "move_latency_seconds": {
+       "mean": 0.32579441148482147,
+       "median": 0.3310348539671395
+      },
+      "c1_forwards_per_move": 853.828125,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 5,
+      "oracle_fix_rate": 0.29411764705882354,
+      "oracle_broken": 3,
+      "oracle_break_rate": 0.0625,
+      "net_oracle_moves": 2,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.2153846153846154,
+      "oracle_agreement_rate": 0.7692307692307693,
+      "oracle_agreement_when_changed": 0.35714285714285715,
+      "score_delta_vs_direct": {
+       "mean": 0.024230312900531372,
+       "median": 0.0,
+       "max": 0.40511741495080933
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.04661058411002159,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 14,
+       "mean_score_delta": 0.11249788132389565,
+       "mean_q_delta": 0.2164062833679574,
+       "mean_prior_of_chosen": 0.1305563414662177,
+       "mean_prior_of_direct": 0.3175308138800759
+      },
+      "q_of_direct_action": {
+       "mean": -0.19167471854732587,
+       "median": -0.13018632493913174
+      },
+      "move_latency_seconds": {
+       "mean": 0.3111653057544922,
+       "median": 0.32692979101557285
+      },
+      "c1_forwards_per_move": 819.5384615384615,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 40,
+      "oracle_fixed": 18,
+      "oracle_fix_rate": 0.45,
+      "oracle_broken": 12,
+      "oracle_break_rate": 0.16216216216216217,
+      "net_oracle_moves": 6,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.3157894736842105,
+      "oracle_agreement_rate": 0.7017543859649122,
+      "oracle_agreement_when_changed": 0.5,
+      "score_delta_vs_direct": {
+       "mean": 0.027311918582055998,
+       "median": 0.0,
+       "max": 0.5297574439785975
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.04438182847214896,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 36,
+       "mean_score_delta": 0.08648774217651066,
+       "mean_q_delta": 0.1405424568284717,
+       "mean_prior_of_chosen": 0.1588344781244785,
+       "mean_prior_of_direct": 0.2620338352279115
+      },
+      "q_of_direct_action": {
+       "mean": -0.042966657530581744,
+       "median": -0.016109073534607887
+      },
+      "move_latency_seconds": {
+       "mean": 0.33419642584825243,
+       "median": 0.3319491464935709
+      },
+      "c1_forwards_per_move": 874.1491228070175,
+      "mean_unique_worlds": 16.0,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 25,
+      "oracle_fixed": 8,
+      "oracle_fix_rate": 0.32,
+      "oracle_broken": 6,
+      "oracle_break_rate": 0.11538461538461539,
+      "net_oracle_moves": 2,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.23376623376623376,
+      "oracle_agreement_rate": 0.7012987012987013,
+      "oracle_agreement_when_changed": 0.4444444444444444,
+      "score_delta_vs_direct": {
+       "mean": 0.014066727947949458,
+       "median": 0.0,
+       "max": 0.2119480732487941
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.031821405079651185,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 18,
+       "mean_score_delta": 0.06017433622178379,
+       "mean_q_delta": 0.13612489950739676,
+       "mean_prior_of_chosen": 0.12781629797326327,
+       "mean_prior_of_direct": 0.2743389439423463
+      },
+      "q_of_direct_action": {
+       "mean": 0.007061638349255958,
+       "median": 0.011333238333463669
+      },
+      "move_latency_seconds": {
+       "mean": 0.32889872236032186,
+       "median": 0.33129454095615074
+      },
+      "c1_forwards_per_move": 859.1948051948052,
+      "mean_unique_worlds": 15.61038961038961,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "oracle": {
+    "oracle_headroom_positions": 82,
+    "oracle_fixed": 82,
+    "oracle_fix_rate": 1.0,
+    "oracle_broken": 0,
+    "oracle_break_rate": 0.0,
+    "net_oracle_moves": 82,
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.3203125,
+    "oracle_agreement_rate": 1.0,
+    "oracle_agreement_when_changed": 1.0,
+    "score_delta_vs_direct": {
+     "mean": 0.11138882199009609,
+     "median": 0.0,
+     "max": 1.2500735172914854
+    },
+    "q_delta_vs_direct": {
+     "mean": 0.15302044607233256,
+     "median": 0.0
+    },
+    "when_changed": {
+     "positions": 82,
+     "mean_score_delta": 0.3477504686520073,
+     "mean_q_delta": 0.4777223682258187,
+     "mean_prior_of_chosen": 0.11528038225145866,
+     "mean_prior_of_direct": 0.3527757830297485
+    },
+    "q_of_direct_action": {
+     "mean": -0.08397359470836818,
+     "median": -0.043934017419815063
+    },
+    "move_latency_seconds": {
+     "mean": 0.04108330662188564,
+     "median": 0.04184816652559675
+    },
+    "c1_forwards_per_move": 54.765625,
+    "mean_unique_worlds": 1.0,
+    "mean_candidates": 8.0,
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "oracle_headroom_positions": 26,
+      "oracle_fixed": 26,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 26,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.40625,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.17059419860979663,
+       "median": 0.0,
+       "max": 1.1773647102688385
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.20691270101815462,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 26,
+       "mean_score_delta": 0.41992418119334557,
+       "mean_q_delta": 0.5093235717369959,
+       "mean_prior_of_chosen": 0.12480609757928306,
+       "mean_prior_of_direct": 0.2874165148879146
+      },
+      "q_of_direct_action": {
+       "mean": -0.17881438694894314,
+       "median": -0.08112536370754242
+      },
+      "move_latency_seconds": {
+       "mean": 0.04244800000469695,
+       "median": 0.04192956248880364
+      },
+      "c1_forwards_per_move": 55.828125,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "strategic_rule": {
+      "oracle_headroom_positions": 15,
+      "oracle_fixed": 15,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 15,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.234375,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.08343537357482057,
+       "median": 0.0,
+       "max": 1.1809407580590539
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.11970967333763838,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 15,
+       "mean_score_delta": 0.3559909272525678,
+       "mean_q_delta": 0.510761272907257,
+       "mean_prior_of_chosen": 0.13214563585631223,
+       "mean_prior_of_direct": 0.46739280350084966
+      },
+      "q_of_direct_action": {
+       "mean": -0.03512002993375063,
+       "median": -0.04720696806907654
+      },
+      "move_latency_seconds": {
+       "mean": 0.04014128973358311,
+       "median": 0.04181647949735634
+      },
+      "c1_forwards_per_move": 53.484375,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "tactical_rule": {
+      "oracle_headroom_positions": 20,
+      "oracle_fixed": 20,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 20,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.3125,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.10752578850933003,
+       "median": 0.0,
+       "max": 1.2500735172914854
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.17360528698191047,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 20,
+       "mean_score_delta": 0.3440825232298561,
+       "mean_q_delta": 0.5555369183421135,
+       "mean_prior_of_chosen": 0.10957162483439076,
+       "mean_prior_of_direct": 0.4926397626344196
+      },
+      "q_of_direct_action": {
+       "mean": -0.12169981515035033,
+       "median": -0.07652625441551208
+      },
+      "move_latency_seconds": {
+       "mean": 0.04103051099991717,
+       "median": 0.041782874497585
+      },
+      "c1_forwards_per_move": 55.15625,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "scout_rush": {
+      "oracle_headroom_positions": 21,
+      "oracle_fixed": 21,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 21,
+      "positions": 64,
+      "move_disagreement_rate_vs_direct": 0.328125,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.0839999272664371,
+       "median": 0.0,
+       "max": 0.9768799787300552
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.11185412295162678,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 21,
+       "mean_score_delta": 0.2559997783358083,
+       "mean_q_delta": 0.34088875566210064,
+       "mean_prior_of_chosen": 0.09687694157265485,
+       "mean_prior_of_direct": 0.2186236912453552
+      },
+      "q_of_direct_action": {
+       "mean": -0.0002601468004286289,
+       "median": -0.0047758519649505615
+      },
+      "move_latency_seconds": {
+       "mean": 0.04071342574934533,
+       "median": 0.041969999991124496
+      },
+      "c1_forwards_per_move": 54.59375,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     }
+    },
+    "by_progress_bucket": {
+     "early": {
+      "oracle_headroom_positions": 17,
+      "oracle_fixed": 17,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 17,
+      "positions": 65,
+      "move_disagreement_rate_vs_direct": 0.26153846153846155,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.14907230711762842,
+       "median": 0.0,
+       "max": 1.2500735172914854
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.1949129540186662,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 17,
+       "mean_score_delta": 0.5699823507438734,
+       "mean_q_delta": 0.7452554124243119,
+       "mean_prior_of_chosen": 0.08241574291053912,
+       "mean_prior_of_direct": 0.3730762638163092
+      },
+      "q_of_direct_action": {
+       "mean": -0.19115171340795664,
+       "median": -0.08291059732437134
+      },
+      "move_latency_seconds": {
+       "mean": 0.03842896855651186,
+       "median": 0.041404750023502856
+      },
+      "c1_forwards_per_move": 50.676923076923075,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "middle": {
+      "oracle_headroom_positions": 40,
+      "oracle_fixed": 40,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 40,
+      "positions": 114,
+      "move_disagreement_rate_vs_direct": 0.3508771929824561,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.12418825115120902,
+       "median": 0.0,
+       "max": 1.1809407580590539
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.16347403066200122,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 40,
+       "mean_score_delta": 0.3539365157809457,
+       "mean_q_delta": 0.4659009873867035,
+       "mean_prior_of_chosen": 0.13275902520831415,
+       "mean_prior_of_direct": 0.3482553487464623
+      },
+      "q_of_direct_action": {
+       "mean": -0.05054189630767755,
+       "median": -0.043934017419815063
+      },
+      "move_latency_seconds": {
+       "mean": 0.041723589125914465,
+       "median": 0.0418488540162798
+      },
+      "c1_forwards_per_move": 55.81578947368421,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     },
+     "late": {
+      "oracle_headroom_positions": 25,
+      "oracle_fixed": 25,
+      "oracle_fix_rate": 1.0,
+      "oracle_broken": 0,
+      "oracle_break_rate": 0.0,
+      "net_oracle_moves": 25,
+      "positions": 77,
+      "move_disagreement_rate_vs_direct": 0.3246753246753247,
+      "oracle_agreement_rate": 1.0,
+      "oracle_agreement_when_changed": 1.0,
+      "score_delta_vs_direct": {
+       "mean": 0.06062828357897303,
+       "median": 0.0,
+       "max": 1.1727229075460173
+      },
+      "q_delta_vs_direct": {
+       "mean": 0.10217990503682718,
+       "median": 0.0
+      },
+      "when_changed": {
+       "positions": 25,
+       "mean_score_delta": 0.18673511342323693,
+       "mean_q_delta": 0.3147141075134277,
+       "mean_prior_of_chosen": 0.10966250827231519,
+       "mean_prior_of_direct": 0.3462041509481451
+      },
+      "q_of_direct_action": {
+       "mean": -0.04299484019155626,
+       "median": -0.027469217777252197
+      },
+      "move_latency_seconds": {
+       "mean": 0.04237603089188576,
+       "median": 0.04209633299615234
+      },
+      "c1_forwards_per_move": 56.66233766233766,
+      "mean_unique_worlds": 1.0,
+      "mean_candidates": 8.0
+     }
+    }
+   },
+   "direct_c1": {
+    "positions": 256,
+    "move_disagreement_rate_vs_direct": 0.0,
+    "oracle_agreement_rate": 0.6796875,
+    "note": "the accepted Phase 9 greedy action; the arms' common baseline",
+    "by_behavior_group": {
+     "phase9_selfplay": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.59375
+     },
+     "strategic_rule": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.765625
+     },
+     "tactical_rule": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.6875
+     },
+     "scout_rush": {
+      "positions": 64,
+      "oracle_agreement_rate": 0.671875
+     }
+    }
+   }
+  }
+ },
+ "pairwise_agreement": {
+  "TINY": {
+   "remaining_count": {
+    "remaining_count": 1.0,
+    "original_phase11": 0.83984375,
+    "agent1c": 0.7734375,
+    "oracle": 0.7265625
+   },
+   "original_phase11": {
+    "remaining_count": 0.83984375,
+    "original_phase11": 1.0,
+    "agent1c": 0.7734375,
+    "oracle": 0.7421875
+   },
+   "agent1c": {
+    "remaining_count": 0.7734375,
+    "original_phase11": 0.7734375,
+    "agent1c": 1.0,
+    "oracle": 0.74609375
+   },
+   "oracle": {
+    "remaining_count": 0.7265625,
+    "original_phase11": 0.7421875,
+    "agent1c": 0.74609375,
+    "oracle": 1.0
+   }
+  },
+  "SMALL": {
+   "remaining_count": {
+    "remaining_count": 1.0,
+    "original_phase11": 0.8203125,
+    "agent1c": 0.796875,
+    "oracle": 0.703125
+   },
+   "original_phase11": {
+    "remaining_count": 0.8203125,
+    "original_phase11": 1.0,
+    "agent1c": 0.78515625,
+    "oracle": 0.72265625
+   },
+   "agent1c": {
+    "remaining_count": 0.796875,
+    "original_phase11": 0.78515625,
+    "agent1c": 1.0,
+    "oracle": 0.71875
+   },
+   "oracle": {
+    "remaining_count": 0.703125,
+    "original_phase11": 0.72265625,
+    "agent1c": 0.71875,
+    "oracle": 1.0
+   }
+  }
+ },
+ "unanimity": {
+  "TINY": {
+   "positions": 256,
+   "all_four_arms_identical": 0.59765625,
+   "three_production_arms_identical": 0.703125,
+   "any_arm_left_direct_c1": 0.44140625
+  },
+  "SMALL": {
+   "positions": 256,
+   "all_four_arms_identical": 0.6015625,
+   "three_production_arms_identical": 0.72265625,
+   "any_arm_left_direct_c1": 0.4375
+  }
+ },
+ "cost": {
+  "TINY": {
+   "worlds": 8,
+   "rollout_depth": 4,
+   "arms": 4,
+   "decisions": 1024,
+   "mean_seconds": 0.1000943037486195,
+   "total_seconds": 102.49656703858636
+  },
+  "SMALL": {
+   "worlds": 16,
+   "rollout_depth": 6,
+   "arms": 4,
+   "decisions": 1024,
+   "mean_seconds": 0.2543593352087896,
+   "total_seconds": 260.46395925380057
+  }
+ },
+ "reproducibility": {
+  "preset": "SMALL",
+  "positions": 16,
+  "decisions": 64,
+  "identical": true
+ },
+ "decisions": {
+  "path": "reports/phase12/agent_02_decisions.csv",
+  "rows": 2048,
+  "columns": [
+   "position_id",
+   "stratum",
+   "progress_bucket",
+   "observer_color",
+   "ply",
+   "unresolved",
+   "provider",
+   "preset",
+   "seed",
+   "selected_action_id",
+   "direct_action_id",
+   "move_changed",
+   "root_direct_value",
+   "q_selected",
+   "q_direct",
+   "score_selected",
+   "score_direct",
+   "prior_selected",
+   "prior_direct",
+   "candidate_count",
+   "legal_action_count",
+   "unique_worlds",
+   "c1_forwards",
+   "terminal_leaves",
+   "seconds"
+  ],
+  "sha256": "8fb7ff783fe58e5635f08400381fc6e7e40f6d471a76e4a923b8ab9563a1bf30",
+  "note": "one row per (preset, provider, position); every aggregate in this summary is recomputable from these rows alone"
+ },
+ "limitations": [
+  "Position-level diagnostic only: agreement with a perfect-information search is not a win rate and not a strength claim.",
+  "The oracle arm collapses to a single world, so it is both the best-informed and the cheapest arm; its latency is not comparable to the belief arms'.",
+  "2 positions per game over 130 contributing games: positions from one game share a setup and an opening, so they are not independent samples.",
+  "The diagnostic setups are drawn from the accepted library's 'validation' split, which is also the pool Phase 11B's dev split drew from \u2014 different seeds, different games, but Agent 1C's candidate selection saw that pool. A mild optimistic residual for agent1c, accepted for an engineering diagnostic.",
+  "R_CE here is computed on this fresh set and is not the Phase 11B leaderboard number for the same checkpoint.",
+  "One fixed beta (0.1) and one candidate rule, per the common contract; no tuning was attempted."
+ ],
+ "status": {
+  "phase11_final_classification": "FAIL",
+  "phase11b_selection": "Agent1C",
+  "scientific_validation_status": "not performed",
+  "oracle_available_in_production": false,
+  "phase11_test_bank_used": false,
+  "search_core_modified": false,
+  "match_set_run": false,
+  "agent_3_launched": false
+ },
+ "environment": {
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "torch_threads": 10,
+  "mps_available": true
+ },
+ "history": {
+  "phase11_final_classification": "FAIL",
+  "phase12_authorized_by_phase11": false,
+  "phase11b_selection": "Agent1C"
+ },
+ "verdict": {
+  "statement": "BELIEF CHANGES DECISIONS, BUT NOT DEMONSTRABLY FOR THE BETTER\nagent1c and original_phase11 choose differently, and agent1c is not\ncloser to the perfect-information choice at this budget",
+  "findings": [
+   "On this fresh set the belief ordering is agent1c R_CE 0.9268 < original_phase11 0.9668 < remaining_count 1.0 \u2014 the Phase 11B ordering reproduces here.",
+   "Search changes the move in 19.1% (count), 20.3% (original), 26.6% (agent1c) and 32.0% (oracle) of positions.",
+   "agent1c and original_phase11 pick the same action at 78.5% of positions; the belief improvement does reach the decision.",
+   "Oracle agreement: direct C1 68.0%, count 70.3%, original 72.3%, agent1c 71.9%. Every search arm beats direct C1 here, and the three are within a few positions of each other.",
+   "agent1c minus original_phase11 oracle agreement: TINY +0.4pp (+1 of 256 positions), SMALL -0.4pp (-1 of 256 positions) \u2014 the sign flips between budgets, so at this sample size the two beliefs are not separable by this measure.",
+   "Of the 82 positions where direct C1 and the oracle search disagree, agent1c recovers the most (31, a 37.8% fix rate, against 26 for original_phase11 and 19 for remaining_count) but also breaks the most (21 against 15 and 13), so the net is a wash: +10 against +11 and +6."
+  ],
+  "interpretation": [
+   "The oracle arm is the ceiling of this mechanism, not of Stratego: it is the same search, the same rollouts and the same leaf value, run on the one true world. Its distance from direct C1 is how much this search design can move a decision at all: it leaves the direct C1 move in 32.0% of positions, and those are the entire budget of decisions any belief could hope to change for the better.",
+   "Because the oracle does move decisions, the mechanism has room in it, and the interesting question is how much of that room the learned beliefs recover. Between the count baseline (70.3% oracle agreement) and the oracle itself, agent1c reaches 71.9% and the original head 72.3%, against direct C1's 68.0%. Of the 82 positions where direct C1 and the oracle search disagree, agent1c recovers 31 and breaks 21 that direct C1 already had right (net +10); original_phase11 is 26/15 (net +11) and remaining_count 19/13 (net +6).",
+   "Nothing here is a strength claim. Agreeing with the perfect-information search is agreement with a shallow greedy-rollout evaluation that happens to know the hidden ranks; it is a diagnostic, not a proof of optimality, and Agent 3's match test is what turns any of this into wins or does not."
+  ],
+  "flags": {
+   "belief_ordering_reproduces_on_this_set": true,
+   "belief_change_reaches_the_decision": true,
+   "agent1c_closer_to_oracle_than_original": false,
+   "agent1c_closer_to_oracle_than_direct_c1": true,
+   "agent1c_minus_original_by_preset": {
+    "TINY": 0.00390625,
+    "SMALL": -0.00390625
+   },
+   "agent1c_minus_original_sign_stable_across_budgets": false,
+   "oracle_search_has_decision_headroom": true,
+   "oracle_headroom_rate": 0.3203125,
+   "mechanism_headroom_floor": 0.05
+  }
+ },
+ "seconds_total": 390.943
+}
