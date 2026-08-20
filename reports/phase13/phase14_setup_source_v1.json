@@ -1,0 +1,47 @@
+{
+  "artifact": "phase14_setup_source_v1",
+  "identity": "phase14_setup_source_v1",
+  "phase": 13,
+  "agent": 1,
+  "written_utc": "2026-08-20T21:04:00Z",
+  "status": "FROZEN",
+  "decision": "the census found no defect and no pathology on the production path, so the source is frozen exactly as proposed: 35% neutral_v1 + 65% accepted P10-D learned selector with the accepted reflection/perturbation behaviour. No repair was needed; no new setup-source implementation identity was created.",
+
+  "definition": {
+    "mixture": {"neutral_v1": 0.35, "p10d_learned": 0.65},
+    "split": "train",
+    "entry_point": "stratego.training.phase10_selector.LearnedSetupSource(candidate('P10-D'), load_scorer(), load_library_index()).draw(SelectorRequest(split='train', color, selector_seed)) — the branch coin applies the 35/65 mixture internally",
+    "post_selection_behaviour": "accepted neutral_v1 profile on both branches: reflection probability 0.5 (left-right file mirror), perturbation probability 0.5, uniform swap-count 1..6, Flag cell pinned by the frozen perturbation contract",
+    "orientation_requirement": "every engine placement MUST go through the accepted orientation helper — SelectorDraw.oriented(player) / SampledSetup.oriented(player) / orient_setup(canonical, player) — before create_game. Passing the canonical tuple directly to create_game for BLUE places the army back-to-front; this exact mistake exists in stratego/belief/phase11b/corpus.py (Phase11BSetupSources.draw returns canonical tuples consumed unoriented by Phase 11B/12 game construction) and produced the Phase 12 '47/64 front-row flag' observation. Phase 14 collection integration (Agent 2) must bind the oriented path and MUST NOT reuse the Phase 11B glue.",
+    "per_side_independence": "the two sides of one game are drawn independently with their own selector seeds, as in the accepted Phase 10 soak"
+  },
+
+  "bound_identities": {
+    "selector_candidate": "P10-D",
+    "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668",
+    "selector_config_artifact": "reports/phase_10_data/agent_05_frozen_selector_config.json",
+    "utility_file": "checkpoints/phase10/setup_utility_v1.json",
+    "utility_file_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "utility_model_T_coefficient_digest": "d898782a2ae7cf4ed1cb2833fad6e53d8407ec2048dafbd34a6a20c1c9766edc",
+    "library_file": "data/setups/setup_library_v1.jsonl",
+    "library_file_sha256": "cd8c3921b9a93035d9007631767d234f095af8abf38df7ad50dda6e93bd7b7d0",
+    "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+    "production_train_distribution_digests": {
+      "red": "9ac5b52edbbf0ff92fbebe5c61eefe5a13f0092a3b685eae8857f66b261e491f",
+      "blue": "abef229983e2f4b6caf5323171618b5c82d6a67f59463256098343639f6e957f"
+    },
+    "phase10_system_manifest": "reports/phase_10_data/agent_06_production_selector_manifest.json (phase10_system_v1 digest 615cc3c3a4fab6e4...)"
+  },
+
+  "census_binding": {
+    "alarm_policy_sha256": "12769b849411ca6ced4ad7641a862d78d4ddc8ab45af27457b0ac8e5dfac6adf",
+    "census_content_digest": "a7103107b7c77a5b31ef6e3fa7f6b4bd04553edaae526dfbb523b7e295b4d132",
+    "census_classification": "VALID_BUT_STRATEGICALLY_POOR (no defect, no pathology)",
+    "census_headline": "P_trivial 0.003296 (threshold 0.05), P_predecision 0.001953 (threshold 0.025), 0 defects over 32,768 draws / 8,192 paired engine boards / 1,024 adapter equality checks; all front-row Flags trace to family F15 (irregular_high_entropy) whose contract allows flag_rank 0..3; the learned branch selects F15 slightly LESS than neutral (mass 0.045-0.052 vs 0.0625); reflection and perturbation changed the Flag row 0 times in 32,768 draws"
+  },
+
+  "valid_but_strategically_poor_report": "About 1.2-1.4% of production draws carry a front-row Flag (about 0.7-0.8% in an open file), entirely from the by-design irregular_high_entropy family; about 0.33% of paired boards start with an immediate scout lane to a Flag. This is legal, matches the accepted Phase 9 exposure regime (~0.24% observed 1-2-ply endings), and is reported without repair per the predeclared policy. Phase 10 is not reopened.",
+
+  "phase10_evidence": "unchanged and preserved; this document adds a Phase 14 binding, it does not modify phase10_system_v1"
+}

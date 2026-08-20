@@ -1,0 +1,110 @@
+{
+  "artifact": "phase13_agent_01_summary",
+  "phase": 13,
+  "agent": 1,
+  "task": "instructions/phase_13_final_training_integration/01_AGENT_1_FINAL_TRAINING_CONTRACT_AND_SETUP_CENSUS.md",
+  "written_utc": "2026-08-20T21:20:00Z",
+  "outcome": "COMPLETE — contract frozen, census clean, setup source frozen without repair; no training run, Phase 14 not started, Agent 2 not started",
+
+  "stop_condition_items": {
+    "phase9_values_retrieved_and_bound": true,
+    "continuation_lr_frozen": true,
+    "main_late_schedule_frozen": true,
+    "opponent_mixtures_frozen": true,
+    "historical_archive_and_pool_rules_frozen": true,
+    "belief_auxiliary_treatment_frozen": true,
+    "checkpoint_hierarchy_frozen": true,
+    "candidate_pack_and_selection_rule_frozen": true,
+    "setup_alarm_policy_written_before_sampling": true,
+    "setup_census_completed": true,
+    "setup_defect_resolution_required": false,
+    "phase14_setup_source_frozen": true,
+    "storage_deadline_recovery_semantics_frozen": true,
+    "rl_training_run": false,
+    "agent2_started": false
+  },
+
+  "history_preservation": {
+    "phase11_final_classification": "FAIL",
+    "phase11_reinterpreted": false,
+    "phase11b_status": "engineering branch only",
+    "phase12_search_in_phase14_training": false
+  },
+
+  "frozen_values": {
+    "starting_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "starting_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "agent1c_used_for_policy_value": false,
+    "LR9": 0.0003,
+    "main_continuation_LR": 7.5e-05,
+    "late_continuation_LR": 3.75e-05,
+    "main_segment_hours": 132,
+    "late_segment_hours": 36,
+    "mixture_main_per_2048": {"current": 1188, "historical": 615, "handcrafted": 245},
+    "mixture_late_per_2048": {"current": 819, "historical": 984, "handcrafted": 245},
+    "handcrafted_split": {"strategic_rule_based": 61, "tactical_rule_based": 61, "stress_scout_rush": 41, "stress_miner_rush": 41, "stress_information_miser": 41},
+    "active_pool": "16 = anchors P8+P9 + up to 14 snapshots (older 4 / middle 4 / recent 6; weights 20/25/25/30)",
+    "belief_auxiliary": "retained, weight 0.25, accepted targets",
+    "ema": "absent in accepted Phase 9; Phase 14 runs without EMA (absence recorded)",
+    "entropy_coefficient_phase14": 0.001,
+    "optimizer_state_at_start": "fresh AdamW moments; KL controller beta0 0.005",
+    "hot_checkpoint_minutes": 15,
+    "archive_hours": 2,
+    "candidate_hours": 6,
+    "candidate_count": 29,
+    "deadline_seconds": 604800
+  },
+
+  "census": {
+    "alarm_policy_sha256": "12769b849411ca6ced4ad7641a862d78d4ddc8ab45af27457b0ac8e5dfac6adf",
+    "alarm_policy_written_utc": "2026-08-20T20:51:35Z",
+    "census_content_digest": "a7103107b7c77a5b31ef6e3fa7f6b4bd04553edaae526dfbb523b7e295b4d132",
+    "bit_reproduced_on_second_run": true,
+    "sample_sizes": {"mixture": 16384, "neutral_v1": 16384, "learned_branch": 10666, "paired_boards": 8192, "adapter_checks": 1024},
+    "defects": 0,
+    "P_trivial": 0.003296,
+    "P_trivial_threshold": 0.05,
+    "P_predecision": 0.001953,
+    "P_predecision_threshold": 0.025,
+    "classification": "VALID_BUT_STRATEGICALLY_POOR",
+    "front_row_flag_attribution": "100% family F15 irregular_high_entropy (by design); learned branch selects F15 less than neutral; reflection/perturbation changed the Flag row 0 times in 32,768 draws",
+    "phase12_prior_observation_explained": "Phase 11B/12 glue (Phase11BSetupSources.draw returns canonical tuples; blue armies placed back-to-front in those games); production path measured clean (D4 = 0 over 8,192 engine boards)"
+  },
+
+  "setup_source": {
+    "identity": "phase14_setup_source_v1",
+    "definition": "35% neutral_v1 + 65% P10-D, accepted reflection/perturbation, train split, oriented(player) path",
+    "repaired": false,
+    "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+  },
+
+  "selection_pack": {
+    "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "games": 128,
+    "strata": ["phase9_anchor", "strategic_rule_based", "tactical_rule_based", "stress_scout_rush"],
+    "bit_reproduced_on_second_run": true,
+    "selection_rule": "equal-weight mean EWR; tie-break min-stratum EWR; then later checkpoint"
+  },
+
+  "storage": {
+    "volume": "/Volumes/Brandon_Washington",
+    "available_gb_measured": 994,
+    "projected_worst_case_with_reserve_gib": 726,
+    "full_raw_retention_fits": true,
+    "contingency_policy": "pre-authorized rolling deletion of consumed Phase 14 shards only if free space < 120 GiB; accepted evidence never deleted"
+  },
+
+  "deliverables": [
+    "reports/phase13/phase13_final_training_contract_v1.json",
+    "reports/phase13/phase13_setup_census_alarm_policy_v1.json",
+    "reports/phase13/phase13_setup_census_v1.json",
+    "reports/phase13/phase14_setup_source_v1.json",
+    "reports/phase13/phase14_checkpoint_selection_pack_v1.json",
+    "reports/phase13/phase14_checkpoint_selection_rule_v1.json",
+    "reports/phase13/phase13_agent_01_report.md",
+    "reports/phase13/phase13_agent_01_summary.json",
+    "scripts/run_phase13_agent01.py",
+    "tests/training/test_phase13_agent01.py"
+  ],
+  "tests": {"phase13_artifact_tests": "15 passed", "full_suite": "6162 passed / 3 skipped in 352s (2026-08-20; was 6147/3 after Phase 12 Agent 5; +15 Phase 13 artifact tests)"}
+}

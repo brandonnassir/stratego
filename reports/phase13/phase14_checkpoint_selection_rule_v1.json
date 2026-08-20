@@ -1,0 +1,32 @@
+{
+  "artifact": "phase14_checkpoint_selection_rule_v1",
+  "phase": 13,
+  "agent": 1,
+  "written_utc": "2026-08-20T21:08:00Z",
+  "status": "FROZEN before Phase 14",
+  "applies_to": "every Phase 14 final-policy candidate checkpoint (hour 0, 6, 12, ..., 162, 168), each evaluated on the identical frozen phase14_checkpoint_selection_pack_v1",
+  "pack_binding": {
+    "pack_artifact": "reports/phase13/phase14_checkpoint_selection_pack_v1.json",
+    "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "games_per_candidate": 128,
+    "strata": ["phase9_anchor", "strategic_rule_based", "tactical_rule_based", "stress_scout_rush"],
+    "games_per_stratum": 32,
+    "ewr": "wins + 0.5*draws over the stratum's 32 games, divided by 32"
+  },
+  "primary": "select the candidate with the highest equal-weight mean EWR across the four strata: mean = (EWR_phase9 + EWR_strategic + EWR_tactical + EWR_scoutrush) / 4",
+  "tie_break_1": "among candidates exactly tied on the primary, select the one with the highest minimum opponent-stratum EWR",
+  "tie_break_2": "if still exactly tied, select the later checkpoint (larger candidate hour)",
+  "statistics": "no confidence intervals, no statistical tests, no post-run reweighting; exact arithmetic on the frozen pack results only",
+  "procedure_at_hour_168": [
+    "training stops at the frozen deadline semantics",
+    "complete any missing fixed-pack candidate evaluations (selection time is outside training time; no additional optimizer updates may occur)",
+    "apply the frozen rule above",
+    "select the final direct-policy checkpoint"
+  ],
+  "prohibitions": [
+    "the rule may not be changed after Phase 14 begins",
+    "candidate evaluation may never alter ongoing training: it cannot stop training early, change LR, opponent mixture, setup source, historical-pool logic, checkpoint cadence, or the deadline",
+    "if an evaluation fails during the run, preserve the candidate, continue training, evaluate later with the same frozen pack",
+    "the hour-168 checkpoint is a candidate, not automatically the deployed final policy"
+  ]
+}

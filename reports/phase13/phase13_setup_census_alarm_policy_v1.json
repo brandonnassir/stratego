@@ -1,0 +1,91 @@
+{
+  "artifact": "phase13_setup_census_alarm_policy_v1",
+  "phase": 13,
+  "agent": 1,
+  "written_utc": "2026-08-20T20:51:35Z",
+  "written_before_sampling": true,
+  "sequencing_enforcement": "scripts/run_phase13_agent01.py --stage census refuses to run unless this file already exists on disk; the census artifact phase13_setup_census_v1 embeds this file's sha256 so the binding is checkable after the fact. The thresholds and definitions below were chosen from prior accepted evidence only and are not to be changed after census results are seen.",
+  "scope": "One narrow deterministic setup-distribution census over the proposed phase14_setup_source_v1 (35% neutral_v1 / 65% accepted P10-D learned selector, accepted reflection/perturbation behaviour, train split). This is a distribution measurement in minutes, not a match set, a setup-strength experiment, or a Phase 10 reopening.",
+
+  "prior_evidence_available_before_sampling": {
+    "family_contracts": "stratego/setups/families.py: 15 of 16 frozen families pin the canonical Flag rank to {0} or {0,1} (0 = own back rank); only irregular_high_entropy admits flag_rank 0..3. A front-row Flag is therefore by-design possible only through irregular_high_entropy bases.",
+    "perturbation_contract": "stratego/setups/perturbation.py: the Flag cell is excluded from every swap operator and 'flag_moved' is a frozen rejection class; an accepted perturbation can never move the Flag.",
+    "reflection_contract": "reflection is a left-right file mirror only (files f -> 9-f); it cannot change any piece's rank, so it cannot change the Flag's row.",
+    "ruleset": "02_project_ruleset.md section 6 / stratego/engine/setup.py: any placement of the 40 pieces on the owner's 40 setup squares is legal; a front-row Flag is legal and is therefore never a rule violation by itself.",
+    "phase9_accepted_run": "Phase 9 canonical run (accepted): ~5 of 2,048 games per observed iteration (~0.24%) ended as real 1-2-ply scout-to-flag games under neutral_v1 on both sides, attributed to flag-forward (irregular) families. This is the only accepted large-scale evidence of the healthy exposure regime.",
+    "phase12_prior_observation_and_its_explanation": "Phase 12 Agent 4 (engineering, uncommitted) observed 47/64 pack boards with a front-row Flag and 3/64 games decided before the player's first decision. Pre-census code reading during Phase 13 located the cause outside the production source: stratego/belief/phase11b/corpus.py Phase11BSetupSources.draw() returns the CANONICAL (own-orientation) tuple and Phase 11B/Phase 12 game construction passes it directly to create_game() without orient_setup(player); every BLUE army in those games was therefore placed back-to-front (blue canonical back rank -> engine row 6 = blue front row), putting the ~majority back-rank Flags on blue's front row. The production training path (LibrarySetupSource.assign -> sampled.oriented(player) -> create_game) and the Phase 10 selector path (SelectorDraw.oriented(player)) are different code paths and are exactly what this census measures. The Phase 12 observation is therefore treated as evidence about the Phase 11B/12 consumption glue, not about the library, the sampler, or the production source; the census decides the production path on its own measurements.",
+    "phase10_accepted_audit": "Phase 10 Agents 4/6/7 audited millions of production draws (provenance, family contracts, sampler equality) with zero violations, so a draw-construction defect in the production source itself would be a new observation."
+  },
+
+  "frames_and_definitions": {
+    "canonical_frame": "4 ranks x 10 files, rank 0 = own back row, rank 3 = own front row (stratego/setups/traits.py).",
+    "engine_frame": "10x10 board; red setup rows 0-3 (front row 3), blue setup rows 6-9 (front row 6); lakes at rows 4-5 x columns 2,3,6,7 (stratego/engine/constants.py).",
+    "orientation_map": "red: engine row = canonical rank; blue: engine row = 9 - canonical rank (stratego/setups/identity.py orient_setup).",
+    "open_files": [0, 1, 4, 5, 8, 9],
+    "forwardmost_row_flag": "Flag on the owner's forwardmost deployment row: canonical rank 3 (engine row 3 for red / row 6 for blue).",
+    "scout_lane_exposed_flag": "forwardmost_row_flag whose file is an open file (a straight scout lane over the empty middle rows exists at the initial position).",
+    "immediately_scout_accessible_flag_paired": "scout_lane_exposed_flag such that the OPPOSING army has a Scout on its own forwardmost row in the same file at the initial position: the engine then admits a single scout run onto the Flag square as that side's first move in the lane.",
+    "pre_decision_capture_paired_strict": "red (first player) has an engine-legal ply-1 action whose destination is blue's Flag square, established by enumerating the engine's own legal actions at the initial state; blue receives zero decisions before it. Red's Flag cannot be captured before red receives a decision because red always moves first; the mirrored blue-attacker geometry is measured and reported as red_flag_ply2_geometric instead.",
+    "red_flag_ply2_geometric": "blue Scout on blue's forwardmost row in the same open file as a red forwardmost-row Flag: capture available at ply 2 unless red's single ply-1 decision blocks or alters the lane. Report-only context for the strict quantity."
+  },
+
+  "census_plan_frozen_before_sampling": {
+    "split": "train (the split Phase 14 trains on; no held-out split is touched)",
+    "selector_candidate": "P10-D via stratego/training/phase10_selector.candidate('P10-D'), scorer load_scorer(), library load_library_index()",
+    "sources_sampled": {
+      "neutral_v1": "neutral_baseline_draw('train', seed) — the accepted sampler entry, one draw per seed of the shared seed stream",
+      "p10d_learned_branch": "the learned-branch subset (branch == 'learned') of the production-mixture draws; the learned branch distribution IS the mixture conditioned on the learned coin, so conditioning is sampling that source",
+      "production_mixture_35_65": "LearnedSetupSource.draw(SelectorRequest(split='train', color, selector_seed=seed)) — the accepted production entry"
+    },
+    "seed_domain": "the frozen Phase 10 selector-audit stream: selector_audit_seed('P10-D', 'train', color, ordinal) for color in (red, blue), ordinal in 0..8191; the same 16,384 seeds drive the mixture draws and the standalone neutral_v1 draws (common random numbers); paired board k pairs the red draw of ordinal k with the blue draw of ordinal k",
+    "sample_sizes": {
+      "production_mixture_draws": 16384,
+      "neutral_v1_draws": 16384,
+      "learned_branch_expected": "about 0.65 x 16,384 = 10,650 (minimum requirement 10,000; if the realized count falls below 10,000 the census extends ordinals in deterministic order until the learned subset reaches 10,000)",
+      "paired_boards": 8192
+    },
+    "stages_measured_per_draw": [
+      "base (library entry, pre-reflection pre-perturbation)",
+      "post-reflection (reflect_canonical(base) when reflection_applied else base)",
+      "final (post-perturbation canonical, as drawn)"
+    ],
+    "paired_measurement": "for each of the 8,192 boards: orient both draws with the accepted orient path (draw.oriented(RED)/oriented(BLUE)), build the real engine state with create_game under the Phase 9 training rules (stratego_project_v1, training context), and enumerate the engine's own legal actions for red at ply 1; geometry quantities computed from the placed board",
+    "library_composition": "full read-only enumeration of data/setups/setup_library_v1.jsonl: Flag rank/file by family and split (attribution context, not a sampled quantity)",
+    "decision_quantities": "only the two pathology quantities below plus the defect checks are decision-bearing; every other table in the census is report-only"
+  },
+
+  "classification": {
+    "defect": {
+      "meaning": "a rule/contract violation, coordinate transformation error, invalid placement, unintended Flag movement, or reflection/perturbation implementation error observed on the production path; a defect requires repair before Phase 14",
+      "checks": [
+        "D1 unintended_flag_movement: any draw whose final canonical Flag cell differs from its base entry's Flag cell beyond exact file reflection (rank must be identical; file identical, or mirrored when reflection_applied)",
+        "D2 family_contract_violation: any draw whose final canonical flag_rank lies outside its primary family's contracted flag_rank range",
+        "D3 invalid_placement: any oriented setup rejected by the engine's validate_setup, or any create_game failure, on the production orientation path",
+        "D4 coordinate_transformation_error: any paired-census side whose engine-frame Flag row disagrees with the orientation map (red: row == canonical rank; blue: row == 9 - canonical rank), or any Flag placed outside the owner's setup rows",
+        "D5 reflection_error: any reflected draw whose post-reflection canonical is not the exact file mirror of its base (files f -> 9-f, all ranks unchanged)",
+        "D6 sampler_equality_error: any neutral-branch mixture draw that is not bit-identical to neutral_baseline_draw under the same seed (accepted adapter equality), on a fixed deterministic subsample of 1,024 neutral-branch draws"
+      ],
+      "action": "stop, report, repair only the narrow production wrapper/source needed for Phase 14 under a new Phase 13/14 setup-source identity, preserve all closed Phase 10 evidence unchanged, rerun only the census checks needed to verify the fix"
+    },
+    "pathology": {
+      "quantities": {
+        "P_trivial": "fraction of the 8,192 production-mixture paired boards on which at least one side's Flag is immediately_scout_accessible (either color, geometry at the initial position)",
+        "P_predecision": "fraction of the 8,192 production-mixture paired boards on which red has an engine-legal ply-1 capture of blue's Flag (strict pre-decision capture)"
+      },
+      "thresholds": {
+        "P_trivial_pathological_at_or_above": 0.05,
+        "P_predecision_pathological_at_or_above": 0.025
+      },
+      "estimator": "plain sample proportions over the 8,192 frozen paired boards; point estimates only, no interval gating",
+      "rationale": "The accepted Phase 9 canonical run realized ~0.24% actual 1-2-ply scout-to-flag endings; capture-availability is necessarily at least the ending rate, and healthy by-design exposure comes only from the one irregular family (about 1/16 of families with Flag rank free over 4 ranks), so expected healthy availability is of order 1% or below. A 5% immediate-lane rate is roughly an order of magnitude above the accepted regime and would commit >=5% of the 168-hour run's collection to games that can end before play begins, distorting policy/value targets toward degenerate openings; a 2.5% rate of blue never receiving a decision does the same one-sidedly (about 1 board in 40). Both lines are far above any healthy expectation and far below the ~73% board rate the mis-oriented Phase 11B/12 glue produced, so they separate the hypotheses cleanly in both directions.",
+      "commitment": "thresholds chosen and recorded before sampling; they will not be changed after seeing results",
+      "action": "a threshold breach on the final production mixture is a pathology: repair the narrow production wrapper/source (new Phase 13/14 setup-source identity), never retrain the Phase 10 utility model, never reopen Phase 10"
+    },
+    "valid_but_strategically_poor": {
+      "meaning": "a legal distribution that places Flags aggressively or poorly (including any front-row Flag rate below the pathology lines, however distasteful) while meeting every defect check",
+      "action": "report it with attribution (neutral generation vs learned selection vs reflection vs perturbation vs paired interaction); do not repair, do not reopen Phase 10; freeze phase14_setup_source_v1 as the proposed 35/65 mixture"
+    }
+  },
+
+  "no_repair_outcome": "if no defect and no pathology is found, phase14_setup_source_v1 is frozen as: 35% neutral_v1 + 65% accepted P10-D learned selector (config sha 6e227815bc3cb44f...), accepted reflection/perturbation behaviour, train split, orientation via the accepted oriented(player) path"
+}

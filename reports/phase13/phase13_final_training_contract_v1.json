@@ -1,0 +1,306 @@
+{
+  "artifact": "phase13_final_training_contract_v1",
+  "phase": 13,
+  "agent": 1,
+  "written_utc": "2026-08-20T21:12:00Z",
+  "status": "FROZEN",
+  "purpose": "every training-system decision that must be known before the 168-hour Phase 14 run, resolved to exact values. Agent 2 implements this contract without interpretation; nothing here starts Phase 14.",
+
+  "history_preservation": {
+    "phase11_final_classification": "FAIL",
+    "phase11_reinterpreted": false,
+    "phase11b_status": "engineering branch only",
+    "phase12_search": "outside Phase 14 training entirely",
+    "preserved_artifacts": [
+      "checkpoints/phase9/selfplay_c1_v1.pt (accepted Phase 9)",
+      "Phase 10 / P10-D artifacts and closure",
+      "all Phase 11 evidence and the formal FAIL",
+      "all Phase 11B engineering artifacts",
+      "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt (Agent 1C, sha a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad)",
+      "all Phase 12 search artifacts and checkpoints/phase12/phase12_search_candidate_v1.json"
+    ],
+    "no_deletion_rule": "never delete earlier accepted project evidence, including to create storage space"
+  },
+
+  "starting_model": {
+    "checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "lineage": "Phase 9 canonical iteration 40 (B041), frozen and triple-verified by Phase 9 Agent 8",
+    "loads": "policy head, value head, and the accepted auxiliary belief head — the complete accepted C1 model",
+    "explicitly_not_used": "Agent 1C is NOT the policy/value starting checkpoint; it is preserved for the later search/belief pipeline only",
+    "optimizer_state_treatment": {
+      "decision": "fresh AdamW state (zero moments) at Phase 14 start; the KL controller starts at the accepted initial beta 0.005; RNG streams start from the new Phase 14 namespace",
+      "rationale": "Phase 14 is a new run identity (new mixture, new pool, new LR), not a resume of the Phase 9 run; the accepted exact-resume semantics (phase9_checkpoint_v1) are defined within a run. Carrying iteration-41 Adam moments into a changed objective mixture at a different LR would be a reinterpretation of accepted state; a fresh conservative-LR start is the standard continuation posture and the accepted P9-C evidence shows the adaptive KL controller re-damps from beta0=0.005 comfortably (all epoch KLs well under the 0.08 veto at 3e-4; Phase 14 runs at one quarter of that LR)."
+    }
+  },
+
+  "phase9_retrieved_values": {
+    "binding_note": "every value below was read from the accepted artifacts on 2026-08-20, not reconstructed from memory; the source of each is named. Live re-derivations this session: phase9_contract.contract_digest() == ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34; Phase9TrainConfig.for_candidate('P9-C', namespace='canonical', total_iterations=60, device='mps').digest() == 77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036; phase9_amendment_v2.verify_chain_untouched() == [].",
+    "sources": {
+      "phase9_contract": "stratego/training/phase9_contract.py, digest ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+      "phase9_train_config_runtime": "Phase9TrainConfig.for_candidate('P9-C', namespace='canonical', total_iterations=60, device='mps'), identity digest 77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+      "phase9_train_config_documents": "as-accepted 9284fbc6b0962937... (12h) -> amended 22ac552da90989dd... (15h) -> executed f3b1efdb7b7f34a7... (24h), as recorded in the committed acceptance records reports/phase_9_data/agent_06_frozen_train_config.json and agent_07_checkpoint_manifest.json; wall-clock ceilings are Phase 9 run-operational values superseded by the Phase 14 wall-clock contract below",
+      "phase9_loss_module": "stratego/training/phase9_loss.py (consumes the contract; restates no constant)",
+      "phase9_targets_module": "stratego/training/phase9_targets.py, phase9_example_v1 digest a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+      "warmstart_contract": "stratego/training/warmstart_contract.py (CORPUS_RULES, METRIC_LOG_EPSILON)"
+    },
+    "optimizer_family": "AdamW, betas (0.9, 0.999), epsilon 1e-8, weight_decay 0.01 [phase9_contract.OPTIMIZER_CONSTRAINTS]",
+    "accepted_phase9_learning_rate": 0.0003,
+    "accepted_phase9_lr_source": "frozen pilot matrix row P9-C (phase9_contract.PILOT_CANDIDATES) selected by accepted Agent 6; runtime identity 77af4d45...",
+    "phase9_lr_schedule": "constant (no warmup, no decay) [phase9_contract.OPTIMIZER_CONSTRAINTS.learning_rate_schedule]",
+    "policy_objective": "PPO clipped surrogate, clip epsilon 0.20, over advantage-filtered learner decisions only (ppo_eligible applied as a mask inside the PPO term) [PPO_CLIP_EPSILON; phase9_loss]",
+    "value_objective": "categorical cross-entropy of the 3-class W/D/L head against soft lambda targets, weight 0.5, over every learner decision [VALUE_LOSS_WEIGHT; wdl_lambda_targets]",
+    "belief_auxiliary_objective": {
+      "present_in_accepted_phase9": true,
+      "weight": 0.25,
+      "target_construction": "accepted supervised belief targets of phase9_targets (phase9_example_v1 a6b17a94...), consumed through stratego/model/losses.belief_loss over every learner decision",
+      "phase14_treatment": "retained unchanged: same objective, same weight 0.25, same target construction. Not removed, not downweighted."
+    },
+    "total_objective": "L = L_PPO + 0.5*L_value + 0.25*L_belief + beta*D_KL(pi_b || pi_theta) - c_H*H(pi_theta) [phase9_loss module docstring, constants from the frozen contract]",
+    "ratio_clipping": {"ppo_clip_epsilon": 0.2, "clip_fraction_hard_limit": 0.75},
+    "behavior_policy_kl_regularization": {
+      "direction": "D_KL(pi_b || pi_theta) over every learner-controlled decision of the minibatch",
+      "target": 0.015,
+      "adaptive_beta": "updated once after each optimizer epoch: mean epoch KL > 0.0300 -> beta *= 2; < 0.0075 -> beta *= 0.5; clamp [1e-4, 0.2]",
+      "initial_beta": 0.005,
+      "hard_veto": "mean epoch/iteration KL > 0.08 or PPO clip fraction > 0.75",
+      "log_probability_floor": 1e-12,
+      "behavior_temperature": 1.0,
+      "behavior_probability_abs_tolerance": 0.0001
+    },
+    "advantage_filtering": {
+      "advantages": "A_t = delta_t + 0.5*A_{t+1} (lambda_A 0.5, gamma 1.0), same-player sequences",
+      "wdl_lambda_value": 0.8,
+      "filter": "|A| quantile 0.75 (linear interpolation) with floor 0.01 -> retention 25% of learner decisions for the PPO term only",
+      "standardization_epsilon": 1e-8,
+      "ineligible_handling": "ineligible decisions carry the standardized advantage of the eligible subset's moments; the ppo_eligible flag, not the value, excludes them from the PPO loss"
+    },
+    "gradient_clipping": {"global_norm": 1.0},
+    "ema_behavior": {
+      "present_in_accepted_phase9": false,
+      "statement": "the accepted Phase 9 trainer maintains no EMA of model weights; Phase 14 likewise runs without EMA. The hot-checkpoint 'EMA state' slot records this absence explicitly rather than omitting the field."
+    },
+    "batch_update_settings": {
+      "minibatch_size": 512,
+      "epochs_per_rollout": 2,
+      "games_per_iteration": 2048,
+      "iteration_structure": "accepted bulk-synchronous loop: collect one 2,048-game iteration -> bind targets/advantages/train order -> 2 epochs of minibatch updates -> committed iteration boundary",
+      "precision": "float32",
+      "device": "mps",
+      "fixed_inference_batch_shape": 64
+    },
+    "entropy_schedule": {
+      "accepted_phase9": "linear in the 1-based iteration over the run's own scheduled budget, 0.005 -> 0.001 [entropy_coefficient]",
+      "phase14_resolution": "constant 0.001 (the accepted schedule's terminal value) for the whole run",
+      "rationale": "Phase 14 is wall-clock terminated, so an iteration-indexed schedule has no defined endpoint; the accepted schedule's floor is the accepted late-training entropy level and the conservative continuation choice; re-raising entropy toward 0.005 would be a relearning-style perturbation"
+    },
+    "trajectory_format": {
+      "trajectory_version": "trajectory_v1",
+      "example_contract": "phase9_example_v1, digest a6b17a94449ab764d4b5dd054d677096adfa70c52631865499a60a7a3f44af61",
+      "behavior_storage": "float32 probabilities in ascending absolute (engine) action order; the sampling walk reads the stored float32 values (accepted Agent 3 decision)",
+      "observation": "observation_v2_1_127ch"
+    },
+    "game_rules": {
+      "rules_version": "stratego_project_v1",
+      "board_geometry_version": "board_10x10_v1",
+      "first_player": 0,
+      "battleless_move_limit": 100,
+      "absolute_move_limit": 4000,
+      "two_square_rule_enabled": false,
+      "continuous_chasing_rule_enabled": false,
+      "context": "training",
+      "source": "warmstart_contract.CORPUS_RULES, as consumed by the accepted phase9_collector"
+    },
+    "values_absent_from_accepted_artifacts": [
+      "no LR warmup or decay exists (schedule is explicitly 'constant'), so none is invented for Phase 14",
+      "no EMA exists (recorded above)",
+      "no value-loss clipping exists (the value objective is categorical CE; no clipping concept applies)"
+    ]
+  },
+
+  "continuation_learning_rate": {
+    "LR9": 0.0003,
+    "main_continuation_LR": 7.5e-05,
+    "late_continuation_LR": 3.75e-05,
+    "multipliers": {"main": 0.25, "late": 0.125},
+    "derivation": "default proposal adopted: 0.25 x LR9 and 0.125 x LR9 exactly; no accepted evidence supports a different pair (the pilot matrix showed 6e-4 unstable at low beta and 1e-4 slower at equal stability; nothing accepted characterizes continuation LRs, so the conservative default stands)",
+    "schedule_within_segment": "constant (no warmup, no decay), inherited from the accepted Phase 9 schedule",
+    "forbidden": [
+      "LR sweep", "multiple candidate LRs", "rehearsal comparisons across LRs",
+      "changing LR from live Phase 14 metrics", "raising LR during Phase 14"
+    ]
+  },
+
+  "main_late_schedule": {
+    "main_segment_hours": 132,
+    "late_segment_hours": 36,
+    "total_hours": 168,
+    "main_fraction": 0.7857,
+    "transition_elapsed_hours": 132,
+    "transition_rule": "elapsed = current_utc - run_start_utc (ORIGINAL Phase 14 start; downtime counts and never moves the transition). The first collection unit launched with elapsed >= 132h runs under the late segment (late LR 3.75e-5, late opponent mixture); a unit already in flight at the transition finishes under main settings and its optimizer epochs complete under main settings; every unit launched after it uses late settings.",
+    "transition_utc_derivation": "transition_utc = run_start_utc + 475200 seconds, computed once at run start and persisted in every hot checkpoint",
+    "rationale": "the previous 132h/36h split is adopted: 78.57% falls inside the required 75-80% band and no accepted engineering evidence prefers another split"
+  },
+
+  "opponent_mixture": {
+    "constraint_check": "neural current+historical combined = 88.04% (band 85-90%); handcrafted = 11.96% (band 10-15%)",
+    "main_segment_counts_per_2048": {
+      "current_neural": 1188,
+      "historical_neural": 615,
+      "handcrafted": {
+        "strategic_rule_based": 61,
+        "tactical_rule_based": 61,
+        "stress_scout_rush": 41,
+        "stress_miner_rush": 41,
+        "stress_information_miser": 41
+      }
+    },
+    "late_segment_counts_per_2048": {
+      "current_neural": 819,
+      "historical_neural": 984,
+      "handcrafted": {
+        "strategic_rule_based": 61,
+        "tactical_rule_based": 61,
+        "stress_scout_rush": 41,
+        "stress_miner_rush": 41,
+        "stress_information_miser": 41
+      }
+    },
+    "realized_percentages": {
+      "main": {"current": 0.58008, "historical": 0.30029, "handcrafted": 0.11963},
+      "late": {"current": 0.39990, "historical": 0.48047, "handcrafted": 0.11963}
+    },
+    "derivation": "the instruction's preferred 58/30/12 and 40/48/12 mixtures rounded to exact per-iteration counts (games are scheduled counts, never sampled — the accepted Phase 9 idiom); handcrafted 3/3/2/2/2 of 12% realized as 61/61/41/41/41 of 2,048",
+    "ordinal_layout": "contiguous frozen subranges within an iteration, in the order: current, historical, strategic_rule_based, tactical_rule_based, stress_scout_rush, stress_miner_rush, stress_information_miser (the Phase 9 rule_tier_for_ordinal idiom)",
+    "handcrafted_families": "all five exist in the accepted rosters: strategic_rule_based and tactical_rule_based from the frozen rule tiers; stress_scout_rush, stress_miner_rush, stress_information_miser from the frozen Phase 4 stress roster. basic_heuristic and the other three stress policies are not part of the Phase 14 mixture.",
+    "colour_balance_and_learner_control": "unchanged from the accepted Phase 9 collection contract (colour-balance rule and learner-control semantics bound by phase9_contract ad3dba3c...)",
+    "no_sweep": "the mixture percentages are frozen; no opponent-mixture sweep occurs in Phase 14"
+  },
+
+  "historical_archive_and_active_pool": {
+    "historical_archive": {
+      "cadence": "one durable snapshot every 2 hours of ORIGINAL Phase 14 elapsed wall-clock (snapshot index j at elapsed >= 2j hours, written at the first committed iteration boundary after crossing the mark)",
+      "storage": "external training volume, durable; all durable snapshots remain in the archive for the whole run",
+      "admission": "no tournament; archive admission is automatic on durable write"
+    },
+    "active_pool_algorithm phase14_active_pool_v1": {
+      "membership_size": "16 total: 2 permanent anchors + up to 14 Phase 14 snapshots",
+      "permanent_anchors": {
+        "P8": "checkpoints/phase8/warmstart_c1_v1.pt (sha256 f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca)",
+        "P9": "checkpoints/phase9/selfplay_c1_v1.pt (sha256 dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea)"
+      },
+      "recompute_event": "the pool is a pure function f(k) of the ordered archive [1..k]; it is recomputed immediately after each durable snapshot commit and at every resume",
+      "membership_function": {
+        "k_at_most_14": "all k snapshots are active. Age bands by contiguous index ranges: older = indices 1..floor(k/3); middle = floor(k/3)+1..floor(2k/3); recent = floor(2k/3)+1..k (empty bands allowed while k is small).",
+        "k_greater_than_14": "recent = the 6 highest indices {k-5..k}. Let R = [1..k-6] ascending (|R| = k-6 >= 9). older_half = the first ceil(|R|/2) elements of R; middle_half = the rest. older = the 4 quantile picks older_half[floor(i*(len(older_half)-1)/3)] for i in 0..3; middle = the 4 quantile picks middle_half[floor(i*(len(middle_half)-1)/3)] for i in 0..3. (Both halves have length >= 4 whenever k > 14, so the four picks are distinct.)",
+        "properties": "based only on archive ordering/age; no tournament; deterministic when categories are not yet full; no uniform sampling from the accumulated archive"
+      },
+      "sampling_weights_within_historical_share": {
+        "permanent_anchors": 0.20,
+        "older": 0.25,
+        "middle": 0.25,
+        "recent": 0.30,
+        "within_category": "members of a category share its weight equally (anchors: 0.10 P8 + 0.10 P9)",
+        "empty_category_redistribution": "an empty snapshot category's weight is redistributed over the non-empty snapshot categories in proportion to their frozen weights; if all three snapshot categories are empty (k = 0), the entire historical share goes to the anchors, split equally"
+      },
+      "exact_per_iteration_counts": "the historical bucket count H (615 main / 984 late) is partitioned into exact per-member game counts, never sampled: real share = H * w_m; assign floor(share) to every member; assign the remaining games one each by descending fractional part; exact ties broken by canonical member order (P8, P9, older ascending, middle ascending, recent ascending) after rotating the tie-group's order left by (iteration_index mod tie_group_size)",
+      "state_and_resume": "the exact active-pool membership, category assignment, archive cursor and per-member schedule state are stored in every hot checkpoint; on crash/resume the runner recomputes f(k) from the archived snapshots and REFUSES to continue unless it equals the checkpointed membership exactly"
+    }
+  },
+
+  "search_prohibition": {
+    "phase12_tiny": "NOT USED",
+    "phase12_small": "NOT USED",
+    "phase12_medium": "NOT USED",
+    "scope": "search may not be used for self-play action selection, training targets, opponent policies, policy improvement, or trajectory generation; Phase 14 trains the direct C1 policy/value system only"
+  },
+
+  "checkpoint_hierarchy": {
+    "hot_resume": {
+      "cadence": "every 15 minutes of wall-clock, written at the first safe optimizer-step boundary at or after each mark",
+      "retention": "at least the most recent 4 valid hot checkpoints on fast internal storage",
+      "required_contents": [
+        "model weights",
+        "optimizer state",
+        "EMA state (recorded as: absent — no EMA in this system)",
+        "optimizer/global step",
+        "RNG / deterministic stream state",
+        "population schedule state",
+        "active historical pool (membership + categories)",
+        "historical archive cursor/state",
+        "trajectory/shard cursor",
+        "storage state required for safe continuation",
+        "original Phase 14 start time (run_start_utc)",
+        "absolute Phase 14 deadline (run_deadline_utc)",
+        "main/late schedule state (transition_utc, current segment)",
+        "candidate-evaluation scheduling state"
+      ]
+    },
+    "durable_archive": {
+      "cadence": "every 2 hours of original elapsed wall-clock",
+      "storage": "external training volume (/Volumes/Brandon_Washington)"
+    },
+    "final_policy_candidates": {
+      "cadence": "every 6 hours: hours 0, 6, 12, ..., 162, 168 (29 candidates)",
+      "definition": "a marked subset of the 2-hour archive snapshots, plus the hour-0 starting checkpoint and the hour-168 final state",
+      "hour_168_status": "a candidate, not automatically the deployed final policy"
+    }
+  },
+
+  "candidate_evaluation": {
+    "pack": "reports/phase13/phase14_checkpoint_selection_pack_v1.json (pack_content_digest 896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde): 128 games per candidate = 32 vs accepted Phase 9 + 32 vs Strategic + 32 vs Tactical + 32 vs Scout-rush; boards, colors, setups, opponent seeds, player seeds, rules and evaluation implementation frozen in the pack document",
+    "selection_rule": "reports/phase13/phase14_checkpoint_selection_rule_v1.json",
+    "isolation": "evaluations run outside the training loop and may never change ongoing Phase 14 training (no early stop, no LR change, no mixture change, no setup-source change, no pool-logic change, no cadence change, no deadline extension); a failed evaluation preserves the candidate, training continues, the evaluation reruns later on the same frozen pack",
+    "no_search": "candidates are evaluated as direct policies only; the spent Phase 11 sealed test bank is not touched"
+  },
+
+  "setup_source": {
+    "identity": "phase14_setup_source_v1 (reports/phase13/phase14_setup_source_v1.json)",
+    "definition": "35% neutral_v1 + 65% accepted P10-D learned selector, accepted reflection/perturbation behaviour, train split, orientation through the accepted oriented(player) path",
+    "census": "phase13_setup_census_v1 found no defect and no pathology (P_trivial 0.003296 < 0.05; P_predecision 0.001953 < 0.025; 0 defects); frozen without repair",
+    "integration_warning": "Agent 2 must NOT reuse the Phase 11B setup glue (stratego/belief/phase11b/corpus.py Phase11BSetupSources) — it returns canonical tuples that mis-orient BLUE if passed to create_game directly. Bind SelectorDraw.oriented(player), as LibrarySetupSource.assign does."
+  },
+
+  "wall_clock_contract": {
+    "run_start_utc": "stamped immediately before the Phase 14 training loop begins (not at process start)",
+    "run_deadline_utc": "run_start_utc + 604800 seconds (168 hours exactly)",
+    "persistence": "both persisted in every hot checkpoint",
+    "restart_semantics": "remaining_time = run_deadline_utc - current_time; a restart NEVER creates a fresh 168-hour deadline; downtime counts against the run; the main/late transition uses the original elapsed clock",
+    "deadline_behavior": [
+      "1. at or after run_deadline_utc, stop launching new collection units",
+      "2. finish or safely discard the active bulk unit according to the existing accepted bulk-sync iteration boundary",
+      "3. begin no new optimizer step at or after the deadline",
+      "4. write the final run-state checkpoint",
+      "5. preserve and mark the hour-168 candidate",
+      "6. write final counters and the run manifest",
+      "7. mark Phase 14 training closed",
+      "recovery: any recovery attempt starting after the deadline refuses further optimizer steps and finalizes"
+    ]
+  },
+
+  "storage_retention": {
+    "volume": "/Volumes/Brandon_Washington (external, 1000 GB; 994 GB available, measured 2026-08-20)",
+    "planning_rate": "3.572 GiB/hour (instruction's soak evidence) -> naive 168h raw archive ~600 GiB",
+    "phase9_loop_basis": "measured Phase 9 density 27,096.7 B/game at ~1.86 games/s whole-loop -> ~28 GiB/168h; the 600 GiB figure is retained as the conservative ceiling because Phase 14 collection throughput may exceed the Phase 9 serial loop",
+    "projection_with_reserve": "600 GiB raw + ~4 GiB archive snapshots (84 x ~45 MB full-state) + ~1 GiB hot/logs/evaluations = ~605 GiB; +20% reserve = ~726 GiB < 994 GiB available",
+    "decision": "full raw retention FITS and is planned",
+    "contingency_rolling_policy": "pre-authorized only if free space on the volume falls below 120 GiB during the run: delete already-consumed disposable Phase 14 raw shards oldest-first, retaining all checkpoints, all metrics/summaries, all historical snapshots and a representative 1-in-16 sample of deleted shard ranges; earlier accepted project evidence is never deleted under any condition",
+    "hot_checkpoint_storage": "fast internal disk (not the external volume)"
+  },
+
+  "monitoring_without_tuning": {
+    "frozen_metric_list": [
+      "elapsed wall-clock", "remaining wall-clock", "optimizer step", "games generated",
+      "positions generated", "collection throughput", "learner throughput", "policy loss",
+      "value loss", "belief auxiliary loss", "gradient norm", "learning rate",
+      "advantage-filter acceptance fraction", "draw rate", "game length",
+      "current/historical opponent mix", "active historical pool", "archive size",
+      "checkpoint age", "disk usage", "worker health", "non-finite counters",
+      "candidate evaluation status"
+    ],
+    "control_interface_rule": "no convenient live edit of frozen training values: LR, loss weights, opponent mixture, setup source, historical-pool algorithm, candidate-selection rule and deadline are not writable through the run's control surface; emergency stop remains available"
+  },
+
+  "consumed_by": "Phase 13 Agent 2 (implementation). Phase 14 does not start from this document; a separate explicit launch decision is required."
+}
