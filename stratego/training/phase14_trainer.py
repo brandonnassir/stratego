@@ -483,6 +483,11 @@ def bind_sealed_rollout(
 #: the losses stop looking like bad luck and start looking like a sick machine.
 MAX_LOADER_POOL_REBUILDS = 16
 
+#: How many rebuild events one checkpoint carries. Bounded because the useful
+#: question at hour 140 is "when did this last happen and why", not a complete
+#: history of a machine that has rebuilt its pool sixteen times.
+LOADER_POOL_EVENT_RETAIN = 16
+
 
 class Phase14Pipeline(_MinibatchPipeline):
     """The accepted multiprocess loader on the Phase 14 train order.
@@ -567,6 +572,10 @@ class Phase14Trainer:
         }
         self._pipeline: "Phase14Pipeline | None" = None
         self._bound: "SealedRollout | None" = None
+        # A count answers "how sick is this machine"; it does not answer "when"
+        # or "why". Both are needed by an operator reading a status at hour 140,
+        # and neither survives a crash unless it rides in the checkpoint.
+        self.loader_pool_events: list = []
 
     # -- construction ------------------------------------------------------
 
@@ -753,6 +762,7 @@ class Phase14Trainer:
             return pipeline.next(self.cursor), pipeline
         except BrokenExecutor as error:
             self.counters["loader_pool_rebuilds"] += 1
+            self._record_pool_rebuild(error)
             if self.counters["loader_pool_rebuilds"] > MAX_LOADER_POOL_REBUILDS:
                 raise Phase14TrainerError(
                     f"the CPU loader pool has been rebuilt "
@@ -764,6 +774,41 @@ class Phase14Trainer:
             self._pipeline = None
             rebuilt = self._ensure_pipeline()
             return rebuilt.next(self.cursor), rebuilt
+
+    def _record_pool_rebuild(self, error: BaseException) -> dict:
+        """Log one pool rebuild: when, why, and where in the epoch plan."""
+        from .phase14_status import utc_text
+
+        unix = time.time()
+        event = {
+            "unix": unix,
+            "utc": utc_text(unix),
+            "rebuild_index": int(self.counters["loader_pool_rebuilds"]),
+            "reason": f"{type(error).__name__}: {error}"[:500],
+            "global_optimizer_step": int(self.global_step),
+            "rl_iteration": int(self.rl_iteration),
+            "cursor": None if self.cursor is None else self.cursor.to_dict(),
+        }
+        self.loader_pool_events.append(event)
+        del self.loader_pool_events[:-LOADER_POOL_EVENT_RETAIN]
+        return event
+
+    @property
+    def loader_pool_open(self) -> bool:
+        """Whether a CPU loader pool is currently expected to have workers."""
+        return self._pipeline is not None
+
+    def loader_pool_state(self) -> dict:
+        """The rebuild history, in the shape the status surface reports."""
+        last = self.loader_pool_events[-1] if self.loader_pool_events else {}
+        return {
+            "rebuilds": int(self.counters["loader_pool_rebuilds"]),
+            "max_rebuilds": MAX_LOADER_POOL_REBUILDS,
+            "last_rebuild_unix": last.get("unix"),
+            "last_rebuild_utc": last.get("utc"),
+            "last_rebuild_reason": last.get("reason", ""),
+            "events": [dict(event) for event in self.loader_pool_events],
+        }
 
     def _ensure_pipeline(self) -> Phase14Pipeline:
         if self._pipeline is None:
@@ -989,6 +1034,7 @@ class Phase14Trainer:
             "kl_controller_state": self.controller.to_dict(),
             "cursor": None if self.cursor is None else self.cursor.to_dict(),
             "counters": dict(self.counters),
+            "loader_pool": self.loader_pool_state(),
             "wall_clock": dict(self.wall_clock),
             "totals": dict(self.totals),
         }
@@ -1003,6 +1049,9 @@ class Phase14Trainer:
         self.rl_iteration = int(trainer_state["rl_iteration"])
         self.segment = require_segment(str(trainer_state.get("segment", "main")))
         self.counters.update(trainer_state.get("counters", {}))
+        self.loader_pool_events = list(
+            (trainer_state.get("loader_pool") or {}).get("events", [])
+        )[-LOADER_POOL_EVENT_RETAIN:]
         self.wall_clock.update(trainer_state.get("wall_clock", {}))
         self.totals.update(trainer_state.get("totals", {}))
         cursor = trainer_state.get("cursor")

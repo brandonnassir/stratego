@@ -1,0 +1,714 @@
+{
+  "artifact": "phase13_agent04_gates_v1",
+  "checks_passed": 90,
+  "checks_total": 90,
+  "failed_gates": [],
+  "gates": [
+    {
+      "checks": [
+        {
+          "check": "starting Phase 9 checkpoint is the accepted one",
+          "expected": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+          "observed": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+          "passed": true,
+          "path": "checkpoints/phase9/selfplay_c1_v1.pt"
+        },
+        {
+          "check": "pool anchor P8 matches its frozen digest",
+          "expected": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+          "observed": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+          "passed": true,
+          "path": "checkpoints/phase8/warmstart_c1_v1.pt"
+        },
+        {
+          "check": "pool anchor P9 matches its frozen digest",
+          "expected": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+          "observed": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+          "passed": true,
+          "path": "checkpoints/phase9/selfplay_c1_v1.pt"
+        },
+        {
+          "check": "Agent 1 frozen contract is the accepted document",
+          "observed": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf",
+          "passed": true
+        },
+        {
+          "check": "Agent 2 integrated config digest is unchanged",
+          "observed": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+          "passed": true
+        },
+        {
+          "check": "Phase 14 contract digest is unchanged",
+          "observed": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+          "passed": true
+        },
+        {
+          "check": "Agent 3 rehearsal identity is present and names the same digests",
+          "passed": true,
+          "rehearsal_digest": "d8ebae4e28500c27cad8e7c5c48932431e89c45c6d52b8c87da2bb1443a13d21"
+        },
+        {
+          "check": "candidate pack is the frozen 128-game pack",
+          "digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+          "games": 128,
+          "passed": true
+        },
+        {
+          "artifact": "phase14_checkpoint_selection_rule_v1",
+          "check": "the frozen selection rule is bound to that exact pack",
+          "pack_binding": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+          "passed": true
+        },
+        {
+          "check": "Phase 14 setup source identity is frozen",
+          "passed": true,
+          "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+        },
+        {
+          "agent1c": "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+          "check": "Agent 1C is not the Phase 14 policy/value checkpoint",
+          "passed": true,
+          "role": "belief/search pipeline only; never the Phase 14 policy/value start"
+        }
+      ],
+      "failed": [],
+      "gate": "A",
+      "passed": true,
+      "title": "Upstream identity"
+    },
+    {
+      "checks": [
+        {
+          "check": "the implementation matches Agent 1's frozen contract",
+          "disagreements": 0,
+          "passed": true
+        },
+        {
+          "check": "main continuation LR is below the accepted Phase 9 LR",
+          "lr9": 0.0003,
+          "main": 7.5e-05,
+          "passed": true
+        },
+        {
+          "check": "late continuation LR is below the main continuation LR",
+          "late": 3.75e-05,
+          "main": 7.5e-05,
+          "passed": true
+        },
+        {
+          "check": "the multipliers are exactly 0.25x and 0.125x LR9",
+          "late_multiplier": 0.125,
+          "main_multiplier": 0.25,
+          "passed": true
+        },
+        {
+          "check": "the 132-hour transition is tied to the original wall clock",
+          "passed": true,
+          "rule": "elapsed = current_utc - run_start_utc (the ORIGINAL start; downtime counts and never moves the transition). The first collection unit launched with elapsed >= 132h runs under the late segment; a unit already in flight finishes under main settings, including its optimizer epochs.",
+          "transition_seconds": 475200
+        },
+        {
+          "check": "the deadline is 168 hours",
+          "deadline_seconds": 604800,
+          "passed": true
+        },
+        {
+          "check": "no live LR tuning is reachable through the control surface",
+          "immutable": [
+            "learning_rate",
+            "loss_weights",
+            "opponent_mixture",
+            "setup_source",
+            "historical_pool_algorithm",
+            "candidate_selection_rule",
+            "deadline",
+            "checkpoint_cadence"
+          ],
+          "passed": true
+        },
+        {
+          "check": "the belief auxiliary objective is retained at weight 0.25",
+          "passed": true,
+          "weight": 0.25
+        },
+        {
+          "archive": 7200,
+          "candidate": 21600,
+          "check": "the checkpoint hierarchy is 15 min / 2 h / 6 h",
+          "hot": 900,
+          "passed": true
+        },
+        {
+          "candidates": 29,
+          "check": "hour 0 and hour 168 are both candidate hours",
+          "passed": true
+        },
+        {
+          "check": "main handcrafted share is inside the frozen 10-15% band",
+          "counts": {
+            "current": 1188,
+            "historical": 615,
+            "rule": 122,
+            "stress": 123
+          },
+          "handcrafted": 245,
+          "passed": true,
+          "segment": "main",
+          "share": 0.1196
+        },
+        {
+          "check": "late handcrafted share is inside the frozen 10-15% band",
+          "counts": {
+            "current": 819,
+            "historical": 984,
+            "rule": 122,
+            "stress": 123
+          },
+          "handcrafted": 245,
+          "passed": true,
+          "segment": "late",
+          "share": 0.1196
+        },
+        {
+          "check": "the late segment shifts neural weight toward historical",
+          "late": {
+            "current": 819,
+            "historical": 984,
+            "rule": 122,
+            "stress": 123
+          },
+          "main": {
+            "current": 1188,
+            "historical": 615,
+            "rule": 122,
+            "stress": 123
+          },
+          "passed": true
+        },
+        {
+          "check": "the handcrafted counts do not change between segments",
+          "passed": true
+        },
+        {
+          "check": "all five required opponent families are represented",
+          "families": {
+            "strategic_rule_based": 61,
+            "stress_information_miser": 41,
+            "stress_miner_rush": 41,
+            "stress_scout_rush": 41,
+            "tactical_rule_based": 61
+          },
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "B",
+      "passed": true,
+      "title": "Final training contract"
+    },
+    {
+      "checks": [
+        {
+          "census_written": "2026-08-20T21:00:56Z",
+          "check": "the alarm policy was written before the census sampled anything",
+          "passed": true,
+          "policy_written": "2026-08-20T20:51:35Z"
+        },
+        {
+          "check": "the alarm policy on disk is the one the census names",
+          "passed": true
+        },
+        {
+          "check": "the census records no defect observation",
+          "defect_counts": {
+            "D1": 0,
+            "D2": 0,
+            "D3": 0,
+            "D4": 0,
+            "D5": 0,
+            "D6": 0
+          },
+          "passed": true
+        },
+        {
+          "check": "trivial-capture probability is under its predeclared threshold",
+          "observed": 0.003296,
+          "passed": true,
+          "threshold": 0.05
+        },
+        {
+          "check": "pre-decision probability is under its predeclared threshold",
+          "observed": 0.001953,
+          "passed": true,
+          "threshold": 0.025
+        },
+        {
+          "check": "the census reports every required distribution",
+          "passed": true,
+          "reported": [
+            "agent",
+            "alarm_policy_sha256",
+            "alarm_policy_written_utc",
+            "artifact",
+            "census_content_digest",
+            "classification",
+            "defect_counts",
+            "defect_examples",
+            "elapsed_seconds",
+            "exact_distribution_expectations",
+            "exposure_attribution",
+            "library_composition",
+            "library_content_digest",
+            "paired_measurements",
+            "phase",
+            "runner",
+            "sample_sizes",
+            "sampled_tallies",
+            "seed_domain",
+            "selector_candidate",
+            "split",
+            "stage_effects",
+            "written_utc"
+          ]
+        },
+        {
+          "check": "reflection and perturbation move the Flag row zero times",
+          "effects": {
+            "front_row_changes_after_perturbation": 0,
+            "front_row_changes_after_reflection": 0,
+            "perturbation_applied_mixture_draws": 8348,
+            "reading": "reflection mirrors files only and perturbation pins the Flag cell, so both deltas must be exactly 0 in a defect-free run; the numbers above are measured, not assumed",
+            "reflection_applied_mixture_draws": 8144
+          },
+          "passed": true
+        },
+        {
+          "attribution": {
+            "forwardmost_flag_draws_by_branch": {
+              "learned": 115,
+              "neutral": 100
+            },
+            "forwardmost_flag_draws_by_family": {
+              "F15": 215
+            },
+            "irregular_family_id": "F15",
+            "irregular_train_bases": 400
+          },
+          "check": "forward-Flag exposure is attributed to one deliberate family",
+          "passed": true
+        },
+        {
+          "check": "no repair was required, so Phase 10 evidence was not rewritten",
+          "passed": true
+        },
+        {
+          "check": "the frozen Phase 14 setup source is the one the contract binds",
+          "passed": true,
+          "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+        },
+        {
+          "check": "the Phase 14 setup path is oriented, not the Phase 11B canonical glue",
+          "note": "Agent 1 explained the Phase 12 flag-row observation as the Phase 11B glue returning canonical tuples; the production path measured clean (D4 = 0 over 8,192 engine boards) and the runner re-probes it before the window is stamped",
+          "passed": true,
+          "probe": {
+            "canonical_differs_from_oriented": true,
+            "engine_is_oriented": true,
+            "kind": "phase10_learned_selector",
+            "orientation_helper": "SelectorDraw.oriented(player)",
+            "source_id": "phase14_setup_source_v1_P10-D_train"
+          }
+        }
+      ],
+      "failed": [],
+      "gate": "C",
+      "passed": true,
+      "title": "Setup safety"
+    },
+    {
+      "checks": [
+        {
+          "check": "training updates are finite at production population",
+          "passed": true
+        },
+        {
+          "check": "parameters change",
+          "passed": true
+        },
+        {
+          "check": "the belief auxiliary objective functions",
+          "passed": true
+        },
+        {
+          "belief_losses": [
+            1.9570575952529907,
+            1.824678897857666,
+            2.078894853591919
+          ],
+          "check": "every Agent 2 unit reported a finite belief loss at weight 0.25",
+          "passed": true
+        },
+        {
+          "check": "no telemetry row was missing a frozen metric",
+          "passed": true
+        },
+        {
+          "check": "search is absent from the training import closure",
+          "passed": true,
+          "search_modules": []
+        }
+      ],
+      "failed": [],
+      "gate": "D",
+      "passed": true,
+      "title": "Training correctness"
+    },
+    {
+      "checks": [
+        {
+          "check": "a forced process crash recovers",
+          "passed": true
+        },
+        {
+          "check": "optimizer state is preserved",
+          "passed": true
+        },
+        {
+          "check": "the active historical pool is preserved",
+          "passed": true
+        },
+        {
+          "check": "worker failure recovers",
+          "passed": true
+        },
+        {
+          "check": "the accepted worker-pool repair is installed in this revision",
+          "checks": {
+            "broken_executor_is_recoverable": true,
+            "next_minibatch_catches_broken_executor": true,
+            "next_minibatch_rebuilds_at_same_cursor": true,
+            "rebuild_cap_present": true,
+            "rebuild_events_recorded": true,
+            "rebuilds_are_counted": true
+          },
+          "passed": true
+        },
+        {
+          "check": "the repair was re-verified at the frozen production population",
+          "passed": true,
+          "reverification": {
+            "at_seconds": 423.4088767080102,
+            "exceptions": [],
+            "learner_survived": true,
+            "population": "the frozen 2,048-game mixture (production)",
+            "run_returned": [
+              {
+                "global_optimizer_step": 1744,
+                "iterations_completed": 1,
+                "stopped_because": "deadline"
+              }
+            ],
+            "victim_died": true,
+            "workers_before": 6
+          }
+        },
+        {
+          "check": "a killed process is now recorded by something outside it",
+          "note": "the supervisor logs the death; the dead process cannot",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "E",
+      "passed": true,
+      "title": "Recovery"
+    },
+    {
+      "checks": [
+        {
+          "check": "the original deadline survives downtime and restart",
+          "passed": true
+        },
+        {
+          "check": "an Agent 2 resume reproduced the window byte for byte",
+          "passed": true,
+          "window": {
+            "deadline_seconds": 604800,
+            "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+            "run_start_utc": "2026-09-01T00:00:00.000Z",
+            "transition_seconds": 475200,
+            "transition_utc": "2026-09-06T12:00:00.000Z"
+          }
+        },
+        {
+          "check": "post-deadline recovery performs zero optimizer steps",
+          "passed": true
+        },
+        {
+          "check": "the deadline stop is automatic",
+          "passed": true
+        },
+        {
+          "check": "the late transition reuses the original start",
+          "passed": true
+        },
+        {
+          "check": "the supervisor never creates a new deadline",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "F",
+      "passed": true,
+      "title": "Wall-clock semantics"
+    },
+    {
+      "checks": [
+        {
+          "check": "the durable archive cadence is 2 hours",
+          "passed": true
+        },
+        {
+          "archive": "append-only; entries are never pruned for inactivity",
+          "check": "the archive is append-only and never pruned",
+          "passed": true
+        },
+        {
+          "check": "pool membership is a pure function of the ordered archive",
+          "membership": "pure function f(k) of the ordered archive; no tournament",
+          "passed": true
+        },
+        {
+          "check": "there is no tournament admission",
+          "passed": true
+        },
+        {
+          "anchors": [
+            "P8",
+            "P9"
+          ],
+          "check": "both permanent anchors are bound",
+          "passed": true
+        },
+        {
+          "check": "the pool is bounded at 16 with fixed sampling weights",
+          "passed": true,
+          "size": 16,
+          "weights": {
+            "anchor": 0.2,
+            "middle": 0.25,
+            "older": 0.25,
+            "recent": 0.3
+          }
+        },
+        {
+          "check": "a resumed checkpoint recomputes the same pool",
+          "passed": true
+        },
+        {
+          "check": "the rehearsal preserved pool continuity across both crashes",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "G",
+      "passed": true,
+      "title": "Historical system"
+    },
+    {
+      "checks": [
+        {
+          "check": "candidates are marked every 6 hours",
+          "hours": 29,
+          "passed": true
+        },
+        {
+          "check": "the evaluation pack is frozen and identical for every candidate",
+          "passed": true
+        },
+        {
+          "check": "no search is used in candidate evaluation",
+          "passed": true
+        },
+        {
+          "check": "the evaluator imports no trainer, scheduler or clock",
+          "isolation": "no trainer, collector, scheduler or clock is imported; a failure records a ledger row and nothing else",
+          "passed": true
+        },
+        {
+          "check": "the evaluator cannot write any frozen training value",
+          "immutable": [
+            "learning_rate",
+            "loss_weights",
+            "opponent_mixture",
+            "setup_source",
+            "historical_pool_algorithm",
+            "candidate_selection_rule",
+            "deadline",
+            "checkpoint_cadence"
+          ],
+          "passed": true
+        },
+        {
+          "check": "the 6-hour candidate event fired in the rehearsal",
+          "passed": true
+        },
+        {
+          "check": "the hour-168 candidate is marked, not selected",
+          "hour_168": "a candidate, not the deployed final policy; selection happens after the run under the frozen selection rule",
+          "passed": true
+        },
+        {
+          "check": "an incomplete evaluation is refused by the selection rule",
+          "passed": true
+        },
+        {
+          "check": "pending candidate evaluations are detected from disk, not from memory",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "H",
+      "passed": true,
+      "title": "Candidate system"
+    },
+    {
+      "checks": [
+        {
+          "check": "the external volume is mounted and writable",
+          "mount": "/Volumes/Brandon_Washington",
+          "passed": true
+        },
+        {
+          "check": "the measured 168-hour projection plus a 20% reserve fits",
+          "free_gib": 925.172,
+          "passed": true,
+          "projected_gib": 34.815,
+          "projected_with_20_percent_reserve_gib": 41.779
+        },
+        {
+          "ceiling_gib": 600.0,
+          "ceiling_with_reserve_gib": 720.0,
+          "check": "Agent 1's conservative planning ceiling also fits",
+          "free_gib": 925.172,
+          "passed": true
+        },
+        {
+          "check": "full raw retention is the frozen plan",
+          "passed": true
+        },
+        {
+          "check": "the frozen reserve threshold is intact",
+          "free_gib": 925.172,
+          "passed": true,
+          "reserve_gib": 120
+        },
+        {
+          "check": "earlier accepted evidence can never be deleted",
+          "passed": true,
+          "rule": "earlier accepted project evidence is never deleted under any condition, including to create storage space"
+        },
+        {
+          "check": "no Phase 14 run identity exists yet",
+          "external_run_directory": "/Volumes/Brandon_Washington/stratego_phase14",
+          "external_run_directory_exists": false,
+          "hot_checkpoints": 0,
+          "note": "an empty directory tree is not a run identity; a hot checkpoint is",
+          "passed": true,
+          "run_manifest_exists": false
+        }
+      ],
+      "failed": [],
+      "gate": "I",
+      "passed": true,
+      "title": "Storage"
+    },
+    {
+      "checks": [
+        {
+          "check": "every frozen metric has a snapshot path",
+          "metrics": 23,
+          "passed": true
+        },
+        {
+          "check": "the Agent 4 monitoring additions are exposed and checked",
+          "extended": [
+            "committed games (authoritative)",
+            "configured loader workers",
+            "last pool rebuild reason",
+            "last pool rebuild timestamp",
+            "live loader workers",
+            "loader pool rebuilds",
+            "process game counter (diagnostic)"
+          ],
+          "passed": true
+        },
+        {
+          "check": "the authoritative game total comes from the store, not a counter",
+          "committed": "authoritative; read from rollout-store iteration manifests",
+          "passed": true,
+          "process": "diagnostic only; process-local and lost across a crash"
+        },
+        {
+          "check": "worker health is a live observation",
+          "passed": true
+        },
+        {
+          "check": "every frozen training value is refused by name",
+          "passed": true,
+          "refused": [
+            "learning_rate",
+            "loss_weights",
+            "opponent_mixture",
+            "setup_source",
+            "historical_pool_algorithm",
+            "candidate_selection_rule",
+            "deadline",
+            "checkpoint_cadence"
+          ]
+        },
+        {
+          "check": "a durable emergency stop can be requested",
+          "passed": true
+        },
+        {
+          "check": "a durable emergency stop reaches the run",
+          "passed": true
+        },
+        {
+          "check": "a durable emergency stop can be cleared",
+          "passed": true
+        },
+        {
+          "check": "the supervisor refuses to restart over an emergency stop",
+          "passed": true,
+          "refusals": [
+            "emergency stop is active",
+            "the run manifest says training is closed",
+            "an unrecoverable integrity failure has been recorded",
+            "no valid resume checkpoint exists",
+            "the deadline has passed (one zero-step closeout launch excepted)",
+            "the bounded consecutive-restart policy is exhausted"
+          ]
+        },
+        {
+          "check": "restart and resume are one documented procedure",
+          "passed": true
+        }
+      ],
+      "failed": [],
+      "gate": "J",
+      "passed": true,
+      "title": "Controls"
+    }
+  ],
+  "package": {
+    "code_digest": "beed81a8a1dfff30a514a123dfac10aa821216f0ec0b3089e766ae2e1777df64",
+    "config_digest": "3770ebd4a0bb812f7ac49e8273f3485afb07e828915dbd767e47a2ca65bbff89",
+    "config_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/phase14_final_training_config_v1.json",
+    "manifest_digest": "92bd041d6fa9954cd9734708c5c8106d046faac34b8cb86019d779815cf68cf6",
+    "manifest_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/phase14_launch_manifest_v1.json",
+    "revision": "e6daae8df7e1da697263635db0aadc70651b3dd8"
+  },
+  "recommendation": "GO",
+  "seconds": 1.009
+}

@@ -1,0 +1,303 @@
+{
+ "agent": 4,
+ "artifact": "phase14_launch_manifest_v1",
+ "built_utc": "2026-08-21T09:19:49.296Z",
+ "code": {
+  "closure_entry_points": [
+   "stratego.training.phase14_runner",
+   "stratego.training.phase14_trainer",
+   "stratego.training.phase14_collector",
+   "stratego.training.phase14_checkpoint",
+   "stratego.training.phase14_pool",
+   "stratego.training.phase14_schedule",
+   "stratego.training.phase14_seed",
+   "stratego.training.phase14_setup_source",
+   "stratego.training.phase14_storage",
+   "stratego.training.phase14_telemetry",
+   "stratego.training.phase14_clock",
+   "stratego.training.phase14_contract",
+   "stratego.training.phase14_config",
+   "stratego.training.phase14_status",
+   "stratego.training.phase14_launch",
+   "stratego.training.phase14_supervisor",
+   "stratego.evaluation.phase14_candidates"
+  ],
+  "closure_files": 113,
+  "code_digest": "beed81a8a1dfff30a514a123dfac10aa821216f0ec0b3089e766ae2e1777df64",
+  "file_sha256": {
+   "stratego/__init__.py": "9c3676cd7c8911daf35cbdd9fa43ff1ed0197159e4e67f51c378c7e43cbd2813",
+   "stratego/engine/__init__.py": "99440b89a1d4b13fdd7d427cd2bc767d16b40d7e57080db7d505709d3b583c69",
+   "stratego/engine/actions.py": "b05c2beb3c40b5a87afaf0ee3a324b732951df531baeb1a8bf46269575453df8",
+   "stratego/engine/behavior.py": "e822f03f04b68ff895c0ae36dcb65ca347186fc48f08052326c9cf78e59df637",
+   "stratego/engine/combat.py": "3614fddbd98e0daaf88e2463763cdc9fdbf892dc160f3385127771bf882e2605",
+   "stratego/engine/constants.py": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+   "stratego/engine/coordinates.py": "a11a7272a6a7a27f08d4fbef6656136156bce559d422e880c2597a7d8dc096f2",
+   "stratego/engine/events.py": "c575790336e8ca8ea2d8f8080a10245489f215cde0a27e91fa755e01f6b77a6b",
+   "stratego/engine/invariants.py": "05218413e103830ad9127c11d70c00e0f42af9a3dd70d46bfed710797db0af61",
+   "stratego/engine/legal_moves.py": "2851553b64cbd4e8bc17ae96fe865343a443bd630c6f13e7c8b5d69754e39157",
+   "stratego/engine/observation.py": "0ec9d16172d220a3825b506cf0c40e710684816a7ab03b7852c0270168675d36",
+   "stratego/engine/permutation.py": "4191afe303564b2fff41a5fd0497ac175c8eda04067823781468a580e2d97a21",
+   "stratego/engine/pieces.py": "877e125e72b4a8ac3f77da19078506c427a92aaba79b2d1f43208581bc11518a",
+   "stratego/engine/random_play.py": "77372d07b180953dac2cf0f2100cc73ee13cab6b6c57bfc391d06f1d1c7e5b33",
+   "stratego/engine/replay.py": "aa527b78bd7abe8e921dbffd05ae0c0ead521d287cf5fe17e467bb38bf0e82fe",
+   "stratego/engine/setup.py": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+   "stratego/engine/snapshot.py": "364cd9248c70d80567366205e41e83df082a4e6aef8df9e9988e78a639bece4a",
+   "stratego/engine/state.py": "c4863890cb8cc2b8726f2abe38fc104d1c5ba8c4ea225941e18e736877742b2a",
+   "stratego/engine/transition.py": "afc1da6a6769abcb9e968c88efcd32770d72747da2427f7e809f850a34592357",
+   "stratego/evaluation/__init__.py": "5359c6a15ccd27705c36bbd5ca7ed3504f0c4ba2b4684c709ffe88b0e95a5e4f",
+   "stratego/evaluation/baselines.py": "a3e8cd78c878556552749732a3855782354ac1221a849ea9e550eeee0553e436",
+   "stratego/evaluation/calibration.py": "c15ff76814aa074b25da171b132689e6e71b212bf4dc10c5e0de6ef2bcd21077",
+   "stratego/evaluation/heuristics.py": "ea4536ec41fed286e5aed41270cae3beff84d6d23e6ae7e98d19d8a4c4ae1cad",
+   "stratego/evaluation/match_runner.py": "3afe09aefcd728c1aface8101b74175b7bd3e075b430a2724e0bf1909220ec8c",
+   "stratego/evaluation/match_spec.py": "534f41399bc805a8e8a17e4497fdcd77aee8cda159f84eaba9980db413b77951",
+   "stratego/evaluation/neural_worker.py": "d32d1dd98ee661f04bf0012ad57ee31960b620429e73ff3e36f24144be60db92",
+   "stratego/evaluation/phase10b_banks.py": "622e3f77957fd9e40ddef07eec5a0612d8643e238347e8074b044f75717cab13",
+   "stratego/evaluation/phase10b_eval.py": "19bf545eea13fb60773b387d4f2e0ec020ba846659b7679843e761b15767ce64",
+   "stratego/evaluation/phase14_candidates.py": "8c8118396ac3b040d9e87276d868e3ad82c45b565a4fb6b643532a194ecf1ae3",
+   "stratego/evaluation/policy.py": "e7a846e180d7f25d78489d8c5a7b25610ab713ac634baa5879e8224542866a3b",
+   "stratego/evaluation/registry.py": "799f918268cf0f7279fd89977473476be017beddd09fbd67f0663792c453b4ca",
+   "stratego/evaluation/reporting.py": "43e62f9aebf83e8222e3b1f8055b3f0b8b27864cb89189d6ae53f6f68c254857",
+   "stratego/evaluation/scheduler.py": "b6e94c806364418bd1275819d5c97ec433a848d2a29f2486b52dca508f17c28a",
+   "stratego/evaluation/setup_bank.py": "6149ad5fba2db060b0d28fd74bd5e7ba0f64ecdb536916b8fd7b7f9d7d9847e9",
+   "stratego/evaluation/statistics.py": "29dac790747d94f90aef46c6ab72fb30748d08057f38802508e308ba0c93b15c",
+   "stratego/evaluation/stress.py": "8a6bd6a2a507262bf106620c62bf476c3a79e3b1909463b0bf08092aa43976fd",
+   "stratego/model/__init__.py": "444a7ce76141753db7abc9b4e46924bb9c7da2bacbadb59e3fb5f41fc9292b2e",
+   "stratego/model/action_frame.py": "9fbe71495105f6ead87742bafe3de2f7bc5d0fa660d12ccfa5289534801baa9d",
+   "stratego/model/architecture_configs.py": "dc5afb825f2c036ecda61f1a9b07b8459f73c16d51fd435d457e3b8c1153b2ba",
+   "stratego/model/base.py": "ae2916cbc6ab552909d05266d34dbe8ff610953bf0112c33f0e730eb1a07dddd",
+   "stratego/model/checkpoint.py": "380d4610f73fff9c44e7ff29a21a45d6de166e3c843c942d4acd9d62d28f3944",
+   "stratego/model/contract.py": "cb46c2c2f01d316bf6aea00e829b86e61112f7bde1deda13b10cb954bb142466",
+   "stratego/model/integration_model.py": "23c849dc8fe9cfcc0d1e50080cad3bdbc77c7e2796d5c16e60830b6098a8412b",
+   "stratego/model/losses.py": "263d40a44a709a7f6c77eccd204e809bbcecd1bcc3d764586ad6aa38eb029309",
+   "stratego/model/policy_adapter.py": "c7fbe77cd182fcfe541057aa338ce117f13503818da2dd09a6d4a26e211b560f",
+   "stratego/model/production_model.py": "11fcc39640afaea4c8ba0657c727dfe438b5b204374cc733651bd99c4d0fc0cc",
+   "stratego/model/tokenization.py": "5eacd3917a3b75e5dd02a34abc68ffb4d1b93865a43119c7aba43284b56cb8c0",
+   "stratego/setups/__init__.py": "226e53a10b3782593d0b097032a38766670f69ba46699da9d16c3fbb2f5e103b",
+   "stratego/setups/audit.py": "f89031139c8dbc0d23e82498c003c739e152c1bb531a825bba243cfd32d3752d",
+   "stratego/setups/contracts.py": "af9f3bbf80a513b7d5ef3308510ee0f1243335f1b038737228ef2fd73e4ecb8a",
+   "stratego/setups/diversity.py": "12945143467054d6e344a32a85ba368acdbf837f6cae267ddd20b59d374701b7",
+   "stratego/setups/families.py": "4ea6871faf85b75506f5962d74f0c1655384549e6f5b7b58dbfc798fe2c4fb19",
+   "stratego/setups/generator.py": "7ffc8982015873a542e3669d136c01a0db5fff801784c129ec5326a7d1e7d0a4",
+   "stratego/setups/identity.py": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+   "stratego/setups/library.py": "2224d72adbb097b432f93de1f8ac27e012a44a505460c4b444b10d531eb9f7a8",
+   "stratego/setups/mobility.py": "236ce5dcaa003897436e0086f57da96d7f30362e7d6eff9e8fadd2c2dc01113f",
+   "stratego/setups/perturbation.py": "ce460df0cf94ef1cdefc6fd8b55db4400ad3e501b067c3a43b6dc8feb4d7790d",
+   "stratego/setups/sampler.py": "a4d9f049e25d796161221b3f691f2d84e9e64e68395ab00307a5b361ed397927",
+   "stratego/setups/seed.py": "9583a3ba4d38eff541e71b26ff1430bc3f7769bc5a8f4d10632bbe1c1771c526",
+   "stratego/setups/traits.py": "41f2c3c254e689302da8c5651bae95f504390c9af81810bab591e693528bac53",
+   "stratego/training/__init__.py": "c381f93e96a5fcb3dbf24cddf6dc1d1be4e2383deb52a329dd3302fcb35c1359",
+   "stratego/training/batch_simulation.py": "fce49a8d7646c0d21edd4b35ef6dc7f542011f2e48875c755e33e2741520a6fb",
+   "stratego/training/belief_targets.py": "4ddb81b2e443be45f527002b443d6273bd16d9cead288dcdacbbc8f0cbfc2ac4",
+   "stratego/training/corpus_commit.py": "bada3d3de1f088bfa038eddfe4d7f0198766fbdf4667a29254d0cc6ded968217",
+   "stratego/training/phase10_contract.py": "74d33021f5513bd13d0ad421f733d7f787ca9bae6bf1a4300b5fefa8d207667c",
+   "stratego/training/phase10_outcome_store.py": "e401904b0e11fb909408f66886689076df6fa4d1fc9da46f37fe7ccc15de3046",
+   "stratego/training/phase10_schedule.py": "5e6c57fee3ee7c0e1eed4187f2164deff4af7e931d886aef56d20f4da5fafa92",
+   "stratego/training/phase10_seed.py": "f486a1c0283b51b89bdd8883ff9d7ab54837160d69b057702fb270f457a791b7",
+   "stratego/training/phase10_selector.py": "73276e7f423d89aeef72fa8da5517beb667a22f545b35d3cd64bd691c6207a72",
+   "stratego/training/phase10_utility.py": "10a59935fa16aee4baaafa787b2aa4bfe42372373122d7d79a7a3603fe389359",
+   "stratego/training/phase10_utility_fit.py": "926d41f0c31980053229bbf82185cf536f6d8fc89385bf4f573312d12892e931",
+   "stratego/training/phase10b_contract.py": "120a73f031e8d804ed276ae16093d51f7152f09fe4efb5e64c89ae4e629e4fde",
+   "stratego/training/phase10b_seed.py": "e322c710722045536d00470755f81995e55c68dcf638938f49680c48355d207b",
+   "stratego/training/phase10b_setup_source.py": "0984e250d2d8749dc02bbf91bb1e45eb358a6692471845a38b62b1f753e8a347",
+   "stratego/training/phase14_checkpoint.py": "63b91881067df0ad1215650d563d36d98d7bbbd74c8e86acc9485b9aaf721cf1",
+   "stratego/training/phase14_clock.py": "104a8c9242d1a1c435f84e52fa2554f25bfef658da924a31eb20d3424331ad2d",
+   "stratego/training/phase14_collector.py": "d978fff6b6f09d160cb301781e3c3729cd5cebc41cd0765a5e4870dfc0381308",
+   "stratego/training/phase14_config.py": "0a59bdc53fb8fbb86e6ce6a623dc082384d82ef553090247ab91642245e34d43",
+   "stratego/training/phase14_contract.py": "5a568162c84aa01c62d1c7a7c149e3c38a12c9878529268896cacbb92b875294",
+   "stratego/training/phase14_launch.py": "c0217b7289eb7eb6749b361c8b0448b79df3aeb9b1b8bc295a34e143e9d416ad",
+   "stratego/training/phase14_pool.py": "add197c43da1b010e3a01e4263d4a6ae905fa27edead4e2b47112f20093083fd",
+   "stratego/training/phase14_runner.py": "27860dca5f738295f889ec362ef6a38c8a17d2be242b6b7ed3e464446bd71ac4",
+   "stratego/training/phase14_schedule.py": "123ef780b38a1d10c82fd37efcd58fbf0dc507a7110c5bc040d927b7a874579b",
+   "stratego/training/phase14_seed.py": "26684a977f1a8b39d85788e5b86e53557417cad264c0a2b12f2de6941e675324",
+   "stratego/training/phase14_setup_source.py": "35cd85603631c18ec7d926082eadb034b2e6685c7e61047912d5995d08f08a82",
+   "stratego/training/phase14_status.py": "965c1e5435834e839ac21b9638223976ab03c9f888d6871b9bb2f8193fb103f5",
+   "stratego/training/phase14_storage.py": "1c91c17b63ee3c2705805b59c668a946f6e693d94e1d123315407c3c2639c195",
+   "stratego/training/phase14_supervisor.py": "bb25a1b485b2cc812e8a248a02bb7ddb8f65f8703bf4b541b3c7031636d87a21",
+   "stratego/training/phase14_telemetry.py": "4404d7e8f46b853508fcace0c1d05c9705d94dabd9e4e400aba588acc970cdf8",
+   "stratego/training/phase14_trainer.py": "4979959bb9347e559671df93483281387bd1c396b831c1c51a194458f28525ce",
+   "stratego/training/phase9_behavior.py": "9ab51c9b25527dc77d3364796e0e6ad782be366794a32e3288f75b5bda0a045f",
+   "stratego/training/phase9_checkpoint.py": "122fc110f8f402ac793af4f9d5b2a941c6b7e4435f745edf35b2f3c5afde29e3",
+   "stratego/training/phase9_collector.py": "cd089ecc591192576447d9c23637fe030dcd604b29b8a6bc81e368fe96541bfe",
+   "stratego/training/phase9_contract.py": "49a9abb962f20362fa9eb1255002ea5eafe1f92da82588bf527ce0822e896777",
+   "stratego/training/phase9_loss.py": "db05a4e22cec24d2443854fc15353dac052feb1c9104d0ce40c307056645ac7f",
+   "stratego/training/phase9_rollout_store.py": "991eceece559762ffd2709beeba79523e6eef5d3da0e334b7a5f9dde1d0e44b6",
+   "stratego/training/phase9_schedule.py": "155650004354562b7b39b7524ce885b416a16850f7ef611113fbca639dfbbedb",
+   "stratego/training/phase9_seed.py": "c3bcb55e7a6a102753496919c14042c70113f6b7e40ef3e2766f84ad185f1954",
+   "stratego/training/phase9_storage.py": "c88e8bdb491242e50ff90479dee31371dbbdc914fb16a3e3bfef864c1cbaa3ae",
+   "stratego/training/phase9_targets.py": "ffa5decaed7cd35692b54bfccc055752e18858ef70e69a6dc8d72a769df858c4",
+   "stratego/training/phase9_trainer.py": "5894231c8528adda62dfd37fbe0fcc643f50b1bfab4447ee1e76fecc4c34100e",
+   "stratego/training/reconstruction.py": "969e101456fbbfc450f8216c91092ba6d2e3b6cd157aaf1f97fe13eaf34dc158",
+   "stratego/training/rule_population.py": "0c29279b2d5d314c2e08593a0e02b20951ead098385d52db459c3c2d5813cfc5",
+   "stratego/training/serialization.py": "942806ee38b5dc515fc0df270423ec5ca6fe78f75a5c36d4ec3281e33f07b3da",
+   "stratego/training/setup_source.py": "c7035978f3b79f2ce7e90e0ac0aa1f2c7d68a4f55f1267e45de08c23c4f510c7",
+   "stratego/training/shard_writer.py": "ab3ac56b069cd99a5ccbe40b136a16bc51a9d0f543319271eea9a1b733790eb7",
+   "stratego/training/synthetic_corpus.py": "8882afb0c1aa56c1e1b69379de40cd56ff614a53156e8f7d60c06f523d6ccbcc",
+   "stratego/training/trajectory.py": "77f7204538dc28ad8613424a00fb056205b6259bba77091170a7f6c1d393a4f7",
+   "stratego/training/warmstart_checkpoint.py": "0ed09f7ede3997873b29612032f6dfcef56da2c369a636fe7c69a0341630ecf6",
+   "stratego/training/warmstart_contract.py": "be64cbed9824ddcb1af2259d11f1c7a5d7d0d0b3389219a03353ca9bd68636d4",
+   "stratego/training/warmstart_dataset.py": "d7ec2e393e893544b73db0691d5699c6e071be1cc2ecc3b214b93672cba0e321",
+   "stratego/training/warmstart_examples.py": "66f9fd7bdff9151674380a9f16e98418736f2f43c66326b9ac8cfc66f0725f8c",
+   "stratego/training/warmstart_seed.py": "e08794c5e79ab3b37cbafd3c6b3c53aeffb2b48a8ba59ac4f2482e271955401f"
+  },
+  "git": {
+   "agent3_repair_revision": "e6daae8df7e1da697263635db0aadc70651b3dd8",
+   "branch": "main",
+   "dirty_tracked_files": [
+    ".gitignore",
+    "stratego/training/phase14_runner.py",
+    "stratego/training/phase14_telemetry.py",
+    "stratego/training/phase14_trainer.py"
+   ],
+   "revision": "e6daae8df7e1da697263635db0aadc70651b3dd8",
+   "tracked_tree_clean": false
+  },
+  "python": "3.13.2",
+  "search_excluded": true,
+  "search_modules_in_training_closure": [],
+  "worker_pool_repair": {
+   "checks": {
+    "broken_executor_is_recoverable": true,
+    "next_minibatch_catches_broken_executor": true,
+    "next_minibatch_rebuilds_at_same_cursor": true,
+    "rebuild_cap_present": true,
+    "rebuild_events_recorded": true,
+    "rebuilds_are_counted": true
+   },
+   "installed": true,
+   "max_loader_pool_rebuilds": 16,
+   "recoverable_errors": [
+    "OSError",
+    "TimeoutError",
+    "BrokenExecutor"
+   ],
+   "why_digests_do_not_prove_this": "the contract and integrated-config digests are computed over frozen values and module version strings, both of which the repair left unchanged"
+  }
+ },
+ "control_files": {
+  "emergency_stop": "/Volumes/Brandon_Washington/stratego_phase14/phase14_emergency_stop.json",
+  "integrity_failure": "/Volumes/Brandon_Washington/stratego_phase14/phase14_integrity_failure.json"
+ },
+ "deadline": {
+  "derivation": "run_deadline_utc = actual launch UTC + 168 hours",
+  "duration_hours": 168,
+  "materialized": "exactly once, by the launch, and persisted",
+  "note": "these two fields are null by design: the absolute deadline cannot be known until Phase 14 launches, and the launch materializes them once",
+  "run_deadline_utc": null,
+  "run_start_utc": null
+ },
+ "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+ "launch_manifest_digest": "92bd041d6fa9954cd9734708c5c8106d046faac34b8cb86019d779815cf68cf6",
+ "launch_manifest_digest_excludes": [
+  "built_utc"
+ ],
+ "launch_version": "phase14_launch_v1",
+ "operational_topology": {
+  "device": "mps",
+  "games_in_flight": 96,
+  "games_per_iteration": 2048,
+  "in_logical_config_digest": false,
+  "inference_batch_shape": 64,
+  "inference_device": "mps",
+  "loader_workers": 6,
+  "population": "production",
+  "source": "Phase 13 Agent 3 rehearsal, run at this exact topology for 90 minutes"
+ },
+ "phase": 13,
+ "phase14_contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+ "phase14_final_training_config": {
+  "artifact": "phase14_final_training_config_v1",
+  "path": "reports/phase13/phase14_final_training_config_v1.json"
+ },
+ "phase14_final_training_config_digest": "3770ebd4a0bb812f7ac49e8273f3485afb07e828915dbd767e47a2ca65bbff89",
+ "scripts": {
+  "candidate_evaluator": {
+   "path": "scripts/phase14_evaluate_candidates.py",
+   "sha256": "7743b9ade4cfbcf79063d75d72678f919986651a5ecc77c3a5a6b9bc8a2437de"
+  },
+  "emergency_stop": {
+   "path": "scripts/phase14_emergency_stop.py",
+   "sha256": "f40d8957ae18cf68c57330193a6cad6acc7ccf0589443929cb9d2f56fddc6dc6"
+  },
+  "final_selection": {
+   "path": "scripts/phase14_select_final.py",
+   "sha256": "ce01bcc738ffa7bf1717e81285e31c8beb8f57a045f1aa759b5a854d559a87a3"
+  },
+  "launch": {
+   "path": "scripts/phase14_launch.py",
+   "sha256": "ee508efc29837316b239defa6a6f04ad98dde2bd2968ead8dcaaf4834255cf04"
+  },
+  "rebuild_launch_package": {
+   "path": "scripts/phase14_build_launch_package.py",
+   "sha256": "5bea2dbe8631dc84ccebe49d24cd2a6efc092b4fb93c12260531931c25ccbec9"
+  },
+  "resume": {
+   "path": "scripts/phase14_launch.py",
+   "sha256": "ee508efc29837316b239defa6a6f04ad98dde2bd2968ead8dcaaf4834255cf04"
+  },
+  "status": {
+   "path": "scripts/phase14_status.py",
+   "sha256": "cfc4c510d14d13630d7204caa65ba8b668ebf8424a9c9c4b22ddc04dc4298de9"
+  }
+ },
+ "search_excluded": true,
+ "status": "FROZEN",
+ "storage": {
+  "archive_root": "/Volumes/Brandon_Washington/stratego_phase14/archive",
+  "evaluation_root": "/Volumes/Brandon_Washington/stratego_phase14/evaluations",
+  "external_run_directory": "/Volumes/Brandon_Washington/stratego_phase14",
+  "external_volume": "/Volumes/Brandon_Washington",
+  "hot_checkpoint_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase14/hot",
+  "log_root": "/Volumes/Brandon_Washington/stratego_phase14/logs",
+  "rollout_root": "/Volumes/Brandon_Washington/stratego_phase14/rollouts",
+  "run_state_path": "/Volumes/Brandon_Washington/stratego_phase14/phase14_run_state.json"
+ },
+ "upstream": {
+  "agent1_contract": {
+   "path": "reports/phase13/phase13_final_training_contract_v1.json",
+   "sha256": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf"
+  },
+  "agent2_integrated_config": {
+   "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+   "path": "reports/phase13/phase13_integrated_training_config_v1.json",
+   "sha256": "ef1c72f77bd9119aa1d4a3bbf1cb28f3e22882a6dd51257f20ccb8264379dee5"
+  },
+  "agent3_rehearsal": {
+   "path": "reports/phase13/phase13_rehearsal_v1.json",
+   "sha256": "1e8e0beb4801905df4e11827772a0a39e801b9958057333370d339d18e809b1f"
+  },
+  "candidate_pack": {
+   "file_sha256": "1bf7d230e5bb233da31c67c7e3cb462c4f389eb6d24f85ecd93fdf2331cf3cc5",
+   "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+   "path": "reports/phase13/phase14_checkpoint_selection_pack_v1.json"
+  },
+  "pool_anchors": {
+   "P8": {
+    "observed_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "path": "checkpoints/phase8/warmstart_c1_v1.pt",
+    "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+   },
+   "P9": {
+    "observed_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   }
+  },
+  "selection_rule": {
+   "file_sha256": "2218539a36ac4ae60cd9ffe957c6d20aa6626ea7b5978e457b98d30389868d96",
+   "identity": "highest equal-weight mean EWR across the four strata; tie-break on highest minimum stratum EWR; then the later candidate hour",
+   "path": "reports/phase13/phase14_checkpoint_selection_rule_v1.json"
+  },
+  "setup_source": {
+   "file_sha256": "2de1fe1dc147a9400af6e21fdc88b1a61a94309434b7fbe0a8377dd0a4fde1af",
+   "identity": "phase14_setup_source_v1",
+   "path": "reports/phase13/phase14_setup_source_v1.json",
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+  },
+  "starting_checkpoint": {
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "observed_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  }
+ }
+}

@@ -60,3 +60,7 @@ __pycache__/
 # rehearsal, reproducible from `scripts/run_phase13_agent03.py`; the evidence
 # that describes them is tracked under reports/phase13/agent03_evidence.
 checkpoints/phase13_rehearsal/
+# Phase 14 hot resume checkpoints: a bounded ring of ~10 MB working files on
+# internal disk, rewritten every 15 minutes for 168 hours. The durable evidence
+# lives on the external volume and in reports/phase13.
+checkpoints/phase14/

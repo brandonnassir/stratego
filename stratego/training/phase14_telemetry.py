@@ -18,6 +18,24 @@ Why the metric list is checked
 runner records the result. A metric that quietly stopped being emitted after a
 refactor is exactly the kind of gap that only shows up when somebody needs it
 at hour 140.
+
+The Agent 4 additions
+---------------------
+The frozen metric list is part of the contract document and therefore of the
+contract digest; it is not touched here. Phase 13 Agent 4's monitoring repairs
+appear instead as :data:`EXTENDED_METRIC_PATHS`, checked by
+:func:`missing_extended_metrics`, and as two changes in what existing fields
+*mean*: ``collection.games_generated`` is now read from the rollout store's
+iteration manifests rather than from a process-local counter, and
+``workers.status`` is a live health sentence rather than a constant string.
+Both were gaps Agent 3 found by running the system for 90 minutes.
+
+The durable emergency stop
+--------------------------
+:class:`ControlSurface` gained one thing: a stop *file*. An in-process flag
+cannot be set from a second terminal and cannot be honoured by a process that
+has already been killed. It remains a stop and not a setting — every frozen
+training key is still refused by name.
 """
 
 from __future__ import annotations
@@ -65,6 +83,20 @@ METRIC_PATHS = {
 }
 
 
+#: The Phase 13 Agent 4 monitoring additions. Deliberately a *separate* map:
+#: `FROZEN_METRIC_LIST` lives in the contract document and moving it would move
+#: the contract digest, which Agent 4 may not do.
+EXTENDED_METRIC_PATHS = {
+    "committed games (authoritative)": ("collection", "committed_games"),
+    "process game counter (diagnostic)": ("collection", "process_counter_games"),
+    "configured loader workers": ("workers", "configured_loader_workers"),
+    "live loader workers": ("workers", "live_loader_workers"),
+    "loader pool rebuilds": ("workers", "loader_pool_rebuilds"),
+    "last pool rebuild timestamp": ("workers", "last_pool_rebuild_utc"),
+    "last pool rebuild reason": ("workers", "last_pool_rebuild_reason"),
+}
+
+
 class Phase14TelemetryError(RuntimeError):
     """Raised when the control surface is asked for something it may not do."""
 
@@ -76,6 +108,15 @@ def missing_metrics(snapshot: dict) -> list:
         if key not in snapshot.get(section, {}):
             missing.append(metric)
     return missing
+
+
+def missing_extended_metrics(snapshot: dict) -> list:
+    """Every Agent 4 monitoring field the snapshot does not actually carry."""
+    return [
+        metric
+        for metric, (section, key) in EXTENDED_METRIC_PATHS.items()
+        if key not in snapshot.get(section, {})
+    ]
 
 
 def build_snapshot(
@@ -108,6 +149,7 @@ def build_snapshot(
         "failures": dict(failures),
     }
     snapshot["missing_metrics"] = missing_metrics(snapshot)
+    snapshot["missing_extended_metrics"] = missing_extended_metrics(snapshot)
     return snapshot
 
 
@@ -149,6 +191,12 @@ class ControlSurface:
     stop_reason: str = ""
     stop_unix: "float | None" = None
     refusals: list = field(default_factory=list)
+    #: A durable stop request, written by another process. An in-process flag
+    #: cannot be set by an operator at 3 a.m. from a second terminal, and a
+    #: process that has already been killed cannot be asked to stop politely;
+    #: the file is how the request survives both. Frozen keys stay refused —
+    #: this adds a stop, not a setting.
+    stop_file: "Path | None" = None
 
     def emergency_stop(self, reason: str = "operator request") -> dict:
         """Request a clean stop at the next safe boundary.
@@ -168,7 +216,15 @@ class ControlSurface:
         self.stop_unix = None
         return self.status()
 
+    def file_stop_requested(self) -> bool:
+        """Whether an operator has written the durable emergency-stop file."""
+        return self.stop_file is not None and Path(self.stop_file).exists()
+
     def should_continue(self) -> bool:
+        if self.file_stop_requested():
+            if not self.stop_requested:
+                self.emergency_stop(f"emergency-stop file at {self.stop_file}")
+            return False
         return not self.stop_requested
 
     def set(self, key: str, value) -> None:
@@ -192,6 +248,8 @@ class ControlSurface:
             "stop_unix": self.stop_unix,
             "immutable_keys": list(IMMUTABLE_CONTROL_KEYS),
             "refusals": len(self.refusals),
+            "stop_file": None if self.stop_file is None else str(self.stop_file),
+            "stop_file_present": self.file_stop_requested(),
         }
 
 
@@ -200,6 +258,12 @@ def telemetry_semantics() -> dict:
         "telemetry_version": PHASE14_TELEMETRY_VERSION,
         "metrics": list(FROZEN_METRIC_LIST),
         "metric_paths": {name: list(path) for name, path in METRIC_PATHS.items()},
+        "extended_metrics": list(EXTENDED_METRIC_PATHS),
+        "extended_metric_paths": {
+            name: list(path) for name, path in EXTENDED_METRIC_PATHS.items()
+        },
         "control": "emergency stop only",
         "immutable_keys": list(IMMUTABLE_CONTROL_KEYS),
+        "games_generated_source": "rollout store iteration manifests (authoritative)",
+        "worker_health_source": "live OS children of the learner",
     }

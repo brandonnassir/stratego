@@ -1,0 +1,302 @@
+{
+ "agent": 4,
+ "artifact": "phase14_final_training_config_v1",
+ "candidate_evaluation": {
+  "failure_policy": "preserve the candidate, record the failure, continue training, retry later on the identical pack",
+  "hour_168_gate": "every marked candidate must carry a complete 128-game result before the frozen selection rule is applied",
+  "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+  "runs": "out of band, in its own process, never inside the training loop",
+  "search_permitted": false,
+  "selection_rule": "highest equal-weight mean EWR across the four strata; tie-break on highest minimum stratum EWR; then the later candidate hour",
+  "selection_rule_identity": "highest equal-weight mean EWR across the four strata; tie-break on highest minimum stratum EWR; then the later candidate hour"
+ },
+ "checkpoint_cadences": {
+  "archive_seconds": 7200,
+  "candidate_hours": [
+   0,
+   6,
+   12,
+   18,
+   24,
+   30,
+   36,
+   42,
+   48,
+   54,
+   60,
+   66,
+   72,
+   78,
+   84,
+   90,
+   96,
+   102,
+   108,
+   114,
+   120,
+   126,
+   132,
+   138,
+   144,
+   150,
+   156,
+   162,
+   168
+  ],
+  "candidate_seconds": 21600,
+  "hot_retain": 4,
+  "hot_seconds": 900
+ },
+ "deadline_semantics": {
+  "deadline_seconds": 604800,
+  "derivation": "run_deadline_utc = run_start_utc + 604800s, materialized exactly once at launch and persisted in every hot checkpoint",
+  "downtime": "counts against the deadline",
+  "post_deadline": "recovery finalizes and takes zero optimizer steps",
+  "restart": "a restart reuses the persisted window; it never creates a new one",
+  "rule": "run_deadline_utc = run_start_utc + 604800s, computed once and persisted; a restart never creates a fresh 168-hour duration"
+ },
+ "historical": {
+  "anchors": {
+   "P8": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "P9": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  },
+  "archive": "append-only; entries are never pruned for inactivity",
+  "bands": {
+   "middle": 4,
+   "older": 4,
+   "recent": 6
+  },
+  "counts": "exact largest-remainder partition, ties rotated by iteration",
+  "membership": "pure function f(k) of the ordered archive; no tournament",
+  "pool_version": "phase14_active_pool_v1",
+  "size": 16,
+  "snapshot_slots": 14,
+  "weights": {
+   "anchor": 0.2,
+   "middle": 0.25,
+   "older": 0.25,
+   "recent": 0.3
+  }
+ },
+ "learning_rate": {
+  "late": 3.75e-05,
+  "main": 7.5e-05,
+  "schedule": "constant within a segment"
+ },
+ "monitoring": {
+  "committed_games": "authoritative; read from rollout-store iteration manifests",
+  "controls": "emergency stop only; every frozen key is refused by name",
+  "extended_metrics": [
+   "committed games (authoritative)",
+   "process game counter (diagnostic)",
+   "configured loader workers",
+   "live loader workers",
+   "loader pool rebuilds",
+   "last pool rebuild timestamp",
+   "last pool rebuild reason"
+  ],
+  "frozen_metrics": [
+   "elapsed wall-clock",
+   "remaining wall-clock",
+   "optimizer step",
+   "games generated",
+   "positions generated",
+   "collection throughput",
+   "learner throughput",
+   "policy loss",
+   "value loss",
+   "belief auxiliary loss",
+   "gradient norm",
+   "learning rate",
+   "advantage-filter acceptance fraction",
+   "draw rate",
+   "game length",
+   "current/historical opponent mix",
+   "active historical pool",
+   "archive size",
+   "checkpoint age",
+   "disk usage",
+   "worker health",
+   "non-finite counters",
+   "candidate evaluation status"
+  ],
+  "immutable_control_keys": [
+   "learning_rate",
+   "loss_weights",
+   "opponent_mixture",
+   "setup_source",
+   "historical_pool_algorithm",
+   "candidate_selection_rule",
+   "deadline",
+   "checkpoint_cadence"
+  ],
+  "process_counter_games": "diagnostic only; process-local and lost across a crash",
+  "worker_health": "live OS children of the learner, not a configured constant"
+ },
+ "objectives": {
+  "behavior_kl": "adaptive beta against the frozen behavior policy",
+  "belief_auxiliary": "accepted Phase 9 belief targets, weight 0.25",
+  "detail": {
+   "advantage_filter_floor": 0.01,
+   "advantage_filter_quantile": 0.75,
+   "advantage_standardization_epsilon": 1e-08,
+   "behavior_kl_target": 0.015,
+   "behavior_probability_abs_tolerance": 0.0001,
+   "behavior_temperature": 1.0,
+   "belief_loss_weight": 0.25,
+   "clip_fraction_hard_limit": 0.75,
+   "entropy_schedule_terminal_value": 0.001,
+   "epochs_per_rollout": 2,
+   "gamma": 1.0,
+   "kl_beta_decrease_factor": 0.5,
+   "kl_beta_decrease_threshold": 0.0075,
+   "kl_beta_increase_factor": 2.0,
+   "kl_beta_increase_threshold": 0.03,
+   "kl_beta_max": 0.2,
+   "kl_beta_min": 0.0001,
+   "kl_hard_limit": 0.08,
+   "lambda_advantage": 0.5,
+   "lambda_value": 0.8,
+   "minibatch_size": 512,
+   "optimizer": {
+    "adam_betas": [
+     0.9,
+     0.999
+    ],
+    "adam_epsilon": 1e-08,
+    "device": "mps",
+    "epochs_per_rollout": 2,
+    "gradient_clip_norm": 1.0,
+    "learning_rate_schedule": "constant (no warmup, no decay)",
+    "minibatch_size": 512,
+    "optimizer": "AdamW",
+    "precision": "float32",
+    "weight_decay": 0.01
+   },
+   "phase9_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+   "ppo_clip_epsilon": 0.2,
+   "value_loss_weight": 0.5
+  },
+  "entropy_coefficient": 0.001,
+  "policy": "PPO clipped surrogate over advantage-filtered learner decisions",
+  "value": "categorical cross-entropy over the 3-class W/D/L head, weight 0.5"
+ },
+ "opponent_mixture": {
+  "late": {
+   "current": 819,
+   "historical": 984,
+   "rule": 122,
+   "stress": 123
+  },
+  "main": {
+   "current": 1188,
+   "historical": 615,
+   "rule": 122,
+   "stress": 123
+  }
+ },
+ "optimizer_family": {
+  "adam_betas": [
+   0.9,
+   0.999
+  ],
+  "adam_epsilon": 1e-08,
+  "device": "mps",
+  "epochs_per_rollout": 2,
+  "gradient_clip_norm": 1.0,
+  "learning_rate_schedule": "constant (no warmup, no decay)",
+  "minibatch_size": 512,
+  "optimizer": "AdamW",
+  "precision": "float32",
+  "weight_decay": 0.01
+ },
+ "phase": 13,
+ "phase14_final_training_config_digest": "3770ebd4a0bb812f7ac49e8273f3485afb07e828915dbd767e47a2ca65bbff89",
+ "purpose": "the immutable configuration the 168-hour Phase 14 final training run executes. Building this document starts nothing.",
+ "recovery_semantics": {
+  "cadence_is_nominal": true,
+  "evidence": "phase13_rehearsal_v1 sections 4 and 6",
+  "games_replayed_across_two_rehearsal_crashes": 0,
+  "hot_checkpoint_cadence_seconds": 900,
+  "max_checkpoint_age_observed_seconds": 895.4,
+  "no_write_during": "a collection unit (297-311 s observed in the rehearsal)",
+  "observed_sample_count": 1067,
+  "observed_samples_above_cadence": 0,
+  "optimizer_work_repeated_in_rehearsal_seconds": [
+   197.6,
+   232.4
+  ],
+  "read_checkpoint_age_as": "up to one cadence plus a collection, not up to one cadence",
+  "sealed_games_survive_a_later_learner_crash": true,
+  "what_a_crash_can_cost": "un-checkpointed optimizer work, which is repeated",
+  "writes_occur_at": "safe training boundaries, not on a timer interrupt"
+ },
+ "rng_semantics": {
+  "evidence": "Phase 13 Agent 3 collected and trained the same iteration twice under two deliberately different global torch seeds: identical games, decisions, terminal results, bucket counts, updates, examples consumed, epoch plan and final model state digest f27ea740c4f13c7e5c8576adb1a789c84061cc6777ba7661d90f311cfa9cdf60",
+  "global_rng_state_captured": true,
+  "global_rng_state_restored": false,
+  "reason": "logical Phase 14 randomness uses explicit deterministic streams rather than ambient global RNG",
+  "redesigned_by_agent_4": false
+ },
+ "search_excluded": true,
+ "search_prohibition": "search may not be used for self-play action selection, training targets, opponent policies, policy improvement or trajectory generation; Phase 14 trains the direct C1 policy/value system only",
+ "setup_source": {
+  "identity": "phase14_setup_source_v1",
+  "implementation": "phase14_setup_source_v1",
+  "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+ },
+ "starting_model": {
+  "agent1c": {
+   "checkpoint": "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+   "role": "belief/search pipeline only; never the Phase 14 policy/value start",
+   "used_as_phase14_policy_value": false
+  },
+  "ema": "absent - the accepted Phase 9 system maintains no EMA",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "optimizer_state": "fresh AdamW moments (zero); KL controller beta0 0.005",
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "role": "Phase 14 starting policy/value AND belief auxiliary head",
+  "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+ },
+ "status": "FROZEN",
+ "storage_policy": {
+  "contingency": "pre-authorized only below 120 GiB free: delete already-consumed disposable Phase 14 raw shards oldest-first, retaining all checkpoints, metrics, historical snapshots and a 1-in-16 sample of deleted shard ranges",
+  "full_raw_retention": true,
+  "no_deletion_rule": "earlier accepted project evidence is never deleted under any condition, including to create storage space",
+  "reserve_gib": 120
+ },
+ "supervision": {
+  "candidate_evaluation": "pending marks are detected from the ledger on disk and evaluated in a separate process, one at a time, with no path back into training",
+  "never": "creates a new training deadline",
+  "records": [
+   "launch timestamp",
+   "learner PID",
+   "unexpected exit",
+   "exit code / signal",
+   "restart attempt",
+   "checkpoint selected",
+   "restart success/failure",
+   "final process exit"
+  ],
+  "refuses_to_restart_when": [
+   "emergency stop is active",
+   "the run manifest says training is closed",
+   "an unrecoverable integrity failure has been recorded",
+   "no valid resume checkpoint exists",
+   "the deadline has passed (one zero-step closeout launch excepted)",
+   "the bounded consecutive-restart policy is exhausted"
+  ],
+  "supervisor_version": "phase14_supervisor_v1"
+ },
+ "transition": {
+  "rule": "elapsed against the original run start; downtime counts",
+  "transition_seconds": 475200
+ },
+ "upstream": {
+  "agent1_contract": "phase13_final_training_contract_v1",
+  "agent2_integrated_config": "phase13_integrated_training_config_v1",
+  "agent3_rehearsal": "phase13_rehearsal_v1",
+  "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+  "phase14_contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9"
+ }
+}

@@ -1,0 +1,302 @@
+{
+ "agent": 4,
+ "artifact": "phase13_agent_04_summary",
+ "before_launch": [
+  "commit this work, then rebuild the launch package (scripts/phase14_build_launch_package.py) so the bound revision matches HEAD",
+  "verify it (--verify): expect verified true and worker_pool_repair_installed true",
+  "launch under caffeinate -dimsu per PHASE_14_RUNBOOK.md section 2"
+ ],
+ "candidate_evaluation_policy": {
+  "detection": "the candidate ledger on disk, polled by the supervisor",
+  "execution": "a separate process, one at a time, never inside the learner",
+  "gate_script": "scripts/phase14_select_final.py",
+  "hour_168_gate": "the frozen selection rule refuses while any marked candidate lacks a complete 128-game result",
+  "on_failure": "preserve the candidate, record the reason, continue training, retry on the identical pack",
+  "search_permitted": false
+ },
+ "checks_passed": 90,
+ "checks_total": 90,
+ "code_binding": {
+  "agent3_repair_revision": "e6daae8df7e1da697263635db0aadc70651b3dd8",
+  "closure_computed_in": "a clean subprocess, so it does not depend on the caller",
+  "closure_files": 113,
+  "dirty_tracked_files": [
+   ".gitignore",
+   "stratego/training/phase14_runner.py",
+   "stratego/training/phase14_telemetry.py",
+   "stratego/training/phase14_trainer.py"
+  ],
+  "git_revision": "e6daae8df7e1da697263635db0aadc70651b3dd8",
+  "launch_refuses": [
+   "a different git revision",
+   "the same revision with edited tracked bytes",
+   "a different tracked working-tree state",
+   "a replaced operator script",
+   "a revision missing the worker-pool repair"
+  ],
+  "max_loader_pool_rebuilds": 16,
+  "rebuild_is_deliberate": "scripts/phase14_build_launch_package.py",
+  "search_excluded": true,
+  "tracked_tree_clean": false,
+  "why": "the Agent 3 worker-pool repair changed neither frozen digest, so digests alone cannot prove the repair is installed",
+  "worker_pool_repair_checks": {
+   "broken_executor_is_recoverable": true,
+   "next_minibatch_catches_broken_executor": true,
+   "next_minibatch_rebuilds_at_same_cursor": true,
+   "rebuild_cap_present": true,
+   "rebuild_events_recorded": true,
+   "rebuilds_are_counted": true
+  },
+  "worker_pool_repair_installed": true
+ },
+ "defect_found_and_fixed_in_agent_4_work": {
+  "defect": "the Phase 14 code closure depended on the calling process",
+  "detail": "computed from sys.modules in-process, a full pytest run had already imported stratego.search and the bound file set silently grew by eight modules",
+  "fix": "the closure is computed in a clean subprocess and pinned by a test that deliberately imports stratego.search first",
+  "found_by": "the full test suite",
+  "side_benefit": "the closure is now the structural proof that search is absent from training"
+ },
+ "deliverables": [
+  "reports/phase13/phase14_final_training_config_v1.json",
+  "reports/phase13/phase14_launch_manifest_v1.json",
+  "PHASE_14_RUNBOOK.md",
+  "reports/phase13/phase13_agent_04_report.md",
+  "reports/phase13/phase13_agent_04_summary.json",
+  "reports/phase13/agent04_evidence/gates.json",
+  "stratego/training/phase14_launch.py",
+  "stratego/training/phase14_status.py",
+  "stratego/training/phase14_supervisor.py",
+  "scripts/phase14_launch.py",
+  "scripts/phase14_status.py",
+  "scripts/phase14_emergency_stop.py",
+  "scripts/phase14_evaluate_candidates.py",
+  "scripts/phase14_select_final.py",
+  "scripts/phase14_build_launch_package.py",
+  "scripts/run_phase13_agent04.py",
+  "tests/training/test_phase13_agent04.py"
+ ],
+ "digests": {
+  "frozen_digests_unchanged_by_agent_4": true,
+  "integrated_config": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+  "launch_manifest": "92bd041d6fa9954cd9734708c5c8106d046faac34b8cb86019d779815cf68cf6",
+  "launch_manifest_digest_excludes": [
+   "built_utc"
+  ],
+  "phase14_code": "beed81a8a1dfff30a514a123dfac10aa821216f0ec0b3089e766ae2e1777df64",
+  "phase14_contract": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+  "phase14_final_training_config": "3770ebd4a0bb812f7ac49e8273f3485afb07e828915dbd767e47a2ca65bbff89"
+ },
+ "failed_gates": [],
+ "gates": {
+  "A": {
+   "checks": 11,
+   "failed": [],
+   "passed": true,
+   "title": "Upstream identity"
+  },
+  "B": {
+   "checks": 15,
+   "failed": [],
+   "passed": true,
+   "title": "Final training contract"
+  },
+  "C": {
+   "checks": 11,
+   "failed": [],
+   "passed": true,
+   "title": "Setup safety"
+  },
+  "D": {
+   "checks": 6,
+   "failed": [],
+   "passed": true,
+   "title": "Training correctness"
+  },
+  "E": {
+   "checks": 7,
+   "failed": [],
+   "passed": true,
+   "title": "Recovery"
+  },
+  "F": {
+   "checks": 6,
+   "failed": [],
+   "passed": true,
+   "title": "Wall-clock semantics"
+  },
+  "G": {
+   "checks": 8,
+   "failed": [],
+   "passed": true,
+   "title": "Historical system"
+  },
+  "H": {
+   "checks": 9,
+   "failed": [],
+   "passed": true,
+   "title": "Candidate system"
+  },
+  "I": {
+   "checks": 7,
+   "failed": [],
+   "passed": true,
+   "title": "Storage"
+  },
+  "J": {
+   "checks": 10,
+   "failed": [],
+   "passed": true,
+   "title": "Controls"
+  }
+ },
+ "host_finding": {
+  "blocks_go": false,
+  "currently_prevented_by": "a transient Claude Code power assertion that ends with the session",
+  "issue": "this Mac idle-sleeps after 1 minute; disksleep 10 minutes",
+  "mitigation": [
+   "the runbook launch command is `caffeinate -dimsu python scripts/phase14_launch.py`",
+   "the supervisor preflight refuses to launch unless sleep is disabled or prevented"
+  ],
+  "why_it_matters": "the deadline is wall-clock; sleep loses hours rather than pausing them"
+ },
+ "modified_tracked_files": [
+  ".gitignore",
+  "stratego/training/phase14_runner.py",
+  "stratego/training/phase14_telemetry.py",
+  "stratego/training/phase14_trainer.py"
+ ],
+ "monitoring_gaps_closed": {
+  "games_generated_undercount": {
+   "authoritative_source": "rollout store iteration manifests",
+   "fixed": true,
+   "process_counter_retained_as": "diagnostic, explicitly labelled",
+   "verified_against_the_real_rehearsal_store": {
+    "committed_games": 8192,
+    "process_counter": 4096,
+    "shortfall": 4096
+   }
+  },
+  "telemetry_cannot_report_its_own_crash": {
+   "by": "the production launch supervisor, which observes from outside",
+   "fixed": true
+  },
+  "worker_status_not_health": {
+   "exposes": [
+    "configured loader workers",
+    "currently live loader workers",
+    "loader_pool_rebuilds",
+    "last pool rebuild timestamp",
+    "last pool rebuild reason"
+   ],
+   "fixed": true,
+   "live_count_sampled_by": [
+    "the supervisor, every 60 s, against its running child",
+    "scripts/phase14_status.py, against the current learner PID"
+   ],
+   "why_not_in_telemetry_rows": "the learner emits telemetry after closing its pool, so a live count there would always read zero"
+  }
+ },
+ "not_done": {
+  "accepted_upstream_artifact_modified": false,
+  "alternative_worker_counts_benchmarked": false,
+  "phase14_started": false,
+  "rehearsal_rerun": false,
+  "rng_redesigned": false,
+  "search_used": false,
+  "training_value_changed": false,
+  "worker_kill_verification_rerun": false
+ },
+ "operational_topology": {
+  "device": "mps",
+  "games_in_flight": 96,
+  "games_per_iteration": 2048,
+  "in_logical_config_digest": false,
+  "inference_batch_shape": 64,
+  "inference_device": "mps",
+  "loader_workers": 6,
+  "population": "production",
+  "source": "Phase 13 Agent 3 rehearsal, run at this exact topology for 90 minutes"
+ },
+ "outcome": "COMPLETE - launch package frozen, Gates A-J all pass (90/90 checks), GO returned; Phase 14 not started, no rehearsal rerun, no training value changed",
+ "phase": 13,
+ "recommendation": "GO",
+ "recovery_semantics": {
+  "cadence_is_nominal": true,
+  "evidence": "phase13_rehearsal_v1 sections 4 and 6",
+  "games_replayed_across_two_rehearsal_crashes": 0,
+  "hot_checkpoint_cadence_seconds": 900,
+  "max_checkpoint_age_observed_seconds": 895.4,
+  "no_write_during": "a collection unit (297-311 s observed in the rehearsal)",
+  "observed_sample_count": 1067,
+  "observed_samples_above_cadence": 0,
+  "optimizer_work_repeated_in_rehearsal_seconds": [
+   197.6,
+   232.4
+  ],
+  "read_checkpoint_age_as": "up to one cadence plus a collection, not up to one cadence",
+  "sealed_games_survive_a_later_learner_crash": true,
+  "what_a_crash_can_cost": "un-checkpointed optimizer work, which is repeated",
+  "writes_occur_at": "safe training boundaries, not on a timer interrupt"
+ },
+ "rng_semantics": {
+  "evidence": "Phase 13 Agent 3 collected and trained the same iteration twice under two deliberately different global torch seeds: identical games, decisions, terminal results, bucket counts, updates, examples consumed, epoch plan and final model state digest f27ea740c4f13c7e5c8576adb1a789c84061cc6777ba7661d90f311cfa9cdf60",
+  "global_rng_state_captured": true,
+  "global_rng_state_restored": false,
+  "reason": "logical Phase 14 randomness uses explicit deterministic streams rather than ambient global RNG",
+  "redesigned_by_agent_4": false
+ },
+ "storage": {
+  "accepted_evidence_deleted": false,
+  "agent_1_conservative_ceiling_gib": 600.0,
+  "external_free_gib": 925.172,
+  "fits": true,
+  "full_raw_retention": true,
+  "measured_gib_per_hour": 0.20235788658152754,
+  "projected_168h_total_gib": 34.81544327157676,
+  "projection_with_20_percent_reserve_gib": 41.779
+ },
+ "supervisor": {
+  "creates_a_new_deadline": false,
+  "durable_control_files": [
+   "phase14_emergency_stop.json",
+   "phase14_integrity_failure.json"
+  ],
+  "max_consecutive_restarts": 5,
+  "module": "stratego/training/phase14_supervisor.py",
+  "post_deadline_interpretation": "training does not restart; exactly one closeout launch resumes, takes zero optimizer steps and finalizes, so a learner killed at hour 167.9 does not leave the run permanently unfinalized",
+  "records": [
+   "launch timestamp",
+   "learner PID",
+   "unexpected exit",
+   "exit code / signal",
+   "restart attempt",
+   "checkpoint selected",
+   "restart success/failure",
+   "final process exit"
+  ],
+  "refuses_to_restart_when": [
+   "an emergency stop is active",
+   "the run manifest says training is closed",
+   "an unrecoverable integrity failure has been recorded",
+   "no valid resume checkpoint exists",
+   "the deadline has passed",
+   "the bounded consecutive-restart policy is exhausted"
+  ],
+  "restart_success_measured_by": "observed optimizer-step progress, not uptime",
+  "window_reverified_before_every_relaunch": true
+ },
+ "task": "instructions/phase_13_final_training_integration/04_AGENT_4_IMMUTABLE_LAUNCH_PACKAGE.md",
+ "tests": {
+  "full_suite": {
+   "agent_3_baseline": "6244 passed, 3 skipped",
+   "command": "pytest tests",
+   "delta": "exactly the 66 tests added here; no regressions",
+   "summary": "6310 passed, 3 skipped in 471.40s (0:07:51)"
+  },
+  "phase13_agent_04": {
+   "command": "pytest tests/training/test_phase13_agent04.py",
+   "summary": "66 passed"
+  }
+ },
+ "written_utc": "2026-08-21T09:05:00Z"
+}

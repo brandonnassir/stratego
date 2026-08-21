@@ -90,6 +90,8 @@ from .phase14_schedule import (
 from .phase14_seed import seed_contract_digest
 from .phase14_setup_source import Phase14SetupSource, assert_orientation_path
 from .phase14_storage import Phase14Storage, Phase14StorageError
+from .phase14_launch import assert_bound_launch_code, emergency_stop_path
+from .phase14_status import games_report, loader_health
 from .phase14_telemetry import ControlSurface, TelemetryLog, build_snapshot
 from .phase14_trainer import (
     Phase14Trainer,
@@ -255,7 +257,13 @@ class Phase14Runner:
         self.inference_batch_shape = int(inference_batch_shape)
         self.topology = topology
         self.games_in_flight = int(games_in_flight)
-        self.control = control or ControlSurface()
+        # The default control surface watches the durable stop file under the
+        # run's own external root, so `emergency stop` is something an operator
+        # can request from another terminal rather than only from inside this
+        # process.
+        self.control = control or ControlSurface(
+            stop_file=emergency_stop_path(self.storage.external_root)
+        )
         # Candidate evaluation is out-of-band by default: 128 games inside the
         # training loop would spend deadline time on monitoring. The flag exists
         # so an integration test can prove the in-loop path runs at all.
@@ -288,6 +296,12 @@ class Phase14Runner:
         from ..evaluation.phase14_candidates import load_pack, load_selection_rule
 
         report = {"contract": assert_matches_frozen_contract()}
+        if self.mode == MODE_PRODUCTION:
+            # The launch manifest binds the code, because neither frozen digest
+            # does: the Agent 3 worker-pool repair moved neither of them. The
+            # supervisor checks this too; a direct production `start()` that
+            # bypassed the supervisor would otherwise bypass the check with it.
+            report["launch_code"] = assert_bound_launch_code()
         starting = repository_root() / STARTING_CHECKPOINT
         report["starting_checkpoint"] = {
             "path": str(starting),
@@ -1115,6 +1129,8 @@ class Phase14Runner:
             pool=self.pool,
             population=self.population,
         )
+        committed = games_report(self.storage.rollout_root, self.progress.games_generated)
+        pool = self.trainer.loader_pool_state()
         snapshot = build_snapshot(
             clock=self.controller.status(),
             training={
@@ -1143,7 +1159,20 @@ class Phase14Runner:
                 "cursor": state["cursor"],
             },
             collection={
-                "games_generated": self.progress.games_generated,
+                # `games_generated` is the frozen metric name, and it now
+                # answers with the store's own committed total. Agent 3 measured
+                # the alternative: 8,192 games on disk, 4,096 in the counter,
+                # because a collection that completed but was never checkpointed
+                # before a crash is lost from a process-local number. The
+                # counter is kept beside it, labelled as the diagnostic it is.
+                "games_generated": committed["committed_games"],
+                "committed_games": committed["committed_games"],
+                "committed_games_authoritative": True,
+                "committed_games_source": committed["committed_games_source"],
+                "in_flight_games": committed["in_flight_games"],
+                "process_counter_games": committed["process_counter_games"],
+                "process_counter_shortfall": committed["process_counter_shortfall"],
+                "sealed_iterations": committed["census"]["sealed_iterations"],
                 "positions_generated": self.progress.positions_generated,
                 "games_per_second": int(collection.get("games_collected", 0)) / seconds,
                 "draw_rate": (
@@ -1173,12 +1202,16 @@ class Phase14Runner:
             },
             candidates=self._candidate_state()["ledger"],
             storage=self.storage.reserve_status(),
-            workers={
-                "status": "single-process bulk-synchronous loop",
-                "loader_workers": (
+            workers=loader_health(
+                configured_workers=(
                     None if self.topology is None else getattr(self.topology, "workers", None)
                 ),
-            },
+                pool_open=self.trainer.loader_pool_open,
+                rebuilds=pool["rebuilds"],
+                last_rebuild_unix=pool["last_rebuild_unix"],
+                last_rebuild_reason=pool["last_rebuild_reason"],
+                max_rebuilds=pool["max_rebuilds"],
+            ),
             counters=state["counters"],
             failures=dict(self.progress.failures),
         )
