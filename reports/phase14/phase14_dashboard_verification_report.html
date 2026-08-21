@@ -1,0 +1,593 @@
+<title>Phase 14 Monitor Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+  :root{
+    --bg:#f6f8fb; --surface:#ffffff; --sunk:#eef2f7;
+    --ink:#151a22; --dim:#59636f; --line:#dee4ec; --line-soft:#e9eef4;
+    --accent:#2f62d4; --accent-soft:#e6ecfb;
+    --ok:#177231; --ok-bg:#e4f2e8;
+    --watch:#8d5e00; --watch-bg:#faf0d8;
+    --bad:#c0392b; --bad-bg:#fbe8e6;
+    --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+    --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --bg:#0e1218; --surface:#161c24; --sunk:#11161d;
+      --ink:#dae2ec; --dim:#8a95a4; --line:#232c38; --line-soft:#1c242e;
+      --accent:#6b9bff; --accent-soft:#1a2740;
+      --ok:#3fb950; --ok-bg:#132a1a;
+      --watch:#d29922; --watch-bg:#2c2312;
+      --bad:#f0685f; --bad-bg:#33191a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0e1218; --surface:#161c24; --sunk:#11161d;
+    --ink:#dae2ec; --dim:#8a95a4; --line:#232c38; --line-soft:#1c242e;
+    --accent:#6b9bff; --accent-soft:#1a2740;
+    --ok:#3fb950; --ok-bg:#132a1a;
+    --watch:#d29922; --watch-bg:#2c2312;
+    --bad:#f0685f; --bad-bg:#33191a;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--serif); font-size:17px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1080px; margin:0 auto; padding:56px 28px 96px}
+  .col{max-width:68ch}
+
+  /* ---- masthead ---- */
+  header.mast{
+    display:flex; flex-direction:column; gap:22px;
+    padding-bottom:30px; margin-bottom:44px;
+    border-bottom:2px solid var(--ink);
+  }
+  .eyebrow{
+    font-family:var(--mono); font-size:11.5px; font-weight:500;
+    letter-spacing:.19em; text-transform:uppercase; color:var(--dim);
+  }
+  h1{
+    font-family:var(--sans); font-weight:600; font-size:clamp(30px,4.6vw,44px);
+    line-height:1.1; letter-spacing:-.022em; margin:0; text-wrap:balance;
+  }
+  .standfirst{color:var(--dim); font-size:18px; margin:0; max-width:60ch}
+  .verdict{
+    display:inline-flex; align-items:center; gap:9px; align-self:flex-start;
+    font-family:var(--mono); font-size:12.5px; font-weight:600;
+    letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ok); background:var(--ok-bg);
+    border:1px solid color-mix(in srgb,var(--ok) 34%,transparent);
+    border-radius:3px; padding:7px 13px;
+  }
+  .verdict::before{
+    content:""; width:7px; height:7px; border-radius:50%; background:var(--ok);
+  }
+
+  /* the 168-hour bar: the most characteristic object in this subject's world */
+  .runbar{display:flex; flex-direction:column; gap:7px}
+  .runbar .track{
+    position:relative; height:10px; border-radius:2px;
+    background:var(--sunk); border:1px solid var(--line); overflow:hidden;
+  }
+  .runbar .main{
+    position:absolute; inset:0 21.43% 0 0; background:var(--accent); opacity:.32;
+  }
+  .runbar .late{
+    position:absolute; inset:0 0 0 78.57%; background:var(--watch); opacity:.3;
+  }
+  .runbar .mark{position:absolute; top:-1px; bottom:-1px; width:2px; background:var(--watch)}
+  .runbar .scale{
+    display:flex; justify-content:space-between; gap:16px;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.06em; color:var(--dim);
+  }
+
+  /* ---- facts grid ---- */
+  .facts{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+    gap:1px; background:var(--line); border:1px solid var(--line);
+    border-radius:4px; overflow:hidden; margin:0 0 52px;
+  }
+  .facts div{background:var(--surface); padding:15px 17px}
+  .facts dt{
+    font-family:var(--mono); font-size:10.5px; font-weight:500;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--dim); margin-bottom:5px;
+  }
+  .facts dd{
+    margin:0; font-family:var(--mono); font-size:13.5px; font-weight:500;
+    color:var(--ink); word-break:break-word;
+  }
+
+  /* ---- sections ---- */
+  section{margin-bottom:52px; scroll-margin-top:24px}
+  h2{
+    font-family:var(--sans); font-weight:600; font-size:24px; letter-spacing:-.014em;
+    margin:0 0 6px; display:flex; gap:14px; align-items:baseline; text-wrap:balance;
+  }
+  h2 .num{
+    font-family:var(--mono); font-size:13px; font-weight:600; color:var(--accent);
+    letter-spacing:.04em; flex:none; padding-top:2px;
+  }
+  h3{
+    font-family:var(--sans); font-weight:600; font-size:17.5px; letter-spacing:-.008em;
+    margin:34px 0 6px; color:var(--ink);
+  }
+  .rule{height:1px; background:var(--line); margin:0 0 22px}
+  p{margin:0 0 15px}
+  .col p:last-child{margin-bottom:0}
+  strong{font-weight:600}
+  em{font-style:italic}
+  a{color:var(--accent)}
+  code{
+    font-family:var(--mono); font-size:.855em; background:var(--sunk);
+    border:1px solid var(--line-soft); border-radius:3px; padding:.1em .34em;
+  }
+  ul{margin:0 0 15px; padding-left:20px}
+  li{margin-bottom:9px}
+  li::marker{color:var(--dim)}
+
+  /* ---- tables ---- */
+  .scroll{overflow-x:auto; margin:0 0 20px; border:1px solid var(--line); border-radius:4px}
+  table{width:100%; border-collapse:collapse; background:var(--surface)}
+  th,td{
+    text-align:left; padding:10px 14px; vertical-align:top;
+    border-bottom:1px solid var(--line-soft); font-size:14.5px;
+  }
+  thead th{
+    font-family:var(--mono); font-size:10.5px; font-weight:600;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--dim);
+    background:var(--sunk); border-bottom:1px solid var(--line); white-space:nowrap;
+  }
+  tbody tr:last-child td{border-bottom:none}
+  td:first-child{font-family:var(--sans); font-weight:500; font-size:14px}
+  .num-col{font-variant-numeric:tabular-nums; font-family:var(--mono); font-size:13px}
+  table code{font-size:12.5px; background:none; border:none; padding:0; color:var(--dim)}
+
+  .pill{
+    display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:600;
+    letter-spacing:.11em; text-transform:uppercase; padding:2.5px 8px;
+    border-radius:3px; white-space:nowrap;
+  }
+  .pill.pass{color:var(--ok); background:var(--ok-bg); border:1px solid color-mix(in srgb,var(--ok) 30%,transparent)}
+  .pill.watch{color:var(--watch); background:var(--watch-bg); border:1px solid color-mix(in srgb,var(--watch) 30%,transparent)}
+  .pill.none{color:var(--dim); background:var(--sunk); border:1px solid var(--line)}
+
+  /* ---- terminal blocks ---- */
+  pre{
+    font-family:var(--mono); font-size:12.5px; line-height:1.62;
+    background:var(--sunk); border:1px solid var(--line); border-radius:4px;
+    padding:15px 17px; overflow-x:auto; margin:0 0 20px; color:var(--ink);
+  }
+  pre b{font-weight:600; color:var(--accent)}
+  .caption{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--dim); margin:0 0 7px;
+  }
+
+  /* ---- callout ---- */
+  .note{
+    border-left:3px solid var(--accent); background:var(--accent-soft);
+    padding:15px 18px; border-radius:0 4px 4px 0; margin:0 0 20px;
+  }
+  .note p:last-child{margin-bottom:0}
+  .note.warn{border-left-color:var(--watch); background:var(--watch-bg)}
+
+  /* ---- metrics ---- */
+  .metrics{
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px; background:var(--line); border:1px solid var(--line);
+    border-radius:4px; overflow:hidden; margin:0 0 20px;
+  }
+  .metrics div{background:var(--surface); padding:14px 16px}
+  .metrics .v{
+    font-family:var(--mono); font-size:21px; font-weight:600;
+    font-variant-numeric:tabular-nums; letter-spacing:-.02em; line-height:1.2;
+  }
+  .metrics .k{
+    font-family:var(--sans); font-size:12px; color:var(--dim); margin-top:3px;
+  }
+  .metrics .v.good{color:var(--ok)}
+
+  /* ---- stop condition ---- */
+  .stop{
+    border:1px solid var(--line); border-radius:4px; background:var(--surface);
+    overflow:hidden;
+  }
+  .stop div{
+    display:flex; justify-content:space-between; align-items:center; gap:18px;
+    padding:11px 17px; border-bottom:1px solid var(--line-soft);
+  }
+  .stop div:last-child{border-bottom:none}
+  .stop .what{font-family:var(--sans); font-size:14.5px; font-weight:500}
+
+  footer{
+    margin-top:64px; padding-top:24px; border-top:2px solid var(--ink);
+    font-family:var(--mono); font-size:12px; color:var(--dim); line-height:1.75;
+  }
+  footer b{color:var(--ink); font-weight:600}
+
+  @media (max-width:640px){
+    body{font-size:16px}
+    .page{padding:36px 18px 64px}
+    h2{gap:10px}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+
+<div class="page">
+
+<header class="mast">
+  <div class="eyebrow">Stratego · Phase 14 · pre-launch verification</div>
+  <h1>Local read-only monitoring dashboard</h1>
+  <p class="standfirst">A monitor for the frozen 168-hour training run that reads what
+  the run already writes, changes nothing, and can disappear entirely without Phase 14
+  noticing.</p>
+  <div class="verdict">Complete · Phase 14 not started</div>
+  <div class="runbar">
+    <div class="track">
+      <div class="main"></div>
+      <div class="late"></div>
+      <div class="mark" style="left:78.57%"></div>
+    </div>
+    <div class="scale">
+      <span>main · 0–132 h · LR 7.5e-5</span><span>late · 132–168 h · LR 3.75e-5</span>
+    </div>
+  </div>
+</header>
+
+<dl class="facts">
+  <div><dt>Address</dt><dd>127.0.0.1:8714</dd></div>
+  <div><dt>Launch</dt><dd>scripts/phase14_dashboard.py</dd></div>
+  <div><dt>Implementation</dt><dd>monitoring/phase14_dashboard/</dd></div>
+  <div><dt>Tests</dt><dd>62 passing · suite 6,372 / 3 skipped</dd></div>
+  <div><dt>Files changed under stratego/</dt><dd>none</dd></div>
+  <div><dt>Sealed code closure</dt><dd>113 / 113 byte-identical</dd></div>
+</dl>
+
+<section>
+  <h2><span class="num">01</span>The one decision worth reviewing</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <p><strong>The dashboard imports nothing from <code>stratego</code>, and therefore no
+    torch.</strong></p>
+    <p>Every <code>phase14_*</code> module reaches torch through the contract chain —
+    <code>phase14_contract</code> → <code>phase9_contract</code> →
+    <code>warmstart_contract</code> → <code>stratego.model</code> → <code>torch</code> —
+    measured at <strong>205 MB resident and 0.46 s</strong> to import. Reusing
+    <code>scripts/phase14_status.py</code> would have put a GPU-capable runtime inside a
+    process whose job is to read seven JSON files.</p>
+    <p>Worse, its <code>build_status()</code> calls <code>resume_checkpoint_state()</code>,
+    which calls <code>HotCheckpointRing.load_latest()</code> → <code>torch.load()</code> of a
+    full model <em>and</em> optimizer state, then recomputes an integrity digest over it —
+    <strong>per status read</strong>. That is correct for a resume decision and unusable at a
+    ten-second refresh.</p>
+    <p>So the dashboard is pure stdlib. The task forbids importing the model; making it
+    structurally impossible is stronger than promising not to.</p>
+  </div>
+  <div class="note">
+    <p><strong>The cost of that choice, and how it is contained.</strong> The frozen constants
+    are mirrored in <code>contract.py</code>, and duplicating a frozen number is how a
+    dashboard ends up confidently displaying last month's deadline.
+    <code>TestMirroredContract</code> therefore imports the real frozen modules — in a test
+    process, where torch is free — and asserts all <strong>26 mirrored values</strong> equal
+    their source, that the segment and learning-rate functions agree with
+    <code>phase14_clock</code> at the 132-hour boundary, and that <code>RunPaths</code>
+    resolves to the same paths as <code>Phase14Storage</code>. If the contract moves, the test
+    fails rather than the dashboard lying.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">02</span>Where each metric comes from</h2>
+  <div class="rule"></div>
+  <div class="col"><p>Every value takes the source that survives a crash, and says which one
+  it used — the page exposes this at <code>/api/sources</code>.</p></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Field</th><th>Source</th><th>Why this source</th></tr></thead>
+      <tbody>
+        <tr><td>Committed games</td><td><code>iteration_*/manifest.json</code></td><td>Authoritative; written at seal time and survives <code>SIGKILL</code></td></tr>
+        <tr><td>In-flight games</td><td>Commit journals, distinct <code>phase9_game_id</code></td><td>The collecting iteration has no manifest yet</td></tr>
+        <tr><td>Process counter</td><td><code>collection.process_counter_games</code></td><td>Diagnostic only, labelled as such; low after any crash</td></tr>
+        <tr><td>Elapsed / remaining / segment</td><td><code>phase14_run_state.json</code> window</td><td>The <em>original</em> window; downtime is lost time</td></tr>
+        <tr><td>Losses, LR, throughput</td><td>Latest telemetry row</td><td>One row per iteration (~21 min)</td></tr>
+        <tr><td>Learner alive, live loaders</td><td><code>pgrep -P</code> + <code>ps</code>, probed per request</td><td>A row written between iterations says nothing about <em>now</em></td></tr>
+        <tr><td>Restarts, exit signal, resume point</td><td><code>phase14_supervisor.jsonl</code></td><td>The only party that can record a hard kill</td></tr>
+        <tr><td>Supervisor PID and liveness</td><td>The learner's PPID</td><td>See §3a — also detects an unsupervised learner</td></tr>
+        <tr><td>Checkpoint ages</td><td>Filesystem <code>mtime</code>; no checkpoint opened</td><td>Validating means <code>torch.load</code></td></tr>
+        <tr><td>Candidate ledger</td><td>The ledger JSON, read directly</td><td>Not via <code>CandidateLedger</code>, whose module imports torch</td></tr>
+        <tr><td>Iteration-commit events</td><td><code>state.json</code> history stamps</td><td>So commits interleave with supervisor events in one stream</td></tr>
+        <tr><td>Disk</td><td><code>statvfs</code> on the external volume</td><td>Measured now, not copied from a plan</td></tr>
+        <tr><td>Emergency stop / integrity</td><td>The two flag files</td><td>Read, never written</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">03</span>Required checks</h2>
+  <div class="rule"></div>
+  <div class="col"><p>All twelve from <code>§20</code> of the task, each verified.</p></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Check</th><th>Result</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Starts locally</td><td><span class="pill pass">pass</span></td><td>Serves on <code>127.0.0.1:8714</code>; rendered in light and dark</td></tr>
+        <tr><td>Reads approved telemetry</td><td><span class="pill pass">pass</span></td><td>Read both real Phase 13 rehearsal run directories</td></tr>
+        <tr><td>Authoritative game counts</td><td><span class="pill pass">pass</span></td><td><strong>Reproduces the Phase 13 finding</strong>: the store reports <strong>8,192 committed</strong> where the process counter says <strong>4,096</strong></td></tr>
+        <tr><td>Loader health is live</td><td><span class="pill pass">pass</span></td><td>Detected 6/6 real <code>ProcessPoolExecutor</code> workers; excluded the resource tracker; saw 6 → 0 when a worker was <code>SIGKILL</code>ed</td></tr>
+        <tr><td>Supervisor failures visible</td><td><span class="pill pass">pass</span></td><td>Restart count, exit code/signal, resume point; the first launch is not counted as a restart</td></tr>
+        <tr><td>Checkpoint ages correct</td><td><span class="pill pass">pass</span></td><td>Newest-by-mtime, verified against files aged 90 s and 400 s</td></tr>
+        <tr><td>Deadline arithmetic correct</td><td><span class="pill pass">pass</span></td><td>73h24m elapsed → 94h36m remaining at 43.7%; a 6-hour outage removes 6 of the 168 and moves neither deadline nor transition</td></tr>
+        <tr><td>Disk status correct</td><td><span class="pill pass">pass</span></td><td>925.2 GiB free on the real volume, graded against the frozen 120 GiB reserve</td></tr>
+        <tr><td>No MPS / model inference</td><td><span class="pill pass">pass</span></td><td>See §4</td></tr>
+        <tr><td>No frozen state modified</td><td><span class="pill pass">pass</span></td><td>See §5</td></tr>
+        <tr><td>Trainer does not depend on it</td><td><span class="pill pass">pass</span></td><td>See §6</td></tr>
+        <tr><td>Killing it leaves training intact</td><td><span class="pill pass">pass</span></td><td>See §3b and §6</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>3a · One gap found, and closed without touching frozen code</h3>
+  <div class="col">
+    <p>The accepted supervisor's <code>launch</code> record carries <code>learner_pid</code>
+    but <strong>not its own PID</strong>, so a naive reading leaves "is the supervisor alive?"
+    permanently <code>unknown</code> — one of the questions <code>§10</code> specifically asks
+    the dashboard to answer.</p>
+    <p>Changing the supervisor to log its PID would move sealed Phase 14 code. It does not
+    need to: <code>spawn()</code> gives the learner a new <em>session</em>, not a new parent,
+    so while the supervisor lives it <strong>is</strong> the learner's PPID.</p>
+    <p>The derivation also answers something a logged PID could not. A learner whose parent is
+    PID 1 has been reparented to <code>launchd</code> — the supervisor died and left it
+    running. Training continues, but nothing is watching for the next crash, and without this
+    an operator would have to notice by hand.</p>
+  </div>
+  <p class="caption">Verified against real processes</p>
+<pre>actual supervisor 74359, learner 74361
+derived           <b>74359</b>  "derived from the learner's parent process"
+
+after SIGKILL of the supervisor:
+learner still alive  True
+derived              <b>None</b>  "learner reparented to launchd"  orphaned=True</pre>
+  <div class="col">
+    <p>An unsupervised learner is graded <strong>red</strong> and points at the runbook. A
+    <code>supervisor_pid</code> in the log, if one is ever added, is preferred over the
+    derivation. Three tests cover all three paths.</p>
+  </div>
+
+  <h3>3b · Verified against a live run, not only fixtures</h3>
+  <div class="col">
+    <p>The rehearsal directories on the external volume are <em>finished</em> runs, so they
+    exercise <code>COMPLETE</code> and not the state Phase 14 will spend 168 hours in. A
+    stand-in live run was therefore built to the accepted file formats — a supervisor spawning
+    a learner with a <strong>real 6-worker <code>ProcessPoolExecutor</code></strong>, 209
+    committed iterations plus one collecting, a restart after <code>SIGKILL</code>, a recorded
+    pool rebuild, and telemetry appended every few seconds.</p>
+  </div>
+  <p class="caption">What the dashboard read, live</p>
+<pre>PHASE 14  <b>TRAINING</b>   learner alive and inside the run window
+
+████████████████░░░░░░░░░░░░░░░░  43.7%
+73h 25m elapsed   94h 34m remaining     (the §5 worked example, exactly)
+
+supervisor          ok      alive, pid 77794   (derived — not logged)
+learner             ok      alive, pid 77796
+loaders             ok      6 of 6 live        (real pool workers)
+pool rebuilds       watch   1 of 16 — recovered, but count them
+                            BrokenProcessPool: a loader worker exited
+checkpoint          ok      1.6 min old
+storage             watch   222.1 GiB free
+nonfinite           ok      0
+telemetry           ok      0 min old
+
+committed games  <b>428,032</b>   AUTHORITATIVE
+in flight          <b>1,310</b>   (journal-derived, the collecting iteration)
+process counter  <b>413,696</b>   DIAGNOSTIC
+supervisor restarts    1   last exit code -9 / SIGKILL</pre>
+  <div class="col"><p>Then, with that run still going, the dashboard was
+  <code>SIGKILL</code>ed:</p></div>
+  <div class="scroll">
+    <table>
+      <thead><tr><th></th><th>Before</th><th>After the kill</th></tr></thead>
+      <tbody>
+        <tr><td>Supervisor 77794</td><td class="num-col">alive</td><td class="num-col"><strong>alive</strong></td></tr>
+        <tr><td>Learner 77796</td><td class="num-col">alive</td><td class="num-col"><strong>alive</strong></td></tr>
+        <tr><td>Loader workers</td><td class="num-col">6 (+tracker)</td><td class="num-col"><strong>6 (+tracker)</strong></td></tr>
+        <tr><td>Telemetry rows</td><td class="num-col">40</td><td class="num-col"><strong>42 — still advancing</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <p>A fresh dashboard was then started against the same live run and reconnected
+    immediately, reporting the same authoritative 428,032 games and <code>TRAINING</code>.
+    While serving that live browser at a 10 s refresh it used <strong>0.09 s of CPU and
+    24.7 MB resident</strong>.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">04</span>Zero model, zero MPS</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <ul>
+      <li>A subprocess that imports the dashboard <strong>and builds a full status
+      document</strong> reports its loaded <code>torch</code> / <code>stratego</code> /
+      <code>numpy</code> modules as <code>[]</code>.</li>
+      <li>No checkpoint file is ever opened. The hot panel reports
+      <code>validated: false</code> with the note <em>"validity is the supervisor's call"</em>,
+      and a test asserts the checkpoint's <code>mtime</code> is unchanged after a status
+      read.</li>
+      <li><code>lsof</code> on the live server process: <strong>0</strong> torch or Metal
+      files open.</li>
+      <li><code>vmmap</code> shows Metal/MPS framework mappings — and a bare
+      <code>python -c "time.sleep(25)"</code> shows <strong>exactly the same 69 mappings and
+      16 IOAccelerator regions</strong>. Those are the macOS dyld shared cache present in
+      every process; the dashboard adds nothing and initialises no Metal device.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">05</span>Read-only, three ways</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <ul>
+      <li><strong>Empirical.</strong> Every file under the run root and hot ring is digested
+      (size, <code>mtime_ns</code>, SHA-256), the dashboard is refreshed <strong>100 times
+      with all caches expired</strong>, and the tree is digested again. Identical, with no
+      file created or removed.</li>
+      <li><strong>Structural.</strong> The package source is parsed with <code>ast</code>; no
+      call to <code>write</code>, <code>mkdir</code>, <code>unlink</code>,
+      <code>rmtree</code>, <code>rename</code>, <code>chmod</code>, <code>utime</code>,
+      <code>fsync</code> or <code>copy</code> exists anywhere, and the only <code>open()</code>
+      in the package is mode <code>"rb"</code>.</li>
+      <li>Reading a run directory that does not exist <strong>does not create it</strong> — a
+      monitor that brought the production run directory into existence by looking at it would
+      be a real defect. It reports <code>NOT STARTED</code>.</li>
+      <li><strong>HTTP.</strong> <code>POST</code>/<code>PUT</code>/<code>PATCH</code>/<code>DELETE</code>
+      return 405 pointing at the runbook; any path outside the five-route allowlist returns
+      404. Binding anything but loopback is refused unless explicitly overridden.</li>
+      <li><strong>UI.</strong> The page contains no <code>&lt;input&gt;</code>,
+      <code>&lt;button&gt;</code>, <code>&lt;form&gt;</code>, <code>&lt;select&gt;</code>,
+      <code>&lt;textarea&gt;</code> or <code>contenteditable</code>, and exactly one
+      <code>fetch()</code>, which is a GET. There is no control for LR, opponent mixture,
+      setup selector, batch size, loss weights, pool strategy, search mode, duration,
+      deadline, optimizer settings, checkpoint deletion, a new run, or a restarted clock —
+      absent, not disabled.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">06</span>Training independence</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <p>Against a stand-in trainer that appends telemetry continuously, all six checks from
+    <code>§15</code>:</p>
+    <ul>
+      <li>the trainer runs with the dashboard absent;</li>
+      <li>the dashboard attaches to an already-running trainer and picks up its rows;</li>
+      <li>the dashboard is <code>SIGKILL</code>ed mid-run and the trainer keeps advancing —
+      repeated against the <em>live</em> run in §3b, where a supervisor, a learner and six
+      real pool workers all survived the dashboard's death;</li>
+      <li>closing the browser changes nothing: the page stops polling when hidden, and the
+      server does no work between requests;</li>
+      <li>a restarted dashboard reconnects and reports the same authoritative total, with the
+      tree digest unchanged;</li>
+      <li><code>lsof</code> confirms it holds <strong>no descriptor</strong> on any run file
+      between requests — nothing for the trainer, supervisor, checkpoint writer or rollout
+      store to contend with.</li>
+    </ul>
+    <p>A missing run directory, a torn <code>manifest.json</code>, a truncated
+    <code>state.json</code>, an unparseable telemetry log and a half-written supervisor line
+    are each handled as reported absences rather than exceptions — the moment an operator most
+    needs the page is the moment the run is in the worst shape.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">07</span>Measured overhead</h2>
+  <div class="rule"></div>
+  <div class="col"><p>On the M4 Pro, against a synthetic <strong>480-iteration /
+  983,040-game</strong> run — a full 168 hours at the measured ~21 min per iteration.</p></div>
+  <div class="metrics">
+    <div><div class="v good">23.8<span style="font-size:13px"> MB</span></div><div class="k">Resident memory</div></div>
+    <div><div class="v good">0.0<span style="font-size:13px">%</span></div><div class="k">CPU idle</div></div>
+    <div><div class="v">6.5<span style="font-size:13px"> ms</span></div><div class="k">Refresh, caches expired</div></div>
+    <div><div class="v">1.0<span style="font-size:13px"> ms</span></div><div class="k">Refresh, warm</div></div>
+    <div><div class="v">45.8<span style="font-size:13px"> KiB</span></div><div class="k">Status payload</div></div>
+    <div><div class="v good">none</div><div class="k">MPS / GPU</div></div>
+  </div>
+  <div class="col">
+    <p>Three things keep it there: per-source TTLs of 5–60 s; a sealed iteration is parsed
+    <strong>once</strong> and then costs two <code>stat</code> calls forever (verified: 20
+    iterations, 20 parses, unchanged across 10 further expired-cache refreshes); and the
+    telemetry, supervisor and journal files are read incrementally from a byte offset, with
+    inode and shrink detection so a replaced log is re-read from the top rather than at a
+    stale offset. Browser history is bounded at 400 telemetry rows and 60 events.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">08</span>Sealed code identity — unchanged</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <p><code>§16</code> requires that any change to the sealed Phase 14 code identity be
+    reported. <strong>There is none.</strong></p>
+    <ul>
+      <li><strong>Zero</strong> files under <code>stratego/</code> were modified — only new
+      untracked paths were added.</li>
+      <li>All <strong>113 files</strong> in the launch manifest's code closure verify
+      byte-identical.</li>
+      <li>No <code>monitoring/</code> file is in that closure, and no module under
+      <code>stratego/</code> imports the dashboard — so it cannot enter the closure and cannot
+      move <code>code_digest</code>. Three tests guard this permanently.</li>
+    </ul>
+    <p>The contract, integrated-config and final-training-config digests are all
+    untouched.</p>
+  </div>
+  <div class="note warn">
+    <p><strong>Pre-existing, not caused by this work.</strong>
+    <code>phase14_build_launch_package.py --verify</code> currently fails, because the manifest
+    was built at revision <code>e6daae8</code> with a dirty tree and Agent 4's commit
+    <code>0557fee</code> moved <code>HEAD</code>. This is the known, expected step already
+    recorded for launch: <strong>rebuild the launch package after committing, before Phase 14
+    begins.</strong> Committing the dashboard moves <code>HEAD</code> again, so do the rebuild
+    after that commit, not before.</p>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">09</span>Known display limitations</h2>
+  <div class="rule"></div>
+  <div class="col">
+    <ul>
+      <li><strong>Training numbers are up to one iteration (~21 min) old.</strong> The learner
+      publishes one telemetry row per completed iteration; that is the design, not a fault. It
+      is stated on the page, and telemetry is graded <span class="pill watch">watch</span> past
+      45 minutes. The fast-moving fields — wall clock, learner and loader liveness, checkpoint
+      ages, disk, supervisor events, in-flight game count — are all live and independent of
+      that cadence.</li>
+      <li><strong>Checkpoint validity is not checked</strong>, only presence, size and age.
+      Validating means <code>torch.load</code>; the supervisor is the authority and the panel
+      says so.</li>
+      <li><strong>Before the first checkpoint and telemetry row</strong>, most training fields
+      read <code>—</code> and health reads <code>unknown</code>. That is the honest state of a
+      run in its first iteration.</li>
+      <li><strong>Games/hour is a run-average</strong> — committed games over elapsed
+      wall-clock — so it dilutes across downtime rather than reporting an instantaneous rate.
+      The instantaneous rate is the separate games/s from the latest row.</li>
+      <li><strong>The first read after the external volume has been idle can take a few
+      seconds</strong> while the drive wakes — measured 2.96 s once, then 1.3 ms. Not a
+      recurring cost.</li>
+      <li><strong>One run at a time</strong>; <code>--external-root</code> selects which.</li>
+      <li>Verified in Chromium at 1280 px in both colour schemes. The layout is responsive but
+      has not been exercised on a phone.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2><span class="num">10</span>Stop condition</h2>
+  <div class="rule"></div>
+  <div class="stop">
+    <div><span class="what">Dashboard implementation complete</span><span class="pill pass">yes</span></div>
+    <div><span class="what">Read-only isolation verified</span><span class="pill pass">empirical + structural + HTTP + UI</span></div>
+    <div><span class="what">Resource overhead acceptable</span><span class="pill pass">24 MB · 0.0% idle · 6.5 ms</span></div>
+    <div><span class="what">Training independence verified</span><span class="pill pass">6 of 6</span></div>
+    <div><span class="what">Instructions documented</span><span class="pill pass">monitoring/README.md</span></div>
+    <div><span class="what">Phase 14 started</span><span class="pill none">no — correct</span></div>
+  </div>
+</section>
+
+<footer>
+  The safest dashboard is one that can disappear entirely and Phase 14 never notices.<br>
+  <b>This one can.</b><br><br>
+  Recovery and control remain <b>PHASE_14_RUNBOOK.md</b> and the accepted supervisor.
+</footer>
+
+</div>

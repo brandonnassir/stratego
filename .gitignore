@@ -48,6 +48,11 @@ data/phase11/
 # reports/phase11b.
 checkpoints/phase11b/
 data/phase11b/
+# Phase 12 read-only re-export of the accepted Phase 9 C1 checkpoint: a
+# convenience copy with different bytes (81906f71…); the original at
+# checkpoints/phase9/selfplay_c1_v1.pt (dfd698e5…) remains the only binding
+# target, and the tracked phase12_search_candidate_v1.json records both.
+checkpoints/phase12/phase9_c1_readonly_copy.pt
 # Phase 11B harness stage caches: resumable working state, not deliverables.
 reports/phase11b/.*_stages.json
 __pycache__/

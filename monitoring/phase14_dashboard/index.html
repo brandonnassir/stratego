@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phase 14 monitor</title>
+<style>
+  :root{
+    --bg:#0f1216; --panel:#161b22; --line:#252c36; --ink:#d7dee8; --dim:#8b97a6;
+    --ok:#3fb950; --watch:#d29922; --bad:#f85149; --unknown:#6e7681; --accent:#58a6ff;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,monospace;
+  }
+  @media (prefers-color-scheme:light){
+    :root{--bg:#f6f8fa;--panel:#fff;--line:#d8dee4;--ink:#1f2328;--dim:#636c76;
+          --ok:#1a7f37;--watch:#9a6700;--bad:#cf222e;--unknown:#818b98;--accent:#0969da;}
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:18px}
+  h1{font-size:15px;margin:0;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:600}
+  h2{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);
+     margin:0 0 10px;font-weight:600}
+  .wrap{max-width:1180px;margin:0 auto}
+  .top{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+  .state{font-size:20px;font-weight:700;letter-spacing:.04em}
+  .reason{color:var(--dim);font-size:12px}
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));margin-bottom:12px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px}
+  .panel.wide{grid-column:1/-1}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  td{padding:3px 0;vertical-align:baseline}
+  td:first-child{color:var(--dim);white-space:nowrap;padding-right:14px;width:44%}
+  td:last-child{font-family:var(--mono);font-size:12px;word-break:break-word}
+  .bar{height:26px;border:1px solid var(--line);border-radius:5px;overflow:hidden;
+       background:var(--bg);position:relative;margin:6px 0 10px}
+  .fill{height:100%;background:var(--accent);opacity:.75;transition:width .4s}
+  .tick{position:absolute;top:0;bottom:0;width:2px;background:var(--watch)}
+  .barlabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+            font-family:var(--mono);font-size:12px;font-weight:600;text-shadow:0 0 5px var(--panel)}
+  .clockline{display:flex;gap:26px;flex-wrap:wrap;font-family:var(--mono);font-size:13px}
+  .clockline b{font-weight:600}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:1px}
+  .ok{background:var(--ok)} .watch{background:var(--watch)}
+  .bad{background:var(--bad)} .unknown{background:var(--unknown)}
+  .t-ok{color:var(--ok)} .t-watch{color:var(--watch)} .t-bad{color:var(--bad)} .t-unknown{color:var(--dim)}
+  .health td:first-child{width:32%}
+  .health td:nth-child(2){width:16%;font-family:var(--mono);font-size:12px}
+  .health td:last-child{color:var(--dim);font-family:inherit;font-size:12px}
+  .seg{display:flex;gap:8px;margin-top:8px}
+  .segbox{flex:1;border:1px solid var(--line);border-radius:6px;padding:8px 10px;font-size:12px}
+  .segbox.on{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}
+  .segbox .n{font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:11px}
+  .segbox .d{color:var(--dim);font-family:var(--mono);margin-top:2px}
+  .events{max-height:250px;overflow-y:auto;font-family:var(--mono);font-size:12px}
+  .events div{padding:2px 0;border-bottom:1px solid var(--line);display:flex;gap:10px}
+  .events time{color:var(--dim);white-space:nowrap}
+  .events em{color:var(--dim);font-style:normal}
+  .charts{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .chart{border:1px solid var(--line);border-radius:6px;padding:8px}
+  .chart .cap{display:flex;justify-content:space-between;font-size:11px;color:var(--dim);
+              margin-bottom:4px;font-family:var(--mono)}
+  .chart .cap b{color:var(--ink);font-weight:600}
+  svg{display:block;width:100%;height:52px}
+  .note{color:var(--dim);font-size:11px;margin-top:10px;line-height:1.5}
+  .auth{color:var(--ok);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+  .diag{color:var(--dim);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+  footer{color:var(--dim);font-size:11px;margin-top:16px;line-height:1.6;
+         border-top:1px solid var(--line);padding-top:10px}
+  #err{background:var(--bad);color:#fff;padding:8px 12px;border-radius:6px;margin-bottom:12px;
+       font-family:var(--mono);font-size:12px;display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="err"></div>
+
+  <div class="top">
+    <h1>Phase 14</h1>
+    <span class="state" id="state">…</span>
+    <span class="reason" id="reason"></span>
+    <span class="reason" style="margin-left:auto" id="read"></span>
+  </div>
+
+  <div class="panel wide">
+    <div class="bar">
+      <div class="fill" id="fill" style="width:0"></div>
+      <div class="tick" id="tick" style="left:78.57%"></div>
+      <div class="barlabel" id="pct">—</div>
+    </div>
+    <div class="clockline">
+      <span><b id="elapsed">—</b> elapsed</span>
+      <span><b id="remaining">—</b> remaining</span>
+      <span>start <b id="start">—</b></span>
+      <span>deadline <b id="deadline">—</b></span>
+    </div>
+    <div class="seg">
+      <div class="segbox" id="seg-main">
+        <div class="n">Main</div><div class="d">0–132 h · LR 7.5e-5</div>
+      </div>
+      <div class="segbox" id="seg-late">
+        <div class="n">Late</div><div class="d">132–168 h · LR 3.75e-5</div>
+      </div>
+    </div>
+    <div class="note" id="clocknote">
+      Elapsed and remaining are derived from the original immutable run window.
+      Downtime is lost time; a restart never begins a fresh 168-hour clock.
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel health">
+      <h2>Operational health</h2>
+      <table id="health"></table>
+    </div>
+
+    <div class="panel">
+      <h2>Training</h2>
+      <table id="training"></table>
+    </div>
+
+    <div class="panel">
+      <h2>Games</h2>
+      <table id="games"></table>
+    </div>
+
+    <div class="panel">
+      <h2>Loaders &amp; supervisor</h2>
+      <table id="workers"></table>
+    </div>
+
+    <div class="panel">
+      <h2>Checkpoints</h2>
+      <table id="ckpt"></table>
+    </div>
+
+    <div class="panel">
+      <h2>Storage</h2>
+      <table id="storage"></table>
+    </div>
+  </div>
+
+  <div class="panel wide" style="margin-bottom:12px">
+    <h2>Recent training telemetry <span style="text-transform:none;letter-spacing:0">— one point per iteration, presented and not graded</span></h2>
+    <div class="charts" id="charts"></div>
+  </div>
+
+  <div class="panel wide">
+    <h2>Recent events</h2>
+    <div class="events" id="events"></div>
+  </div>
+
+  <footer>
+    Read-only monitor. It reads telemetry, supervisor events, rollout-store manifests,
+    checkpoint metadata and disk state; it changes nothing and training does not depend on it.
+    Every control and recovery action lives in <b>PHASE_14_RUNBOOK.md</b>.
+    <span id="meta"></span>
+  </footer>
+</div>
+
+<script>
+"use strict";
+const REFRESH_MS = 10000;
+const $ = id => document.getElementById(id);
+
+function hm(seconds){
+  if(seconds === null || seconds === undefined || !isFinite(seconds)) return "—";
+  const neg = seconds < 0; let s = Math.abs(seconds);
+  const h = Math.floor(s/3600), m = Math.floor((s%3600)/60);
+  return (neg?"-":"") + h + "h " + String(m).padStart(2,"0") + "m";
+}
+function num(value, digits){
+  if(value === null || value === undefined || typeof value !== "number" || !isFinite(value)) return "—";
+  return value.toLocaleString(undefined, {maximumFractionDigits: digits === undefined ? 3 : digits});
+}
+function ago(seconds){
+  if(seconds === null || seconds === undefined) return "—";
+  if(seconds < 90) return Math.round(seconds) + " s";
+  if(seconds < 5400) return (seconds/60).toFixed(1) + " min";
+  return (seconds/3600).toFixed(2) + " h";
+}
+function short(text){
+  if(!text) return "—";
+  const parts = String(text).split("/");
+  return parts.length > 2 ? ".../" + parts.slice(-2).join("/") : text;
+}
+function utc(text){ return text ? String(text).replace("T"," ").replace(/\.\d+Z$/,"Z") : "—"; }
+
+function rows(target, pairs){
+  $(target).innerHTML = pairs.map(([label, value, cls]) =>
+    `<tr><td>${label}</td><td class="${cls||""}">${value === undefined || value === null || value === "" ? "—" : value}</td></tr>`
+  ).join("");
+}
+
+function sparkline(values){
+  const points = values.filter(v => typeof v === "number" && isFinite(v));
+  if(points.length < 2) return '<svg viewBox="0 0 100 30"></svg>';
+  let lo = Math.min(...points), hi = Math.max(...points);
+  if(hi === lo){ hi = lo + 1; lo = lo - 1; }
+  const n = values.length;
+  let path = "", started = false;
+  values.forEach((v, i) => {
+    if(typeof v !== "number" || !isFinite(v)) return;
+    const x = n === 1 ? 0 : (i/(n-1))*100;
+    const y = 28 - ((v - lo)/(hi - lo))*26;
+    path += (started ? "L" : "M") + x.toFixed(2) + " " + y.toFixed(2) + " ";
+    started = true;
+  });
+  return '<svg viewBox="0 0 100 30" preserveAspectRatio="none">' +
+         '<path d="' + path + '" fill="none" stroke="var(--accent)" stroke-width="1.2" ' +
+         'vector-effect="non-scaling-stroke"/></svg>';
+}
+
+const CHARTS = [
+  ["policy_loss","policy loss",4],["value_loss","value loss",4],
+  ["belief_loss","belief loss",4],["grad_norm","grad norm",3],
+  ["advantage_retention","advantage kept",3],["learning_rate","learning rate",8],
+  ["examples_per_second","learner ex/s",1],["games_per_second","games/s",3],
+  ["draw_rate","draw rate",4],["mean_game_length","game length",1]
+];
+
+function render(d){
+  $("err").style.display = "none";
+  $("state").textContent = d.overall.state;
+  $("state").className = "state t-" + ({TRAINING:"ok",COMPLETE:"ok",RECOVERING:"watch",
+      FINALIZING:"watch",ERROR:"bad"}[d.overall.state] || "unknown");
+  $("reason").textContent = d.overall.reason;
+  $("read").textContent = "read " + utc(d.read_utc);
+
+  // ---- the 168-hour clock, from the original window ----
+  const c = d.clock;
+  if(c.known){
+    const pct = (c.progress_fraction*100);
+    $("fill").style.width = pct.toFixed(2) + "%";
+    $("pct").textContent = pct.toFixed(1) + "%";
+    $("elapsed").textContent = hm(c.elapsed_seconds);
+    $("remaining").textContent = hm(c.remaining_seconds);
+    $("start").textContent = utc(c.run_start_utc);
+    $("deadline").textContent = utc(c.run_deadline_utc);
+    $("tick").style.left = (100*c.transition_seconds/c.deadline_seconds).toFixed(3) + "%";
+    const late = c.segment === "late";
+    $("seg-main").className = "segbox" + (late ? "" : " on");
+    $("seg-late").className = "segbox" + (late ? " on" : "");
+    $("clocknote").textContent =
+      "Derived from the original immutable run window. Downtime is lost time; a restart never "
+      + "begins a fresh 168-hour clock. " + (late
+        ? "Late segment active. Absolute stop at hour 168."
+        : "Late segment begins at hour " + (c.transition_seconds/3600).toFixed(0)
+          + " (in " + hm(c.seconds_to_transition) + "). Absolute stop at hour 168.");
+  } else {
+    $("pct").textContent = "no run window";
+    $("clocknote").textContent = c.reason || "no persisted run window";
+  }
+
+  // ---- operational health ----
+  $("health").innerHTML = Object.entries(d.health.checks).map(([name, check]) =>
+    `<tr><td>${name.replace(/_/g," ")}</td>` +
+    `<td class="t-${check.status}"><span class="dot ${check.status}"></span>${check.status.toUpperCase()}</td>` +
+    `<td>${check.note}</td></tr>`).join("");
+
+  // ---- training ----
+  const t = d.training, s = d.schedule;
+  rows("training", [
+    ["optimizer step", num(t.global_optimizer_step,0)],
+    ["learning rate (frozen)", t.learning_rate === null || t.learning_rate === undefined
+      ? "—" : t.learning_rate.toExponential(3)],
+    ["schedule segment", (t.segment || s.population_segment || "—")],
+    ["policy loss", num(t.policy_loss,4)],
+    ["value loss", num(t.value_loss,4)],
+    ["belief aux loss", num(t.belief_loss,4)],
+    ["gradient norm", num(t.grad_norm,4)],
+    ["advantage kept", num(t.advantage_retention,4)],
+    ["learner throughput", num(t.examples_per_second,1) + " ex/s"],
+    ["examples consumed", num(t.examples_consumed,0)],
+  ]);
+
+  // ---- games ----
+  const g = d.games;
+  rows("games", [
+    ['committed games <span class="auth">authoritative</span>', num(g.committed_games,0)],
+    ["population iteration", num(g.iteration,0) + " × " + num(g.games_per_iteration,0)],
+    ["sealed iterations", num(g.sealed_iterations,0)],
+    ["in flight", num(g.in_flight_games,0)],
+    ["games / hour", num(g.games_per_hour,1)],
+    ["generation rate", num(g.games_per_second,3) + " games/s"],
+    ["positions generated", num(g.positions_generated,0)],
+    ["draw rate", num(g.draw_rate,4)],
+    ["mean game length", num(g.mean_game_length,1) + " plies"],
+    ['process counter <span class="diag">diagnostic</span>', num(g.process_counter_games,0)],
+  ]);
+
+  // ---- loaders & supervisor ----
+  const w = d.workers, p = d.processes, sup = d.supervisor;
+  rows("workers", [
+    ["loader workers", (w.live_loader_workers === null ? "—" : w.live_loader_workers)
+      + " live / " + (w.configured_loader_workers === null || w.configured_loader_workers === undefined
+        ? "?" : w.configured_loader_workers) + " configured"],
+    ["loader-pool rebuilds", (w.loader_pool_rebuilds === null || w.loader_pool_rebuilds === undefined
+      ? "—" : w.loader_pool_rebuilds + " / " + w.max_loader_pool_rebuilds)],
+    ["latest rebuild", utc(w.last_pool_rebuild_utc)],
+    ["rebuild reason", w.last_pool_rebuild_reason || "—"],
+    ["learner pid", (p.learner_pid === null || p.learner_pid === undefined ? "—" : p.learner_pid)
+      + (p.learner_alive ? " (alive)" : " (not running)")],
+    ["supervisor pid", (p.supervisor_pid === null || p.supervisor_pid === undefined
+      ? (p.learner_orphaned ? "UNSUPERVISED — learner reparented to launchd" : "—")
+      : p.supervisor_pid + (p.supervisor_alive ? " (alive)" : " (not running)"))],
+    ["supervisor restarts", num(sup.restarts,0)],
+    ["latest restart", utc(sup.last_restart_utc)],
+    ["last exit", sup.last_exit
+      ? ("code " + sup.last_exit.returncode + (sup.last_exit.signal ? " / " + sup.last_exit.signal : ""))
+      : "—"],
+    ["resumed from", short(p.checkpoint_resumed_from)],
+    ["emergency stop", d.controls.emergency_stop.active ? "ACTIVE — see runbook" : "inactive"],
+  ]);
+
+  // ---- checkpoints ----
+  const k = d.checkpoints;
+  rows("ckpt", [
+    ["hot (15 min cadence)", utc(k.hot.latest_utc)],
+    ["hot age", ago(k.hot.age_seconds)],
+    ["hot file", k.hot.latest_name || "—"],
+    ["hot ring size", k.hot.files + " files"],
+    ["archive (2 h cadence)", utc(k.archive.latest_snapshot_utc)],
+    ["archive age", ago(k.archive.latest_snapshot_age_seconds)],
+    ["archive snapshots", num(k.archive.snapshots,0)],
+    ["candidate (6 h cadence)", k.candidate.latest ? "hour " + k.candidate.latest.hour : "—"],
+    ["candidate written", k.candidate.latest ? utc(k.candidate.latest.written_utc) : "—"],
+    ["candidates / unevaluated", num(d.candidates.candidates,0) + " / "
+      + ((d.candidates.unevaluated_hours || []).length)],
+  ]);
+
+  // ---- storage ----
+  const st = d.storage;
+  rows("storage", [
+    ["external volume", st.external_volume_present ? "mounted" : "NOT MOUNTED"],
+    ["path", short(st.requested_path)],
+    ["mount point", st.mount_point],
+    ["free", num(st.free_gib,1) + " GiB"],
+    ["used", num(st.used_gib,1) + " GiB"],
+    ["total", num(st.total_gib,1) + " GiB"],
+    ["frozen reserve", st.reserve_gib + " GiB"],
+    ["writable", st.read_only === undefined ? "—" : (st.read_only ? "READ ONLY" : "yes")],
+    ["non-finite counters", num(
+      (d.counters.non_finite_losses||0) + (d.counters.non_finite_gradients||0)
+      + (d.counters.non_finite_parameters||0), 0)],
+  ]);
+
+  // ---- charts ----
+  const h = d.history;
+  $("charts").innerHTML = CHARTS.map(([key, label, digits]) => {
+    const values = (h.series[key] || []);
+    let last = null;
+    for(let i = values.length - 1; i >= 0; i--){
+      if(typeof values[i] === "number" && isFinite(values[i])){ last = values[i]; break; }
+    }
+    const shown = key === "learning_rate" && last !== null ? last.toExponential(2) : num(last, digits);
+    return '<div class="chart"><div class="cap"><span>' + label + '</span><b>' + shown + '</b></div>'
+      + sparkline(values) + '</div>';
+  }).join("");
+
+  // ---- events ----
+  $("events").innerHTML = d.events.length === 0
+    ? '<div><em>no events recorded yet</em></div>'
+    : d.events.slice().reverse().map(e =>
+        '<div><time>' + (e.utc ? utc(e.utc).slice(5,19) : "  —  ") + '</time><span>' + e.text
+        + (e.detail ? ' <em>· ' + e.detail + '</em>' : '') + '</span></div>').join("");
+
+  $("meta").textContent =
+    " · " + h.rows + " telemetry rows held · built in " + (d.meta.build_seconds*1000).toFixed(1)
+    + " ms · " + d.meta.requests_served + " requests served";
+}
+
+async function tick(){
+  try{
+    const response = await fetch("/api/status", {cache:"no-store"});
+    if(!response.ok) throw new Error("HTTP " + response.status);
+    render(await response.json());
+  }catch(error){
+    const box = $("err");
+    box.style.display = "block";
+    box.textContent = "dashboard unreachable: " + error.message
+      + " — this says nothing about training, which does not depend on this page.";
+  }
+}
+// Poll only while the tab is actually being looked at. A background tab that
+// keeps fetching for seven days is the one way a passive monitor could cost
+// something, and the server does no work at all between requests.
+function poll(){ if(!document.hidden) tick(); }
+tick();
+setInterval(poll, REFRESH_MS);
+document.addEventListener("visibilitychange", poll);
+</script>
+</body>
+</html>
