@@ -1,0 +1,387 @@
+{
+  "agent": 2,
+  "artifact": "phase13_agent_02_summary",
+  "environment": {
+    "machine": "arm64",
+    "mps_available": true,
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.13.0"
+  },
+  "evaluation": {
+    "complete": false,
+    "export": {
+      "export_sha256": "b0fe09488ccf025d4484d0d34c528d1ada1f3468427a987693cc772f10aebb3f",
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "parameters": 863959
+    },
+    "games_in_full_pack": 128,
+    "games_played": 4,
+    "mean_ewr": 0.5,
+    "note": "a four-game slice proves the evaluator runs; it is not a candidate score, and the selection rule refuses an incomplete evaluation",
+    "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "search_used": false,
+    "seconds": 1.7969218750367872,
+    "strata": {
+      "phase9_anchor": 0.0,
+      "strategic_rule_based": 1.0,
+      "stress_scout_rush": 1.0,
+      "tactical_rule_based": 0.0
+    }
+  },
+  "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+  "integration": {
+    "candidates": [
+      0,
+      6,
+      132,
+      168
+    ],
+    "crash_during_training": {
+      "completed": true,
+      "final_step": 24,
+      "games_replayed": 0,
+      "interrupted_iteration": 4,
+      "interrupted_step": 21,
+      "interrupted_trained": false,
+      "interrupted_updates": 1,
+      "resumed_from_cursor": true,
+      "resumed_training_only": true
+    },
+    "deadline": {
+      "closed": true,
+      "hour_168_candidate": {
+        "archive_position": 3,
+        "artifact": "phase14_candidate_mark_v1",
+        "elapsed_seconds": 605520.0,
+        "evaluation_status": "pending",
+        "global_optimizer_step": 24,
+        "hour": 168,
+        "iteration": 4,
+        "model_state_digest": "f29c67b635297e89de050939aa8c581dc7897a99c4d6cee97967e170ff32e538",
+        "note": "a candidate, not the deployed final policy; selection happens after the run under the frozen selection rule",
+        "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+        "snapshot_path": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/archive/archive_0003.pt",
+        "snapshot_sha256": "e9afd7023e6ba7c34d87be2e679d1ebe4889f71f5da6de6238bd2c0f038e2776",
+        "written_utc": "2026-09-08T00:12:00.000Z"
+      },
+      "new_unit_launched": false,
+      "refusal_reason": "deadline"
+    },
+    "hot_checkpoint": {
+      "bytes": 10458669,
+      "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+      "ema_present": false,
+      "parent_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "path": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/hot/hot_000009_step000000024.pt",
+      "required_fields_present": true
+    },
+    "pool": {
+      "archive_k": 3,
+      "members": [
+        "P8",
+        "P9",
+        "S0001",
+        "S0002",
+        "S0003"
+      ],
+      "recompute_matches_checkpoint": true
+    },
+    "population": {
+      "divisor": 512,
+      "family_counts": {
+        "strategic_rule_based": 1,
+        "stress_information_miser": 1,
+        "stress_miner_rush": 1,
+        "stress_scout_rush": 1,
+        "tactical_rule_based": 1
+      },
+      "production": false,
+      "segments": {
+        "late": {
+          "current": 1,
+          "historical": 1,
+          "rule": 2,
+          "stress": 3
+        },
+        "main": {
+          "current": 2,
+          "historical": 1,
+          "rule": 2,
+          "stress": 3
+        }
+      }
+    },
+    "resume": {
+      "identical": true,
+      "report": {
+        "active_pool": [
+          "P8",
+          "P9",
+          "S0001",
+          "S0002"
+        ],
+        "archive_k": 2,
+        "checkpoint": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/hot/hot_000006_step000000020.pt",
+        "elapsed_hours": 132.1,
+        "global_optimizer_step": 20,
+        "iteration": 3,
+        "past_deadline": false,
+        "remaining_hours": 35.9,
+        "resumed": true,
+        "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+        "run_start_utc": "2026-09-01T00:00:00.000Z"
+      },
+      "state_after": {
+        "archive_digest": "577c99867158663641424e6f423e3829c28d9310d4b201e63e458f1ce9123823",
+        "examples_consumed": 7888,
+        "global_optimizer_step": 20,
+        "iteration": 3,
+        "kl_beta": 0.0001,
+        "model_state_digest": "2f84f9bf2e51ea0f79916c4fd9655bd3e8bffc696256c87f12093d5bbd16c08e",
+        "pool_digest": "2ffdc1ad18b0872ba99801fec1660525ffb488cf301f401fcc60f6172df5906e",
+        "window": {
+          "deadline_seconds": 604800,
+          "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+          "run_start_utc": "2026-09-01T00:00:00.000Z",
+          "transition_seconds": 475200,
+          "transition_utc": "2026-09-06T12:00:00.000Z"
+        }
+      },
+      "state_before": {
+        "archive_digest": "577c99867158663641424e6f423e3829c28d9310d4b201e63e458f1ce9123823",
+        "examples_consumed": 7888,
+        "global_optimizer_step": 20,
+        "iteration": 3,
+        "kl_beta": 0.0001,
+        "model_state_digest": "2f84f9bf2e51ea0f79916c4fd9655bd3e8bffc696256c87f12093d5bbd16c08e",
+        "pool_digest": "2ffdc1ad18b0872ba99801fec1660525ffb488cf301f401fcc60f6172df5906e",
+        "window": {
+          "deadline_seconds": 604800,
+          "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+          "run_start_utc": "2026-09-01T00:00:00.000Z",
+          "transition_seconds": 475200,
+          "transition_utc": "2026-09-06T12:00:00.000Z"
+        }
+      }
+    },
+    "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+    "run_manifest": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/phase14_run_state.json",
+    "run_start_utc": "2026-09-01T00:00:00.000Z",
+    "seconds": 50.511548915994354,
+    "telemetry_log": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/logs/phase14_telemetry.jsonl",
+    "transition_utc": "2026-09-06T12:00:00.000Z",
+    "units": [
+      {
+        "advantage_retention": 0.14473684210526316,
+        "archived": null,
+        "belief_loss": 1.9570575952529907,
+        "bucket_counts": {
+          "current": 2,
+          "historical": 1,
+          "rule": 2,
+          "stress": 3
+        },
+        "candidate_hour": null,
+        "disposable_mark": true,
+        "games": 8,
+        "grad_norm": 1.0000007152557373,
+        "historical_member_games": {
+          "P9": 1
+        },
+        "iteration": 1,
+        "learner_decisions": 1100,
+        "learning_rate": 7.5e-05,
+        "missing_metrics": [],
+        "policy_loss": 0.11603088676929474,
+        "sealed": true,
+        "segment": "main",
+        "terminal_results": {
+          "blue_win": 3,
+          "red_win": 5
+        },
+        "trained": true,
+        "updates": 6,
+        "value_loss": 0.5757083296775818
+      },
+      {
+        "advantage_retention": 0.25396825396825395,
+        "archived": {
+          "archive_mark": 3,
+          "elapsed_seconds": 21960.0,
+          "global_optimizer_step": 14,
+          "identity": "S0001",
+          "iteration": 2,
+          "model_state_digest": "3cb436b25146157a8ae0a8b9cce7a556f7c9c96feef3c5febacd3168db5d7050",
+          "path": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/archive/archive_0001.pt",
+          "position": 1,
+          "sha256": "a6e115d2a68e91893d261071ee89a9b9d8b2269c3f1701b6c5f2c920f75fe422",
+          "written_utc": "2026-09-01T06:06:00.000Z"
+        },
+        "belief_loss": 1.824678897857666,
+        "bucket_counts": {
+          "current": 2,
+          "historical": 1,
+          "rule": 2,
+          "stress": 3
+        },
+        "candidate_hour": 6,
+        "disposable_mark": true,
+        "games": 8,
+        "grad_norm": 1.0000001192092896,
+        "historical_member_games": {
+          "P8": 1
+        },
+        "iteration": 2,
+        "learner_decisions": 1788,
+        "learning_rate": 7.5e-05,
+        "missing_metrics": [],
+        "policy_loss": 0.3030123710632324,
+        "sealed": true,
+        "segment": "main",
+        "terminal_results": {
+          "blue_win": 6,
+          "draw": 1,
+          "red_win": 1
+        },
+        "trained": true,
+        "updates": 8,
+        "value_loss": 0.5802426934242249
+      },
+      {
+        "advantage_retention": 0.34375,
+        "archived": {
+          "archive_mark": 66,
+          "elapsed_seconds": 475560.0,
+          "global_optimizer_step": 20,
+          "identity": "S0002",
+          "iteration": 3,
+          "model_state_digest": "2f84f9bf2e51ea0f79916c4fd9655bd3e8bffc696256c87f12093d5bbd16c08e",
+          "path": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase14_integration_ghx4uymi/archive/archive_0002.pt",
+          "position": 2,
+          "sha256": "d37ee0a33ea16fd169a1d473cacaedb6bbcd8aa97b292e3cf116ace6b74cb720",
+          "written_utc": "2026-09-06T12:06:00.000Z"
+        },
+        "belief_loss": 2.078894853591919,
+        "bucket_counts": {
+          "current": 1,
+          "historical": 1,
+          "rule": 2,
+          "stress": 3
+        },
+        "candidate_hour": 132,
+        "disposable_mark": true,
+        "games": 7,
+        "grad_norm": 1.0000004768371582,
+        "historical_member_games": {
+          "S0001": 1
+        },
+        "iteration": 3,
+        "learner_decisions": 1056,
+        "learning_rate": 3.75e-05,
+        "missing_metrics": [],
+        "policy_loss": -0.04570852592587471,
+        "sealed": true,
+        "segment": "late",
+        "terminal_results": {
+          "blue_win": 2,
+          "red_win": 5
+        },
+        "trained": true,
+        "updates": 6,
+        "value_loss": 0.5171053409576416
+      }
+    ]
+  },
+  "phase": 13,
+  "population_divisor": 512,
+  "seconds": 549.1874412499601,
+  "stop_condition": {
+    "agent3_started": false,
+    "frozen_contract_implemented": true,
+    "ninety_minute_rehearsal_started": false,
+    "phase14_started": false,
+    "search_absent_from_training": true,
+    "short_integration_tests_pass": true,
+    "strength_tournament_run": false,
+    "test_clock_proved_long_horizon_events": true
+  },
+  "task": "instructions/phase_13_final_training_integration/02_AGENT_2_FINAL_TRAINING_INTEGRATION.md",
+  "tests": {
+    "full_suite": {
+      "command": "pytest tests",
+      "returncode": 0,
+      "seconds": 424.09909745899495,
+      "summary": "6223 passed, 3 skipped in 422.81s (0:07:02)"
+    },
+    "phase13_agent_02": {
+      "command": "pytest tests/training/test_phase13_agent02.py",
+      "returncode": 0,
+      "seconds": 71.9983174590161,
+      "summary": "61 passed in 70.81s (0:01:10)"
+    }
+  },
+  "verification": {
+    "anchors": {
+      "P8": {
+        "matches_frozen": true,
+        "path": "checkpoints/phase8/warmstart_c1_v1.pt",
+        "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+      },
+      "P9": {
+        "matches_frozen": true,
+        "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+        "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+      }
+    },
+    "contract_binding": {
+      "disagreements": 0,
+      "frozen_contract": "reports/phase13/phase13_final_training_contract_v1.json",
+      "frozen_contract_sha256": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf",
+      "implementation_contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9"
+    },
+    "digests": {
+      "contract": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+      "integrated_config": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+      "population": "1281477150310bd5765a5635467758f48b6188f135febd32fd79d0b4107263ff",
+      "seed_contract": "3a19fa9bb10ad9f82d8e403889abe8f06f70388560174f15bf41ac35063505f8"
+    },
+    "mixtures": {
+      "late": {
+        "current": 819,
+        "historical": 984,
+        "rule": 122,
+        "stress": 123
+      },
+      "main": {
+        "current": 1188,
+        "historical": 615,
+        "rule": 122,
+        "stress": 123
+      }
+    },
+    "pack": {
+      "digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+      "games": 128,
+      "strata": [
+        "phase9_anchor",
+        "strategic_rule_based",
+        "stress_scout_rush",
+        "tactical_rule_based"
+      ]
+    },
+    "selection_rule": "phase14_checkpoint_selection_rule_v1",
+    "setup_source": {
+      "identity": "phase14_setup_source_v1",
+      "orientation_probe": {
+        "canonical_differs_from_oriented": true,
+        "engine_is_oriented": true,
+        "game_id": "phase14_rollout_v1|ms=20260820141|ns=phase14|it=0001|b=current|g=0000",
+        "orientation_helper": "SelectorDraw.oriented(player)",
+        "selector_seed": 2104509785905801217
+      },
+      "setup_family": "phase14_setup_source_v1_P10-D_train"
+    }
+  },
+  "written_utc": "2026-08-20T22:30:14Z"
+}

@@ -1,0 +1,239 @@
+{
+ "archive_2h": {
+  "archive_k": 1,
+  "archive_mark": 1,
+  "elapsed_hours": 2.05,
+  "fired": true,
+  "pool_after": [
+   "P8",
+   "P9",
+   "S0001"
+  ],
+  "pool_recomputes": true
+ },
+ "candidate_6h": {
+  "fired": true,
+  "hour": 6,
+  "is_a_mark_not_a_copy": true,
+  "ledger_pending": [
+   0,
+   6
+  ],
+  "marked_from_archive": true,
+  "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+  "pack_matches_frozen": true
+ },
+ "config_immutable_to_results": {
+  "all_refused": true,
+  "contract_digest_unchanged": true,
+  "control_refusals": {
+   "candidate_selection_rule": "refused: Phase14TelemetryError",
+   "checkpoint_cadence": "refused: Phase14TelemetryError",
+   "deadline": "refused: Phase14TelemetryError",
+   "learning_rate": "refused: Phase14TelemetryError",
+   "mean_ewr": "refused: Phase14TelemetryError",
+   "opponent_mixture": "refused: Phase14TelemetryError"
+  }
+ },
+ "deadline_168h": {
+  "closed": true,
+  "elapsed_hours": 168.05,
+  "expired": true,
+  "hour_168_candidate": 168,
+  "hour_168_from_archive": true,
+  "may_start_collection_unit": false,
+  "may_start_optimizer_step": false,
+  "optimizer_step_unchanged": true,
+  "refusal_reason": "deadline",
+  "unit_launched": false,
+  "window_after_close": {
+   "deadline_seconds": 604800.0,
+   "production": true,
+   "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+   "run_start_utc": "2026-09-01T00:00:00.000Z",
+   "transition_seconds": 475200,
+   "transition_utc": "2026-09-06T12:00:00.000Z"
+  },
+  "window_never_extended": true
+ },
+ "downtime": {
+  "elapsed_hours_after_downtime": 142.1,
+  "learning_rate_after_restart": 3.75e-05,
+  "resume_report": {
+   "active_pool": [
+    "P8",
+    "P9",
+    "S0001",
+    "S0002",
+    "S0003"
+   ],
+   "archive_k": 3,
+   "checkpoint": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_scheduler_3o8qjdw6/hot/hot_000008_step000000026.pt",
+   "elapsed_hours": 142.1,
+   "global_optimizer_step": 26,
+   "iteration": 4,
+   "past_deadline": false,
+   "remaining_hours": 25.9,
+   "resumed": true,
+   "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+   "run_start_utc": "2026-09-01T00:00:00.000Z"
+  },
+  "segment_after_restart": "late",
+  "segment_preserved_across_restart": true,
+  "transition_utc_unchanged": true,
+  "window_unchanged": true
+ },
+ "emergency_stop": {
+  "cleared_resumes": true,
+  "hot_checkpoint_present": true,
+  "optimizer_step": 0,
+  "run_iteration_refusal": "emergency_stop",
+  "status": {
+   "immutable_keys": [
+    "learning_rate",
+    "loss_weights",
+    "opponent_mixture",
+    "setup_source",
+    "historical_pool_algorithm",
+    "candidate_selection_rule",
+    "deadline",
+    "checkpoint_cadence"
+   ],
+   "refusals": 0,
+   "stop_reason": "Phase 13 rehearsal control check",
+   "stop_requested": true,
+   "stop_unix": 1787287276.0238342
+  },
+  "stopped_because": "emergency stop",
+  "units_launched": [],
+  "works": true
+ },
+ "evaluation_failure": {
+  "hour": 0,
+  "ledger_status": "failed",
+  "rerunnable": true,
+  "results": [
+   {
+    "hour": 0,
+    "status": "failed"
+   }
+  ],
+  "training_continued": true,
+  "training_step_unchanged": true
+ },
+ "evaluation_launch": {
+  "evaluator_isolation": "no trainer, collector, scheduler or clock is imported; a failure records a ledger row and nothing else",
+  "results": [
+   {
+    "games": 2,
+    "hour": 0,
+    "mean_ewr": 0.0,
+    "status": "complete"
+   },
+   {
+    "games": 2,
+    "hour": 6,
+    "mean_ewr": 0.0,
+    "status": "complete"
+   }
+  ],
+  "training_state_after": {
+   "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+   "global_optimizer_step": 14,
+   "learning_rate": 7.5e-05,
+   "model_state_digest": "17452881919142fa0a685286fee6296dcf38e59bde3aa6c47cdb6299b3082fd0",
+   "window": {
+    "deadline_seconds": 604800.0,
+    "production": true,
+    "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+    "run_start_utc": "2026-09-01T00:00:00.000Z",
+    "transition_seconds": 475200,
+    "transition_utc": "2026-09-06T12:00:00.000Z"
+   }
+  },
+  "training_state_before": {
+   "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+   "global_optimizer_step": 14,
+   "learning_rate": 7.5e-05,
+   "model_state_digest": "17452881919142fa0a685286fee6296dcf38e59bde3aa6c47cdb6299b3082fd0",
+   "window": {
+    "deadline_seconds": 604800.0,
+    "production": true,
+    "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+    "run_start_utc": "2026-09-01T00:00:00.000Z",
+    "transition_seconds": 475200,
+    "transition_utc": "2026-09-06T12:00:00.000Z"
+   }
+  },
+  "training_untouched": true
+ },
+ "root": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_scheduler_3o8qjdw6",
+ "seams": {
+  "clock": {
+   "kind": "manual",
+   "production": false
+  },
+  "population": {
+   "divisor": 512,
+   "family_counts": {
+    "strategic_rule_based": 1,
+    "stress_information_miser": 1,
+    "stress_miner_rush": 1,
+    "stress_scout_rush": 1,
+    "tactical_rule_based": 1
+   },
+   "production": false,
+   "segments": {
+    "late": {
+     "current": 1,
+     "historical": 1,
+     "rule": 2,
+     "stress": 3
+    },
+    "main": {
+     "current": 2,
+     "historical": 1,
+     "rule": 2,
+     "stress": 3
+    }
+   }
+  }
+ },
+ "seconds": 55.0463843329926,
+ "selection_rule_refuses_incomplete": {
+  "complete_entries": 0,
+  "outcome": "refused: Phase14CandidateError",
+  "refused": true,
+  "why": "a two-game slice and a 128-game pack are not comparable, so the frozen rule refuses rather than ranking them"
+ },
+ "transition": {
+  "after": {
+   "elapsed_hours": 132.1,
+   "learning_rate": 3.75e-05,
+   "segment": "late"
+  },
+  "before": {
+   "elapsed_hours": 131.85,
+   "learning_rate": 7.5e-05,
+   "segment": "main"
+  },
+  "late_bucket_shape": {
+   "current": 1,
+   "historical": 1,
+   "rule": 2,
+   "stress": 3
+  },
+  "learning_rate_switched": true,
+  "mixture_switched": true,
+  "segment_switched": true,
+  "tied_to_original_start": true,
+  "transition_utc": "2026-09-06T12:00:00.000Z",
+  "unit_buckets": {
+   "current": 1,
+   "historical": 1,
+   "rule": 2,
+   "stress": 3
+  },
+  "unit_segment": "late"
+ }
+}

@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/scripts/run_phase13_agent03.py", line 1217, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/scripts/run_phase13_agent03.py", line 1164, in main
+    return segment_main(args)
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/scripts/run_phase13_agent03.py", line 247, in segment_main
+    result = runner.run()
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase14_runner.py", line 973, in run
+    unit = self.run_iteration(collection_limit=collection_limit, updates=updates)
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase14_runner.py", line 885, in run_iteration
+    rows = self.trainer.train_iteration(
+        updates=updates,
+        may_start_step=self.controller.may_start_optimizer_step,
+        on_step=self._on_step,
+    )
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase14_trainer.py", line 823, in train_iteration
+    keys, packed, waited = pipeline.next(self.cursor)
+                           ~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase9_trainer.py", line 964, in next
+    _index, packed = future.result()
+                     ~~~~~~~~~~~~~^^
+  File "/Users/brandonwashington/.pyenv/versions/3.13.2/lib/python3.13/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ~~~~~~~~~~~~~~~~~^^
+  File "/Users/brandonwashington/.pyenv/versions/3.13.2/lib/python3.13/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.

@@ -56,3 +56,7 @@ __pycache__/
 .DS_Store
 *.tar.gz
 *.pdf
+# Phase 13 Agent 3 rehearsal hot checkpoints: working bytes of a reliability
+# rehearsal, reproducible from `scripts/run_phase13_agent03.py`; the evidence
+# that describes them is tracked under reports/phase13/agent03_evidence.
+checkpoints/phase13_rehearsal/

@@ -1,0 +1,55 @@
+{
+ "differences": [
+  "sealed_rollout_digest"
+ ],
+ "epoch_plan_has_no_repeat": true,
+ "epoch_plan_identical": true,
+ "epoch_plan_length": 8,
+ "first": {
+  "bucket_counts": {
+   "current": 4,
+   "historical": 2,
+   "rule": 2,
+   "stress": 3
+  },
+  "examples_consumed": 3696,
+  "games": 11,
+  "model_state_digest": "f27ea740c4f13c7e5c8576adb1a789c84061cc6777ba7661d90f311cfa9cdf60",
+  "sealed_rollout_digest": "4f43c6b9e1ce42fa0be923d0bbf587ef0982158f9f8084ffed87595abf516b09",
+  "terminal_results": {
+   "blue_win": 5,
+   "red_win": 6
+  },
+  "total_decisions": 2872,
+  "updates": 8
+ },
+ "global_rng_is_irrelevant": true,
+ "metadata_fields_that_moved": {
+  "behavior_checkpoint_sha256": 11
+ },
+ "metadata_records_compared": 11,
+ "rollout_digest_differs_only_by": [
+  "behavior_checkpoint_sha256"
+ ],
+ "second": {
+  "bucket_counts": {
+   "current": 4,
+   "historical": 2,
+   "rule": 2,
+   "stress": 3
+  },
+  "examples_consumed": 3696,
+  "games": 11,
+  "model_state_digest": "f27ea740c4f13c7e5c8576adb1a789c84061cc6777ba7661d90f311cfa9cdf60",
+  "sealed_rollout_digest": "cb4e0e56758fa1dd2cbb468e2065354d0592184ed8d620e23c2047cd53cc6b5c",
+  "terminal_results": {
+   "blue_win": 5,
+   "red_win": 6
+  },
+  "total_decisions": 2872,
+  "updates": 8
+ },
+ "seconds": 40.64178379200166,
+ "shard_bytes_identical": false,
+ "why": "the checkpoint records every RNG stream and restores none; this is sound only because no global RNG cursor decides a batch or a move, which is what these two differently-seeded runs check"
+}

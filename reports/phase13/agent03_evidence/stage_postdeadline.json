@@ -1,0 +1,42 @@
+{
+ "deadline_extended": false,
+ "finalized": true,
+ "hours_past_deadline": 9.0,
+ "may_start_optimizer_step": false,
+ "optimizer_step_after_run": 6712,
+ "optimizer_step_at_resume": 6712,
+ "optimizer_steps_taken": 0,
+ "passes": true,
+ "persisted_window": {
+  "deadline_seconds": 5400.0,
+  "production": false,
+  "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+  "run_start_utc": "2026-08-21T03:06:12.034Z",
+  "transition_seconds": 475200,
+  "transition_utc": "2026-08-26T15:06:12.034Z"
+ },
+ "resume_report": {
+  "archive_k": 1,
+  "elapsed_hours": 10.5,
+  "global_optimizer_step": 6712,
+  "iteration": 3,
+  "past_deadline": true,
+  "remaining_hours": -9.0,
+  "resumed": true,
+  "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+  "run_start_utc": "2026-08-21T03:06:12.034Z"
+ },
+ "seconds": 0.5116360829561017,
+ "source_checkpoint": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000012_step000006712.pt",
+ "stopped_because": "deadline",
+ "test_now_utc": "2026-08-21T13:36:12.034Z",
+ "units_launched": [],
+ "window_after": {
+  "deadline_seconds": 5400.0,
+  "production": false,
+  "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+  "run_start_utc": "2026-08-21T03:06:12.034Z",
+  "transition_seconds": 475200,
+  "transition_utc": "2026-08-26T15:06:12.034Z"
+ }
+}

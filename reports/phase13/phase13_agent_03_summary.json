@@ -1,0 +1,184 @@
+{
+ "accepted_files_modified": {
+  "note": "everything else is an addition to the untracked Phase 13/14 set",
+  "phase9_trainer_modified": false,
+  "tracked_files_changed": [
+   ".gitignore"
+  ]
+ },
+ "agent": 3,
+ "artifact": "phase13_agent_03_summary",
+ "defects": [
+  {
+   "defect": "a killed CPU loader worker killed the learner",
+   "detail": "BrokenProcessPool subclasses RuntimeError and was in neither RECOVERABLE_ERRORS nor UNRECOVERABLE_ERRORS, so it escaped Phase14Runner.run()",
+   "digests_unchanged": true,
+   "fix": "Phase14Trainer._next_minibatch rebuilds the loader pool at the same cursor (identical minibatch, untouched optimizer state), counted and capped at MAX_LOADER_POOL_REBUILDS; RECOVERABLE_ERRORS gains BrokenExecutor as a backstop",
+   "found": "reproduced before the rehearsal and demonstrated inside it at 3303 s",
+   "reverified": {
+    "crashed": false,
+    "deadline_seen": true,
+    "worker_killed": true
+   },
+   "scope": "Phase 14 code only; phase9_trainer.py untouched"
+  },
+  {
+   "detail": "8,192 games were committed to the store; the counter reports 4,096, because a collection that completed but was not checkpointed before a crash is lost from the restored counter",
+   "fixed": false,
+   "impact": "monitoring accuracy only; the store's manifests are authoritative",
+   "observation": "telemetry `games generated` under-reports after a crash"
+  },
+  {
+   "detail": "it reports the configured worker count and a static string",
+   "fixed": false,
+   "impact": "it would not have shown the dead worker in Failure 2",
+   "observation": "`worker status` is not a health signal"
+  },
+  {
+   "detail": "`failures` stayed empty through two process deaths",
+   "fixed": false,
+   "impact": "Agent 4's launch supervisor should log restarts itself",
+   "observation": "the run's own telemetry cannot report that it crashed"
+  }
+ ],
+ "deviation": "the deadline only: 90 minutes instead of 168 hours",
+ "digests": {
+  "integrated_config": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+  "phase14_contract": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9"
+ },
+ "final_optimizer_step": 6712,
+ "iterations_committed": 3,
+ "launches": 3,
+ "phase": 13,
+ "population": "frozen 2,048-game production mixture",
+ "prerequisites_verified": true,
+ "readiness": {
+  "checks": [
+   {
+    "check": "training updates finite",
+    "passed": true
+   },
+   {
+    "check": "parameters change",
+    "passed": true
+   },
+   {
+    "check": "belief auxiliary objective functioning",
+    "passed": true
+   },
+   {
+    "check": "forced process crash recovered",
+    "passed": true
+   },
+   {
+    "check": "optimizer state preserved",
+    "passed": true
+   },
+   {
+    "check": "original rehearsal deadline preserved",
+    "passed": true
+   },
+   {
+    "check": "active historical pool preserved",
+    "passed": true
+   },
+   {
+    "check": "worker failure recovered",
+    "passed": true
+   },
+   {
+    "check": "storage remained safe",
+    "passed": true
+   },
+   {
+    "check": "hot checkpoints readable",
+    "passed": true
+   },
+   {
+    "check": "test-clock 2h archive event works",
+    "passed": true
+   },
+   {
+    "check": "test-clock 6h candidate event works",
+    "passed": true
+   },
+   {
+    "check": "test-clock late transition works",
+    "passed": true
+   },
+   {
+    "check": "test-clock 168h shutdown works",
+    "passed": true
+   },
+   {
+    "check": "post-deadline recovery refuses training",
+    "passed": true
+   },
+   {
+    "check": "search absent from training",
+    "passed": true
+   }
+  ],
+  "failed": [],
+  "passed": 16,
+  "total": 16
+ },
+ "rehearsal_digest": "d8ebae4e28500c27cad8e7c5c48932431e89c45c6d52b8c87da2bb1443a13d21",
+ "stop_condition": {
+  "agent4_started": false,
+  "crash_resume_checks_pass": true,
+  "long_horizon_scheduler_tests_complete": true,
+  "ninety_minute_rehearsal_complete": true,
+  "phase14_started": false,
+  "readiness_evidence_written": true,
+  "storage_projection_updated": true,
+  "worker_failure_check_complete": true
+ },
+ "storage": {
+  "agent_1_conservative_ceiling_gib": 600.0,
+  "agent_1_planning_rate_gib_per_hour": 3.572,
+  "projected_168h_total_gib": 34.81544327157676,
+  "raw_shard_gib_per_hour": 0.20235788658152754,
+  "reserve_threatened": false
+ },
+ "task": "instructions/phase_13_final_training_integration/03_AGENT_3_90_MINUTE_CRASH_RESUME_REHEARSAL.md",
+ "tests": {
+  "full_suite": {
+   "agent_2_baseline": "6223 passed, 3 skipped",
+   "command": "pytest tests",
+   "delta": "the 21 tests added by this task; no regressions",
+   "returncode": 0,
+   "summary": "6244 passed, 3 skipped in 458.54s (0:07:38)"
+  },
+  "phase13_agent_03": {
+   "command": "pytest tests/training/test_phase13_agent03.py",
+   "returncode": 0,
+   "summary": "21 passed in 44.87s"
+  }
+ },
+ "wall_clock_seconds": 5415.587940874975,
+ "window": {
+  "deadline_seconds": 5400.0,
+  "production": false,
+  "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+  "run_start_utc": "2026-08-21T03:06:12.034Z",
+  "transition_seconds": 475200,
+  "transition_utc": "2026-08-26T15:06:12.034Z"
+ },
+ "worker_failure_reverification": {
+  "at_seconds": 423.4088767080102,
+  "exceptions": [],
+  "learner_survived": true,
+  "population": "the frozen 2,048-game mixture (production)",
+  "run_returned": [
+   {
+    "global_optimizer_step": 1744,
+    "iterations_completed": 1,
+    "stopped_because": "deadline"
+   }
+  ],
+  "victim_died": true,
+  "workers_before": 6
+ },
+ "written_utc": "2026-08-21T05:25:41Z"
+}

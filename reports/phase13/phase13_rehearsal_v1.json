@@ -1,0 +1,575 @@
+{
+ "accepted_files_modified": {
+  "note": "everything else is an addition to the untracked Phase 13/14 set",
+  "phase9_trainer_modified": false,
+  "tracked_files_changed": [
+   ".gitignore"
+  ]
+ },
+ "agent": 3,
+ "artifact": "phase13_rehearsal_v1",
+ "checkpoints": {
+  "archive_all_readable": true,
+  "hot_all_cover_required_fields": true,
+  "hot_all_readable": true,
+  "hot_cadence_seconds": 900,
+  "hot_retained": 4,
+  "max_hot_age_seconds_observed": 895.4,
+  "torn_write_refused": true
+ },
+ "defects": [
+  {
+   "defect": "a killed CPU loader worker killed the learner",
+   "detail": "BrokenProcessPool subclasses RuntimeError and was in neither RECOVERABLE_ERRORS nor UNRECOVERABLE_ERRORS, so it escaped Phase14Runner.run()",
+   "digests_unchanged": true,
+   "fix": "Phase14Trainer._next_minibatch rebuilds the loader pool at the same cursor (identical minibatch, untouched optimizer state), counted and capped at MAX_LOADER_POOL_REBUILDS; RECOVERABLE_ERRORS gains BrokenExecutor as a backstop",
+   "found": "reproduced before the rehearsal and demonstrated inside it at 3303 s",
+   "reverified": {
+    "crashed": false,
+    "deadline_seen": true,
+    "worker_killed": true
+   },
+   "scope": "Phase 14 code only; phase9_trainer.py untouched"
+  },
+  {
+   "detail": "8,192 games were committed to the store; the counter reports 4,096, because a collection that completed but was not checkpointed before a crash is lost from the restored counter",
+   "fixed": false,
+   "impact": "monitoring accuracy only; the store's manifests are authoritative",
+   "observation": "telemetry `games generated` under-reports after a crash"
+  },
+  {
+   "detail": "it reports the configured worker count and a static string",
+   "fixed": false,
+   "impact": "it would not have shown the dead worker in Failure 2",
+   "observation": "`worker status` is not a health signal"
+  },
+  {
+   "detail": "`failures` stayed empty through two process deaths",
+   "fixed": false,
+   "impact": "Agent 4's launch supervisor should log restarts itself",
+   "observation": "the run's own telemetry cannot report that it crashed"
+  }
+ ],
+ "determinism": {
+  "epoch_plan_identical": true,
+  "global_rng_is_irrelevant": true,
+  "metadata_fields_that_moved": {
+   "behavior_checkpoint_sha256": 11
+  },
+  "why": "the checkpoint records every RNG stream and restores none; this is sound only because no global RNG cursor decides a batch or a move, which is what these two differently-seeded runs check"
+ },
+ "deviation_from_phase_14": {
+  "and_nothing_else": [
+   "the frozen 2,048-game production population was used",
+   "the frozen main learning rate 7.5e-05 was used throughout",
+   "the 132-hour transition was not moved and was never reached",
+   "the 15-minute / 2-hour / 6-hour cadences are the frozen ones",
+   "the objective, loss weights, setup source and storage policy are frozen",
+   "search was not used"
+  ],
+  "seam": "RunWindow.rehearsal + MODE_REHEARSAL; the window carries production=False, travels in every checkpoint, requires the real system clock, and may not be resumed as a production run",
+  "what": "the 168-hour deadline is replaced by a 90-minute deadline"
+ },
+ "failures": {
+  "failure_1_process_kill": {
+   "at_seconds": 1800.4833467499702,
+   "loader_workers_killed_with_it": 6,
+   "orphaned_workers": [],
+   "recovered": true,
+   "step_preserved": 1744
+  },
+  "failure_2_worker_kill": {
+   "at_seconds": 3302.989335582999,
+   "learner_survived": false,
+   "outcome": "the learner did NOT survive during the rehearsal: BrokenProcessPool escaped Phase14Runner.run(); fixed narrowly afterwards and re-verified",
+   "victim_died": true,
+   "workers_before": 6
+  }
+ },
+ "harness": {
+  "deadline": "one shortened RunWindow stamped once; every restart reuses the persisted window and downtime is charged against it",
+  "failure_1": "SIGKILL of the training process group \u2014 learner and loader workers",
+  "failure_2": "SIGKILL of one CPU loader worker while the learner trains",
+  "observation": "every recorded fact is read back off disk, not from the runner",
+  "recovery": "relaunch through the production start_or_resume() path",
+  "rehearsal_version": "phase13_rehearsal_v1",
+  "unchanged": [
+   "learning rates",
+   "opponent mixtures",
+   "132-hour transition",
+   "15-minute / 2-hour / 6-hour cadences",
+   "objective and loss weights",
+   "setup source",
+   "storage and retention policy"
+  ]
+ },
+ "long_horizon_scheduler": {
+  "archive_2h": {
+   "archive_k": 1,
+   "archive_mark": 1,
+   "elapsed_hours": 2.05,
+   "fired": true,
+   "pool_after": [
+    "P8",
+    "P9",
+    "S0001"
+   ],
+   "pool_recomputes": true
+  },
+  "candidate_6h": {
+   "fired": true,
+   "hour": 6,
+   "is_a_mark_not_a_copy": true,
+   "ledger_pending": [
+    0,
+    6
+   ],
+   "marked_from_archive": true,
+   "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+   "pack_matches_frozen": true
+  },
+  "config_immutable_to_results": {
+   "all_refused": true,
+   "contract_digest_unchanged": true,
+   "control_refusals": {
+    "candidate_selection_rule": "refused: Phase14TelemetryError",
+    "checkpoint_cadence": "refused: Phase14TelemetryError",
+    "deadline": "refused: Phase14TelemetryError",
+    "learning_rate": "refused: Phase14TelemetryError",
+    "mean_ewr": "refused: Phase14TelemetryError",
+    "opponent_mixture": "refused: Phase14TelemetryError"
+   }
+  },
+  "deadline_168h": {
+   "closed": true,
+   "elapsed_hours": 168.05,
+   "expired": true,
+   "hour_168_candidate": 168,
+   "hour_168_from_archive": true,
+   "may_start_collection_unit": false,
+   "may_start_optimizer_step": false,
+   "optimizer_step_unchanged": true,
+   "refusal_reason": "deadline",
+   "unit_launched": false,
+   "window_after_close": {
+    "deadline_seconds": 604800.0,
+    "production": true,
+    "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+    "run_start_utc": "2026-09-01T00:00:00.000Z",
+    "transition_seconds": 475200,
+    "transition_utc": "2026-09-06T12:00:00.000Z"
+   },
+   "window_never_extended": true
+  },
+  "downtime": {
+   "elapsed_hours_after_downtime": 142.1,
+   "learning_rate_after_restart": 3.75e-05,
+   "resume_report": {
+    "active_pool": [
+     "P8",
+     "P9",
+     "S0001",
+     "S0002",
+     "S0003"
+    ],
+    "archive_k": 3,
+    "checkpoint": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_scheduler_3o8qjdw6/hot/hot_000008_step000000026.pt",
+    "elapsed_hours": 142.1,
+    "global_optimizer_step": 26,
+    "iteration": 4,
+    "past_deadline": false,
+    "remaining_hours": 25.9,
+    "resumed": true,
+    "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+    "run_start_utc": "2026-09-01T00:00:00.000Z"
+   },
+   "segment_after_restart": "late",
+   "segment_preserved_across_restart": true,
+   "transition_utc_unchanged": true,
+   "window_unchanged": true
+  },
+  "emergency_stop": {
+   "cleared_resumes": true,
+   "hot_checkpoint_present": true,
+   "optimizer_step": 0,
+   "run_iteration_refusal": "emergency_stop",
+   "status": {
+    "immutable_keys": [
+     "learning_rate",
+     "loss_weights",
+     "opponent_mixture",
+     "setup_source",
+     "historical_pool_algorithm",
+     "candidate_selection_rule",
+     "deadline",
+     "checkpoint_cadence"
+    ],
+    "refusals": 0,
+    "stop_reason": "Phase 13 rehearsal control check",
+    "stop_requested": true,
+    "stop_unix": 1787287276.0238342
+   },
+   "stopped_because": "emergency stop",
+   "units_launched": [],
+   "works": true
+  },
+  "selection_rule_refuses_incomplete": {
+   "complete_entries": 0,
+   "outcome": "refused: Phase14CandidateError",
+   "refused": true,
+   "why": "a two-game slice and a 128-game pack are not comparable, so the frozen rule refuses rather than ranking them"
+  },
+  "transition": {
+   "after": {
+    "elapsed_hours": 132.1,
+    "learning_rate": 3.75e-05,
+    "segment": "late"
+   },
+   "before": {
+    "elapsed_hours": 131.85,
+    "learning_rate": 7.5e-05,
+    "segment": "main"
+   },
+   "late_bucket_shape": {
+    "current": 1,
+    "historical": 1,
+    "rule": 2,
+    "stress": 3
+   },
+   "learning_rate_switched": true,
+   "mixture_switched": true,
+   "segment_switched": true,
+   "tied_to_original_start": true,
+   "transition_utc": "2026-09-06T12:00:00.000Z",
+   "unit_buckets": {
+    "current": 1,
+    "historical": 1,
+    "rule": 2,
+    "stress": 3
+   },
+   "unit_segment": "late"
+  }
+ },
+ "phase": 13,
+ "population": "the frozen 2,048-game mixture (production)",
+ "post_deadline_recovery": {
+  "deadline_extended": false,
+  "finalized": true,
+  "hours_past_deadline": 9.0,
+  "optimizer_steps_taken": 0,
+  "passes": true
+ },
+ "prerequisites": {
+  "agent_1_contract_sha256": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf",
+  "contract_disagreements": 0,
+  "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+  "phase14_contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+  "problems": [],
+  "starting_checkpoint_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "starting_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "verified": true
+ },
+ "purpose": "the identity and result of the single 90-minute reliability rehearsal of the Phase 14 training system; it authorizes nothing and starts nothing",
+ "readiness": {
+  "checks": [
+   {
+    "check": "training updates finite",
+    "passed": true
+   },
+   {
+    "check": "parameters change",
+    "passed": true
+   },
+   {
+    "check": "belief auxiliary objective functioning",
+    "passed": true
+   },
+   {
+    "check": "forced process crash recovered",
+    "passed": true
+   },
+   {
+    "check": "optimizer state preserved",
+    "passed": true
+   },
+   {
+    "check": "original rehearsal deadline preserved",
+    "passed": true
+   },
+   {
+    "check": "active historical pool preserved",
+    "passed": true
+   },
+   {
+    "check": "worker failure recovered",
+    "passed": true
+   },
+   {
+    "check": "storage remained safe",
+    "passed": true
+   },
+   {
+    "check": "hot checkpoints readable",
+    "passed": true
+   },
+   {
+    "check": "test-clock 2h archive event works",
+    "passed": true
+   },
+   {
+    "check": "test-clock 6h candidate event works",
+    "passed": true
+   },
+   {
+    "check": "test-clock late transition works",
+    "passed": true
+   },
+   {
+    "check": "test-clock 168h shutdown works",
+    "passed": true
+   },
+   {
+    "check": "post-deadline recovery refuses training",
+    "passed": true
+   },
+   {
+    "check": "search absent from training",
+    "passed": true
+   }
+  ],
+  "failed": [],
+  "passed": 16,
+  "total": 16
+ },
+ "rehearsal_digest": "d8ebae4e28500c27cad8e7c5c48932431e89c45c6d52b8c87da2bb1443a13d21",
+ "result": {
+  "closed_reason": "deadline",
+  "final_model_state_digest": "f5534a9d027282e77557a956be266f3931c24bda88abd51f68dc36bb21eab0e5",
+  "final_optimizer_step": 6712,
+  "games_committed_in_store": 8192,
+  "games_reported_by_counter": 4096,
+  "hour_168_candidate_marked": true,
+  "iterations_committed": 3,
+  "launches": 3,
+  "marks": {
+   "crashed": true,
+   "deadline_seen": true,
+   "worker_killed": true
+  },
+  "wall_clock_seconds": 5415.587940874975
+ },
+ "resume_boundaries": {
+  "all_hold": true,
+  "boundaries": [
+   {
+    "after": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000004_step000001745.pt",
+     "global_optimizer_step": 1745,
+     "iteration": 1,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "83d7e4890e0dd1461bf2e0479daa4ab33fc4ef1824a445c6abf6a81678ae02af",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_001",
+      "last_committed_iteration": 1,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "all_hold": true,
+    "at_seconds": 1800.4833467499702,
+    "before": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000003_step000001744.pt",
+     "global_optimizer_step": 1744,
+     "iteration": 1,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "eac3f63ad58178b0e1e452cb2ade37b11c51beb47781b608efe242fba55d9a71",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_001",
+      "last_committed_iteration": 1,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "checks": {
+     "archive_cursor_not_reset": true,
+     "candidate_scheduler_not_reset": true,
+     "deadline_not_reset": true,
+     "main_late_scheduler_not_reset": true,
+     "no_duplicate_optimizer_work": true,
+     "no_skipped_optimizer_state": true,
+     "same_active_historical_pool": true,
+     "shard_cursor_not_reset": true,
+     "start_time_not_reset": true
+    },
+    "failure": "failure_1_process_kill"
+   },
+   {
+    "after": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000007_step000004013.pt",
+     "global_optimizer_step": 4013,
+     "iteration": 2,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "c301d846c78fdff0ebcf248a5654a65e9836834caadb6c322d0f27f83990a140",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_002",
+      "last_committed_iteration": 2,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "all_hold": true,
+    "at_seconds": 3302.989335582999,
+    "before": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000006_step000003480.pt",
+     "global_optimizer_step": 3480,
+     "iteration": 2,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "83d7e4890e0dd1461bf2e0479daa4ab33fc4ef1824a445c6abf6a81678ae02af",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_002",
+      "last_committed_iteration": 2,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "checks": {
+     "archive_cursor_not_reset": true,
+     "candidate_scheduler_not_reset": true,
+     "deadline_not_reset": true,
+     "main_late_scheduler_not_reset": true,
+     "no_duplicate_optimizer_work": true,
+     "no_skipped_optimizer_state": true,
+     "same_active_historical_pool": true,
+     "shard_cursor_not_reset": true,
+     "start_time_not_reset": true
+    },
+    "failure": "failure_2_worker_kill"
+   }
+  ],
+  "rng_note": "the RNG digest is expected to move: Phase 14 captures every stream and restores none, which is sound only because no global RNG cursor decides a batch or a move \u2014 checked directly by the determinism stage"
+ },
+ "stop_condition": {
+  "agent4_started": false,
+  "phase14_started": false,
+  "rehearsal_complete": true
+ },
+ "storage_projection": {
+  "agent_1_conservative_ceiling_gib": 600.0,
+  "agent_1_phase9_basis_gib": 28.0,
+  "agent_1_planning_rate_gib_per_hour": 3.572,
+  "archive_gib_per_hour_observed": 4.609286281894749e-07,
+  "archive_snapshot_bytes": 10457515,
+  "external_free_gib_after_168h": 890.5168359337455,
+  "external_free_gib_now": 925.3322792053223,
+  "free_space_change_bytes": -338800640,
+  "hot_bytes_bounded": 62744834,
+  "hot_gib_per_hour_transient": 0.03902866568702811,
+  "hot_lives_on": "the internal disk, not the external volume",
+  "internal_free_change_bytes": -905609216,
+  "log_gib_per_hour": 7.234899965548964e-06,
+  "measured_versus_agent_1_ceiling": "below",
+  "measured_window_hours": 1.49721667430556,
+  "projected_168h_archive_gib": 0.8181028626859188,
+  "projected_168h_raw_gib": 33.99612494569663,
+  "projected_168h_total_gib": 34.81544327157676,
+  "raw_shard_gib_per_hour": 0.20235788658152754,
+  "reserve_gib": 120.0,
+  "reserve_threatened": false,
+  "total_external_gib_per_hour": 0.20236558241012126
+ },
+ "strategy_unchanged": {
+  "search_absent_from_training": true,
+  "statement": "no rehearsal loss, EWR or game outcome was used to alter any training value, and none was altered"
+ },
+ "task": "instructions/phase_13_final_training_integration/03_AGENT_3_90_MINUTE_CRASH_RESUME_REHEARSAL.md",
+ "tests": {
+  "full_suite": {
+   "agent_2_baseline": "6223 passed, 3 skipped",
+   "command": "pytest tests",
+   "delta": "the 21 tests added by this task; no regressions",
+   "returncode": 0,
+   "summary": "6244 passed, 3 skipped in 458.54s (0:07:38)"
+  },
+  "phase13_agent_03": {
+   "command": "pytest tests/training/test_phase13_agent03.py",
+   "returncode": 0,
+   "summary": "21 passed in 44.87s"
+  }
+ },
+ "window": {
+  "deadline_seconds": 5400.0,
+  "production": false,
+  "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+  "run_start_utc": "2026-08-21T03:06:12.034Z",
+  "transition_seconds": 475200,
+  "transition_utc": "2026-08-26T15:06:12.034Z"
+ },
+ "worker_failure_reverification": {
+  "at_seconds": 423.4088767080102,
+  "exceptions": [],
+  "learner_survived": true,
+  "population": "the frozen 2,048-game mixture (production)",
+  "run_returned": [
+   {
+    "global_optimizer_step": 1744,
+    "iterations_completed": 1,
+    "stopped_because": "deadline"
+   }
+  ],
+  "victim_died": true,
+  "workers_before": 6
+ },
+ "written_utc": "2026-08-21T05:25:41Z"
+}

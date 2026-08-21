@@ -1,0 +1,52 @@
+{
+ "identities": {
+  "agent_1_contract": {
+   "disagreements": 0,
+   "expected": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf",
+   "path": "reports/phase13/phase13_final_training_contract_v1.json",
+   "sha256": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf"
+  },
+  "agent_2_integrated_config": {
+   "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+   "digest_on_disk": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+   "digest_recomputed": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+   "document_matches_disk": true,
+   "expected": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+   "path": "reports/phase13/phase13_integrated_training_config_v1.json"
+  },
+  "candidate_pack": {
+   "digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+   "expected": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+   "games": 128
+  },
+  "checkpoint_selection_rule": {
+   "artifact": "phase14_checkpoint_selection_rule_v1",
+   "expected_pack": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+   "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde"
+  },
+  "phase14_setup_source": {
+   "expected": "phase14_setup_source_v1",
+   "identity": "phase14_setup_source_v1",
+   "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+  },
+  "pool_anchors": {
+   "P8": {
+    "expected": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+   },
+   "P9": {
+    "expected": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   }
+  },
+  "starting_phase9_checkpoint": {
+   "expected": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  }
+ },
+ "problems": [],
+ "seconds": 0.12508124997839332,
+ "verified": true
+}

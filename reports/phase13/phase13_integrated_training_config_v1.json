@@ -1,0 +1,177 @@
+{
+ "agent": 2,
+ "artifact": "phase13_integrated_training_config_v1",
+ "candidate_evaluation": {
+  "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+  "selection_rule": "highest equal-weight mean EWR across the four strata; tie-break on highest minimum stratum EWR; then the later candidate hour"
+ },
+ "checkpoint_cadences": {
+  "archive_seconds": 7200,
+  "candidate_hours": [
+   0,
+   6,
+   12,
+   18,
+   24,
+   30,
+   36,
+   42,
+   48,
+   54,
+   60,
+   66,
+   72,
+   78,
+   84,
+   90,
+   96,
+   102,
+   108,
+   114,
+   120,
+   126,
+   132,
+   138,
+   144,
+   150,
+   156,
+   162,
+   168
+  ],
+  "candidate_seconds": 21600,
+  "hot_retain": 4,
+  "hot_seconds": 900
+ },
+ "deadline_semantics": {
+  "deadline_seconds": 604800,
+  "restart": "a restart reuses the persisted window; it never creates a new one",
+  "rule": "run_deadline_utc = run_start_utc + 604800s, computed once and persisted; a restart never creates a fresh 168-hour duration"
+ },
+ "entropy_coefficient": 0.001,
+ "frozen_contract": {
+  "path": "reports/phase13/phase13_final_training_contract_v1.json",
+  "sha256": "65d1f941a326a1343dce597082c3b525203ef7182f73c759ac6eb04d87a12cdf"
+ },
+ "historical_pool": {
+  "anchors": {
+   "P8": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "P9": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+  },
+  "archive": "append-only; entries are never pruned for inactivity",
+  "bands": {
+   "middle": 4,
+   "older": 4,
+   "recent": 6
+  },
+  "counts": "exact largest-remainder partition, ties rotated by iteration",
+  "membership": "pure function f(k) of the ordered archive; no tournament",
+  "pool_version": "phase14_active_pool_v1",
+  "size": 16,
+  "snapshot_slots": 14,
+  "weights": {
+   "anchor": 0.2,
+   "middle": 0.25,
+   "older": 0.25,
+   "recent": 0.3
+  }
+ },
+ "implementation": {
+  "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+  "contract_version": "phase14_contract_v1",
+  "modules": {
+   "checkpoint": "phase14_checkpoint_v1",
+   "collector": "phase14_collector_v1",
+   "pool": "phase14_active_pool_v1",
+   "runner": "phase14_runner_v1",
+   "setup_source": "phase14_setup_source_v1",
+   "telemetry": "phase14_telemetry_v1",
+   "trainer": "phase14_trainer_v1"
+  },
+  "population_digest": "1281477150310bd5765a5635467758f48b6188f135febd32fd79d0b4107263ff",
+  "seed_contract_digest": "3a19fa9bb10ad9f82d8e403889abe8f06f70388560174f15bf41ac35063505f8"
+ },
+ "integrated_config_digest": "9c2a38e4335762997adbb33731dc619615fff713c2c60840c7c8d74a2f29da5e",
+ "learning_rate": {
+  "late": 3.75e-05,
+  "main": 7.5e-05,
+  "schedule": "constant within a segment"
+ },
+ "opponent_mixture": {
+  "late": {
+   "current": 819,
+   "historical": 984,
+   "rule": 122,
+   "stress": 123
+  },
+  "main": {
+   "current": 1188,
+   "historical": 615,
+   "rule": 122,
+   "stress": 123
+  }
+ },
+ "phase": 13,
+ "purpose": "the deterministic identity of the integrated Phase 14 runner; an input to Agent 4's immutable launch manifest. Building this document starts nothing.",
+ "search": "search may not be used for self-play action selection, training targets, opponent policies, policy improvement or trajectory generation; Phase 14 trains the direct C1 policy/value system only",
+ "setup_source": {
+  "identity": "phase14_setup_source_v1",
+  "implementation": "phase14_setup_source_v1",
+  "selector_config_sha256": "6e227815bc3cb44f19cdeee55d00ec0ae75726fb411ee9131660aa712bb86668"
+ },
+ "starting_checkpoint": {
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+ },
+ "storage_policy": {
+  "contingency": "pre-authorized only below 120 GiB free: delete already-consumed disposable Phase 14 raw shards oldest-first, retaining all checkpoints, metrics, historical snapshots and a 1-in-16 sample of deleted shard ranges",
+  "full_raw_retention": true,
+  "no_deletion_rule": "earlier accepted project evidence is never deleted under any condition, including to create storage space",
+  "reserve_gib": 120
+ },
+ "training_objective": {
+  "advantage_filter_floor": 0.01,
+  "advantage_filter_quantile": 0.75,
+  "advantage_standardization_epsilon": 1e-08,
+  "behavior_kl_target": 0.015,
+  "behavior_probability_abs_tolerance": 0.0001,
+  "behavior_temperature": 1.0,
+  "belief_loss_weight": 0.25,
+  "clip_fraction_hard_limit": 0.75,
+  "entropy_schedule_terminal_value": 0.001,
+  "epochs_per_rollout": 2,
+  "gamma": 1.0,
+  "kl_beta_decrease_factor": 0.5,
+  "kl_beta_decrease_threshold": 0.0075,
+  "kl_beta_increase_factor": 2.0,
+  "kl_beta_increase_threshold": 0.03,
+  "kl_beta_max": 0.2,
+  "kl_beta_min": 0.0001,
+  "kl_hard_limit": 0.08,
+  "lambda_advantage": 0.5,
+  "lambda_value": 0.8,
+  "minibatch_size": 512,
+  "optimizer": {
+   "adam_betas": [
+    0.9,
+    0.999
+   ],
+   "adam_epsilon": 1e-08,
+   "device": "mps",
+   "epochs_per_rollout": 2,
+   "gradient_clip_norm": 1.0,
+   "learning_rate_schedule": "constant (no warmup, no decay)",
+   "minibatch_size": 512,
+   "optimizer": "AdamW",
+   "precision": "float32",
+   "weight_decay": 0.01
+  },
+  "phase9_contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+  "ppo_clip_epsilon": 0.2,
+  "value_loss_weight": 0.5
+ },
+ "transition": {
+  "rule": "elapsed against the original run start; downtime counts",
+  "transition_seconds": 475200
+ }
+}

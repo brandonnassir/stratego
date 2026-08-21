@@ -1,0 +1,2 @@
+WATCHDOG: killing loader worker 1245 of [1245, 1253, 1255, 1256, 1257, 1258]
+ITERATION SURVIVED: {'iteration': 1, 'sealed': True, 'trained': True, 'updates': 216}

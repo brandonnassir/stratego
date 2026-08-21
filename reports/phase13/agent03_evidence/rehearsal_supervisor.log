@@ -1,0 +1,7 @@
+[23:06:07] stage rehearsal: starting
+[23:36:08] failure 1: killed pid 18401 at 1800s
+[00:01:16] failure 2: killed loader worker 60779 of 6 at 3303s
+[00:01:16] child exited early (rc=1); resuming
+[00:36:23] child exited after its own deadline (rc=0)
+[00:36:23] stage rehearsal: 5416.1s -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/stage_rehearsal.json
+[00:36:23] stages recorded: ['prerequisites', 'rehearsal']

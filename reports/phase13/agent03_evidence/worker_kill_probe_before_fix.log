@@ -1,0 +1,23 @@
+WATCHDOG: killing loader worker 13251 of [13251, 13252, 13253, 13254, 13255, 13256]
+ITERATION RAISED: concurrent.futures.process.BrokenProcessPool A child process terminated abruptly, the process pool is not usable anymore
+MRO: ['BrokenProcessPool', 'BrokenExecutor', 'RuntimeError', 'Exception', 'BaseException', 'object']
+Traceback (most recent call last):
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_kill_probe.py", line 46, in main
+    unit = r.run_iteration()
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase14_runner.py", line 885, in run_iteration
+    rows = self.trainer.train_iteration(
+        updates=updates,
+        may_start_step=self.controller.may_start_optimizer_step,
+        on_step=self._on_step,
+    )
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase14_trainer.py", line 823, in train_iteration
+    keys, packed, waited = pipeline.next(self.cursor)
+                           ~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase9_trainer.py", line 966, in next
+    self._fill()
+    ~~~~~~~~~~^^
+  File "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/stratego/training/phase9_trainer.py", line 940, in _fill
+    future = self._pool.submit(_loader_task, (len(self._pending), keys))
+  File "/Users/brandonwashington/.pyenv/versions/3.13.2/lib/python3.13/concurrent/futures/process.py", line 786, in submit
+    raise BrokenProcessPool(self._broken)
+concurrent.futures.process.BrokenProcessPool: A child process terminated abruptly, the process pool is not usable anymore

@@ -1,0 +1,4 @@
+[00:56:28] failure 2: killed loader worker 8473 of 6 at 423s
+[01:15:48] child exited after its own deadline (rc=0)
+[01:15:48] {"crashed": false, "worker_killed": true, "deadline_seen": true}
+[01:15:48] launch {'index': 1, 'label': 'segment_a_initial', 'pid': 4472, 'launched_utc': '2026-08-21T04:49:20.016Z', 'supervisor_elapsed_seconds': 0.004604791000019759, 'stdout': '/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_reverify/rehearsal_child_01.log', 'returncode': 0, 'exited_elapsed_seconds': 1588.9572018749896}

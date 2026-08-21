@@ -1,0 +1,1010 @@
+{
+ "baseline_free_bytes": {
+  "external": 993557463040,
+  "internal": 237840605184
+ },
+ "evidence": {
+  "child_events": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_reverify/rehearsal_child_events.jsonl",
+  "status_log": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_reverify/rehearsal_status.jsonl",
+  "supervisor_events": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_reverify/rehearsal_supervisor_events.jsonl"
+ },
+ "final_disk": {
+  "archive_bytes": 10458296,
+  "external_free_bytes": 993377824768,
+  "hot_bytes": 55775982,
+  "log_bytes": 7813,
+  "rollout_bytes": 163007119
+ },
+ "final_state": {
+  "archive_digest": "9b198fb06493c740faa24f72f59c72e8f6fdf22c37d829778af2f2dd5583e165",
+  "archive_k": 1,
+  "candidate_state": {
+   "candidate_hours": [
+    0,
+    6,
+    12,
+    18,
+    24,
+    30,
+    36,
+    42,
+    48,
+    54,
+    60,
+    66,
+    72,
+    78,
+    84,
+    90,
+    96,
+    102,
+    108,
+    114,
+    120,
+    126,
+    132,
+    138,
+    144,
+    150,
+    156,
+    162,
+    168
+   ],
+   "last_candidate_index": 28,
+   "ledger": {
+    "by_status": {
+     "complete": 0,
+     "failed": 0,
+     "pending": 2
+    },
+    "candidates": 2,
+    "ledger": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/evaluations/phase14_candidate_ledger.json",
+    "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde"
+   },
+   "marks": 2
+  },
+  "checkpoint": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/reverify_hot/hot_000005_step000001744.pt",
+  "checkpoint_bytes": 10457323,
+  "checkpoint_mtime_unix": 1787289347.4797745,
+  "clock": {
+   "kind": "system",
+   "production": true
+  },
+  "cursor": {
+   "epoch": 0,
+   "epochs": 2,
+   "examples_consumed": 0,
+   "finished": false,
+   "iteration": 2,
+   "minibatch_index": 0,
+   "minibatch_size": 512,
+   "minibatches_per_epoch": 866,
+   "sealed_rollout_digest": "a8af2c89f8766148229baeff9d0e50d6e541db57e63c5fcfb23a635d565b8c97",
+   "segment": "main",
+   "total_examples": 443335
+  },
+  "elapsed_seconds": 1585.730063,
+  "ema_state": {
+   "present": false,
+   "statement": "absent - the accepted Phase 9 system maintains no EMA"
+  },
+  "examples_consumed": 892674,
+  "global_optimizer_step": 1744,
+  "iteration": 1,
+  "iterations_completed": 1,
+  "kl_beta": 0.005,
+  "last_archive_mark": 0,
+  "last_candidate_index": 28,
+  "last_hot_index": 1,
+  "learning_rate": 7.5e-05,
+  "mode": "rehearsal",
+  "model_state_digest": "ec7d4588ae22b429ba006455e81a0f34c3be1f75852eea6f87850db8afa59b7c",
+  "optimizer_param_groups": 1,
+  "optimizer_state_entries": 66,
+  "pool_digest": "391c84d8a8c6d1650cebafbaee4940817861a3a3ee016b0be91da9035dd63e04",
+  "pool_members": [
+   "P8",
+   "P9",
+   "S0001"
+  ],
+  "pool_recomputed_digest": "391c84d8a8c6d1650cebafbaee4940817861a3a3ee016b0be91da9035dd63e04",
+  "population_schedule_state": {
+   "games_per_iteration": 2048,
+   "iteration": 1,
+   "population": {
+    "divisor": 1,
+    "family_counts": {
+     "strategic_rule_based": 61,
+     "stress_information_miser": 41,
+     "stress_miner_rush": 41,
+     "stress_scout_rush": 41,
+     "tactical_rule_based": 61
+    },
+    "production": true,
+    "segments": {
+     "late": {
+      "current": 819,
+      "historical": 984,
+      "rule": 122,
+      "stress": 123
+     },
+     "main": {
+      "current": 1188,
+      "historical": 615,
+      "rule": 122,
+      "stress": 123
+     }
+    }
+   },
+   "population_digest": "1281477150310bd5765a5635467758f48b6188f135febd32fd79d0b4107263ff",
+   "segment": "main"
+  },
+  "progress": {
+   "close_reason": "deadline",
+   "closed": true,
+   "collection_seconds": 572.4742817920051,
+   "decisions_generated": 1103651,
+   "draws": 26,
+   "failures": {},
+   "games_generated": 4096,
+   "iteration": 1,
+   "iterations_completed": 1,
+   "last_archive_mark": 0,
+   "last_candidate_index": 28,
+   "last_hot_index": 1,
+   "positions_generated": 1103651
+  },
+  "rl_iteration": 2,
+  "rng_digest": "ad11fed8f844bf0c32b1e4633674eff311828c38841e7836fdc4ea9ecb02a556",
+  "rng_streams": [
+   "numpy",
+   "python",
+   "torch_cpu",
+   "torch_mps"
+  ],
+  "run_window": {
+   "deadline_seconds": 1500.0,
+   "production": false,
+   "run_deadline_utc": "2026-08-21T05:14:21.680Z",
+   "run_start_utc": "2026-08-21T04:49:21.680Z",
+   "transition_seconds": 475200,
+   "transition_utc": "2026-08-26T16:49:21.680Z"
+  },
+  "segment": "main",
+  "shard_cursor": {
+   "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/rollouts/phase14/iteration_001",
+   "last_committed_iteration": 1,
+   "namespace": "phase14",
+   "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/rollouts"
+  },
+  "storage_state": {
+   "free_bytes": 993377800192,
+   "free_gib": 925.155,
+   "used_bytes": 6583029760
+  }
+ },
+ "launches": [
+  {
+   "exited_elapsed_seconds": 1588.9572018749896,
+   "index": 1,
+   "label": "segment_a_initial",
+   "launched_utc": "2026-08-21T04:49:20.016Z",
+   "pid": 4472,
+   "returncode": 0,
+   "stdout": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/worker_reverify/rehearsal_child_01.log",
+   "supervisor_elapsed_seconds": 0.004604791000019759
+  }
+ ],
+ "marks": {
+  "crashed": false,
+  "deadline_seen": true,
+  "worker_killed": true
+ },
+ "plan": {
+  "crash_at_seconds": null,
+  "deadline_seconds": 1500.0,
+  "device": "mps",
+  "finalize_grace_seconds": 600.0,
+  "games_in_flight": 96,
+  "loader_workers": 6,
+  "max_launches": 12,
+  "poll_seconds": 5.0,
+  "population_divisor": null,
+  "rehearsal_version": "phase13_rehearsal_v1",
+  "storage_sample_seconds": 30.0,
+  "worker_kill_at_seconds": 420.0
+ },
+ "run_manifest": {
+  "active_pool": {
+   "categories": {
+    "anchor": [
+     "P8",
+     "P9"
+    ],
+    "middle": [],
+    "older": [],
+    "recent": [
+     "S0001"
+    ]
+   },
+   "checkpoints": {
+    "P8": {
+     "path": "checkpoints/phase8/warmstart_c1_v1.pt",
+     "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+    },
+    "P9": {
+     "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+     "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "S0001": {
+     "path": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/archive/archive_0001.pt",
+     "sha256": "5e835dcbf46c811a304516d5c79405a3553dbbb777973708f951fd423332f667"
+    }
+   },
+   "k": 1,
+   "member_weights": {
+    "P8": 0.1,
+    "P9": 0.1,
+    "S0001": 0.8
+   },
+   "pool_version": "phase14_active_pool_v1"
+  },
+  "archive": {
+   "archive_version": "phase14_archive_v1",
+   "entries": [
+    {
+     "archive_mark": 0,
+     "elapsed_seconds": 1585.519401,
+     "global_optimizer_step": 1744,
+     "identity": "S0001",
+     "iteration": 1,
+     "model_state_digest": "ec7d4588ae22b429ba006455e81a0f34c3be1f75852eea6f87850db8afa59b7c",
+     "path": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/archive/archive_0001.pt",
+     "position": 1,
+     "sha256": "5e835dcbf46c811a304516d5c79405a3553dbbb777973708f951fd423332f667",
+     "written_utc": "2026-08-21T05:15:47.409Z"
+    }
+   ],
+   "k": 1
+  },
+  "artifact": "phase14_run_manifest_v1",
+  "candidates": [
+   {
+    "archive_position": null,
+    "artifact": "phase14_candidate_mark_v1",
+    "elapsed_seconds": 0.0,
+    "evaluation_status": "pending",
+    "global_optimizer_step": 0,
+    "hour": 0,
+    "iteration": 0,
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "note": "a candidate, not the deployed final policy; selection happens after the run under the frozen selection rule",
+    "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "snapshot_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase9/selfplay_c1_v1.pt",
+    "snapshot_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "written_utc": "2026-08-21T04:49:21.684Z"
+   },
+   {
+    "archive_position": 1,
+    "artifact": "phase14_candidate_mark_v1",
+    "elapsed_seconds": 1585.519401,
+    "evaluation_status": "pending",
+    "global_optimizer_step": 1744,
+    "hour": 168,
+    "iteration": 1,
+    "model_state_digest": "ec7d4588ae22b429ba006455e81a0f34c3be1f75852eea6f87850db8afa59b7c",
+    "note": "a candidate, not the deployed final policy; selection happens after the run under the frozen selection rule",
+    "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "snapshot_path": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/archive/archive_0001.pt",
+    "snapshot_sha256": "5e835dcbf46c811a304516d5c79405a3553dbbb777973708f951fd423332f667",
+    "written_utc": "2026-08-21T05:15:47.409Z"
+   }
+  ],
+  "clock": {
+   "kind": "system",
+   "production": true
+  },
+  "closed_reason": "deadline",
+  "contract_digest": "62ce6d4e04ffd25755717ef290f7486f2616927ddada59d8ea9fb05565c052b9",
+  "elapsed_hours": 0.4405142425,
+  "mode": "rehearsal",
+  "namespace": "phase14",
+  "population": {
+   "divisor": 1,
+   "family_counts": {
+    "strategic_rule_based": 61,
+    "stress_information_miser": 41,
+    "stress_miner_rush": 41,
+    "stress_scout_rush": 41,
+    "tactical_rule_based": 61
+   },
+   "production": true,
+   "segments": {
+    "late": {
+     "current": 819,
+     "historical": 984,
+     "rule": 122,
+     "stress": 123
+    },
+    "main": {
+     "current": 1188,
+     "historical": 615,
+     "rule": 122,
+     "stress": 123
+    }
+   }
+  },
+  "population_digest": "1281477150310bd5765a5635467758f48b6188f135febd32fd79d0b4107263ff",
+  "progress": {
+   "close_reason": "deadline",
+   "closed": true,
+   "collection_seconds": 572.4742817920051,
+   "decisions_generated": 1103651,
+   "draws": 26,
+   "failures": {},
+   "games_generated": 4096,
+   "iteration": 1,
+   "iterations_completed": 1,
+   "last_archive_mark": 0,
+   "last_candidate_index": 28,
+   "last_hot_index": 1,
+   "positions_generated": 1103651
+  },
+  "runner_version": "phase14_runner_v1",
+  "seed_contract_digest": "3a19fa9bb10ad9f82d8e403889abe8f06f70388560174f15bf41ac35063505f8",
+  "started_from": "start",
+  "storage": {
+   "free_bytes": 993377800192,
+   "free_gib": 925.155,
+   "paths": {
+    "archive_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/archive",
+    "evaluation_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/evaluations",
+    "external_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify",
+    "full_raw_retention": true,
+    "hot_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/reverify_hot",
+    "is_production_layout": false,
+    "log_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/logs",
+    "reserve_gib": 120,
+    "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/rollouts"
+   },
+   "reserve_gib": 120,
+   "retention": "full raw retention; rolling deletion is contingency only",
+   "used_bytes": 6583029760
+  },
+  "trainer": {
+   "counters": {
+    "behavior_identity_mismatches": 0,
+    "checkpoint_errors": 0,
+    "clip_fraction_hard_limit_breaches": 0,
+    "data_mismatches": 0,
+    "deadline_stops": 1,
+    "illegal_targets": 0,
+    "kl_hard_limit_breaches": 0,
+    "loader_pool_rebuilds": 1,
+    "non_finite_gradients": 0,
+    "non_finite_losses": 0,
+    "non_finite_parameters": 0,
+    "rollout_identity_mismatches": 0
+   },
+   "cursor": {
+    "epoch": 0,
+    "epochs": 2,
+    "examples_consumed": 0,
+    "finished": false,
+    "iteration": 2,
+    "minibatch_index": 0,
+    "minibatch_size": 512,
+    "minibatches_per_epoch": 866,
+    "sealed_rollout_digest": "a8af2c89f8766148229baeff9d0e50d6e541db57e63c5fcfb23a635d565b8c97",
+    "segment": "main",
+    "total_examples": 443335
+   },
+   "entropy_coefficient": 0.001,
+   "examples_consumed": 892674,
+   "global_optimizer_step": 1744,
+   "kl_beta": 0.005,
+   "kl_controller_state": {
+    "beta": 0.005,
+    "clamp": [
+     0.0001,
+     0.2
+    ],
+    "epoch_clipped": 0,
+    "epoch_examples": 0,
+    "epoch_kl_sum": 0.0,
+    "epoch_ppo_examples": 0,
+    "history": [
+     {
+      "beta_after": 0.005,
+      "beta_before": 0.005,
+      "direction": "unchanged",
+      "epoch": 0,
+      "epoch_clip_fraction": 0.13689115920598646,
+      "epoch_examples": 446337,
+      "iteration": 1,
+      "mean_epoch_kl": 0.01036073471161637
+     },
+     {
+      "beta_after": 0.005,
+      "beta_before": 0.005,
+      "direction": "unchanged",
+      "epoch": 1,
+      "epoch_clip_fraction": 0.16180490209257517,
+      "epoch_examples": 446337,
+      "iteration": 1,
+      "mean_epoch_kl": 0.012213307418380694
+     }
+    ],
+    "target": 0.015,
+    "updates": 2
+   },
+   "learning_rate": 7.5e-05,
+   "rl_iteration": 2,
+   "segment": "main",
+   "totals": {
+    "games_generated": 0,
+    "iterations_trained": 1,
+    "positions_generated": 0
+   },
+   "wall_clock": {
+    "checkpoint_seconds": 0.0,
+    "data_wait_seconds": 254.8082936127321,
+    "train_seconds": 966.373405137274
+   }
+  },
+  "window": {
+   "deadline_seconds": 1500.0,
+   "production": false,
+   "run_deadline_utc": "2026-08-21T05:14:21.680Z",
+   "run_start_utc": "2026-08-21T04:49:21.680Z",
+   "transition_seconds": 475200,
+   "transition_utc": "2026-08-26T16:49:21.680Z"
+  }
+ },
+ "storage": {
+  "archive_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/archive",
+  "evaluation_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/evaluations",
+  "external_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify",
+  "full_raw_retention": true,
+  "hot_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/reverify_hot",
+  "is_production_layout": false,
+  "log_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/logs",
+  "reserve_gib": 120,
+  "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_worker_reverify/rollouts"
+ },
+ "storage_samples": [
+  {
+   "archive_bytes": 0,
+   "elapsed_seconds": 0.0048387080314569175,
+   "external_free_bytes": 993557463040,
+   "hot_bytes": 0,
+   "internal_free_bytes": 237840605184,
+   "log_bytes": 0,
+   "rollout_bytes": 0,
+   "utc": "2026-08-21T04:49:20Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 30.17548924998846,
+   "external_free_bytes": 993550163968,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237833924608,
+   "log_bytes": 0,
+   "rollout_bytes": 6241508,
+   "utc": "2026-08-21T04:49:50Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 60.3383484579972,
+   "external_free_bytes": 993541447680,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237833588736,
+   "log_bytes": 0,
+   "rollout_bytes": 15550287,
+   "utc": "2026-08-21T04:50:20Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 90.51049037498888,
+   "external_free_bytes": 993532993536,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237832933376,
+   "log_bytes": 0,
+   "rollout_bytes": 24263952,
+   "utc": "2026-08-21T04:50:50Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 120.66098475002218,
+   "external_free_bytes": 993523425280,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237831798784,
+   "log_bytes": 0,
+   "rollout_bytes": 33574547,
+   "utc": "2026-08-21T04:51:20Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 150.81753795803525,
+   "external_free_bytes": 993513791488,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237833900032,
+   "log_bytes": 0,
+   "rollout_bytes": 42209834,
+   "utc": "2026-08-21T04:51:50Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 180.97503279102966,
+   "external_free_bytes": 993504219136,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237833613312,
+   "log_bytes": 0,
+   "rollout_bytes": 51420904,
+   "utc": "2026-08-21T04:52:20Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 211.1452324159909,
+   "external_free_bytes": 993494650880,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237833392128,
+   "log_bytes": 0,
+   "rollout_bytes": 60825015,
+   "utc": "2026-08-21T04:52:51Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 241.30741075001424,
+   "external_free_bytes": 993486131200,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237831270400,
+   "log_bytes": 0,
+   "rollout_bytes": 68637896,
+   "utc": "2026-08-21T04:53:21Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 271.4716976659838,
+   "external_free_bytes": 993477677056,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237825646592,
+   "log_bytes": 0,
+   "rollout_bytes": 76998875,
+   "utc": "2026-08-21T04:53:51Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 301.6254623749992,
+   "external_free_bytes": 993472413696,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237826899968,
+   "log_bytes": 0,
+   "rollout_bytes": 81889808,
+   "utc": "2026-08-21T04:54:21Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 331.9756764580379,
+   "external_free_bytes": 993472413696,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237824835584,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:54:51Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 362.4819152909913,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237825273856,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:55:22Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 392.9456001659855,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237822685184,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:55:52Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 423.4088767080102,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237818564608,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:56:23Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 454.0812472500256,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237819392000,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:56:54Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 484.5738173330319,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237821792256,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:57:24Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 515.0348310830304,
+   "external_free_bytes": 993472434176,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237821779968,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:57:55Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 545.5166297500255,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237825552384,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:58:25Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 575.9832130410359,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829472256,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:58:55Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 606.4445590830292,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829214208,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:59:26Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 636.8771773750195,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237827850240,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T04:59:56Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 667.348418041016,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237827502080,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:00:27Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 697.7694976659841,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237824339968,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:00:57Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 728.2590776249999,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237825380352,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:01:28Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 758.7120486660278,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829259264,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:01:58Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 789.2047208750155,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829156864,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:02:29Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 819.6604311250267,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829058560,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:02:59Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 850.1343545829877,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237826605056,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:03:30Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 880.6077015409828,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 6982958,
+   "internal_free_bytes": 237829672960,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:04:00Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 911.0510991250048,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237818126336,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:04:31Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 941.5586660830304,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237816356864,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:05:01Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 972.0325792910298,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237814165504,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:05:32Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1002.5127334580175,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237813923840,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:06:02Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1032.949766332982,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237810274304,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:06:32Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1063.3790701249964,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237810204672,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:07:03Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1093.835657166026,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237809995776,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:07:33Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1124.2954617079813,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237809934336,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:08:04Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1154.7912957909866,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237809811456,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:08:34Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1185.3392562500085,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237813682176,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:09:05Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1215.8503156250226,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237813506048,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:09:35Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1246.3193812500103,
+   "external_free_bytes": 993472417792,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237813125120,
+   "log_bytes": 0,
+   "rollout_bytes": 81889968,
+   "utc": "2026-08-21T05:10:06Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1276.8101272500353,
+   "external_free_bytes": 993472409600,
+   "hot_bytes": 17439705,
+   "internal_free_bytes": 237810782208,
+   "log_bytes": 0,
+   "rollout_bytes": 81890045,
+   "utc": "2026-08-21T05:10:36Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1307.0576191250002,
+   "external_free_bytes": 993465090048,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237793509376,
+   "log_bytes": 3975,
+   "rollout_bytes": 88118444,
+   "utc": "2026-08-21T05:11:06Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1337.2452360410243,
+   "external_free_bytes": 993456373760,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237789474816,
+   "log_bytes": 3975,
+   "rollout_bytes": 97073492,
+   "utc": "2026-08-21T05:11:37Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1367.4404484159895,
+   "external_free_bytes": 993446871040,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237787508736,
+   "log_bytes": 3975,
+   "rollout_bytes": 106342862,
+   "utc": "2026-08-21T05:12:07Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1397.6424098749994,
+   "external_free_bytes": 993438351360,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237786247168,
+   "log_bytes": 3975,
+   "rollout_bytes": 115265662,
+   "utc": "2026-08-21T05:12:37Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1427.8338744160137,
+   "external_free_bytes": 993429782528,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237786390528,
+   "log_bytes": 3975,
+   "rollout_bytes": 124378781,
+   "utc": "2026-08-21T05:13:07Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1458.0302963749855,
+   "external_free_bytes": 993419169792,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237786423296,
+   "log_bytes": 3975,
+   "rollout_bytes": 133516016,
+   "utc": "2026-08-21T05:13:37Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1488.2283329580096,
+   "external_free_bytes": 993410584576,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237784252416,
+   "log_bytes": 3975,
+   "rollout_bytes": 142493943,
+   "utc": "2026-08-21T05:14:08Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1518.4462343330379,
+   "external_free_bytes": 993402130432,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237788250112,
+   "log_bytes": 3975,
+   "rollout_bytes": 151177041,
+   "utc": "2026-08-21T05:14:38Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1548.6518219580175,
+   "external_free_bytes": 993393676288,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237788381184,
+   "log_bytes": 3975,
+   "rollout_bytes": 158352892,
+   "utc": "2026-08-21T05:15:08Z"
+  },
+  {
+   "archive_bytes": 741,
+   "elapsed_seconds": 1578.8488861660007,
+   "external_free_bytes": 993388380160,
+   "hot_bytes": 38353327,
+   "internal_free_bytes": 237787127808,
+   "log_bytes": 3975,
+   "rollout_bytes": 163006960,
+   "utc": "2026-08-21T05:15:38Z"
+  }
+ ],
+ "supervisor_elapsed_seconds": 1589.0403763750219,
+ "wall_end_utc": "2026-08-21T05:15:48.951Z",
+ "wall_start_utc": "2026-08-21T04:49:20.011Z"
+}

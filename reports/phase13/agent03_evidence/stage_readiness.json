@@ -1,0 +1,732 @@
+{
+ "checks": [
+  {
+   "check": "training updates finite",
+   "evidence": {
+    "checked": [
+     "policy_loss",
+     "value_loss",
+     "belief_loss",
+     "grad_norm"
+    ],
+    "non_finite_counters": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "telemetry_rows": 4
+   },
+   "passed": true
+  },
+  {
+   "check": "parameters change",
+   "evidence": {
+    "final_model_state_digest": "f5534a9d027282e77557a956be266f3931c24bda88abd51f68dc36bb21eab0e5",
+    "final_optimizer_step": 6712,
+    "starting_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+   },
+   "passed": true
+  },
+  {
+   "check": "belief auxiliary objective functioning",
+   "evidence": {
+    "belief_loss_per_iteration": [
+     1.8301054239273071,
+     1.8353768587112427,
+     1.8718490600585938,
+     1.8389153480529785
+    ],
+    "weight": 0.25
+   },
+   "passed": true
+  },
+  {
+   "check": "forced process crash recovered",
+   "evidence": {
+    "kill": {
+     "elapsed_seconds": 1800.4833467499702,
+     "loader_workers_at_kill": [
+      40451,
+      40452,
+      40457,
+      40458,
+      40459,
+      40470
+     ],
+     "pid": 18401
+    },
+    "reaped": {
+     "gone": true,
+     "orphaned_workers": [],
+     "returncode": -9
+    },
+    "resume_report": {
+     "active_pool": [
+      "P8",
+      "P9"
+     ],
+     "archive_k": 0,
+     "checkpoint": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000003_step000001744.pt",
+     "elapsed_hours": 0.49941246638888886,
+     "global_optimizer_step": 1744,
+     "iteration": 1,
+     "past_deadline": false,
+     "remaining_hours": 1.0005875330555556,
+     "resumed": true,
+     "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+     "run_start_utc": "2026-08-21T03:06:12.034Z"
+    }
+   },
+   "passed": true
+  },
+  {
+   "check": "optimizer state preserved",
+   "evidence": {
+    "ema_state": {
+     "present": false,
+     "statement": "absent - the accepted Phase 9 system maintains no EMA"
+    },
+    "iteration_at_resume": 1,
+    "iteration_before_kill": 1,
+    "optimizer_state_entries": 66,
+    "rng_digest_before": "eac3f63ad58178b0e1e452cb2ade37b11c51beb47781b608efe242fba55d9a71",
+    "step_at_resume": 1744,
+    "step_before_kill": 1744
+   },
+   "passed": true
+  },
+  {
+   "check": "original rehearsal deadline preserved",
+   "evidence": {
+    "launches": 3,
+    "window": {
+     "deadline_seconds": 5400.0,
+     "production": false,
+     "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+     "run_start_utc": "2026-08-21T03:06:12.034Z",
+     "transition_seconds": 475200,
+     "transition_utc": "2026-08-26T15:06:12.034Z"
+    },
+    "windows_compared": 6
+   },
+   "passed": true
+  },
+  {
+   "check": "active historical pool preserved",
+   "evidence": {
+    "archive_k": 0,
+    "pool_at_resume": [
+     "P8",
+     "P9"
+    ],
+    "pool_before_kill": [
+     "P8",
+     "P9"
+    ],
+    "pool_digest_before": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+    "pool_recomputed_before": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2"
+   },
+   "passed": true
+  },
+  {
+   "check": "worker failure recovered",
+   "evidence": {
+    "child_exceptions": [
+     "BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending."
+    ],
+    "learner_alive_after": false,
+    "step_after": 3480,
+    "step_before": 3480,
+    "victim": 60779,
+    "workers_before": [
+     60779,
+     60780,
+     60791,
+     60792,
+     60793,
+     60794
+    ]
+   },
+   "passed": true
+  },
+  {
+   "check": "storage remained safe",
+   "evidence": {
+    "agent_1_conservative_ceiling_gib": 600.0,
+    "agent_1_phase9_basis_gib": 28.0,
+    "agent_1_planning_rate_gib_per_hour": 3.572,
+    "archive_gib_per_hour_observed": 4.609286281894749e-07,
+    "archive_snapshot_bytes": 10457515,
+    "external_free_gib_after_168h": 890.5168359337455,
+    "external_free_gib_now": 925.3322792053223,
+    "free_space_change_bytes": -338800640,
+    "hot_bytes_bounded": 62744834,
+    "hot_gib_per_hour_transient": 0.03902866568702811,
+    "hot_lives_on": "the internal disk, not the external volume",
+    "internal_free_change_bytes": -905609216,
+    "log_gib_per_hour": 7.234899965548964e-06,
+    "measured_versus_agent_1_ceiling": "below",
+    "measured_window_hours": 1.49721667430556,
+    "projected_168h_archive_gib": 0.8181028626859188,
+    "projected_168h_raw_gib": 33.99612494569663,
+    "projected_168h_total_gib": 34.81544327157676,
+    "raw_shard_gib_per_hour": 0.20235788658152754,
+    "reserve_gib": 120.0,
+    "reserve_threatened": false,
+    "total_external_gib_per_hour": 0.20236558241012126
+   },
+   "passed": true
+  },
+  {
+   "check": "hot checkpoints readable",
+   "evidence": {
+    "archive_all_readable": true,
+    "hot_all_readable": true,
+    "hot_retained": 4,
+    "torn_write": {
+     "corrupt_file_refused": true,
+     "corrupted": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000012_step000006712.pt",
+     "newest_before_corruption": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000012_step000006712.pt",
+     "recovered_step": 6712,
+     "selected_after_corruption": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000011_step000006712.pt"
+    }
+   },
+   "passed": true
+  },
+  {
+   "check": "test-clock 2h archive event works",
+   "evidence": {
+    "archive_k": 1,
+    "archive_mark": 1,
+    "elapsed_hours": 2.05,
+    "fired": true,
+    "pool_after": [
+     "P8",
+     "P9",
+     "S0001"
+    ],
+    "pool_recomputes": true
+   },
+   "passed": true
+  },
+  {
+   "check": "test-clock 6h candidate event works",
+   "evidence": {
+    "fired": true,
+    "hour": 6,
+    "is_a_mark_not_a_copy": true,
+    "ledger_pending": [
+     0,
+     6
+    ],
+    "marked_from_archive": true,
+    "pack_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde",
+    "pack_matches_frozen": true
+   },
+   "passed": true
+  },
+  {
+   "check": "test-clock late transition works",
+   "evidence": {
+    "after": {
+     "elapsed_hours": 132.1,
+     "learning_rate": 3.75e-05,
+     "segment": "late"
+    },
+    "before": {
+     "elapsed_hours": 131.85,
+     "learning_rate": 7.5e-05,
+     "segment": "main"
+    },
+    "late_bucket_shape": {
+     "current": 1,
+     "historical": 1,
+     "rule": 2,
+     "stress": 3
+    },
+    "learning_rate_switched": true,
+    "mixture_switched": true,
+    "segment_switched": true,
+    "tied_to_original_start": true,
+    "transition_utc": "2026-09-06T12:00:00.000Z",
+    "unit_buckets": {
+     "current": 1,
+     "historical": 1,
+     "rule": 2,
+     "stress": 3
+    },
+    "unit_segment": "late"
+   },
+   "passed": true
+  },
+  {
+   "check": "test-clock 168h shutdown works",
+   "evidence": {
+    "closed": true,
+    "elapsed_hours": 168.05,
+    "expired": true,
+    "hour_168_candidate": 168,
+    "hour_168_from_archive": true,
+    "may_start_collection_unit": false,
+    "may_start_optimizer_step": false,
+    "optimizer_step_unchanged": true,
+    "refusal_reason": "deadline",
+    "unit_launched": false,
+    "window_after_close": {
+     "deadline_seconds": 604800.0,
+     "production": true,
+     "run_deadline_utc": "2026-09-08T00:00:00.000Z",
+     "run_start_utc": "2026-09-01T00:00:00.000Z",
+     "transition_seconds": 475200,
+     "transition_utc": "2026-09-06T12:00:00.000Z"
+    },
+    "window_never_extended": true
+   },
+   "passed": true
+  },
+  {
+   "check": "post-deadline recovery refuses training",
+   "evidence": {
+    "deadline_extended": false,
+    "finalized": true,
+    "hours_past_deadline": 9.0,
+    "may_start_optimizer_step": false,
+    "optimizer_step_after_run": 6712,
+    "optimizer_step_at_resume": 6712,
+    "optimizer_steps_taken": 0,
+    "passes": true,
+    "persisted_window": {
+     "deadline_seconds": 5400.0,
+     "production": false,
+     "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+     "run_start_utc": "2026-08-21T03:06:12.034Z",
+     "transition_seconds": 475200,
+     "transition_utc": "2026-08-26T15:06:12.034Z"
+    },
+    "resume_report": {
+     "archive_k": 1,
+     "elapsed_hours": 10.5,
+     "global_optimizer_step": 6712,
+     "iteration": 3,
+     "past_deadline": true,
+     "remaining_hours": -9.0,
+     "resumed": true,
+     "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+     "run_start_utc": "2026-08-21T03:06:12.034Z"
+    },
+    "seconds": 0.5116360829561017,
+    "source_checkpoint": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000012_step000006712.pt",
+    "stopped_because": "deadline",
+    "test_now_utc": "2026-08-21T13:36:12.034Z",
+    "units_launched": [],
+    "window_after": {
+     "deadline_seconds": 5400.0,
+     "production": false,
+     "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+     "run_start_utc": "2026-08-21T03:06:12.034Z",
+     "transition_seconds": 475200,
+     "transition_utc": "2026-08-26T15:06:12.034Z"
+    }
+   },
+   "passed": true
+  },
+  {
+   "check": "search absent from training",
+   "evidence": {
+    "returncode": 0,
+    "search_absent": true,
+    "search_modules_loaded": "[]",
+    "stderr": "",
+    "stdout": "1230 []"
+   },
+   "passed": true
+  }
+ ],
+ "failed": [],
+ "passed": 16,
+ "resume_boundaries": {
+  "all_hold": true,
+  "boundaries": [
+   {
+    "after": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000004_step000001745.pt",
+     "global_optimizer_step": 1745,
+     "iteration": 1,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "83d7e4890e0dd1461bf2e0479daa4ab33fc4ef1824a445c6abf6a81678ae02af",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_001",
+      "last_committed_iteration": 1,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "all_hold": true,
+    "at_seconds": 1800.4833467499702,
+    "before": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000003_step000001744.pt",
+     "global_optimizer_step": 1744,
+     "iteration": 1,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "eac3f63ad58178b0e1e452cb2ade37b11c51beb47781b608efe242fba55d9a71",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_001",
+      "last_committed_iteration": 1,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "checks": {
+     "archive_cursor_not_reset": true,
+     "candidate_scheduler_not_reset": true,
+     "deadline_not_reset": true,
+     "main_late_scheduler_not_reset": true,
+     "no_duplicate_optimizer_work": true,
+     "no_skipped_optimizer_state": true,
+     "same_active_historical_pool": true,
+     "shard_cursor_not_reset": true,
+     "start_time_not_reset": true
+    },
+    "failure": "failure_1_process_kill"
+   },
+   {
+    "after": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000007_step000004013.pt",
+     "global_optimizer_step": 4013,
+     "iteration": 2,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "c301d846c78fdff0ebcf248a5654a65e9836834caadb6c322d0f27f83990a140",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_002",
+      "last_committed_iteration": 2,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "all_hold": true,
+    "at_seconds": 3302.989335582999,
+    "before": {
+     "archive_digest": "cbd1e0d087e4f80f7fbea163ae3e7c7235dd172e29d253b8cc547d9462a2d2e7",
+     "archive_k": 0,
+     "checkpoint": "hot_000006_step000003480.pt",
+     "global_optimizer_step": 3480,
+     "iteration": 2,
+     "last_candidate_index": 0,
+     "learning_rate": 7.5e-05,
+     "pool_digest": "b35a9f810fee1844496f5b7093644290feab8820e35b0c20506c8fe2f97509b2",
+     "rng_digest": "83d7e4890e0dd1461bf2e0479daa4ab33fc4ef1824a445c6abf6a81678ae02af",
+     "run_window": {
+      "deadline_seconds": 5400.0,
+      "production": false,
+      "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+      "run_start_utc": "2026-08-21T03:06:12.034Z",
+      "transition_seconds": 475200,
+      "transition_utc": "2026-08-26T15:06:12.034Z"
+     },
+     "segment": "main",
+     "shard_cursor": {
+      "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_002",
+      "last_committed_iteration": 2,
+      "namespace": "phase14",
+      "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+     }
+    },
+    "checks": {
+     "archive_cursor_not_reset": true,
+     "candidate_scheduler_not_reset": true,
+     "deadline_not_reset": true,
+     "main_late_scheduler_not_reset": true,
+     "no_duplicate_optimizer_work": true,
+     "no_skipped_optimizer_state": true,
+     "same_active_historical_pool": true,
+     "shard_cursor_not_reset": true,
+     "start_time_not_reset": true
+    },
+    "failure": "failure_2_worker_kill"
+   }
+  ],
+  "rng_note": "the RNG digest is expected to move: Phase 14 captures every stream and restores none, which is sound only because no global RNG cursor decides a batch or a move \u2014 checked directly by the determinism stage"
+ },
+ "run_summary": {
+  "final_state": {
+   "archive_digest": "176cdffad8a8483d8734cfe5cc604e29c5eed3ac414c6e7ff454642ae982df85",
+   "archive_k": 1,
+   "candidate_state": {
+    "candidate_hours": [
+     0,
+     6,
+     12,
+     18,
+     24,
+     30,
+     36,
+     42,
+     48,
+     54,
+     60,
+     66,
+     72,
+     78,
+     84,
+     90,
+     96,
+     102,
+     108,
+     114,
+     120,
+     126,
+     132,
+     138,
+     144,
+     150,
+     156,
+     162,
+     168
+    ],
+    "last_candidate_index": 28,
+    "ledger": {
+     "by_status": {
+      "complete": 0,
+      "failed": 0,
+      "pending": 2
+     },
+     "candidates": 2,
+     "ledger": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/evaluations/phase14_candidate_ledger.json",
+     "pack_content_digest": "896a753b3d568902e93e803f1a45de9e8834ff1cdf90bc08cfacf90bcf0c2bde"
+    },
+    "marks": 2
+   },
+   "checkpoint": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000012_step000006712.pt",
+   "checkpoint_bytes": 10457963,
+   "checkpoint_mtime_unix": 1787286982.1729455,
+   "clock": {
+    "kind": "system",
+    "production": true
+   },
+   "cursor": {
+    "epoch": 1,
+    "epochs": 2,
+    "examples_consumed": 790115,
+    "finished": false,
+    "iteration": 4,
+    "minibatch_index": 657,
+    "minibatch_size": 512,
+    "minibatches_per_epoch": 887,
+    "sealed_rollout_digest": "2698856366e6561e058a6327c911975cd5efa1ef8b437ead65087d9a030b0f34",
+    "segment": "main",
+    "total_examples": 453731
+   },
+   "elapsed_seconds": 5410.07118,
+   "ema_state": {
+    "present": false,
+    "statement": "absent - the accepted Phase 9 system maintains no EMA"
+   },
+   "examples_consumed": 3434745,
+   "global_optimizer_step": 6712,
+   "iteration": 3,
+   "iterations_completed": 3,
+   "kl_beta": 0.005,
+   "last_archive_mark": 0,
+   "last_candidate_index": 28,
+   "last_hot_index": 6,
+   "learning_rate": 7.5e-05,
+   "mode": "rehearsal",
+   "model_state_digest": "f5534a9d027282e77557a956be266f3931c24bda88abd51f68dc36bb21eab0e5",
+   "optimizer_param_groups": 1,
+   "optimizer_state_entries": 66,
+   "pool_digest": "654b22e1f3e4a7908232fb9952e0e8eb9c0cdcd6fda13dac11a7cbcef4875a74",
+   "pool_members": [
+    "P8",
+    "P9",
+    "S0001"
+   ],
+   "pool_recomputed_digest": "654b22e1f3e4a7908232fb9952e0e8eb9c0cdcd6fda13dac11a7cbcef4875a74",
+   "population_schedule_state": {
+    "games_per_iteration": 2048,
+    "iteration": 3,
+    "population": {
+     "divisor": 1,
+     "family_counts": {
+      "strategic_rule_based": 61,
+      "stress_information_miser": 41,
+      "stress_miner_rush": 41,
+      "stress_scout_rush": 41,
+      "tactical_rule_based": 61
+     },
+     "production": true,
+     "segments": {
+      "late": {
+       "current": 819,
+       "historical": 984,
+       "rule": 122,
+       "stress": 123
+      },
+      "main": {
+       "current": 1188,
+       "historical": 615,
+       "rule": 122,
+       "stress": 123
+      }
+     }
+    },
+    "population_digest": "1281477150310bd5765a5635467758f48b6188f135febd32fd79d0b4107263ff",
+    "segment": "main"
+   },
+   "progress": {
+    "close_reason": "deadline",
+    "closed": true,
+    "collection_seconds": 587.7027437500074,
+    "decisions_generated": 1112795,
+    "draws": 22,
+    "failures": {},
+    "games_generated": 4096,
+    "iteration": 3,
+    "iterations_completed": 3,
+    "last_archive_mark": 0,
+    "last_candidate_index": 28,
+    "last_hot_index": 6,
+    "positions_generated": 1112795
+   },
+   "rl_iteration": 4,
+   "rng_digest": "c301d846c78fdff0ebcf248a5654a65e9836834caadb6c322d0f27f83990a140",
+   "rng_streams": [
+    "numpy",
+    "python",
+    "torch_cpu",
+    "torch_mps"
+   ],
+   "run_window": {
+    "deadline_seconds": 5400.0,
+    "production": false,
+    "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+    "run_start_utc": "2026-08-21T03:06:12.034Z",
+    "transition_seconds": 475200,
+    "transition_utc": "2026-08-26T15:06:12.034Z"
+   },
+   "segment": "main",
+   "shard_cursor": {
+    "iteration_directory": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts/phase14/iteration_003",
+    "last_committed_iteration": 3,
+    "namespace": "phase14",
+    "rollout_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/rollouts"
+   },
+   "storage_state": {
+    "free_bytes": 993557467136,
+    "free_gib": 925.322,
+    "used_bytes": 6403362816
+   }
+  },
+  "finalized": [
+   "deadline"
+  ],
+  "iterations_completed": [
+   3
+  ],
+  "launches": [
+   {
+    "index": 1,
+    "label": "segment_a_initial",
+    "launched_utc": "2026-08-21T03:06:07.819Z",
+    "pid": 18401,
+    "stdout": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/rehearsal_child_01.log",
+    "supervisor_elapsed_seconds": 0.004396667005494237
+   },
+   {
+    "exited_elapsed_seconds": 3302.989335582999,
+    "index": 2,
+    "label": "segment_b_after_crash",
+    "launched_utc": "2026-08-21T03:36:08.733Z",
+    "pid": 43228,
+    "returncode": 1,
+    "stdout": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/rehearsal_child_02.log",
+    "supervisor_elapsed_seconds": 1800.8371655829833
+   },
+   {
+    "exited_elapsed_seconds": 5415.503887916973,
+    "index": 3,
+    "label": "segment_recovery_03",
+    "launched_utc": "2026-08-21T04:01:16.237Z",
+    "pid": 64076,
+    "returncode": 0,
+    "stdout": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase13/agent03_evidence/rehearsal_child_03.log",
+    "supervisor_elapsed_seconds": 3308.309275250009
+   }
+  ],
+  "marks": {
+   "crashed": true,
+   "deadline_seen": true,
+   "worker_killed": true
+  },
+  "missing_metrics": [],
+  "stopped_because": [
+   "deadline"
+  ],
+  "telemetry_rows": 4
+ },
+ "seconds": 1.0692433749791235,
+ "storage_projection": {
+  "agent_1_conservative_ceiling_gib": 600.0,
+  "agent_1_phase9_basis_gib": 28.0,
+  "agent_1_planning_rate_gib_per_hour": 3.572,
+  "archive_gib_per_hour_observed": 4.609286281894749e-07,
+  "archive_snapshot_bytes": 10457515,
+  "external_free_gib_after_168h": 890.5168359337455,
+  "external_free_gib_now": 925.3322792053223,
+  "free_space_change_bytes": -338800640,
+  "hot_bytes_bounded": 62744834,
+  "hot_gib_per_hour_transient": 0.03902866568702811,
+  "hot_lives_on": "the internal disk, not the external volume",
+  "internal_free_change_bytes": -905609216,
+  "log_gib_per_hour": 7.234899965548964e-06,
+  "measured_versus_agent_1_ceiling": "below",
+  "measured_window_hours": 1.49721667430556,
+  "projected_168h_archive_gib": 0.8181028626859188,
+  "projected_168h_raw_gib": 33.99612494569663,
+  "projected_168h_total_gib": 34.81544327157676,
+  "raw_shard_gib_per_hour": 0.20235788658152754,
+  "reserve_gib": 120.0,
+  "reserve_threatened": false,
+  "total_external_gib_per_hour": 0.20236558241012126
+ },
+ "total": 16
+}

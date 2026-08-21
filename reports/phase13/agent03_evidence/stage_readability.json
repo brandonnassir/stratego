@@ -1,0 +1,121 @@
+{
+ "archive_all_readable": true,
+ "archive_root": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/archive",
+ "archive_snapshots": [
+  {
+   "bytes": 10457515,
+   "global_optimizer_step": 6712,
+   "path": "/Volumes/Brandon_Washington/stratego_phase13_rehearsal/archive/archive_0001.pt",
+   "readable": true,
+   "snapshot_role": "durable_archive",
+   "validates": true
+  }
+ ],
+ "hot_all_cover_required_fields": true,
+ "hot_all_readable": true,
+ "hot_checkpoints": [
+  {
+   "archive_k": 0,
+   "bytes": 10457387,
+   "covers_required_fields": [],
+   "ema": {
+    "present": false,
+    "statement": "absent - the accepted Phase 9 system maintains no EMA"
+   },
+   "global_optimizer_step": 5168,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000009_step000005168.pt",
+   "pool_members": [
+    "P8",
+    "P9"
+   ],
+   "readable": true,
+   "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+   "snapshot_role": "hot_resume",
+   "validates": true
+  },
+  {
+   "archive_k": 0,
+   "bytes": 10457515,
+   "covers_required_fields": [],
+   "ema": {
+    "present": false,
+    "statement": "absent - the accepted Phase 9 system maintains no EMA"
+   },
+   "global_optimizer_step": 6712,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000010_step000006712.pt",
+   "pool_members": [
+    "P8",
+    "P9"
+   ],
+   "readable": true,
+   "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+   "snapshot_role": "hot_resume",
+   "validates": true
+  },
+  {
+   "archive_k": 0,
+   "bytes": 10457515,
+   "covers_required_fields": [],
+   "ema": {
+    "present": false,
+    "statement": "absent - the accepted Phase 9 system maintains no EMA"
+   },
+   "global_optimizer_step": 6712,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000011_step000006712.pt",
+   "pool_members": [
+    "P8",
+    "P9"
+   ],
+   "readable": true,
+   "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+   "snapshot_role": "hot_resume",
+   "validates": true
+  },
+  {
+   "archive_k": 1,
+   "bytes": 10457963,
+   "covers_required_fields": [],
+   "ema": {
+    "present": false,
+    "statement": "absent - the accepted Phase 9 system maintains no EMA"
+   },
+   "global_optimizer_step": 6712,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot/hot_000012_step000006712.pt",
+   "pool_members": [
+    "P8",
+    "P9",
+    "S0001"
+   ],
+   "readable": true,
+   "run_deadline_utc": "2026-08-21T04:36:12.034Z",
+   "snapshot_role": "hot_resume",
+   "validates": true
+  }
+ ],
+ "hot_retained": 4,
+ "hot_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase13_rehearsal/hot",
+ "required_fields": [
+  "model_state",
+  "optimizer_state",
+  "ema_state",
+  "global_optimizer_step",
+  "rng",
+  "population_schedule_state",
+  "active_historical_pool",
+  "historical_archive_state",
+  "shard_cursor",
+  "storage_state",
+  "run_start_utc",
+  "run_deadline_utc",
+  "schedule_state",
+  "candidate_evaluation_state"
+ ],
+ "seconds": 0.13518895802553743,
+ "torn_write": {
+  "corrupt_file_refused": true,
+  "corrupted": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000012_step000006712.pt",
+  "newest_before_corruption": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000012_step000006712.pt",
+  "recovered_step": 6712,
+  "selected_after_corruption": "/var/folders/5c/pnj9z6js2z93kd59ys92lksc0000gn/T/phase13_torn_15wegsza/hot_000011_step000006712.pt"
+ }
+}
