@@ -1,0 +1,566 @@
+{
+  "adopt_recipe": {
+    "candidates": {
+      "b_damped": 0.78333,
+      "c_damped_plus": 0.73333
+    },
+    "clearing": [],
+    "control_ewr": 0.76667,
+    "margin": 0.03,
+    "pass": false,
+    "rule": "max(B, C) final-hour benchmark EWR >= A + 0.03",
+    "threshold": 0.79667
+  },
+  "agent": "agent_03",
+  "artifact": "phase16_recipe_candidate_v1",
+  "contract_digest": "f68fb7f7c9300294904f9c34915e8a25294245e68de828972a3eca0bf0f2592b",
+  "curves": {
+    "a_control": [
+      {
+        "adversarial_ewr": 0.86458,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.03492274563232393,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.86458,
+            "games": 96,
+            "se": 0.03492274563232393
+          },
+          "adversarial_opponent": {
+            "ewr": 0.80208,
+            "games": 96,
+            "se": 0.04066474640275038
+          },
+          "benchmark_control": {
+            "ewr": 0.82292,
+            "games": 96,
+            "se": 0.038960807443720505
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.75833,
+        "benchmark_full_ewr": 0.8125,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.035630482034348064,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05526686938543441,
+        "benchmark_subset": "quick60",
+        "hour": 0,
+        "iteration": 0,
+        "optimizer_step": 0,
+        "source": "raw"
+      },
+      {
+        "adversarial_ewr": 0.77604,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.042549226197429256,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.77604,
+            "games": 96,
+            "se": 0.042549226197429256
+          },
+          "adversarial_opponent": {
+            "ewr": 0.73958,
+            "games": 96,
+            "se": 0.044791347704290684
+          },
+          "benchmark_control": {
+            "ewr": 0.8125,
+            "games": 96,
+            "se": 0.03983608994994363
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.725,
+        "benchmark_full_ewr": 0.75,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.03952847075210474,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05764474535173754,
+        "benchmark_subset": "quick60",
+        "hour": 2,
+        "iteration": 61,
+        "optimizer_step": 15546,
+        "source": "raw"
+      },
+      {
+        "adversarial_ewr": 0.79688,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.0410617250814754,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.79688,
+            "games": 96,
+            "se": 0.0410617250814754
+          },
+          "adversarial_opponent": {
+            "ewr": 0.76562,
+            "games": 96,
+            "se": 0.043234584873300994
+          },
+          "benchmark_control": {
+            "ewr": 0.76562,
+            "games": 96,
+            "se": 0.043234584873300994
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.80833,
+        "benchmark_full_ewr": 0.825,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.034686092313779025,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05081545222666035,
+        "benchmark_subset": "quick60",
+        "hour": 4,
+        "iteration": 112,
+        "optimizer_step": 28736,
+        "source": "raw"
+      },
+      {
+        "adversarial_ewr": 0.8125,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.03983608994994363,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.8125,
+            "games": 96,
+            "se": 0.03983608994994363
+          },
+          "adversarial_opponent": {
+            "ewr": 0.70833,
+            "games": 96,
+            "se": 0.046390396265013734
+          },
+          "benchmark_control": {
+            "ewr": 0.84375,
+            "games": 96,
+            "se": 0.037057941330098196
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.76667,
+        "benchmark_full_ewr": 0.74583,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.039745818553654166,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.054602672568901486,
+        "benchmark_subset": "quick60",
+        "hour": 6,
+        "iteration": 159,
+        "optimizer_step": 40846,
+        "source": "raw"
+      }
+    ],
+    "b_damped": [
+      {
+        "adversarial_ewr": 0.86458,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.03492274563232393,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.86458,
+            "games": 96,
+            "se": 0.03492274563232393
+          },
+          "adversarial_opponent": {
+            "ewr": 0.80208,
+            "games": 96,
+            "se": 0.04066474640275038
+          },
+          "benchmark_control": {
+            "ewr": 0.82292,
+            "games": 96,
+            "se": 0.038960807443720505
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.75833,
+        "benchmark_full_ewr": 0.8125,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.035630482034348064,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05526686938543441,
+        "benchmark_subset": "quick60",
+        "hour": 0,
+        "iteration": 0,
+        "optimizer_step": 0,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.80208,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.04066474640275038,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.80208,
+            "games": 96,
+            "se": 0.04066474640275038
+          },
+          "adversarial_opponent": {
+            "ewr": 0.73958,
+            "games": 96,
+            "se": 0.044791347704290684
+          },
+          "benchmark_control": {
+            "ewr": 0.79167,
+            "games": 96,
+            "se": 0.0414488403411362
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.71667,
+        "benchmark_full_ewr": 0.75833,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.03907957811739187,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.058174179710589816,
+        "benchmark_subset": "quick60",
+        "hour": 2,
+        "iteration": 101,
+        "optimizer_step": 12900,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.79688,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.0410617250814754,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.79688,
+            "games": 96,
+            "se": 0.0410617250814754
+          },
+          "adversarial_opponent": {
+            "ewr": 0.71875,
+            "games": 96,
+            "se": 0.04588804736121379
+          },
+          "benchmark_control": {
+            "ewr": 0.85938,
+            "games": 96,
+            "se": 0.035479750034350575
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.8,
+        "benchmark_full_ewr": 0.82917,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.034356842004177275,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05163977794943222,
+        "benchmark_subset": "quick60",
+        "hour": 4,
+        "iteration": 201,
+        "optimizer_step": 25797,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.78125,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.042192322255259505,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.78125,
+            "games": 96,
+            "se": 0.042192322255259505
+          },
+          "adversarial_opponent": {
+            "ewr": 0.73958,
+            "games": 96,
+            "se": 0.044791347704290684
+          },
+          "benchmark_control": {
+            "ewr": 0.79688,
+            "games": 96,
+            "se": 0.0410617250814754
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.78333,
+        "benchmark_full_ewr": 0.79167,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.03707296983652645,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.053185855121451235,
+        "benchmark_subset": "quick60",
+        "hour": 6,
+        "iteration": 306,
+        "optimizer_step": 39247,
+        "source": "ema"
+      }
+    ],
+    "c_damped_plus": [
+      {
+        "adversarial_ewr": 0.86458,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.03492274563232393,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.86458,
+            "games": 96,
+            "se": 0.03492274563232393
+          },
+          "adversarial_opponent": {
+            "ewr": 0.80208,
+            "games": 96,
+            "se": 0.04066474640275038
+          },
+          "benchmark_control": {
+            "ewr": 0.82292,
+            "games": 96,
+            "se": 0.038960807443720505
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.75833,
+        "benchmark_full_ewr": 0.8125,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.035630482034348064,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05526686938543441,
+        "benchmark_subset": "quick60",
+        "hour": 0,
+        "iteration": 0,
+        "optimizer_step": 0,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.72396,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.045625504380773695,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.72396,
+            "games": 96,
+            "se": 0.045625504380773695
+          },
+          "adversarial_opponent": {
+            "ewr": 0.67188,
+            "games": 96,
+            "se": 0.047921079391015385
+          },
+          "benchmark_control": {
+            "ewr": 0.72917,
+            "games": 96,
+            "se": 0.045355208160603414
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.63333,
+        "benchmark_full_ewr": 0.65,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.04354116825871043,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.06221241986131065,
+        "benchmark_subset": "quick60",
+        "hour": 2,
+        "iteration": 99,
+        "optimizer_step": 12608,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.74479,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.044496939957990374,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.74479,
+            "games": 96,
+            "se": 0.044496939957990374
+          },
+          "adversarial_opponent": {
+            "ewr": 0.66146,
+            "games": 96,
+            "se": 0.04829711305209315
+          },
+          "benchmark_control": {
+            "ewr": 0.72396,
+            "games": 96,
+            "se": 0.045625504380773695
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.70833,
+        "benchmark_full_ewr": 0.77083,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.03836785884695678,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.05867972550208462,
+        "benchmark_subset": "quick60",
+        "hour": 4,
+        "iteration": 198,
+        "optimizer_step": 25388,
+        "source": "ema"
+      },
+      {
+        "adversarial_ewr": 0.70833,
+        "adversarial_games": 96,
+        "adversarial_pack": "phase16_adversarial_baseline_v1",
+        "adversarial_se": 0.046390396265013734,
+        "adversarial_strata": {
+          "adversarial_both": {
+            "ewr": 0.70833,
+            "games": 96,
+            "se": 0.046390396265013734
+          },
+          "adversarial_opponent": {
+            "ewr": 0.74479,
+            "games": 96,
+            "se": 0.044496939957990374
+          },
+          "benchmark_control": {
+            "ewr": 0.77604,
+            "games": 96,
+            "se": 0.042549226197429256
+          }
+        },
+        "adversarial_stratum": "adversarial_both",
+        "benchmark_ewr": 0.73333,
+        "benchmark_full_ewr": 0.7625,
+        "benchmark_full_games": 120,
+        "benchmark_full_se": 0.03884732401766348,
+        "benchmark_games": 60,
+        "benchmark_pack": "phase16_benchmark_v1",
+        "benchmark_se": 0.057090149631963655,
+        "benchmark_subset": "quick60",
+        "hour": 6,
+        "iteration": 298,
+        "optimizer_step": 38261,
+        "source": "ema"
+      }
+    ]
+  },
+  "decision_rules": {
+    "adopt_recipe": "max(B, C) final-hour benchmark EWR >= A + 0.03",
+    "plateau_check": "report each arm's h4->h6 slope; a flat B/C with a passing h6 still adopts, but the report must say the plateau moved, not vanished",
+    "setups_causal": "C adversarial-stratum EWR >= B + 0.03",
+    "stop_rule": "if neither B nor C clears adopt_recipe: STOP, write the report, hand back to the operator; no long run is authorized"
+  },
+  "horizon_evidence": {
+    "derivation": {
+      "lr_horizon_fraction": 0.125,
+      "n_ref": 40,
+      "recompute_for_a_longer_run": "N = run_seconds / measured seconds_per_iteration at the run's own window size and population; then n_ref = ceil(0.125 * N). Do not carry n_ref = 40 into a run that is not ~313 iterations.",
+      "rule": "n_ref = ceil(lr_horizon_fraction * N)"
+    },
+    "for_agent_5": "brief 05 section 4 asks for horizon constants for the production run: re-derive them from the measured seconds_per_iteration above at the production window size, not from this phase's n_ref",
+    "measured": {
+      "conditions": "population 96, window 65,536 learner decisions, minibatch 512, 1 epoch, MPS, idle machine",
+      "planned_iterations_for_six_hours": 313,
+      "seconds_per_iteration": 69.0
+    },
+    "phase14_decomposition": {
+      "finding": "collection was 17% of Phase 14's 59.97 hours and its rate held (median 1,784 plies/s); training grew 15.7 -> 153.8 minutes an iteration because a 2,048-game iteration carries more data as games lengthen. A fixed decision budget pins that; a game count does not.",
+      "path": "reports/phase16/agent_03_phase14_decomposition.json",
+      "present": true,
+      "regenerate": "scripts/run_phase16_agent03.py --role decompose",
+      "sha256": "d728d4f634c31b7b760886ac70f956be0e19557201928932abe815d8b874504c",
+      "whole_run": {
+        "collection_hours": 10.39,
+        "collection_share": 0.1733,
+        "hours": 59.97,
+        "training_hours": 49.57,
+        "training_share": 0.8267
+      }
+    },
+    "why": "the section 2.3 constants are horizon-dependent; a run of a different length, window size or population has a different N and therefore a different n_ref"
+  },
+  "missing_arms": [],
+  "phase": "phase_16",
+  "plateau_check": {
+    "note": "Phase 14 gained +0.0414 EWR in its first six hours and nothing measurable in the next 54; a six-hour shootout cannot see past its own horizon",
+    "rule": "a flat B/C with a passing h6 still adopts; the plateau moved, it did not vanish",
+    "slopes": {
+      "a_control": {
+        "delta": -0.04166,
+        "flat": false,
+        "h4": 0.80833,
+        "h6": 0.76667,
+        "per_hour": -0.02083
+      },
+      "b_damped": {
+        "delta": -0.01667,
+        "flat": true,
+        "h4": 0.8,
+        "h6": 0.78333,
+        "per_hour": -0.00834
+      },
+      "c_damped_plus": {
+        "delta": 0.025,
+        "flat": false,
+        "h4": 0.70833,
+        "h6": 0.73333,
+        "per_hour": 0.0125
+      }
+    }
+  },
+  "power": {
+    "decision_instrument": "the predeclared quick subset",
+    "decision_margin": 0.03,
+    "games": 60,
+    "higher_powered_secondary": {
+      "games": 120,
+      "margin_in_standard_errors": 0.75,
+      "note": "the full pack contains the quick subset, so this is the same games plus the rest; it does not enter any decision rule",
+      "standard_error": 0.0397
+    },
+    "margin_in_standard_errors": 0.53,
+    "resolvable": false,
+    "standard_error": 0.0562,
+    "statement": "one standard error on the 60-board decision instrument is 0.056 at the observed EWR; the predeclared margin is 0.03, i.e. 0.53 standard errors. A difference this rule calls decisive is well inside the noise of the instrument it reads, so the verdict below should be read as the mechanical output of a predeclared rule and not as evidence that one recipe is better.",
+    "typical_ewr": 0.7458
+  },
+  "secondary_instrument": {
+    "agrees_with_decision": false,
+    "binding": "reported only; no decision rule reads it, and the verdict is the quick subset's",
+    "candidates": {
+      "b_damped": 0.79167,
+      "c_damped_plus": 0.7625
+    },
+    "clearing": [
+      "b_damped"
+    ],
+    "control_ewr": 0.74583,
+    "instrument": "the full benchmark pack, which contains the quick subset",
+    "reading": "the two instruments disagree on the same games. That is not a reason to prefer either: it is a direct measurement of the fact that a 0.03 margin sits inside the noise of both, and the decision stands on the instrument that was named in advance.",
+    "threshold": 0.77583,
+    "would_adopt": true
+  },
+  "setups_causal": {
+    "b_ewr": 0.78125,
+    "c_ewr": 0.70833,
+    "delta": -0.07292,
+    "margin": 0.03,
+    "pass": false,
+    "rule": "C adversarial-stratum EWR >= B + 0.03",
+    "threshold": 0.81125
+  },
+  "statement": "neither B nor C clears adopt_recipe; section 5's stop_rule applies. No long run is authorized by this file. The report is written and the decision returns to the operator.",
+  "verdict": "STOP",
+  "winner": null,
+  "written_utc": "2026-08-27T14:08:24Z"
+}

@@ -1,0 +1,529 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_budget_ladder_v1",
+  "board_ids": [
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=targeted_family|fam=corner_flag_fortress|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p18|src=targeted_family|fam=near_corner_flag_fortress|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=targeted_family|fam=balanced_conventional|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=p24|src=targeted_family|fam=high_bomb_placement|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=targeted_family|fam=distributed_bomb_defense|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=phase9_anchor|src=targeted_family|fam=scout_forward_information|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=targeted_family|fam=aggressive_high_rank_front|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=strategic_rule_based|src=targeted_family|fam=conservative_high_rank_rear|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=targeted_family|fam=miner_forward|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=tactical_rule_based|src=targeted_family|fam=irregular_high_entropy|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=targeted_family|fam=corner_flag_fortress|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_scout_rush|src=targeted_family|fam=near_corner_flag_fortress|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=targeted_family|fam=balanced_conventional|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_miner_rush|src=targeted_family|fam=high_bomb_placement|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=targeted_family|fam=distributed_bomb_defense|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_berserker|src=targeted_family|fam=scout_forward_information|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=targeted_family|fam=aggressive_high_rank_front|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_information_miser|src=targeted_family|fam=conservative_high_rank_rear|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=neutral_v1|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=neutral_v1|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=phase14_learned|fam=any|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=phase14_learned|fam=any|col=blue|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=targeted_family|fam=miner_forward|col=red|g=000",
+    "phase15_match_pack_v1|ms=2026082420|opp=stress_chaos|src=targeted_family|fam=irregular_high_entropy|col=blue|g=000"
+  ],
+  "games_played": 240,
+  "generated_utc": "2026-08-24T20:30:07Z",
+  "ladder_boards": 60,
+  "note": "one variable at a time: the same pairing, the same boards, the same per-decision seeds, three accepted presets. Not a grid search.",
+  "pairings": [
+    "p24_b24",
+    "p18_b18"
+  ],
+  "phase": "phase_15",
+  "presets": [
+    "TINY",
+    "SMALL",
+    "MEDIUM"
+  ],
+  "profiles": {
+    "p18_b18": {
+      "ladder": {
+        "budget_version": "phase15_budget_ladder_v1",
+        "order": [
+          "TINY",
+          "SMALL",
+          "MEDIUM"
+        ],
+        "rungs": [
+          {
+            "added_search_seconds_per_game": null,
+            "cost_multiple_over_previous": null,
+            "ewr": 0.83333,
+            "ewr_gain_over_previous": null,
+            "ewr_gain_per_added_search_second": null,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 0.46229,
+              "median_seconds_per_move": 0.45365,
+              "p95_seconds_per_move": 0.4611,
+              "preferred_ceiling": 2.0,
+              "verdict": "comfortable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 0.46229,
+            "mean_c1_forwards_per_game": 71584.4,
+            "median_seconds_per_move": 0.45365,
+            "min_family_ewr": 0.5,
+            "min_opponent_ewr": 0.5,
+            "move_change_rate": 0.06807,
+            "p95_seconds_per_move": 0.4611,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.0,
+              "losses": 0,
+              "standard_error": 0.0,
+              "ties": 60,
+              "wins": 0
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.1,
+              "losses": 5,
+              "standard_error": 0.06596,
+              "ties": 44,
+              "wins": 11
+            },
+            "preset_id": "TINY",
+            "rollout_depth": 4,
+            "search_seconds_per_game": 102.4343,
+            "weakness_pack_family_ewr": 0.78947,
+            "weakness_pack_opponent_ewr": 0.95833,
+            "worlds": 8
+          },
+          {
+            "added_search_seconds_per_game": 145.103,
+            "cost_multiple_over_previous": 2.417,
+            "ewr": 0.86667,
+            "ewr_gain_over_previous": 0.03334,
+            "ewr_gain_per_added_search_second": 0.00023,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 1.38069,
+              "median_seconds_per_move": 1.28781,
+              "p95_seconds_per_move": 1.37312,
+              "preferred_ceiling": 2.0,
+              "verdict": "comfortable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 1.38069,
+            "mean_c1_forwards_per_game": 167843.6,
+            "median_seconds_per_move": 1.28781,
+            "min_family_ewr": 0.57143,
+            "min_opponent_ewr": 0.66667,
+            "move_change_rate": 0.06656,
+            "p95_seconds_per_move": 1.37312,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.03333,
+              "losses": 2,
+              "standard_error": 0.04094,
+              "ties": 54,
+              "wins": 4
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.13333,
+              "losses": 4,
+              "standard_error": 0.06495,
+              "ties": 44,
+              "wins": 12
+            },
+            "preset_id": "SMALL",
+            "rollout_depth": 6,
+            "search_seconds_per_game": 247.5373,
+            "weakness_pack_family_ewr": 0.86842,
+            "weakness_pack_opponent_ewr": 1.0,
+            "worlds": 16
+          },
+          {
+            "added_search_seconds_per_game": 384.95,
+            "cost_multiple_over_previous": 2.555,
+            "ewr": 0.84167,
+            "ewr_gain_over_previous": -0.025,
+            "ewr_gain_per_added_search_second": -6.5e-05,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 3.20783,
+              "median_seconds_per_move": 3.05923,
+              "p95_seconds_per_move": 3.18163,
+              "preferred_ceiling": 2.0,
+              "verdict": "acceptable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 3.20783,
+            "mean_c1_forwards_per_game": 471908.2,
+            "median_seconds_per_move": 3.05923,
+            "min_family_ewr": 0.57143,
+            "min_opponent_ewr": 0.58333,
+            "move_change_rate": 0.06286,
+            "p95_seconds_per_move": 3.18163,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.00833,
+              "losses": 5,
+              "standard_error": 0.05111,
+              "ties": 50,
+              "wins": 5
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.10833,
+              "losses": 5,
+              "standard_error": 0.0641,
+              "ties": 44,
+              "wins": 11
+            },
+            "preset_id": "MEDIUM",
+            "rollout_depth": 8,
+            "search_seconds_per_game": 632.4873,
+            "weakness_pack_family_ewr": 0.88158,
+            "weakness_pack_opponent_ewr": 0.95833,
+            "worlds": 32
+          }
+        ]
+      },
+      "maximum_strength": {
+        "buys_a_useful_gain": true,
+        "inside_engineering_margin": true,
+        "mode": "SMALL",
+        "note": "the strongest observed practical rung. When the gain sits inside the engineering margin this names the strongest configuration observed, not a rung proven stronger.",
+        "observed_gain_over_selected": 0.03334,
+        "selected_preset": "TINY",
+        "within_latency_ceiling": true
+      },
+      "selection": {
+        "margin": 0.1,
+        "rule": "walk the ladder from the cheapest rung and stop at the first that is within the engineering margin of the strongest observed rung, does not regress the weakness pack, and is not impractical for human play",
+        "rungs": [
+          {
+            "behind_best": 0.03334,
+            "ewr": 0.83333,
+            "human_play": "comfortable",
+            "preset_id": "TINY",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.78947,
+            "within_margin": true
+          },
+          {
+            "behind_best": 0.0,
+            "ewr": 0.86667,
+            "human_play": "comfortable",
+            "preset_id": "SMALL",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.86842,
+            "within_margin": true
+          },
+          {
+            "behind_best": 0.025,
+            "ewr": 0.84167,
+            "human_play": "acceptable",
+            "preset_id": "MEDIUM",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.88158,
+            "within_margin": true
+          }
+        ],
+        "selected_preset": "TINY",
+        "strongest_observed_ewr": 0.86667,
+        "strongest_observed_preset": "SMALL",
+        "weakness_regression_tolerance": 0.05
+      },
+      "strong_gate": {
+        "allowed": false,
+        "best_cheaper_ewr": 0.86667,
+        "depth_range_if_allowed": [
+          10,
+          12
+        ],
+        "improvement_over_cheaper": -0.025,
+        "medium_ewr": 0.84167,
+        "medium_human_play": {
+          "acceptable_ceiling": 5.0,
+          "max_seconds_per_move": 3.20783,
+          "median_seconds_per_move": 3.05923,
+          "p95_seconds_per_move": 3.18163,
+          "preferred_ceiling": 2.0,
+          "verdict": "acceptable"
+        },
+        "preset_if_allowed": "STRONG",
+        "reason": "MEDIUM did not show a useful improvement over the cheaper rungs",
+        "shows_useful_improvement": false,
+        "stays_under_latency_budget": true,
+        "useful_improvement_required": 0.1
+      }
+    },
+    "p24_b24": {
+      "ladder": {
+        "budget_version": "phase15_budget_ladder_v1",
+        "order": [
+          "TINY",
+          "SMALL",
+          "MEDIUM"
+        ],
+        "rungs": [
+          {
+            "added_search_seconds_per_game": null,
+            "cost_multiple_over_previous": null,
+            "ewr": 0.86667,
+            "ewr_gain_over_previous": null,
+            "ewr_gain_per_added_search_second": null,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 0.46415,
+              "median_seconds_per_move": 0.45001,
+              "p95_seconds_per_move": 0.46148,
+              "preferred_ceiling": 2.0,
+              "verdict": "comfortable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 0.46415,
+            "mean_c1_forwards_per_game": 71483.7,
+            "median_seconds_per_move": 0.45001,
+            "min_family_ewr": 0.21429,
+            "min_opponent_ewr": 0.66667,
+            "move_change_rate": 0.06481,
+            "p95_seconds_per_move": 0.46148,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.0,
+              "losses": 0,
+              "standard_error": 0.0,
+              "ties": 60,
+              "wins": 0
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.13333,
+              "losses": 2,
+              "standard_error": 0.05429,
+              "ties": 47,
+              "wins": 11
+            },
+            "preset_id": "TINY",
+            "rollout_depth": 4,
+            "search_seconds_per_game": 102.3893,
+            "weakness_pack_family_ewr": 0.94737,
+            "weakness_pack_opponent_ewr": 1.0,
+            "worlds": 8
+          },
+          {
+            "added_search_seconds_per_game": 190.2144,
+            "cost_multiple_over_previous": 2.858,
+            "ewr": 0.9,
+            "ewr_gain_over_previous": 0.03333,
+            "ewr_gain_per_added_search_second": 0.000175,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 1.3451,
+              "median_seconds_per_move": 1.254,
+              "p95_seconds_per_move": 1.3183,
+              "preferred_ceiling": 2.0,
+              "verdict": "comfortable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 1.3451,
+            "mean_c1_forwards_per_game": 201481.4,
+            "median_seconds_per_move": 1.254,
+            "min_family_ewr": 0.5,
+            "min_opponent_ewr": 0.58333,
+            "move_change_rate": 0.06431,
+            "p95_seconds_per_move": 1.3183,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.03333,
+              "losses": 2,
+              "standard_error": 0.03539,
+              "ties": 54,
+              "wins": 4
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.16667,
+              "losses": 1,
+              "standard_error": 0.0527,
+              "ties": 47,
+              "wins": 12
+            },
+            "preset_id": "SMALL",
+            "rollout_depth": 6,
+            "search_seconds_per_game": 292.6037,
+            "weakness_pack_family_ewr": 0.90789,
+            "weakness_pack_opponent_ewr": 1.0,
+            "worlds": 16
+          },
+          {
+            "added_search_seconds_per_game": 415.4636,
+            "cost_multiple_over_previous": 2.42,
+            "ewr": 0.93333,
+            "ewr_gain_over_previous": 0.03333,
+            "ewr_gain_per_added_search_second": 8e-05,
+            "fallback_rate": 0.0,
+            "games": 60,
+            "human_play": {
+              "acceptable_ceiling": 5.0,
+              "max_seconds_per_move": 3.23497,
+              "median_seconds_per_move": 3.11448,
+              "p95_seconds_per_move": 3.20762,
+              "preferred_ceiling": 2.0,
+              "verdict": "acceptable"
+            },
+            "max_root_candidates": 8,
+            "max_seconds_per_move": 3.23497,
+            "mean_c1_forwards_per_game": 513286.7,
+            "median_seconds_per_move": 3.11448,
+            "min_family_ewr": 0.71429,
+            "min_opponent_ewr": 0.83333,
+            "move_change_rate": 0.06093,
+            "p95_seconds_per_move": 3.20762,
+            "paired_vs_cheapest": {
+              "boards": 60,
+              "delta": 0.06667,
+              "losses": 1,
+              "standard_error": 0.03845,
+              "ties": 53,
+              "wins": 6
+            },
+            "paired_vs_direct": {
+              "boards": 60,
+              "delta": 0.2,
+              "losses": 1,
+              "standard_error": 0.056,
+              "ties": 45,
+              "wins": 14
+            },
+            "preset_id": "MEDIUM",
+            "rollout_depth": 8,
+            "search_seconds_per_game": 708.0673,
+            "weakness_pack_family_ewr": 0.96053,
+            "weakness_pack_opponent_ewr": 1.0,
+            "worlds": 32
+          }
+        ]
+      },
+      "maximum_strength": {
+        "buys_a_useful_gain": true,
+        "inside_engineering_margin": true,
+        "mode": "MEDIUM",
+        "note": "the strongest observed practical rung. When the gain sits inside the engineering margin this names the strongest configuration observed, not a rung proven stronger.",
+        "observed_gain_over_selected": 0.06666,
+        "selected_preset": "TINY",
+        "within_latency_ceiling": true
+      },
+      "selection": {
+        "margin": 0.1,
+        "rule": "walk the ladder from the cheapest rung and stop at the first that is within the engineering margin of the strongest observed rung, does not regress the weakness pack, and is not impractical for human play",
+        "rungs": [
+          {
+            "behind_best": 0.06666,
+            "ewr": 0.86667,
+            "human_play": "comfortable",
+            "preset_id": "TINY",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.94737,
+            "within_margin": true
+          },
+          {
+            "behind_best": 0.03333,
+            "ewr": 0.9,
+            "human_play": "comfortable",
+            "preset_id": "SMALL",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.90789,
+            "within_margin": true
+          },
+          {
+            "behind_best": 0.0,
+            "ewr": 0.93333,
+            "human_play": "acceptable",
+            "preset_id": "MEDIUM",
+            "regresses_weakness_pack": false,
+            "weakness_pack_family_ewr": 0.96053,
+            "within_margin": true
+          }
+        ],
+        "selected_preset": "TINY",
+        "strongest_observed_ewr": 0.93333,
+        "strongest_observed_preset": "MEDIUM",
+        "weakness_regression_tolerance": 0.05
+      },
+      "strong_gate": {
+        "allowed": false,
+        "best_cheaper_ewr": 0.9,
+        "depth_range_if_allowed": [
+          10,
+          12
+        ],
+        "improvement_over_cheaper": 0.03333,
+        "medium_ewr": 0.93333,
+        "medium_human_play": {
+          "acceptable_ceiling": 5.0,
+          "max_seconds_per_move": 3.23497,
+          "median_seconds_per_move": 3.11448,
+          "p95_seconds_per_move": 3.20762,
+          "preferred_ceiling": 2.0,
+          "verdict": "acceptable"
+        },
+        "preset_if_allowed": "STRONG",
+        "reason": "MEDIUM did not show a useful improvement over the cheaper rungs",
+        "shows_useful_improvement": false,
+        "stays_under_latency_budget": true,
+        "useful_improvement_required": 0.1
+      }
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "wall_seconds": 11836.3
+}

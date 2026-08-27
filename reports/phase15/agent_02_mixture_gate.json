@@ -1,0 +1,94 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_belief_mixture_pilot_v1_gate",
+  "checks": {
+    "configuration_invariants": {
+      "findings": [],
+      "passed": true,
+      "presets": {
+        "LARGE": {
+          "beta": 0.1,
+          "deduplicate_worlds": true,
+          "epsilon": 1e-06,
+          "max_root_candidates": 8,
+          "rollout_depth": 9,
+          "worlds": 64
+        },
+        "MEDIUM": {
+          "beta": 0.1,
+          "deduplicate_worlds": true,
+          "epsilon": 1e-06,
+          "max_root_candidates": 8,
+          "rollout_depth": 8,
+          "worlds": 32
+        }
+      }
+    },
+    "determinism_and_legality": {
+      "findings": [],
+      "lambdas": {
+        "l000": {
+          "legal_decisions": 4,
+          "positions": 4
+        },
+        "l025": {
+          "legal_decisions": 4,
+          "positions": 4
+        },
+        "l050": {
+          "legal_decisions": 4,
+          "positions": 4
+        },
+        "l075": {
+          "legal_decisions": 4,
+          "positions": 4
+        },
+        "l100": {
+          "legal_decisions": 4,
+          "positions": 4
+        }
+      },
+      "passed": true
+    },
+    "frozen_identity": {
+      "applied_temperature": 1.0,
+      "belief_state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f",
+      "findings": [],
+      "move_model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+      "passed": true
+    },
+    "mixture_algebra": {
+      "findings": [],
+      "marginal_sets_checked": 20,
+      "passed": true,
+      "positions": 4,
+      "worst_endpoint_deviation": 1.1102230246251565e-16
+    },
+    "worlds_legal": {
+      "findings": [],
+      "passed": true,
+      "worlds_checked": {
+        "l000": 256,
+        "l025": 256,
+        "l050": 256,
+        "l075": 256,
+        "l100": 256
+      }
+    }
+  },
+  "generated_utc": "2026-08-25T14:02:39Z",
+  "lambdas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "passed": true,
+  "phase": "phase_15",
+  "position_manifest_digest": "01d1ba603287cddacb0fb61c9c24504d80e0a55e3eedbc3d3c9355293da06c49",
+  "positions": 4,
+  "scientific_validation_status": "not performed",
+  "seconds": 85.1,
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

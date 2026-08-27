@@ -1,0 +1,112 @@
+{
+  "artifact": "phase17_agent01_boundary_target_probe_v1",
+  "work_package": "phase17",
+  "computed_utc": "2026-08-27T19:50:01Z",
+  "evidence_classification": "ENGINEERING",
+  "scientific_validation_status": "not performed",
+  "question": "Common contract section 6 requires BOTH partial emission with boundary bootstrapping AND that a game spanning >= 3 windows match the accepted whole-game targets to float32 tolerance. Can both hold?",
+  "setup": {
+    "decisions": 12,
+    "window_boundaries": [
+      4,
+      8
+    ],
+    "windows": 3,
+    "terminal_result": "red_win",
+    "player": 0,
+    "predictions_source": "numpy default_rng(20260827).dirichlet([2,2,1])",
+    "lambda_advantage": 0.5,
+    "lambda_value": 0.8,
+    "tolerance": 1e-06
+  },
+  "phase16_buffered_path": {
+    "function": "stratego.training.phase16.targets.window_edge_invariant",
+    "holds": true,
+    "max_advantage_difference": 0.0,
+    "max_wdl_difference": 0.0,
+    "why_it_is_exact": "windowed_targets BUFFERS the whole game and computes targets at the close; partial_advantages is called at each boundary but its result is discarded into boundary_reports. The invariant therefore measures the reduction property, not partial emission."
+  },
+  "mandated_partial_emission_path": {
+    "max_advantage_difference": 0.30916139108112134,
+    "mean_advantage_difference": 0.08337090137023036,
+    "rows_exceeding_tolerance": 7,
+    "rows_total": 12,
+    "max_wdl_difference_window_1": 0.12111919074081233,
+    "per_row": [
+      {
+        "t": 0,
+        "advantage_whole_game": -0.2520267657977965,
+        "advantage_bootstrapped": -0.19191630748841626,
+        "absolute_difference": 0.06011045830938022
+      },
+      {
+        "t": 1,
+        "advantage_whole_game": -0.1324386238358905,
+        "advantage_bootstrapped": -0.012217707217130003,
+        "absolute_difference": 0.1202209166187605
+      },
+      {
+        "t": 2,
+        "advantage_whole_game": 0.12733395707337367,
+        "advantage_bootstrapped": 0.3677757903108947,
+        "absolute_difference": 0.24044183323752102
+      },
+      {
+        "t": 3,
+        "advantage_whole_game": -0.48088366647504205,
+        "advantage_bootstrapped": -0.5195288403601822,
+        "absolute_difference": 0.03864517388514016
+      },
+      {
+        "t": 4,
+        "advantage_whole_game": 0.5580762992169114,
+        "advantage_bootstrapped": 0.48078595144663105,
+        "absolute_difference": 0.07729034777028032
+      },
+      {
+        "t": 5,
+        "advantage_whole_game": -0.05408945500715663,
+        "advantage_bootstrapped": -0.20867015054771731,
+        "absolute_difference": 0.1545806955405607
+      },
+      {
+        "t": 6,
+        "advantage_whole_game": 0.07625283139595898,
+        "advantage_bootstrapped": -0.23290855968516236,
+        "absolute_difference": 0.30916139108112134
+      },
+      {
+        "t": 7,
+        "advantage_whole_game": 0.6183227821622427,
+        "advantage_bootstrapped": 0.6183227821622427,
+        "absolute_difference": 0.0
+      },
+      {
+        "t": 8,
+        "advantage_whole_game": -0.6010588597604238,
+        "advantage_bootstrapped": -0.6010588597604238,
+        "absolute_difference": 0.0
+      },
+      {
+        "t": 9,
+        "advantage_whole_game": -0.19969328356338534,
+        "advantage_bootstrapped": -0.19969328356338534,
+        "absolute_difference": 0.0
+      },
+      {
+        "t": 10,
+        "advantage_whole_game": 0.6657127871408044,
+        "advantage_bootstrapped": 0.6657127871408044,
+        "absolute_difference": 0.0
+      },
+      {
+        "t": 11,
+        "advantage_whole_game": 0.9996877910555398,
+        "advantage_bootstrapped": 0.9996877910555398,
+        "absolute_difference": 0.0
+      }
+    ]
+  },
+  "finding": "The two section-6 requirements are mutually exclusive. Only the final window -- whose tail is the true terminal z -- reproduces the accepted targets; every earlier window differs by construction because a truncated lambda-return closed on a value estimate is not the full lambda-return. The satisfiable invariant is the REDUCTION property.",
+  "recommendation_for_operator": "Restate the section 6 invariant as: 'when a window boundary coincides with the terminal step, the windowed walk equals the accepted whole-game walk entry for entry to float32 tolerance' (gate G-M4a, testable), and add a separate bounded-divergence telemetry check for genuine boundaries. Agent 1 has NOT amended the contract."
+}

@@ -1,0 +1,791 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_deep_search_pilot_v1",
+  "boards": 60,
+  "first_divergence_from_medium": {
+    "LARGE": {
+      "games_compared": 60,
+      "games_identical_to_medium": 5,
+      "games_that_diverged": 55,
+      "median_first_divergence_ply": 7,
+      "min_first_divergence_ply": 0
+    },
+    "XLARGE": {
+      "games_compared": 60,
+      "games_identical_to_medium": 1,
+      "games_that_diverged": 59,
+      "median_first_divergence_ply": 8,
+      "min_first_divergence_ply": 0
+    }
+  },
+  "games_played": 360,
+  "gate_checks": {
+    "configuration_invariants": true,
+    "determinism_and_legality": true,
+    "frozen_identity": true,
+    "worlds_legal": true
+  },
+  "gate_passed": true,
+  "generated_utc": "2026-08-25T07:35:40Z",
+  "ladder_closed": true,
+  "medium_reproduces_stage_c": {
+    "boards_compared": 60,
+    "findings": [],
+    "note": "the same 60 boards played twice, in two separate pack runs, with the same seeds and the same frozen weights",
+    "passed": true
+  },
+  "note": "a narrow paired pilot on one system. No architecture change, no training, no Phase 14 interaction, and the ladder is not extended beyond this.",
+  "oracle_reference": {
+    "LARGE": {
+      "draws": 1,
+      "ewr": 0.925,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 1,
+          "ewr": 0.91667,
+          "games": 6,
+          "loss": 0,
+          "win": 5
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {},
+      "losses": 4,
+      "mean_c1_forwards_per_move": 80.44,
+      "mean_plies": 484.4,
+      "moves_differing_from_medium": {},
+      "pack_latency": {
+        "max_seconds_per_move": 0.11197,
+        "mean_seconds_per_move": 0.10602,
+        "median_seconds_per_move": 0.10717,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 0.11021
+      },
+      "paired_vs_medium": {
+        "boards": 60,
+        "delta": 0.04167,
+        "losses": 1,
+        "standard_error": 0.03422,
+        "ties": 55,
+        "wins": 4
+      },
+      "player_decisions": 14545,
+      "preset_id": "LARGE",
+      "search_seconds_per_game": 26.1215,
+      "weakness_pack_family_ewr": 0.94737,
+      "wins": 55,
+      "worst_family": {
+        "ewr": 0.71429,
+        "games": 7,
+        "name": "conservative_high_rank_rear"
+      },
+      "worst_opponent": {
+        "ewr": 0.83333,
+        "games": 6,
+        "name": "p24"
+      }
+    },
+    "MEDIUM": {
+      "draws": 2,
+      "ewr": 0.88333,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 0,
+          "win": 4
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 6,
+          "loss": 2,
+          "win": 4
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {},
+      "losses": 6,
+      "mean_c1_forwards_per_move": 72.34,
+      "mean_plies": 366.6,
+      "moves_differing_from_medium": {},
+      "pack_latency": {
+        "max_seconds_per_move": 0.10275,
+        "mean_seconds_per_move": 0.09778,
+        "median_seconds_per_move": 0.09855,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 0.1021
+      },
+      "paired_vs_medium": null,
+      "player_decisions": 11010,
+      "preset_id": "MEDIUM",
+      "search_seconds_per_game": 18.2059,
+      "weakness_pack_family_ewr": 0.88158,
+      "wins": 52,
+      "worst_family": {
+        "ewr": 0.71429,
+        "games": 7,
+        "name": "conservative_high_rank_rear"
+      },
+      "worst_opponent": {
+        "ewr": 0.66667,
+        "games": 6,
+        "name": "p24"
+      }
+    },
+    "XLARGE": {
+      "draws": 1,
+      "ewr": 0.90833,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 1,
+          "ewr": 0.75,
+          "games": 6,
+          "loss": 1,
+          "win": 4
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {},
+      "losses": 5,
+      "mean_c1_forwards_per_move": 96.16,
+      "mean_plies": 467.1,
+      "moves_differing_from_medium": {},
+      "pack_latency": {
+        "max_seconds_per_move": 0.13014,
+        "mean_seconds_per_move": 0.12359,
+        "median_seconds_per_move": 0.12477,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 0.1293
+      },
+      "paired_vs_medium": {
+        "boards": 60,
+        "delta": 0.025,
+        "losses": 2,
+        "standard_error": 0.03837,
+        "ties": 54,
+        "wins": 4
+      },
+      "player_decisions": 14025,
+      "preset_id": "XLARGE",
+      "search_seconds_per_game": 29.5115,
+      "weakness_pack_family_ewr": 0.86842,
+      "wins": 54,
+      "worst_family": {
+        "ewr": 0.5,
+        "games": 4,
+        "name": "scout_forward_information"
+      },
+      "worst_opponent": {
+        "ewr": 0.75,
+        "games": 6,
+        "name": "p18"
+      }
+    }
+  },
+  "pairing_id": "p24_b24",
+  "phase": "phase_15",
+  "question": "does buying roughly 2-4x more search compute make the selected P24 + B24 meaningfully stronger than MEDIUM, and what does it cost?",
+  "rungs": {
+    "LARGE": {
+      "draws": 1,
+      "ewr": 0.85833,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 1,
+          "ewr": 0.75,
+          "games": 6,
+          "loss": 1,
+          "win": 4
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 6,
+          "loss": 2,
+          "win": 4
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 6,
+          "loss": 2,
+          "win": 4
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {
+        "decisions": 40,
+        "max_seconds_per_move": 3.96116,
+        "mean_c1_forwards": 4301.6,
+        "mean_seconds_per_move": 3.24962,
+        "mean_world_uniqueness": 0.909,
+        "measured_forward_ratio_vs_medium": 2.19,
+        "measured_latency_ratio_vs_medium": 2.229,
+        "median_seconds_per_move": 3.81835,
+        "naive_ratio_vs_medium": 2.25,
+        "p95_seconds_per_move": 3.91753,
+        "preset_id": "LARGE"
+      },
+      "losses": 8,
+      "mean_c1_forwards_per_move": 5017.89,
+      "mean_plies": 466.8,
+      "moves_differing_from_medium": {
+        "fraction_differing_from_medium": 0.15,
+        "moves_differing_from_medium": 6,
+        "positions": 40
+      },
+      "pack_latency": {
+        "max_seconds_per_move": 7.17285,
+        "mean_seconds_per_move": 6.82776,
+        "median_seconds_per_move": 6.88913,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 7.14207
+      },
+      "paired_vs_medium": {
+        "boards": 60,
+        "delta": -0.075,
+        "losses": 8,
+        "standard_error": 0.05292,
+        "ties": 49,
+        "wins": 3
+      },
+      "player_decisions": 14015,
+      "preset_id": "LARGE",
+      "search_seconds_per_game": 1618.8566,
+      "weakness_pack_family_ewr": 0.86842,
+      "wins": 51,
+      "worst_family": {
+        "ewr": 0.625,
+        "games": 4,
+        "name": "scout_preservation"
+      },
+      "worst_opponent": {
+        "ewr": 0.66667,
+        "games": 6,
+        "name": "p24"
+      }
+    },
+    "MEDIUM": {
+      "draws": 2,
+      "ewr": 0.93333,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 0,
+          "win": 4
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {
+        "decisions": 40,
+        "max_seconds_per_move": 1.795,
+        "mean_c1_forwards": 1964.0,
+        "mean_seconds_per_move": 1.48392,
+        "mean_world_uniqueness": 0.9258,
+        "measured_forward_ratio_vs_medium": 1.0,
+        "measured_latency_ratio_vs_medium": 1.0,
+        "median_seconds_per_move": 1.71334,
+        "naive_ratio_vs_medium": 1.0,
+        "p95_seconds_per_move": 1.77459,
+        "preset_id": "MEDIUM"
+      },
+      "losses": 3,
+      "mean_c1_forwards_per_move": 2237.19,
+      "mean_plies": 458.4,
+      "moves_differing_from_medium": {
+        "fraction_differing_from_medium": 0.0,
+        "moves_differing_from_medium": 0,
+        "positions": 40
+      },
+      "pack_latency": {
+        "max_seconds_per_move": 3.3316,
+        "mean_seconds_per_move": 3.08489,
+        "median_seconds_per_move": 3.15491,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 3.26668
+      },
+      "paired_vs_medium": null,
+      "player_decisions": 13766,
+      "preset_id": "MEDIUM",
+      "search_seconds_per_game": 722.9485,
+      "weakness_pack_family_ewr": 0.96053,
+      "wins": 55,
+      "worst_family": {
+        "ewr": 0.71429,
+        "games": 7,
+        "name": "conservative_high_rank_rear"
+      },
+      "worst_opponent": {
+        "ewr": 0.83333,
+        "games": 6,
+        "name": "p18"
+      }
+    },
+    "XLARGE": {
+      "draws": 1,
+      "ewr": 0.85833,
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 1,
+          "ewr": 0.75,
+          "games": 6,
+          "loss": 1,
+          "win": 4
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.5,
+          "games": 6,
+          "loss": 3,
+          "win": 3
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 6,
+          "loss": 2,
+          "win": 4
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 60,
+      "idle_latency": {
+        "decisions": 40,
+        "max_seconds_per_move": 7.07563,
+        "mean_c1_forwards": 7651.2,
+        "mean_seconds_per_move": 5.73755,
+        "mean_world_uniqueness": 0.8982,
+        "measured_forward_ratio_vs_medium": 3.896,
+        "measured_latency_ratio_vs_medium": 3.964,
+        "median_seconds_per_move": 6.79175,
+        "naive_ratio_vs_medium": 4.125,
+        "p95_seconds_per_move": 6.98906,
+        "preset_id": "XLARGE"
+      },
+      "losses": 8,
+      "mean_c1_forwards_per_move": 8821.22,
+      "mean_plies": 515.9,
+      "moves_differing_from_medium": {
+        "fraction_differing_from_medium": 0.125,
+        "moves_differing_from_medium": 5,
+        "positions": 40
+      },
+      "pack_latency": {
+        "max_seconds_per_move": 12.65651,
+        "mean_seconds_per_move": 11.83529,
+        "median_seconds_per_move": 12.17395,
+        "note": "measured under ten-way process contention",
+        "p95_seconds_per_move": 12.57809
+      },
+      "paired_vs_medium": {
+        "boards": 60,
+        "delta": -0.075,
+        "losses": 6,
+        "standard_error": 0.04087,
+        "ties": 53,
+        "wins": 1
+      },
+      "player_decisions": 15489,
+      "preset_id": "XLARGE",
+      "search_seconds_per_game": 3055.243,
+      "weakness_pack_family_ewr": 0.89474,
+      "wins": 51,
+      "worst_family": {
+        "ewr": 0.71429,
+        "games": 7,
+        "name": "conservative_high_rank_rear"
+      },
+      "worst_opponent": {
+        "ewr": 0.5,
+        "games": 6,
+        "name": "p24"
+      }
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "verdict": {
+    "both_rungs_regressed": true,
+    "large_fits_latency_ceiling": true,
+    "large_gain": -0.075,
+    "large_p95_seconds": 3.91753,
+    "large_standard_error": 0.05292,
+    "latency_ceiling_seconds": 5.0,
+    "meaningful_gain_band": [
+      0.03,
+      0.05
+    ],
+    "reason": "both stronger rungs came out *worse* than MEDIUM on the paired pack (LARGE -0.0750, XLARGE -0.0750), so the extra compute does not merely fail to pay for itself \u2014 the point estimate is a regression, and MEDIUM stands",
+    "recommendation": "MEDIUM",
+    "rule": "recommend the stronger rung when it gains >= the meaningful band and its p95 move fits the ceiling; keep MEDIUM when the gain is tiny or noisy while latency multiplies; prefer LARGE when LARGE improves and XLARGE does not",
+    "xlarge_fits_latency_ceiling": false,
+    "xlarge_gain": -0.075,
+    "xlarge_p95_seconds": 6.98906,
+    "xlarge_standard_error": 0.04087
+  },
+  "wall_seconds": 35083.9
+}

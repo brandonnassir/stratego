@@ -1,0 +1,18 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase16_agent02_cli_verification_v1",
+  "command": "scripts/play_phase16.py --red varied_fast --blue varied_strength --setup-seed 3",
+  "context": "idle machine, single process, under the compute lock",
+  "decisions": 169,
+  "fallbacks": "{}",
+  "log": "reports/phase16/logs/cli_verify.txt",
+  "move_changes": 53,
+  "operator_log_line_appended": true,
+  "phase": "phase_16",
+  "plies": 169,
+  "ran_utc": "2026-08-26T19:54:56Z",
+  "result": "red (flag_capture)",
+  "sampled_changes": 53,
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

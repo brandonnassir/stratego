@@ -1,0 +1,27 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase16_agent02_process_boundary_v1",
+  "checked_utc": "2026-08-25T20:53:21Z",
+  "cpu_count": 14,
+  "load_average": {
+    "15m": 10.5244140625,
+    "1m": 21.11328125,
+    "5m": 16.84423828125
+  },
+  "matching_processes": [
+    "69324 0.0 0.0 0:00.01 /bin/zsh ./reports/phase16/logs/run_packs.sh",
+    "69339 0.0 0.4 0:00.60 .venv/bin/python scripts/run_phase16_agent01.py --role bench --arm p24_b24 --preset TINY --workers 10 --expected-hours 0.5 --quiet",
+    "69546 0.0 0.0 0:00.01 /bin/zsh -c source /Users/brandonwashington/.claude/shell-snapshots/snapshot-zsh-1787680722463-iz2iwm.sh 2>/dev/null || true && setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \\builtin unalias -- 'unsetenv'; \\builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval '.venv/bin/python -m pytest -q -p no:cacheprovider 2>&1 | tail -6 > reports/phase16/logs/full_suite_tail.txt; echo done; cat reports/phase16/logs/full_suite_tail.txt' < /dev/null && pwd -P >| /tmp/claude-26ef-cwd",
+    "69633 0.0 0.0 0:00.01 /bin/zsh -c source /Users/brandonwashington/.claude/shell-snapshots/snapshot-zsh-1787680722463-iz2iwm.sh 2>/dev/null || true && setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \\builtin unalias -- 'unsetenv'; \\builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent\\012while true; do\\012 line=$(grep -E \"bench |baseline |analyse|COMPLETE|Error|Traceback|refusing\" reports/phase16/logs/packs_20260825.log | tail -1)\\012 if [ \"$line\" != \"$last\" ]; then echo \"$line\"; last=\"$line\"; fi\\012 if grep -q \"PACK CHAIN COMPLETE\" reports/phase16/logs/packs_20260825.log; then exit 0; fi\\012 if ! pgrep -f run_packs.sh > /dev/null; then echo \"CHAIN PROCESS EXITED\"; tail -3 reports/phase16/logs/packs_20260825.log; exit 1; fi\\012 sleep 60\\012done' < /dev/null && pwd -P >| /tmp/claude-ff83-cwd",
+    "69646 0.0 0.0 0:00.03 /bin/zsh -c source /Users/brandonwashington/.claude/shell-snapshots/snapshot-zsh-1787680722463-iz2iwm.sh 2>/dev/null || true && setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \\builtin unalias -- 'unsetenv'; \\builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent\\012until [ -s reports/phase16/logs/full_suite_tail.txt ]; do\\012 if ! pgrep -f \"pytest -q -p no:cacheprovider\" > /dev/null; then echo \"SUITE PROCESS GONE\"; break; fi\\012 sleep 10\\012done\\012cat reports/phase16/logs/full_suite_tail.txt 2>/dev/null | tail -3' < /dev/null && pwd -P >| /tmp/claude-be9b-cwd",
+    "99915 0.0 0.1 0:46.72 .venv/bin/python scripts/phase14_dashboard.py --port 8714"
+  ],
+  "method": "read-only `ps` inspection; no signal, no control file, no run-state write",
+  "note": "the read-only Phase 14 dashboard may hold port 8714 and is not competition; Phase 16 Agent 1 runs in parallel and is coordinated through checkpoints/phase16/COMPUTE_LOCK.json, never signalled",
+  "phase": "phase_16",
+  "phase14_learner_or_evaluator_running": false,
+  "phase14_processes": [],
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "verdict": "clear_to_run"
+}

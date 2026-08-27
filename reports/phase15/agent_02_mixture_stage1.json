@@ -1,0 +1,463 @@
+{
+  "agent": "agent_02",
+  "arms": {
+    "b24_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.0,
+      "disagreement_with_b24_medium": 0.09167,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4281.95,
+      "mean_seconds": 5.85879,
+      "mean_unique_worlds": 60.125,
+      "median_seconds": 6.79341,
+      "move_change_rate_vs_direct": 0.06667,
+      "oracle_agreement": 0.90833,
+      "oracle_q_regret_mean": 0.063639,
+      "oracle_q_regret_median": 0.034533,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.159735,
+      "oracle_s_regret_mean": 0.01069,
+      "p95_seconds": 7.52071,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "b24_MEDIUM": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": null,
+      "disagreement_with_b24_medium": 0.0,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 1951.16667,
+      "mean_seconds": 2.84599,
+      "mean_unique_worlds": 30.48333,
+      "median_seconds": 3.21227,
+      "move_change_rate_vs_direct": 0.09167,
+      "oracle_agreement": 0.85833,
+      "oracle_q_regret_mean": 0.062818,
+      "oracle_q_regret_median": 0.031134,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.156264,
+      "oracle_s_regret_mean": 0.01335,
+      "p95_seconds": 3.65789,
+      "preset_id": "MEDIUM",
+      "search_errors": 0
+    },
+    "count_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.01667,
+      "disagreement_with_b24_medium": 0.1,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4439.96667,
+      "mean_seconds": 6.03008,
+      "mean_unique_worlds": 61.09167,
+      "median_seconds": 6.77353,
+      "move_change_rate_vs_direct": 0.06667,
+      "oracle_agreement": 0.90833,
+      "oracle_q_regret_mean": 0.057069,
+      "oracle_q_regret_median": 0.036326,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.156264,
+      "oracle_s_regret_mean": 0.00508,
+      "p95_seconds": 7.41778,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "mix_l000_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.03333,
+      "disagreement_with_b24_medium": 0.11667,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4426.55833,
+      "mean_seconds": 5.97541,
+      "mean_unique_worlds": 61.10833,
+      "median_seconds": 6.73619,
+      "move_change_rate_vs_direct": 0.06667,
+      "oracle_agreement": 0.90833,
+      "oracle_q_regret_mean": 0.058822,
+      "oracle_q_regret_median": 0.041051,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.159735,
+      "oracle_s_regret_mean": 0.00738,
+      "p95_seconds": 7.36128,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "mix_l025_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.025,
+      "disagreement_with_b24_medium": 0.10833,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4396.49167,
+      "mean_seconds": 5.94692,
+      "mean_unique_worlds": 61.08333,
+      "median_seconds": 6.74282,
+      "move_change_rate_vs_direct": 0.05833,
+      "oracle_agreement": 0.91667,
+      "oracle_q_regret_mean": 0.057067,
+      "oracle_q_regret_median": 0.036326,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.156037,
+      "oracle_s_regret_mean": 0.00506,
+      "p95_seconds": 7.39589,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "mix_l050_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.03333,
+      "disagreement_with_b24_medium": 0.1,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4361.10833,
+      "mean_seconds": 5.8982,
+      "mean_unique_worlds": 60.83333,
+      "median_seconds": 6.79852,
+      "move_change_rate_vs_direct": 0.05,
+      "oracle_agreement": 0.90833,
+      "oracle_q_regret_mean": 0.063833,
+      "oracle_q_regret_median": 0.036326,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.159735,
+      "oracle_s_regret_mean": 0.01095,
+      "p95_seconds": 7.28195,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "mix_l075_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.025,
+      "disagreement_with_b24_medium": 0.08333,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4324.925,
+      "mean_seconds": 5.83042,
+      "mean_unique_worlds": 60.51667,
+      "median_seconds": 6.77548,
+      "move_change_rate_vs_direct": 0.075,
+      "oracle_agreement": 0.91667,
+      "oracle_q_regret_mean": 0.062711,
+      "oracle_q_regret_median": 0.031134,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.159735,
+      "oracle_s_regret_mean": 0.01178,
+      "p95_seconds": 7.30627,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "mix_l100_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": 0.0,
+      "disagreement_with_b24_medium": 0.09167,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 4281.95,
+      "mean_seconds": 5.77449,
+      "mean_unique_worlds": 60.125,
+      "median_seconds": 6.77353,
+      "move_change_rate_vs_direct": 0.06667,
+      "oracle_agreement": 0.90833,
+      "oracle_q_regret_mean": 0.063639,
+      "oracle_q_regret_median": 0.034533,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.159735,
+      "oracle_s_regret_mean": 0.01069,
+      "p95_seconds": 7.38782,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    },
+    "oracle_LARGE": {
+      "action_outside_oracle_candidates": 0,
+      "decisions": 120,
+      "disagreement_with_b24_large": null,
+      "disagreement_with_b24_medium": null,
+      "illegal_decisions": 0,
+      "legal_decision_rate": 1.0,
+      "mean_c1_forwards": 67.6,
+      "mean_seconds": 0.09671,
+      "mean_unique_worlds": 1.0,
+      "median_seconds": 0.10059,
+      "move_change_rate_vs_direct": 0.10833,
+      "oracle_agreement": 1.0,
+      "oracle_q_regret_mean": 0.045802,
+      "oracle_q_regret_median": 0.016262,
+      "oracle_q_regret_n": 120,
+      "oracle_q_regret_p90": 0.138676,
+      "oracle_s_regret_mean": 0.0,
+      "p95_seconds": 0.15932,
+      "preset_id": "LARGE",
+      "search_errors": 0
+    }
+  },
+  "artifact": "phase15_belief_mixture_pilot_v1_stage1",
+  "checks": {
+    "endpoint_identity": {
+      "differing_positions": 0,
+      "endpoint_arm": "mix_l100_LARGE",
+      "findings": [],
+      "frozen_arm": "b24_LARGE",
+      "passed": true,
+      "positions": 120
+    },
+    "shared_candidate_set": {
+      "decisions": 1080,
+      "findings": [],
+      "outside": 0,
+      "passed": true
+    }
+  },
+  "decisions": 1080,
+  "generated_utc": "2026-08-25T14:12:30Z",
+  "lambdas": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "phase": "phase_15",
+  "position_manifest_digest": "01d1ba603287cddacb0fb61c9c24504d80e0a55e3eedbc3d3c9355293da06c49",
+  "positions": 120,
+  "preset": "LARGE",
+  "question": "can mixing B24 with the robust remaining-count belief prevent the degradation seen when search goes deeper?",
+  "reference_comparisons": {
+    "floor_note": "the oracle selects by S = Q + beta*log(pi + epsilon), not by argmax Q, so its own Q-regret is the floor of this metric rather than zero; beta is frozen and identical across arms, so the floor is common",
+    "oracle_regret_floor": 0.045802,
+    "the_gap_the_pilot_exists_to_explain": {
+      "better_positions": 5,
+      "delta": 0.000821,
+      "positions": 120,
+      "standard_error": 0.001671,
+      "tied_positions": 110,
+      "worse_positions": 5
+    },
+    "vs_b24_large": {
+      "b24_MEDIUM": {
+        "better_positions": 5,
+        "delta": -0.000821,
+        "positions": 120,
+        "standard_error": 0.001671,
+        "tied_positions": 110,
+        "worse_positions": 5
+      },
+      "count_LARGE": {
+        "better_positions": 1,
+        "delta": -0.00657,
+        "positions": 120,
+        "standard_error": 0.00718,
+        "tied_positions": 118,
+        "worse_positions": 1
+      },
+      "mix_l000_LARGE": {
+        "better_positions": 2,
+        "delta": -0.004818,
+        "positions": 120,
+        "standard_error": 0.007405,
+        "tied_positions": 116,
+        "worse_positions": 2
+      },
+      "mix_l025_LARGE": {
+        "better_positions": 2,
+        "delta": -0.006572,
+        "positions": 120,
+        "standard_error": 0.00718,
+        "tied_positions": 117,
+        "worse_positions": 1
+      },
+      "mix_l050_LARGE": {
+        "better_positions": 2,
+        "delta": 0.000194,
+        "positions": 120,
+        "standard_error": 0.000706,
+        "tied_positions": 116,
+        "worse_positions": 2
+      },
+      "mix_l075_LARGE": {
+        "better_positions": 2,
+        "delta": -0.000928,
+        "positions": 120,
+        "standard_error": 0.000926,
+        "tied_positions": 118,
+        "worse_positions": 0
+      },
+      "mix_l100_LARGE": {
+        "better_positions": 0,
+        "delta": 0.0,
+        "positions": 120,
+        "standard_error": 0.0,
+        "tied_positions": 120,
+        "worse_positions": 0
+      },
+      "oracle_LARGE": {
+        "better_positions": 11,
+        "delta": -0.017837,
+        "positions": 120,
+        "standard_error": 0.007997,
+        "tied_positions": 109,
+        "worse_positions": 0
+      }
+    },
+    "vs_b24_medium": {
+      "b24_LARGE": {
+        "better_positions": 5,
+        "delta": 0.000821,
+        "positions": 120,
+        "standard_error": 0.001671,
+        "tied_positions": 110,
+        "worse_positions": 5
+      },
+      "count_LARGE": {
+        "better_positions": 6,
+        "delta": -0.005749,
+        "positions": 120,
+        "standard_error": 0.00733,
+        "tied_positions": 109,
+        "worse_positions": 5
+      },
+      "mix_l000_LARGE": {
+        "better_positions": 7,
+        "delta": -0.003997,
+        "positions": 120,
+        "standard_error": 0.007548,
+        "tied_positions": 107,
+        "worse_positions": 6
+      },
+      "mix_l025_LARGE": {
+        "better_positions": 7,
+        "delta": -0.005751,
+        "positions": 120,
+        "standard_error": 0.00733,
+        "tied_positions": 108,
+        "worse_positions": 5
+      },
+      "mix_l050_LARGE": {
+        "better_positions": 6,
+        "delta": 0.001015,
+        "positions": 120,
+        "standard_error": 0.001503,
+        "tied_positions": 109,
+        "worse_positions": 5
+      },
+      "mix_l075_LARGE": {
+        "better_positions": 6,
+        "delta": -0.000107,
+        "positions": 120,
+        "standard_error": 0.00139,
+        "tied_positions": 110,
+        "worse_positions": 4
+      },
+      "mix_l100_LARGE": {
+        "better_positions": 5,
+        "delta": 0.000821,
+        "positions": 120,
+        "standard_error": 0.001671,
+        "tied_positions": 110,
+        "worse_positions": 5
+      },
+      "oracle_LARGE": {
+        "better_positions": 14,
+        "delta": -0.017016,
+        "positions": 120,
+        "standard_error": 0.007971,
+        "tied_positions": 104,
+        "worse_positions": 2
+      }
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "seed": 20260824,
+  "selection": {
+    "b24_endpoint_arm": "mix_l100_LARGE",
+    "comparisons": {
+      "mix_l025_LARGE": {
+        "vs_b24_endpoint": {
+          "better_positions": 2,
+          "delta": -0.006572,
+          "positions": 120,
+          "standard_error": 0.00718,
+          "tied_positions": 117,
+          "worse_positions": 1
+        },
+        "vs_count_endpoint": {
+          "better_positions": 1,
+          "delta": -0.001754,
+          "positions": 120,
+          "standard_error": 0.001754,
+          "tied_positions": 119,
+          "worse_positions": 0
+        }
+      },
+      "mix_l050_LARGE": {
+        "vs_b24_endpoint": {
+          "better_positions": 2,
+          "delta": 0.000194,
+          "positions": 120,
+          "standard_error": 0.000706,
+          "tied_positions": 116,
+          "worse_positions": 2
+        },
+        "vs_count_endpoint": {
+          "better_positions": 2,
+          "delta": 0.005012,
+          "positions": 120,
+          "standard_error": 0.007391,
+          "tied_positions": 116,
+          "worse_positions": 2
+        }
+      },
+      "mix_l075_LARGE": {
+        "vs_b24_endpoint": {
+          "better_positions": 2,
+          "delta": -0.000928,
+          "positions": 120,
+          "standard_error": 0.000926,
+          "tied_positions": 118,
+          "worse_positions": 0
+        },
+        "vs_count_endpoint": {
+          "better_positions": 3,
+          "delta": 0.00389,
+          "positions": 120,
+          "standard_error": 0.007467,
+          "tied_positions": 116,
+          "worse_positions": 1
+        }
+      }
+    },
+    "count_endpoint_arm": "mix_l000_LARGE",
+    "findings": [
+      "mix_l025_LARGE: regret vs count endpoint -0.0018 (se 0.0018), vs B24 endpoint -0.0066 (se 0.0072)",
+      "mix_l075_LARGE: regret vs count endpoint +0.0039 (se 0.0075), vs B24 endpoint -0.0009 (se 0.0009)",
+      "mix_l050_LARGE: regret vs count endpoint +0.0050 (se 0.0074), vs B24 endpoint +0.0002 (se 0.0007)"
+    ],
+    "interior_arms": [
+      "mix_l025_LARGE",
+      "mix_l050_LARGE",
+      "mix_l075_LARGE"
+    ],
+    "ranked_by_regret": [
+      "mix_l025_LARGE",
+      "mix_l075_LARGE",
+      "mix_l050_LARGE"
+    ],
+    "rule": "select an interior lambda only if its paired oracle Q-regret beats both endpoints by more than the paired standard error of that difference; otherwise report no useful mixture",
+    "selected_arm": null,
+    "selected_lambda": null,
+    "stage2_authorized": false
+  },
+  "stage": "stage_1_position_diagnostic",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "wall_seconds": 576.2,
+  "workers": 10
+}

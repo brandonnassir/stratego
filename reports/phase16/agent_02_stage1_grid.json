@@ -1,0 +1,545 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase16_stochastic_stage1_v1",
+  "budgets_completed": [
+    "MEDIUM",
+    "TINY"
+  ],
+  "filter": {
+    "control_arm": "stoch_t000_r000",
+    "margin": 0.01,
+    "rule": "an arm survives if its mean oracle Q-regret excess is within +0.01 of the tau=0 control at every Stage 1 budget; the control survives by definition; the full grid is reported regardless",
+    "survivors": [
+      "stoch_t000_r000",
+      "stoch_t000_r100",
+      "stoch_t015_r000",
+      "stoch_t015_r100",
+      "stoch_t030_r000",
+      "stoch_t030_r100"
+    ],
+    "verdicts": {
+      "stoch_t000_r000": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.0,
+            "excess": 0.014637,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": 0.0,
+            "excess": 0.011497,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t000_r100": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.002885,
+            "excess": 0.017522,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": -0.000234,
+            "excess": 0.011263,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t015_r000": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.000369,
+            "excess": 0.015006,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": -0.00431,
+            "excess": 0.007187,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t015_r100": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 5.4e-05,
+            "excess": 0.014691,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": -0.001466,
+            "excess": 0.010031,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t030_r000": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.004724,
+            "excess": 0.019361,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": 0.002855,
+            "excess": 0.014352,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t030_r100": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.003014,
+            "excess": 0.017651,
+            "within_margin": true
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": 0.002447,
+            "excess": 0.013944,
+            "within_margin": true
+          }
+        },
+        "survives": true
+      },
+      "stoch_t060_r000": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.022854,
+            "excess": 0.037491,
+            "within_margin": false
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": 0.018042,
+            "excess": 0.029539,
+            "within_margin": false
+          }
+        },
+        "survives": false
+      },
+      "stoch_t060_r100": {
+        "budgets": {
+          "MEDIUM": {
+            "available": true,
+            "control_excess": 0.014637,
+            "delta_vs_control": 0.015484,
+            "excess": 0.030121,
+            "within_margin": false
+          },
+          "TINY": {
+            "available": true,
+            "control_excess": 0.011497,
+            "delta_vs_control": 0.013097,
+            "excess": 0.024594,
+            "within_margin": false
+          }
+        },
+        "survives": false
+      }
+    }
+  },
+  "generated_utc": "2026-08-26T05:48:33Z",
+  "latency_note": "Stage 1 search_seconds are measured under worker contention and are not latency claims; idle caps come from the latency role",
+  "phase": "phase_16",
+  "position_manifest_digest": "6c840cf93882cbcf6517b5f4beb6fcc6be5fc3943e213997df491d41ed771ccf",
+  "position_pack": "phase16_agent02_positions_v1",
+  "positions": 120,
+  "replays_per_arm_per_position": 16,
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "summary": {
+    "arms": {
+      "stoch_t000_r000|MEDIUM": {
+        "agreement_with_tau0": 1.0,
+        "arm": "stoch_t000_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1932.8,
+        "mean_distinct_actions": 1.0,
+        "median_search_seconds_contended": 3.08737,
+        "move_change_rate_vs_direct": 0.025,
+        "oracle_agreement": 0.94167,
+        "oracle_q_regret_excess_over_floor": 0.014637,
+        "oracle_q_regret_mean": 0.066036,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.0,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 1.0,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.0,
+        "tau": 0.0,
+        "tau_r": 0.0
+      },
+      "stoch_t000_r000|TINY": {
+        "agreement_with_tau0": 1.0,
+        "arm": "stoch_t000_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.0,
+        "mean_distinct_actions": 1.0,
+        "median_search_seconds_contended": 0.45087,
+        "move_change_rate_vs_direct": 0.025,
+        "oracle_agreement": 0.925,
+        "oracle_q_regret_excess_over_floor": 0.011497,
+        "oracle_q_regret_mean": 0.059939,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.0,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 1.0,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.0,
+        "tau": 0.0,
+        "tau_r": 0.0
+      },
+      "stoch_t000_r100|MEDIUM": {
+        "agreement_with_tau0": 0.96354,
+        "arm": "stoch_t000_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1933.7,
+        "mean_distinct_actions": 1.1,
+        "median_search_seconds_contended": 3.10024,
+        "move_change_rate_vs_direct": 0.02813,
+        "oracle_agreement": 0.92656,
+        "oracle_q_regret_excess_over_floor": 0.017522,
+        "oracle_q_regret_mean": 0.068921,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.04414,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.97813,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.0,
+        "tau": 0.0,
+        "tau_r": 1.0
+      },
+      "stoch_t000_r100|TINY": {
+        "agreement_with_tau0": 0.98646,
+        "arm": "stoch_t000_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.1,
+        "mean_distinct_actions": 1.083,
+        "median_search_seconds_contended": 0.45957,
+        "move_change_rate_vs_direct": 0.03125,
+        "oracle_agreement": 0.92292,
+        "oracle_q_regret_excess_over_floor": 0.011263,
+        "oracle_q_regret_mean": 0.059705,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.03518,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.98646,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.0,
+        "tau": 0.0,
+        "tau_r": 1.0
+      },
+      "stoch_t015_r000|MEDIUM": {
+        "agreement_with_tau0": 0.67656,
+        "arm": "stoch_t015_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1932.8,
+        "mean_distinct_actions": 3.483,
+        "median_search_seconds_contended": 3.08737,
+        "move_change_rate_vs_direct": 0.32396,
+        "oracle_agreement": 0.66458,
+        "oracle_q_regret_excess_over_floor": 0.015006,
+        "oracle_q_regret_mean": 0.066405,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.79094,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.68854,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.32344,
+        "tau": 0.15,
+        "tau_r": 0.0
+      },
+      "stoch_t015_r000|TINY": {
+        "agreement_with_tau0": 0.67083,
+        "arm": "stoch_t015_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.0,
+        "mean_distinct_actions": 3.5,
+        "median_search_seconds_contended": 0.45087,
+        "move_change_rate_vs_direct": 0.3276,
+        "oracle_agreement": 0.65938,
+        "oracle_q_regret_excess_over_floor": 0.007187,
+        "oracle_q_regret_mean": 0.055629,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.79368,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.68594,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.32917,
+        "tau": 0.15,
+        "tau_r": 0.0
+      },
+      "stoch_t015_r100|MEDIUM": {
+        "agreement_with_tau0": 0.66406,
+        "arm": "stoch_t015_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1933.7,
+        "mean_distinct_actions": 3.542,
+        "median_search_seconds_contended": 3.10024,
+        "move_change_rate_vs_direct": 0.33281,
+        "oracle_agreement": 0.66094,
+        "oracle_q_regret_excess_over_floor": 0.014691,
+        "oracle_q_regret_mean": 0.06609,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.81083,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.68073,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.32865,
+        "tau": 0.15,
+        "tau_r": 1.0
+      },
+      "stoch_t015_r100|TINY": {
+        "agreement_with_tau0": 0.66406,
+        "arm": "stoch_t015_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.1,
+        "mean_distinct_actions": 3.525,
+        "median_search_seconds_contended": 0.45957,
+        "move_change_rate_vs_direct": 0.3401,
+        "oracle_agreement": 0.65365,
+        "oracle_q_regret_excess_over_floor": 0.010031,
+        "oracle_q_regret_mean": 0.058473,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 0.81603,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.67917,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.3375,
+        "tau": 0.15,
+        "tau_r": 1.0
+      },
+      "stoch_t030_r000|MEDIUM": {
+        "agreement_with_tau0": 0.49219,
+        "arm": "stoch_t030_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1932.8,
+        "mean_distinct_actions": 5.0,
+        "median_search_seconds_contended": 3.08737,
+        "move_change_rate_vs_direct": 0.5125,
+        "oracle_agreement": 0.48542,
+        "oracle_q_regret_excess_over_floor": 0.019361,
+        "oracle_q_regret_mean": 0.07076,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.22927,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.52552,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.50781,
+        "tau": 0.3,
+        "tau_r": 0.0
+      },
+      "stoch_t030_r000|TINY": {
+        "agreement_with_tau0": 0.49219,
+        "arm": "stoch_t030_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.0,
+        "mean_distinct_actions": 4.917,
+        "median_search_seconds_contended": 0.45087,
+        "move_change_rate_vs_direct": 0.51458,
+        "oracle_agreement": 0.48698,
+        "oracle_q_regret_excess_over_floor": 0.014352,
+        "oracle_q_regret_mean": 0.062794,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.22096,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.52344,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.50781,
+        "tau": 0.3,
+        "tau_r": 0.0
+      },
+      "stoch_t030_r100|MEDIUM": {
+        "agreement_with_tau0": 0.48073,
+        "arm": "stoch_t030_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1933.7,
+        "mean_distinct_actions": 5.075,
+        "median_search_seconds_contended": 3.10024,
+        "move_change_rate_vs_direct": 0.51458,
+        "oracle_agreement": 0.47292,
+        "oracle_q_regret_excess_over_floor": 0.017651,
+        "oracle_q_regret_mean": 0.06905,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.2448,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.51927,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.51771,
+        "tau": 0.3,
+        "tau_r": 1.0
+      },
+      "stoch_t030_r100|TINY": {
+        "agreement_with_tau0": 0.48698,
+        "arm": "stoch_t030_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.1,
+        "mean_distinct_actions": 5.017,
+        "median_search_seconds_contended": 0.45957,
+        "move_change_rate_vs_direct": 0.5151,
+        "oracle_agreement": 0.48177,
+        "oracle_q_regret_excess_over_floor": 0.013944,
+        "oracle_q_regret_mean": 0.062386,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.23521,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.5224,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.51406,
+        "tau": 0.3,
+        "tau_r": 1.0
+      },
+      "stoch_t060_r000|MEDIUM": {
+        "agreement_with_tau0": 0.30469,
+        "arm": "stoch_t060_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1932.8,
+        "mean_distinct_actions": 6.417,
+        "median_search_seconds_contended": 3.08737,
+        "move_change_rate_vs_direct": 0.69427,
+        "oracle_agreement": 0.29688,
+        "oracle_q_regret_excess_over_floor": 0.037491,
+        "oracle_q_regret_mean": 0.08889,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.64449,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.35313,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.69531,
+        "tau": 0.6,
+        "tau_r": 0.0
+      },
+      "stoch_t060_r000|TINY": {
+        "agreement_with_tau0": 0.30833,
+        "arm": "stoch_t060_r000",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.0,
+        "mean_distinct_actions": 6.392,
+        "median_search_seconds_contended": 0.45087,
+        "move_change_rate_vs_direct": 0.69167,
+        "oracle_agreement": 0.30469,
+        "oracle_q_regret_excess_over_floor": 0.029539,
+        "oracle_q_regret_mean": 0.077981,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.63519,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.35417,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.69167,
+        "tau": 0.6,
+        "tau_r": 0.0
+      },
+      "stoch_t060_r100|MEDIUM": {
+        "agreement_with_tau0": 0.31719,
+        "arm": "stoch_t060_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 1933.7,
+        "mean_distinct_actions": 6.408,
+        "median_search_seconds_contended": 3.10024,
+        "move_change_rate_vs_direct": 0.68542,
+        "oracle_agreement": 0.31458,
+        "oracle_q_regret_excess_over_floor": 0.030121,
+        "oracle_q_regret_mean": 0.08152,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.63476,
+        "positions": 120,
+        "preset_id": "MEDIUM",
+        "repeat_rate": 0.36094,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.67917,
+        "tau": 0.6,
+        "tau_r": 1.0
+      },
+      "stoch_t060_r100|TINY": {
+        "agreement_with_tau0": 0.31823,
+        "arm": "stoch_t060_r100",
+        "decisions": 1920,
+        "illegal_decisions": 0,
+        "mean_c1_forwards": 284.1,
+        "mean_distinct_actions": 6.442,
+        "median_search_seconds_contended": 0.45957,
+        "move_change_rate_vs_direct": 0.68333,
+        "oracle_agreement": 0.31458,
+        "oracle_q_regret_excess_over_floor": 0.024594,
+        "oracle_q_regret_mean": 0.073036,
+        "oracle_q_regret_n": 1920,
+        "played_move_entropy_nats": 1.63778,
+        "positions": 120,
+        "preset_id": "TINY",
+        "repeat_rate": 0.36302,
+        "replays_per_position": 16,
+        "sampled_away_from_argmax_rate": 0.68073,
+        "tau": 0.6,
+        "tau_r": 1.0
+      }
+    },
+    "oracle_regret_floor_by_preset": {
+      "MEDIUM": 0.051399,
+      "TINY": 0.048442
+    }
+  },
+  "world_seed": "DECISION_SEED (the accepted Phase 15 Stage A seed), fixed"
+}

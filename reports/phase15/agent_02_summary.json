@@ -1,0 +1,191 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_agent02_summary_v1",
+  "budget": {
+    "p18_b18": {
+      "selected_preset": "TINY",
+      "strong_gate_allowed": false,
+      "strongest_observed_preset": "SMALL"
+    },
+    "p24_b24": {
+      "selected_preset": "TINY",
+      "strong_gate_allowed": false,
+      "strongest_observed_preset": "MEDIUM"
+    }
+  },
+  "evidence": {
+    "match_boards": 120,
+    "match_manifest_digest": "f2e2e7a4504ea2712ddef7d7d8429e147a7a6c57eb2aeb5b19adb5e368a5e76b",
+    "position_manifest_digest": "01d1ba603287cddacb0fb61c9c24504d80e0a55e3eedbc3d3c9355293da06c49",
+    "positions": 120,
+    "probe_passed": true,
+    "stage_b_games": 1200,
+    "stage_c_games": 240
+  },
+  "gate": {
+    "checks_passed": 10,
+    "checks_run": 10,
+    "failed": [],
+    "passed": true
+  },
+  "generated_utc": "2026-08-24T20:36:30Z",
+  "known_limitations": [
+    "a compact engineering pack: no significance claim is made and the per-arm sample is 120 paired boards",
+    "the learned belief specialists did NOT consistently beat the remaining-count control: for P18 the count arm scored higher than both specialists, and for P24 only B24 beat it. The selected system is the strongest of the four P/B combinations, not evidence that a learned belief head is required; p18_remaining_count scored within 0.01 EWR of the selection while using no learned belief at all",
+    "the oracle ceiling is small at this budget (+0.100 EWR for P18, +0.146 for P24), so most of the headroom in this search design is not in hidden-piece inference quality",
+    "the match boards draw from the accepted setup library's `validation` split, which is also the population Agent 1's calibration and development corpora drew from; B18/B24 weights saw only the `train` split, so no belief model trained on these boards, but the two measurements are not independent draws of the base population",
+    "the oracle arm is an offline ceiling diagnostic and is excluded from production by four independent refusals",
+    "Stage A is a decision diagnostic on replayed positions, not a strength measurement",
+    "no scientific validation phase was performed; this is an engineering selection"
+  ],
+  "maximum_strength_preset": "MEDIUM",
+  "oracle_available_in_production": false,
+  "phase": "phase_15",
+  "process_boundary": "clear_to_run",
+  "scientific_validation_status": "not performed",
+  "selected_preset": "TINY",
+  "selected_system": {
+    "belief_model": "B24",
+    "description": "P24 + b24 search",
+    "move_model": "P24",
+    "pairing_id": "p24_b24"
+  },
+  "selection": {
+    "contenders_within_margin": [
+      "p24_b24",
+      "p24_b18",
+      "p18_b18"
+    ],
+    "rule": "composite = 0.5*overall EWR + 0.2*worst opponent + 0.15*worst family + 0.15*weakness-pack family EWR; ties inside the engineering margin broken by median latency bucketed to 0.05s, then the simpler pairing, then the composite",
+    "selected": "p24_b24"
+  },
+  "stage_a_interpretation": {
+    "p18": {
+      "best_learned_move_change_rate": 0.075,
+      "best_learned_oracle_agreement": 0.93333,
+      "count_move_change_rate": 0.09167,
+      "count_oracle_agreement": 0.85833,
+      "direct_oracle_agreement": 0.875,
+      "note": "the learned belief changes decisions at a rate comparable to the oracle",
+      "oracle_move_change_rate": 0.125,
+      "reading": "learned_belief_tracks_oracle"
+    },
+    "p24": {
+      "best_learned_move_change_rate": 0.10833,
+      "best_learned_oracle_agreement": 0.925,
+      "count_move_change_rate": 0.075,
+      "count_oracle_agreement": 0.93333,
+      "direct_oracle_agreement": 0.9,
+      "note": "the learned belief changes decisions at a rate comparable to the oracle",
+      "oracle_move_change_rate": 0.1,
+      "reading": "learned_belief_tracks_oracle"
+    }
+  },
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "system_matrix": {
+    "p18_b18": {
+      "belief_model": "b18",
+      "direct_ewr": 0.77083,
+      "fallback_rate": 0.0,
+      "games": 120,
+      "median_seconds_per_move": 0.45348,
+      "move_change_rate": 0.06663,
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.46203,
+      "paired_delta_vs_direct": 0.05833,
+      "paired_standard_error": 0.04315,
+      "search_ewr": 0.82917,
+      "weakness_pack_family_ewr": 0.78571,
+      "weakness_pack_opponent_ewr": 0.90625,
+      "worst_family": {
+        "ewr": 0.55556,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "worst_opponent": {
+        "ewr": 0.5,
+        "games": 12,
+        "name": "p24"
+      }
+    },
+    "p18_b24": {
+      "belief_model": "b24",
+      "direct_ewr": 0.77083,
+      "fallback_rate": 0.0,
+      "games": 120,
+      "median_seconds_per_move": 0.4553,
+      "move_change_rate": 0.06804,
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.46835,
+      "paired_delta_vs_direct": 0.03333,
+      "paired_standard_error": 0.04131,
+      "search_ewr": 0.80417,
+      "weakness_pack_family_ewr": 0.77273,
+      "weakness_pack_opponent_ewr": 0.95833,
+      "worst_family": {
+        "ewr": 0.54545,
+        "games": 11,
+        "name": "near_corner_flag_fortress"
+      },
+      "worst_opponent": {
+        "ewr": 0.375,
+        "games": 12,
+        "name": "p24"
+      }
+    },
+    "p24_b18": {
+      "belief_model": "b18",
+      "direct_ewr": 0.7375,
+      "fallback_rate": 0.0,
+      "games": 120,
+      "median_seconds_per_move": 0.45329,
+      "move_change_rate": 0.06409,
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.46569,
+      "paired_delta_vs_direct": 0.0625,
+      "paired_standard_error": 0.0395,
+      "search_ewr": 0.8,
+      "weakness_pack_family_ewr": 0.79221,
+      "weakness_pack_opponent_ewr": 0.84375,
+      "worst_family": {
+        "ewr": 0.66667,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "worst_opponent": {
+        "ewr": 0.58333,
+        "games": 12,
+        "name": "p18"
+      }
+    },
+    "p24_b24": {
+      "belief_model": "b24",
+      "direct_ewr": 0.7375,
+      "fallback_rate": 0.0,
+      "games": 120,
+      "median_seconds_per_move": 0.4523,
+      "move_change_rate": 0.06454,
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.46309,
+      "paired_delta_vs_direct": 0.1375,
+      "paired_standard_error": 0.0414,
+      "search_ewr": 0.875,
+      "weakness_pack_family_ewr": 0.90909,
+      "weakness_pack_opponent_ewr": 0.94792,
+      "worst_family": {
+        "ewr": 0.45,
+        "games": 10,
+        "name": "conservative_high_rank_rear"
+      },
+      "worst_opponent": {
+        "ewr": 0.70833,
+        "games": 12,
+        "name": "p18"
+      }
+    }
+  },
+  "time_caps_seconds": {
+    "maximum_strength": 5.0,
+    "selected_search": 0.91
+  }
+}

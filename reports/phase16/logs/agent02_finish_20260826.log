@@ -1,0 +1,60 @@
+[2026-08-26T15:52:08Z] finish chain starting; waiting for a free lock
+[2026-08-26T16:10:08Z] lock taken for the idle window (pid 97608)
+[2026-08-26T16:10:09Z] running the full pytest suite (idle machine)
+........................................................................ [ 99%]
+.......................                                                  [100%]
+7004 passed, 3 skipped in 539.43s (0:08:59)
+suite json: {'passed': 7004, 'skipped': 3, 'failed': 0, 'minutes': 9.0, 'ran_utc': '2026-08-26T16:19:09Z', 'context': 'idle machine, single process, under the compute lock', 'log': 'reports/phase16/logs/full_suite_agent02.txt'}
+[2026-08-26T16:19:09Z] CLI end-to-end verification (varied_fast vs varied_strength)
+  1  ·· ·· ·· R? ·· ·· R? R? R? R?
+     a  b  c  d  e  f  g  h  i  j
+
+result: red (flag_capture) after 169 plies
+logged game to /Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase16/operator_games.jsonl
+varied player status: decisions 169, move changes 53, sampled changes 53, fallbacks {}
+[2026-08-26T16:20:28Z] cli verify rc=0
+[2026-08-26T16:20:28Z] idle-window lock released
+[2026-08-26T16:20:28Z] benchscore MEDIUM (adversarial delta; takes its own lock)
+  [benchscore] 5/192 (5.8 min elapsed, ~218.0 min left)
+  [benchscore] 10/192 (10.0 min elapsed, ~181.3 min left)
+  [benchscore] 15/192 (12.1 min elapsed, ~143.0 min left)
+  [benchscore] 20/192 (17.1 min elapsed, ~147.2 min left)
+  [benchscore] 25/192 (19.7 min elapsed, ~131.9 min left)
+  [benchscore] 30/192 (22.8 min elapsed, ~123.0 min left)
+  [benchscore] 35/192 (28.9 min elapsed, ~129.8 min left)
+  [benchscore] 40/192 (34.6 min elapsed, ~131.5 min left)
+  [benchscore] 45/192 (40.6 min elapsed, ~132.8 min left)
+  [benchscore] 50/192 (47.1 min elapsed, ~133.9 min left)
+  [benchscore] 55/192 (51.9 min elapsed, ~129.4 min left)
+  [benchscore] 60/192 (56.2 min elapsed, ~123.7 min left)
+  [benchscore] 65/192 (60.4 min elapsed, ~118.0 min left)
+  [benchscore] 70/192 (62.9 min elapsed, ~109.7 min left)
+  [benchscore] 75/192 (66.5 min elapsed, ~103.8 min left)
+  [benchscore] 80/192 (74.6 min elapsed, ~104.4 min left)
+  [benchscore] 85/192 (80.4 min elapsed, ~101.2 min left)
+  [benchscore] 90/192 (87.1 min elapsed, ~98.7 min left)
+  [benchscore] 95/192 (90.6 min elapsed, ~92.5 min left)
+  [benchscore] 100/192 (94.0 min elapsed, ~86.5 min left)
+  [benchscore] 105/192 (98.4 min elapsed, ~81.5 min left)
+  [benchscore] 110/192 (102.5 min elapsed, ~76.4 min left)
+  [benchscore] 115/192 (112.1 min elapsed, ~75.1 min left)
+  [benchscore] 120/192 (118.4 min elapsed, ~71.0 min left)
+  [benchscore] 125/192 (126.5 min elapsed, ~67.8 min left)
+  [benchscore] 130/192 (129.0 min elapsed, ~61.5 min left)
+  [benchscore] 135/192 (130.2 min elapsed, ~55.0 min left)
+  [benchscore] 140/192 (134.6 min elapsed, ~50.0 min left)
+  [benchscore] 145/192 (139.2 min elapsed, ~45.1 min left)
+  [benchscore] 150/192 (143.1 min elapsed, ~40.1 min left)
+  [benchscore] 155/192 (147.9 min elapsed, ~35.3 min left)
+  [benchscore] 160/192 (152.0 min elapsed, ~30.4 min left)
+  [benchscore] 165/192 (155.5 min elapsed, ~25.4 min left)
+  [benchscore] 170/192 (161.1 min elapsed, ~20.9 min left)
+  [benchscore] 175/192 (166.6 min elapsed, ~16.2 min left)
+  [benchscore] 180/192 (172.0 min elapsed, ~11.5 min left)
+  [benchscore] 185/192 (178.6 min elapsed, ~6.8 min left)
+  [benchscore] 190/192 (199.9 min elapsed, ~2.1 min left)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_adversarial_delta.json
+role benchscore done in 213.1 min
+[2026-08-26T19:53:33Z] benchscore rc=0
+AGENT02 FINISH COMPLETE (suite=0 cli=0 bench=0)

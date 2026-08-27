@@ -1,0 +1,935 @@
+{
+  "disjointness": {
+    "disjoint": true,
+    "pairs": {
+      "calibration|development": {
+        "shared_game_ids": 0,
+        "shared_public_state_identities": 0
+      },
+      "train|calibration": {
+        "shared_game_ids": 0,
+        "shared_public_state_identities": 0
+      },
+      "train|development": {
+        "shared_game_ids": 0,
+        "shared_public_state_identities": 0
+      }
+    },
+    "rule": "the three splits share no game id and no public-state identity; repeats *inside* a split are duplicated opening positions and are counted, not refused",
+    "within_split": {
+      "calibration": {
+        "game_ids": 948,
+        "public_state_identities": 15004,
+        "repeated_fraction": 0.002865902426019728,
+        "repeated_plies": [
+          0,
+          1
+        ],
+        "repeated_public_state_identities": 43,
+        "unique_game_ids": 948,
+        "unique_public_state_identities": 14961
+      },
+      "development": {
+        "game_ids": 1259,
+        "public_state_identities": 20013,
+        "repeated_fraction": 0.0032478888722330484,
+        "repeated_plies": [
+          0,
+          1
+        ],
+        "repeated_public_state_identities": 65,
+        "unique_game_ids": 1259,
+        "unique_public_state_identities": 19948
+      },
+      "train": {
+        "game_ids": 7558,
+        "public_state_identities": 120010,
+        "repeated_fraction": 0.0011749020914923755,
+        "repeated_plies": [
+          0,
+          1
+        ],
+        "repeated_public_state_identities": 141,
+        "unique_game_ids": 7558,
+        "unique_public_state_identities": 119869
+      }
+    }
+  },
+  "passed": true,
+  "splits": {
+    "calibration": {
+      "labels": {
+        "all_ranks_have_remaining_inventory": true,
+        "all_ranks_publicly_admissible": true,
+        "moved_pieces_with_immobile_rank": 0,
+        "pieces": 424676,
+        "rank_histogram": {
+          "0": 11068,
+          "1": 68937,
+          "10": 15004,
+          "11": 76140,
+          "2": 55067,
+          "3": 42301,
+          "4": 42295,
+          "5": 41668,
+          "6": 31992,
+          "7": 20497,
+          "8": 10053,
+          "9": 9654
+        }
+      },
+      "mixture": {
+        "game_band": {
+          "early": {
+            "fraction": 0.2196081045054652,
+            "positions": 3295
+          },
+          "late": {
+            "fraction": 0.5263263129832044,
+            "positions": 7897
+          },
+          "middle": {
+            "fraction": 0.2540655825113303,
+            "positions": 3812
+          }
+        },
+        "games": 948,
+        "hidden_pieces_per_position": 28.3042,
+        "intended": {
+          "observer_color": {
+            "blue": 0.5,
+            "red": 0.5
+          },
+          "observer_model": {
+            "p18": 0.5,
+            "p24": 0.5
+          },
+          "opponent": {
+            "p18": 0.25,
+            "p24": 0.25,
+            "strategic_rule_based": 0.1,
+            "stress_information_miser": 0.1,
+            "stress_miner_rush": 0.1,
+            "stress_scout_rush": 0.1,
+            "tactical_rule_based": 0.1
+          },
+          "setup_source": {
+            "neutral_v1": 0.35,
+            "phase14_learned": 0.45,
+            "targeted_family": 0.2
+          }
+        },
+        "max_absolute_deviation": {
+          "observer_color": 0.0028659024260197508,
+          "observer_model": 0.006864836043721678,
+          "opponent": 0.033324446814182895,
+          "setup_source": 0.010437216742202104
+        },
+        "observer_color": {
+          "blue": {
+            "fraction": 0.49713409757398025,
+            "positions": 7459
+          },
+          "red": {
+            "fraction": 0.5028659024260197,
+            "positions": 7545
+          }
+        },
+        "observer_model": {
+          "p18": {
+            "fraction": 0.5068648360437217,
+            "positions": 7605
+          },
+          "p24": {
+            "fraction": 0.4931351639562783,
+            "positions": 7399
+          }
+        },
+        "observer_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.07091442282058118,
+            "positions": 1064
+          },
+          "balanced_conventional": {
+            "fraction": 0.06484937350039989,
+            "positions": 973
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.06724873367102106,
+            "positions": 1009
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.03625699813383098,
+            "positions": 544
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.10557184750733138,
+            "positions": 1584
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.06758197813916289,
+            "positions": 1014
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.03625699813383098,
+            "positions": 544
+          },
+          "high_bomb_placement": {
+            "fraction": 0.05971740869101573,
+            "positions": 896
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.07444681418288457,
+            "positions": 1117
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.04158890962410024,
+            "positions": 624
+          },
+          "miner_forward": {
+            "fraction": 0.07857904558784325,
+            "positions": 1179
+          },
+          "miner_preservation": {
+            "fraction": 0.04998667022127433,
+            "positions": 750
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.07571314316182351,
+            "positions": 1136
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.0443881631564916,
+            "positions": 666
+          },
+          "scout_forward_information": {
+            "fraction": 0.07891229005598507,
+            "positions": 1184
+          },
+          "scout_preservation": {
+            "fraction": 0.04798720341242335,
+            "positions": 720
+          }
+        },
+        "opponent": {
+          "p18": {
+            "fraction": 0.2166755531858171,
+            "positions": 3251
+          },
+          "p24": {
+            "fraction": 0.2701946147693948,
+            "positions": 4054
+          },
+          "strategic_rule_based": {
+            "fraction": 0.09837376699546788,
+            "positions": 1476
+          },
+          "stress_information_miser": {
+            "fraction": 0.11490269261530259,
+            "positions": 1724
+          },
+          "stress_miner_rush": {
+            "fraction": 0.09944014929352173,
+            "positions": 1492
+          },
+          "stress_scout_rush": {
+            "fraction": 0.0969741402292722,
+            "positions": 1455
+          },
+          "tactical_rule_based": {
+            "fraction": 0.10343908291122367,
+            "positions": 1552
+          }
+        },
+        "opponent_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.07091442282058118,
+            "positions": 1064
+          },
+          "balanced_conventional": {
+            "fraction": 0.06078379098906958,
+            "positions": 912
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.05758464409490802,
+            "positions": 864
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.034924020261263664,
+            "positions": 524
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.08784324180218608,
+            "positions": 1318
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.07431351639562783,
+            "positions": 1115
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.057251399626766196,
+            "positions": 859
+          },
+          "high_bomb_placement": {
+            "fraction": 0.0693148493735004,
+            "positions": 1040
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.06684884030925087,
+            "positions": 1003
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.052519328179152225,
+            "positions": 788
+          },
+          "miner_forward": {
+            "fraction": 0.05805118635030659,
+            "positions": 871
+          },
+          "miner_preservation": {
+            "fraction": 0.03625699813383098,
+            "positions": 544
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.08837643295121302,
+            "positions": 1326
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.05545187949880032,
+            "positions": 832
+          },
+          "scout_forward_information": {
+            "fraction": 0.0858437749933351,
+            "positions": 1288
+          },
+          "scout_preservation": {
+            "fraction": 0.043721674220207944,
+            "positions": 656
+          }
+        },
+        "pieces": 424676,
+        "positions": 15004,
+        "setup_source": {
+          "neutral_v1": {
+            "fraction": 0.3604372167422021,
+            "positions": 5408
+          },
+          "phase14_learned": {
+            "fraction": 0.4448813649693415,
+            "positions": 6675
+          },
+          "targeted_family": {
+            "fraction": 0.19468141828845642,
+            "positions": 2921
+          }
+        },
+        "targeted_families_covered": [
+          "aggressive_high_rank_front",
+          "corner_flag_fortress",
+          "distributed_bomb_defense",
+          "high_bomb_placement",
+          "irregular_high_entropy",
+          "miner_forward",
+          "near_corner_flag_fortress",
+          "scout_forward_information"
+        ],
+        "targeted_families_missing": []
+      },
+      "orientation": {
+        "all_boards_oriented": true,
+        "armies_rechecked": 512,
+        "front_row_flag_rate": 0.021484375,
+        "front_row_flags": 11,
+        "games_rechecked": 256,
+        "rebuilt_from": "the stored game id alone"
+      },
+      "truth_isolation": {
+        "arrays_equal_to_labels": 0,
+        "public_arrays_checked": 4
+      }
+    },
+    "development": {
+      "labels": {
+        "all_ranks_have_remaining_inventory": true,
+        "all_ranks_publicly_admissible": true,
+        "moved_pieces_with_immobile_rank": 0,
+        "pieces": 563558,
+        "rank_histogram": {
+          "0": 14378,
+          "1": 89933,
+          "10": 20013,
+          "11": 102788,
+          "2": 73632,
+          "3": 56920,
+          "4": 55504,
+          "5": 55525,
+          "6": 42409,
+          "7": 27052,
+          "8": 12842,
+          "9": 12562
+        }
+      },
+      "mixture": {
+        "game_band": {
+          "early": {
+            "fraction": 0.22795183130964872,
+            "positions": 4562
+          },
+          "late": {
+            "fraction": 0.5078698845750262,
+            "positions": 10164
+          },
+          "middle": {
+            "fraction": 0.264178284115325,
+            "positions": 5287
+          }
+        },
+        "games": 1259,
+        "hidden_pieces_per_position": 28.1596,
+        "intended": {
+          "observer_color": {
+            "blue": 0.5,
+            "red": 0.5
+          },
+          "observer_model": {
+            "p18": 0.5,
+            "p24": 0.5
+          },
+          "opponent": {
+            "p18": 0.25,
+            "p24": 0.25,
+            "strategic_rule_based": 0.1,
+            "stress_information_miser": 0.1,
+            "stress_miner_rush": 0.1,
+            "stress_scout_rush": 0.1,
+            "tactical_rule_based": 0.1
+          },
+          "setup_source": {
+            "neutral_v1": 0.35,
+            "phase14_learned": 0.45,
+            "targeted_family": 0.2
+          }
+        },
+        "max_absolute_deviation": {
+          "observer_color": 0.001274171788337608,
+          "observer_model": 0.011017838405036728,
+          "opponent": 0.017401189227002456,
+          "setup_source": 0.02716234447609056
+        },
+        "observer_color": {
+          "blue": {
+            "fraction": 0.4987258282116624,
+            "positions": 9981
+          },
+          "red": {
+            "fraction": 0.5012741717883376,
+            "positions": 10032
+          }
+        },
+        "observer_model": {
+          "p18": {
+            "fraction": 0.5110178384050367,
+            "positions": 10227
+          },
+          "p24": {
+            "fraction": 0.48898216159496327,
+            "positions": 9786
+          }
+        },
+        "observer_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.06455803727577075,
+            "positions": 1292
+          },
+          "balanced_conventional": {
+            "fraction": 0.0734022885124669,
+            "positions": 1469
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.047669015140158894,
+            "positions": 954
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.03987408184679958,
+            "positions": 798
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.09753660120921401,
+            "positions": 1952
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.06655673812022185,
+            "positions": 1332
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.045570379253485234,
+            "positions": 912
+          },
+          "high_bomb_placement": {
+            "fraction": 0.06026083046020087,
+            "positions": 1206
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.09194023884475092,
+            "positions": 1840
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.04796882026682656,
+            "positions": 960
+          },
+          "miner_forward": {
+            "fraction": 0.06930495178134213,
+            "positions": 1387
+          },
+          "miner_preservation": {
+            "fraction": 0.051766351871283665,
+            "positions": 1036
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.075400989356918,
+            "positions": 1509
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.04392145105681307,
+            "positions": 879
+          },
+          "scout_forward_information": {
+            "fraction": 0.06945485434467596,
+            "positions": 1390
+          },
+          "scout_preservation": {
+            "fraction": 0.054814370659071604,
+            "positions": 1097
+          }
+        },
+        "opponent": {
+          "p18": {
+            "fraction": 0.23259881077299754,
+            "positions": 4655
+          },
+          "p24": {
+            "fraction": 0.24698945685304552,
+            "positions": 4943
+          },
+          "strategic_rule_based": {
+            "fraction": 0.10173387298256134,
+            "positions": 2036
+          },
+          "stress_information_miser": {
+            "fraction": 0.09588767301254185,
+            "positions": 1919
+          },
+          "stress_miner_rush": {
+            "fraction": 0.10703043022035677,
+            "positions": 2142
+          },
+          "stress_scout_rush": {
+            "fraction": 0.09973517213811023,
+            "positions": 1996
+          },
+          "tactical_rule_based": {
+            "fraction": 0.11602458402038675,
+            "positions": 2322
+          }
+        },
+        "opponent_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.06205966122020687,
+            "positions": 1242
+          },
+          "balanced_conventional": {
+            "fraction": 0.06555738769799631,
+            "positions": 1312
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.06315894668465498,
+            "positions": 1264
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.03732573827012442,
+            "positions": 747
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.11832308999150552,
+            "positions": 2368
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.05356518263128966,
+            "positions": 1072
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.04621995702793184,
+            "positions": 925
+          },
+          "high_bomb_placement": {
+            "fraction": 0.06995452955578874,
+            "positions": 1400
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.0664568030779993,
+            "positions": 1330
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.046369859591265675,
+            "positions": 928
+          },
+          "miner_forward": {
+            "fraction": 0.06640683555688802,
+            "positions": 1329
+          },
+          "miner_preservation": {
+            "fraction": 0.05071703392794683,
+            "positions": 1015
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.09194023884475092,
+            "positions": 1840
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.042372457902363464,
+            "positions": 848
+          },
+          "scout_forward_information": {
+            "fraction": 0.07275271073802028,
+            "positions": 1456
+          },
+          "scout_preservation": {
+            "fraction": 0.046819567281267176,
+            "positions": 937
+          }
+        },
+        "pieces": 563558,
+        "positions": 20013,
+        "setup_source": {
+          "neutral_v1": {
+            "fraction": 0.35441962724229253,
+            "positions": 7093
+          },
+          "phase14_learned": {
+            "fraction": 0.472742717233798,
+            "positions": 9461
+          },
+          "targeted_family": {
+            "fraction": 0.17283765552390945,
+            "positions": 3459
+          }
+        },
+        "targeted_families_covered": [
+          "aggressive_high_rank_front",
+          "corner_flag_fortress",
+          "distributed_bomb_defense",
+          "high_bomb_placement",
+          "irregular_high_entropy",
+          "miner_forward",
+          "near_corner_flag_fortress",
+          "scout_forward_information"
+        ],
+        "targeted_families_missing": []
+      },
+      "orientation": {
+        "all_boards_oriented": true,
+        "armies_rechecked": 512,
+        "front_row_flag_rate": 0.017578125,
+        "front_row_flags": 9,
+        "games_rechecked": 256,
+        "rebuilt_from": "the stored game id alone"
+      },
+      "truth_isolation": {
+        "arrays_equal_to_labels": 0,
+        "public_arrays_checked": 4
+      }
+    },
+    "train": {
+      "labels": {
+        "all_ranks_have_remaining_inventory": true,
+        "all_ranks_publicly_admissible": true,
+        "moved_pieces_with_immobile_rank": 0,
+        "pieces": 3385258,
+        "rank_histogram": {
+          "0": 87409,
+          "1": 544169,
+          "10": 120010,
+          "11": 611991,
+          "2": 441190,
+          "3": 340310,
+          "4": 336265,
+          "5": 330892,
+          "6": 255872,
+          "7": 162255,
+          "8": 78731,
+          "9": 76164
+        }
+      },
+      "mixture": {
+        "game_band": {
+          "early": {
+            "fraction": 0.22038996750270812,
+            "positions": 26449
+          },
+          "late": {
+            "fraction": 0.5200316640279977,
+            "positions": 62409
+          },
+          "middle": {
+            "fraction": 0.2595783684692942,
+            "positions": 31152
+          }
+        },
+        "games": 7558,
+        "hidden_pieces_per_position": 28.2081,
+        "intended": {
+          "observer_color": {
+            "blue": 0.5,
+            "red": 0.5
+          },
+          "observer_model": {
+            "p18": 0.5,
+            "p24": 0.5
+          },
+          "opponent": {
+            "p18": 0.25,
+            "p24": 0.25,
+            "strategic_rule_based": 0.1,
+            "stress_information_miser": 0.1,
+            "stress_miner_rush": 0.1,
+            "stress_scout_rush": 0.1,
+            "tactical_rule_based": 0.1
+          },
+          "setup_source": {
+            "neutral_v1": 0.35,
+            "phase14_learned": 0.45,
+            "targeted_family": 0.2
+          }
+        },
+        "max_absolute_deviation": {
+          "observer_color": 0.0009665861178235202,
+          "observer_model": 0.004174652112323984,
+          "opponent": 0.010044996250312466,
+          "setup_source": 0.004287142738105154
+        },
+        "observer_color": {
+          "blue": {
+            "fraction": 0.4990334138821765,
+            "positions": 59889
+          },
+          "red": {
+            "fraction": 0.5009665861178235,
+            "positions": 60121
+          }
+        },
+        "observer_model": {
+          "p18": {
+            "fraction": 0.5041746521123239,
+            "positions": 60506
+          },
+          "p24": {
+            "fraction": 0.495825347887676,
+            "positions": 59504
+          }
+        },
+        "observer_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.07927672693942171,
+            "positions": 9514
+          },
+          "balanced_conventional": {
+            "fraction": 0.065727856011999,
+            "positions": 7888
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.055112073993833846,
+            "positions": 6614
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.043813015582034834,
+            "positions": 5258
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.10202483126406132,
+            "positions": 12244
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.06616115323723024,
+            "positions": 7940
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.045787851012415635,
+            "positions": 5495
+          },
+          "high_bomb_placement": {
+            "fraction": 0.062144821264894595,
+            "positions": 7458
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.0635697025247896,
+            "positions": 7629
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.04811265727856012,
+            "positions": 5774
+          },
+          "miner_forward": {
+            "fraction": 0.07176068660944922,
+            "positions": 8612
+          },
+          "miner_preservation": {
+            "fraction": 0.04672110657445213,
+            "positions": 5607
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.08166819431714024,
+            "positions": 9801
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.046371135738688445,
+            "positions": 5565
+          },
+          "scout_forward_information": {
+            "fraction": 0.07381884842929756,
+            "positions": 8859
+          },
+          "scout_preservation": {
+            "fraction": 0.04792933922173152,
+            "positions": 5752
+          }
+        },
+        "opponent": {
+          "p18": {
+            "fraction": 0.23995500374968753,
+            "positions": 28797
+          },
+          "p24": {
+            "fraction": 0.251612365636197,
+            "positions": 30196
+          },
+          "strategic_rule_based": {
+            "fraction": 0.10480793267227731,
+            "positions": 12578
+          },
+          "stress_information_miser": {
+            "fraction": 0.09830847429380885,
+            "positions": 11798
+          },
+          "stress_miner_rush": {
+            "fraction": 0.10402466461128239,
+            "positions": 12484
+          },
+          "stress_scout_rush": {
+            "fraction": 0.10109990834097159,
+            "positions": 12133
+          },
+          "tactical_rule_based": {
+            "fraction": 0.10019165069577535,
+            "positions": 12024
+          }
+        },
+        "opponent_setup_family": {
+          "aggressive_high_rank_front": {
+            "fraction": 0.07599366719440047,
+            "positions": 9120
+          },
+          "balanced_conventional": {
+            "fraction": 0.05912007332722273,
+            "positions": 7095
+          },
+          "central_back_flag_fortress": {
+            "fraction": 0.05542038163486376,
+            "positions": 6651
+          },
+          "conservative_high_rank_rear": {
+            "fraction": 0.03959670027497709,
+            "positions": 4752
+          },
+          "corner_flag_fortress": {
+            "fraction": 0.09855012082326473,
+            "positions": 11827
+          },
+          "distributed_bomb_defense": {
+            "fraction": 0.07121073243896342,
+            "positions": 8546
+          },
+          "false_fortress_bomb_decoy": {
+            "fraction": 0.04974585451212399,
+            "positions": 5970
+          },
+          "high_bomb_placement": {
+            "fraction": 0.06955253728855929,
+            "positions": 8347
+          },
+          "irregular_high_entropy": {
+            "fraction": 0.06989417548537621,
+            "positions": 8388
+          },
+          "lightly_defended_deceptive_flag": {
+            "fraction": 0.043021414882093156,
+            "positions": 5163
+          },
+          "miner_forward": {
+            "fraction": 0.06941921506541121,
+            "positions": 8331
+          },
+          "miner_preservation": {
+            "fraction": 0.046679443379718355,
+            "positions": 5602
+          },
+          "near_corner_flag_fortress": {
+            "fraction": 0.08955087076076994,
+            "positions": 10747
+          },
+          "partially_bombed_flag": {
+            "fraction": 0.04766269477543538,
+            "positions": 5720
+          },
+          "scout_forward_information": {
+            "fraction": 0.06841096575285392,
+            "positions": 8210
+          },
+          "scout_preservation": {
+            "fraction": 0.04617115240396634,
+            "positions": 5541
+          }
+        },
+        "pieces": 3385258,
+        "positions": 120010,
+        "setup_source": {
+          "neutral_v1": {
+            "fraction": 0.3481126572785601,
+            "positions": 41777
+          },
+          "phase14_learned": {
+            "fraction": 0.45428714273810517,
+            "positions": 54519
+          },
+          "targeted_family": {
+            "fraction": 0.19760019998333472,
+            "positions": 23714
+          }
+        },
+        "targeted_families_covered": [
+          "aggressive_high_rank_front",
+          "corner_flag_fortress",
+          "distributed_bomb_defense",
+          "high_bomb_placement",
+          "irregular_high_entropy",
+          "miner_forward",
+          "near_corner_flag_fortress",
+          "scout_forward_information"
+        ],
+        "targeted_families_missing": []
+      },
+      "orientation": {
+        "all_boards_oriented": true,
+        "armies_rechecked": 512,
+        "front_row_flag_rate": 0.021484375,
+        "front_row_flags": 11,
+        "games_rechecked": 256,
+        "rebuilt_from": "the stored game id alone"
+      },
+      "truth_isolation": {
+        "arrays_equal_to_labels": 0,
+        "public_arrays_checked": 4
+      }
+    }
+  },
+  "verification_version": "phase15_corpus_verification_v1"
+}

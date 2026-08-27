@@ -1,0 +1,845 @@
+{
+ "agent": "agent_01",
+ "artifact": "phase16_agent01_adversarial_baseline_v1",
+ "pack": "phase16_adversarial_baseline_v1",
+ "phase": "phase_16",
+ "presets": {
+  "MEDIUM": {
+   "analysis_version": "phase16_measurement_analysis_v1",
+   "arms": {
+    "adversarial_both": {
+     "draw": 1,
+     "ewr": 0.82812,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.70833,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.83333,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.44444,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.45,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 0.7,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 1.0,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 1.0,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 0.8,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 16,
+     "win": 79
+    },
+    "adversarial_opponent": {
+     "draw": 4,
+     "ewr": 0.82292,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.70833,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 1.0,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.625,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.77778,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.45,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 0.6,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 0.8,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 1.0,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 1.0,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 0.95,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 0.9,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 15,
+     "win": 77
+    },
+    "benchmark_control": {
+     "draw": 1,
+     "ewr": 0.86979,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.95833,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 1.0,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.91667,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.5,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.8,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 0.7,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 1.0,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 1.0,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 1.0,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 12,
+     "win": 83
+    }
+   },
+   "games": 288,
+   "paired": {
+    "adversarial_both_minus_control": {
+     "drop": 0.04167,
+     "overall": {
+      "delta": -0.04167,
+      "losses": 12,
+      "pairs": 96,
+      "standard_error": 0.0436,
+      "ties": 77,
+      "wins": 7
+     },
+     "per_family": {
+      "aggressive_marshal": {
+       "delta": -0.125,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.08972,
+       "ties": 10,
+       "wins": 0
+      },
+      "bombed_center_flag": {
+       "delta": -0.08333,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.08333,
+       "ties": 11,
+       "wins": 0
+      },
+      "bombed_corner_flag": {
+       "delta": -0.125,
+       "losses": 3,
+       "pairs": 12,
+       "standard_error": 0.15232,
+       "ties": 8,
+       "wins": 1
+      },
+      "decoy_flag_structure": {
+       "delta": 0.0,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.17408,
+       "ties": 8,
+       "wins": 2
+      },
+      "free_novelty": {
+       "delta": 0.0,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.12309,
+       "ties": 10,
+       "wins": 1
+      },
+      "miner_wall": {
+       "delta": 0.08333,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.08333,
+       "ties": 11,
+       "wins": 1
+      },
+      "scout_screen": {
+       "delta": 0.0,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.12309,
+       "ties": 10,
+       "wins": 1
+      },
+      "spy_shadow": {
+       "delta": -0.08333,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.14865,
+       "ties": 9,
+       "wins": 1
+      }
+     }
+    },
+    "adversarial_opponent_minus_control": {
+     "drop": 0.04688,
+     "overall": {
+      "delta": -0.04688,
+      "losses": 13,
+      "pairs": 96,
+      "standard_error": 0.04322,
+      "ties": 75,
+      "wins": 8
+     },
+     "per_family": {
+      "aggressive_marshal": {
+       "delta": -0.04167,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.0965,
+       "ties": 10,
+       "wins": 1
+      },
+      "bombed_center_flag": {
+       "delta": -0.25,
+       "losses": 4,
+       "pairs": 12,
+       "standard_error": 0.11514,
+       "ties": 8,
+       "wins": 0
+      },
+      "bombed_corner_flag": {
+       "delta": -0.125,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.125,
+       "ties": 9,
+       "wins": 1
+      },
+      "decoy_flag_structure": {
+       "delta": 0.16667,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.11237,
+       "ties": 10,
+       "wins": 2
+      },
+      "free_novelty": {
+       "delta": 0.08333,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.14865,
+       "ties": 9,
+       "wins": 2
+      },
+      "miner_wall": {
+       "delta": 0.16667,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.11237,
+       "ties": 10,
+       "wins": 2
+      },
+      "scout_screen": {
+       "delta": -0.08333,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.08333,
+       "ties": 11,
+       "wins": 0
+      },
+      "spy_shadow": {
+       "delta": -0.29167,
+       "losses": 4,
+       "pairs": 12,
+       "standard_error": 0.12995,
+       "ties": 8,
+       "wins": 0
+      }
+     }
+    }
+   },
+   "predeclared_thresholds": {
+    "confirm_drop": 0.1,
+    "weaken_drop": 0.05
+   },
+   "preset": "MEDIUM",
+   "reading": "weakens_distribution_hypothesis"
+  },
+  "TINY": {
+   "analysis_version": "phase16_measurement_analysis_v1",
+   "arms": {
+    "adversarial_both": {
+     "draw": 1,
+     "ewr": 0.84896,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 0.95833,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.66667,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.91667,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.44444,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.25,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 1.0,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 1.0,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 1.0,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 0.8,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 14,
+     "win": 81
+    },
+    "adversarial_opponent": {
+     "draw": 3,
+     "ewr": 0.77604,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.625,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.875,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.625,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.72222,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.4,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 0.7,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 0.6,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 0.875,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 0.94444,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 0.85,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 0.9,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 20,
+     "win": 73
+    },
+    "benchmark_control": {
+     "draw": 1,
+     "ewr": 0.83854,
+     "ewr_by_family": {
+      "aggressive_marshal": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "bombed_center_flag": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "bombed_corner_flag": {
+       "ewr": 0.83333,
+       "games": 12
+      },
+      "decoy_flag_structure": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "free_novelty": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "miner_wall": {
+       "ewr": 0.75,
+       "games": 12
+      },
+      "scout_screen": {
+       "ewr": 0.91667,
+       "games": 12
+      },
+      "spy_shadow": {
+       "ewr": 0.875,
+       "games": 12
+      }
+     },
+     "ewr_by_opponent": {
+      "p18": {
+       "ewr": 0.55556,
+       "games": 9
+      },
+      "p24": {
+       "ewr": 0.65,
+       "games": 10
+      },
+      "phase9_anchor": {
+       "ewr": 0.8,
+       "games": 10
+      },
+      "strategic_rule_based": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_berserker": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_chaos": {
+       "ewr": 1.0,
+       "games": 8
+      },
+      "stress_information_miser": {
+       "ewr": 1.0,
+       "games": 9
+      },
+      "stress_miner_rush": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "stress_scout_rush": {
+       "ewr": 0.9,
+       "games": 10
+      },
+      "tactical_rule_based": {
+       "ewr": 0.8,
+       "games": 10
+      }
+     },
+     "games": 96,
+     "loss": 15,
+     "win": 80
+    }
+   },
+   "games": 288,
+   "paired": {
+    "adversarial_both_minus_control": {
+     "drop": -0.01042,
+     "overall": {
+      "delta": 0.01042,
+      "losses": 10,
+      "pairs": 96,
+      "standard_error": 0.0474,
+      "ties": 74,
+      "wins": 12
+     },
+     "per_family": {
+      "aggressive_marshal": {
+       "delta": -0.08333,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.14865,
+       "ties": 9,
+       "wins": 1
+      },
+      "bombed_center_flag": {
+       "delta": 0.125,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.08972,
+       "ties": 10,
+       "wins": 2
+      },
+      "bombed_corner_flag": {
+       "delta": -0.16667,
+       "losses": 3,
+       "pairs": 12,
+       "standard_error": 0.16667,
+       "ties": 8,
+       "wins": 1
+      },
+      "decoy_flag_structure": {
+       "delta": 0.16667,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.16667,
+       "ties": 8,
+       "wins": 3
+      },
+      "free_novelty": {
+       "delta": 0.0,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.12309,
+       "ties": 10,
+       "wins": 1
+      },
+      "miner_wall": {
+       "delta": 0.16667,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.11237,
+       "ties": 10,
+       "wins": 2
+      },
+      "scout_screen": {
+       "delta": -0.16667,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.11237,
+       "ties": 10,
+       "wins": 0
+      },
+      "spy_shadow": {
+       "delta": 0.04167,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.12995,
+       "ties": 9,
+       "wins": 2
+      }
+     }
+    },
+    "adversarial_opponent_minus_control": {
+     "drop": 0.0625,
+     "overall": {
+      "delta": -0.0625,
+      "losses": 17,
+      "pairs": 96,
+      "standard_error": 0.04981,
+      "ties": 70,
+      "wins": 9
+     },
+     "per_family": {
+      "aggressive_marshal": {
+       "delta": 0.0,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.17408,
+       "ties": 8,
+       "wins": 2
+      },
+      "bombed_center_flag": {
+       "delta": -0.08333,
+       "losses": 2,
+       "pairs": 12,
+       "standard_error": 0.14865,
+       "ties": 9,
+       "wins": 1
+      },
+      "bombed_corner_flag": {
+       "delta": -0.20833,
+       "losses": 5,
+       "pairs": 12,
+       "standard_error": 0.20833,
+       "ties": 5,
+       "wins": 2
+      },
+      "decoy_flag_structure": {
+       "delta": 0.0,
+       "losses": 3,
+       "pairs": 12,
+       "standard_error": 0.2132,
+       "ties": 6,
+       "wins": 3
+      },
+      "free_novelty": {
+       "delta": 0.0,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.0,
+       "ties": 12,
+       "wins": 0
+      },
+      "miner_wall": {
+       "delta": 0.08333,
+       "losses": 0,
+       "pairs": 12,
+       "standard_error": 0.08333,
+       "ties": 11,
+       "wins": 1
+      },
+      "scout_screen": {
+       "delta": -0.04167,
+       "losses": 1,
+       "pairs": 12,
+       "standard_error": 0.04167,
+       "ties": 11,
+       "wins": 0
+      },
+      "spy_shadow": {
+       "delta": -0.25,
+       "losses": 4,
+       "pairs": 12,
+       "standard_error": 0.11514,
+       "ties": 8,
+       "wins": 0
+      }
+     }
+    }
+   },
+   "predeclared_thresholds": {
+    "confirm_drop": 0.1,
+    "weaken_drop": 0.05
+   },
+   "preset": "TINY",
+   "reading": "between_predeclared_thresholds"
+  }
+ },
+ "scientific_validation_status": "not performed",
+ "status": "engineering_deliverable_not_a_strength_claim",
+ "written_utc": "2026-08-26T05:26:23Z"
+}

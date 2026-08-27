@@ -1,0 +1,38 @@
++./reports/phase16/logs/run_packs.sh:7> .venv/bin/python scripts/run_phase16_agent01.py --role bench --arm p24_direct --preset direct --workers 10 --expected-hours 0.2 --quiet
+[2026-08-25T20:42:52Z] compute lock acquired: agent1 benchmark pack p24_direct_direct
+[2026-08-25T20:43:02Z] bench p24_direct_direct: EWR 0.8125 over 120 games in 0.2 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/benchmark_p24_direct_direct_summary.json
+[2026-08-25T20:43:02Z] compute lock released
++./reports/phase16/logs/run_packs.sh:8> .venv/bin/python scripts/run_phase16_agent01.py --role bench --arm p24_b24 --preset TINY --workers 10 --expected-hours 0.5 --quiet
+[2026-08-25T20:43:03Z] compute lock acquired: agent1 benchmark pack p24_b24_TINY
+[2026-08-25T21:10:52Z] bench p24_b24_TINY: EWR 0.78333 over 120 games in 27.8 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/benchmark_p24_b24_TINY_summary.json
+[2026-08-25T21:10:52Z] compute lock released
++./reports/phase16/logs/run_packs.sh:9> .venv/bin/python scripts/run_phase16_agent01.py --role baseline --preset TINY --arms benchmark_control,adversarial_opponent,adversarial_both --workers 10 --expected-hours 1.0 --quiet
+[2026-08-25T21:10:53Z] compute lock acquired: agent1 adversarial baseline TINY (benchmark_control,adversarial_opponent,adversarial_both)
+[2026-08-25T21:49:38Z] baseline TINY: 288 games in 38.8 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/adversarial_TINY.jsonl
+[2026-08-25T21:49:38Z] compute lock released
++./reports/phase16/logs/run_packs.sh:10> .venv/bin/python scripts/run_phase16_agent01.py --role analyse
+[2026-08-25T21:49:39Z] benchmark baselines -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_benchmark_baselines.json (['p24_b24_TINY', 'p24_direct_direct'])
+[2026-08-25T21:49:39Z] adversarial baseline -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_adversarial_baseline.json (['TINY'])
++./reports/phase16/logs/run_packs.sh:11> .venv/bin/python scripts/run_phase16_agent01.py --role bench --arm p24_b24 --preset MEDIUM --workers 10 --expected-hours 2.5 --quiet
+[2026-08-25T21:49:39Z] compute lock acquired: agent1 benchmark pack p24_b24_MEDIUM
+[2026-08-26T00:32:10Z] bench p24_b24_MEDIUM: EWR 0.79583 over 120 games in 162.5 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/benchmark_p24_b24_MEDIUM_summary.json
+[2026-08-26T00:32:10Z] compute lock released
++./reports/phase16/logs/run_packs.sh:12> .venv/bin/python scripts/run_phase16_agent01.py --role analyse
+[2026-08-26T00:32:10Z] benchmark baselines -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_benchmark_baselines.json (['p24_b24_MEDIUM', 'p24_b24_TINY', 'p24_direct_direct'])
+[2026-08-26T00:32:10Z] adversarial baseline -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_adversarial_baseline.json (['TINY'])
++./reports/phase16/logs/run_packs.sh:13> .venv/bin/python scripts/run_phase16_agent01.py --role baseline --preset MEDIUM --arms benchmark_control,adversarial_opponent --workers 10 --expected-hours 4.0 --quiet
+[2026-08-26T00:32:11Z] compute lock acquired: agent1 adversarial baseline MEDIUM (benchmark_control,adversarial_opponent)
+[2026-08-26T04:17:48Z] baseline MEDIUM: 192 games in 225.6 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/adversarial_MEDIUM.jsonl
+[2026-08-26T04:17:48Z] compute lock released
++./reports/phase16/logs/run_packs.sh:14> .venv/bin/python scripts/run_phase16_agent01.py --role analyse
+[2026-08-26T04:17:52Z] benchmark baselines -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_benchmark_baselines.json (['p24_b24_MEDIUM', 'p24_b24_TINY', 'p24_direct_direct'])
+[2026-08-26T04:17:52Z] adversarial baseline -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_adversarial_baseline.json (['MEDIUM', 'TINY'])
++./reports/phase16/logs/run_packs.sh:15> .venv/bin/python scripts/run_phase16_agent01.py --role baseline --preset MEDIUM --arms benchmark_control,adversarial_opponent,adversarial_both --workers 10 --expected-hours 2.0 --quiet
+[2026-08-26T04:17:52Z] compute lock acquired: agent1 adversarial baseline MEDIUM (benchmark_control,adversarial_opponent,adversarial_both)
+[2026-08-26T05:26:23Z] baseline MEDIUM: 288 games in 68.5 min -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/packs/adversarial_MEDIUM.jsonl
+[2026-08-26T05:26:23Z] compute lock released
++./reports/phase16/logs/run_packs.sh:16> .venv/bin/python scripts/run_phase16_agent01.py --role analyse
+[2026-08-26T05:26:23Z] benchmark baselines -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_benchmark_baselines.json (['p24_b24_MEDIUM', 'p24_b24_TINY', 'p24_direct_direct'])
+[2026-08-26T05:26:23Z] adversarial baseline -> /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_01_adversarial_baseline.json (['MEDIUM', 'TINY'])
++./reports/phase16/logs/run_packs.sh:17> echo 'PACK CHAIN COMPLETE'
+PACK CHAIN COMPLETE

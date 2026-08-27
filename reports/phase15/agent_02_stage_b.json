@@ -1,0 +1,3129 @@
+{
+  "agent": "agent_02",
+  "arms": [
+    "p18_direct",
+    "p24_direct",
+    "p18_remaining_count",
+    "p18_b18",
+    "p18_b24",
+    "p24_remaining_count",
+    "p24_b18",
+    "p24_b24",
+    "p18_oracle",
+    "p24_oracle"
+  ],
+  "artifact": "phase15_match_analysis_v1",
+  "boards": 120,
+  "games_played": 1200,
+  "games_recorded": 1200,
+  "generated_utc": "2026-08-24T17:10:22Z",
+  "match_manifest_digest": "f2e2e7a4504ea2712ddef7d7d8429e147a7a6c57eb2aeb5b19adb5e368a5e76b",
+  "note": "a compact paired engineering pack. No significance claim is made; each slice carries its own game count and the paired deltas carry a standard error so a reader can see what this sample can and cannot resolve.",
+  "phase": "phase_15",
+  "preset": "TINY",
+  "probe_passed": true,
+  "probes": {
+    "p18_b18": {
+      "direct_agreement_checks": 115,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 114,
+      "permutation_checks": 115,
+      "permutation_sensitive": 0
+    },
+    "p18_b24": {
+      "direct_agreement_checks": 122,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 122,
+      "permutation_checks": 122,
+      "permutation_sensitive": 0
+    },
+    "p18_direct": {
+      "direct_agreement_checks": 159,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 159,
+      "permutation_checks": 159,
+      "permutation_sensitive": 0
+    },
+    "p18_oracle": {
+      "direct_agreement_checks": 107,
+      "expects_hidden_truth": true,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 107,
+      "permutation_checks": 107,
+      "permutation_sensitive": 10
+    },
+    "p18_remaining_count": {
+      "direct_agreement_checks": 97,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 97,
+      "permutation_checks": 97,
+      "permutation_sensitive": 0
+    },
+    "p24_b18": {
+      "direct_agreement_checks": 114,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 114,
+      "permutation_checks": 114,
+      "permutation_sensitive": 0
+    },
+    "p24_b24": {
+      "direct_agreement_checks": 101,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 100,
+      "permutation_checks": 101,
+      "permutation_sensitive": 0
+    },
+    "p24_direct": {
+      "direct_agreement_checks": 132,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 132,
+      "permutation_checks": 132,
+      "permutation_sensitive": 0
+    },
+    "p24_oracle": {
+      "direct_agreement_checks": 81,
+      "expects_hidden_truth": true,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 81,
+      "permutation_checks": 81,
+      "permutation_sensitive": 12
+    },
+    "p24_remaining_count": {
+      "direct_agreement_checks": 93,
+      "expects_hidden_truth": false,
+      "failures": [],
+      "passed": true,
+      "permutation_assignments_changed": 93,
+      "permutation_checks": 93,
+      "permutation_sensitive": 0
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "summaries": {
+    "p18_b18|TINY": {
+      "arm_id": "p18_b18",
+      "draws": 1,
+      "ewr": 0.82917,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 1,
+          "ewr": 0.84167,
+          "games": 60,
+          "loss": 9,
+          "win": 50
+        },
+        "red": {
+          "draw": 0,
+          "ewr": 0.81667,
+          "games": 60,
+          "loss": 11,
+          "win": 49
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.625,
+          "games": 8,
+          "loss": 3,
+          "win": 5
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.92308,
+          "games": 13,
+          "loss": 1,
+          "win": 12
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.55556,
+          "games": 9,
+          "loss": 4,
+          "win": 5
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 4,
+          "loss": 1,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 10,
+          "loss": 0,
+          "win": 10
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 5,
+          "loss": 0,
+          "win": 5
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.63636,
+          "games": 11,
+          "loss": 4,
+          "win": 7
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.85,
+          "games": 10,
+          "loss": 1,
+          "win": 8
+        },
+        "scout_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 4,
+          "win": 8
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.5,
+          "games": 12,
+          "loss": 6,
+          "win": 6
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_scout_rush": {
+          "draw": 1,
+          "ewr": 0.95833,
+          "games": 12,
+          "loss": 0,
+          "win": 11
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 0,
+          "ewr": 0.63889,
+          "games": 36,
+          "loss": 13,
+          "win": 23
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 24,
+          "loss": 3,
+          "win": 21
+        },
+        "stress": {
+          "draw": 1,
+          "ewr": 0.925,
+          "games": 60,
+          "loss": 4,
+          "win": 55
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 0,
+          "ewr": 0.85,
+          "games": 40,
+          "loss": 6,
+          "win": 34
+        },
+        "phase14_learned": {
+          "draw": 1,
+          "ewr": 0.8125,
+          "games": 40,
+          "loss": 7,
+          "win": 32
+        },
+        "targeted_family": {
+          "draw": 0,
+          "ewr": 0.825,
+          "games": 40,
+          "loss": 7,
+          "win": 33
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 20,
+      "max_seconds_per_move": 0.46816,
+      "mean_c1_forwards_per_game": 70921.2,
+      "mean_c1_forwards_per_move": 315.75,
+      "mean_plies": 448.9,
+      "mean_seconds_per_move": 0.44733,
+      "median_seconds_per_move": 0.45348,
+      "min_family": {
+        "ewr": 0.55556,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "min_opponent": {
+        "ewr": 0.5,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.06663,
+      "move_latency": {
+        "decisions": 26953,
+        "max": 0.63676,
+        "mean": 0.45246,
+        "median": 0.45483,
+        "p95": 0.50363,
+        "p99": 0.55323
+      },
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.46203,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.05833,
+        "losses": 11,
+        "standard_error": 0.04315,
+        "ties": 90,
+        "wins": 19
+      },
+      "player_decisions": 26953,
+      "preset_id": "TINY",
+      "provider": "b18",
+      "search_seconds_per_game": 101.6265,
+      "weakness_pack_family_ewr": 0.78571,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.90625,
+      "weakness_pack_opponent_games": 48,
+      "wins": 99
+    },
+    "p18_b24|TINY": {
+      "arm_id": "p18_b24",
+      "draws": 3,
+      "ewr": 0.80417,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 1,
+          "ewr": 0.89167,
+          "games": 60,
+          "loss": 6,
+          "win": 53
+        },
+        "red": {
+          "draw": 2,
+          "ewr": 0.71667,
+          "games": 60,
+          "loss": 16,
+          "win": 42
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.625,
+          "games": 8,
+          "loss": 3,
+          "win": 5
+        },
+        "balanced_conventional": {
+          "draw": 1,
+          "ewr": 0.8125,
+          "games": 8,
+          "loss": 1,
+          "win": 6
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.0,
+          "games": 2,
+          "loss": 2,
+          "win": 0
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "corner_flag_fortress": {
+          "draw": 1,
+          "ewr": 0.88462,
+          "games": 13,
+          "loss": 1,
+          "win": 11
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 9,
+          "loss": 3,
+          "win": 6
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 4,
+          "loss": 0,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 10,
+          "loss": 0,
+          "win": 10
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 5,
+          "loss": 0,
+          "win": 5
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.54545,
+          "games": 11,
+          "loss": 5,
+          "win": 6
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 10,
+          "loss": 2,
+          "win": 8
+        },
+        "scout_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.58333,
+          "games": 12,
+          "loss": 4,
+          "win": 6
+        },
+        "p24": {
+          "draw": 1,
+          "ewr": 0.375,
+          "games": 12,
+          "loss": 7,
+          "win": 4
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.58333,
+          "games": 12,
+          "loss": 5,
+          "win": 7
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 3,
+          "ewr": 0.51389,
+          "games": 36,
+          "loss": 16,
+          "win": 17
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 24,
+          "loss": 4,
+          "win": 20
+        },
+        "stress": {
+          "draw": 0,
+          "ewr": 0.96667,
+          "games": 60,
+          "loss": 2,
+          "win": 58
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 40,
+          "loss": 4,
+          "win": 36
+        },
+        "phase14_learned": {
+          "draw": 3,
+          "ewr": 0.8125,
+          "games": 40,
+          "loss": 6,
+          "win": 31
+        },
+        "targeted_family": {
+          "draw": 0,
+          "ewr": 0.7,
+          "games": 40,
+          "loss": 12,
+          "win": 28
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 22,
+      "max_seconds_per_move": 0.47292,
+      "mean_c1_forwards_per_game": 74207.3,
+      "mean_c1_forwards_per_move": 315.18,
+      "mean_plies": 470.6,
+      "mean_seconds_per_move": 0.44928,
+      "median_seconds_per_move": 0.4553,
+      "min_family": {
+        "ewr": 0.54545,
+        "games": 11,
+        "name": "near_corner_flag_fortress"
+      },
+      "min_opponent": {
+        "ewr": 0.375,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.06804,
+      "move_latency": {
+        "decisions": 28253,
+        "max": 0.62092,
+        "mean": 0.45603,
+        "median": 0.45959,
+        "p95": 0.50853,
+        "p99": 0.55865
+      },
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.46835,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.03333,
+        "losses": 12,
+        "standard_error": 0.04131,
+        "ties": 91,
+        "wins": 17
+      },
+      "player_decisions": 28253,
+      "preset_id": "TINY",
+      "provider": "b24",
+      "search_seconds_per_game": 107.3691,
+      "weakness_pack_family_ewr": 0.77273,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.95833,
+      "weakness_pack_opponent_games": 48,
+      "wins": 95
+    },
+    "p18_direct|direct": {
+      "arm_id": "p18_direct",
+      "draws": 5,
+      "ewr": 0.77083,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 2,
+          "ewr": 0.75,
+          "games": 60,
+          "loss": 14,
+          "win": 44
+        },
+        "red": {
+          "draw": 3,
+          "ewr": 0.79167,
+          "games": 60,
+          "loss": 11,
+          "win": 46
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 8,
+          "loss": 0,
+          "win": 8
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.0,
+          "games": 2,
+          "loss": 2,
+          "win": 0
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.7,
+          "games": 10,
+          "loss": 3,
+          "win": 7
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.84615,
+          "games": 13,
+          "loss": 2,
+          "win": 11
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "high_bomb_placement": {
+          "draw": 1,
+          "ewr": 0.8125,
+          "games": 8,
+          "loss": 1,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 9,
+          "loss": 3,
+          "win": 6
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 4,
+          "loss": 0,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "miner_preservation": {
+          "draw": 1,
+          "ewr": 0.7,
+          "games": 5,
+          "loss": 1,
+          "win": 3
+        },
+        "near_corner_flag_fortress": {
+          "draw": 1,
+          "ewr": 0.86364,
+          "games": 11,
+          "loss": 1,
+          "win": 9
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 3,
+          "loss": 1,
+          "win": 2
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.65,
+          "games": 10,
+          "loss": 3,
+          "win": 6
+        },
+        "scout_preservation": {
+          "draw": 0,
+          "ewr": 0.4,
+          "games": 5,
+          "loss": 3,
+          "win": 2
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 3,
+          "win": 7
+        },
+        "p24": {
+          "draw": 1,
+          "ewr": 0.45833,
+          "games": 12,
+          "loss": 6,
+          "win": 5
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 4,
+          "win": 8
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 1,
+          "ewr": 0.95833,
+          "games": 12,
+          "loss": 0,
+          "win": 11
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 4,
+          "win": 8
+        },
+        "stress_scout_rush": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 12,
+          "loss": 1,
+          "win": 10
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 3,
+          "ewr": 0.59722,
+          "games": 36,
+          "loss": 13,
+          "win": 20
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 24,
+          "loss": 4,
+          "win": 20
+        },
+        "stress": {
+          "draw": 2,
+          "ewr": 0.85,
+          "games": 60,
+          "loss": 8,
+          "win": 50
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 1,
+          "ewr": 0.8375,
+          "games": 40,
+          "loss": 6,
+          "win": 33
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.7,
+          "games": 40,
+          "loss": 11,
+          "win": 27
+        },
+        "targeted_family": {
+          "draw": 2,
+          "ewr": 0.775,
+          "games": 40,
+          "loss": 8,
+          "win": 30
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 25,
+      "max_seconds_per_move": 0.00184,
+      "mean_c1_forwards_per_game": 262.5,
+      "mean_c1_forwards_per_move": 1.0,
+      "mean_plies": 524.8,
+      "mean_seconds_per_move": 0.00162,
+      "median_seconds_per_move": 0.00162,
+      "min_family": {
+        "ewr": 0.4,
+        "games": 5,
+        "name": "scout_preservation"
+      },
+      "min_opponent": {
+        "ewr": 0.45833,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": null,
+      "move_latency": {
+        "decisions": 31502,
+        "max": 0.00694,
+        "mean": 0.00162,
+        "median": 0.00159,
+        "p95": 0.00179,
+        "p99": 0.00231
+      },
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.00168,
+      "player_decisions": 31502,
+      "preset_id": "direct",
+      "provider": null,
+      "search_seconds_per_game": 0.4249,
+      "weakness_pack_family_ewr": 0.7987,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.82292,
+      "weakness_pack_opponent_games": 48,
+      "wins": 90
+    },
+    "p18_oracle|TINY": {
+      "arm_id": "p18_oracle",
+      "draws": 9,
+      "ewr": 0.87083,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 3,
+          "ewr": 0.875,
+          "games": 60,
+          "loss": 6,
+          "win": 51
+        },
+        "red": {
+          "draw": 6,
+          "ewr": 0.86667,
+          "games": 60,
+          "loss": 5,
+          "win": 49
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 10,
+          "loss": 0,
+          "win": 10
+        },
+        "corner_flag_fortress": {
+          "draw": 3,
+          "ewr": 0.88462,
+          "games": 13,
+          "loss": 0,
+          "win": 10
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "high_bomb_placement": {
+          "draw": 1,
+          "ewr": 0.9375,
+          "games": 8,
+          "loss": 0,
+          "win": 7
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 9,
+          "loss": 3,
+          "win": 6
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 4,
+          "loss": 0,
+          "win": 4
+        },
+        "miner_forward": {
+          "draw": 1,
+          "ewr": 0.85,
+          "games": 10,
+          "loss": 1,
+          "win": 8
+        },
+        "miner_preservation": {
+          "draw": 1,
+          "ewr": 0.9,
+          "games": 5,
+          "loss": 0,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 1,
+          "ewr": 0.77273,
+          "games": 11,
+          "loss": 2,
+          "win": 8
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.95,
+          "games": 10,
+          "loss": 0,
+          "win": 9
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.9,
+          "games": 5,
+          "loss": 0,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 4,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 1,
+          "win": 7
+        },
+        "p24": {
+          "draw": 2,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 3,
+          "win": 7
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 1,
+          "ewr": 0.95833,
+          "games": 12,
+          "loss": 0,
+          "win": 11
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_scout_rush": {
+          "draw": 2,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 1,
+          "win": 9
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 6,
+          "ewr": 0.77778,
+          "games": 36,
+          "loss": 5,
+          "win": 25
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 24,
+          "loss": 2,
+          "win": 22
+        },
+        "stress": {
+          "draw": 3,
+          "ewr": 0.90833,
+          "games": 60,
+          "loss": 4,
+          "win": 53
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 2,
+          "ewr": 0.825,
+          "games": 40,
+          "loss": 6,
+          "win": 32
+        },
+        "phase14_learned": {
+          "draw": 4,
+          "ewr": 0.95,
+          "games": 40,
+          "loss": 0,
+          "win": 36
+        },
+        "targeted_family": {
+          "draw": 3,
+          "ewr": 0.8375,
+          "games": 40,
+          "loss": 5,
+          "win": 32
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 11,
+      "max_seconds_per_move": 0.05125,
+      "mean_c1_forwards_per_game": 8339.9,
+      "mean_c1_forwards_per_move": 40.34,
+      "mean_plies": 413.1,
+      "mean_seconds_per_move": 0.04915,
+      "median_seconds_per_move": 0.04952,
+      "min_family": {
+        "ewr": 0.66667,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "min_opponent": {
+        "ewr": 0.66667,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.09803,
+      "move_latency": {
+        "decisions": 24811,
+        "max": 0.13701,
+        "mean": 0.04916,
+        "median": 0.04943,
+        "p95": 0.05336,
+        "p99": 0.06497
+      },
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.05067,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.1,
+        "losses": 8,
+        "standard_error": 0.03996,
+        "ties": 90,
+        "wins": 22
+      },
+      "player_decisions": 24811,
+      "preset_id": "TINY",
+      "provider": "oracle",
+      "search_seconds_per_game": 10.164,
+      "weakness_pack_family_ewr": 0.83766,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.89583,
+      "weakness_pack_opponent_games": 48,
+      "wins": 100
+    },
+    "p18_remaining_count|TINY": {
+      "arm_id": "p18_remaining_count",
+      "draws": 4,
+      "ewr": 0.86667,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 4,
+          "ewr": 0.86667,
+          "games": 60,
+          "loss": 6,
+          "win": 50
+        },
+        "red": {
+          "draw": 0,
+          "ewr": 0.86667,
+          "games": 60,
+          "loss": 8,
+          "win": 52
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 1,
+          "ewr": 0.9375,
+          "games": 8,
+          "loss": 0,
+          "win": 7
+        },
+        "balanced_conventional": {
+          "draw": 1,
+          "ewr": 0.8125,
+          "games": 8,
+          "loss": 1,
+          "win": 6
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 10,
+          "loss": 0,
+          "win": 10
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 13,
+          "loss": 0,
+          "win": 13
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 1,
+          "ewr": 0.91667,
+          "games": 6,
+          "loss": 0,
+          "win": 5
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.55556,
+          "games": 9,
+          "loss": 4,
+          "win": 5
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 4,
+          "loss": 0,
+          "win": 4
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.72727,
+          "games": 11,
+          "loss": 3,
+          "win": 8
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.85,
+          "games": 10,
+          "loss": 1,
+          "win": 8
+        },
+        "scout_preservation": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 5,
+          "loss": 0,
+          "win": 5
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 1,
+          "ewr": 0.79167,
+          "games": 12,
+          "loss": 2,
+          "win": 9
+        },
+        "p24": {
+          "draw": 1,
+          "ewr": 0.70833,
+          "games": 12,
+          "loss": 3,
+          "win": 8
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 2,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 2,
+          "win": 8
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 2,
+          "ewr": 0.83333,
+          "games": 36,
+          "loss": 5,
+          "win": 29
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 24,
+          "loss": 3,
+          "win": 21
+        },
+        "stress": {
+          "draw": 2,
+          "ewr": 0.88333,
+          "games": 60,
+          "loss": 6,
+          "win": 52
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 2,
+          "ewr": 0.875,
+          "games": 40,
+          "loss": 4,
+          "win": 34
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.875,
+          "games": 40,
+          "loss": 4,
+          "win": 34
+        },
+        "targeted_family": {
+          "draw": 0,
+          "ewr": 0.85,
+          "games": 40,
+          "loss": 6,
+          "win": 34
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 14,
+      "max_seconds_per_move": 0.47107,
+      "mean_c1_forwards_per_game": 72803.8,
+      "mean_c1_forwards_per_move": 316.74,
+      "mean_plies": 459.3,
+      "mean_seconds_per_move": 0.44622,
+      "median_seconds_per_move": 0.44967,
+      "min_family": {
+        "ewr": 0.55556,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "min_opponent": {
+        "ewr": 0.70833,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.06456,
+      "move_latency": {
+        "decisions": 27582,
+        "max": 0.61988,
+        "mean": 0.45091,
+        "median": 0.45198,
+        "p95": 0.50218,
+        "p99": 0.55014
+      },
+      "move_model": "p18",
+      "p95_seconds_per_move": 0.4639,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.09583,
+        "losses": 8,
+        "standard_error": 0.03848,
+        "ties": 91,
+        "wins": 21
+      },
+      "player_decisions": 27582,
+      "preset_id": "TINY",
+      "provider": "remaining_count",
+      "search_seconds_per_game": 103.6417,
+      "weakness_pack_family_ewr": 0.83117,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.85417,
+      "weakness_pack_opponent_games": 48,
+      "wins": 102
+    },
+    "p24_b18|TINY": {
+      "arm_id": "p24_b18",
+      "draws": 4,
+      "ewr": 0.8,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 3,
+          "ewr": 0.775,
+          "games": 60,
+          "loss": 12,
+          "win": 45
+        },
+        "red": {
+          "draw": 1,
+          "ewr": 0.825,
+          "games": 60,
+          "loss": 10,
+          "win": 49
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "balanced_conventional": {
+          "draw": 1,
+          "ewr": 0.9375,
+          "games": 8,
+          "loss": 0,
+          "win": 7
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.7,
+          "games": 10,
+          "loss": 3,
+          "win": 7
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.76923,
+          "games": 13,
+          "loss": 3,
+          "win": 10
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 9,
+          "loss": 3,
+          "win": 6
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 4,
+          "loss": 1,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 10,
+          "loss": 2,
+          "win": 8
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 1,
+          "ewr": 0.68182,
+          "games": 11,
+          "loss": 3,
+          "win": 7
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 3,
+          "loss": 1,
+          "win": 2
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.95,
+          "games": 10,
+          "loss": 0,
+          "win": 9
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.7,
+          "games": 5,
+          "loss": 1,
+          "win": 3
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.58333,
+          "games": 12,
+          "loss": 4,
+          "win": 6
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 4,
+          "win": 8
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "stress_scout_rush": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 12,
+          "loss": 1,
+          "win": 10
+        },
+        "tactical_rule_based": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 12,
+          "loss": 1,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 2,
+          "ewr": 0.66667,
+          "games": 36,
+          "loss": 11,
+          "win": 23
+        },
+        "rule": {
+          "draw": 1,
+          "ewr": 0.8125,
+          "games": 24,
+          "loss": 4,
+          "win": 19
+        },
+        "stress": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 60,
+          "loss": 7,
+          "win": 52
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 0,
+          "ewr": 0.85,
+          "games": 40,
+          "loss": 6,
+          "win": 34
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.8,
+          "games": 40,
+          "loss": 7,
+          "win": 31
+        },
+        "targeted_family": {
+          "draw": 2,
+          "ewr": 0.75,
+          "games": 40,
+          "loss": 9,
+          "win": 29
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 22,
+      "max_seconds_per_move": 0.48873,
+      "mean_c1_forwards_per_game": 74560.6,
+      "mean_c1_forwards_per_move": 317.23,
+      "mean_plies": 469.8,
+      "mean_seconds_per_move": 0.44915,
+      "median_seconds_per_move": 0.45329,
+      "min_family": {
+        "ewr": 0.66667,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "min_opponent": {
+        "ewr": 0.58333,
+        "games": 12,
+        "name": "p18"
+      },
+      "move_change_rate": 0.06409,
+      "move_latency": {
+        "decisions": 28204,
+        "max": 0.63647,
+        "mean": 0.45581,
+        "median": 0.45669,
+        "p95": 0.50626,
+        "p99": 0.55497
+      },
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.46569,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.0625,
+        "losses": 8,
+        "standard_error": 0.0395,
+        "ties": 95,
+        "wins": 17
+      },
+      "player_decisions": 28204,
+      "preset_id": "TINY",
+      "provider": "b18",
+      "search_seconds_per_game": 107.1313,
+      "weakness_pack_family_ewr": 0.79221,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.84375,
+      "weakness_pack_opponent_games": 48,
+      "wins": 94
+    },
+    "p24_b24|TINY": {
+      "arm_id": "p24_b24",
+      "draws": 4,
+      "ewr": 0.875,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 2,
+          "ewr": 0.85,
+          "games": 60,
+          "loss": 8,
+          "win": 50
+        },
+        "red": {
+          "draw": 2,
+          "ewr": 0.9,
+          "games": 60,
+          "loss": 5,
+          "win": 53
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 8,
+          "loss": 0,
+          "win": 8
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 8,
+          "loss": 0,
+          "win": 8
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 1,
+          "ewr": 0.45,
+          "games": 10,
+          "loss": 5,
+          "win": 4
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 13,
+          "loss": 0,
+          "win": 13
+        },
+        "distributed_bomb_defense": {
+          "draw": 1,
+          "ewr": 0.9375,
+          "games": 8,
+          "loss": 0,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 8,
+          "loss": 0,
+          "win": 8
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.77778,
+          "games": 9,
+          "loss": 2,
+          "win": 7
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 4,
+          "loss": 1,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 10,
+          "loss": 0,
+          "win": 10
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.72727,
+          "games": 11,
+          "loss": 3,
+          "win": 8
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.85,
+          "games": 10,
+          "loss": 1,
+          "win": 8
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.9,
+          "games": 5,
+          "loss": 0,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 3,
+          "ewr": 0.70833,
+          "games": 12,
+          "loss": 2,
+          "win": 7
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_scout_rush": {
+          "draw": 1,
+          "ewr": 0.95833,
+          "games": 12,
+          "loss": 0,
+          "win": 11
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 3,
+          "ewr": 0.79167,
+          "games": 36,
+          "loss": 6,
+          "win": 27
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.79167,
+          "games": 24,
+          "loss": 5,
+          "win": 19
+        },
+        "stress": {
+          "draw": 1,
+          "ewr": 0.95833,
+          "games": 60,
+          "loss": 2,
+          "win": 57
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 1,
+          "ewr": 0.8375,
+          "games": 40,
+          "loss": 6,
+          "win": 33
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.9,
+          "games": 40,
+          "loss": 3,
+          "win": 35
+        },
+        "targeted_family": {
+          "draw": 1,
+          "ewr": 0.8875,
+          "games": 40,
+          "loss": 4,
+          "win": 35
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 13,
+      "max_seconds_per_move": 0.46961,
+      "mean_c1_forwards_per_game": 74244.2,
+      "mean_c1_forwards_per_move": 315.21,
+      "mean_plies": 470.7,
+      "mean_seconds_per_move": 0.44425,
+      "median_seconds_per_move": 0.4523,
+      "min_family": {
+        "ewr": 0.45,
+        "games": 10,
+        "name": "conservative_high_rank_rear"
+      },
+      "min_opponent": {
+        "ewr": 0.70833,
+        "games": 12,
+        "name": "p18"
+      },
+      "move_change_rate": 0.06454,
+      "move_latency": {
+        "decisions": 28265,
+        "max": 0.69418,
+        "mean": 0.45159,
+        "median": 0.4548,
+        "p95": 0.50701,
+        "p99": 0.55611
+      },
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.46309,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.1375,
+        "losses": 6,
+        "standard_error": 0.0414,
+        "ties": 91,
+        "wins": 23
+      },
+      "player_decisions": 28265,
+      "preset_id": "TINY",
+      "provider": "b24",
+      "search_seconds_per_game": 106.3677,
+      "weakness_pack_family_ewr": 0.90909,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.94792,
+      "weakness_pack_opponent_games": 48,
+      "wins": 103
+    },
+    "p24_direct|direct": {
+      "arm_id": "p24_direct",
+      "draws": 3,
+      "ewr": 0.7375,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 2,
+          "ewr": 0.71667,
+          "games": 60,
+          "loss": 16,
+          "win": 42
+        },
+        "red": {
+          "draw": 1,
+          "ewr": 0.75833,
+          "games": 60,
+          "loss": 14,
+          "win": 45
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.5,
+          "games": 2,
+          "loss": 1,
+          "win": 1
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.6,
+          "games": 10,
+          "loss": 4,
+          "win": 6
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.84615,
+          "games": 13,
+          "loss": 2,
+          "win": 11
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 6,
+          "loss": 2,
+          "win": 4
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.55556,
+          "games": 9,
+          "loss": 4,
+          "win": 5
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 4,
+          "loss": 1,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 1,
+          "ewr": 0.85,
+          "games": 10,
+          "loss": 1,
+          "win": 8
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.81818,
+          "games": 11,
+          "loss": 2,
+          "win": 9
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 3,
+          "loss": 1,
+          "win": 2
+        },
+        "scout_forward_information": {
+          "draw": 1,
+          "ewr": 0.65,
+          "games": 10,
+          "loss": 3,
+          "win": 6
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.7,
+          "games": 5,
+          "loss": 1,
+          "win": 3
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.5,
+          "games": 12,
+          "loss": 5,
+          "win": 5
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.33333,
+          "games": 12,
+          "loss": 8,
+          "win": 4
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.5,
+          "games": 12,
+          "loss": 6,
+          "win": 6
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 12,
+          "loss": 4,
+          "win": 8
+        },
+        "stress_scout_rush": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 12,
+          "loss": 1,
+          "win": 10
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 2,
+          "ewr": 0.44444,
+          "games": 36,
+          "loss": 19,
+          "win": 15
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 24,
+          "loss": 4,
+          "win": 20
+        },
+        "stress": {
+          "draw": 1,
+          "ewr": 0.875,
+          "games": 60,
+          "loss": 7,
+          "win": 52
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 1,
+          "ewr": 0.7625,
+          "games": 40,
+          "loss": 9,
+          "win": 30
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.75,
+          "games": 40,
+          "loss": 9,
+          "win": 29
+        },
+        "targeted_family": {
+          "draw": 0,
+          "ewr": 0.7,
+          "games": 40,
+          "loss": 12,
+          "win": 28
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 30,
+      "max_seconds_per_move": 0.00174,
+      "mean_c1_forwards_per_game": 278.8,
+      "mean_c1_forwards_per_move": 1.0,
+      "mean_plies": 557.3,
+      "mean_seconds_per_move": 0.00162,
+      "median_seconds_per_move": 0.00162,
+      "min_family": {
+        "ewr": 0.55556,
+        "games": 9,
+        "name": "irregular_high_entropy"
+      },
+      "min_opponent": {
+        "ewr": 0.33333,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": null,
+      "move_latency": {
+        "decisions": 33452,
+        "max": 0.00656,
+        "mean": 0.00163,
+        "median": 0.00159,
+        "p95": 0.00184,
+        "p99": 0.0023
+      },
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.00168,
+      "player_decisions": 33452,
+      "preset_id": "direct",
+      "provider": null,
+      "search_seconds_per_game": 0.4534,
+      "weakness_pack_family_ewr": 0.76623,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.84375,
+      "weakness_pack_opponent_games": 48,
+      "wins": 87
+    },
+    "p24_oracle|TINY": {
+      "arm_id": "p24_oracle",
+      "draws": 2,
+      "ewr": 0.88333,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 1,
+          "ewr": 0.85833,
+          "games": 60,
+          "loss": 8,
+          "win": 51
+        },
+        "red": {
+          "draw": 1,
+          "ewr": 0.90833,
+          "games": 60,
+          "loss": 5,
+          "win": 54
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 8,
+          "loss": 0,
+          "win": 8
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 13,
+          "loss": 0,
+          "win": 13
+        },
+        "distributed_bomb_defense": {
+          "draw": 0,
+          "ewr": 0.625,
+          "games": 8,
+          "loss": 3,
+          "win": 5
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 6,
+          "loss": 1,
+          "win": 5
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 9,
+          "loss": 3,
+          "win": 6
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 4,
+          "loss": 0,
+          "win": 4
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 1,
+          "ewr": 0.95455,
+          "games": 11,
+          "loss": 0,
+          "win": 10
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 3,
+          "loss": 0,
+          "win": 3
+        },
+        "scout_forward_information": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.9,
+          "games": 5,
+          "loss": 0,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 2,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 1,
+          "win": 9
+        },
+        "p24": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.83333,
+          "games": 12,
+          "loss": 2,
+          "win": 10
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 2,
+          "ewr": 0.80556,
+          "games": 36,
+          "loss": 6,
+          "win": 28
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 24,
+          "loss": 3,
+          "win": 21
+        },
+        "stress": {
+          "draw": 0,
+          "ewr": 0.93333,
+          "games": 60,
+          "loss": 4,
+          "win": 56
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 40,
+          "loss": 4,
+          "win": 36
+        },
+        "phase14_learned": {
+          "draw": 1,
+          "ewr": 0.8875,
+          "games": 40,
+          "loss": 4,
+          "win": 35
+        },
+        "targeted_family": {
+          "draw": 1,
+          "ewr": 0.8625,
+          "games": 40,
+          "loss": 5,
+          "win": 34
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 13,
+      "max_seconds_per_move": 0.05145,
+      "mean_c1_forwards_per_game": 8350.6,
+      "mean_c1_forwards_per_move": 40.78,
+      "mean_plies": 409.2,
+      "mean_seconds_per_move": 0.04892,
+      "median_seconds_per_move": 0.04917,
+      "min_family": {
+        "ewr": 0.625,
+        "games": 8,
+        "name": "distributed_bomb_defense"
+      },
+      "min_opponent": {
+        "ewr": 0.75,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.09233,
+      "move_latency": {
+        "decisions": 24573,
+        "max": 0.1415,
+        "mean": 0.04936,
+        "median": 0.04915,
+        "p95": 0.05336,
+        "p99": 0.07387
+      },
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.05077,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.14583,
+        "losses": 8,
+        "standard_error": 0.04522,
+        "ties": 86,
+        "wins": 26
+      },
+      "player_decisions": 24573,
+      "preset_id": "TINY",
+      "provider": "oracle",
+      "search_seconds_per_game": 10.1081,
+      "weakness_pack_family_ewr": 0.86364,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.91667,
+      "weakness_pack_opponent_games": 48,
+      "wins": 105
+    },
+    "p24_remaining_count|TINY": {
+      "arm_id": "p24_remaining_count",
+      "draws": 4,
+      "ewr": 0.79167,
+      "ewr_by_color": {
+        "blue": {
+          "draw": 1,
+          "ewr": 0.775,
+          "games": 60,
+          "loss": 13,
+          "win": 46
+        },
+        "red": {
+          "draw": 3,
+          "ewr": 0.80833,
+          "games": 60,
+          "loss": 10,
+          "win": 47
+        }
+      },
+      "ewr_by_family": {
+        "aggressive_high_rank_front": {
+          "draw": 0,
+          "ewr": 0.625,
+          "games": 8,
+          "loss": 3,
+          "win": 5
+        },
+        "balanced_conventional": {
+          "draw": 0,
+          "ewr": 0.875,
+          "games": 8,
+          "loss": 1,
+          "win": 7
+        },
+        "central_back_flag_fortress": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 2,
+          "loss": 0,
+          "win": 2
+        },
+        "conservative_high_rank_rear": {
+          "draw": 0,
+          "ewr": 0.6,
+          "games": 10,
+          "loss": 4,
+          "win": 6
+        },
+        "corner_flag_fortress": {
+          "draw": 2,
+          "ewr": 0.92308,
+          "games": 13,
+          "loss": 0,
+          "win": 11
+        },
+        "distributed_bomb_defense": {
+          "draw": 1,
+          "ewr": 0.9375,
+          "games": 8,
+          "loss": 0,
+          "win": 7
+        },
+        "false_fortress_bomb_decoy": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 6,
+          "loss": 0,
+          "win": 6
+        },
+        "high_bomb_placement": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 8,
+          "loss": 2,
+          "win": 6
+        },
+        "irregular_high_entropy": {
+          "draw": 0,
+          "ewr": 0.77778,
+          "games": 9,
+          "loss": 2,
+          "win": 7
+        },
+        "lightly_defended_deceptive_flag": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 4,
+          "loss": 1,
+          "win": 3
+        },
+        "miner_forward": {
+          "draw": 0,
+          "ewr": 0.9,
+          "games": 10,
+          "loss": 1,
+          "win": 9
+        },
+        "miner_preservation": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 5,
+          "loss": 1,
+          "win": 4
+        },
+        "near_corner_flag_fortress": {
+          "draw": 0,
+          "ewr": 0.63636,
+          "games": 11,
+          "loss": 4,
+          "win": 7
+        },
+        "partially_bombed_flag": {
+          "draw": 0,
+          "ewr": 0.66667,
+          "games": 3,
+          "loss": 1,
+          "win": 2
+        },
+        "scout_forward_information": {
+          "draw": 0,
+          "ewr": 0.7,
+          "games": 10,
+          "loss": 3,
+          "win": 7
+        },
+        "scout_preservation": {
+          "draw": 1,
+          "ewr": 0.9,
+          "games": 5,
+          "loss": 0,
+          "win": 4
+        }
+      },
+      "ewr_by_opponent": {
+        "p18": {
+          "draw": 3,
+          "ewr": 0.625,
+          "games": 12,
+          "loss": 3,
+          "win": 6
+        },
+        "p24": {
+          "draw": 1,
+          "ewr": 0.54167,
+          "games": 12,
+          "loss": 5,
+          "win": 6
+        },
+        "phase9_anchor": {
+          "draw": 0,
+          "ewr": 0.58333,
+          "games": 12,
+          "loss": 5,
+          "win": 7
+        },
+        "strategic_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        },
+        "stress_berserker": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_chaos": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_information_miser": {
+          "draw": 0,
+          "ewr": 1.0,
+          "games": 12,
+          "loss": 0,
+          "win": 12
+        },
+        "stress_miner_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "stress_scout_rush": {
+          "draw": 0,
+          "ewr": 0.91667,
+          "games": 12,
+          "loss": 1,
+          "win": 11
+        },
+        "tactical_rule_based": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 12,
+          "loss": 3,
+          "win": 9
+        }
+      },
+      "ewr_by_opponent_class": {
+        "neural": {
+          "draw": 4,
+          "ewr": 0.58333,
+          "games": 36,
+          "loss": 13,
+          "win": 19
+        },
+        "rule": {
+          "draw": 0,
+          "ewr": 0.75,
+          "games": 24,
+          "loss": 6,
+          "win": 18
+        },
+        "stress": {
+          "draw": 0,
+          "ewr": 0.93333,
+          "games": 60,
+          "loss": 4,
+          "win": 56
+        }
+      },
+      "ewr_by_setup_source": {
+        "neutral_v1": {
+          "draw": 0,
+          "ewr": 0.8,
+          "games": 40,
+          "loss": 8,
+          "win": 32
+        },
+        "phase14_learned": {
+          "draw": 2,
+          "ewr": 0.825,
+          "games": 40,
+          "loss": 6,
+          "win": 32
+        },
+        "targeted_family": {
+          "draw": 2,
+          "ewr": 0.75,
+          "games": 40,
+          "loss": 9,
+          "win": 29
+        }
+      },
+      "fallback_rate": 0.0,
+      "fallback_reasons": {},
+      "fallbacks": 0,
+      "games": 120,
+      "losses": 23,
+      "max_seconds_per_move": 0.46973,
+      "mean_c1_forwards_per_game": 69898.9,
+      "mean_c1_forwards_per_move": 312.16,
+      "mean_plies": 447.6,
+      "mean_seconds_per_move": 0.44837,
+      "median_seconds_per_move": 0.45522,
+      "min_family": {
+        "ewr": 0.6,
+        "games": 10,
+        "name": "conservative_high_rank_rear"
+      },
+      "min_opponent": {
+        "ewr": 0.54167,
+        "games": 12,
+        "name": "p24"
+      },
+      "move_change_rate": 0.06313,
+      "move_latency": {
+        "decisions": 26870,
+        "max": 0.63935,
+        "mean": 0.4475,
+        "median": 0.45407,
+        "p95": 0.50489,
+        "p99": 0.55634
+      },
+      "move_model": "p24",
+      "p95_seconds_per_move": 0.46523,
+      "paired_vs_direct": {
+        "boards": 120,
+        "delta": 0.05417,
+        "losses": 11,
+        "standard_error": 0.04176,
+        "ties": 91,
+        "wins": 18
+      },
+      "player_decisions": 26870,
+      "preset_id": "TINY",
+      "provider": "remaining_count",
+      "search_seconds_per_game": 100.2017,
+      "weakness_pack_family_ewr": 0.78571,
+      "weakness_pack_family_games": 77,
+      "weakness_pack_opponent_ewr": 0.91667,
+      "weakness_pack_opponent_games": 48,
+      "wins": 93
+    }
+  },
+  "summaries_recomputed_note": "the summaries block was recomputed from agent_02_games.jsonl after mean_c1_forwards_per_move was added to arm_summary; no game was replayed and no stored row changed",
+  "summaries_recomputed_utc": "2026-08-24T20:31:13Z",
+  "wall_seconds": 7835.8,
+  "workers": 10
+}

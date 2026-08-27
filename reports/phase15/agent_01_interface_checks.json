@@ -1,0 +1,115 @@
+{
+  "agent": "agent_01",
+  "artifact": "phase15_agent01_interface_checks_v1",
+  "phase": "phase_15",
+  "providers": {
+    "b18": {
+      "all_worlds_pass_accepted_validation": true,
+      "check_version": "phase15_interface_checks_v1",
+      "describe": {
+        "calibrated": false,
+        "device": "cpu",
+        "identity": {
+          "bound_policy": "p18",
+          "specialist_id": "b18",
+          "state_digest": "b03685d3557d7c93ec5ce1c11b50907c13791a45e5a8359febe12b4f17612b99"
+        },
+        "independent_per_piece_sampling": false,
+        "interface_version": "phase15_belief_interface_v1",
+        "provider_id": "phase15_b18",
+        "reads_hidden_truth": false,
+        "sampler": "belief_sampler_v1",
+        "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+        "temperature": 1.0,
+        "uses_hidden_truth": false
+      },
+      "fixed_seed_reproduces_worlds": true,
+      "independent_per_piece_sampling": false,
+      "marginal_latency_ms": {
+        "max": 2.392416005022824,
+        "mean": 2.0925018337341803,
+        "p50": 2.0840834913542494,
+        "p95": 2.3057813494233415
+      },
+      "marginals_checked": 1220,
+      "max_probability_sum_deviation": 4.440892098500626e-16,
+      "moved_pieces_never_immobile": true,
+      "passed": true,
+      "positions_checked": 48,
+      "positions_where_a_different_seed_gave_different_worlds": 48,
+      "probabilities_finite": true,
+      "probabilities_sum_to_one": true,
+      "provider_id": "phase15_b18",
+      "remaining_piece_counts_exact": true,
+      "sampler_is_accepted_by_import": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+      "seconds": 1.09,
+      "truth_isolation": {
+        "answers_from_the_public_document_alone": true,
+        "hidden_pieces": 40,
+        "provider_uses_hidden_truth": false,
+        "public_document_exposes_unresolved_ranks": false,
+        "public_state_fields": [
+          "observation",
+          "public_state_document"
+        ]
+      },
+      "worlds_checked": 384,
+      "worlds_per_position": 8
+    },
+    "b24": {
+      "all_worlds_pass_accepted_validation": true,
+      "check_version": "phase15_interface_checks_v1",
+      "describe": {
+        "calibrated": false,
+        "device": "cpu",
+        "identity": {
+          "bound_policy": "p24",
+          "specialist_id": "b24",
+          "state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f"
+        },
+        "independent_per_piece_sampling": false,
+        "interface_version": "phase15_belief_interface_v1",
+        "provider_id": "phase15_b24",
+        "reads_hidden_truth": false,
+        "sampler": "belief_sampler_v1",
+        "sampler_source": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+        "temperature": 1.0,
+        "uses_hidden_truth": false
+      },
+      "fixed_seed_reproduces_worlds": true,
+      "independent_per_piece_sampling": false,
+      "marginal_latency_ms": {
+        "max": 2.4520840088371187,
+        "mean": 2.1252656248786175,
+        "p50": 2.1087915083626285,
+        "p95": 2.3436231465893798
+      },
+      "marginals_checked": 1220,
+      "max_probability_sum_deviation": 4.440892098500626e-16,
+      "moved_pieces_never_immobile": true,
+      "passed": true,
+      "positions_checked": 48,
+      "positions_where_a_different_seed_gave_different_worlds": 48,
+      "probabilities_finite": true,
+      "probabilities_sum_to_one": true,
+      "provider_id": "phase15_b24",
+      "remaining_piece_counts_exact": true,
+      "sampler_is_accepted_by_import": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+      "seconds": 1.1,
+      "truth_isolation": {
+        "answers_from_the_public_document_alone": true,
+        "hidden_pieces": 40,
+        "provider_uses_hidden_truth": false,
+        "public_document_exposes_unresolved_ranks": false,
+        "public_state_fields": [
+          "observation",
+          "public_state_document"
+        ]
+      },
+      "worlds_checked": 384,
+      "worlds_per_position": 8
+    }
+  },
+  "search_implemented": false,
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

@@ -1,0 +1,242 @@
+{
+  "artifact": "phase17_agent01_process_boundary_v1",
+  "work_package": "phase17",
+  "observed_utc": "2026-08-27T19:56:32Z",
+  "host": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "cwd": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent"
+  },
+  "evidence_classification": "PENDING",
+  "scientific_validation_status": "not performed",
+  "canonical_documents_read": [
+    "stratego_project_docs/STATUS.md",
+    "stratego_project_docs/PHASE_HISTORY.md",
+    "stratego_project_docs/EVIDENCE_INDEX.md",
+    "stratego_project_docs/EXPERIMENT_FRAMEWORK.md"
+  ],
+  "active_processes": [
+    {
+      "pid": 99915,
+      "ppid": 1,
+      "elapsed": "03-18:37:10",
+      "cpu_percent": 0.0,
+      "command": ".venv/bin/python scripts/phase14_dashboard.py --port 8714",
+      "classification": "read_only_monitor"
+    }
+  ],
+  "active_learner_or_collector": [],
+  "phase14_closure": {
+    "run_state_readable": true,
+    "run_state_path": "/Volumes/Brandon_Washington/stratego_phase14/phase14_run_state.json",
+    "closed": false,
+    "closed_reason": "emergency stop",
+    "iterations_completed": 102,
+    "elapsed_hours": 59.96654456222222,
+    "mode": "production",
+    "emergency_stop_requested_utc": "2026-08-24T02:09:52.380Z",
+    "emergency_stop_reason": "operator decision 2026-08-24: stop at ~57h to spend remaining GPU on 2,200-game evaluation of all candidates; run preserved and resumable against the original window until 2026-08-28T16:15:34Z",
+    "closure_deadline_utc": "2026-08-28T16:15:34.689Z",
+    "read_only": true
+  },
+  "phase14_launch_binding": {
+    "checked": true,
+    "read_only": true,
+    "bound_revision": "124f3beed4fe4cfb02021de0185a8d871feec1c1",
+    "observed_revision": "124f3beed4fe4cfb02021de0185a8d871feec1c1",
+    "revision_matches": true,
+    "bound_dirty_tracked_files": [
+      "reports/phase13/phase14_launch_manifest_v1.json"
+    ],
+    "observed_dirty_tracked_files": [
+      "reports/phase13/phase14_launch_manifest_v1.json",
+      "stratego_project_docs/05_project_plan.md",
+      "stratego_project_docs/README.md"
+    ],
+    "code_digest_matches": true,
+    "assert_bound_launch_code": "Phase14LaunchError",
+    "assert_bound_launch_code_message": "Phase 14 may not launch on this code revision:\n  - tracked working-tree state differs from the manifest: bound ['reports/phase13/phase14_launch_manifest_v1.json'], observed ['reports/phase13/phase14_launch_manifest_v1.json', 'stratego_project_docs/05_project_plan.md', 'stratego_project_docs/README.md']",
+    "finalize_reachable": false,
+    "interpretation": "the import closure is unchanged (code_digest matches) and the revision still matches; the refusal, if any, is the dirty-tracked-file list. The two stratego_project_docs edits landed with the 2026-08-27 documentation pass and are NOT Phase 17 work."
+  },
+  "version_control": {
+    "commit": "124f3beed4fe4cfb02021de0185a8d871feec1c1",
+    "commit_subject": "Add Phase 14 read-only monitoring dashboard, reviewed and approved for launch.",
+    "commit_utc": "2026-08-21T11:39:13-04:00",
+    "branch": "main",
+    "remote": "https://github.com/brandonnassir/stratego.git",
+    "modified_tracked": [
+      {
+        "code": "M",
+        "path": "reports/phase13/phase14_launch_manifest_v1.json"
+      },
+      {
+        "code": "M",
+        "path": "stratego_project_docs/05_project_plan.md"
+      },
+      {
+        "code": "M",
+        "path": "stratego_project_docs/README.md"
+      }
+    ],
+    "untracked_entries": [
+      {
+        "code": "??",
+        "path": "README.md"
+      },
+      {
+        "code": "??",
+        "path": "checkpoints/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "checkpoints/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "data/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "data/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "instructions/phase_15_belief_search_engineering/"
+      },
+      {
+        "code": "??",
+        "path": "instructions/phase_16_robustness_and_distribution/"
+      },
+      {
+        "code": "??",
+        "path": "instructions/phase_17_tandem_current_policy_self_play/"
+      },
+      {
+        "code": "??",
+        "path": "reports/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "reports/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "reports/phase17/"
+      },
+      {
+        "code": "??",
+        "path": "scripts/phase16_capture_setup.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/play_phase15.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/play_phase16.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/play_phase16_operator.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase15_agent01.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase15_agent02.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase15_mixture.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase16_agent01.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase16_agent02.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase16_agent03.py"
+      },
+      {
+        "code": "??",
+        "path": "scripts/run_phase17_agent01.py"
+      },
+      {
+        "code": "??",
+        "path": "stratego/belief/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "stratego/evaluation/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "stratego/search/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "stratego/search/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "stratego/training/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "stratego_project_docs/EVIDENCE_INDEX.md"
+      },
+      {
+        "code": "??",
+        "path": "stratego_project_docs/EXPERIMENT_FRAMEWORK.md"
+      },
+      {
+        "code": "??",
+        "path": "stratego_project_docs/PHASE_HISTORY.md"
+      },
+      {
+        "code": "??",
+        "path": "stratego_project_docs/STATUS.md"
+      },
+      {
+        "code": "??",
+        "path": "tests/belief/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "tests/evaluation/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "tests/search/phase15/"
+      },
+      {
+        "code": "??",
+        "path": "tests/search/phase16/"
+      },
+      {
+        "code": "??",
+        "path": "tests/training/phase16/"
+      }
+    ],
+    "modified_tracked_count": 3,
+    "untracked_entry_count": 36,
+    "diffstat": "reports/phase13/phase14_launch_manifest_v1.json |  11 +--\n stratego_project_docs/05_project_plan.md        | 105 +++++++++++++++++++++---\n stratego_project_docs/README.md                 |  63 ++++++++++++--\n 3 files changed, 156 insertions(+), 23 deletions(-)"
+  },
+  "phase16_still_untracked": true,
+  "accepted_paths_mutated_by_agent_1": [],
+  "accepted_path_check": {
+    "method": "git status over tracked accepted paths",
+    "interpretation": "the single tracked modification under an accepted path is reports/phase13/phase14_launch_manifest_v1.json, the required self-referential manifest rebuild recorded in STATUS.md section 5. It predates Phase 17 and Agent 1 did not touch it.",
+    "tracked_modifications": [
+      " M reports/phase13/phase14_launch_manifest_v1.json"
+    ]
+  },
+  "actions_taken": "read only; no process signalled, no file mutated, no git write"
+}

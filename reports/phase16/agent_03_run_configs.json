@@ -1,0 +1,506 @@
+{
+  "a_control": {
+    "arm": {
+      "adversarial_pack": "phase16_adversarial_setups_v1",
+      "arm_id": "a_control",
+      "collection_device": "mps",
+      "device": "mps",
+      "ema": false,
+      "ema_decay": 0.999,
+      "entropy_constant": 0.001,
+      "entropy_exponent": 0.3,
+      "entropy_floor": 0.001,
+      "entropy_schedule": "constant",
+      "entropy_start": 0.005,
+      "epochs": 2,
+      "inference_batch_shape": 64,
+      "label": "control: window collector + Phase 14 hyperparameters",
+      "lr_constant": 7.5e-05,
+      "lr_exponent": 1.1,
+      "lr_max": 0.00015,
+      "lr_min": 1.5e-05,
+      "lr_reference": 1,
+      "lr_schedule": "constant",
+      "minibatch_size": 512,
+      "opponents": "phase14_mixture",
+      "planned_iterations": 0,
+      "population": 96,
+      "setups": "library",
+      "window_decisions": 65536
+    },
+    "arm_digest": "0c284794944f6219609915e52ed0b7d87cbff78ae147aff19f846b119b7b83fd",
+    "artifact": "phase16_arm_run_config_v1",
+    "collection_device": "mps",
+    "collector": {
+      "collector_version": "phase16_window_collector_v1",
+      "distribution": "stratego.training.phase9_behavior.behavior_distribution",
+      "emission": "whole games, on finish, with exact whole-game targets",
+      "phase16_own": [
+        "the action-sampling stream",
+        "the game id scheme",
+        "example harvesting at collection time"
+      ],
+      "runner": "stratego.training.phase9_collector.GameRunner, subclassed",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions"
+    },
+    "contract_digest": "f68fb7f7c9300294904f9c34915e8a25294245e68de828972a3eca0bf0f2592b",
+    "device": "mps",
+    "evaluation_hours": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "evaluation_note": "the runner exports weights at each hour; scoring runs outside the training process so every arm's six hours are six hours of training",
+    "hours": 6.0,
+    "population": {
+      "colour_rule": "the learner alternates colour on (slot + draw) parity",
+      "declared_shares": {
+        "current": 0.58,
+        "handcrafted": 0.12,
+        "historical": 0.3
+      },
+      "draw_rule": "per draw, from the phase16 opponent_draw domain",
+      "handcrafted_roster": [
+        "strategic_rule_based",
+        "tactical_rule_based",
+        "stress_scout_rush",
+        "stress_miner_rush",
+        "stress_information_miser"
+      ],
+      "handcrafted_weights": [
+        0.24898,
+        0.24898,
+        0.167347,
+        0.167347,
+        0.167347
+      ],
+      "identity": "the d-th game played in slot s",
+      "mixture": "phase14_mixture",
+      "population": 96,
+      "population_version": "phase16_population_v1",
+      "replacement": "a game that ends mid-window is replaced by a fresh draw",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions",
+      "window_decisions": 65536
+    },
+    "runner_version": "phase16_arm_runner_v1",
+    "schedules": {
+      "entropy": {
+        "formula": "0.001 at every iteration",
+        "schedule": "constant"
+      },
+      "index": "the 1-based iteration; never the optimizer step",
+      "lr": {
+        "floor_reached_at": null,
+        "formula": "7.5e-05 at every iteration",
+        "planned_iterations": 0,
+        "reference_iteration": 1,
+        "schedule": "constant"
+      }
+    },
+    "setups": {
+      "allowed_inputs": [
+        "own colour",
+        "requested split",
+        "selector seed"
+      ],
+      "both_sides": true,
+      "candidate_id": "P10-D",
+      "contract_version": "phase10b_contract_v1",
+      "forbidden_inputs": [
+        "opponent setup",
+        "hidden rank truth",
+        "outcome prediction",
+        "checkpoint strength",
+        "matchup identity"
+      ],
+      "kind": "phase10_learned_selector",
+      "mixture": {
+        "learned": 0.65,
+        "neutral": 0.35
+      },
+      "phase16_setup_source_version": "phase16_setup_source_v1",
+      "produces_provenance": true,
+      "production_source_version": "learned_setup_source_v1",
+      "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+      "selector_version": "phase10_setup_selector_v1",
+      "setup_source_version": "phase10b_setup_source_v1",
+      "side_seed_derivation": "phase16.contract.derive_train_seed('setup_side', game_id, colour)",
+      "source_id": "phase10b_setup_source_v1_P10-D_train",
+      "split": "train",
+      "temperature": 0.75,
+      "utility_model": "model_T"
+    },
+    "targets": {
+      "advantage": "A_t = delta_t + lambda_A * A_{t+1}; the tail is closed by the terminal z (finished) or by v at the boundary (partial); A beyond the tail is 0",
+      "lambda_A": 0.5,
+      "lambda_V": 0.8,
+      "production_emission": "whole games only, so every emitted row carries an exact W/D/L target and the accepted objective needs no per-row loss mask",
+      "reduces_to_accepted": "truncated_advantages(values, z) == phase9 advantages(values, z)",
+      "targets_version": "phase16_window_targets_v1",
+      "wdl": "the accepted lambda_V recursion toward the one-hot outcome; buffered per game and never bootstrapped"
+    },
+    "trainer": {
+      "ema": "never trains, never collects; the behavior snapshot is the raw model",
+      "filter": "the accepted tau = max(Q_0.75(|A|), 0.01), per window",
+      "gradient_clip_norm": 1.0,
+      "kl_controller": "stratego.training.phase9_trainer.KLController, unchanged",
+      "objective": "stratego.training.phase9_loss.phase9_batch_loss, unchanged",
+      "phase16_own": [
+        "the per-iteration learning-rate and entropy schedules",
+        "the evaluation-side weight EMA",
+        "the window training order"
+      ],
+      "trainer_version": "phase16_window_trainer_v1"
+    }
+  },
+  "b_damped": {
+    "arm": {
+      "adversarial_pack": "phase16_adversarial_setups_v1",
+      "arm_id": "b_damped",
+      "collection_device": "mps",
+      "device": "mps",
+      "ema": true,
+      "ema_decay": 0.999,
+      "entropy_constant": 0.001,
+      "entropy_exponent": 0.3,
+      "entropy_floor": 0.001,
+      "entropy_schedule": "annealed",
+      "entropy_start": 0.005,
+      "epochs": 1,
+      "inference_batch_shape": 64,
+      "label": "damped: power-law LR, annealed entropy, 1 epoch, EMA, pure self-play",
+      "lr_constant": 7.5e-05,
+      "lr_exponent": 1.1,
+      "lr_max": 0.00015,
+      "lr_min": 1.5e-05,
+      "lr_reference": 40,
+      "lr_schedule": "power_law",
+      "minibatch_size": 512,
+      "opponents": "pure_current",
+      "planned_iterations": 313,
+      "population": 96,
+      "setups": "library",
+      "window_decisions": 65536
+    },
+    "arm_digest": "7cd2a96e3be34b99c6eb09d37765f2a7ed9e1d1687cc0ff511e67901f849911e",
+    "artifact": "phase16_arm_run_config_v1",
+    "collection_device": "mps",
+    "collector": {
+      "collector_version": "phase16_window_collector_v1",
+      "distribution": "stratego.training.phase9_behavior.behavior_distribution",
+      "emission": "whole games, on finish, with exact whole-game targets",
+      "phase16_own": [
+        "the action-sampling stream",
+        "the game id scheme",
+        "example harvesting at collection time"
+      ],
+      "runner": "stratego.training.phase9_collector.GameRunner, subclassed",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions"
+    },
+    "contract_digest": "f68fb7f7c9300294904f9c34915e8a25294245e68de828972a3eca0bf0f2592b",
+    "device": "mps",
+    "evaluation_hours": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "evaluation_note": "the runner exports weights at each hour; scoring runs outside the training process so every arm's six hours are six hours of training",
+    "hours": 6.0,
+    "population": {
+      "colour_rule": "the learner alternates colour on (slot + draw) parity",
+      "declared_shares": {
+        "current": 1.0
+      },
+      "draw_rule": "per draw, from the phase16 opponent_draw domain",
+      "handcrafted_roster": [
+        "strategic_rule_based",
+        "tactical_rule_based",
+        "stress_scout_rush",
+        "stress_miner_rush",
+        "stress_information_miser"
+      ],
+      "handcrafted_weights": [
+        0.24898,
+        0.24898,
+        0.167347,
+        0.167347,
+        0.167347
+      ],
+      "identity": "the d-th game played in slot s",
+      "mixture": "pure_current",
+      "population": 96,
+      "population_version": "phase16_population_v1",
+      "replacement": "a game that ends mid-window is replaced by a fresh draw",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions",
+      "window_decisions": 65536
+    },
+    "runner_version": "phase16_arm_runner_v1",
+    "schedules": {
+      "entropy": {
+        "formula": "max(0.001, 0.005 * n**-0.3)",
+        "schedule": "annealed"
+      },
+      "index": "the 1-based iteration; never the optimizer step",
+      "lr": {
+        "floor_reached_at": 325,
+        "formula": "clamp(0.00015 * (n/40)**-1.1, 1.5e-05, 0.00015)",
+        "planned_iterations": 313,
+        "reference_iteration": 40,
+        "schedule": "power_law"
+      }
+    },
+    "setups": {
+      "allowed_inputs": [
+        "own colour",
+        "requested split",
+        "selector seed"
+      ],
+      "both_sides": true,
+      "candidate_id": "P10-D",
+      "contract_version": "phase10b_contract_v1",
+      "forbidden_inputs": [
+        "opponent setup",
+        "hidden rank truth",
+        "outcome prediction",
+        "checkpoint strength",
+        "matchup identity"
+      ],
+      "kind": "phase10_learned_selector",
+      "mixture": {
+        "learned": 0.65,
+        "neutral": 0.35
+      },
+      "phase16_setup_source_version": "phase16_setup_source_v1",
+      "produces_provenance": true,
+      "production_source_version": "learned_setup_source_v1",
+      "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+      "selector_version": "phase10_setup_selector_v1",
+      "setup_source_version": "phase10b_setup_source_v1",
+      "side_seed_derivation": "phase16.contract.derive_train_seed('setup_side', game_id, colour)",
+      "source_id": "phase10b_setup_source_v1_P10-D_train",
+      "split": "train",
+      "temperature": 0.75,
+      "utility_model": "model_T"
+    },
+    "targets": {
+      "advantage": "A_t = delta_t + lambda_A * A_{t+1}; the tail is closed by the terminal z (finished) or by v at the boundary (partial); A beyond the tail is 0",
+      "lambda_A": 0.5,
+      "lambda_V": 0.8,
+      "production_emission": "whole games only, so every emitted row carries an exact W/D/L target and the accepted objective needs no per-row loss mask",
+      "reduces_to_accepted": "truncated_advantages(values, z) == phase9 advantages(values, z)",
+      "targets_version": "phase16_window_targets_v1",
+      "wdl": "the accepted lambda_V recursion toward the one-hot outcome; buffered per game and never bootstrapped"
+    },
+    "trainer": {
+      "ema": "never trains, never collects; the behavior snapshot is the raw model",
+      "filter": "the accepted tau = max(Q_0.75(|A|), 0.01), per window",
+      "gradient_clip_norm": 1.0,
+      "kl_controller": "stratego.training.phase9_trainer.KLController, unchanged",
+      "objective": "stratego.training.phase9_loss.phase9_batch_loss, unchanged",
+      "phase16_own": [
+        "the per-iteration learning-rate and entropy schedules",
+        "the evaluation-side weight EMA",
+        "the window training order"
+      ],
+      "trainer_version": "phase16_window_trainer_v1"
+    }
+  },
+  "c_damped_plus": {
+    "arm": {
+      "adversarial_pack": "phase16_adversarial_setups_v1",
+      "arm_id": "c_damped_plus",
+      "collection_device": "mps",
+      "device": "mps",
+      "ema": true,
+      "ema_decay": 0.999,
+      "entropy_constant": 0.001,
+      "entropy_exponent": 0.3,
+      "entropy_floor": 0.001,
+      "entropy_schedule": "annealed",
+      "entropy_start": 0.005,
+      "epochs": 1,
+      "inference_batch_shape": 64,
+      "label": "damped+: arm B plus the expanded (adversarial) setup mixture",
+      "lr_constant": 7.5e-05,
+      "lr_exponent": 1.1,
+      "lr_max": 0.00015,
+      "lr_min": 1.5e-05,
+      "lr_reference": 40,
+      "lr_schedule": "power_law",
+      "minibatch_size": 512,
+      "opponents": "pure_current",
+      "planned_iterations": 313,
+      "population": 96,
+      "setups": "expanded",
+      "window_decisions": 65536
+    },
+    "arm_digest": "524d978f1db5005151d2e546cebd93ee33b9f4f6b7197185594316083a913e6a",
+    "artifact": "phase16_arm_run_config_v1",
+    "collection_device": "mps",
+    "collector": {
+      "collector_version": "phase16_window_collector_v1",
+      "distribution": "stratego.training.phase9_behavior.behavior_distribution",
+      "emission": "whole games, on finish, with exact whole-game targets",
+      "phase16_own": [
+        "the action-sampling stream",
+        "the game id scheme",
+        "example harvesting at collection time"
+      ],
+      "runner": "stratego.training.phase9_collector.GameRunner, subclassed",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions"
+    },
+    "contract_digest": "f68fb7f7c9300294904f9c34915e8a25294245e68de828972a3eca0bf0f2592b",
+    "device": "mps",
+    "evaluation_hours": [
+      0,
+      2,
+      4,
+      6
+    ],
+    "evaluation_note": "the runner exports weights at each hour; scoring runs outside the training process so every arm's six hours are six hours of training",
+    "hours": 6.0,
+    "population": {
+      "colour_rule": "the learner alternates colour on (slot + draw) parity",
+      "declared_shares": {
+        "current": 1.0
+      },
+      "draw_rule": "per draw, from the phase16 opponent_draw domain",
+      "handcrafted_roster": [
+        "strategic_rule_based",
+        "tactical_rule_based",
+        "stress_scout_rush",
+        "stress_miner_rush",
+        "stress_information_miser"
+      ],
+      "handcrafted_weights": [
+        0.24898,
+        0.24898,
+        0.167347,
+        0.167347,
+        0.167347
+      ],
+      "identity": "the d-th game played in slot s",
+      "mixture": "pure_current",
+      "population": 96,
+      "population_version": "phase16_population_v1",
+      "replacement": "a game that ends mid-window is replaced by a fresh draw",
+      "search": "absent; no module under stratego.search is imported",
+      "unit": "one window = a fixed budget of learner decisions",
+      "window_decisions": 65536
+    },
+    "runner_version": "phase16_arm_runner_v1",
+    "schedules": {
+      "entropy": {
+        "formula": "max(0.001, 0.005 * n**-0.3)",
+        "schedule": "annealed"
+      },
+      "index": "the 1-based iteration; never the optimizer step",
+      "lr": {
+        "floor_reached_at": 325,
+        "formula": "clamp(0.00015 * (n/40)**-1.1, 1.5e-05, 0.00015)",
+        "planned_iterations": 313,
+        "reference_iteration": 40,
+        "schedule": "power_law"
+      }
+    },
+    "setups": {
+      "adversarial": {
+        "artifact": "phase16_adversarial_setups_v1",
+        "authored_digest": "dcafa1614d3a5be9867bebf7a975b984243eca9bb331f3be42cc8c571067deb3",
+        "draw": "uniform over the authored entries",
+        "excluded": [
+          "operator_harvest"
+        ],
+        "families": {
+          "aggressive_marshal": 12,
+          "bombed_center_flag": 12,
+          "bombed_corner_flag": 12,
+          "decoy_flag_structure": 12,
+          "free_novelty": 12,
+          "miner_wall": 12,
+          "scout_screen": 12,
+          "spy_shadow": 12
+        },
+        "file_sha256": "54ffe01c508069df78a0f281e12044b547c2387a5a3ebe6b63cc4ffbaee37bb4",
+        "library_digest": "e01529cedc042e858bdf9f9036e5da48c552077dd7a5a6a1eef411393afa58e5",
+        "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase16/phase16_adversarial_setups_v1.json",
+        "setups": 96
+      },
+      "drawn": "per side, independently",
+      "forbidden_glue": "stratego/belief/phase11b/corpus.py Phase11BSetupSources",
+      "kind": "phase16_expanded_mixture",
+      "library": {
+        "allowed_inputs": [
+          "own colour",
+          "requested split",
+          "selector seed"
+        ],
+        "both_sides": true,
+        "candidate_id": "P10-D",
+        "contract_version": "phase10b_contract_v1",
+        "forbidden_inputs": [
+          "opponent setup",
+          "hidden rank truth",
+          "outcome prediction",
+          "checkpoint strength",
+          "matchup identity"
+        ],
+        "kind": "phase10_learned_selector",
+        "mixture": {
+          "learned": 0.65,
+          "neutral": 0.35
+        },
+        "produces_provenance": true,
+        "production_source_version": "learned_setup_source_v1",
+        "selector_identity": "learned_setup_source_v1|k=P10-D|m=model_T|T=0.75",
+        "selector_version": "phase10_setup_selector_v1",
+        "setup_source_version": "phase10b_setup_source_v1",
+        "side_seed_derivation": "phase10b_seed.side_selector_seed(game_id, colour); red and blue descend from two different frozen domains",
+        "source_id": "phase10b_setup_source_v1_P10-D_train",
+        "split": "train",
+        "temperature": 0.75,
+        "utility_model": "model_T"
+      },
+      "mixture": {
+        "adversarial": 0.5,
+        "library": 0.5
+      },
+      "orientation": "red engine row == canonical rank; blue engine row == 9 - canonical rank",
+      "orientation_gate": "stratego.belief.phase15.orientation.check_board",
+      "phase16_setup_source_version": "phase16_setup_source_v1",
+      "produces_provenance": true,
+      "setup_source_version": "phase16_setup_source_v1",
+      "side_seed_derivation": "phase16.contract.derive_train_seed('setup_side', game_id, colour)",
+      "source_id": "phase16_setup_source_v1_expanded"
+    },
+    "targets": {
+      "advantage": "A_t = delta_t + lambda_A * A_{t+1}; the tail is closed by the terminal z (finished) or by v at the boundary (partial); A beyond the tail is 0",
+      "lambda_A": 0.5,
+      "lambda_V": 0.8,
+      "production_emission": "whole games only, so every emitted row carries an exact W/D/L target and the accepted objective needs no per-row loss mask",
+      "reduces_to_accepted": "truncated_advantages(values, z) == phase9 advantages(values, z)",
+      "targets_version": "phase16_window_targets_v1",
+      "wdl": "the accepted lambda_V recursion toward the one-hot outcome; buffered per game and never bootstrapped"
+    },
+    "trainer": {
+      "ema": "never trains, never collects; the behavior snapshot is the raw model",
+      "filter": "the accepted tau = max(Q_0.75(|A|), 0.01), per window",
+      "gradient_clip_norm": 1.0,
+      "kl_controller": "stratego.training.phase9_trainer.KLController, unchanged",
+      "objective": "stratego.training.phase9_loss.phase9_batch_loss, unchanged",
+      "phase16_own": [
+        "the per-iteration learning-rate and entropy schedules",
+        "the evaluation-side weight EMA",
+        "the window training order"
+      ],
+      "trainer_version": "phase16_window_trainer_v1"
+    }
+  }
+}

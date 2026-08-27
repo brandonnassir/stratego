@@ -1,0 +1,627 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase16_stochastic_candidate_v1",
+  "belief_calibration": {
+    "applied_temperature": 1.0,
+    "fitted_temperature": 1.0016599880555412,
+    "keep_calibrated": false,
+    "source": "the temperature Agent 1 recorded; Phase 15 Agent 2 fitted none"
+  },
+  "belief_model": {
+    "architecture_version": "phase15_belief_specialist_v1",
+    "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/b24_belief_v1.pt",
+    "checkpoint_sha256": "b030b7184c3ce7265fb51eaef2a5add4f4eab05b355b8af60e2dc083770d2b14",
+    "holds_policy_parameters": false,
+    "holds_value_parameters": false,
+    "prefix_backbone": "p24",
+    "prefix_backbone_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+    "provider_id": "b24",
+    "role": "hidden-rank marginals and legal hidden-world sampling only",
+    "state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f"
+  },
+  "deviations": [
+    "Stage 1 positions use one observer (P24, the selected system's move model) instead of Phase 15's two-observer rotation; conservative match to the single pairing under study",
+    "Stage 1 move-temperature arms at the same tau_r share the sixteen underlying searches (rollout stream keyed by the rollout configuration only), so tau differences are pure move-sampling effects on identical score vectors",
+    "the Stage 1 survival filter is applied at both budgets (the conservative reading of the brief's single-margin rule), declared before any number was seen"
+  ],
+  "environment": {
+    "cpu_count": 14,
+    "machine": "arm64",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "torch": "2.13.0"
+  },
+  "evidence": {
+    "repeat_encounter_probe": {
+      "arms": {
+        "stoch_t000_r000": {
+          "ewr": 0.625,
+          "ewr_slope_per_game_index": 0.018797,
+          "games": 40,
+          "halves": {
+            "first_half_ewr": 0.55,
+            "first_half_games": 20,
+            "second_half_ewr": 0.7,
+            "second_half_games": 20
+          }
+        },
+        "stoch_t015_r100": {
+          "ewr": 0.6875,
+          "ewr_slope_per_game_index": 0.005827,
+          "games": 40,
+          "halves": {
+            "first_half_ewr": 0.65,
+            "first_half_games": 20,
+            "second_half_ewr": 0.725,
+            "second_half_games": 20
+          }
+        }
+      },
+      "artifact": "phase16_repeat_encounter_probe_v1",
+      "games_recorded": 80,
+      "note": "fixed bots cannot adapt across games, so a flat trend here is a weak proxy only; the real adaptation test is the operator series",
+      "preset_id": "MEDIUM"
+    },
+    "selection": {
+      "arms": {
+        "stoch_t000_r100": {
+          "delta_vs_control": 0.01667,
+          "ewr": 0.825,
+          "games": 60,
+          "paired_vs_control": {
+            "boards": 60,
+            "delta": 0.01667,
+            "losses": 4,
+            "standard_error": 0.04598,
+            "ties": 51,
+            "wins": 5
+          },
+          "repeat_rate": 0.97813,
+          "tau": 0.0,
+          "tau_r": 1.0
+        },
+        "stoch_t015_r000": {
+          "delta_vs_control": -0.03333,
+          "ewr": 0.775,
+          "games": 60,
+          "paired_vs_control": {
+            "boards": 60,
+            "delta": -0.03333,
+            "losses": 8,
+            "standard_error": 0.05926,
+            "ties": 46,
+            "wins": 6
+          },
+          "repeat_rate": 0.68854,
+          "tau": 0.15,
+          "tau_r": 0.0
+        },
+        "stoch_t015_r100": {
+          "delta_vs_control": 0.01667,
+          "ewr": 0.825,
+          "games": 60,
+          "paired_vs_control": {
+            "boards": 60,
+            "delta": 0.01667,
+            "losses": 8,
+            "standard_error": 0.06396,
+            "ties": 44,
+            "wins": 8
+          },
+          "repeat_rate": 0.68073,
+          "tau": 0.15,
+          "tau_r": 1.0
+        },
+        "stoch_t030_r000": {
+          "delta_vs_control": -0.08333,
+          "ewr": 0.725,
+          "games": 60,
+          "paired_vs_control": {
+            "boards": 60,
+            "delta": -0.08333,
+            "losses": 11,
+            "standard_error": 0.06307,
+            "ties": 44,
+            "wins": 5
+          },
+          "repeat_rate": 0.52552,
+          "tau": 0.3,
+          "tau_r": 0.0
+        },
+        "stoch_t030_r100": {
+          "delta_vs_control": -0.09166,
+          "ewr": 0.71667,
+          "games": 60,
+          "paired_vs_control": {
+            "boards": 60,
+            "delta": -0.09167,
+            "losses": 15,
+            "standard_error": 0.0819,
+            "ties": 35,
+            "wins": 10
+          },
+          "repeat_rate": 0.51927,
+          "tau": 0.3,
+          "tau_r": 1.0
+        }
+      },
+      "control_arm": "stoch_t000_r000",
+      "control_ewr": 0.80833,
+      "margin": 0.05,
+      "qualifiers": [
+        "stoch_t000_r100",
+        "stoch_t015_r000",
+        "stoch_t015_r100"
+      ],
+      "reason": "lowest Stage 1 repeat rate at MEDIUM among arms with EWR within 0.05 of the control",
+      "rule": "among arms with EWR within 0.05 of the control at MEDIUM, select the one with the lowest Stage 1 repeat rate (ties: lower tau, then lower tau_r); if none qualifies, select tau=0.15, tau_r=0.0 if it is within 0.05; else report no-viable-stochastic-mode and keep argmax",
+      "selected_arm": "stoch_t015_r100",
+      "selected_tau": 0.15,
+      "selected_tau_r": 1.0,
+      "selection_preset": "MEDIUM",
+      "stochastic_mode_viable": true
+    },
+    "stage1": {
+      "filter": {
+        "control_arm": "stoch_t000_r000",
+        "margin": 0.01,
+        "rule": "an arm survives if its mean oracle Q-regret excess is within +0.01 of the tau=0 control at every Stage 1 budget; the control survives by definition; the full grid is reported regardless",
+        "survivors": [
+          "stoch_t000_r000",
+          "stoch_t000_r100",
+          "stoch_t015_r000",
+          "stoch_t015_r100",
+          "stoch_t030_r000",
+          "stoch_t030_r100"
+        ],
+        "verdicts": {
+          "stoch_t000_r000": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.0,
+                "excess": 0.014637,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": 0.0,
+                "excess": 0.011497,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t000_r100": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.002885,
+                "excess": 0.017522,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": -0.000234,
+                "excess": 0.011263,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t015_r000": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.000369,
+                "excess": 0.015006,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": -0.00431,
+                "excess": 0.007187,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t015_r100": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 5.4e-05,
+                "excess": 0.014691,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": -0.001466,
+                "excess": 0.010031,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t030_r000": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.004724,
+                "excess": 0.019361,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": 0.002855,
+                "excess": 0.014352,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t030_r100": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.003014,
+                "excess": 0.017651,
+                "within_margin": true
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": 0.002447,
+                "excess": 0.013944,
+                "within_margin": true
+              }
+            },
+            "survives": true
+          },
+          "stoch_t060_r000": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.022854,
+                "excess": 0.037491,
+                "within_margin": false
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": 0.018042,
+                "excess": 0.029539,
+                "within_margin": false
+              }
+            },
+            "survives": false
+          },
+          "stoch_t060_r100": {
+            "budgets": {
+              "MEDIUM": {
+                "available": true,
+                "control_excess": 0.014637,
+                "delta_vs_control": 0.015484,
+                "excess": 0.030121,
+                "within_margin": false
+              },
+              "TINY": {
+                "available": true,
+                "control_excess": 0.011497,
+                "delta_vs_control": 0.013097,
+                "excess": 0.024594,
+                "within_margin": false
+              }
+            },
+            "survives": false
+          }
+        }
+      },
+      "pack_name": "phase16_agent02_positions_v1",
+      "position_manifest_digest": "6c840cf93882cbcf6517b5f4beb6fcc6be5fc3943e213997df491d41ed771ccf",
+      "positions": 120,
+      "replays": 16,
+      "selected_arm_summary": {
+        "MEDIUM": {
+          "agreement_with_tau0": 0.66406,
+          "arm": "stoch_t015_r100",
+          "decisions": 1920,
+          "illegal_decisions": 0,
+          "mean_c1_forwards": 1933.7,
+          "mean_distinct_actions": 3.542,
+          "median_search_seconds_contended": 3.10024,
+          "move_change_rate_vs_direct": 0.33281,
+          "oracle_agreement": 0.66094,
+          "oracle_q_regret_excess_over_floor": 0.014691,
+          "oracle_q_regret_mean": 0.06609,
+          "oracle_q_regret_n": 1920,
+          "played_move_entropy_nats": 0.81083,
+          "positions": 120,
+          "preset_id": "MEDIUM",
+          "repeat_rate": 0.68073,
+          "replays_per_position": 16,
+          "sampled_away_from_argmax_rate": 0.32865,
+          "tau": 0.15,
+          "tau_r": 1.0
+        },
+        "TINY": {
+          "agreement_with_tau0": 0.66406,
+          "arm": "stoch_t015_r100",
+          "decisions": 1920,
+          "illegal_decisions": 0,
+          "mean_c1_forwards": 284.1,
+          "mean_distinct_actions": 3.525,
+          "median_search_seconds_contended": 0.45957,
+          "move_change_rate_vs_direct": 0.3401,
+          "oracle_agreement": 0.65365,
+          "oracle_q_regret_excess_over_floor": 0.010031,
+          "oracle_q_regret_mean": 0.058473,
+          "oracle_q_regret_n": 1920,
+          "played_move_entropy_nats": 0.81603,
+          "positions": 120,
+          "preset_id": "TINY",
+          "repeat_rate": 0.67917,
+          "replays_per_position": 16,
+          "sampled_away_from_argmax_rate": 0.3375,
+          "tau": 0.15,
+          "tau_r": 1.0
+        }
+      }
+    },
+    "stage2": {
+      "boards": 60,
+      "boards_source": "interim_fallback",
+      "games_recorded": 720,
+      "pack_name": "phase16_agent02_interim_pack_v1",
+      "per_preset_selected_vs_control": {
+        "MEDIUM": {
+          "stoch_t000_r000|MEDIUM": {
+            "ewr": 0.80833,
+            "games": 60,
+            "paired_vs_reference": null
+          },
+          "stoch_t015_r100|MEDIUM": {
+            "ewr": 0.825,
+            "games": 60,
+            "paired_vs_reference": {
+              "boards": 60,
+              "delta": 0.01667,
+              "losses": 8,
+              "standard_error": 0.06396,
+              "ties": 44,
+              "wins": 8
+            }
+          }
+        },
+        "TINY": {
+          "stoch_t000_r000|TINY": {
+            "ewr": 0.825,
+            "games": 60,
+            "paired_vs_reference": null
+          },
+          "stoch_t015_r100|TINY": {
+            "ewr": 0.80833,
+            "games": 60,
+            "paired_vs_reference": {
+              "boards": 60,
+              "delta": -0.01667,
+              "losses": 8,
+              "standard_error": 0.05938,
+              "ties": 46,
+              "wins": 6
+            }
+          }
+        }
+      },
+      "selection": {
+        "arms": {
+          "stoch_t000_r100": {
+            "delta_vs_control": 0.01667,
+            "ewr": 0.825,
+            "games": 60,
+            "paired_vs_control": {
+              "boards": 60,
+              "delta": 0.01667,
+              "losses": 4,
+              "standard_error": 0.04598,
+              "ties": 51,
+              "wins": 5
+            },
+            "repeat_rate": 0.97813,
+            "tau": 0.0,
+            "tau_r": 1.0
+          },
+          "stoch_t015_r000": {
+            "delta_vs_control": -0.03333,
+            "ewr": 0.775,
+            "games": 60,
+            "paired_vs_control": {
+              "boards": 60,
+              "delta": -0.03333,
+              "losses": 8,
+              "standard_error": 0.05926,
+              "ties": 46,
+              "wins": 6
+            },
+            "repeat_rate": 0.68854,
+            "tau": 0.15,
+            "tau_r": 0.0
+          },
+          "stoch_t015_r100": {
+            "delta_vs_control": 0.01667,
+            "ewr": 0.825,
+            "games": 60,
+            "paired_vs_control": {
+              "boards": 60,
+              "delta": 0.01667,
+              "losses": 8,
+              "standard_error": 0.06396,
+              "ties": 44,
+              "wins": 8
+            },
+            "repeat_rate": 0.68073,
+            "tau": 0.15,
+            "tau_r": 1.0
+          },
+          "stoch_t030_r000": {
+            "delta_vs_control": -0.08333,
+            "ewr": 0.725,
+            "games": 60,
+            "paired_vs_control": {
+              "boards": 60,
+              "delta": -0.08333,
+              "losses": 11,
+              "standard_error": 0.06307,
+              "ties": 44,
+              "wins": 5
+            },
+            "repeat_rate": 0.52552,
+            "tau": 0.3,
+            "tau_r": 0.0
+          },
+          "stoch_t030_r100": {
+            "delta_vs_control": -0.09166,
+            "ewr": 0.71667,
+            "games": 60,
+            "paired_vs_control": {
+              "boards": 60,
+              "delta": -0.09167,
+              "losses": 15,
+              "standard_error": 0.0819,
+              "ties": 35,
+              "wins": 10
+            },
+            "repeat_rate": 0.51927,
+            "tau": 0.3,
+            "tau_r": 1.0
+          }
+        },
+        "control_arm": "stoch_t000_r000",
+        "control_ewr": 0.80833,
+        "margin": 0.05,
+        "qualifiers": [
+          "stoch_t000_r100",
+          "stoch_t015_r000",
+          "stoch_t015_r100"
+        ],
+        "reason": "lowest Stage 1 repeat rate at MEDIUM among arms with EWR within 0.05 of the control",
+        "rule": "among arms with EWR within 0.05 of the control at MEDIUM, select the one with the lowest Stage 1 repeat rate (ties: lower tau, then lower tau_r); if none qualifies, select tau=0.15, tau_r=0.0 if it is within 0.05; else report no-viable-stochastic-mode and keep argmax",
+        "selected_arm": "stoch_t015_r100",
+        "selected_tau": 0.15,
+        "selected_tau_r": 1.0,
+        "selection_preset": "MEDIUM",
+        "stochastic_mode_viable": true
+      }
+    }
+  },
+  "generated_utc": "2026-08-26T19:54:06Z",
+  "idle_latency": {
+    "MEDIUM": {
+      "decisions": 40,
+      "max_seconds_per_move": 1.77748,
+      "mean_c1_forwards": 1928.3,
+      "median_seconds_per_move": 1.71451,
+      "p95_seconds_per_move": 1.75959,
+      "preset_id": "MEDIUM",
+      "sampled_away_from_argmax": 12
+    },
+    "TINY": {
+      "decisions": 40,
+      "max_seconds_per_move": 0.28813,
+      "mean_c1_forwards": 287.6,
+      "median_seconds_per_move": 0.2474,
+      "p95_seconds_per_move": 0.2515,
+      "preset_id": "TINY",
+      "sampled_away_from_argmax": 11
+    }
+  },
+  "known_limitations": [
+    "machine packs cannot measure adaptation resistance: every Stage 1/2/probe opponent is a fixed policy that cannot learn the player's habits, so the unpredictability these numbers buy is only measurable in the operator exam (Agent 1's protocol, Agent 5's exam)",
+    "a compact engineering pack: 60 paired boards per arm per budget in Stage 2; no significance claim is made anywhere",
+    "the repeat-encounter probe uses fixed bots and is a weak proxy by construction; a flat trend there does not demonstrate adaptation resistance",
+    "Stage 1 shares searches across move-temperature arms at the same tau_r by design (paired draws on identical score vectors); arm rows are correlated across tau, which pairing exploits and independence-based readings must not assume",
+    "with sampled rollouts, deduplicated duplicate worlds share one sampled rollout (the accepted dedup is kept byte-identical); this changes Q variance, not support",
+    "no scientific validation phase was performed; this is an engineering selection"
+  ],
+  "latency_ceiling_seconds": 5.0,
+  "modes": {
+    "varied_fast": {
+      "preset_id": "TINY",
+      "time_cap_seconds": 0.91
+    },
+    "varied_strength": {
+      "preset_id": "MEDIUM",
+      "time_cap_seconds": 5.0
+    }
+  },
+  "move_model": {
+    "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p24_source_readonly.pt",
+    "checkpoint_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+    "global_optimizer_step": 121156,
+    "logical_identity": "P24",
+    "model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+    "phase14_archive_sha256": "3c393d0c8f8b233446febc8cca8ce7d1ceeee974231e6a9b53c7657a07d964f2",
+    "phase14_candidate_hour": 24,
+    "role": "policy, value, rollout policy for both sides, direct fallback",
+    "trained_by_phase15": false
+  },
+  "oracle_available_in_production": false,
+  "phase": "phase_16",
+  "phase15_candidate": {
+    "artifact": "phase15_search_candidate_v1",
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/phase15_search_candidate_v1.json"
+  },
+  "scientific_validation_status": "not performed",
+  "search": {
+    "beta": 0.1,
+    "deduplicate_worlds": true,
+    "epsilon": 1e-06,
+    "policy_regularization": "S(a) = Q(a) + 0.1 * log(pi(a) + 1e-06)",
+    "production": true,
+    "rollout_depth": 4,
+    "root_candidates": "<= 8",
+    "score_definition": "S(a) = Q(a) + beta * log(pi(a) + epsilon)",
+    "search_version": "phase12_root_world_search_v1",
+    "selected_preset": "TINY",
+    "value_definition": "V = P(win) - P(loss), exact terminal results override",
+    "verify_world_public_surface": true,
+    "worlds": 8
+  },
+  "seed_streams": {
+    "domain_roots": {
+      "stoch_move_sample": 2026082521,
+      "stoch_rollout_sample": 2026082522
+    },
+    "identity_version": "phase16_stochastic_identity_v1",
+    "master_seed": 2026082520,
+    "move_draw": "move_sample_seed(tau, tau_r, identifier, ply, replay)",
+    "personalization": "strat-p16s",
+    "rollout_draw": "rollout_sample_seed(tau_r, top_p, identifier, ply, replay)",
+    "world_seed": "unchanged: the accepted Phase 15 search_seed_for(board_id, ply)"
+  },
+  "selected_configuration": {
+    "arm_id": "stoch_t015_r100",
+    "move_sampling": "a ~ softmax(S(a)/0.15) over the engine's candidate set",
+    "pairing_id": "p24_b24",
+    "rollout_sampling": "both sides sample the move model's legal distribution at tau_r=1.0, nucleus top_p=0.9",
+    "stochastic_mode_viable": true,
+    "tau": 0.15,
+    "tau_r": 1.0,
+    "top_p": 0.9
+  },
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "stochastic_version": "phase16_stochastic_search_v1",
+  "zero_temperature_identity": "tau = 0 and tau_r = 0 replay the frozen phase15_search_candidate_v1 decisions bit-identically; the regression test in tests/search/phase16/ pins it"
+}

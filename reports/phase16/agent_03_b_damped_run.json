@@ -1,0 +1,84 @@
+{
+  "archived_snapshots": [],
+  "arm": "b_damped",
+  "arm_digest": "7cd2a96e3be34b99c6eb09d37765f2a7ed9e1d1687cc0ff511e67901f849911e",
+  "clock": {
+    "elapsed_hours": 6.00376,
+    "elapsed_seconds": 21613.536,
+    "expired": true,
+    "hours": 6.0,
+    "started_utc": "2026-08-27T02:01:50.630Z"
+  },
+  "counters": {
+    "clip_vetoes": 0,
+    "illegal_targets": 0,
+    "kl_vetoes": 0,
+    "non_finite_gradients": 0,
+    "non_finite_losses": 0,
+    "non_finite_parameters": 0
+  },
+  "decisions_collected": 20029164,
+  "evaluations": [
+    {
+      "arm": "b_damped",
+      "elapsed_hours": 0.00022,
+      "ema_updates": 0,
+      "hour": 0,
+      "iteration": 0,
+      "model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+      "optimizer_step": 0,
+      "source": "ema",
+      "utc": "2026-08-27T02:01:51.419Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/b_damped/hour_00.pt",
+      "weights_sha256": "b99b250b5bd951a7f1ae1840bb53f6a7b59d2ef25063fe059dc80729d4f69a15"
+    },
+    {
+      "arm": "b_damped",
+      "elapsed_hours": 2.00531,
+      "ema_updates": 12900,
+      "hour": 2,
+      "iteration": 101,
+      "model_state_digest": "59d9b84872ac64e8e185f5aa9025a0c6ec49aaffe0dd3225ca5eaf579c1d8e6c",
+      "optimizer_step": 12900,
+      "source": "ema",
+      "utc": "2026-08-27T04:02:09.762Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/b_damped/hour_02.pt",
+      "weights_sha256": "514497a05f530169b5bc86b447a766d2e255d33a3d5b9a23d4707c0eca45f0c2"
+    },
+    {
+      "arm": "b_damped",
+      "elapsed_hours": 4.01116,
+      "ema_updates": 25797,
+      "hour": 4,
+      "iteration": 201,
+      "model_state_digest": "d714adc390a84658d9179890b9b1754dc33a199416999dc6586cd33b21d9071e",
+      "optimizer_step": 25797,
+      "source": "ema",
+      "utc": "2026-08-27T06:02:30.816Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/b_damped/hour_04.pt",
+      "weights_sha256": "611d1004339e10a3e9a3e880b35e79f860a797e7163e59c7185feb0dad47c88f"
+    },
+    {
+      "arm": "b_damped",
+      "elapsed_hours": 6.00374,
+      "ema_updates": 39247,
+      "hour": 6,
+      "iteration": 306,
+      "model_state_digest": "66404baed823a12a61a429c2429ceb8ca474242aaef96a4ef5c5335b99a4f9e6",
+      "optimizer_step": 39247,
+      "source": "ema",
+      "utc": "2026-08-27T08:02:04.128Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/b_damped/hour_06.pt",
+      "weights_sha256": "94a0890cda205e881eb933fba661f9635382e789215b9e57b61e65d94ccc43ed"
+    }
+  ],
+  "examples_consumed": 20014755,
+  "finished_utc": "2026-08-27T08:02:04.190Z",
+  "games_completed": 47508,
+  "optimizer_steps": 39247,
+  "runner_version": "phase16_arm_runner_v1",
+  "started_utc": "2026-08-27T02:01:51.355Z",
+  "stopped": null,
+  "telemetry": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent03/b_damped_windows.jsonl",
+  "windows": 306
+}

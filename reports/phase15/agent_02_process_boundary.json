@@ -1,0 +1,25 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_agent02_process_boundary_v1",
+  "checked_utc": "2026-08-24T14:51:53Z",
+  "cpu_count": 14,
+  "load_average": {
+    "15m": 2.61865234375,
+    "1m": 1.7138671875,
+    "5m": 2.40087890625
+  },
+  "matching_processes": [
+    "34391   0.7  0.0       00:01 /bin/zsh -c source /Users/brandonwashington/.claude/shell-snapshots/snapshot-zsh-1787581537945-1rcz40.sh 2>/dev/null || true && setopt NO_EXTENDED_GLOB NO_BARE_GLOB_QUAL 2>/dev/null || true && { \\builtin unalias -- 'unsetenv'; \\builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval '.venv/bin/python scripts/run_phase15_agent02.py --role boundary 2>&1 | tail -20' < /dev/null && pwd -P >| /tmp/claude-5420-cwd",
+    "34393  72.9  0.4       00:01 .venv/bin/python scripts/run_phase15_agent02.py --role boundary",
+    "99915   0.0  0.1    13:32:31 .venv/bin/python scripts/phase14_dashboard.py --port 8714"
+  ],
+  "method": "read-only `ps` inspection; no signal, no control file, no run-state write",
+  "note": "a read-only Phase 14 dashboard process is not a learner, evaluator or supervisor and does not compete for compute; it is listed but not treated as competition",
+  "phase": "phase_15",
+  "phase14_learner_or_evaluator_running": false,
+  "phase14_processes": [],
+  "planned_workers": 10,
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "verdict": "clear_to_run"
+}

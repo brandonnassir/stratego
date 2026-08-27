@@ -69,3 +69,10 @@ checkpoints/phase13_rehearsal/
 # internal disk, rewritten every 15 minutes for 168 hours. The durable evidence
 # lives on the external volume and in reports/phase13.
 checkpoints/phase14/
+# Phase 17 integration baseline (2026-08-27): the Phase 15/16 production bytes
+# are reproducible working data, not deliverables, and are excluded on the same
+# terms as phases 8-14 above. ~22.44 GiB. The compact Phase 16 candidate JSONs at
+# the checkpoints/phase16 root stay tracked, as do all reports and manifests.
+checkpoints/phase15/
+data/phase15/
+checkpoints/phase16/arms/

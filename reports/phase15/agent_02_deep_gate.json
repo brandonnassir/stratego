@@ -1,0 +1,149 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_deep_search_pilot_v1_gate",
+  "checks": {
+    "configuration_invariants": {
+      "findings": [],
+      "passed": true,
+      "rungs": {
+        "LARGE": {
+          "beta": 0.1,
+          "epsilon": 1e-06,
+          "max_root_candidates": 8,
+          "naive_compute_units": 576,
+          "naive_ratio_vs_medium": 2.25,
+          "rollout_depth": 9,
+          "worlds": 64
+        },
+        "MEDIUM": {
+          "beta": 0.1,
+          "epsilon": 1e-06,
+          "max_root_candidates": 8,
+          "naive_compute_units": 256,
+          "naive_ratio_vs_medium": 1.0,
+          "rollout_depth": 8,
+          "worlds": 32
+        },
+        "XLARGE": {
+          "beta": 0.1,
+          "epsilon": 1e-06,
+          "max_root_candidates": 8,
+          "naive_compute_units": 1056,
+          "naive_ratio_vs_medium": 4.125,
+          "rollout_depth": 11,
+          "worlds": 96
+        }
+      }
+    },
+    "determinism_and_legality": {
+      "decisions": 24,
+      "findings": [],
+      "passed": true,
+      "repeats": 24,
+      "rungs": {
+        "LARGE": {
+          "legal_decisions": 8,
+          "positions": 8
+        },
+        "MEDIUM": {
+          "legal_decisions": 8,
+          "positions": 8
+        },
+        "XLARGE": {
+          "legal_decisions": 8,
+          "positions": 8
+        }
+      }
+    },
+    "frozen_identity": {
+      "applied_temperature": 1.0,
+      "belief_state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f",
+      "findings": [],
+      "move_model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+      "pairing_id": "p24_b24",
+      "passed": true
+    },
+    "worlds_legal": {
+      "findings": [],
+      "passed": true,
+      "worlds_checked": {
+        "LARGE": 512,
+        "MEDIUM": 256,
+        "XLARGE": 768
+      }
+    }
+  },
+  "decision_divergence": {
+    "LARGE": {
+      "fraction_differing_from_medium": 0.15,
+      "moves_differing_from_medium": 6,
+      "positions": 40
+    },
+    "MEDIUM": {
+      "fraction_differing_from_medium": 0.0,
+      "moves_differing_from_medium": 0,
+      "positions": 40
+    },
+    "XLARGE": {
+      "fraction_differing_from_medium": 0.125,
+      "moves_differing_from_medium": 5,
+      "positions": 40
+    }
+  },
+  "generated_utc": "2026-08-24T21:46:02Z",
+  "idle_latency": {
+    "LARGE": {
+      "decisions": 40,
+      "max_seconds_per_move": 3.96116,
+      "mean_c1_forwards": 4301.6,
+      "mean_seconds_per_move": 3.24962,
+      "mean_world_uniqueness": 0.909,
+      "measured_forward_ratio_vs_medium": 2.19,
+      "measured_latency_ratio_vs_medium": 2.229,
+      "median_seconds_per_move": 3.81835,
+      "naive_ratio_vs_medium": 2.25,
+      "p95_seconds_per_move": 3.91753,
+      "preset_id": "LARGE"
+    },
+    "MEDIUM": {
+      "decisions": 40,
+      "max_seconds_per_move": 1.795,
+      "mean_c1_forwards": 1964.0,
+      "mean_seconds_per_move": 1.48392,
+      "mean_world_uniqueness": 0.9258,
+      "measured_forward_ratio_vs_medium": 1.0,
+      "measured_latency_ratio_vs_medium": 1.0,
+      "median_seconds_per_move": 1.71334,
+      "naive_ratio_vs_medium": 1.0,
+      "p95_seconds_per_move": 1.77459,
+      "preset_id": "MEDIUM"
+    },
+    "XLARGE": {
+      "decisions": 40,
+      "max_seconds_per_move": 7.07563,
+      "mean_c1_forwards": 7651.2,
+      "mean_seconds_per_move": 5.73755,
+      "mean_world_uniqueness": 0.8982,
+      "measured_forward_ratio_vs_medium": 3.896,
+      "measured_latency_ratio_vs_medium": 3.964,
+      "median_seconds_per_move": 6.79175,
+      "naive_ratio_vs_medium": 4.125,
+      "p95_seconds_per_move": 6.98906,
+      "preset_id": "XLARGE"
+    }
+  },
+  "latency_threads": 1,
+  "pairing_id": "p24_b24",
+  "passed": true,
+  "phase": "phase_15",
+  "position_manifest_digest": "01d1ba603287cddacb0fb61c9c24504d80e0a55e3eedbc3d3c9355293da06c49",
+  "positions": 40,
+  "presets": [
+    "MEDIUM",
+    "LARGE",
+    "XLARGE"
+  ],
+  "scientific_validation_status": "not performed",
+  "seconds": 999.8,
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

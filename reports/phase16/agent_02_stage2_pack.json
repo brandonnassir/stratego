@@ -1,0 +1,1416 @@
+{
+  "agent": "agent_02",
+  "analysis_by_preset": {
+    "MEDIUM": {
+      "stoch_t000_r000|MEDIUM": {
+        "arm": "stoch_t000_r000|MEDIUM",
+        "draws": 1,
+        "ewr": 0.80833,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "p24": {
+            "draw": 1,
+            "ewr": 0.58333,
+            "games": 6,
+            "loss": 2,
+            "win": 3
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 11,
+        "mean_plies": 396.8,
+        "pack_latency": {
+          "max_seconds_per_move": 3.31097,
+          "median_seconds_per_move": 3.08658,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.22005
+        },
+        "paired_vs_reference": null,
+        "player_decisions": 11912,
+        "wins": 48,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "conservative_high_rank_rear"
+        },
+        "worst_opponent": {
+          "ewr": 0.58333,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t000_r100|MEDIUM": {
+        "arm": "stoch_t000_r100|MEDIUM",
+        "draws": 3,
+        "ewr": 0.825,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "p24": {
+            "draw": 2,
+            "ewr": 0.33333,
+            "games": 6,
+            "loss": 3,
+            "win": 1
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_chaos": {
+            "draw": 1,
+            "ewr": 0.91667,
+            "games": 6,
+            "loss": 0,
+            "win": 5
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 9,
+        "mean_plies": 439.2,
+        "pack_latency": {
+          "max_seconds_per_move": 3.22561,
+          "median_seconds_per_move": 3.10143,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.1805
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": 0.01667,
+          "losses": 4,
+          "standard_error": 0.04598,
+          "ties": 51,
+          "wins": 5
+        },
+        "player_decisions": 13185,
+        "wins": 48,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.33333,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t015_r000|MEDIUM": {
+        "arm": "stoch_t015_r000|MEDIUM",
+        "draws": 3,
+        "ewr": 0.775,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "p24": {
+            "draw": 1,
+            "ewr": 0.25,
+            "games": 6,
+            "loss": 4,
+            "win": 1
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 1,
+            "ewr": 0.75,
+            "games": 6,
+            "loss": 1,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_chaos": {
+            "draw": 1,
+            "ewr": 0.91667,
+            "games": 6,
+            "loss": 0,
+            "win": 5
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 12,
+        "mean_plies": 442.4,
+        "pack_latency": {
+          "max_seconds_per_move": 3.19757,
+          "median_seconds_per_move": 3.08178,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.16035
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.03333,
+          "losses": 8,
+          "standard_error": 0.05926,
+          "ties": 46,
+          "wins": 6
+        },
+        "player_decisions": 13280,
+        "wins": 45,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "scout_forward_information"
+        },
+        "worst_opponent": {
+          "ewr": 0.25,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t015_r100|MEDIUM": {
+        "arm": "stoch_t015_r100|MEDIUM",
+        "draws": 1,
+        "ewr": 0.825,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 1,
+            "ewr": 0.75,
+            "games": 6,
+            "loss": 1,
+            "win": 4
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.33333,
+            "games": 6,
+            "loss": 4,
+            "win": 2
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 10,
+        "mean_plies": 455.7,
+        "pack_latency": {
+          "max_seconds_per_move": 3.23355,
+          "median_seconds_per_move": 3.07248,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.20702
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": 0.01667,
+          "losses": 8,
+          "standard_error": 0.06396,
+          "ties": 44,
+          "wins": 8
+        },
+        "player_decisions": 13682,
+        "wins": 49,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.33333,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t030_r000|MEDIUM": {
+        "arm": "stoch_t030_r000|MEDIUM",
+        "draws": 1,
+        "ewr": 0.725,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 1,
+            "ewr": 0.41667,
+            "games": 6,
+            "loss": 3,
+            "win": 2
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 16,
+        "mean_plies": 453.7,
+        "pack_latency": {
+          "max_seconds_per_move": 3.19929,
+          "median_seconds_per_move": 3.05997,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.19494
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.08333,
+          "losses": 11,
+          "standard_error": 0.06307,
+          "ties": 44,
+          "wins": 5
+        },
+        "player_decisions": 13618,
+        "wins": 43,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 6,
+          "name": "miner_forward"
+        },
+        "worst_opponent": {
+          "ewr": 0.41667,
+          "games": 6,
+          "name": "strategic_rule_based"
+        }
+      },
+      "stoch_t030_r100|MEDIUM": {
+        "arm": "stoch_t030_r100|MEDIUM",
+        "draws": 0,
+        "ewr": 0.71667,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 17,
+        "mean_plies": 506.3,
+        "pack_latency": {
+          "max_seconds_per_move": 3.25799,
+          "median_seconds_per_move": 3.06698,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 3.22493
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.09167,
+          "losses": 15,
+          "standard_error": 0.0819,
+          "ties": 35,
+          "wins": 10
+        },
+        "player_decisions": 15196,
+        "wins": 43,
+        "worst_family": {
+          "ewr": 0.25,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.5,
+          "games": 6,
+          "name": "p18"
+        }
+      }
+    },
+    "TINY": {
+      "stoch_t000_r000|TINY": {
+        "arm": "stoch_t000_r000|TINY",
+        "draws": 1,
+        "ewr": 0.825,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "p24": {
+            "draw": 1,
+            "ewr": 0.25,
+            "games": 6,
+            "loss": 4,
+            "win": 1
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 10,
+        "mean_plies": 444.9,
+        "pack_latency": {
+          "max_seconds_per_move": 0.46516,
+          "median_seconds_per_move": 0.44768,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.45771
+        },
+        "paired_vs_reference": null,
+        "player_decisions": 13357,
+        "wins": 49,
+        "worst_family": {
+          "ewr": 0.25,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.25,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t000_r100|TINY": {
+        "arm": "stoch_t000_r100|TINY",
+        "draws": 2,
+        "ewr": 0.83333,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 1,
+            "ewr": 0.75,
+            "games": 6,
+            "loss": 1,
+            "win": 4
+          },
+          "p24": {
+            "draw": 1,
+            "ewr": 0.41667,
+            "games": 6,
+            "loss": 3,
+            "win": 2
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 9,
+        "mean_plies": 411.9,
+        "pack_latency": {
+          "max_seconds_per_move": 0.47043,
+          "median_seconds_per_move": 0.44993,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.46073
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": 0.00833,
+          "losses": 4,
+          "standard_error": 0.04826,
+          "ties": 51,
+          "wins": 5
+        },
+        "player_decisions": 12366,
+        "wins": 49,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.41667,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t015_r000|TINY": {
+        "arm": "stoch_t015_r000|TINY",
+        "draws": 1,
+        "ewr": 0.725,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "p24": {
+            "draw": 1,
+            "ewr": 0.08333,
+            "games": 6,
+            "loss": 5,
+            "win": 0
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 16,
+        "mean_plies": 416.5,
+        "pack_latency": {
+          "max_seconds_per_move": 0.4677,
+          "median_seconds_per_move": 0.44613,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.45971
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.1,
+          "losses": 9,
+          "standard_error": 0.05288,
+          "ties": 48,
+          "wins": 3
+        },
+        "player_decisions": 12502,
+        "wins": 43,
+        "worst_family": {
+          "ewr": 0.25,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.08333,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t015_r100|TINY": {
+        "arm": "stoch_t015_r100|TINY",
+        "draws": 1,
+        "ewr": 0.80833,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "phase9_anchor": {
+            "draw": 1,
+            "ewr": 0.58333,
+            "games": 6,
+            "loss": 2,
+            "win": 3
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 11,
+        "mean_plies": 437.5,
+        "pack_latency": {
+          "max_seconds_per_move": 0.46743,
+          "median_seconds_per_move": 0.45083,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.46292
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.01667,
+          "losses": 8,
+          "standard_error": 0.05938,
+          "ties": 46,
+          "wins": 6
+        },
+        "player_decisions": 13134,
+        "wins": 48,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "scout_forward_information"
+        },
+        "worst_opponent": {
+          "ewr": 0.5,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t030_r000|TINY": {
+        "arm": "stoch_t030_r000|TINY",
+        "draws": 0,
+        "ewr": 0.81667,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.16667,
+            "games": 6,
+            "loss": 5,
+            "win": 1
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 11,
+        "mean_plies": 451.6,
+        "pack_latency": {
+          "max_seconds_per_move": 0.46696,
+          "median_seconds_per_move": 0.44364,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.45919
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.00833,
+          "losses": 5,
+          "standard_error": 0.04826,
+          "ties": 51,
+          "wins": 4
+        },
+        "player_decisions": 13559,
+        "wins": 49,
+        "worst_family": {
+          "ewr": 0.5,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.16667,
+          "games": 6,
+          "name": "p24"
+        }
+      },
+      "stoch_t030_r100|TINY": {
+        "arm": "stoch_t030_r100|TINY",
+        "draws": 0,
+        "ewr": 0.66667,
+        "ewr_by_opponent": {
+          "p18": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "p24": {
+            "draw": 0,
+            "ewr": 0.16667,
+            "games": 6,
+            "loss": 5,
+            "win": 1
+          },
+          "phase9_anchor": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          },
+          "strategic_rule_based": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "stress_berserker": {
+            "draw": 0,
+            "ewr": 0.33333,
+            "games": 6,
+            "loss": 4,
+            "win": 2
+          },
+          "stress_chaos": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_information_miser": {
+            "draw": 0,
+            "ewr": 1.0,
+            "games": 6,
+            "loss": 0,
+            "win": 6
+          },
+          "stress_miner_rush": {
+            "draw": 0,
+            "ewr": 0.5,
+            "games": 6,
+            "loss": 3,
+            "win": 3
+          },
+          "stress_scout_rush": {
+            "draw": 0,
+            "ewr": 0.66667,
+            "games": 6,
+            "loss": 2,
+            "win": 4
+          },
+          "tactical_rule_based": {
+            "draw": 0,
+            "ewr": 0.83333,
+            "games": 6,
+            "loss": 1,
+            "win": 5
+          }
+        },
+        "fallback_rate": 0.0,
+        "fallback_reasons": {},
+        "fallbacks": 0,
+        "games": 60,
+        "losses": 20,
+        "mean_plies": 490.3,
+        "pack_latency": {
+          "max_seconds_per_move": 0.46344,
+          "median_seconds_per_move": 0.44828,
+          "note": "measured under process contention, not idle",
+          "p95_seconds_per_move": 0.46042
+        },
+        "paired_vs_reference": {
+          "boards": 60,
+          "delta": -0.15833,
+          "losses": 12,
+          "standard_error": 0.0576,
+          "ties": 46,
+          "wins": 2
+        },
+        "player_decisions": 14714,
+        "wins": 40,
+        "worst_family": {
+          "ewr": 0.25,
+          "games": 4,
+          "name": "irregular_high_entropy"
+        },
+        "worst_opponent": {
+          "ewr": 0.16667,
+          "games": 6,
+          "name": "p24"
+        }
+      }
+    }
+  },
+  "artifact": "phase16_stochastic_stage2_v1",
+  "boards": 60,
+  "boards_source": "interim_fallback",
+  "games_recorded": 720,
+  "generated_utc": "2026-08-26T13:40:15Z",
+  "pack_latency_note": "pack move times are contention-inflated (~1.8x, Phase 15 measured); latency claims come only from the idle latency role",
+  "pack_name": "phase16_agent02_interim_pack_v1",
+  "phase": "phase_16",
+  "presets_completed": [
+    "MEDIUM",
+    "TINY"
+  ],
+  "scientific_validation_status": "not performed",
+  "selection": {
+    "arms": {
+      "stoch_t000_r100": {
+        "delta_vs_control": 0.01667,
+        "ewr": 0.825,
+        "games": 60,
+        "paired_vs_control": {
+          "boards": 60,
+          "delta": 0.01667,
+          "losses": 4,
+          "standard_error": 0.04598,
+          "ties": 51,
+          "wins": 5
+        },
+        "repeat_rate": 0.97813,
+        "tau": 0.0,
+        "tau_r": 1.0
+      },
+      "stoch_t015_r000": {
+        "delta_vs_control": -0.03333,
+        "ewr": 0.775,
+        "games": 60,
+        "paired_vs_control": {
+          "boards": 60,
+          "delta": -0.03333,
+          "losses": 8,
+          "standard_error": 0.05926,
+          "ties": 46,
+          "wins": 6
+        },
+        "repeat_rate": 0.68854,
+        "tau": 0.15,
+        "tau_r": 0.0
+      },
+      "stoch_t015_r100": {
+        "delta_vs_control": 0.01667,
+        "ewr": 0.825,
+        "games": 60,
+        "paired_vs_control": {
+          "boards": 60,
+          "delta": 0.01667,
+          "losses": 8,
+          "standard_error": 0.06396,
+          "ties": 44,
+          "wins": 8
+        },
+        "repeat_rate": 0.68073,
+        "tau": 0.15,
+        "tau_r": 1.0
+      },
+      "stoch_t030_r000": {
+        "delta_vs_control": -0.08333,
+        "ewr": 0.725,
+        "games": 60,
+        "paired_vs_control": {
+          "boards": 60,
+          "delta": -0.08333,
+          "losses": 11,
+          "standard_error": 0.06307,
+          "ties": 44,
+          "wins": 5
+        },
+        "repeat_rate": 0.52552,
+        "tau": 0.3,
+        "tau_r": 0.0
+      },
+      "stoch_t030_r100": {
+        "delta_vs_control": -0.09166,
+        "ewr": 0.71667,
+        "games": 60,
+        "paired_vs_control": {
+          "boards": 60,
+          "delta": -0.09167,
+          "losses": 15,
+          "standard_error": 0.0819,
+          "ties": 35,
+          "wins": 10
+        },
+        "repeat_rate": 0.51927,
+        "tau": 0.3,
+        "tau_r": 1.0
+      }
+    },
+    "control_arm": "stoch_t000_r000",
+    "control_ewr": 0.80833,
+    "margin": 0.05,
+    "qualifiers": [
+      "stoch_t000_r100",
+      "stoch_t015_r000",
+      "stoch_t015_r100"
+    ],
+    "reason": "lowest Stage 1 repeat rate at MEDIUM among arms with EWR within 0.05 of the control",
+    "rule": "among arms with EWR within 0.05 of the control at MEDIUM, select the one with the lowest Stage 1 repeat rate (ties: lower tau, then lower tau_r); if none qualifies, select tau=0.15, tau_r=0.0 if it is within 0.05; else report no-viable-stochastic-mode and keep argmax",
+    "selected_arm": "stoch_t015_r100",
+    "selected_tau": 0.15,
+    "selected_tau_r": 1.0,
+    "selection_preset": "MEDIUM",
+    "stochastic_mode_viable": true
+  },
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

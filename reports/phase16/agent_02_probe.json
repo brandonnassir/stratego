@@ -1,0 +1,241 @@
+{
+  "agent": "agent_02",
+  "arms": {
+    "stoch_t000_r000": {
+      "ewr": 0.625,
+      "ewr_slope_per_game_index": 0.018797,
+      "games": 40,
+      "halves": {
+        "first_half_ewr": 0.55,
+        "first_half_games": 20,
+        "second_half_ewr": 0.7,
+        "second_half_games": 20
+      },
+      "per_index": [
+        {
+          "ewr": 0.75,
+          "game_index": 0,
+          "games": 2
+        },
+        {
+          "ewr": 0.0,
+          "game_index": 1,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 2,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 3,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 4,
+          "games": 2
+        },
+        {
+          "ewr": 0.25,
+          "game_index": 5,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 6,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 7,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 8,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 9,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 10,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 11,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 12,
+          "games": 2
+        },
+        {
+          "ewr": 0.0,
+          "game_index": 13,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 14,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 15,
+          "games": 2
+        },
+        {
+          "ewr": 0.0,
+          "game_index": 16,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 17,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 18,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 19,
+          "games": 2
+        }
+      ]
+    },
+    "stoch_t015_r100": {
+      "ewr": 0.6875,
+      "ewr_slope_per_game_index": 0.005827,
+      "games": 40,
+      "halves": {
+        "first_half_ewr": 0.65,
+        "first_half_games": 20,
+        "second_half_ewr": 0.725,
+        "second_half_games": 20
+      },
+      "per_index": [
+        {
+          "ewr": 1.0,
+          "game_index": 0,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 1,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 2,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 3,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 4,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 5,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 6,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 7,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 8,
+          "games": 2
+        },
+        {
+          "ewr": 0.0,
+          "game_index": 9,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 10,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 11,
+          "games": 2
+        },
+        {
+          "ewr": 0.25,
+          "game_index": 12,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 13,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 14,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 15,
+          "games": 2
+        },
+        {
+          "ewr": 0.5,
+          "game_index": 16,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 17,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 18,
+          "games": 2
+        },
+        {
+          "ewr": 1.0,
+          "game_index": 19,
+          "games": 2
+        }
+      ]
+    }
+  },
+  "artifact": "phase16_repeat_encounter_probe_v1",
+  "control_arm": "stoch_t000_r000",
+  "games_recorded": 80,
+  "generated_utc": "2026-08-26T15:00:20Z",
+  "note": "fixed bots cannot adapt across games, so a flat trend here is a weak proxy only; the real adaptation test is the operator series",
+  "phase": "phase_16",
+  "preset_id": "MEDIUM",
+  "scientific_validation_status": "not performed",
+  "selected_arm": "stoch_t015_r100",
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

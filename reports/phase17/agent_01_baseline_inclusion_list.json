@@ -1,0 +1,367 @@
+{
+  "artifact": "phase17_agent01_baseline_inclusion_list_v1",
+  "work_package": "phase17",
+  "written_utc": "2026-08-27T19:57:13Z",
+  "status": "PROPOSED \u2014 requires operator authority; Agent 1 has committed nothing",
+  "why": "Common contract section 3: Agents 2-4 may not begin against a mutable untracked Phase 16 base, and a tar archive is not an integration baseline. This is the exact list; the operator authorizes it.",
+  "include": [
+    {
+      "path": "stratego/belief/phase15",
+      "exists": true,
+      "kind": "directory",
+      "files": 21,
+      "bytes": 252666,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego/search/phase15",
+      "exists": true,
+      "kind": "directory",
+      "files": 21,
+      "bytes": 369105,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego/search/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 8,
+      "bytes": 141530,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego/training/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 14,
+      "bytes": 236442,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego/evaluation/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 8,
+      "bytes": 96154,
+      "already_tracked": false
+    },
+    {
+      "path": "tests/belief/phase15",
+      "exists": true,
+      "kind": "directory",
+      "files": 7,
+      "bytes": 73536,
+      "already_tracked": false
+    },
+    {
+      "path": "tests/search/phase15",
+      "exists": true,
+      "kind": "directory",
+      "files": 11,
+      "bytes": 104265,
+      "already_tracked": false
+    },
+    {
+      "path": "tests/search/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 7,
+      "bytes": 41158,
+      "already_tracked": false
+    },
+    {
+      "path": "tests/training/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 8,
+      "bytes": 84756,
+      "already_tracked": false
+    },
+    {
+      "path": "tests/evaluation/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 7,
+      "bytes": 36939,
+      "already_tracked": false
+    },
+    {
+      "path": "reports/phase15",
+      "exists": true,
+      "kind": "directory",
+      "files": 33,
+      "bytes": 8311491,
+      "already_tracked": false
+    },
+    {
+      "path": "reports/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 72,
+      "bytes": 30244259,
+      "already_tracked": false
+    },
+    {
+      "path": "reports/phase17",
+      "exists": true,
+      "kind": "directory",
+      "files": 5,
+      "bytes": 90547,
+      "already_tracked": false
+    },
+    {
+      "path": "data/phase16",
+      "exists": true,
+      "kind": "directory",
+      "files": 4,
+      "bytes": 647372,
+      "already_tracked": false
+    },
+    {
+      "path": "checkpoints/phase16/phase16_stochastic_candidate_v1.json",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 21654,
+      "already_tracked": false
+    },
+    {
+      "path": "checkpoints/phase16/phase16_recipe_candidate_v1.json",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 19165,
+      "already_tracked": false
+    },
+    {
+      "path": "instructions/phase_15_belief_search_engineering",
+      "exists": true,
+      "kind": "directory",
+      "files": 2,
+      "bytes": 26461,
+      "already_tracked": false
+    },
+    {
+      "path": "instructions/phase_16_robustness_and_distribution",
+      "exists": true,
+      "kind": "directory",
+      "files": 6,
+      "bytes": 47373,
+      "already_tracked": false
+    },
+    {
+      "path": "instructions/phase_17_tandem_current_policy_self_play",
+      "exists": true,
+      "kind": "directory",
+      "files": 8,
+      "bytes": 71711,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/phase16_capture_setup.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 5797,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/play_phase15.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 12612,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/play_phase16.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 12404,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/play_phase16_operator.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 14293,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase15_agent01.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 26494,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase15_agent02.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 55147,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase15_mixture.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 17366,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase16_agent01.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 22254,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase16_agent02.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 40212,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase16_agent03.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 42556,
+      "already_tracked": false
+    },
+    {
+      "path": "scripts/run_phase17_agent01.py",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 74297,
+      "already_tracked": false
+    },
+    {
+      "path": "README.md",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 12324,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego_project_docs/STATUS.md",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 24646,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego_project_docs/PHASE_HISTORY.md",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 24542,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego_project_docs/EVIDENCE_INDEX.md",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 14866,
+      "already_tracked": false
+    },
+    {
+      "path": "stratego_project_docs/EXPERIMENT_FRAMEWORK.md",
+      "exists": true,
+      "kind": "file",
+      "files": 1,
+      "bytes": 10972,
+      "already_tracked": false
+    }
+  ],
+  "include_totals": {
+    "files": 260,
+    "bytes": 41327366,
+    "mebibytes": 39.4
+  },
+  "exclude_via_new_gitignore_rules": [
+    {
+      "gitignore_entry": "checkpoints/phase15/",
+      "exists": true,
+      "files": 16,
+      "bytes": 15997724320,
+      "reason": "Phase 15 belief specialists and read-only P18/P24 source copies; reproducible from the Phase 15 pipeline, and the digests that name them are tracked in reports/phase15"
+    },
+    {
+      "gitignore_entry": "data/phase15/",
+      "exists": true,
+      "files": 70,
+      "bytes": 8003265249,
+      "reason": "Phase 15 belief corpus and feature caches; reproducible from the frozen corpus contract"
+    },
+    {
+      "gitignore_entry": "checkpoints/phase16/arms/",
+      "exists": true,
+      "files": 28,
+      "bytes": 94021385,
+      "reason": "recipe-shootout hot checkpoints; working bytes of a completed engineering comparison whose verdict is tracked in checkpoints/phase16/phase16_recipe_candidate_v1.json"
+    }
+  ],
+  "exclude_totals": {
+    "bytes": 24095010954,
+    "gibibytes": 22.44
+  },
+  "leave_unstaged": [
+    {
+      "path": "reports/phase13/phase14_launch_manifest_v1.json",
+      "reason": "the required self-referential manifest rebuild; committing it changes the revision the manifest binds and is a Phase 13/14 decision, not a Phase 17 one"
+    },
+    {
+      "path": "stratego_project_docs/05_project_plan.md",
+      "reason": "2026-08-27 documentation pass; committing changes HEAD away from the manifest's bound revision 124f3be"
+    },
+    {
+      "path": "stratego_project_docs/README.md",
+      "reason": "2026-08-27 documentation pass; same reason"
+    }
+  ],
+  "prohibited_operations": [
+    "git clean",
+    "git stash",
+    "git checkout of a modified tracked file",
+    "git reset",
+    "history rewrite",
+    "deleting any artifact"
+  ],
+  "existing_backups": {
+    "note": "recorded for completeness; an archive is not a baseline",
+    "tar_archives": [
+      "stratego_untracked_backup_20260825.tar",
+      "stratego_untracked_backup_20260826.tar"
+    ]
+  },
+  "operator_decision_required": {
+    "question": "May the Phase 15-17 inclusion list be committed now?",
+    "option_a_wait": {
+      "action": "commit nothing until Phase 14 is formally closed",
+      "cost": "Agents 2-4 stay blocked; formal closure is currently UNREACHABLE on its own terms (see agent_01_process_boundary.json -> phase14_launch_binding), so 'wait' has no defined end"
+    },
+    "option_b_commit_untracked_only": {
+      "action": "commit ONLY the untracked include list; leave all three modified tracked files unstaged",
+      "effect": "HEAD moves off 124f3be, so the Phase 14 launch manifest's bound revision no longer matches",
+      "already_true": "assert_bound_launch_code ALREADY refuses today on the dirty-file list alone, before Phase 17 changes anything",
+      "recommended": true
+    },
+    "option_c_rebuild_manifest_first": {
+      "action": "rebuild the Phase 14 launch manifest against the current tree (scripts/phase14_build_launch_package.py), restoring the code binding, THEN decide on the baseline commit",
+      "note": "the manifest is self-referential and has been rebuilt twice before for exactly this reason; this is a Phase 13/14 action and Agent 1 did not take it"
+    }
+  }
+}

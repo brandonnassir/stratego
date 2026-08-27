@@ -1,0 +1,47 @@
+{
+  "accepted_paths": [
+    "SelectorDraw.oriented(player)",
+    "SampledSetup.oriented(player)",
+    "stratego.setups.identity.orient_setup(canonical, player)"
+  ],
+  "armies_checked": 8192,
+  "boards_checked": 4096,
+  "defect_counterfactual": {
+    "blue_boards": 4096,
+    "blue_front_row_flags": 3154,
+    "description": "blue front-row flags the Phase 11B glue would have produced from these same draws, by passing the canonical tuple to create_game",
+    "observed_blue_front_row_flags": 58,
+    "rate": 0.77001953125
+  },
+  "flag_row_histogram": {
+    "blue": {
+      "6": 58,
+      "7": 82,
+      "8": 802,
+      "9": 3154
+    },
+    "red": {
+      "0": 3133,
+      "1": 807,
+      "2": 69,
+      "3": 87
+    }
+  },
+  "front_row_flag_rate": 0.0177001953125,
+  "front_row_flags": 145,
+  "inventory_exact": true,
+  "legal_setup_rows": true,
+  "library_content_digest": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+  "library_split": "train",
+  "negative_canary": {
+    "base_setup_id": "setup_library_v1:F00:000",
+    "canary": "blue_canonical_passed_directly",
+    "detected": true,
+    "message": "player 1: canonical rank 0 file 0 holds piece 5, but engine row 9 column 0 holds 8"
+  },
+  "orientation_rule": "red engine row == canonical rank; blue engine row == 9 - canonical rank",
+  "orientation_rule_version": "phase15_orientation_rule_v1",
+  "paired_orientation": true,
+  "passed": true,
+  "seconds": 7.997
+}

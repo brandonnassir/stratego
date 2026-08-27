@@ -1,0 +1,28 @@
+{
+  "artifact": "phase16_agent03_throughput_v1",
+  "device": "mps",
+  "gate": {
+    "note": "the Phase 14 reference is measured here, on this machine, into a scratch root; the open Phase 14 run state is never read or written",
+    "pass": true,
+    "ratio_phase16_over_phase14": 1.1967,
+    "rule": "phase16 plies/s within 2x of Phase 14's on this machine"
+  },
+  "phase14": {
+    "collector": "phase14_collector_v1",
+    "games_collected": 96,
+    "games_in_flight": 96,
+    "plies": 27678,
+    "plies_per_second": 1672.62,
+    "seconds": 16.55
+  },
+  "phase16": {
+    "collector": "phase16_window_collector_v1",
+    "games_finished": 11,
+    "learner_decisions": 8245,
+    "plies_advanced": 8245,
+    "plies_per_second": 2001.7,
+    "population": 96,
+    "seconds": 4.12
+  },
+  "written_utc": "2026-08-26T15:01:15Z"
+}

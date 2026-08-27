@@ -1,0 +1,53 @@
+{
+  "adversarial_library_digest": "e01529cedc042e858bdf9f9036e5da48c552077dd7a5a6a1eef411393afa58e5",
+  "agent": "agent_02",
+  "arm": "adversarial_opponent",
+  "baseline_manifest_digest": "e937df0dc395462ffce9090964009b139a3fca71060814d8bddce794d5219f86",
+  "boards": 96,
+  "control_arm": "stoch_t000_r000",
+  "generated_utc": "2026-08-26T19:53:33Z",
+  "note": "opponent-side adversarial setups from Agent 1's frozen pack; the delta is paired on identical boards; no significance claim",
+  "pack_name": "phase16_adversarial_baseline_v1",
+  "phase": "phase_16",
+  "preset_id": "MEDIUM",
+  "scientific_validation_status": "not performed",
+  "scores": {
+    "stoch_t000_r000": {
+      "draws": 4,
+      "ewr": 0.82292,
+      "fallbacks": 0,
+      "games": 96,
+      "losses": 15,
+      "paired_vs_control_same_boards": null,
+      "wins": 77,
+      "worst_opponent": {
+        "ewr": 0.45,
+        "games": 10,
+        "name": "p24"
+      }
+    },
+    "stoch_t015_r100": {
+      "draws": 1,
+      "ewr": 0.84896,
+      "fallbacks": 0,
+      "games": 96,
+      "losses": 14,
+      "paired_vs_control_same_boards": {
+        "boards": 96,
+        "delta": 0.02604,
+        "losses": 8,
+        "standard_error": 0.03944,
+        "ties": 78,
+        "wins": 10
+      },
+      "wins": 81,
+      "worst_opponent": {
+        "ewr": 0.55,
+        "games": 10,
+        "name": "p24"
+      }
+    }
+  },
+  "selected_arm": "stoch_t015_r100",
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

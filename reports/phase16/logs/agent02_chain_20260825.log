@@ -1,0 +1,362 @@
+[2026-08-25T20:57:53Z] agent02 chain starting; waiting for agent 1's pack chain
+[2026-08-26T05:27:56Z] agent 1's chain finished or exited; proceeding
++reports/phase16/logs/run_agent02_chain.sh:14> .venv/bin/python scripts/run_phase16_agent02.py --role positions --wait-lock 720
+stale COMPUTE_LOCK (pid gone); replacing it
+  [positions] game 1: 4 positions
+  [positions] game 2: 8 positions
+  [positions] game 3: 12 positions
+  [positions] game 4: 16 positions
+  [positions] game 5: 20 positions
+  [positions] game 6: 24 positions
+  [positions] game 7: 28 positions
+  [positions] game 8: 32 positions
+  [positions] game 9: 36 positions
+  [positions] game 10: 40 positions
+  [positions] game 11: 44 positions
+  [positions] game 12: 48 positions
+  [positions] game 13: 52 positions
+  [positions] game 14: 56 positions
+  [positions] game 15: 60 positions
+  [positions] game 16: 64 positions
+  [positions] game 17: 68 positions
+  [positions] game 18: 72 positions
+  [positions] game 19: 76 positions
+  [positions] game 20: 80 positions
+  [positions] game 21: 84 positions
+  [positions] game 22: 88 positions
+  [positions] game 23: 92 positions
+  [positions] game 24: 96 positions
+  [positions] game 25: 100 positions
+  [positions] game 26: 104 positions
+  [positions] game 27: 108 positions
+  [positions] game 28: 112 positions
+  [positions] game 29: 116 positions
+  [positions] game 30: 120 positions
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_position_manifest.json
+role positions done in 0.4 min
++reports/phase16/logs/run_agent02_chain.sh:15> .venv/bin/python scripts/run_phase16_agent02.py --role stage1 --budget TINY --workers 10 --wait-lock 720
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+COMPUTE_LOCK held by agent 1 pid 85214 (agent1 idle suite verification); waiting…
+  [stage1 TINY] 1/30 (0.4 min elapsed, ~12.6 min left)
+  [stage1 TINY] 2/30 (0.4 min elapsed, ~6.1 min left)
+  [stage1 TINY] 3/30 (0.4 min elapsed, ~4.0 min left)
+  [stage1 TINY] 4/30 (0.5 min elapsed, ~2.9 min left)
+  [stage1 TINY] 5/30 (0.5 min elapsed, ~2.4 min left)
+  [stage1 TINY] 6/30 (0.5 min elapsed, ~1.9 min left)
+  [stage1 TINY] 7/30 (0.5 min elapsed, ~1.6 min left)
+  [stage1 TINY] 8/30 (0.5 min elapsed, ~1.4 min left)
+  [stage1 TINY] 9/30 (0.5 min elapsed, ~1.2 min left)
+  [stage1 TINY] 10/30 (0.5 min elapsed, ~1.0 min left)
+  [stage1 TINY] 11/30 (0.9 min elapsed, ~1.5 min left)
+  [stage1 TINY] 12/30 (0.9 min elapsed, ~1.4 min left)
+  [stage1 TINY] 13/30 (0.9 min elapsed, ~1.2 min left)
+  [stage1 TINY] 14/30 (1.0 min elapsed, ~1.1 min left)
+  [stage1 TINY] 15/30 (1.0 min elapsed, ~1.0 min left)
+  [stage1 TINY] 16/30 (1.0 min elapsed, ~0.9 min left)
+  [stage1 TINY] 17/30 (1.0 min elapsed, ~0.8 min left)
+  [stage1 TINY] 18/30 (1.0 min elapsed, ~0.7 min left)
+  [stage1 TINY] 19/30 (1.0 min elapsed, ~0.6 min left)
+  [stage1 TINY] 20/30 (1.1 min elapsed, ~0.5 min left)
+  [stage1 TINY] 21/30 (1.3 min elapsed, ~0.6 min left)
+  [stage1 TINY] 22/30 (1.4 min elapsed, ~0.5 min left)
+  [stage1 TINY] 23/30 (1.4 min elapsed, ~0.4 min left)
+  [stage1 TINY] 24/30 (1.5 min elapsed, ~0.4 min left)
+  [stage1 TINY] 25/30 (1.5 min elapsed, ~0.3 min left)
+  [stage1 TINY] 26/30 (1.5 min elapsed, ~0.2 min left)
+  [stage1 TINY] 27/30 (1.5 min elapsed, ~0.2 min left)
+  [stage1 TINY] 28/30 (1.5 min elapsed, ~0.1 min left)
+  [stage1 TINY] 29/30 (1.5 min elapsed, ~0.1 min left)
+  [stage1 TINY] 30/30 (1.5 min elapsed, ~0.0 min left)
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage1_tiny_rows.csv (15480 rows)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage1_grid.json
+role stage1 done in 10.5 min
++reports/phase16/logs/run_agent02_chain.sh:16> .venv/bin/python scripts/run_phase16_agent02.py --role stage1 --budget MEDIUM --workers 10 --wait-lock 720
+  [stage1 MEDIUM] 1/30 (2.9 min elapsed, ~83.6 min left)
+  [stage1 MEDIUM] 2/30 (3.0 min elapsed, ~41.7 min left)
+  [stage1 MEDIUM] 3/30 (3.0 min elapsed, ~27.0 min left)
+  [stage1 MEDIUM] 4/30 (3.0 min elapsed, ~19.6 min left)
+  [stage1 MEDIUM] 5/30 (3.1 min elapsed, ~15.5 min left)
+  [stage1 MEDIUM] 6/30 (3.1 min elapsed, ~12.4 min left)
+  [stage1 MEDIUM] 7/30 (3.1 min elapsed, ~10.2 min left)
+  [stage1 MEDIUM] 8/30 (3.2 min elapsed, ~8.9 min left)
+  [stage1 MEDIUM] 9/30 (3.3 min elapsed, ~7.8 min left)
+  [stage1 MEDIUM] 10/30 (3.6 min elapsed, ~7.2 min left)
+  [stage1 MEDIUM] 11/30 (5.8 min elapsed, ~10.0 min left)
+  [stage1 MEDIUM] 12/30 (5.8 min elapsed, ~8.7 min left)
+  [stage1 MEDIUM] 13/30 (5.8 min elapsed, ~7.6 min left)
+  [stage1 MEDIUM] 14/30 (5.8 min elapsed, ~6.7 min left)
+  [stage1 MEDIUM] 15/30 (6.0 min elapsed, ~6.0 min left)
+  [stage1 MEDIUM] 16/30 (6.0 min elapsed, ~5.3 min left)
+  [stage1 MEDIUM] 17/30 (6.1 min elapsed, ~4.6 min left)
+  [stage1 MEDIUM] 18/30 (6.4 min elapsed, ~4.3 min left)
+  [stage1 MEDIUM] 19/30 (6.4 min elapsed, ~3.7 min left)
+  [stage1 MEDIUM] 20/30 (6.7 min elapsed, ~3.4 min left)
+  [stage1 MEDIUM] 21/30 (8.6 min elapsed, ~3.7 min left)
+  [stage1 MEDIUM] 22/30 (8.6 min elapsed, ~3.1 min left)
+  [stage1 MEDIUM] 23/30 (8.6 min elapsed, ~2.6 min left)
+  [stage1 MEDIUM] 24/30 (8.8 min elapsed, ~2.2 min left)
+  [stage1 MEDIUM] 25/30 (8.9 min elapsed, ~1.8 min left)
+  [stage1 MEDIUM] 26/30 (9.1 min elapsed, ~1.4 min left)
+  [stage1 MEDIUM] 27/30 (9.3 min elapsed, ~1.0 min left)
+  [stage1 MEDIUM] 28/30 (9.5 min elapsed, ~0.7 min left)
+  [stage1 MEDIUM] 29/30 (9.6 min elapsed, ~0.3 min left)
+  [stage1 MEDIUM] 30/30 (9.7 min elapsed, ~0.0 min left)
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage1_medium_rows.csv (15480 rows)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage1_grid.json
+role stage1 done in 9.7 min
++reports/phase16/logs/run_agent02_chain.sh:17> .venv/bin/python scripts/run_phase16_agent02.py --role stage2 --budget TINY --workers 10 --wait-lock 720
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_interim_pack_manifest.json
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage2_boards.json
+stage2: 6 arms x 60 boards x ['TINY']; 0 games already recorded, 360 to play
+  [stage2] 5/360 (0.9 min elapsed, ~63.0 min left)
+  [stage2] 10/360 (1.5 min elapsed, ~53.3 min left)
+  [stage2] 15/360 (1.8 min elapsed, ~42.0 min left)
+  [stage2] 20/360 (2.3 min elapsed, ~38.9 min left)
+  [stage2] 25/360 (2.8 min elapsed, ~37.7 min left)
+  [stage2] 30/360 (3.0 min elapsed, ~33.4 min left)
+  [stage2] 35/360 (3.5 min elapsed, ~32.8 min left)
+  [stage2] 40/360 (3.9 min elapsed, ~31.4 min left)
+  [stage2] 45/360 (4.8 min elapsed, ~33.3 min left)
+  [stage2] 50/360 (7.0 min elapsed, ~43.4 min left)
+  [stage2] 55/360 (8.8 min elapsed, ~49.0 min left)
+  [stage2] 60/360 (9.8 min elapsed, ~49.1 min left)
+  [stage2] 65/360 (10.3 min elapsed, ~46.7 min left)
+  [stage2] 70/360 (10.8 min elapsed, ~44.6 min left)
+  [stage2] 75/360 (11.3 min elapsed, ~43.0 min left)
+  [stage2] 80/360 (11.8 min elapsed, ~41.2 min left)
+  [stage2] 85/360 (12.3 min elapsed, ~39.8 min left)
+  [stage2] 90/360 (12.7 min elapsed, ~38.2 min left)
+  [stage2] 95/360 (13.2 min elapsed, ~36.9 min left)
+  [stage2] 100/360 (13.6 min elapsed, ~35.2 min left)
+  [stage2] 105/360 (16.3 min elapsed, ~39.5 min left)
+  [stage2] 110/360 (17.5 min elapsed, ~39.8 min left)
+  [stage2] 115/360 (18.3 min elapsed, ~39.0 min left)
+  [stage2] 120/360 (19.1 min elapsed, ~38.3 min left)
+  [stage2] 125/360 (20.2 min elapsed, ~38.0 min left)
+  [stage2] 130/360 (20.5 min elapsed, ~36.3 min left)
+  [stage2] 135/360 (20.8 min elapsed, ~34.7 min left)
+  [stage2] 140/360 (21.3 min elapsed, ~33.5 min left)
+  [stage2] 145/360 (21.8 min elapsed, ~32.3 min left)
+  [stage2] 150/360 (22.1 min elapsed, ~30.9 min left)
+  [stage2] 155/360 (22.6 min elapsed, ~29.8 min left)
+  [stage2] 160/360 (22.8 min elapsed, ~28.6 min left)
+  [stage2] 165/360 (24.6 min elapsed, ~29.1 min left)
+  [stage2] 170/360 (26.4 min elapsed, ~29.5 min left)
+  [stage2] 175/360 (27.5 min elapsed, ~29.1 min left)
+  [stage2] 180/360 (28.1 min elapsed, ~28.1 min left)
+  [stage2] 185/360 (28.7 min elapsed, ~27.1 min left)
+  [stage2] 190/360 (29.3 min elapsed, ~26.2 min left)
+  [stage2] 195/360 (29.8 min elapsed, ~25.2 min left)
+  [stage2] 200/360 (30.4 min elapsed, ~24.4 min left)
+  [stage2] 205/360 (30.7 min elapsed, ~23.2 min left)
+  [stage2] 210/360 (31.3 min elapsed, ~22.3 min left)
+  [stage2] 215/360 (31.7 min elapsed, ~21.4 min left)
+  [stage2] 220/360 (32.5 min elapsed, ~20.7 min left)
+  [stage2] 225/360 (35.1 min elapsed, ~21.1 min left)
+  [stage2] 230/360 (37.0 min elapsed, ~20.9 min left)
+  [stage2] 235/360 (37.6 min elapsed, ~20.0 min left)
+  [stage2] 240/360 (38.3 min elapsed, ~19.2 min left)
+  [stage2] 245/360 (38.7 min elapsed, ~18.2 min left)
+  [stage2] 250/360 (39.3 min elapsed, ~17.3 min left)
+  [stage2] 255/360 (39.4 min elapsed, ~16.2 min left)
+  [stage2] 260/360 (40.0 min elapsed, ~15.4 min left)
+  [stage2] 265/360 (40.5 min elapsed, ~14.5 min left)
+  [stage2] 270/360 (40.9 min elapsed, ~13.6 min left)
+  [stage2] 275/360 (41.5 min elapsed, ~12.8 min left)
+  [stage2] 280/360 (42.4 min elapsed, ~12.1 min left)
+  [stage2] 285/360 (44.8 min elapsed, ~11.8 min left)
+  [stage2] 290/360 (46.2 min elapsed, ~11.1 min left)
+  [stage2] 295/360 (47.5 min elapsed, ~10.5 min left)
+  [stage2] 300/360 (47.9 min elapsed, ~9.6 min left)
+  [stage2] 305/360 (48.5 min elapsed, ~8.7 min left)
+  [stage2] 310/360 (49.1 min elapsed, ~7.9 min left)
+  [stage2] 315/360 (49.6 min elapsed, ~7.1 min left)
+  [stage2] 320/360 (50.5 min elapsed, ~6.3 min left)
+  [stage2] 325/360 (51.0 min elapsed, ~5.5 min left)
+  [stage2] 330/360 (51.3 min elapsed, ~4.7 min left)
+  [stage2] 335/360 (51.9 min elapsed, ~3.9 min left)
+  [stage2] 340/360 (52.9 min elapsed, ~3.1 min left)
+  [stage2] 345/360 (56.1 min elapsed, ~2.4 min left)
+  [stage2] 350/360 (58.0 min elapsed, ~1.7 min left)
+  [stage2] 355/360 (59.0 min elapsed, ~0.8 min left)
+  [stage2] 360/360 (60.0 min elapsed, ~0.0 min left)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage2_pack.json
+role stage2 done in 60.1 min
++reports/phase16/logs/run_agent02_chain.sh:18> .venv/bin/python scripts/run_phase16_agent02.py --role stage2 --budget MEDIUM --workers 10 --wait-lock 720
+stage2: 6 arms x 60 boards x ['MEDIUM']; 360 games already recorded, 360 to play
+  [stage2] 5/360 (5.0 min elapsed, ~356.5 min left)
+  [stage2] 10/360 (8.4 min elapsed, ~295.6 min left)
+  [stage2] 15/360 (10.2 min elapsed, ~234.3 min left)
+  [stage2] 20/360 (13.0 min elapsed, ~221.5 min left)
+  [stage2] 25/360 (14.8 min elapsed, ~198.8 min left)
+  [stage2] 30/360 (17.4 min elapsed, ~191.6 min left)
+  [stage2] 35/360 (20.8 min elapsed, ~193.4 min left)
+  [stage2] 40/360 (22.1 min elapsed, ~176.6 min left)
+  [stage2] 45/360 (28.4 min elapsed, ~199.1 min left)
+  [stage2] 50/360 (45.8 min elapsed, ~284.3 min left)
+  [stage2] 55/360 (55.2 min elapsed, ~306.4 min left)
+  [stage2] 60/360 (59.8 min elapsed, ~299.2 min left)
+  [stage2] 65/360 (63.0 min elapsed, ~286.1 min left)
+  [stage2] 70/360 (66.0 min elapsed, ~273.6 min left)
+  [stage2] 75/360 (68.7 min elapsed, ~261.1 min left)
+  [stage2] 80/360 (71.9 min elapsed, ~251.6 min left)
+  [stage2] 85/360 (77.5 min elapsed, ~250.6 min left)
+  [stage2] 90/360 (78.8 min elapsed, ~236.4 min left)
+  [stage2] 95/360 (83.7 min elapsed, ~233.6 min left)
+  [stage2] 100/360 (86.8 min elapsed, ~225.6 min left)
+  [stage2] 105/360 (103.3 min elapsed, ~250.9 min left)
+  [stage2] 110/360 (107.4 min elapsed, ~244.1 min left)
+  [stage2] 115/360 (113.9 min elapsed, ~242.6 min left)
+  [stage2] 120/360 (125.0 min elapsed, ~249.9 min left)
+  [stage2] 125/360 (132.7 min elapsed, ~249.5 min left)
+  [stage2] 130/360 (136.5 min elapsed, ~241.5 min left)
+  [stage2] 135/360 (138.6 min elapsed, ~231.1 min left)
+  [stage2] 140/360 (143.2 min elapsed, ~225.0 min left)
+  [stage2] 145/360 (145.2 min elapsed, ~215.4 min left)
+  [stage2] 150/360 (146.9 min elapsed, ~205.7 min left)
+  [stage2] 155/360 (151.5 min elapsed, ~200.4 min left)
+  [stage2] 160/360 (153.4 min elapsed, ~191.8 min left)
+  [stage2] 165/360 (160.5 min elapsed, ~189.7 min left)
+  [stage2] 170/360 (174.0 min elapsed, ~194.4 min left)
+  [stage2] 175/360 (184.1 min elapsed, ~194.6 min left)
+  [stage2] 180/360 (193.4 min elapsed, ~193.4 min left)
+  [stage2] 185/360 (197.0 min elapsed, ~186.4 min left)
+  [stage2] 190/360 (201.4 min elapsed, ~180.2 min left)
+  [stage2] 195/360 (203.3 min elapsed, ~172.0 min left)
+  [stage2] 200/360 (205.7 min elapsed, ~164.6 min left)
+  [stage2] 205/360 (207.0 min elapsed, ~156.5 min left)
+  [stage2] 210/360 (210.9 min elapsed, ~150.7 min left)
+  [stage2] 215/360 (213.1 min elapsed, ~143.7 min left)
+  [stage2] 220/360 (219.4 min elapsed, ~139.6 min left)
+  [stage2] 225/360 (248.3 min elapsed, ~149.0 min left)
+  [stage2] 230/360 (253.0 min elapsed, ~143.0 min left)
+  [stage2] 235/360 (256.4 min elapsed, ~136.4 min left)
+  [stage2] 240/360 (259.9 min elapsed, ~130.0 min left)
+  [stage2] 245/360 (262.7 min elapsed, ~123.3 min left)
+  [stage2] 250/360 (268.2 min elapsed, ~118.0 min left)
+  [stage2] 255/360 (272.5 min elapsed, ~112.2 min left)
+  [stage2] 260/360 (277.5 min elapsed, ~106.7 min left)
+  [stage2] 265/360 (280.9 min elapsed, ~100.7 min left)
+  [stage2] 270/360 (284.2 min elapsed, ~94.7 min left)
+  [stage2] 275/360 (288.0 min elapsed, ~89.0 min left)
+  [stage2] 280/360 (292.0 min elapsed, ~83.4 min left)
+  [stage2] 285/360 (309.0 min elapsed, ~81.3 min left)
+  [stage2] 290/360 (316.4 min elapsed, ~76.4 min left)
+  [stage2] 295/360 (322.7 min elapsed, ~71.1 min left)
+  [stage2] 300/360 (328.3 min elapsed, ~65.7 min left)
+  [stage2] 305/360 (332.3 min elapsed, ~59.9 min left)
+  [stage2] 310/360 (337.4 min elapsed, ~54.4 min left)
+  [stage2] 315/360 (342.0 min elapsed, ~48.9 min left)
+  [stage2] 320/360 (346.0 min elapsed, ~43.2 min left)
+  [stage2] 325/360 (349.3 min elapsed, ~37.6 min left)
+  [stage2] 330/360 (352.6 min elapsed, ~32.1 min left)
+  [stage2] 335/360 (356.0 min elapsed, ~26.6 min left)
+  [stage2] 340/360 (358.3 min elapsed, ~21.1 min left)
+  [stage2] 345/360 (377.6 min elapsed, ~16.4 min left)
+  [stage2] 350/360 (398.6 min elapsed, ~11.4 min left)
+  [stage2] 355/360 (403.8 min elapsed, ~5.7 min left)
+  [stage2] 360/360 (411.6 min elapsed, ~0.0 min left)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_stage2_pack.json
+role stage2 done in 411.6 min
++reports/phase16/logs/run_agent02_chain.sh:19> .venv/bin/python scripts/run_phase16_agent02.py --role probe --preset MEDIUM --workers 10 --wait-lock 720
+probe: arms ['stoch_t015_r100', 'stoch_t000_r000'] at MEDIUM; 80 games to play
+  [probe] 1/80 (1.7 min elapsed, ~130.8 min left)
+  [probe] 2/80 (3.1 min elapsed, ~122.8 min left)
+  [probe] 3/80 (4.3 min elapsed, ~109.3 min left)
+  [probe] 4/80 (4.3 min elapsed, ~81.7 min left)
+  [probe] 5/80 (4.9 min elapsed, ~73.4 min left)
+  [probe] 6/80 (5.2 min elapsed, ~63.6 min left)
+  [probe] 7/80 (5.2 min elapsed, ~54.3 min left)
+  [probe] 8/80 (5.8 min elapsed, ~52.5 min left)
+  [probe] 9/80 (7.0 min elapsed, ~55.1 min left)
+  [probe] 10/80 (7.1 min elapsed, ~49.8 min left)
+  [probe] 11/80 (7.3 min elapsed, ~45.6 min left)
+  [probe] 12/80 (7.3 min elapsed, ~41.5 min left)
+  [probe] 13/80 (7.6 min elapsed, ~38.9 min left)
+  [probe] 14/80 (8.1 min elapsed, ~38.0 min left)
+  [probe] 15/80 (9.1 min elapsed, ~39.6 min left)
+  [probe] 16/80 (9.3 min elapsed, ~37.3 min left)
+  [probe] 17/80 (9.6 min elapsed, ~35.6 min left)
+  [probe] 18/80 (11.4 min elapsed, ~39.2 min left)
+  [probe] 19/80 (11.6 min elapsed, ~37.4 min left)
+  [probe] 20/80 (11.7 min elapsed, ~35.2 min left)
+  [probe] 21/80 (11.8 min elapsed, ~33.2 min left)
+  [probe] 22/80 (12.3 min elapsed, ~32.3 min left)
+  [probe] 23/80 (12.4 min elapsed, ~30.8 min left)
+  [probe] 24/80 (14.0 min elapsed, ~32.7 min left)
+  [probe] 25/80 (14.4 min elapsed, ~31.6 min left)
+  [probe] 26/80 (14.6 min elapsed, ~30.3 min left)
+  [probe] 27/80 (16.0 min elapsed, ~31.5 min left)
+  [probe] 28/80 (16.2 min elapsed, ~30.1 min left)
+  [probe] 29/80 (18.9 min elapsed, ~33.3 min left)
+  [probe] 30/80 (19.9 min elapsed, ~33.2 min left)
+  [probe] 31/80 (20.2 min elapsed, ~31.9 min left)
+  [probe] 32/80 (23.3 min elapsed, ~35.0 min left)
+  [probe] 33/80 (26.9 min elapsed, ~38.3 min left)
+  [probe] 34/80 (28.1 min elapsed, ~38.1 min left)
+  [probe] 35/80 (28.1 min elapsed, ~36.2 min left)
+  [probe] 36/80 (31.2 min elapsed, ~38.1 min left)
+  [probe] 37/80 (32.2 min elapsed, ~37.4 min left)
+  [probe] 38/80 (32.9 min elapsed, ~36.4 min left)
+  [probe] 39/80 (34.8 min elapsed, ~36.6 min left)
+  [probe] 40/80 (35.1 min elapsed, ~35.1 min left)
+  [probe] 41/80 (36.3 min elapsed, ~34.6 min left)
+  [probe] 42/80 (37.3 min elapsed, ~33.8 min left)
+  [probe] 43/80 (37.4 min elapsed, ~32.2 min left)
+  [probe] 44/80 (37.7 min elapsed, ~30.8 min left)
+  [probe] 45/80 (38.5 min elapsed, ~30.0 min left)
+  [probe] 46/80 (38.6 min elapsed, ~28.5 min left)
+  [probe] 47/80 (39.2 min elapsed, ~27.5 min left)
+  [probe] 48/80 (42.3 min elapsed, ~28.2 min left)
+  [probe] 49/80 (43.9 min elapsed, ~27.7 min left)
+  [probe] 50/80 (43.9 min elapsed, ~26.4 min left)
+  [probe] 51/80 (44.1 min elapsed, ~25.1 min left)
+  [probe] 52/80 (44.9 min elapsed, ~24.2 min left)
+  [probe] 53/80 (45.4 min elapsed, ~23.1 min left)
+  [probe] 54/80 (46.0 min elapsed, ~22.2 min left)
+  [probe] 55/80 (46.8 min elapsed, ~21.3 min left)
+  [probe] 56/80 (48.2 min elapsed, ~20.7 min left)
+  [probe] 57/80 (48.8 min elapsed, ~19.7 min left)
+  [probe] 58/80 (49.5 min elapsed, ~18.8 min left)
+  [probe] 59/80 (50.4 min elapsed, ~17.9 min left)
+  [probe] 60/80 (50.5 min elapsed, ~16.8 min left)
+  [probe] 61/80 (50.6 min elapsed, ~15.8 min left)
+  [probe] 62/80 (50.7 min elapsed, ~14.7 min left)
+  [probe] 63/80 (51.7 min elapsed, ~13.9 min left)
+  [probe] 64/80 (52.7 min elapsed, ~13.2 min left)
+  [probe] 65/80 (53.2 min elapsed, ~12.3 min left)
+  [probe] 66/80 (55.3 min elapsed, ~11.7 min left)
+  [probe] 67/80 (55.6 min elapsed, ~10.8 min left)
+  [probe] 68/80 (56.8 min elapsed, ~10.0 min left)
+  [probe] 69/80 (57.9 min elapsed, ~9.2 min left)
+  [probe] 70/80 (58.0 min elapsed, ~8.3 min left)
+  [probe] 71/80 (58.6 min elapsed, ~7.4 min left)
+  [probe] 72/80 (59.3 min elapsed, ~6.6 min left)
+  [probe] 73/80 (63.9 min elapsed, ~6.1 min left)
+  [probe] 74/80 (65.5 min elapsed, ~5.3 min left)
+  [probe] 75/80 (67.9 min elapsed, ~4.5 min left)
+  [probe] 76/80 (68.5 min elapsed, ~3.6 min left)
+  [probe] 77/80 (74.6 min elapsed, ~2.9 min left)
+  [probe] 78/80 (77.3 min elapsed, ~2.0 min left)
+  [probe] 79/80 (79.1 min elapsed, ~1.0 min left)
+  [probe] 80/80 (80.1 min elapsed, ~0.0 min left)
+released COMPUTE_LOCK
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_probe.json
+role probe done in 80.1 min
++reports/phase16/logs/run_agent02_chain.sh:20> set +x
++reports/phase16/logs/run_agent02_chain.sh:25> .venv/bin/python scripts/run_phase16_agent02.py --role latency --threads 1
+wrote /Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent_02_idle_latency.json
+role latency done in 1.1 min
++reports/phase16/logs/run_agent02_chain.sh:26> set +x
+AGENT02 CHAIN COMPLETE

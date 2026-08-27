@@ -1,0 +1,118 @@
+{
+ "adversarial_baseline_pack": {
+  "artifact": "phase16_adversarial_baseline_v1",
+  "board_count": 288,
+  "file_sha256": "4aacf0f6b18246bed30e41302b475d7fe79c286217878c3d5cca4a2a7615e928",
+  "manifest_digest": "e937df0dc395462ffce9090964009b139a3fca71060814d8bddce794d5219f86",
+  "path": "data/phase16/phase16_adversarial_baseline_v1.json"
+ },
+ "adversarial_library": {
+  "artifact": "phase16_adversarial_setups_v1",
+  "authored_digest": "dcafa1614d3a5be9867bebf7a975b984243eca9bb331f3be42cc8c571067deb3",
+  "file_sha256": "54ffe01c508069df78a0f281e12044b547c2387a5a3ebe6b63cc4ffbaee37bb4",
+  "harvest_revision": 0,
+  "library_digest": "e01529cedc042e858bdf9f9036e5da48c552077dd7a5a6a1eef411393afa58e5",
+  "note": "operator_harvest appends bump harvest_revision and library_digest; authored_digest is frozen",
+  "operator_harvest_count": 0,
+  "path": "data/phase16/phase16_adversarial_setups_v1.json",
+  "setup_count": 96
+ },
+ "agent": "agent_01",
+ "artifact": "phase16_measurement_handoff_v1",
+ "baseline_numbers": {
+  "adversarial": {
+   "MEDIUM": {
+    "arm2_minus_arm1": {
+     "delta": -0.04688,
+     "losses": 13,
+     "pairs": 96,
+     "standard_error": 0.04322,
+     "ties": 75,
+     "wins": 8
+    },
+    "arm_ewr": {
+     "adversarial_both": 0.82812,
+     "adversarial_opponent": 0.82292,
+     "benchmark_control": 0.86979
+    },
+    "drop": 0.04688,
+    "games": 288,
+    "pack": "phase16_adversarial_baseline_v1",
+    "reading": "weakens_distribution_hypothesis"
+   },
+   "TINY": {
+    "arm2_minus_arm1": {
+     "delta": -0.0625,
+     "losses": 17,
+     "pairs": 96,
+     "standard_error": 0.04981,
+     "ties": 70,
+     "wins": 9
+    },
+    "arm_ewr": {
+     "adversarial_both": 0.84896,
+     "adversarial_opponent": 0.77604,
+     "benchmark_control": 0.83854
+    },
+    "drop": 0.0625,
+    "games": 288,
+    "pack": "phase16_adversarial_baseline_v1",
+    "reading": "between_predeclared_thresholds"
+   }
+  },
+  "benchmark": {
+   "p24_b24_MEDIUM": {
+    "draws": 3,
+    "ewr": 0.79583,
+    "games": 120,
+    "losses": 23,
+    "pack": "phase16_benchmark_v1",
+    "preset": "MEDIUM",
+    "subset": "full",
+    "wins": 94
+   },
+   "p24_b24_TINY": {
+    "draws": 4,
+    "ewr": 0.78333,
+    "games": 120,
+    "losses": 24,
+    "pack": "phase16_benchmark_v1",
+    "preset": "TINY",
+    "subset": "full",
+    "wins": 92
+   },
+   "p24_direct_direct": {
+    "draws": 3,
+    "ewr": 0.8125,
+    "games": 120,
+    "losses": 21,
+    "pack": "phase16_benchmark_v1",
+    "preset": "direct",
+    "subset": "full",
+    "wins": 96
+   }
+  },
+  "note": "every EWR names its pack; cross-pack comparisons are forbidden"
+ },
+ "benchmark": {
+  "artifact": "phase16_benchmark_v1",
+  "board_count": 120,
+  "file_sha256": "27df6d73f091df57af028b99ebeaf18ae59681a890ebf8f6ef772d9a2752fa46",
+  "manifest_digest": "ebd130198ea500248b32df990bee876583a10d53546f38a6346ec522407320c2",
+  "path": "data/phase16/phase16_benchmark_v1.json",
+  "quick_subset": "quick60"
+ },
+ "findings": [],
+ "operator_log_path": "data/phase16/operator_games.jsonl",
+ "operator_log_schema": "phase16_operator_game_v1",
+ "phase": "phase_16",
+ "scientific_validation_status": "not performed",
+ "scoring_runner": {
+  "entry_point": "stratego.evaluation.phase16.runner.score_on_benchmark(mode_or_provider, preset, workers, subset=None)",
+  "provider_interface": "a Phase 15 production pairing id, or {'factory': 'module:callable', 'kwargs': {...}, 'arm_id': ...}; the factory returns a seat with arm_id, pairing and decide(state, legal, spec, plan); the oracle is refused by name",
+  "version": "phase16_measurement_runner_v1"
+ },
+ "status": "engineering_deliverable_not_a_strength_claim",
+ "verified": true,
+ "written_utc": "2026-08-26T05:28:51Z"
+}

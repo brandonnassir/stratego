@@ -1,0 +1,192 @@
+loading the frozen Phase 16 varied player (digest-checked)…
+  stoch_t015_r100: tau=0.15 tau_r=1.0 top_p=0.9 over p24_b24
+  red: varied_fast (TINY: 8 worlds, <= 8 candidates, depth 4, cap 0.91s)
+  blue: varied_strength (MEDIUM: 32 worlds, <= 8 candidates, depth 8, cap 5.0s)
+
+accepted setups (phase14_learned/validation, seed 3), orientation-gated; accepted evaluation rules
+[red/varied_fast] b4 b5  (TINY, 0.142s)
+[blue/varied_strength] j7 j6  (MEDIUM, 0.754s)
+[red/varied_fast] c4 b4  (TINY, 0.126s)
+[blue/varied_strength] j6 j5  (MEDIUM, 0.830s)  [sampled away from argmax]
+[red/varied_fast] i4 i5  (TINY, 0.130s)
+[blue/varied_strength] j5 j4  (MEDIUM, 0.820s)
+[red/varied_fast] b5 b6  (TINY, 0.127s)
+[blue/varied_strength] j4 j3  (MEDIUM, 0.849s)
+[red/varied_fast] b6 b7  (TINY, 0.167s)
+[blue/varied_strength] j3 i3  (MEDIUM, 0.810s)
+[red/varied_fast] b7 a7  (TINY, 0.129s)
+[blue/varied_strength] i3 i2  (MEDIUM, 0.783s)
+[red/varied_fast] a7 a8  (TINY, 0.127s)
+[blue/varied_strength] i2 h2  (MEDIUM, 0.790s)  [search changed the direct move]
+[red/varied_fast] a8 a9  (TINY, 0.127s)
+[blue/varied_strength] h2 g2  (MEDIUM, 0.819s)  [sampled away from argmax]
+[red/varied_fast] f2 g2  (TINY, 0.131s)
+[blue/varied_strength] c7 b7  (MEDIUM, 0.668s)  [sampled away from argmax]
+[red/varied_fast] a9 b9  (TINY, 0.128s)
+[blue/varied_strength] e7 e6  (MEDIUM, 0.820s)
+[red/varied_fast] b9 b10  (TINY, 0.128s)
+[blue/varied_strength] e6 e7  (MEDIUM, 0.778s)  [sampled away from argmax]
+[red/varied_fast] b10 c10  (TINY, 0.127s)
+[blue/varied_strength] b8 a8  (MEDIUM, 0.811s)
+[red/varied_fast] c10 d10  (TINY, 0.129s)
+[blue/varied_strength] e10 d10  (MEDIUM, 0.828s)
+[red/varied_fast] h4 i4  (TINY, 0.125s)
+[blue/varied_strength] d10 c10  (MEDIUM, 0.875s)
+[red/varied_fast] e2 f2  (TINY, 0.125s)  [search changed the direct move]
+[blue/varied_strength] e7 e6  (MEDIUM, 0.828s)  [sampled away from argmax]
+[red/varied_fast] i4 i3  (TINY, 0.126s)  [sampled away from argmax]
+[blue/varied_strength] e6 e5  (MEDIUM, 0.830s)  [sampled away from argmax]
+[red/varied_fast] b4 b5  (TINY, 0.124s)
+[blue/varied_strength] e5 e4  (MEDIUM, 0.826s)
+[red/varied_fast] b5 b6  (TINY, 0.128s)
+[blue/varied_strength] e4 e3  (MEDIUM, 0.811s)
+[red/varied_fast] b6 b7  (TINY, 0.169s)
+[blue/varied_strength] e3 d3  (MEDIUM, 0.840s)
+[red/varied_fast] b7 b8  (TINY, 0.128s)
+[blue/varied_strength] a8 a7  (MEDIUM, 0.819s)
+[red/varied_fast] b8 a8  (TINY, 0.129s)
+[blue/varied_strength] a7 a6  (MEDIUM, 0.806s)  [sampled away from argmax]
+[red/varied_fast] b3 b10  (TINY, 0.128s)
+[blue/varied_strength] c10 b10  (MEDIUM, 0.474s)
+[red/varied_fast] b2 b3  (TINY, 0.130s)
+[blue/varied_strength] d3 d2  (MEDIUM, 0.868s)
+[red/varied_fast] c2 b2  (TINY, 0.133s)
+[blue/varied_strength] d2 c2  (MEDIUM, 0.804s)
+[red/varied_fast] c3 c4  (TINY, 0.131s)  [sampled away from argmax]
+[blue/varied_strength] c2 c1  (MEDIUM, 0.828s)
+[red/varied_fast] a8 a7  (TINY, 0.133s)  [sampled away from argmax]
+[blue/varied_strength] c1 b1  (MEDIUM, 0.831s)
+[red/varied_fast] a7 a6  (TINY, 0.132s)  [sampled away from argmax]
+[blue/varied_strength] b1 a1  (MEDIUM, 0.885s)
+[red/varied_fast] b2 c2  (TINY, 0.134s)  [sampled away from argmax]
+[blue/varied_strength] b10 b9  (MEDIUM, 0.838s)  [sampled away from argmax]
+[red/varied_fast] a6 a7  (TINY, 0.132s)
+[blue/varied_strength] b9 b10  (MEDIUM, 0.847s)  [sampled away from argmax]
+[red/varied_fast] f3 e3  (TINY, 0.132s)  [sampled away from argmax]
+[blue/varied_strength] a1 a2  (MEDIUM, 0.914s)
+[red/varied_fast] a7 a8  (TINY, 0.131s)  [sampled away from argmax]
+[blue/varied_strength] e9 e10  (MEDIUM, 0.834s)  [sampled away from argmax]
+[red/varied_fast] f4 f7  (TINY, 0.127s)  [sampled away from argmax]
+[blue/varied_strength] e8 e7  (MEDIUM, 0.853s)
+[red/varied_fast] a8 b8  (TINY, 0.130s)
+[blue/varied_strength] a2 a3  (MEDIUM, 0.802s)  [sampled away from argmax]
+[red/varied_fast] b8 c8  (TINY, 0.126s)
+[blue/varied_strength] a3 b3  (MEDIUM, 0.893s)
+[red/varied_fast] c8 d8  (TINY, 0.128s)
+[blue/varied_strength] e7 e6  (MEDIUM, 0.814s)
+[red/varied_fast] d8 e8  (TINY, 0.128s)
+[blue/varied_strength] b10 b9  (MEDIUM, 0.817s)  [sampled away from argmax]
+[red/varied_fast] e8 f8  (TINY, 0.127s)
+[blue/varied_strength] f7 f6  (MEDIUM, 0.788s)
+[red/varied_fast] f8 g8  (TINY, 0.127s)  [sampled away from argmax]
+[blue/varied_strength] f6 f5  (MEDIUM, 0.862s)  [sampled away from argmax]
+[red/varied_fast] g8 g7  (TINY, 0.130s)  [sampled away from argmax]
+[blue/varied_strength] f5 f4  (MEDIUM, 0.819s)  [sampled away from argmax]
+[red/varied_fast] g7 h7  (TINY, 0.132s)
+[blue/varied_strength] f4 g4  (MEDIUM, 0.821s)
+[red/varied_fast] h7 h8  (TINY, 0.128s)
+[blue/varied_strength] e6 f6  (MEDIUM, 0.854s)  [sampled away from argmax]
+[red/varied_fast] h8 i8  (TINY, 0.128s)
+[blue/varied_strength] f6 f5  (MEDIUM, 0.810s)  [sampled away from argmax]
+[red/varied_fast] b3 b4  (TINY, 0.126s)  [search changed the direct move]
+[blue/varied_strength] f5 f4  (MEDIUM, 0.827s)  [sampled away from argmax]
+[red/varied_fast] b4 b3  (TINY, 0.126s)  [sampled away from argmax]
+[blue/varied_strength] f4 g4  (MEDIUM, 0.819s)  [sampled away from argmax]
+[red/varied_fast] g3 f3  (TINY, 0.168s)
+[blue/varied_strength] i9 i8  (MEDIUM, 0.817s)
+[red/varied_fast] b3 b4  (TINY, 0.127s)  [sampled away from argmax]
+[blue/varied_strength] e10 d10  (MEDIUM, 0.747s)  [sampled away from argmax]
+[red/varied_fast] b4 b5  (TINY, 0.127s)
+[blue/varied_strength] f10 e10  (MEDIUM, 0.810s)
+[red/varied_fast] b5 b6  (TINY, 0.125s)
+[blue/varied_strength] g4 h4  (MEDIUM, 0.859s)  [sampled away from argmax]
+[red/varied_fast] h3 h4  (TINY, 0.130s)  [search changed the direct move]
+[blue/varied_strength] g10 f10  (MEDIUM, 0.782s)
+[red/varied_fast] b6 b7  (TINY, 0.126s)
+[blue/varied_strength] f10 g10  (MEDIUM, 0.760s)
+[red/varied_fast] b7 b8  (TINY, 0.125s)
+[blue/varied_strength] b9 b8  (MEDIUM, 0.879s)
+[red/varied_fast] c2 b2  (TINY, 0.126s)  [sampled away from argmax]
+[blue/varied_strength] g10 f10  (MEDIUM, 0.786s)
+[red/varied_fast] b2 b3  (TINY, 0.125s)  [sampled away from argmax]
+[blue/varied_strength] f10 g10  (MEDIUM, 0.774s)  [sampled away from argmax]
+[red/varied_fast] f3 f4  (TINY, 0.126s)
+[blue/varied_strength] g10 f10  (MEDIUM, 0.751s)
+[red/varied_fast] i5 i6  (TINY, 0.124s)  [sampled away from argmax]
+[blue/varied_strength] h9 h8  (MEDIUM, 0.854s)  [sampled away from argmax]
+[red/varied_fast] f4 f5  (TINY, 0.122s)
+[blue/varied_strength] f10 g10  (MEDIUM, 0.806s)
+[red/varied_fast] f5 f6  (TINY, 0.126s)
+[blue/varied_strength] g10 f10  (MEDIUM, 0.803s)
+[red/varied_fast] f6 f7  (TINY, 0.121s)
+[blue/varied_strength] f10 g10  (MEDIUM, 0.853s)  [sampled away from argmax]
+[red/varied_fast] f7 e7  (TINY, 0.152s)
+[blue/varied_strength] g10 f10  (MEDIUM, 0.810s)
+[red/varied_fast] e7 d7  (TINY, 0.117s)
+[blue/varied_strength] f9 f3  (MEDIUM, 0.817s)  [sampled away from argmax]
+[red/varied_fast] d7 d8  (TINY, 0.120s)
+[blue/varied_strength] f10 f9  (MEDIUM, 0.823s)
+[red/varied_fast] d8 c8  (TINY, 0.164s)
+[blue/varied_strength] f9 e9  (MEDIUM, 0.791s)
+[red/varied_fast] c8 c9  (TINY, 0.110s)
+[blue/varied_strength] d10 c10  (MEDIUM, 0.751s)
+[red/varied_fast] c9 d9  (TINY, 0.120s)
+[blue/varied_strength] e9 d9  (MEDIUM, 0.784s)
+[red/varied_fast] i6 j6  (TINY, 0.121s)
+[blue/varied_strength] d9 c9  (MEDIUM, 0.834s)
+[red/varied_fast] j6 j7  (TINY, 0.124s)
+[blue/varied_strength] c9 b9  (MEDIUM, 0.806s)  [sampled away from argmax]
+[red/varied_fast] e3 f3  (TINY, 0.124s)  [sampled away from argmax]
+[blue/varied_strength] b9 b8  (MEDIUM, 0.796s)
+[red/varied_fast] e1 e8  (TINY, 0.121s)  [sampled away from argmax]
+[blue/varied_strength] h10 g10  (MEDIUM, 0.838s)
+[red/varied_fast] e8 c8  (TINY, 0.119s)
+[blue/varied_strength] c10 c9  (MEDIUM, 0.776s)
+[red/varied_fast] c8 e8  (TINY, 0.123s)  [sampled away from argmax]
+[blue/varied_strength] e10 d10  (MEDIUM, 0.773s)  [sampled away from argmax]
+[red/varied_fast] e8 e9  (TINY, 0.120s)  [search changed the direct move]
+[blue/varied_strength] d10 d9  (MEDIUM, 0.829s)
+[red/varied_fast] e9 g9  (TINY, 0.112s)
+[blue/varied_strength] d9 d8  (MEDIUM, 0.781s)
+[red/varied_fast] b3 b4  (TINY, 0.122s)  [sampled away from argmax]
+[blue/varied_strength] d8 d7  (MEDIUM, 0.732s)
+[red/varied_fast] b4 b5  (TINY, 0.124s)
+[blue/varied_strength] d7 e7  (MEDIUM, 0.820s)  [sampled away from argmax]
+[red/varied_fast] b5 b6  (TINY, 0.122s)
+[blue/varied_strength] b8 b7  (MEDIUM, 0.802s)  [sampled away from argmax]
+[red/varied_fast] b6 a6  (TINY, 0.107s)
+[blue/varied_strength] b7 a7  (MEDIUM, 0.798s)
+[red/varied_fast] a6 a5  (TINY, 0.124s)  [sampled away from argmax]
+[blue/varied_strength] i10 h10  (MEDIUM, 0.816s)  [sampled away from argmax]
+[red/varied_fast] f3 g3  (TINY, 0.122s)  [sampled away from argmax]
+[blue/varied_strength] e7 e6  (MEDIUM, 0.864s)
+[red/varied_fast] a5 b5  (TINY, 0.118s)
+[blue/varied_strength] e6 e5  (MEDIUM, 0.780s)
+[red/varied_fast] g3 h3  (TINY, 0.121s)  [sampled away from argmax]
+[blue/varied_strength] e5 e4  (MEDIUM, 0.786s)  [search changed the direct move]
+[red/varied_fast] b5 b6  (TINY, 0.120s)  [sampled away from argmax]
+[blue/varied_strength] e4 e3  (MEDIUM, 0.856s)
+[red/varied_fast] b6 a6  (TINY, 0.120s)  [sampled away from argmax]
+[blue/varied_strength] a7 a6  (MEDIUM, 0.794s)
+[red/varied_fast] f1 e1  (TINY, 0.123s)  [search changed the direct move]
+[blue/varied_strength] e3 d3  (MEDIUM, 0.743s)
+[red/varied_fast] e1 e10  (TINY, 0.114s)
+[blue/varied_strength] d3 d2  (MEDIUM, 0.125s)
+[red/varied_fast] e10 a10  (TINY, 0.135s)
+
+     a  b  c  d  e  f  g  h  i  j
+ 10  R9 ·· ·· ·· ·· ·· B? B? ·· B?
+  9  ·· ·· B? ·· ·· ·· BB ·· ·· B?
+  8  ·· ·· ·· ·· ·· ·· ·· B? B? B?
+  7  ·· ·· ·· ·· ·· ·· ·· ·· B? R?
+  6  B3 ·· ~~ ~~ ·· ·· ~~ ~~ ·· ··
+  5  ·· ·· ~~ ~~ ·· ·· ~~ ~~ ·· ··
+  4  R? ·· R? R? ·· ·· ·· R7 ·· ··
+  3  ·· ·· ·· ·· ·· ·· ·· R5 R? ··
+  2  ·· ·· ·· B? ·· R? RS ·· ·· R?
+  1  ·· ·· ·· R? ·· ·· R? R? R? R?
+     a  b  c  d  e  f  g  h  i  j
+
+result: red (flag_capture) after 169 plies
+logged game to /Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/phase16/operator_games.jsonl
+varied player status: decisions 169, move changes 53, sampled changes 53, fallbacks {}

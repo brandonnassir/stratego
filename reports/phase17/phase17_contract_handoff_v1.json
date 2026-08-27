@@ -1,0 +1,939 @@
+{
+  "artifact": "phase17_contract_handoff_v1",
+  "schema_version": "phase17_contract_handoff_v1",
+  "work_package": "phase17",
+  "provisional_run_id": "RUN-2026-A",
+  "run_id_collision_scan": "no artifact, ledger, checkpoint or report in the repository uses RUN-2026-A; the only occurrences are the Phase 17 common contract and EXPERIMENT_FRAMEWORK.md section 6 option C, which proposes the series. The provisional id stands; Agent 1 did not replace it.",
+  "author": "Phase 17 Agent 1",
+  "evidence_classification": "PENDING",
+  "scientific_validation_status": "not performed",
+  "governing_documents": [
+    "instructions/phase_17_tandem_current_policy_self_play/00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md",
+    "instructions/phase_17_tandem_current_policy_self_play/01_AGENT_1_CONTRACT_AND_BASELINE.md",
+    "stratego_project_docs/STATUS.md",
+    "stratego_project_docs/EXPERIMENT_FRAMEWORK.md"
+  ],
+  "ready_for_agents_2_3": false,
+  "ready_for_agents_2_3_reason": "The shared schemas below are frozen and complete, but common contract section 3 requires an IMMUTABLE integration baseline before Agents 2-4 make code changes, and there is none: 36 untracked entries including the whole Phase 15/16 implementation, plus three modified tracked files. Agent 1 is forbidden to commit without operator authority and has not. Set this field true only after the operator authorizes agent_01_baseline_inclusion_list.json and the commit lands.",
+  "blocking_operator_decisions": [
+    "D1 - authorize the integration-baseline commit (see agent_01_baseline_inclusion_list.json)"
+  ],
+  "non_blocking_operator_decisions": [
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+  ],
+  "process_boundary": {
+    "artifact": "reports/phase17/agent_01_process_boundary.json",
+    "summary": {
+      "active_learner_collector_supervisor_or_evaluator": "none",
+      "active_read_only_monitor": "scripts/phase14_dashboard.py on 127.0.0.1:8714, pid 99915, ~3d18h uptime, HTTP 200. Left running; do NOT poll it from a browser keep-alive pool -- a single-threaded HTTP/1.1 server with no handler timeout wedges permanently on a pooled socket.",
+      "repository_freeze": "ACTIVE per STATUS.md section 5: do not commit, stash, checkout or clean until the Phase 14 run is formally closed",
+      "phase14_run_state": "closed=false, closed_reason='emergency stop', 102 iterations, 59.97 h; closure deadline 2026-08-28T16:15:34.689Z",
+      "phase16_untracked": true,
+      "accepted_artifacts_mutated_by_agent_1": "none"
+    },
+    "finding_F1": {
+      "severity": "high",
+      "title": "Formal Phase 14 closure is ALREADY unreachable, for a reason unrelated to Phase 17",
+      "evidence": "scripts/phase14_launch.py --role finalize calls assert_bound_launch_code() BEFORE it branches on the role. Run read-only today it raises Phase14LaunchError: the manifest binds dirty_tracked_files == ['reports/phase13/phase14_launch_manifest_v1.json'] and the tree now also carries stratego_project_docs/05_project_plan.md and stratego_project_docs/README.md from the 2026-08-27 documentation pass. code_digest and revision both still match.",
+      "consequence": "'Wait until the run is formally closed' currently has no defined end. The freeze is not protecting what it was written to protect.",
+      "remedy_is_not_agent_1s": "the manifest is self-referential and has been deliberately rebuilt twice before for exactly this class of change; rebuilding it is a Phase 13/14 action. Agent 1 recorded it and stopped."
+    }
+  },
+  "start_identity": {
+    "artifact": "reports/phase17/phase17_start_identity_v1.json",
+    "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+    "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "recomputed_from_bytes": true,
+    "both_claims_reproduce": true,
+    "parameters": 863959,
+    "lineage": "behavior_snapshot B041, produced after iteration 40, run_label agent07_canonical_resumed",
+    "rules_version": "stratego_project_v1",
+    "observation_version": "observation_v2_1_127ch",
+    "action_encoding_version": "source_destination_10000_v1",
+    "engine_action_frame": "absolute_engine_squares",
+    "policy_action_frame": "perspective_normalized_squares",
+    "model_contract_version": "model_contract_v2",
+    "ema_state_in_file": null,
+    "semantics": "weights-only warm start; fresh move optimizer, schedule, KL controller and EMA; setup model/optimizer/controller/EMA from scratch",
+    "digest_function": {
+      "name": "phase17_model_state_digest",
+      "implementation": "stratego.training.phase9_behavior.state_dict_digest",
+      "input": "a live nn.Module",
+      "hazard": "stratego.model.checkpoint.state_dict_digest is a DIFFERENT function with the same name and yields f0994cf0eb985848016b79c7db376f7d9499a7f7352b430b5ac2d39aece9869e on the same bytes (it includes the dtype in the hash). Phase 17 uses the phase9_behavior one everywhere; a mismatch against f0994cf0... is a naming error, not corruption."
+    }
+  },
+  "paper_map": {
+    "artifact_md": "reports/phase17/ataraxos_method_map_v1.md",
+    "artifact_json": "reports/phase17/ataraxos_method_map_v1.json",
+    "paper": "arXiv:2511.07312v1, read in full from the local copy 2511.07312v1.pdf",
+    "rows": 38,
+    "status_counts": {
+      "exact": 19,
+      "scaled": 6,
+      "intentional divergence": 9,
+      "not used": 4
+    },
+    "derived_constant": {
+      "paper_training_iterations": 42376,
+      "derivation": "Table 27: 8.56e6 move gradient steps / 202 batches per iteration (D.4, one epoch)"
+    }
+  },
+  "namespaces": {
+    "permitted_new": [
+      "stratego/training/phase17/",
+      "stratego/evaluation/phase17/",
+      "tests/training/phase17/",
+      "tests/evaluation/phase17/",
+      "scripts/*phase17*",
+      "checkpoints/phase17/",
+      "data/phase17/",
+      "reports/phase17/"
+    ],
+    "reuse_by_import_only": [
+      "stratego/engine/",
+      "stratego/model/",
+      "stratego.training.phase9_contract",
+      "stratego.training.phase9_targets",
+      "stratego.training.phase9_behavior",
+      "stratego.training.phase9_checkpoint",
+      "stratego.belief.phase15.orientation",
+      "stratego.evaluation.phase16.benchmark",
+      "stratego.training.phase16.targets (the two recursions only)"
+    ],
+    "must_not_write_into": [
+      "checkpoints/phase9/",
+      "checkpoints/phase14/",
+      "checkpoints/phase15/",
+      "checkpoints/phase16/",
+      "data/phase9/",
+      "data/phase14/",
+      "data/phase15/",
+      "data/phase16/",
+      "reports/phase15/",
+      "reports/phase16/"
+    ],
+    "must_not_edit": [
+      "stratego.training.phase9_loss.phase9_batch_loss - the accepted objective. Phase 17's per-row-maskable loss is a NEW phase17 function.",
+      "any accepted Phase 2-16 implementation, checkpoint, result or report"
+    ],
+    "module_split_recommended": {
+      "stratego/training/phase17/contract.py": "constants, versions, digest functions, schema validators, refusals",
+      "stratego/training/phase17/transitions.py": "move-transition schema + writer",
+      "stratego/training/phase17/targets.py": "boundary bootstrapping and the carry state; imports the accepted recursions, adds a per-row loss mask",
+      "stratego/training/phase17/collector.py": "window collector with per-decision rebind to the current raw snapshot",
+      "stratego/training/phase17/setup_model.py": "the decoder-only setup network",
+      "stratego/training/phase17/setup_episode.py": "episode schema, FIFO queue",
+      "stratego/training/phase17/setup_trainer.py": "the setup update",
+      "stratego/training/phase17/schedules.py": "move + setup schedules",
+      "stratego/training/phase17/checkpoint.py": "the paired checkpoint",
+      "stratego/training/phase17/runner.py": "the tandem runner",
+      "stratego/evaluation/phase17/bundle.py": "export bundle + receipt",
+      "stratego/evaluation/phase17/pack.py": "the composite benchmark"
+    }
+  },
+  "schemas": {
+    "encoding_rules": {
+      "digests": {
+        "model_state": "stratego.training.phase9_behavior.state_dict_digest over a live nn.Module (float32, no dtype field). Field name everywhere: model_state_digest.",
+        "file": "sha256 over the file's bytes. Field name: file_sha256.",
+        "json_document": "sha256 over json.dumps(payload, sort_keys=True, separators=(',',':')).encode() -- the convention stratego.evaluation.phase16.benchmark.manifest_digest already uses. Field name: <thing>_digest.",
+        "source_closure": "sha256 over the sorted (relative_path, file_sha256) pairs of the phase17 import closure. Field name: source_digest."
+      },
+      "time": "ISO-8601 UTC with a trailing Z, second resolution",
+      "floats": "float32 on the wire; a nonfinite value anywhere is a stop condition",
+      "absence": "a required field that is absent fails closed; None is never read as a default"
+    },
+    "move_transition": {
+      "schema_version": "phase17_move_transition_v1",
+      "one_row_is": "one learner decision by one seat at one ply",
+      "fields": {
+        "run_id": "str, immutable, e.g. RUN-2026-A",
+        "work_package": "str, 'phase17'",
+        "iteration": "int, 1-based completed-iteration counter; the schedule input",
+        "window_index": "int, equal to iteration in the default 1 window = 1 iteration configuration; kept separate so the two can diverge without a schema change",
+        "game_id": "str, stable for the life of the game",
+        "ply": "int, engine ply index",
+        "color": "int, 0=RED 1=BLUE (the engine convention)",
+        "perspective_player": "int, the player whose observation this is; equals color because both seats are learners",
+        "rules_version": "str, 'stratego_project_v1'",
+        "observation_version": "str, 'observation_v2_1_127ch'",
+        "action_encoding_version": "str, 'source_destination_10000_v1'",
+        "legal_actions": "int32[k] ASCENDING absolute engine action ids. Ascending order is load-bearing: the accepted sampler walks it.",
+        "behavior_probabilities": "float32[k] aligned to legal_actions, summing to 1 within BEHAVIOR_PROBABILITY_ABS_TOLERANCE 1e-4",
+        "sampled_action": "int, an element of legal_actions",
+        "sampled_action_index": "int, its index in legal_actions",
+        "action_seed": "int, the derived per-decision seed; the draw must be reproducible from (game_id, ply) alone",
+        "behavior_model_state_digest": "str, the RAW move snapshot that produced behavior_probabilities. THE current-policy proof; a stale value is a stop condition.",
+        "behavior_temperature": "float, 1.0",
+        "stored_value_scalar": "float32, E[v] under the behavior snapshot",
+        "stored_wdl": "float32[3], (win, draw, loss) under the behavior snapshot",
+        "boundary_status": "enum: 'interior' | 'window_boundary' | 'terminal'",
+        "target_provenance": "enum: 'terminal_z' | 'boundary_bootstrap'",
+        "advantage_target": "float32",
+        "wdl_target": "float32[3]",
+        "trained": "bool, survived the 0.75-quantile / 0.01-floor advantage filter",
+        "policy_age_iterations": "int, iteration_now - iteration_of_behavior_snapshot"
+      },
+      "notes": [
+        "behavior_probabilities is stored, never recomputed: it is the PPO ratio denominator and recomputing it would silence exactly the bug the current-policy rebind is meant to expose.",
+        "boundary_status and target_provenance together let any later reader separate exact targets from bootstrapped ones without re-deriving them."
+      ]
+    },
+    "setup_episode": {
+      "schema_version": "phase17_setup_episode_v1",
+      "one_episode_is": "one side's setup for one game, from sampling to outcome",
+      "fields": {
+        "run_id": "str",
+        "game_id": "str",
+        "color": "int, 0=RED 1=BLUE",
+        "owner_perspective": "int, equals color; recorded explicitly because the outcome sign is taken from it",
+        "setup_model_state_digest": "str, the RAW setup snapshot that generated it",
+        "setup_snapshot_iteration": "int",
+        "setup_root_seed": "int",
+        "per_token_seeds": "int64[40], derived; the trace must replay exactly",
+        "canonical_setup": "int8[40], own-side canonical row-major piece types",
+        "engine_setup": "int8[40], after the accepted Phase 15 orientation helper",
+        "canonical_fingerprint": "str, sha256 over canonical_setup",
+        "engine_fingerprint": "str, sha256 over engine_setup",
+        "orientation_rule_version": "str, 'phase15_orientation_rule_v1'",
+        "tokens": "int8[40], the selected type at each of the 40 prefixes",
+        "inventory_masks": "bool[40,12], legal-by-remaining-inventory per prefix; computed SOLELY from the prefix",
+        "behavior_probabilities": "float32[40,12], masked and renormalised",
+        "behavior_log_probabilities": "float32[40], log pi of the SELECTED token",
+        "suffix_information_content": "float32[40], I(sigma_bar|sigma) = -sum of behavior_log_probabilities from that prefix onward, in nats. This is the 'H' of the paper's delta -- see method map row S07.",
+        "prefix_wdl_predictions": "float32[40,3] under the behavior snapshot",
+        "prefix_conditional_entropy_predictions": "float32[40], h_theta_t, in the NORMALIZED units I/10",
+        "terminal_result": "enum: 'red_win' | 'blue_win' | 'draw' | None while open",
+        "outcome": "int, +1 win / 0 draw / -1 loss from owner_perspective",
+        "completed_utc": "str or None",
+        "enqueued_utc": "str or None",
+        "consumed_utc": "str or None",
+        "consumed_in_setup_iteration": "int or None",
+        "policy_age_iterations": "int at consumption",
+        "state": "enum: 'open' | 'queued' | 'consumed' | 'rejected'",
+        "rejected_reason": "str or None -- NEVER silently dropped"
+      }
+    },
+    "joint_checkpoint": {
+      "schema_version": "phase17_joint_checkpoint_v1",
+      "atomic_write": "write to <name>.partial in the same directory, fsync, then os.replace onto the final name. A reader never observes a half-written checkpoint.",
+      "compatibility": "FAIL CLOSED. A partial load, a missing required key, a schema_version mismatch, or a paired checkpoint whose move and setup halves disagree on run_id/iteration is refused; nothing is restored until every check passes (the accepted phase9_checkpoint read -> validate -> authorize -> rebuild order).",
+      "required_keys": [
+        "schema_version",
+        "run_id",
+        "work_package",
+        "iteration",
+        "start_identity  (path, file_sha256, model_state_digest of the Phase 9 start)",
+        "move_raw_state",
+        "move_raw_model_state_digest",
+        "move_ema_state",
+        "move_ema_model_state_digest",
+        "setup_raw_state",
+        "setup_raw_model_state_digest",
+        "setup_ema_state",
+        "setup_ema_model_state_digest",
+        "move_optimizer_state",
+        "setup_optimizer_state",
+        "move_kl_controller_state",
+        "setup_kl_controller_state",
+        "move_scheduler_position (iteration, N, n_ref, lr, c_H)",
+        "setup_scheduler_position (iteration, N, N_paper, p, alpha)",
+        "move_optimizer_step_count",
+        "setup_optimizer_step_count",
+        "rng_namespaces  (name -> counter, for every stream)",
+        "active_games  (engine state per in-flight game)",
+        "active_game_setup_episodes  (the open episode of each side of each)",
+        "boundary_carry_state  (per (game,color) track: values, predictions, plies, row indices, emitted cursor)",
+        "completed_setup_queue",
+        "setup_pool_identity",
+        "run_digest",
+        "config_digest",
+        "source_digest",
+        "elapsed_active_training_seconds",
+        "written_utc"
+      ],
+      "active_population_rule": "a planned checkpoint/resume must preserve the active population EXACTLY. If exact active-game persistence proves impossible, Agent 4 STOPS for operator review: repeatedly discarding in-flight games would bias setup outcomes toward short games, and the setup learner reads only finished games.",
+      "ema_rule": "RAW generates all training data; EMA never acts in the training population. Both are stored in every checkpoint."
+    },
+    "evaluation_bundle": {
+      "schema_version": "phase17_eval_bundle_v1",
+      "one_bundle_is": "one immutable candidate, transferred and evaluated remotely",
+      "transfer": "written as a partial name, verified, then atomically published. A mutable 'latest' filename is NEVER evaluated or transferred.",
+      "fields": {
+        "bundle_id": "str, '<run_id>|h<HHMM>' e.g. 'RUN-2026-A|h0630'",
+        "run_id": "str",
+        "work_package": "str",
+        "candidate_time_utc": "str",
+        "candidate_index": "int 0..24",
+        "elapsed_hours": "float",
+        "iteration": "int",
+        "move_ema_state_file": "str + file_sha256",
+        "move_ema_model_state_digest": "str",
+        "setup_ema_state_file": "str + file_sha256",
+        "setup_ema_model_state_digest": "str",
+        "rules_version": "str",
+        "observation_version": "str",
+        "action_encoding_version": "str",
+        "model_contract_version": "str",
+        "move_architecture": "dict",
+        "setup_architecture": "dict",
+        "config_digest": "str",
+        "source_digest": "str",
+        "benchmark_pack_id": "str",
+        "benchmark_pack_digest": "str",
+        "lanes": "['move_only','joint_move_setup']",
+        "expected_files": "list of (relative path, sha256, bytes)",
+        "bundle_digest": "json_document digest over every field above"
+      }
+    },
+    "evaluation_receipt": {
+      "schema_version": "phase17_eval_receipt_v1",
+      "returned_by": "the remote MacBook, per candidate",
+      "fields": {
+        "bundle_id": "str, echoed",
+        "bundle_digest": "str, RECOMPUTED remotely",
+        "move_ema_model_state_digest": "str, RECOMPUTED remotely",
+        "setup_ema_model_state_digest": "str, RECOMPUTED remotely",
+        "benchmark_pack_digest": "str, RECOMPUTED remotely",
+        "config_digest": "str",
+        "evaluator_source_digest": "str",
+        "host_identity": "dict (hostname, platform, python, torch)",
+        "started_utc": "str",
+        "finished_utc": "str",
+        "runtime_seconds": "float",
+        "lane_results": "{lane: {games, ewr, se, strata:{...}}}",
+        "strata": "by opponent, by setup source, by colour",
+        "result_digest": "json_document digest over lane_results",
+        "receipt_digest": "json_document digest over every field above"
+      },
+      "binding_rule": "every identity in the receipt must equal the identity in the bundle. One mismatch is a production stop condition ('evaluation result bound to the wrong candidate or benchmark'). An old result is NEVER re-attributed to a newer timestamp; a missed slot is recorded as skipped."
+    }
+  },
+  "schedules_and_controllers": {
+    "iteration_index": "n is the 1-based COMPLETED iteration, never the optimizer step; it is checkpointed and a resume recomputes every schedule value from it.",
+    "horizon": {
+      "N": "the 12-hour iteration count, MEASURED by Agent 4's bounded preflight throughput rehearsal and FROZEN before h0",
+      "frozen_before_launch": [
+        "N",
+        "n_ref",
+        "p_setup",
+        "the full lr / c_H / alpha table for n = 1..N"
+      ],
+      "never": "recomputing the horizon from changing production speed",
+      "resume": "uses the stored iteration and the frozen horizon",
+      "provisional_estimate_only": "a Phase 16 window of 65,536 learner decisions took ~69 s, giving ~313 iterations in 6 h and so ~626 in 12 h. This is NOT frozen: Phase 17 has two neural seats where Phase 16 had rule and stress opponents, so the real N may be materially lower. Agent 4 measures it."
+    },
+    "move": {
+      "learning_rate": {
+        "formula": "clamp(1.5e-4 * (n / n_ref)**-1.1, 1.5e-5, 1.5e-4)",
+        "n_ref": "ceil(0.125 * N)",
+        "status": "FINAL as written in common contract section 9",
+        "recorded_deviation": "see method map row M07: the paper is clip(0.5*n**-1.1, 5e-6, 1e-4), which holds its ceiling for 5.44% of the run, reaches its floor at 82.86%, and spans 20x. This form holds the ceiling for 12.50%, reaches its floor at 101.39% (never), and spans 10x."
+      },
+      "entropy_coefficient": {
+        "formula": "max(0.001, 0.005 * n**-0.3)",
+        "status": "FINAL as written in common contract section 9",
+        "name_discipline": "this is an ENTROPY BONUS. The paper has no entropy bonus in the move loss; it has a reverse KL to a magnet policy with coefficient 0.05*n**-0.3. Never label one as the other.",
+        "recorded_deviation": "the 0.001 floor is reached at n=214, which is 34% of a 626-iteration run, so about two thirds of a 12-hour run would sit at the terminal floor -- the Phase 14 failure mode the Phase 16 schedule module was written to avoid."
+      },
+      "epochs_per_iteration": 1,
+      "ema_decay": 0.999,
+      "ppo_clip_epsilon": 0.2,
+      "gamma": 1.0,
+      "lambda_advantage": 0.5,
+      "lambda_value": 0.8,
+      "value_loss_weight": 0.5,
+      "belief_loss_weight": 0.0,
+      "advantage_filter_quantile": 0.75,
+      "advantage_filter_floor": 0.01,
+      "advantage_standardization_epsilon": 1e-08,
+      "minibatch_size": 512,
+      "optimizer": {
+        "name": "AdamW",
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "weight_decay": 0.01,
+        "gradient_clip_norm": 1.0,
+        "precision": "float32",
+        "device": "mps",
+        "moments_at_start": "fresh, zero"
+      },
+      "window_transitions": 65536,
+      "window_transitions_meaning": "a HARVEST budget of learner transitions. transitions_trained is the smaller post-advantage-filter count and both are logged separately.",
+      "kl_controller": {
+        "name": "phase17_move_behavior_kl_controller_v1",
+        "inherits": "the accepted Phase 9 controller, unchanged",
+        "direction": "FORWARD: D_KL(pi_behavior || pi_current) over the legal set (stratego/training/phase9_loss.py:543)",
+        "target": 0.015,
+        "beta_initial": 0.005,
+        "beta_bounds": [
+          0.0001,
+          0.2
+        ],
+        "hard_mean_kl_limit": 0.08,
+        "increase_threshold": 0.03,
+        "increase_factor": 2.0,
+        "decrease_threshold": 0.0075,
+        "decrease_factor": 0.5,
+        "clip_fraction_hard_limit": 0.75,
+        "update_timing": "once per epoch over the epoch's mean KL",
+        "status": "FINAL",
+        "recorded_deviation": "the paper uses a FIXED 0.1 coefficient on the REVERSE KL(pi_current || pi_behavior). Opposite direction and fixed-vs-adaptive; named, not conflated."
+      }
+    },
+    "setup": {
+      "learning_rate": {
+        "formula": "constant 5e-5",
+        "optimizer": "Adam",
+        "status": "FINAL, transcribed exactly from Table 20"
+      },
+      "regularization_temperature_alpha": {
+        "paper": "0.1 * n**-0.3 over N_paper = 42376, i.e. 0.100000 -> 0.004091",
+        "phase17_formula": "max(0.1 * n**(-p), 0.1 * 42376**-0.3)",
+        "p": "0.3 * ln(42376) / ln(N)",
+        "endpoints": "alpha(1) = 0.100000 and alpha(N) = 0.004091 exactly, for any N -- both paper endpoints preserved",
+        "worked_examples": {
+          "N=300": {
+            "p": 0.5604,
+            "alpha_N": 0.004091
+          },
+          "N=626": {
+            "p": 0.4964,
+            "alpha_N": 0.004091
+          }
+        },
+        "why_not_raw": "raw 0.1*n**-0.3 on N=626 ends at 0.014489, i.e. 3.54x more heavily regularized than the paper's endpoint; the setup policy would never leave the high-entropy regime",
+        "why_not_the_move_form": "the move LR's n_ref shift preserves only the upper endpoint and never reaches the lower one; a re-horizoning that moves an endpoint is not one",
+        "status": "FROZEN BY AGENT 1 under common contract section 8, which delegates 'any local floor or horizon mapping' to Agent 1. Recorded as a scale divergence and flagged as D3.",
+        "risk_recorded": "the paper warns that annealing too aggressively 'collapsed the entropy of the model'; traversing a week-long anneal in 12 hours is aggressive by construction. Instrumented by the setup-entropy stop conditions, not hidden."
+      },
+      "advantage": {
+        "formula": "delta = (o - E[v_theta_t(sigma)]) + alpha * (I(sigma_bar|sigma;theta_t)/10 - h_theta_t(sigma))",
+        "I": "realized suffix information content in nats, -log pi_theta_t(sigma_bar|sigma)",
+        "status": "FROZEN BY AGENT 1; ambiguity resolved, flagged as D4",
+        "ambiguity": "the paper's Eq. (1) regresses h to H/10 while its delta writes (H - h). Those are different units and the literal form degenerates to ~0.9*alpha*H, an uncentered bonus of order 6.2 at alpha=0.1 with early entropy ~69 nats, which would swamp (o - E[v]) in [-2,2]. The normalized reading is the only one under which alpha is an advantage coefficient."
+      },
+      "ppo_clip_epsilon": 0.2,
+      "value_loss_weight": 0.5,
+      "conditional_entropy_loss_weight": 1.0,
+      "conditional_entropy_normalizer": 0.1,
+      "total_loss": "L_setup = L_pi + 0.5*L_v + 1.0*L_h",
+      "epochs_per_iteration": 5,
+      "epochs_reduction_rule": "5 is the default; fewer only with a measured throughput case (generation, forward/backward, total per iteration). Silent reduction prohibited.",
+      "gradient_clip_norm": 0.5,
+      "ema_decay": 0.999,
+      "returns": "Monte Carlo, all 40 prefixes, NO advantage filter",
+      "outcome_sign": "+1 win / 0 draw / -1 loss from the setup owner's perspective",
+      "pool": {
+        "candidates_per_side_per_iteration": [
+          512,
+          1000
+        ],
+        "regenerated": "every iteration, under the frozen raw setup snapshot",
+        "fallback": "NONE. A generation or orientation failure is fatal; there is no frozen setup library in Phase 17 training."
+      },
+      "kl_controller": {
+        "name": "phase17_setup_behavior_kl_controller_v1",
+        "status": "PROVISIONAL \u2014 Agent 3's soak supplies calibration; the operator confirms before launch. Flagged as D5.",
+        "direction": "PROVISIONAL: reverse, D_KL(pi_current || pi_behavior) over the masked next-piece distribution, which is the paper's direction. This deliberately differs from the move controller's forward direction and MUST be logged by name.",
+        "target": "PROVISIONAL 0.015 (borrowed from the move controller; there is no evidence yet that a 12-way categorical over 40 prefixes has the same natural scale as a ~100-way legal-move set)",
+        "beta_initial": "PROVISIONAL 0.1 (the paper's fixed coefficient, used as the starting point rather than as a constant)",
+        "beta_bounds": "PROVISIONAL [0.01, 1.0]",
+        "hard_range": "PROVISIONAL mean KL above 0.08 for three consecutive setup updates",
+        "calibration_required_from_agent_3": [
+          "the observed KL scale on the initial masked model",
+          "the observed KL scale after the short soak",
+          "whether the target is reachable without pinning beta at a bound"
+        ]
+      },
+      "queue": {
+        "name": "phase17_setup_episode_queue_v1",
+        "discipline": "bounded FIFO, each episode consumed exactly once",
+        "capacity": "PROVISIONAL 4096 episodes",
+        "max_age_iterations": "PROVISIONAL 8",
+        "starvation_rule": "too few episodes -> SKIP the setup update explicitly and record the skip; never fabricate, never reuse",
+        "recorded": [
+          "depth",
+          "oldest_age",
+          "mean_age",
+          "policy_age",
+          "consumed_count",
+          "rejected_count",
+          "skip_count"
+        ],
+        "status": "PROVISIONAL \u2014 Agent 3 calibrates capacity and max age from the observed completion rate"
+      }
+    },
+    "setup_architecture": {
+      "status": "FINAL",
+      "blocks": 4,
+      "width": 128,
+      "heads": 4,
+      "feed_forward_width": 512,
+      "normalization": "pre_layernorm",
+      "sequence": "start token + 40 canonical row-major piece tokens",
+      "vocabulary": 13,
+      "next_piece_classes": 12,
+      "heads_out": [
+        "masked 12-way next-piece logits",
+        "W/D/L logits",
+        "scalar conditional-entropy prediction"
+      ],
+      "parameter_target": 802320,
+      "arithmetic": "4 x (attention 66,048 + feed-forward 131,712 + 2 layernorms 512) = 793,088; + 13x128 token = 1,664; + 41x128 positional = 5,248; + final norm 256; + heads 1,548 + 387 + 129 = 802,320",
+      "ff_width_51_refuted": "the same arithmetic with feed-forward 51 gives 328,412 parameters, which cannot be 'approximately 0.8 million'. 512 governs; it is also the paper's 4x-width ratio (2,048 at width 512)."
+    }
+  },
+  "benchmark_and_selection": {
+    "composite_pack": {
+      "id": "phase17_composite_benchmark_v1",
+      "status": "SEMANTICS FROZEN BY AGENT 1; the composite digest is computed when Agent 5 materializes the pack",
+      "digest_rule": "sha256 over json.dumps(payload, sort_keys=True, separators=(',',':')).encode() -- the convention stratego.evaluation.phase16.benchmark.manifest_digest already uses. Field name: <thing>_digest.",
+      "immutability": "cases, seeds, opponents, colours and scoring may not change under this version. Remote portability work may change packaging only; anything else needs a new version.",
+      "lanes": {
+        "move_only": {
+          "base": "the accepted full phase16_benchmark_v1",
+          "base_manifest_digest": "ebd130198ea500248b32df990bee876583a10d53546f38a6346ec522407320c2",
+          "base_file": "data/phase16/phase16_benchmark_v1.json",
+          "boards": 120,
+          "both_setups_fixed": true,
+          "weights": "paired EMA move weights",
+          "setup_use": false,
+          "records_paired_setup_digest_anyway": true,
+          "strata": {
+            "by_opponent": 10,
+            "boards_per_opponent": 12,
+            "by_setup_source": [
+              "neutral_v1",
+              "phase14_learned",
+              "targeted_family"
+            ],
+            "by_colour": {
+              "red": 60,
+              "blue": 60
+            }
+          },
+          "opponents": [
+            "p18",
+            "p24",
+            "phase9_anchor",
+            "strategic_rule_based",
+            "tactical_rule_based",
+            "stress_scout_rush",
+            "stress_miner_rush",
+            "stress_berserker",
+            "stress_information_miser",
+            "stress_chaos"
+          ],
+          "quick_subset": "quick60 (ordinal == 0 of every cell) -- SECONDARY READING ONLY, never the decision instrument"
+        },
+        "joint_move_setup": {
+          "id": "phase17_joint_setup_lane_v1",
+          "cases": 120,
+          "construction": "the same 10 opponents x 12 cases x balanced colours as the move-only lane; the OPPONENT setup is fixed from the pack, and the PLAYER setup is GENERATED by the paired EMA setup network under a fixed per-case setup seed",
+          "weights": "paired EMA move + EMA setup weights",
+          "setup_use": true,
+          "fixed": [
+            "opponent setups",
+            "opponent identities",
+            "colours",
+            "match seeds",
+            "per-case setup RNG seeds"
+          ],
+          "not_fixed": "the player's setup, which is exactly what this lane measures",
+          "orientation": "every generated board passes the accepted Phase 15 gate before create_game; a failure is fatal",
+          "quick_subset": "joint_quick60, the same ordinal-0 rule -- SECONDARY READING ONLY"
+        }
+      },
+      "scoring": "effective win rate, draw = 0.5, reported overall and per stratum, with the binomial standard error",
+      "decision_instrument": "the FULL 120-case move_only lane and the FULL 120-case joint_move_setup lane, named in advance. The quick subsets are secondary readings and may not overturn the instrument -- Phase 16's quick60 and full120 reversed each other on the same games."
+    },
+    "measurement_resolution": {
+      "why_this_block_exists": "EXPERIMENT_FRAMEWORK section 3.3: compute the standard error FIRST, then set the margin.",
+      "se_one_lane_120_games_at_p_0.80": 0.0365,
+      "se_one_lane_120_games_at_p_0.50": 0.0456,
+      "se_both_lanes_240_games_at_p_0.80": 0.0258,
+      "se_one_opponent_stratum_12_games_at_p_0.80": 0.1155,
+      "expected_noise_spread_over_25_candidates_one_lane": 0.1435,
+      "expected_worst_of_10_strata_under_pure_noise_at_p_0.80": 0.6222,
+      "consequences": [
+        "Selecting the single highest mean EWR among 25 candidates on a 120-game lane is selecting mostly noise: pure noise alone produces ~0.14 EWR of apparent spread across 25 draws.",
+        "Worst-opponent stratum at 12 games has SE 0.1155, so a worst-stratum RANKING across 25 candidates is close to pure noise. Use it as an ABSOLUTE FLOOR FILTER, and set the floor below 0.622 or it will exclude candidates for noise alone.",
+        "The three-point rolling median over hours 6-12 is the only listed column whose noise falls faster than the candidate count grows; it should be the primary direction instrument.",
+        "Phase 14 precedent: a 128-game headline reordered against a 2,200-game re-evaluation. A confirmation re-evaluation of the top 2-3 shortlisted candidates at a materially larger paired game count is recommended BEFORE promotion."
+      ],
+      "status": "recorded for Agent 7 and the operator; flagged as D6. Agent 1 has NOT changed common contract section 14."
+    },
+    "shortlist_columns": {
+      "eligibility": "candidates from hour 6 through hour 12 inclusive",
+      "columns": [
+        {
+          "name": "mean_composite_ewr",
+          "calculation": "unweighted mean of the two lanes' overall EWR",
+          "report_with": "binomial SE per lane and the combined SE"
+        },
+        {
+          "name": "worst_stratum_ewr",
+          "calculation": "min over all opponent, setup-source and colour strata of both lanes",
+          "use": "absolute floor filter, not a ranking key"
+        },
+        {
+          "name": "rolling_median_direction",
+          "calculation": "three-point rolling median of mean_composite_ewr over the candidate sequence h6..h12; direction = sign of (last median - first median)"
+        },
+        {
+          "name": "move_only_non_regression",
+          "calculation": "move_only lane EWR at the candidate minus move_only lane EWR at hour 0; non-regression = value >= -1 SE"
+        },
+        {
+          "name": "setup_legality",
+          "calculation": "count of inventory, legality, placement or orientation failures; must be exactly 0"
+        },
+        {
+          "name": "setup_mean_prefix_entropy",
+          "calculation": "mean over the 40 prefixes of the masked next-piece entropy, as a fraction of the hour-0 baseline"
+        },
+        {
+          "name": "setup_effective_support",
+          "calculation": "exp(entropy) of the flag-placement distribution; floor 4"
+        },
+        {
+          "name": "stability_flags",
+          "calculation": "any move-KL, setup-KL, queue-age, starvation or nonfinite warning raised in the interval"
+        }
+      ],
+      "rule": "Agent 7 produces a Pareto shortlist and recommends one checkpoint plus up to two alternatives. A single isolated EWR peak may not override a poor worst stratum or a collapsed setup distribution. THE OPERATOR PROMOTES; there is no automatic final-point rule."
+    }
+  },
+  "gates": {
+    "result_domain": [
+      "pass",
+      "fail",
+      "not_run"
+    ],
+    "absence_rule": "absence NEVER means pass; a gate with no recorded result is not_run and blocks launch",
+    "evidence_rule": "the launch record binds the exact gate EVIDENCE (the artifact digest and the failing/passing values), not a path to it",
+    "gates": [
+      {
+        "id": "G-C",
+        "name": "Correctness gate",
+        "time_budget": "at most 30 minutes",
+        "owner": "Agent 2 / Agent 4",
+        "result": "not_run",
+        "values_final": true,
+        "checks": [
+          "C1 rules, counters, orientation, legal actions and observation/action identities match the accepted versions",
+          "C2 the Phase 9 start file_sha256 and model_state_digest reproduce",
+          "C3 action selection is sampled, not argmax, and replays from (game_id, ply)",
+          "C4 both seats resolve through the current RAW move snapshot",
+          "C5 FORCED REBIND: update the move model mid-game and assert the next decision of an already-running game records the NEW raw digest",
+          "C6 exactly 65,536 learner transitions harvested per iteration over at least three consecutive windows",
+          "C7 boundary targets are produced and labelled with target_provenance",
+          "C8 checkpoint save/load/export identity round trip",
+          "C9 structural no-search assertion over the collection path",
+          "C10 structural no-training-opponent assertion (no historical, rule or stress agent can enter collection)"
+        ]
+      },
+      {
+        "id": "G-M4a",
+        "name": "Boundary-target reduction invariant",
+        "time_budget": "inside G-C",
+        "owner": "Agent 2",
+        "result": "not_run",
+        "values_final": true,
+        "checks": [
+          "with the tail set to the terminal z, the windowed walk equals the accepted whole-game walk entry for entry to 1e-6, for both the advantage and the W/D/L recursion"
+        ],
+        "note": "THIS is the satisfiable form of the common contract section 6 invariant."
+      },
+      {
+        "id": "G-M4b",
+        "name": "Literal whole-game equality across >= 3 windows",
+        "time_budget": "inside G-C",
+        "owner": "Agent 2",
+        "result": "not_run",
+        "values_final": false,
+        "checks": [
+          "a finished game processed across >= 3 windows matches the accepted whole-game targets to float32 tolerance"
+        ],
+        "note": "PROVABLY UNSATISFIABLE together with partial emission. Measured: max advantage difference 0.309, max W/D/L difference 0.121, 7 of 12 rows over tolerance (reports/phase17/agent_01_boundary_target_probe.json). Requires operator resolution D2 before Agent 2 can call G-C complete."
+      },
+      {
+        "id": "G-S",
+        "name": "Setup gate",
+        "time_budget": "target 60-90 minutes",
+        "owner": "Agent 3",
+        "result": "not_run",
+        "values_final": true,
+        "checks": [
+          "S1 at least 5,000 samples split across colours",
+          "S2 zero inventory, legality, placement or orientation failures",
+          "S3 exhausted-token adversarial masking (an exhausted type is unsampleable at every later prefix)",
+          "S4 autoregressive causality (prefix k's outputs do not depend on tokens > k)",
+          "S5 deterministic trace under identical snapshot and seed; changed draws under changed seeds",
+          "S6 reflection-class uniqueness, per-square entropy, pairwise distance, flag/bomb support, sequence entropy, effective support",
+          "S7 Red / Blue / draw outcome-sign tests",
+          "S8 synthetic reward-flip gradient test",
+          "S9 real short soak: nonzero setup optimizer steps, nonzero gradients, and a CHANGED setup model digest, all driven by completed game outcomes",
+          "S10 raw / EMA / optimizer / KL / queue checkpoint round trip",
+          "S11 five-epoch setup throughput measurement (generation, forward/backward, total per iteration)"
+        ]
+      },
+      {
+        "id": "G-E",
+        "name": "External evaluation gate",
+        "time_budget": "conversational",
+        "owner": "Agent 5",
+        "result": "not_run",
+        "values_final": true,
+        "checks": [
+          "E1 one early paired candidate reaches the MacBook",
+          "E2 the returned candidate identity, move and setup model identities, pack identity and evaluator identity all match the bundle",
+          "E3 the receipt digest verifies",
+          "E4 measured full-cadence latency: transfer + verification + both lanes + receipt return, with p95 below 25 minutes"
+        ],
+        "note": "unattended operation is not authorized until E4 is measured, not estimated"
+      },
+      {
+        "id": "G-W",
+        "name": "Safety wiring smoke",
+        "time_budget": "bounded",
+        "owner": "Agent 4",
+        "result": "not_run",
+        "values_final": true,
+        "checks": [
+          "W1 one representative stop event is injected and the supervisor records the reason and exits safely"
+        ],
+        "note": "do NOT re-test every previously accepted safety branch"
+      }
+    ],
+    "calibration_dependencies": {
+      "requires_agent_3_soak_before_final": [
+        "setup KL controller direction, target, beta bounds and hard range",
+        "setup queue capacity and max age",
+        "setup mean prefix entropy baseline (the 60% floor is relative to it)",
+        "flag effective-support baseline"
+      ],
+      "must_not_borrow": "frozen-library family thresholds. Diversity alarms are calibrated against the INITIAL MASKED MODEL and the soak."
+    }
+  },
+  "stop_policy": {
+    "schema_version": "phase17_stop_policy_v1",
+    "immediate": [
+      {
+        "id": "I1",
+        "condition": "rules, orientation, legality, candidate or digest mismatch"
+      },
+      {
+        "id": "I2",
+        "condition": "any decision recorded under the wrong current move-policy digest"
+      },
+      {
+        "id": "I3",
+        "condition": "nonfinite loss, gradient, parameter or schedule value"
+      },
+      {
+        "id": "I4",
+        "condition": "setup generation or masking failure, or any silent fallback attempt"
+      },
+      {
+        "id": "I5",
+        "condition": "search or a non-current training opponent entering collection"
+      },
+      {
+        "id": "I6",
+        "condition": "evaluation result bound to the wrong candidate or benchmark"
+      },
+      {
+        "id": "I7",
+        "condition": "unrecoverable checkpoint/resume identity failure"
+      }
+    ],
+    "persistent_collapse": [
+      {
+        "id": "P1",
+        "condition": "fixed-pack EWR at least 0.15 below hour 0",
+        "consecutive": 3,
+        "final": true,
+        "resolution": "0.15 is 4.11 SE on a 120-game lane; three consecutive readings make this a collapse detector, not a selector"
+      },
+      {
+        "id": "P2",
+        "condition": "move mean KL above 0.08",
+        "unit": "window",
+        "consecutive": 3,
+        "final": true,
+        "note": "unless the existing hard veto stops earlier"
+      },
+      {
+        "id": "P3",
+        "condition": "setup KL above its hard range",
+        "unit": "setup update",
+        "consecutive": 3,
+        "final": false,
+        "note": "range is PROVISIONAL pending Agent 3 calibration"
+      },
+      {
+        "id": "P4",
+        "condition": "setup mean prefix entropy below 60% of its initial baseline",
+        "consecutive": 3,
+        "final": false,
+        "note": "the baseline is the initial masked model, measured by Agent 3"
+      },
+      {
+        "id": "P5",
+        "condition": "flag effective support below 4",
+        "final": false
+      },
+      {
+        "id": "P6",
+        "condition": "move entropy below 25% of its first-hour median",
+        "unit": "window",
+        "consecutive": 5,
+        "final": true
+      },
+      {
+        "id": "P7",
+        "condition": "no setup optimizer update for one complete 30-minute interval after warm-up while games and setup episodes complete",
+        "final": true
+      },
+      {
+        "id": "P8",
+        "condition": "setup queue age or backlog above the frozen ceiling",
+        "unit": "window",
+        "consecutive": 3,
+        "final": false
+      }
+    ],
+    "single_reading_rule": "one noisy EWR, KL or entropy reading produces a WARNING, never a stop",
+    "other_telemetry": "accepted safety telemetry stays enabled and requires no new experiment"
+  },
+  "open_fields_requiring_operator_confirmation": [
+    {
+      "id": "D1",
+      "blocking": true,
+      "title": "Integration-baseline commit authority",
+      "question": "May the Phase 15-17 inclusion list be committed, and under which option (wait / commit untracked only / rebuild the Phase 14 launch manifest first)?",
+      "why_now": "Agents 2-4 may not begin against a mutable untracked base. Note finding F1: 'wait for formal closure' currently has no defined end.",
+      "artifact": "reports/phase17/agent_01_baseline_inclusion_list.json",
+      "agent_1_recommendation": "option B - commit only the untracked include list and leave all three modified tracked files unstaged"
+    },
+    {
+      "id": "D2",
+      "blocking": false,
+      "title": "The section 6 boundary-target invariant is self-contradictory",
+      "question": "Replace the literal whole-game-equality requirement with the reduction invariant (G-M4a) plus a bounded-divergence telemetry check?",
+      "evidence": "reports/phase17/agent_01_boundary_target_probe.json",
+      "agent_1_recommendation": "yes; G-M4b as written cannot pass while partial emission is mandatory"
+    },
+    {
+      "id": "D3",
+      "blocking": false,
+      "title": "Setup entropy horizon mapping",
+      "question": "Confirm the endpoint-preserving exponent rescale alpha(n) = max(0.1*n**-p, 0.004091), p = 0.3*ln(42376)/ln(N)?",
+      "alternative": "raw transcription 0.1*n**-0.3, which ends 3.54x more heavily regularized than the paper at N=626",
+      "agent_1_recommendation": "keep the rescale; it is the only form that preserves both paper endpoints"
+    },
+    {
+      "id": "D4",
+      "blocking": false,
+      "title": "Setup advantage entropy-term units",
+      "question": "Confirm the normalized reading alpha*(I/10 - h) rather than the paper's literal alpha*(I - h)?",
+      "agent_1_recommendation": "yes; the literal form is an uncentered bonus of order 6.2 against an outcome term bounded by 2"
+    },
+    {
+      "id": "D5",
+      "blocking": false,
+      "title": "Setup KL controller constants",
+      "question": "Confirm after Agent 3's soak supplies the observed KL scale.",
+      "agent_1_recommendation": "leave provisional until the soak; do not borrow the move controller's target or direction"
+    },
+    {
+      "id": "D6",
+      "blocking": false,
+      "title": "Checkpoint selection resolution on a 120-game lane",
+      "question": "Accept the recommended reading of section 14 -- rolling median as the primary direction instrument, worst stratum as an absolute floor filter rather than a ranking key, and a confirmation re-evaluation of the top 2-3 before promotion?",
+      "evidence": "25 candidates on a 120-game lane produce ~0.1435 EWR of apparent spread from pure noise; worst-of-10 strata at 12 games has a pure noise floor of 0.622",
+      "agent_1_recommendation": "yes"
+    }
+  ],
+  "what_agent_1_did_not_establish": [
+    "No gate was run. Every gate result in this handoff is `not_run`.",
+    "No training, no collection, no evaluation and no game was executed.",
+    "N, n_ref and p_setup are NOT frozen: they depend on Agent 4's preflight measurement. Only the formulas are frozen.",
+    "The composite benchmark pack was not materialized and has no digest yet; only its semantics are frozen.",
+    "The remote MacBook was not contacted; nothing about its capacity, transport or cadence latency is established.",
+    "The setup network was not built; its 802,320-parameter target is arithmetic, not a measurement.",
+    "The full test suite was not run. 7,031 tests collect cleanly at commit 124f3be; Agent 1 changed no library code, so no suite regression is possible from this work, but no suite run is claimed.",
+    "The Phase 16 current-policy defect was verified by SOURCE READING plus the collector's own rebind docstring, not by executing a live rebind. Agent 2's gate C5 is the executable proof."
+  ],
+  "bound_artifacts": {
+    "agent_01_process_boundary.json": {
+      "present": true,
+      "sha256": "f53018294b4b44b5c2306791ffc10f521a6c5cb142a8f4973e72c7e7e09769ff",
+      "bytes": 7558
+    },
+    "phase17_start_identity_v1.json": {
+      "present": true,
+      "sha256": "598da8940cf09054ab86be1a2c12e85ecf84e996488684f7aeafaa59689ec949",
+      "bytes": 7527
+    },
+    "agent_01_boundary_target_probe.json": {
+      "present": true,
+      "sha256": "d326ef5e8427375d545691ef7c46a7ff9fc72897a53ca6755e81cfe8f95f245c",
+      "bytes": 4454
+    },
+    "ataraxos_method_map_v1.md": {
+      "present": true,
+      "sha256": "456a649629e2dc14291b2a0273c4da74ed9ca7e268b59c616e225a593980582c",
+      "bytes": 34702
+    },
+    "ataraxos_method_map_v1.json": {
+      "present": true,
+      "sha256": "b0fbf0e50b1e74accba1499cb3280c95e6ae03d71473c982fc69fd6b44037643",
+      "bytes": 36306
+    },
+    "agent_01_baseline_inclusion_list.json": {
+      "present": true,
+      "sha256": "a5d9d67eae47511783efd4c27f1b2d527d9ec9b900dae4cb0744e4ff60050c5c",
+      "bytes": 9976
+    },
+    "agent_01_report.md": {
+      "present": true,
+      "sha256": "d70077840be7bd2550afa60764ff51f831db6019b1fc443db9ce30cde152263f",
+      "bytes": 19999
+    }
+  },
+  "bound_sources": {
+    "checkpoints/phase9/selfplay_c1_v1.pt": {
+      "present": true,
+      "sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+    },
+    "data/phase16/phase16_benchmark_v1.json": {
+      "present": true,
+      "sha256": "27df6d73f091df57af028b99ebeaf18ae59681a890ebf8f6ef772d9a2752fa46"
+    },
+    "instructions/phase_17_tandem_current_policy_self_play/00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md": {
+      "present": true,
+      "sha256": "ab6d58687a252feac1d871ddbe0f57c446fb52218c3159b821bc523077dbb266"
+    },
+    "instructions/phase_17_tandem_current_policy_self_play/01_AGENT_1_CONTRACT_AND_BASELINE.md": {
+      "present": true,
+      "sha256": "c5bbae8858e4b50f4d446947e1390d91f488e2bb91e642f0902a5b207af5952a"
+    },
+    "2511.07312v1.pdf": {
+      "present": true,
+      "sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04"
+    }
+  },
+  "bound_utc": "2026-08-27T20:04:17Z",
+  "bound_commit": "124f3beed4fe4cfb02021de0185a8d871feec1c1"
+}

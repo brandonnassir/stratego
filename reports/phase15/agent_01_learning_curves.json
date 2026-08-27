@@ -1,0 +1,190 @@
+{
+  "agent": "agent_01",
+  "artifact": "phase15_agent01_learning_curves_v1",
+  "curves": {
+    "b18": [
+      {
+        "block_learning_rate": 9.829629131445347e-05,
+        "dev_ce": 1.9816442115064148,
+        "dev_r_ce": 0.9221921438847818,
+        "dev_top1": 0.2912938863435529,
+        "epoch": 1,
+        "head_learning_rate": 0.0009829629131445344,
+        "seconds": 25.298,
+        "train_loss": 2.0048679865260692,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 9.330127018922193e-05,
+        "dev_ce": 1.9781382937119472,
+        "dev_r_ce": 0.9205606048686503,
+        "dev_top1": 0.2924100092625781,
+        "epoch": 2,
+        "head_learning_rate": 0.0009330127018922197,
+        "seconds": 50.137,
+        "train_loss": 1.9799110935653152,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 8.535533905932737e-05,
+        "dev_ce": 1.9755711175954354,
+        "dev_r_ce": 0.9193659254035529,
+        "dev_top1": 0.29317834189205016,
+        "epoch": 3,
+        "head_learning_rate": 0.0008535533905932748,
+        "seconds": 74.936,
+        "train_loss": 1.9750612266214145,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 7.499999999999994e-05,
+        "dev_ce": 1.9747212100545688,
+        "dev_r_ce": 0.9189704063428332,
+        "dev_top1": 0.2927737695144067,
+        "epoch": 4,
+        "head_learning_rate": 0.000750000000000001,
+        "seconds": 99.811,
+        "train_loss": 1.9710485227490517,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 6.294095225512598e-05,
+        "dev_ce": 1.974942755542459,
+        "dev_r_ce": 0.9190735063379076,
+        "dev_top1": 0.2922787006838693,
+        "epoch": 5,
+        "head_learning_rate": 0.0006294095225512611,
+        "seconds": 124.821,
+        "train_loss": 1.9671477100460864,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 4.9999999999999955e-05,
+        "dev_ce": 1.974526633600158,
+        "dev_r_ce": 0.9188798568503458,
+        "dev_top1": 0.2929547624201945,
+        "epoch": 6,
+        "head_learning_rate": 0.0004999999999999997,
+        "seconds": 149.732,
+        "train_loss": 1.963422256912011,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 3.705904774487398e-05,
+        "dev_ce": 1.9748667691240174,
+        "dev_r_ce": 0.9190381447539654,
+        "dev_top1": 0.2924082348223253,
+        "epoch": 7,
+        "head_learning_rate": 0.000370590477448739,
+        "seconds": 174.641,
+        "train_loss": 1.9598326037354006,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 2.500000000000003e-05,
+        "dev_ce": 1.9750318436142105,
+        "dev_r_ce": 0.9191149650010753,
+        "dev_top1": 0.2929086269736212,
+        "epoch": 8,
+        "head_learning_rate": 0.0002499999999999999,
+        "seconds": 199.584,
+        "train_loss": 1.9565327995292492,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 1.4644660940672678e-05,
+        "dev_ce": 1.9752380118143826,
+        "dev_r_ce": 0.9192109089113967,
+        "dev_top1": 0.2925022801557249,
+        "epoch": 9,
+        "head_learning_rate": 0.00014644660940672596,
+        "seconds": 224.514,
+        "train_loss": 1.9538165573105881,
+        "train_terms": 3385258
+      }
+    ],
+    "b24": [
+      {
+        "block_learning_rate": 9.829629131445347e-05,
+        "dev_ce": 1.976761138076834,
+        "dev_r_ce": 0.9199197218583531,
+        "dev_top1": 0.29285539376603653,
+        "epoch": 1,
+        "head_learning_rate": 0.0009829629131445344,
+        "seconds": 25.274,
+        "train_loss": 1.999555560431317,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 9.330127018922193e-05,
+        "dev_ce": 1.9727936936380852,
+        "dev_r_ce": 0.9180734034973331,
+        "dev_top1": 0.293659215200565,
+        "epoch": 2,
+        "head_learning_rate": 0.0009330127018922197,
+        "seconds": 50.239,
+        "train_loss": 1.974933239330115,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 8.535533905932737e-05,
+        "dev_ce": 1.9708712039405725,
+        "dev_r_ce": 0.9171787399217773,
+        "dev_top1": 0.2944257733897842,
+        "epoch": 3,
+        "head_learning_rate": 0.0008535533905932748,
+        "seconds": 75.341,
+        "train_loss": 1.970740593629331,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 7.499999999999994e-05,
+        "dev_ce": 1.9715296201912558,
+        "dev_r_ce": 0.9174851452241322,
+        "dev_top1": 0.293898764634696,
+        "epoch": 4,
+        "head_learning_rate": 0.000750000000000001,
+        "seconds": 100.411,
+        "train_loss": 1.9671371847938692,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 6.294095225512598e-05,
+        "dev_ce": 1.971430963280916,
+        "dev_r_ce": 0.9174392335377017,
+        "dev_top1": 0.2945144954024253,
+        "epoch": 5,
+        "head_learning_rate": 0.0006294095225512611,
+        "seconds": 125.417,
+        "train_loss": 1.9638215658944345,
+        "train_terms": 3385258
+      },
+      {
+        "block_learning_rate": 4.9999999999999955e-05,
+        "dev_ce": 1.9710228442569862,
+        "dev_r_ce": 0.9172493083455544,
+        "dev_top1": 0.29452159316343657,
+        "epoch": 6,
+        "head_learning_rate": 0.0004999999999999997,
+        "seconds": 150.459,
+        "train_loss": 1.9603867281562979,
+        "train_terms": 3385258
+      }
+    ]
+  },
+  "phase": "phase_15",
+  "recipe": {
+    "batch_size": 256,
+    "early_stop_patience": 3,
+    "final_block_learning_rate": 0.0001,
+    "head_learning_rate": 0.001,
+    "loss": "hidden_piece_cross_entropy",
+    "max_epochs": 12,
+    "optimizer": "adamw",
+    "schedule": "cosine",
+    "selection": "best_development_cross_entropy",
+    "weight_decay": 0.0001
+  },
+  "search_implemented": false,
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

@@ -1,0 +1,168 @@
+{
+  "archived_snapshots": [
+    {
+      "elapsed_hours": 0.02387,
+      "identity": "W0001",
+      "iteration": 1,
+      "pool_size": 2,
+      "state_digest": "70493ef2ce078406a172ead1f605a42f3a4b3240a6ba2c3dc0827e300e3b0a58"
+    },
+    {
+      "elapsed_hours": 0.54404,
+      "identity": "W0018",
+      "iteration": 18,
+      "pool_size": 3,
+      "state_digest": "9730258b68999e8d926c0fa9dcb74a3b2552e1709c6f38f1060fed1d5ef263b6"
+    },
+    {
+      "elapsed_hours": 1.05855,
+      "identity": "W0034",
+      "iteration": 34,
+      "pool_size": 4,
+      "state_digest": "27435712e876bb09c8750978f79ebdd00c26e347e66dbdeafdd336af48647ffc"
+    },
+    {
+      "elapsed_hours": 1.5743,
+      "identity": "W0049",
+      "iteration": 49,
+      "pool_size": 5,
+      "state_digest": "17fb68d7d3f7dc11ec0a535720f9365258123a27eca2f22e0424bcaec4db8bd7"
+    },
+    {
+      "elapsed_hours": 2.07658,
+      "identity": "W0063",
+      "iteration": 63,
+      "pool_size": 6,
+      "state_digest": "515c314f87c8ab114d37ebf91a47d7a789d77ff7d4ffd90457c096a61c2a58dd"
+    },
+    {
+      "elapsed_hours": 2.6002,
+      "identity": "W0077",
+      "iteration": 77,
+      "pool_size": 7,
+      "state_digest": "723cb4d88651dee4b978cc12ff8d77ef31109692c92b85cebfbf7d2934199807"
+    },
+    {
+      "elapsed_hours": 3.10274,
+      "identity": "W0090",
+      "iteration": 90,
+      "pool_size": 8,
+      "state_digest": "e23212745c30a1d14210b8c343c6d0b6f1e3f6c362c9785e44fdd684052ddf6d"
+    },
+    {
+      "elapsed_hours": 3.62685,
+      "identity": "W0103",
+      "iteration": 103,
+      "pool_size": 9,
+      "state_digest": "e2b1809d78744eb3c93693b33fa0197601972dd48c4a90ee36b5576c22224978"
+    },
+    {
+      "elapsed_hours": 4.16814,
+      "identity": "W0116",
+      "iteration": 116,
+      "pool_size": 10,
+      "state_digest": "74288003b5a03c96301072bac4ba27e761744333f1efbd7b7aca4cd0af877b69"
+    },
+    {
+      "elapsed_hours": 4.6696,
+      "identity": "W0128",
+      "iteration": 128,
+      "pool_size": 11,
+      "state_digest": "f9a4a020297b45dfa211cbba88e0634f8d1b1f953879a550c169d675f40001f0"
+    },
+    {
+      "elapsed_hours": 5.1884,
+      "identity": "W0140",
+      "iteration": 140,
+      "pool_size": 12,
+      "state_digest": "e82721ff7c907cdb219974a3fa98decae5f6beea2b35a7fcf9b0330f35ea5680"
+    },
+    {
+      "elapsed_hours": 5.69774,
+      "identity": "W0152",
+      "iteration": 152,
+      "pool_size": 13,
+      "state_digest": "5bc40077e7c4acb3fd10477e000e746ecbb984afe532fbf78e847d7ca785cdd3"
+    }
+  ],
+  "arm": "a_control",
+  "arm_digest": "0c284794944f6219609915e52ed0b7d87cbff78ae147aff19f846b119b7b83fd",
+  "clock": {
+    "elapsed_hours": 6.00365,
+    "elapsed_seconds": 21613.127,
+    "expired": true,
+    "hours": 6.0,
+    "started_utc": "2026-08-26T19:54:08.543Z"
+  },
+  "counters": {
+    "clip_vetoes": 0,
+    "illegal_targets": 0,
+    "kl_vetoes": 0,
+    "non_finite_gradients": 0,
+    "non_finite_losses": 0,
+    "non_finite_parameters": 0
+  },
+  "decisions_collected": 10427037,
+  "evaluations": [
+    {
+      "arm": "a_control",
+      "elapsed_hours": 0.00021,
+      "ema_updates": 0,
+      "hour": 0,
+      "iteration": 0,
+      "model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+      "optimizer_step": 0,
+      "source": "raw",
+      "utc": "2026-08-26T19:54:09.308Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/a_control/hour_00.pt",
+      "weights_sha256": "246476f1b26e059db8e05a1aac0abd5dcb584ddc7a1e78efea7fc8fc6e56f085"
+    },
+    {
+      "arm": "a_control",
+      "elapsed_hours": 2.00285,
+      "ema_updates": 0,
+      "hour": 2,
+      "iteration": 61,
+      "model_state_digest": "1ca07d310669f455d5746f3e7981bbc8a5623f159a83dd122e03944d51ecf588",
+      "optimizer_step": 15546,
+      "source": "raw",
+      "utc": "2026-08-26T21:54:18.827Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/a_control/hour_02.pt",
+      "weights_sha256": "4e471df51615515b53e787df130d784230ce773d5020a45b690d118e67fa1237"
+    },
+    {
+      "arm": "a_control",
+      "elapsed_hours": 4.00059,
+      "ema_updates": 0,
+      "hour": 4,
+      "iteration": 112,
+      "model_state_digest": "5587dd16c7dd7301a2440ad4210537045f9d79ddedd64fd7f93cafc85771529d",
+      "optimizer_step": 28736,
+      "source": "raw",
+      "utc": "2026-08-26T23:54:10.651Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/a_control/hour_04.pt",
+      "weights_sha256": "50dc27e7b4566f59d5529417af49768920acd55a4159e5a311a63b244ca19f0c"
+    },
+    {
+      "arm": "a_control",
+      "elapsed_hours": 6.00363,
+      "ema_updates": 0,
+      "hour": 6,
+      "iteration": 159,
+      "model_state_digest": "126c9eeffc54b91f305b77ed45167087e02f8a622781a29dd53c8f3cd7026dc0",
+      "optimizer_step": 40846,
+      "source": "raw",
+      "utc": "2026-08-27T01:54:21.587Z",
+      "weights_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase16/arms/a_control/hour_06.pt",
+      "weights_sha256": "b33def06c6c20e466ea170e6c3ce625eeed4713d8286d78c5afa109c931a66fe"
+    }
+  ],
+  "examples_consumed": 20834924,
+  "finished_utc": "2026-08-27T01:54:21.643Z",
+  "games_completed": 30457,
+  "optimizer_steps": 40846,
+  "runner_version": "phase16_arm_runner_v1",
+  "started_utc": "2026-08-26T19:54:09.244Z",
+  "telemetry": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase16/agent03/a_control_windows.jsonl",
+  "windows": 159
+}

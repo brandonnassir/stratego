@@ -1,0 +1,36 @@
+{
+ "agent": "agent_01",
+ "artifact": "phase16_agent01_backup_v1",
+ "end_of_task_backup": {
+  "archive_bytes": 8145454592,
+  "archive_path": "/Volumes/Brandon_Washington/stratego_untracked_backup_20260826.tar",
+  "excluded": [
+   "*_prefix_*.npy (regenerable prefix caches)"
+  ],
+  "filelist_path": "/Volumes/Brandon_Washington/stratego_untracked_backup_20260826.filelist.txt",
+  "performed_utc": "2026-08-26T05:39:56Z",
+  "sha256": "18fd6e3961cb82a76cd143f7e1f1e697c23517ea8375f955a1b02cc33e75513d",
+  "status": "complete",
+  "tar_entries": 381,
+  "untracked_roots": 25
+ },
+ "policy": "archive every untracked path before and after Phase 16 Agent 1 work; never delete an older backup",
+ "t0_backup": {
+  "archive_bytes": 8137132544,
+  "archive_path": "/Volumes/Brandon_Washington/stratego_untracked_backup_20260825.tar",
+  "excluded": [
+   "*_prefix_*.npy (regenerable prefix caches, ~15 GB, rebuilt by ensure_caches)"
+  ],
+  "filelist_path": "/Volumes/Brandon_Washington/stratego_untracked_backup_20260825.filelist.txt",
+  "performed_by": "phase 16 coordinator, 2026-08-25 (before this agent started)",
+  "sha256": "712f4c4aaecd6812182db628d2131b444062f2e6a293b391ed0bdd5187088b56",
+  "sha256_file": "/Volumes/Brandon_Washington/stratego_untracked_backup_20260825.sha256",
+  "tar_entries": 269,
+  "verified_this_session": {
+   "file_exists": true,
+   "note": "recorded, not re-archived \u2014 the brief forbids redoing T0 when the coordinator already ran it",
+   "sha256_file_matches_reported_digest": true,
+   "size_matches": true
+  }
+ }
+}

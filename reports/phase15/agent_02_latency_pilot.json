@@ -1,0 +1,50 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_latency_pilot_v1",
+  "generated_utc": "2026-08-24T20:32:52Z",
+  "measurement": "one process, 1 torch thread(s), no competing pack; the latency a single human-play or machine-vs-machine game actually sees",
+  "note": "the Stage B and Stage C move times are measured under ten-way process contention and are systematically slower; the caps are set from this pilot, and both numbers are reported",
+  "pairings": [
+    "p24_b24"
+  ],
+  "phase": "phase_15",
+  "position_manifest_digest": "01d1ba603287cddacb0fb61c9c24504d80e0a55e3eedbc3d3c9355293da06c49",
+  "positions": 40,
+  "profiles": {
+    "p24_b24|MEDIUM": {
+      "decisions": 40,
+      "max_seconds_per_move": 1.80231,
+      "mean_c1_forwards": 1964.0,
+      "mean_seconds_per_move": 1.48064,
+      "median_seconds_per_move": 1.70881,
+      "p95_seconds_per_move": 1.78209,
+      "p99_seconds_per_move": 1.79584,
+      "pairing_id": "p24_b24",
+      "preset_id": "MEDIUM"
+    },
+    "p24_b24|SMALL": {
+      "decisions": 40,
+      "max_seconds_per_move": 0.7728,
+      "mean_c1_forwards": 779.0,
+      "mean_seconds_per_move": 0.62102,
+      "median_seconds_per_move": 0.7081,
+      "p95_seconds_per_move": 0.76458,
+      "p99_seconds_per_move": 0.77043,
+      "pairing_id": "p24_b24",
+      "preset_id": "SMALL"
+    },
+    "p24_b24|TINY": {
+      "decisions": 40,
+      "max_seconds_per_move": 0.29769,
+      "mean_c1_forwards": 282.6,
+      "mean_seconds_per_move": 0.22249,
+      "median_seconds_per_move": 0.24771,
+      "p95_seconds_per_move": 0.25932,
+      "p99_seconds_per_move": 0.28318,
+      "pairing_id": "p24_b24",
+      "preset_id": "TINY"
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

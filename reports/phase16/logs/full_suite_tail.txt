@@ -1,0 +1,6 @@
+WARNING  stratego.phase12.player:player.py:467 fallback to direct accepted Phase 9 C1: timeout at ply 24 of random-3
+=========================== short test summary info ============================
+FAILED tests/search/test_phase12_player.py::test_tiny_search_returns_the_engines_own_decision
+FAILED tests/search/test_phase12_player.py::test_default_seed_is_deterministic_in_game_and_ply
+FAILED tests/search/test_phase12_player.py::test_search_seat_uses_the_match_seed_stream
+3 failed, 6819 passed, 3 skipped in 1142.21s (0:19:02)

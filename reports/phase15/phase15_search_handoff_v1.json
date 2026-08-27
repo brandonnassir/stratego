@@ -1,0 +1,231 @@
+{
+  "agent": "agent_01",
+  "artifact": "phase15_search_handoff_v1",
+  "belief_models": {
+    "b18": {
+      "architecture_version": "phase15_belief_specialist_v1",
+      "bound_policy": "p18",
+      "calibration": {
+        "applied_temperature": 1.0,
+        "fitted_on": "calibration split only",
+        "fitted_temperature": 1.0431026662026317,
+        "keep_calibrated": false,
+        "note": "section 10 keeps a temperature only if it improves both development NLL and calibration error; when it does not, the applied temperature is 1.0 and the model is used raw",
+        "top1_labels_changed": 0
+      },
+      "checkpoint_path": "checkpoints/phase15/b18_belief_v1.pt",
+      "checkpoint_sha256": "2030be200426c931268d067ae8d4054fd967029f80c1cdcc3e5434e425d7f75d",
+      "role": "hidden-rank marginals only. Holds no policy or value parameter; its outputs feed the accepted sampler.",
+      "state_digest": "b03685d3557d7c93ec5ce1c11b50907c13791a45e5a8359febe12b4f17612b99"
+    },
+    "b24": {
+      "architecture_version": "phase15_belief_specialist_v1",
+      "bound_policy": "p24",
+      "calibration": {
+        "applied_temperature": 1.0,
+        "fitted_on": "calibration split only",
+        "fitted_temperature": 1.0016599880555412,
+        "keep_calibrated": false,
+        "note": "section 10 keeps a temperature only if it improves both development NLL and calibration error; when it does not, the applied temperature is 1.0 and the model is used raw",
+        "top1_labels_changed": 0
+      },
+      "checkpoint_path": "checkpoints/phase15/b24_belief_v1.pt",
+      "checkpoint_sha256": "b030b7184c3ce7265fb51eaef2a5add4f4eab05b355b8af60e2dc083770d2b14",
+      "role": "hidden-rank marginals only. Holds no policy or value parameter; its outputs feed the accepted sampler.",
+      "state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f"
+    }
+  },
+  "corpus": {
+    "corpus_digest": "b0493a08d2fcb1dd6a2e234af0cde5bc3c5fe24dbc0bec0f86ab8de3c96dcbaa",
+    "corpus_format_version": "phase15_belief_corpus_store_v1",
+    "corpus_version": "phase15_belief_corpus_v1",
+    "orientation_rule": "red engine row == canonical rank; blue engine row == 9 - canonical rank",
+    "positions": {
+      "calibration": 15004,
+      "development": 20013,
+      "train": 120010
+    },
+    "run_version": "phase15_belief_corpus_generation_v1",
+    "supersedes": "phase11b_common_corpus_v1 and the Phase 12 match packs, both contaminated by the Blue setup-orientation defect"
+  },
+  "metrics": {
+    "development": {
+      "agent1c_reference": {
+        "brier": 0.8467560556628723,
+        "ce": 2.1478966883271426,
+        "expected_calibration_error": 0.04566188031872391,
+        "maximum_calibration_error": 0.20110959290945285,
+        "old_development_r_ce": 0.9459282341313351,
+        "r_ce": 0.9995605872891168,
+        "r_ce_ci95": [
+          0.9956663263772343,
+          1.0030082510470373
+        ],
+        "reference_id": "phase11b_agent01_1c_final_block_plus_mlp",
+        "top1": 0.24109497159121154
+      },
+      "development_pieces": 563558,
+      "development_positions": 20013,
+      "paired": {
+        "b18_vs_agent1c": {
+          "bootstrap_unit": "game",
+          "ce_difference": -0.1733700547269843,
+          "ce_difference_ci95": [
+            -0.18131730489988868,
+            -0.16506506619218564
+          ],
+          "distinguishable": true,
+          "games": 1259,
+          "left_lower_ce": true,
+          "resamples": 4000
+        },
+        "b18_vs_b24": {
+          "bootstrap_unit": "game",
+          "ce_difference": 0.0036554296595856283,
+          "ce_difference_ci95": [
+            0.002592514746150139,
+            0.004735018252313778
+          ],
+          "distinguishable": true,
+          "games": 1259,
+          "left_lower_ce": false,
+          "resamples": 4000
+        },
+        "b24_vs_agent1c": {
+          "bootstrap_unit": "game",
+          "ce_difference": -0.17702548438656993,
+          "ce_difference_ci95": [
+            -0.18502267346355186,
+            -0.16864737397932694
+          ],
+          "distinguishable": true,
+          "games": 1259,
+          "left_lower_ce": true,
+          "resamples": 4000
+        }
+      },
+      "remaining_count_baseline": {
+        "brier": 0.8611787802672822,
+        "ce": 2.148840916339448,
+        "top1": 0.21902270928635562
+      },
+      "specialists": {
+        "b18": {
+          "brier": 0.8086420488427624,
+          "ce": 1.974526633600158,
+          "expected_calibration_error": 0.0030756360816680296,
+          "maximum_calibration_error": 0.028952992653496212,
+          "r_ce": 0.9188798568503458,
+          "r_ce_ci95": [
+            0.9156774383022708,
+            0.9219350009403242
+          ],
+          "top1": 0.2929547624201945
+        },
+        "b24": {
+          "brier": 0.8076971384223416,
+          "ce": 1.9708712039405725,
+          "expected_calibration_error": 0.004771430222993842,
+          "maximum_calibration_error": 0.02740088826641479,
+          "r_ce": 0.9171787399217773,
+          "r_ce_ci95": [
+            0.9140601756588299,
+            0.9202008888744929
+          ],
+          "top1": 0.2944257733897842
+        }
+      },
+      "uniform_reference": {
+        "ce": 2.4849066497880004,
+        "r_ce": 1.15639395680395,
+        "top1": 0.02551290195507827
+      }
+    },
+    "metrics_version": "phase15_belief_metrics_v1",
+    "note": "belief-quality metrics on the Phase 15 development split. Not a playing-strength claim: no search was implemented or evaluated."
+  },
+  "not_included": [
+    "any search implementation",
+    "any choice of final combined player",
+    "any modification to Phase 12",
+    "any control of a Phase 14 task"
+  ],
+  "phase": "phase_15",
+  "policy_models": {
+    "p18": {
+      "checkpoint_path": "checkpoints/phase15/p18_source_readonly.pt",
+      "checkpoint_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412",
+      "global_optimizer_step": 92718,
+      "logical_identity": "P18",
+      "model_state_digest": "9360f2add3dba31181bf41a59be66f3e0efe5b1e472c1cd2ebd17967a89b17e3",
+      "phase14_archive_path": "/Volumes/Brandon_Washington/stratego_phase14/archive/archive_0009.pt",
+      "phase14_archive_sha256": "c86d8c384daaa23c2ef8ad3d5196edabea60a97cce72b5e147453dd7f85473e6",
+      "phase14_candidate_hour": 18,
+      "role": "policy and value. Immutable. Phase 15 never trained it."
+    },
+    "p24": {
+      "checkpoint_path": "checkpoints/phase15/p24_source_readonly.pt",
+      "checkpoint_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+      "global_optimizer_step": 121156,
+      "logical_identity": "P24",
+      "model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+      "phase14_archive_path": "/Volumes/Brandon_Washington/stratego_phase14/archive/archive_0012.pt",
+      "phase14_archive_sha256": "3c393d0c8f8b233446febc8cca8ce7d1ceeee974231e6a9b53c7657a07d964f2",
+      "phase14_candidate_hour": 24,
+      "role": "policy and value. Immutable. Phase 15 never trained it."
+    }
+  },
+  "provider": {
+    "accepted_sampler_source": "stratego.evaluation.phase11_sampler.sample_belief_world, imported and unmodified; marginals are not sampled per piece and no inventory or movement-impossibility constraint was altered",
+    "accepted_sampler_version": "belief_sampler_v1",
+    "checks": {
+      "b18": {
+        "all_worlds_pass_accepted_validation": true,
+        "fixed_seed_reproduces_worlds": true,
+        "marginal_latency_ms": {
+          "max": 2.392416005022824,
+          "mean": 2.0925018337341803,
+          "p50": 2.0840834913542494,
+          "p95": 2.3057813494233415
+        },
+        "moved_pieces_never_immobile": true,
+        "passed": true,
+        "positions_checked": 48,
+        "probabilities_sum_to_one": true,
+        "remaining_piece_counts_exact": true,
+        "worlds_checked": 384
+      },
+      "b24": {
+        "all_worlds_pass_accepted_validation": true,
+        "fixed_seed_reproduces_worlds": true,
+        "marginal_latency_ms": {
+          "max": 2.4520840088371187,
+          "mean": 2.1252656248786175,
+          "p50": 2.1087915083626285,
+          "p95": 2.3436231465893798
+        },
+        "moved_pieces_never_immobile": true,
+        "passed": true,
+        "positions_checked": 48,
+        "probabilities_sum_to_one": true,
+        "remaining_piece_counts_exact": true,
+        "worlds_checked": 384
+      }
+    },
+    "entry_points": [
+      "predict_marginals(public_state) -> {piece_slot: 12-way probabilities}",
+      "sample_worlds(public_state, n, seed) -> complete legal hidden armies",
+      "sample_assignments(public_state, n, seed) -> [{piece_slot: rank}]"
+    ],
+    "interface_version": "phase15_belief_interface_v1",
+    "public_state_type": "stratego.belief.phase11b.interface.Phase11BPublicState, reused by import; the accepted phase11_public_state_v1 document plus the 127-channel observation, and no field a true rank could arrive in"
+  },
+  "search_implemented": false,
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "verification": {
+    "artifacts_checked": 4,
+    "findings": [],
+    "verified": true
+  },
+  "written_utc": "2026-08-24T13:45:41Z"
+}

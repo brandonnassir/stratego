@@ -1,0 +1,54 @@
+{
+  "agent": "agent_02",
+  "cap_decision": {
+    "caps_seconds": {
+      "MEDIUM": 5.0,
+      "TINY": 0.91
+    },
+    "changed": false,
+    "findings": [],
+    "rule": "keep the frozen Phase 15 caps unless idle p95 grew by more than 10%, then min(3.5 x p95, 5.0)"
+  },
+  "generated_utc": "2026-08-26T15:02:28Z",
+  "idle_profiles": {
+    "MEDIUM": {
+      "decisions": 40,
+      "max_seconds_per_move": 1.77748,
+      "mean_c1_forwards": 1928.3,
+      "median_seconds_per_move": 1.71451,
+      "p95_seconds_per_move": 1.75959,
+      "preset_id": "MEDIUM",
+      "sampled_away_from_argmax": 12
+    },
+    "TINY": {
+      "decisions": 40,
+      "max_seconds_per_move": 0.28813,
+      "mean_c1_forwards": 287.6,
+      "median_seconds_per_move": 0.2474,
+      "p95_seconds_per_move": 0.2515,
+      "preset_id": "TINY",
+      "sampled_away_from_argmax": 11
+    }
+  },
+  "measured_on": "one process, 1 torch thread(s), idle machine; full varied-mode decisions (search + one softmax draw) on 40 replayed diagnostic positions",
+  "mode_caps_seconds": {
+    "varied_fast": 0.91,
+    "varied_strength": 5.0
+  },
+  "phase": "phase_16",
+  "phase15_caps_reference": {
+    "MEDIUM": 5.0,
+    "TINY": 0.91
+  },
+  "phase15_idle_reference": {
+    "MEDIUM": {
+      "p95": 1.78209
+    },
+    "TINY": {
+      "p95": 0.25932
+    }
+  },
+  "scientific_validation_status": "not performed",
+  "selected_arm": "stoch_t015_r100",
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

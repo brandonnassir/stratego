@@ -1,0 +1,415 @@
+{
+  "agent": "agent_02",
+  "artifact": "phase15_agent02_correctness_gate_v1",
+  "checked_utc": "2026-08-24T14:54:21Z",
+  "checks": {
+    "decisions": {
+      "candidates_checked": 376,
+      "decisions": 48,
+      "findings": [],
+      "passed": true,
+      "repeat_decisions": 48,
+      "worlds_checked": 356
+    },
+    "fallback": {
+      "error_fallbacks": 48,
+      "findings": [],
+      "passed": true,
+      "timeout_fallbacks": 48
+    },
+    "gate_positions": {
+      "passed": true,
+      "plies": [
+        12,
+        228,
+        442,
+        13,
+        683,
+        1353,
+        12,
+        150,
+        288,
+        13,
+        189,
+        363
+      ],
+      "positions": 12,
+      "unresolved": [
+        37,
+        11,
+        6,
+        40,
+        35,
+        20,
+        37,
+        29,
+        15,
+        35,
+        18,
+        7
+      ]
+    },
+    "identities": {
+      "corpus_digest": "b0493a08d2fcb1dd6a2e234af0cde5bc3c5fe24dbc0bec0f86ab8de3c96dcbaa",
+      "findings": [],
+      "pairings": {
+        "p18_b18": {
+          "applied_temperature": 1.0,
+          "belief_prefix_backbone": "p18",
+          "belief_state_digest": "b03685d3557d7c93ec5ce1c11b50907c13791a45e5a8359febe12b4f17612b99",
+          "move_model_state_digest": "9360f2add3dba31181bf41a59be66f3e0efe5b1e472c1cd2ebd17967a89b17e3"
+        },
+        "p18_b24": {
+          "applied_temperature": 1.0,
+          "belief_prefix_backbone": "p24",
+          "belief_state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f",
+          "move_model_state_digest": "9360f2add3dba31181bf41a59be66f3e0efe5b1e472c1cd2ebd17967a89b17e3"
+        },
+        "p24_b18": {
+          "applied_temperature": 1.0,
+          "belief_prefix_backbone": "p18",
+          "belief_state_digest": "b03685d3557d7c93ec5ce1c11b50907c13791a45e5a8359febe12b4f17612b99",
+          "move_model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f"
+        },
+        "p24_b24": {
+          "applied_temperature": 1.0,
+          "belief_prefix_backbone": "p24",
+          "belief_state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f",
+          "move_model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f"
+        }
+      },
+      "passed": true
+    },
+    "latency_probe": {
+      "passed": true,
+      "probes": {
+        "p18_b18|SMALL": {
+          "decisions": 12,
+          "max_seconds": 0.3534,
+          "mean_c1_forwards": 649.7,
+          "mean_seconds": 0.2536,
+          "mean_unique_worlds": 14.58,
+          "median_seconds": 0.326,
+          "p95_seconds": 0.3442
+        },
+        "p18_b18|TINY": {
+          "decisions": 12,
+          "max_seconds": 0.159,
+          "mean_c1_forwards": 245.0,
+          "mean_seconds": 0.1016,
+          "mean_unique_worlds": 7.5,
+          "median_seconds": 0.1212,
+          "p95_seconds": 0.1422
+        },
+        "p18_b24|SMALL": {
+          "decisions": 12,
+          "max_seconds": 0.3465,
+          "mean_c1_forwards": 651.0,
+          "mean_seconds": 0.2516,
+          "mean_unique_worlds": 14.58,
+          "median_seconds": 0.3232,
+          "p95_seconds": 0.34
+        },
+        "p18_b24|TINY": {
+          "decisions": 12,
+          "max_seconds": 0.1272,
+          "mean_c1_forwards": 242.7,
+          "mean_seconds": 0.097,
+          "mean_unique_worlds": 7.42,
+          "median_seconds": 0.1191,
+          "p95_seconds": 0.1242
+        },
+        "p24_b18|SMALL": {
+          "decisions": 12,
+          "max_seconds": 0.3455,
+          "mean_c1_forwards": 647.1,
+          "mean_seconds": 0.2502,
+          "mean_unique_worlds": 14.58,
+          "median_seconds": 0.3227,
+          "p95_seconds": 0.3394
+        },
+        "p24_b18|TINY": {
+          "decisions": 12,
+          "max_seconds": 0.1632,
+          "mean_c1_forwards": 244.5,
+          "mean_seconds": 0.1015,
+          "mean_unique_worlds": 7.5,
+          "median_seconds": 0.1196,
+          "p95_seconds": 0.1443
+        },
+        "p24_b24|SMALL": {
+          "decisions": 12,
+          "max_seconds": 0.3459,
+          "mean_c1_forwards": 649.1,
+          "mean_seconds": 0.2511,
+          "mean_unique_worlds": 14.58,
+          "median_seconds": 0.3218,
+          "p95_seconds": 0.3406
+        },
+        "p24_b24|TINY": {
+          "decisions": 12,
+          "max_seconds": 0.1278,
+          "mean_c1_forwards": 242.6,
+          "mean_seconds": 0.0973,
+          "mean_unique_worlds": 7.42,
+          "median_seconds": 0.1198,
+          "p95_seconds": 0.1249
+        }
+      }
+    },
+    "model_roles": {
+      "direct_action_provider_invariant": 24,
+      "findings": [],
+      "matched_decisions": {
+        "p18": 12,
+        "p24": 12
+      },
+      "passed": true,
+      "positions": 12,
+      "positions_where_p18_and_p24_differ": 3,
+      "positions_where_search_differed_by_provider": 24
+    },
+    "oracle_refusals": {
+      "findings": [],
+      "passed": true,
+      "refusals": {
+        "contract.check_production_provider": "'oracle' is an offline diagnostic and is not available in a production configuration",
+        "phase12 engine under production=True": "a production search configuration structurally excludes the oracle provider",
+        "player.set_mode(oracle)": "the oracle is an offline diagnostic and is not a player mode",
+        "providers.build_phase15_provider": "oracle is not an available belief provider in a production configuration",
+        "systems.build_engine": "p18_oracle is an offline diagnostic",
+        "systems.build_systems": "p18_oracle may not be built under a production configuration"
+      }
+    },
+    "permutation_invariance": {
+      "findings": [],
+      "oracle_checks": 24,
+      "oracle_sensitive": 6,
+      "passed": true,
+      "permutations_that_changed_assignments": 48,
+      "production_checks": 48
+    },
+    "phase12_frozen_candidate_regression": {
+      "command": "pytest tests/search -q",
+      "passed": true,
+      "result": "131 passed in 2.09s"
+    },
+    "worlds_legal": {
+      "findings": [],
+      "passed": true,
+      "providers": {
+        "b18": {
+          "all_worlds_pass_accepted_validation": true,
+          "check_version": "phase15_interface_checks_v1",
+          "fixed_seed_reproduces_worlds": true,
+          "independent_per_piece_sampling": false,
+          "marginal_latency_ms": {
+            "max": 2.2847089858260006,
+            "mean": 2.015086827062381,
+            "p50": 1.910395993036218,
+            "p95": 2.2710959499818273
+          },
+          "marginals_checked": 290,
+          "max_probability_sum_deviation": 4.440892098500626e-16,
+          "moved_pieces_never_immobile": true,
+          "passed": true,
+          "positions_checked": 12,
+          "positions_where_a_different_seed_gave_different_worlds": 12,
+          "probabilities_finite": true,
+          "probabilities_sum_to_one": true,
+          "provider_id": "b18",
+          "remaining_piece_counts_exact": true,
+          "sampler_is_accepted_by_import": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+          "seconds": 0.253,
+          "worlds_checked": 96,
+          "worlds_per_position": 8
+        },
+        "b24": {
+          "all_worlds_pass_accepted_validation": true,
+          "check_version": "phase15_interface_checks_v1",
+          "fixed_seed_reproduces_worlds": true,
+          "independent_per_piece_sampling": false,
+          "marginal_latency_ms": {
+            "max": 2.3013750032987446,
+            "mean": 2.1986006686347537,
+            "p50": 2.179853996494785,
+            "p95": 2.2951187536818907
+          },
+          "marginals_checked": 290,
+          "max_probability_sum_deviation": 4.440892098500626e-16,
+          "moved_pieces_never_immobile": true,
+          "passed": true,
+          "positions_checked": 12,
+          "positions_where_a_different_seed_gave_different_worlds": 12,
+          "probabilities_finite": true,
+          "probabilities_sum_to_one": true,
+          "provider_id": "b24",
+          "remaining_piece_counts_exact": true,
+          "sampler_is_accepted_by_import": "stratego.evaluation.phase11_sampler (accepted, unmodified, by import)",
+          "seconds": 0.259,
+          "worlds_checked": 96,
+          "worlds_per_position": 8
+        }
+      }
+    }
+  },
+  "checks_passed": 10,
+  "checks_run": 10,
+  "failed": [],
+  "gate_version": "phase15_correctness_gate_v1",
+  "identities": {
+    "belief_models": {
+      "b18": {
+        "applied_temperature": 1.0,
+        "architecture_version": "phase15_belief_specialist_v1",
+        "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/b18_belief_v1.pt",
+        "checkpoint_sha256": "2030be200426c931268d067ae8d4054fd967029f80c1cdcc3e5434e425d7f75d",
+        "corpus": {
+          "corpus_digest": "b0493a08d2fcb1dd6a2e234af0cde5bc3c5fe24dbc0bec0f86ab8de3c96dcbaa",
+          "corpus_format_version": "phase15_belief_corpus_store_v1",
+          "corpus_version": "phase15_belief_corpus_v1"
+        },
+        "fitted_temperature": 1.0431026662026317,
+        "holds_policy_parameters": false,
+        "holds_value_parameters": false,
+        "keep_calibrated": false,
+        "prefix_backbone": "p18",
+        "prefix_backbone_state_digest": "9360f2add3dba31181bf41a59be66f3e0efe5b1e472c1cd2ebd17967a89b17e3",
+        "provider_id": "b18",
+        "role": "hidden-rank marginals and legal hidden-world sampling only",
+        "state_digest": "b03685d3557d7c93ec5ce1c11b50907c13791a45e5a8359febe12b4f17612b99"
+      },
+      "b24": {
+        "applied_temperature": 1.0,
+        "architecture_version": "phase15_belief_specialist_v1",
+        "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/b24_belief_v1.pt",
+        "checkpoint_sha256": "b030b7184c3ce7265fb51eaef2a5add4f4eab05b355b8af60e2dc083770d2b14",
+        "corpus": {
+          "corpus_digest": "b0493a08d2fcb1dd6a2e234af0cde5bc3c5fe24dbc0bec0f86ab8de3c96dcbaa",
+          "corpus_format_version": "phase15_belief_corpus_store_v1",
+          "corpus_version": "phase15_belief_corpus_v1"
+        },
+        "fitted_temperature": 1.0016599880555412,
+        "holds_policy_parameters": false,
+        "holds_value_parameters": false,
+        "keep_calibrated": false,
+        "prefix_backbone": "p24",
+        "prefix_backbone_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+        "provider_id": "b24",
+        "role": "hidden-rank marginals and legal hidden-world sampling only",
+        "state_digest": "ac5e15b87f5c5cfd4e6fd5c6b004d56ac738f3994ec8b520bb32ef9e09b6cf4f"
+      }
+    },
+    "corpus": {
+      "corpus_digest": "b0493a08d2fcb1dd6a2e234af0cde5bc3c5fe24dbc0bec0f86ab8de3c96dcbaa",
+      "corpus_format_version": "phase15_belief_corpus_store_v1",
+      "corpus_version": "phase15_belief_corpus_v1",
+      "orientation_rule": "red engine row == canonical rank; blue engine row == 9 - canonical rank",
+      "positions": {
+        "calibration": 15004,
+        "development": 20013,
+        "train": 120010
+      },
+      "run_version": "phase15_belief_corpus_generation_v1",
+      "supersedes": "phase11b_common_corpus_v1 and the Phase 12 match packs, both contaminated by the Blue setup-orientation defect"
+    },
+    "handoff_artifact": "phase15_search_handoff_v1",
+    "handoff_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase15/phase15_search_handoff_v1.json",
+    "loader_version": "phase15_search_loader_v1",
+    "move_models": {
+      "p18": {
+        "architecture_id": "stratego_transformer_v1",
+        "checkpoint_metadata_keys": [
+          "action_encoding_version",
+          "checkpoint_file_digest",
+          "checkpoint_format_version",
+          "checkpoint_path",
+          "creation_timestamp",
+          "engine_action_frame",
+          "has_ema_state",
+          "has_optimizer_state",
+          "has_training_metrics",
+          "loaded_device",
+          "loaded_dtype",
+          "model_architecture_id",
+          "model_configuration",
+          "model_contract_version",
+          "observation_version",
+          "parameter_tensor_count",
+          "policy_action_frame",
+          "provenance",
+          "rules_version",
+          "state_dict_digest",
+          "training_iteration",
+          "training_step"
+        ],
+        "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p18_source_readonly.pt",
+        "checkpoint_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412",
+        "global_optimizer_step": 92718,
+        "logical_identity": "P18",
+        "model_state_digest": "9360f2add3dba31181bf41a59be66f3e0efe5b1e472c1cd2ebd17967a89b17e3",
+        "move_model": "p18",
+        "phase14_archive_sha256": "c86d8c384daaa23c2ef8ad3d5196edabea60a97cce72b5e147453dd7f85473e6",
+        "phase14_candidate_hour": 18,
+        "role": "policy, value, rollout policy for both sides, direct fallback",
+        "trained_by_phase15": false
+      },
+      "p24": {
+        "architecture_id": "stratego_transformer_v1",
+        "checkpoint_metadata_keys": [
+          "action_encoding_version",
+          "checkpoint_file_digest",
+          "checkpoint_format_version",
+          "checkpoint_path",
+          "creation_timestamp",
+          "engine_action_frame",
+          "has_ema_state",
+          "has_optimizer_state",
+          "has_training_metrics",
+          "loaded_device",
+          "loaded_dtype",
+          "model_architecture_id",
+          "model_configuration",
+          "model_contract_version",
+          "observation_version",
+          "parameter_tensor_count",
+          "policy_action_frame",
+          "provenance",
+          "rules_version",
+          "state_dict_digest",
+          "training_iteration",
+          "training_step"
+        ],
+        "checkpoint_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p24_source_readonly.pt",
+        "checkpoint_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+        "global_optimizer_step": 121156,
+        "logical_identity": "P24",
+        "model_state_digest": "622d9e6caa723c932dedc5b77c257d532c1b0f8931f79851d863658f3cbbb87f",
+        "move_model": "p24",
+        "phase14_archive_sha256": "3c393d0c8f8b233446febc8cca8ce7d1ceeee974231e6a9b53c7657a07d964f2",
+        "phase14_candidate_hour": 24,
+        "role": "policy, value, rollout policy for both sides, direct fallback",
+        "trained_by_phase15": false
+      }
+    },
+    "phase9_anchor": {
+      "architecture": "stratego_transformer_v1",
+      "belief_head_digest": "a9df48a1adcd29b1a46c42ff1e605ede485119a36c247f1ae74f249f6d6f1dc7",
+      "candidate_id": "C1",
+      "device": "cpu",
+      "dtype": "float32",
+      "export_path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/phase9_anchor_readonly.pt",
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "parameters": 863959,
+      "role": "match opponent only",
+      "source_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+      "source_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+      "trainable_parameters": 0
+    }
+  },
+  "passed": true,
+  "phase": "phase_15",
+  "scientific_validation_status": "not performed",
+  "seconds": 51.151,
+  "status": "engineering_deliverable_not_a_strength_claim"
+}

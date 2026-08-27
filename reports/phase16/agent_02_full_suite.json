@@ -1,0 +1,9 @@
+{
+  "context": "idle machine, single process, under the compute lock",
+  "failed": 0,
+  "log": "reports/phase16/logs/full_suite_agent02.txt",
+  "minutes": 9.0,
+  "passed": 7004,
+  "ran_utc": "2026-08-26T16:19:09Z",
+  "skipped": 3
+}

@@ -1,0 +1,202 @@
+{
+  "artifact": "phase17_start_identity_v1",
+  "work_package": "phase17",
+  "provisional_run_id": "RUN-2026-A",
+  "verified_utc": "2026-08-27T19:50:01Z",
+  "evidence_classification": "ACCEPTED (upstream); this record is PENDING",
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "file_bytes": 10464043,
+  "verification": {
+    "loader": "stratego.training.phase9_checkpoint.read_phase9_payload -> validate_phase9_payload -> model_from_payload",
+    "validate_phase9_payload": "passed",
+    "file_sha256_claimed": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "file_sha256_observed": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "file_sha256_matches": true,
+    "model_state_digest_claimed": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "model_state_digest_observed": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+    "model_state_digest_matches": true,
+    "phase14_contract_agreement": {
+      "starting_checkpoint": true,
+      "file_sha256": true,
+      "model_state_digest": true,
+      "parameter_count": true
+    }
+  },
+  "two_digest_conventions": {
+    "why_this_block_exists": "the repository contains two functions named state_dict_digest and they disagree on these bytes; Phase 17 must name one",
+    "canonical": {
+      "function": "stratego.training.phase9_behavior.state_dict_digest",
+      "input": "a live nn.Module",
+      "hashes": "sorted name + str(numpy shape) + float32 bytes (no dtype field)",
+      "value": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "used_by": [
+        "phase9 agent 8 acceptance",
+        "phase10_contract",
+        "phase10b_contract",
+        "phase11_contract",
+        "phase12 candidate",
+        "phase14_contract"
+      ],
+      "status": "THE Phase 17 model-state digest"
+    },
+    "container": {
+      "function": "stratego.model.checkpoint.state_dict_digest",
+      "input": "a state_dict mapping",
+      "hashes": "sorted name + str(tuple(shape)) + str(dtype) + bytes",
+      "value": "f0994cf0eb985848016b79c7db376f7d9499a7f7352b430b5ac2d39aece9869e",
+      "also_stored_at": "model_state.provenance.state_dict_digest",
+      "status": "NOT the Phase 17 model-state digest; recorded so a future agent cannot mistake a mismatch for corruption"
+    }
+  },
+  "architecture": {
+    "model_architecture_id": "stratego_transformer_v1",
+    "model_contract_version": "model_contract_v2",
+    "configuration": {
+      "candidate_id": "C1",
+      "width": 128,
+      "blocks": 4,
+      "heads": 4,
+      "feed_forward_width": 512,
+      "input_channels": 127,
+      "board_tokens": 100,
+      "policy_size": 10000,
+      "value_classes": 3,
+      "belief_classes": 12,
+      "position_encoding": "learned_row_column_v1",
+      "normalization": "pre_layernorm",
+      "dropout": 0.0,
+      "architecture_family_version": "architecture_family_v1"
+    },
+    "parameter_count": 863959,
+    "parameter_tensors": 66,
+    "dtypes": [
+      "torch.float32"
+    ],
+    "heads_present": [
+      "input_projection",
+      "blocks",
+      "encoder_norm",
+      "policy_query",
+      "policy_key",
+      "value_body",
+      "value_output",
+      "belief_output"
+    ]
+  },
+  "contract_versions": {
+    "rules_version": "stratego_project_v1",
+    "observation_version": "observation_v2_1_127ch",
+    "action_encoding_version": "source_destination_10000_v1",
+    "engine_action_frame": "absolute_engine_squares",
+    "policy_action_frame": "perspective_normalized_squares",
+    "checkpoint_format_version": 1,
+    "phase9_checkpoint_version": "phase9_checkpoint_v1"
+  },
+  "lineage": {
+    "snapshot_role": "behavior_snapshot",
+    "behavior_snapshot_identity": "B041",
+    "behavior_checkpoint_sha256": "8a607394f23374d6cc0abc2f5495ac0fc9bf20d1055364ea1aa3ee39be38a644",
+    "produced_after_iteration": 40,
+    "collects_iteration": 41,
+    "run_label": "agent07_canonical_resumed",
+    "creation_timestamp": "2026-08-17T23:07:08+00:00"
+  },
+  "optimizer_and_schedule_metadata_present_in_file": {
+    "global_optimizer_step": 47086,
+    "rl_iteration": 41,
+    "examples_consumed": 24086928,
+    "kl_beta": 0.2,
+    "entropy_schedule_position": {
+      "iteration": 40,
+      "total_iterations": 60,
+      "coefficient": 0.0023559322033898304
+    },
+    "best_checkpoint_identity": "behavior_B036.pt",
+    "best_validation_score": 0.82890625,
+    "ema_state": null,
+    "integrity_digest": "e59543a079f1233913236e27a7052e9eada1294832cd6557c0dd25d97d842a55",
+    "train_config_digest": "77af4d45dd8b64e7bf87a82499bc6e54e808320cb214e9b6c58545aa6617b036",
+    "contract_digest": "ad3dba3c4b7b461e90b3e2f8bc08d5fd3754662fbdf27bc60e75eab27e191b34",
+    "trainer_version": "phase9_trainer_v1"
+  },
+  "phase17_start_semantics": {
+    "mode": "weights_only_warm_start",
+    "loads": "move-model state_dict only",
+    "discards": [
+      "optimizer_state (fresh AdamW moments, zero)",
+      "scheduler_state (LR schedule reset to Phase 17 iteration 1)",
+      "kl_controller_state (fresh move KL controller, beta0 0.005)",
+      "minibatch_cursor",
+      "rng",
+      "validation_history",
+      "global_optimizer_step / rl_iteration / examples_consumed"
+    ],
+    "creates": [
+      "fresh move EMA initialised from the loaded RAW weights",
+      "setup model / optimizer / KL controller / EMA from scratch"
+    ],
+    "belief_head": {
+      "present_in_checkpoint": true,
+      "phase17_loss_weight": 0.0,
+      "reason": "common contract section 4 disables the Phase 9 marginal belief auxiliary loss; the head stays for checkpoint compatibility",
+      "phase9_accepted_weight_being_overridden": 0.25
+    },
+    "resume_identity_check_not_used": "check_phase9_resume_identity authorizes a Phase 9 *resume*; Phase 17 is a new lineage and deliberately does not resume, so only read/validate/rebuild are used"
+  },
+  "refusals": {
+    "alternate_checkpoints_refused": [
+      {
+        "path": "checkpoints/phase12/phase9_c1_readonly_copy.pt",
+        "reason": "convenience copy with different file bytes (81906f71...)"
+      },
+      {
+        "path": "checkpoints/phase15/p18_source_readonly.pt",
+        "reason": "Phase 14 intermediate; evaluation instrument only"
+      },
+      {
+        "path": "checkpoints/phase15/p24_source_readonly.pt",
+        "reason": "Phase 14 intermediate; evaluation instrument only"
+      },
+      {
+        "path": "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt",
+        "reason": "belief/search only; never a policy start"
+      }
+    ],
+    "loader_refused": "the P24-specific Phase 16 loader"
+  },
+  "software_runtime_at_verification": {
+    "python": "3.13.2",
+    "torch": "2.13.0",
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "software_runtime_recorded_in_checkpoint": {
+    "python": "3.13.2",
+    "torch": "2.13.0",
+    "numpy": "2.5.1",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+  },
+  "validate_metadata_keys": [
+    "behavior_checkpoint_sha256",
+    "behavior_snapshot_identity",
+    "best_validation_score",
+    "corpus_identities",
+    "diagnostics",
+    "examples_consumed",
+    "global_optimizer_step",
+    "integrity_digest",
+    "kl_beta",
+    "minibatch_cursor",
+    "model_state",
+    "phase9_checkpoint_version",
+    "population_version",
+    "rl_iteration",
+    "rollout_iteration_identity",
+    "sealed_rollout_digest",
+    "snapshot_role",
+    "train_config",
+    "train_config_digest",
+    "trainer_version",
+    "validation_entries"
+  ]
+}

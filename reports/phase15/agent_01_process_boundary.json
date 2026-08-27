@@ -1,0 +1,25 @@
+{
+  "actions_taken": "none \u2014 this role reads process and status state only",
+  "agent": "agent_01",
+  "artifact": "phase15_agent01_process_boundary_v1",
+  "checked_utc": "2026-08-24T13:55:36Z",
+  "competing_phase14_processes": [],
+  "host_cpus": 14,
+  "matching_processes": [
+    "99915   0.0    12:36:14 .venv/bin/python scripts/phase14_dashboard.py --port 8714"
+  ],
+  "phase": "phase_15",
+  "phase14_run_state": {
+    "closed": false,
+    "closed_reason": "emergency stop",
+    "elapsed_hours": 59.96654456222222,
+    "iterations_completed": 102,
+    "last_candidate_index": 9,
+    "mtime_utc": "2026-08-24T04:13:34Z",
+    "path": "/Volumes/Brandon_Washington/stratego_phase14/phase14_run_state.json"
+  },
+  "phase15_authorizes_process_control": false,
+  "search_implemented": false,
+  "status": "engineering_deliverable_not_a_strength_claim",
+  "verdict": "ready_for_compute"
+}
