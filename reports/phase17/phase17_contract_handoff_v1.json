@@ -13,18 +13,10 @@
     "stratego_project_docs/STATUS.md",
     "stratego_project_docs/EXPERIMENT_FRAMEWORK.md"
   ],
-  "ready_for_agents_2_3": false,
-  "ready_for_agents_2_3_reason": "The shared schemas below are frozen and complete, but common contract section 3 requires an IMMUTABLE integration baseline before Agents 2-4 make code changes, and there is none: 36 untracked entries including the whole Phase 15/16 implementation, plus three modified tracked files. Agent 1 is forbidden to commit without operator authority and has not. Set this field true only after the operator authorizes agent_01_baseline_inclusion_list.json and the commit lands.",
-  "blocking_operator_decisions": [
-    "D1 - authorize the integration-baseline commit (see agent_01_baseline_inclusion_list.json)"
-  ],
-  "non_blocking_operator_decisions": [
-    "D2",
-    "D3",
-    "D4",
-    "D5",
-    "D6"
-  ],
+  "ready_for_agents_2_3": true,
+  "ready_for_agents_2_3_reason": "Operator resolved D1 as Option B on 2026-08-27. The Phase 15-17 integration baseline is committed at 25e52c3c3013c751e319e92a70e5f8a2fdff1cbc ('Freeze Phase 15-17 integration baseline', 264 files, 284,576 insertions). The Phase 15/16 implementation, tests, reports and instructions are now tracked, so Agents 2 and 3 have an immutable base and may begin in parallel. D2, D3, D4 and D6 are accepted; D5 stays provisional until Agent 3's setup soak measures the KL scale.",
+  "blocking_operator_decisions": [],
+  "non_blocking_operator_decisions": [],
   "process_boundary": {
     "artifact": "reports/phase17/agent_01_process_boundary.json",
     "summary": {
@@ -177,11 +169,14 @@
         "advantage_target": "float32",
         "wdl_target": "float32[3]",
         "trained": "bool, survived the 0.75-quantile / 0.01-floor advantage filter",
-        "policy_age_iterations": "int, iteration_now - iteration_of_behavior_snapshot"
+        "policy_age_iterations": "int, iteration_now - iteration_of_behavior_snapshot",
+        "boundary_target_divergence": "float32 or null \u2014 the per-row difference between the bootstrapped target and the target this row would have received from its eventual terminal outcome. TELEMETRY, never a gate. Null while the game is still unfinished.",
+        "bootstrap_age_windows": "int \u2014 how many window boundaries this row's trace had been carried when the row was emitted. 0 for a row emitted in the window it was collected."
       },
       "notes": [
         "behavior_probabilities is stored, never recomputed: it is the PPO ratio denominator and recomputing it would silence exactly the bug the current-policy rebind is meant to expose.",
-        "boundary_status and target_provenance together let any later reader separate exact targets from bootstrapped ones without re-deriving them."
+        "boundary_status and target_provenance together let any later reader separate exact targets from bootstrapped ones without re-deriving them.",
+        "target_provenance takes exactly 'terminal' or 'boundary_bootstrap'. Under operator decision D2 the two are never required to agree; their difference is recorded in boundary_target_divergence and read as telemetry."
       ]
     },
     "setup_episode": {
@@ -617,7 +612,8 @@
     "result_domain": [
       "pass",
       "fail",
-      "not_run"
+      "not_run",
+      "retired"
     ],
     "absence_rule": "absence NEVER means pass; a gate with no recorded result is not_run and blocks launch",
     "evidence_rule": "the launch record binds the exact gate EVIDENCE (the artifact digest and the failing/passing values), not a path to it",
@@ -652,19 +648,21 @@
         "checks": [
           "with the tail set to the terminal z, the windowed walk equals the accepted whole-game walk entry for entry to 1e-6, for both the advantage and the W/D/L recursion"
         ],
-        "note": "THIS is the satisfiable form of the common contract section 6 invariant."
+        "note": "THE governing boundary-target invariant, per common contract section 6 as amended by operator decision D2.",
+        "governing": true
       },
       {
         "id": "G-M4b",
         "name": "Literal whole-game equality across >= 3 windows",
         "time_budget": "inside G-C",
         "owner": "Agent 2",
-        "result": "not_run",
-        "values_final": false,
+        "result": "retired",
+        "values_final": true,
         "checks": [
           "a finished game processed across >= 3 windows matches the accepted whole-game targets to float32 tolerance"
         ],
-        "note": "PROVABLY UNSATISFIABLE together with partial emission. Measured: max advantage difference 0.309, max W/D/L difference 0.121, 7 of 12 rows over tolerance (reports/phase17/agent_01_boundary_target_probe.json). Requires operator resolution D2 before Agent 2 can call G-C complete."
+        "note": "RETIRED. Literal whole-game equality across >= 3 windows is mathematically impossible alongside partial emission (measured: 0.309 advantage, 0.121 W/D/L, 7 of 12 rows over tolerance). Do not reinstate it and do not weaken the tolerance to make it pass. G-M4a governs.",
+        "retired_by": "operator decision D2, 2026-08-27"
       },
       {
         "id": "G-S",
@@ -819,12 +817,15 @@
   "open_fields_requiring_operator_confirmation": [
     {
       "id": "D1",
-      "blocking": true,
+      "blocking": false,
       "title": "Integration-baseline commit authority",
       "question": "May the Phase 15-17 inclusion list be committed, and under which option (wait / commit untracked only / rebuild the Phase 14 launch manifest first)?",
       "why_now": "Agents 2-4 may not begin against a mutable untracked base. Note finding F1: 'wait for formal closure' currently has no defined end.",
       "artifact": "reports/phase17/agent_01_baseline_inclusion_list.json",
-      "agent_1_recommendation": "option B - commit only the untracked include list and leave all three modified tracked files unstaged"
+      "agent_1_recommendation": "option B - commit only the untracked include list and leave all three modified tracked files unstaged",
+      "resolution": "RESOLVED \u2014 Option B",
+      "resolution_note": "commit the untracked Phase 15-17 inclusion list only; landed at 25e52c3c3013c751e319e92a70e5f8a2fdff1cbc",
+      "resolved_utc": "2026-08-27"
     },
     {
       "id": "D2",
@@ -832,7 +833,10 @@
       "title": "The section 6 boundary-target invariant is self-contradictory",
       "question": "Replace the literal whole-game-equality requirement with the reduction invariant (G-M4a) plus a bounded-divergence telemetry check?",
       "evidence": "reports/phase17/agent_01_boundary_target_probe.json",
-      "agent_1_recommendation": "yes; G-M4b as written cannot pass while partial emission is mandatory"
+      "agent_1_recommendation": "yes; G-M4b as written cannot pass while partial emission is mandatory",
+      "resolution": "ACCEPTED",
+      "resolution_note": "the literal whole-game-equality requirement is retired; G-M4a (the reduction invariant) governs, with boundary-target divergence and bootstrap age as telemetry. Instructions amended in 00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md sections 6 and 12 and in 02_AGENT_2_FIXED_TRANSITION_MOVE_TRAINING.md section 5.",
+      "resolved_utc": "2026-08-27"
     },
     {
       "id": "D3",
@@ -840,21 +844,30 @@
       "title": "Setup entropy horizon mapping",
       "question": "Confirm the endpoint-preserving exponent rescale alpha(n) = max(0.1*n**-p, 0.004091), p = 0.3*ln(42376)/ln(N)?",
       "alternative": "raw transcription 0.1*n**-0.3, which ends 3.54x more heavily regularized than the paper at N=626",
-      "agent_1_recommendation": "keep the rescale; it is the only form that preserves both paper endpoints"
+      "agent_1_recommendation": "keep the rescale; it is the only form that preserves both paper endpoints",
+      "resolution": "ACCEPTED",
+      "resolution_note": "endpoint-preserving setup entropy rescale alpha(n) = max(0.1*n**-p, 0.004091), p = 0.3*ln(42376)/ln(N)",
+      "resolved_utc": "2026-08-27"
     },
     {
       "id": "D4",
       "blocking": false,
       "title": "Setup advantage entropy-term units",
       "question": "Confirm the normalized reading alpha*(I/10 - h) rather than the paper's literal alpha*(I - h)?",
-      "agent_1_recommendation": "yes; the literal form is an uncentered bonus of order 6.2 against an outcome term bounded by 2"
+      "agent_1_recommendation": "yes; the literal form is an uncentered bonus of order 6.2 against an outcome term bounded by 2",
+      "resolution": "ACCEPTED",
+      "resolution_note": "normalized setup advantage entropy term alpha*(I/10 - h)",
+      "resolved_utc": "2026-08-27"
     },
     {
       "id": "D5",
       "blocking": false,
       "title": "Setup KL controller constants",
       "question": "Confirm after Agent 3's soak supplies the observed KL scale.",
-      "agent_1_recommendation": "leave provisional until the soak; do not borrow the move controller's target or direction"
+      "agent_1_recommendation": "leave provisional until the soak; do not borrow the move controller's target or direction",
+      "resolution": "DEFERRED",
+      "resolution_note": "setup KL controller direction, target, beta bounds and hard range stay PROVISIONAL until Agent 3's setup soak measures the observed KL scale; Agent 3 reports the calibration and the operator confirms before launch",
+      "resolved_utc": "2026-08-27"
     },
     {
       "id": "D6",
@@ -862,7 +875,10 @@
       "title": "Checkpoint selection resolution on a 120-game lane",
       "question": "Accept the recommended reading of section 14 -- rolling median as the primary direction instrument, worst stratum as an absolute floor filter rather than a ranking key, and a confirmation re-evaluation of the top 2-3 before promotion?",
       "evidence": "25 candidates on a 120-game lane produce ~0.1435 EWR of apparent spread from pure noise; worst-of-10 strata at 12 games has a pure noise floor of 0.622",
-      "agent_1_recommendation": "yes"
+      "agent_1_recommendation": "yes",
+      "resolution": "ACCEPTED",
+      "resolution_note": "rolling curve direction plus mean EWR, worst-stratum flooring rather than worst-stratum ranking, and a later confirmation evaluation of shortlisted checkpoints",
+      "resolved_utc": "2026-08-27"
     }
   ],
   "what_agent_1_did_not_establish": [
@@ -908,8 +924,8 @@
     },
     "agent_01_report.md": {
       "present": true,
-      "sha256": "d70077840be7bd2550afa60764ff51f831db6019b1fc443db9ce30cde152263f",
-      "bytes": 19999
+      "sha256": "39b2b123d59ef476ab4e7cb8581f9e2a88d856325a98cef4b8456f4fa58ae8cc",
+      "bytes": 25579
     }
   },
   "bound_sources": {
@@ -923,7 +939,7 @@
     },
     "instructions/phase_17_tandem_current_policy_self_play/00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md": {
       "present": true,
-      "sha256": "ab6d58687a252feac1d871ddbe0f57c446fb52218c3159b821bc523077dbb266"
+      "sha256": "66f8a15b42874e6777e53c0e2800b5b7c24032ff44c3df863533635cca3aa3c1"
     },
     "instructions/phase_17_tandem_current_policy_self_play/01_AGENT_1_CONTRACT_AND_BASELINE.md": {
       "present": true,
@@ -934,6 +950,81 @@
       "sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04"
     }
   },
-  "bound_utc": "2026-08-27T20:04:17Z",
-  "bound_commit": "124f3beed4fe4cfb02021de0185a8d871feec1c1"
+  "bound_utc": "2026-08-27T20:16:59Z",
+  "bound_commit": "25e52c3c3013c751e319e92a70e5f8a2fdff1cbc",
+  "source_identity": {
+    "recorded_utc": "2026-08-27T20:16:59Z",
+    "baseline_commit": "25e52c3c3013c751e319e92a70e5f8a2fdff1cbc",
+    "baseline_commit_subject": "Freeze Phase 15-17 integration baseline",
+    "baseline_commit_parent": "124f3beed4fe4cfb02021de0185a8d871feec1c1",
+    "branch": "main",
+    "remote": "https://github.com/brandonnassir/stratego.git",
+    "files_committed": 264,
+    "insertions": 284576,
+    "staged_bytes": 41414192,
+    "staged_mebibytes": 39.5,
+    "excluded_by_new_gitignore_rules": [
+      "checkpoints/phase15/",
+      "data/phase15/",
+      "checkpoints/phase16/arms/"
+    ],
+    "excluded_gibibytes": 22.44,
+    "deliberately_left_unstaged": [
+      "reports/phase13/phase14_launch_manifest_v1.json",
+      "stratego_project_docs/05_project_plan.md",
+      "stratego_project_docs/README.md"
+    ],
+    "unstaged_rule": "these three predate Phase 17 and remain byte-identical to their pre-Phase-17 working-tree state. Phase 14's launch manifest was NOT rebuilt, by operator instruction.",
+    "operations_not_used": [
+      "git clean",
+      "git stash",
+      "git checkout of a modified tracked file",
+      "git reset",
+      "history rewrite"
+    ],
+    "head_at_bind": "25e52c3c3013c751e319e92a70e5f8a2fdff1cbc",
+    "unstaged_at_bind": [
+      "reports/phase13/phase14_launch_manifest_v1.json",
+      "reports/phase17/agent_01_report.md",
+      "reports/phase17/phase17_contract_handoff_v1.json",
+      "scripts/run_phase17_agent01.py",
+      "stratego_project_docs/05_project_plan.md",
+      "stratego_project_docs/README.md"
+    ]
+  },
+  "decision_ledger_status": {
+    "resolved": [
+      "D1",
+      "D2",
+      "D3",
+      "D4",
+      "D6"
+    ],
+    "deferred": [
+      "D5"
+    ],
+    "outstanding_blocking": []
+  },
+  "non_blocking_carry_forward": [
+    {
+      "id": "CF1",
+      "owner": "Agent 4, before it freezes the production schedule",
+      "title": "Move-schedule paper fidelity is unresolved",
+      "detail": "Common contract section 9's move LR, clamp(1.5e-4*(n/n_ref)**-1.1, 1.5e-5, 1.5e-4) with n_ref = ceil(0.125*N), holds its ceiling for 12.50% of the run, reaches its floor only at n = 1.0139*N (i.e. never), and spans 10x. The paper's clip(0.5*n**-1.1, 5e-6, 1e-4) holds its ceiling for 5.44%, reaches its floor at 82.86%, and spans 20x. Separately, the move entropy floor c_H = 0.001 is reached at n = 214, which is 34% of a ~626-iteration 12-hour run, so roughly two thirds of production would sit at the terminal floor -- the Phase 14 failure mode the Phase 16 schedule module was written to avoid.",
+      "status": "NON-BLOCKING for Agents 2 and 3, who do not own the schedule",
+      "required_before": "Agent 4 freezes N, n_ref and the production schedule curve at preflight",
+      "shape_preserving_alternative_if_the_operator_wants_it": "n_ref = ceil(0.0545*N) with lr_min = lr_max/20 = 7.5e-6, reaching the floor at 82.86% of the run",
+      "agent_1_position": "recorded, not changed. The contract wins over the paper and no agent may amend it without the operator.",
+      "evidence": "reports/phase17/ataraxos_method_map_v1.md rows M07 and M08"
+    }
+  ],
+  "closure": {
+    "agent": 1,
+    "status": "CLOSED",
+    "closed_utc": "2026-08-27T20:16:59Z",
+    "baseline_commit": "25e52c3c3013c751e319e92a70e5f8a2fdff1cbc",
+    "release_commit": "recorded in agent_01_report.md section 11 after this file is committed; this field is intentionally not self-referential",
+    "authorizes": "Agents 2 and 3 to begin in parallel",
+    "still_true": "no gate has been run; no training, collection, evaluation or game was executed; N, n_ref and p_setup remain unfrozen pending Agent 4's preflight measurement"
+  }
 }

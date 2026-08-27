@@ -644,6 +644,18 @@ def bind() -> Path:
     handoff["bound_sources"] = sources
     handoff["bound_utc"] = utc_now()
     handoff["bound_commit"] = run("git", "rev-parse", "HEAD")
+    # Timestamps the closure blocks leave for `bind` to fill, so the recorded
+    # time is the time the bytes were actually verified.
+    if isinstance(handoff.get("source_identity"), dict):
+        handoff["source_identity"]["recorded_utc"] = handoff["bound_utc"]
+        handoff["source_identity"]["head_at_bind"] = handoff["bound_commit"]
+        handoff["source_identity"]["unstaged_at_bind"] = [
+            line[3:]
+            for line in run("git", "status", "--porcelain=v1", strip=False).splitlines()
+            if line and not line.startswith("??")
+        ]
+    if isinstance(handoff.get("closure"), dict):
+        handoff["closure"]["closed_utc"] = handoff["bound_utc"]
     handoff_path.write_text(json.dumps(handoff, indent=2, sort_keys=False) + "\n")
     return handoff_path
 

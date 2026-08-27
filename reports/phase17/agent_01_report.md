@@ -9,7 +9,8 @@ written                       2026-08-27 (UTC)
 commit at time of work        124f3beed4fe4cfb02021de0185a8d871feec1c1 (main)
 evidence_classification       PENDING
 scientific_validation_status  not performed
-ready_for_agents_2_3          FALSE — one blocking operator decision (D1)
+ready_for_agents_2_3          TRUE (2026-08-27, after the operator resolved D1)
+baseline commit               25e52c3c3013c751e319e92a70e5f8a2fdff1cbc
 ```
 
 Agent 1 trained nothing, ran no game, ran no gate, and committed nothing. It
@@ -387,8 +388,7 @@ I did not commit, and I ran no `git clean`, `stash`, `checkout` or `reset`.
 | **B · commit the untracked include list only** *(recommended)* | HEAD moves off `124f3be`; `assert_bound_launch_code` already refuses today on the dirty list alone, so this adds a second already-failing check rather than breaking something that works |
 | C · rebuild the Phase 14 launch manifest first | restores the code binding, then decide; a Phase 13/14 action I did not take |
 
-`ready_for_agents_2_3` is **false** until D1 lands. The schemas themselves are
-complete — the block is the baseline, not the specification.
+**Resolved 2026-08-27: the operator chose Option B.** See §10.
 
 ---
 
@@ -427,3 +427,129 @@ has no torch.
   I am not claiming a suite pass.
 - The current-policy defect was established by source reading, not by executing
   a live rebind. Gate C5 is the executable proof.
+
+
+---
+
+## 10. Closure — operator decisions and the baseline commit
+
+Added 2026-08-27 after the operator's follow-up. Agent 1 is **closed**;
+**Agents 2 and 3 are authorized to begin in parallel.**
+
+### 10.1 Decision ledger
+
+| | outcome |
+|---|---|
+| **D1** baseline commit | **RESOLVED — Option B.** Commit the untracked Phase 15–17 inclusion list only. |
+| **D2** boundary-target invariant | **ACCEPTED.** Literal whole-game equality retired; `G-M4a` governs. |
+| **D3** setup entropy horizon | **ACCEPTED.** Endpoint-preserving rescale `α(n) = max(0.1·n^-p, 0.004091)`, `p = 0.3·ln(42376)/ln(N)`. |
+| **D4** setup advantage units | **ACCEPTED.** Normalized term `α·(I/10 − h)`. |
+| **D5** setup KL controller | **DEFERRED** to Agent 3's setup soak. Direction, target, β bounds and hard range stay provisional; Agent 3 reports the measured KL scale and the operator confirms before launch. |
+| **D6** checkpoint selection | **ACCEPTED.** Rolling curve direction plus mean EWR, worst-stratum **flooring** rather than ranking, and a later confirmation evaluation of shortlisted checkpoints. |
+
+No blocking decision remains.
+
+### 10.2 The D2 correction, as applied
+
+The impossible requirement was removed from both files that carried it —
+`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` §6 and §12, and
+`02_AGENT_2_FIXED_TRANSITION_MOVE_TRAINING.md` §5. No accepted Phase 9 or
+Phase 16 file was touched. What replaces it:
+
+1. **Reduction invariant (governing, `G-M4a`).** With the true terminal
+   continuation as the tail, the Phase 17 recursion reproduces the accepted
+   whole-game recursion entry for entry within float32 tolerance, for both the
+   advantage and the W/D/L walk.
+2. **Unfinished games** take targets from the stored boundary value and stored
+   boundary W/D/L predictions — never from a later-known outcome, never from a
+   recomputed prediction.
+3. **Every row records** `target_provenance`: `terminal` or
+   `boundary_bootstrap`.
+4. **Boundary-target divergence and bootstrap age are telemetry, not gates.**
+   Both are now named fields in `phase17_move_transition_v1`.
+5. **Exactly the configured transition budget is emitted** each iteration,
+   without waiting for terminal outcomes.
+
+`G-M4b` is marked `retired`, with `retired_by: "operator decision D2"` and an
+explicit instruction not to reinstate it or weaken its tolerance to make it
+pass. The gate result domain now admits `retired` alongside
+`pass | fail | not_run`.
+
+### 10.3 The baseline commit
+
+```text
+commit    25e52c3c3013c751e319e92a70e5f8a2fdff1cbc
+subject   Freeze Phase 15-17 integration baseline
+parent    124f3beed4fe4cfb02021de0185a8d871feec1c1
+branch    main
+files     264 changed, 284,576 insertions
+size      41,414,192 bytes (39.5 MiB)
+```
+
+Staged from the approved inclusion list plus the D2 instruction corrections and
+`.gitignore`. Verified before committing: nothing outside the allowlist, every
+approved path contributing at least one file, no excluded-directory leakage, no
+`.pt`/`.pth`/`.ckpt`/`.safetensors`/`.tar` bytes, largest single file 4.34 MiB
+(well under GitHub's 50 MiB warning and 100 MiB hard limits), and none of the
+three protected modifications staged.
+
+New `.gitignore` rules, in the pattern already used for phases 8–14, excluding
+**22.44 GiB** of reproducible working data:
+
+```text
+checkpoints/phase15/          15 GB
+data/phase15/                7.5 GB
+checkpoints/phase16/arms/     49 MB
+```
+
+The two compact Phase 16 candidate JSONs at the `checkpoints/phase16` root are
+tracked, as are all Phase 15/16 reports and manifests.
+
+**Left unstaged, unchanged, by instruction:**
+
+```text
+reports/phase13/phase14_launch_manifest_v1.json
+stratego_project_docs/05_project_plan.md
+stratego_project_docs/README.md
+```
+
+Phase 14's launch manifest was **not** rebuilt and formal Phase 14 closure was
+**not** waited on, per operator instruction. Finding F1 in §2.1 therefore still
+stands, unchanged: `--role finalize` remains refused. No `git clean`, `stash`,
+`checkout`, `reset` or history rewrite was used.
+
+### 10.4 Non-blocking carry-forward — CF1
+
+**Move-schedule paper fidelity must be resolved before Agent 4 freezes the
+production schedule.** It does not block Agents 2 or 3, who do not own the
+schedule.
+
+Two quantities, both recorded in method-map rows M07 and M08 and neither
+changed by Agent 1:
+
+- §9's move LR holds its ceiling for 12.50% of the run, reaches its floor at
+  `n = 1.0139·N` — that is, **never** — and spans 10×. The paper's holds its
+  ceiling for 5.44%, reaches its floor at 82.86%, and spans 20×. A
+  shape-preserving alternative, if the operator wants one, is
+  `n_ref = ceil(0.0545·N)` with `lr_min = lr_max/20 = 7.5e-6`.
+- The move entropy floor `c_H = 0.001` is reached at `n = 214` — 68% of a
+  6-hour run, but only **34%** of a ~626-iteration 12-hour run. Roughly two
+  thirds of production would sit at the terminal floor, which is the Phase 14
+  failure mode the Phase 16 schedule module was written to avoid.
+
+### 10.5 What is still not established
+
+Everything in §9 remains true. In particular: **no gate has been run** — G-C,
+G-M4a, G-S, G-E and G-W are all `not_run`, and G-M4b is `retired`, not passed.
+No training, collection, evaluation or game was executed, and no learner,
+collector or evaluator was started. `N`, `n_ref` and `p_setup` are still
+unfrozen, pending Agent 4's preflight measurement.
+
+### 10.6 Release commit
+
+```text
+Release Phase 17 move and setup agents
+```
+
+The SHA is reported to the operator directly; this file is committed *by* that
+commit and so cannot contain it.
