@@ -134,7 +134,7 @@ def test_a_foreign_schema_version_is_refused(red_samples):
 
 
 def test_an_open_episode_cannot_enter_the_queue(red_samples):
-    queue = SetupEpisodeQueue(capacity=8, max_age_iterations=4)
+    queue = SetupEpisodeQueue()
     episode = SetupEpisode.create(red_samples[0], run_id=RUN_ID, game_id="g")
     assert queue.enqueue(episode) is False
     assert episode.state == "rejected"
@@ -143,7 +143,7 @@ def test_an_open_episode_cannot_enter_the_queue(red_samples):
 
 
 def test_a_duplicate_is_rejected_with_a_reason_never_dropped(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+    queue = SetupEpisodeQueue()
     assert queue.enqueue(completed_episodes[0]) is True
     assert queue.enqueue(completed_episodes[0]) is False
     assert queue.rejections[-1]["reason"] == "duplicate (run_id, game_id, color)"
@@ -151,52 +151,77 @@ def test_a_duplicate_is_rejected_with_a_reason_never_dropped(completed_episodes)
     assert queue.rejected_count == 1
 
 
-def test_capacity_overflow_raises_rather_than_evicting(completed_episodes):
-    """Section 8: silent dropping is prohibited, so there is no eviction path."""
-    queue = SetupEpisodeQueue(capacity=2, max_age_iterations=4)
-    queue.enqueue(completed_episodes[0])
-    queue.enqueue(completed_episodes[1])
-    with pytest.raises(Phase17SetupError, match="refusing to evict"):
-        queue.enqueue(completed_episodes[2])
+def test_the_buffer_is_unbounded_because_it_is_drained_every_iteration(
+    completed_episodes,
+):
+    """D10 removed the capacity along with the quota that needed it.
+
+    Agent 3's bounded FIFO raised at a frozen capacity so that a backlog could
+    never be silently dropped. There is no backlog now: every episode that
+    arrives in a window is trained on in that window. A capacity would only
+    reintroduce a way for one unusually productive window to kill the run.
+    """
+    queue = SetupEpisodeQueue()
+    for episode in completed_episodes:
+        assert queue.enqueue(episode) is True
+    assert len(queue) == len(completed_episodes)
+    assert not hasattr(queue, "capacity")
 
 
-def test_consumption_is_fifo_and_happens_exactly_once(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+def test_consumption_is_fifo_takes_everything_and_happens_exactly_once(
+    completed_episodes,
+):
+    queue = SetupEpisodeQueue()
     for episode in completed_episodes[:6]:
         queue.enqueue(episode)
-    taken = queue.consume(4, setup_iteration=3)
+    taken = queue.consume_all(setup_iteration=3)
     assert [episode.game_id for episode in taken] == [
-        episode.game_id for episode in completed_episodes[:4]
+        episode.game_id for episode in completed_episodes[:6]
     ]
     assert all(episode.state == "consumed" for episode in taken)
     assert all(episode.consumed_in_setup_iteration == 3 for episode in taken)
-    assert len(queue) == 2
-    # A second pass sees only what is left; nothing is served twice.
-    again = queue.consume(4, setup_iteration=4)
-    assert len(again) == 2
+    assert len(queue) == 0
+    # A second pass sees nothing; nothing is served twice.
+    assert queue.consume_all(setup_iteration=4) == []
     assert queue.consumed_count == 6
 
 
-def test_a_short_queue_skips_explicitly_rather_than_shrinking_the_batch(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+def test_an_empty_buffer_yields_nothing_rather_than_waiting(completed_episodes):
+    """The only skip left under D10 is "no game completed"."""
+    queue = SetupEpisodeQueue()
+    assert queue.consume_all(setup_iteration=1) == []
     for episode in completed_episodes[:3]:
         queue.enqueue(episode)
-    assert queue.consume_exact(8, setup_iteration=1) == []
-    assert queue.skip_count == 1
-    assert len(queue) == 3  # nothing was consumed
+    assert len(queue.consume_all(setup_iteration=2)) == 3
 
 
 def test_re_enqueueing_a_consumed_episode_is_rejected(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+    queue = SetupEpisodeQueue()
     queue.enqueue(completed_episodes[0])
-    queue.consume(1, setup_iteration=1)
-    second = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+    queue.consume_all(setup_iteration=1)
+    second = SetupEpisodeQueue()
     assert second.enqueue(completed_episodes[0]) is False
     assert second.rejections[-1]["reason"] == "already consumed"
 
 
-def test_queue_telemetry_reports_everything_section_8_names(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+def test_the_duplicate_ledger_is_pruned_to_what_is_still_pending(completed_episodes):
+    """`seen` tracks the pending set, not the whole run.
+
+    A consumed episode's game has been retired and its key can never be
+    offered again, so keeping it would add hundreds of thousands of entries to
+    every checkpoint and detect nothing.
+    """
+    queue = SetupEpisodeQueue()
+    for episode in completed_episodes[:4]:
+        queue.enqueue(episode)
+    assert len(queue._seen) == 4
+    queue.consume_all(setup_iteration=1)
+    assert queue._seen == set()
+    assert queue.state_document()["seen"] == []
+
+
+def test_buffer_telemetry_reports_depth_ages_and_counters(completed_episodes):
+    queue = SetupEpisodeQueue()
     for episode in completed_episodes[:5]:
         queue.enqueue(episode)
     telemetry = queue.telemetry(setup_iteration=6)
@@ -205,12 +230,11 @@ def test_queue_telemetry_reports_everything_section_8_names(completed_episodes):
     assert telemetry.mean_age == 6.0
     assert telemetry.enqueued_count == 5
     assert telemetry.consumed_count == 0
-    assert queue.over_age(setup_iteration=6) == 5
-    assert queue.over_age(setup_iteration=2) == 0
+    assert not hasattr(telemetry, "skip_count")
 
 
-def test_the_queue_state_round_trips(completed_episodes):
-    queue = SetupEpisodeQueue(capacity=64, max_age_iterations=4)
+def test_the_buffer_state_round_trips(completed_episodes):
+    queue = SetupEpisodeQueue()
     for episode in completed_episodes[:5]:
         queue.enqueue(episode)
     queue.enqueue(completed_episodes[0])  # a recorded rejection
@@ -221,5 +245,27 @@ def test_the_queue_state_round_trips(completed_episodes):
     assert [episode.identity() for episode in restored._queue] == [
         episode.identity() for episode in queue._queue
     ]
-    # And the restored queue still refuses the duplicates the original saw.
+    # And the restored buffer still refuses the duplicates the original saw.
     assert restored.enqueue(completed_episodes[0]) is False
+
+
+def test_a_buffer_whose_ledger_disagrees_with_its_episodes_is_refused(
+    completed_episodes,
+):
+    """Losing or duplicating a completed outcome across a resume is a D10 stop."""
+    queue = SetupEpisodeQueue()
+    for episode in completed_episodes[:3]:
+        queue.enqueue(episode)
+    document = queue.state_document()
+    document["seen"] = document["seen"][:2]
+    with pytest.raises(Phase17SetupError, match="duplicate ledger"):
+        SetupEpisodeQueue.from_state_document(document)
+
+
+def test_a_foreign_buffer_schema_is_refused(completed_episodes):
+    queue = SetupEpisodeQueue()
+    queue.enqueue(completed_episodes[0])
+    document = queue.state_document()
+    document["buffer_version"] = "phase17_setup_episode_queue_v1"
+    with pytest.raises(Phase17SetupError, match="buffer schema"):
+        SetupEpisodeQueue.from_state_document(document)

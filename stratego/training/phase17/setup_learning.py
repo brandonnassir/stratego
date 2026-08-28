@@ -1,45 +1,46 @@
-"""Phase 17 Agent 3: the setup update -- advantage, losses, controller, EMA.
+"""Phase 17: the setup update -- advantage, losses, fixed behavior KL, EMA.
 
 Specification sources:
 
-- `03_AGENT_3_AUTOREGRESSIVE_SETUP_NETWORK.md` sections 5 and 6
+- `09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` sections 4 and 7
 - `00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` sections 8 and 10
 - `reports/phase17/ataraxos_method_map_v1.md` rows S06-S17
-- operator decisions D3 (alpha re-horizon) and D4 (normalized entropy term)
 
 The equation, once
 ------------------
 ```text
-delta_k = (o - E[v_theta_t(sigma_k)]) + 0.9 * alpha * (I_k/10)
+delta_k = (o - E[v_theta_t(sigma_k)]) + alpha(n) * (I_k - h_theta_t(sigma_k))
 r_k     = pi_theta(t_k | sigma_k) / pi_theta_t(t_k | sigma_k)
 L_pi    = -mean_k min(r_k * delta_k, clip(r_k, 0.8, 1.2) * delta_k)
 L_v     = mean_k CE(wdl_theta(sigma_k), outcome_class)
 L_h     = mean_k (I_k/10 - h_theta(sigma_k))^2
-L_setup = L_pi + 0.5 * L_v + 1.0 * L_h + beta * KL(pi_theta || pi_theta_t)
+L_setup = L_pi + 0.5 * L_v + 1.0 * L_h + 0.1 * KL(pi_theta || pi_theta_t)
+alpha(n)= 0.1 * n**-0.3, n the shared one-based global tandem iteration
 ```
 
-The entropy bonus is UNCENTERED (operator decision D7-B). The earlier centered
-form `alpha*(I/10 - h)` is the residual of a prediction that `L_h` is actively
-making accurate, so it converged to zero by construction: Agent 3's v1 soak
-measured it falling to roughly a hundredth of the outcome term within ten
-iterations, and the setup policy's prefix entropy then fell through its floor.
-`0.9 * alpha * (I/10)` is the paper's own `(H - h) ~ 0.9*H` shape expressed in
-the normalized units, which keeps the bonus commensurate with an outcome term
-bounded by 2 rather than swamping it as the raw-nats form would.
+This is the paper's printed advantage, used directly (operator decision D10
+section 4). Two locally invented pieces are gone:
 
-`h` is still predicted and `L_h` still trained -- for telemetry and paper
-alignment -- but nothing in the advantage depends on it any more.
+- D7-B's uncentered `0.9 * alpha * (I/10)` bonus. It was introduced because the
+  centered residual `alpha*(I/10 - h)` converges to zero by construction --
+  `L_h` is actively training `h` toward `I/10` -- and it was rescaled into
+  normalized units so it stayed commensurate with an outcome term bounded by 2.
+- D5's adaptive reverse-KL controller, replaced by the fixed coefficient 0.1.
+
+The advantage's entropy term therefore mixes units on purpose: `I` is in raw
+nats and `h` is the recorded prediction of `I/10`. D10 saw that and kept it --
+"do not add a compensating scale, floor, centering rule, horizon map, or
+controller" -- so once `h` converges the term is about `0.9 * alpha * I` in
+nats, several times an outcome term bounded by 2. That ratio is a property of
+the recipe being tested, not a defect to patch here, and `advantage_terms`
+measures both magnitudes every iteration so the 12-hour curve can be read
+against the balance that actually held rather than against an estimate.
 
 Everything subscripted `theta_t` is read from the episode's recorded behavior
-fields and never recomputed. That is what makes an old completed game valid:
-its advantage and its ratio denominator both belong to the snapshot that drew
-it. Recomputing either from the latest network would turn PPO's importance
-ratio into 1.0 and quietly delete the correction it exists to apply.
-
-`I_k/10` and `h` are both in the normalized units the prediction loss trains
-(operator decision D4). The literal `alpha*(I - h)` of the paper's text mixes
-units and degenerates to an uncentered bonus of order 6.2 against an outcome
-term bounded by 2.
+fields and never recomputed. That is what makes a completed game valid: its
+advantage and its ratio denominator both belong to the snapshot that drew it.
+Recomputing either from the latest network would turn PPO's importance ratio
+into 1.0 and quietly delete the correction it exists to apply.
 
 Off-policy by design
 --------------------
@@ -55,22 +56,16 @@ from dataclasses import dataclass, field
 
 import numpy as np
 import torch
-from torch import nn
 
 from ...engine.constants import NUM_PIECE_TYPES
 from .setup_contract import (
     MASKED_LOGIT,
-    SETUP_ENTROPY_BONUS_COEFFICIENT,
     SETUP_ADAM_BETAS,
     SETUP_ADAM_EPSILON,
     SETUP_CONDITIONAL_ENTROPY_NORMALIZER,
     SETUP_EQUATION_VERSION,
-    SETUP_KL_CONTROLLER_VERSION,
-    SETUP_KL_DECREASE_FACTOR,
-    SETUP_KL_DECREASE_THRESHOLD_RATIO,
-    SETUP_KL_INCREASE_FACTOR,
-    SETUP_KL_INCREASE_THRESHOLD_RATIO,
     SETUP_PREFIXES,
+    SETUP_RECIPE_VERSION,
     SETUP_SEQUENCE_LENGTH,
     START_TOKEN,
     Phase17SetupError,
@@ -82,117 +77,6 @@ from .setup_model import Phase17SetupModel, build_setup_model
 from .setup_sampling import batched_remaining
 
 _LOG_EPSILON = 1e-12
-
-
-# ---------------------------------------------------------------------------
-# The adaptive setup behavior-KL controller
-# ---------------------------------------------------------------------------
-
-
-class SetupKLController:
-    """An adaptive beta on the setup behavior KL, independent of the move side.
-
-    PROVISIONAL by operator decision D5: the direction, target, initial beta,
-    bounds and hard range are all starting points that this agent's soak
-    measures and the operator confirms. `direction` is a required, logged
-    field because the paper's setup KL is REVERSE (current || behavior) while
-    the accepted move controller measures the FORWARD KL -- reusing "the same
-    controller" would silently flip it.
-    """
-
-    version = SETUP_KL_CONTROLLER_VERSION
-
-    def __init__(
-        self,
-        *,
-        direction: str,
-        target: float,
-        beta: float,
-        beta_bounds: tuple,
-        hard_limit: float,
-    ) -> None:
-        low, high = beta_bounds
-        if not 0.0 < low <= high:
-            raise Phase17SetupError(f"invalid beta bounds {beta_bounds!r}")
-        self.direction = direction
-        self.target = float(target)
-        self.beta = float(min(max(beta, low), high))
-        self.beta_min = float(low)
-        self.beta_max = float(high)
-        self.hard_limit = float(hard_limit)
-        self.history: "list[dict]" = []
-        self.consecutive_over_hard_limit = 0
-
-    def update(self, mean_epoch_kl: float) -> float:
-        """One multiplicative step, applied once per completed setup iteration.
-
-        Per iteration, not per epoch: see the note in `SetupTrainer.update`.
-        """
-        before = self.beta
-        if mean_epoch_kl > self.target * SETUP_KL_INCREASE_THRESHOLD_RATIO:
-            updated = before * SETUP_KL_INCREASE_FACTOR
-        elif mean_epoch_kl < self.target * SETUP_KL_DECREASE_THRESHOLD_RATIO:
-            updated = before * SETUP_KL_DECREASE_FACTOR
-        else:
-            updated = before
-        self.beta = float(min(max(updated, self.beta_min), self.beta_max))
-        if mean_epoch_kl > self.hard_limit:
-            self.consecutive_over_hard_limit += 1
-        else:
-            self.consecutive_over_hard_limit = 0
-        self.history.append(
-            {
-                "direction": self.direction,
-                "mean_epoch_kl": float(mean_epoch_kl),
-                "beta_before": before,
-                "beta_after": self.beta,
-                "target": self.target,
-                "at_lower_bound": self.beta <= self.beta_min,
-                "at_upper_bound": self.beta >= self.beta_max,
-            }
-        )
-        return self.beta
-
-    def state_document(self) -> dict:
-        return {
-            "controller_version": self.version,
-            "direction": self.direction,
-            "target": self.target,
-            "beta": self.beta,
-            "beta_bounds": [self.beta_min, self.beta_max],
-            "hard_limit": self.hard_limit,
-            "consecutive_over_hard_limit": self.consecutive_over_hard_limit,
-            "history": list(self.history),
-            "status": "PROVISIONAL pending operator decision D5",
-        }
-
-    @classmethod
-    def from_state_document(cls, document: dict) -> "SetupKLController":
-        if document.get("controller_version") != SETUP_KL_CONTROLLER_VERSION:
-            raise Phase17SetupError(
-                f"setup KL controller schema {document.get('controller_version')!r}, "
-                f"expected {SETUP_KL_CONTROLLER_VERSION!r}"
-            )
-        controller = cls(
-            direction=document["direction"],
-            target=float(document["target"]),
-            beta=float(document["beta"]),
-            beta_bounds=tuple(document["beta_bounds"]),
-            hard_limit=float(document["hard_limit"]),
-        )
-        controller.history = list(document["history"])
-        controller.consecutive_over_hard_limit = int(document["consecutive_over_hard_limit"])
-        return controller
-
-    @classmethod
-    def from_config(cls, config: SetupTrainingConfig) -> "SetupKLController":
-        return cls(
-            direction=config.kl_direction,
-            target=config.kl_target,
-            beta=config.kl_beta_initial,
-            beta_bounds=tuple(config.kl_beta_bounds),
-            hard_limit=config.kl_hard_limit,
-        )
 
 
 # ---------------------------------------------------------------------------
@@ -218,6 +102,14 @@ class SetupEMA:
             name: tensor.detach().clone().to(torch.float32)
             for name, tensor in model.state_dict().items()
         }
+        #: The device the shadow lives on -- the model's, because `update`
+        #: accumulates against live parameters in place. Captured here so a
+        #: restore can put a CPU-serialized state back where the arithmetic
+        #: expects it. See `load_state_dict`.
+        self.device = next(
+            (tensor.device for tensor in self.shadow.values()),
+            torch.device("cpu"),
+        )
         self.updates = 0
 
     @torch.no_grad()
@@ -231,10 +123,23 @@ class SetupEMA:
         return {name: tensor.clone() for name, tensor in self.shadow.items()}
 
     def load_state_dict(self, state: dict) -> None:
+        """Restore the shadow onto the device the model is on.
+
+        The device is not incidental. A paired checkpoint serializes the EMA to
+        CPU and `read_joint_checkpoint` loads it with `map_location="cpu"`, so a
+        restore that preserved the payload's device would leave a CPU shadow
+        accumulating against MPS parameters -- and `update` raises on the first
+        setup update after the resume, which is several hours into a run. It
+        does not surface on a CPU-device rehearsal, which is why it survived
+        until the D10 smoke resumed on the production device.
+        """
         missing = set(self.shadow) - set(state)
         if missing:
             raise Phase17SetupError(f"EMA state is missing {sorted(missing)}")
-        self.shadow = {name: tensor.detach().clone().to(torch.float32) for name, tensor in state.items()}
+        self.shadow = {
+            name: tensor.detach().to(device=self.device, dtype=torch.float32).clone()
+            for name, tensor in state.items()
+        }
 
     def as_model(self, device: str = "cpu") -> Phase17SetupModel:
         """A materialised EMA model. Evaluation-only by contract."""
@@ -288,6 +193,10 @@ def expected_value_from_wdl(wdl: np.ndarray) -> np.ndarray:
 def setup_advantage(episode: SetupEpisode, alpha: float) -> np.ndarray:
     """`delta_k` at all 40 prefixes, from behavior-snapshot quantities only.
 
+    The paper's printed form, `(o - E[v]) + alpha * (I - h)`, with `I` the
+    realized suffix information in nats and `h` the conditional-entropy
+    prediction the raw setup snapshot recorded when it drew the episode.
+
     Constant across the five epochs by construction, so it is computed once
     per episode here rather than inside the epoch loop.
     """
@@ -297,24 +206,26 @@ def setup_advantage(episode: SetupEpisode, alpha: float) -> np.ndarray:
             "an open episode can never enter the update"
         )
     outcome = float(episode.outcome)
-    expected = expected_value_from_wdl(episode.prefix_wdl_predictions)
-    information = (
-        np.asarray(episode.suffix_information_content, dtype=np.float64)
-        * SETUP_CONDITIONAL_ENTROPY_NORMALIZER
+    expected = expected_value_from_wdl(episode.prefix_wdl_predictions).astype(np.float64)
+    information = np.asarray(episode.suffix_information_content, dtype=np.float64)
+    predicted = np.asarray(
+        episode.prefix_conditional_entropy_predictions, dtype=np.float64
     )
-    outcome_term = outcome - expected.astype(np.float64)
-    entropy_term = SETUP_ENTROPY_BONUS_COEFFICIENT * float(alpha) * information
+    outcome_term = outcome - expected
+    entropy_term = float(alpha) * (information - predicted)
     return (outcome_term + entropy_term).astype(np.float32)
 
 
 def advantage_terms(episode: SetupEpisode, alpha: float) -> dict:
     """The two advantage terms separately -- row S07's required telemetry.
 
-    `predicted` (the conditional-entropy head's output) no longer enters the
-    advantage under D7-B, but it is still measured here: `L_h` keeps training
-    it, and the residual `I/10 - h` is exactly the quantity whose collapse made
-    the v1 advantage inert. Logging it is how a reader confirms the head is
-    still converging while the bonus no longer depends on it.
+    D10 section 4: "Record the component magnitudes; do not add a compensating
+    scale, floor, centering rule, horizon map, or controller." That is what
+    this is for. The entropy term is `alpha * (I - h)` with `I` in nats and `h`
+    predicting `I/10`, so it settles near `0.9 * alpha * I` and is reported
+    alongside an outcome term bounded by 2. The ratio between them is what the
+    12-hour curve has to be read against, so it is measured every iteration
+    rather than argued about once.
     """
     outcome = float(episode.outcome)
     expected = expected_value_from_wdl(episode.prefix_wdl_predictions).astype(np.float64)
@@ -322,20 +233,27 @@ def advantage_terms(episode: SetupEpisode, alpha: float) -> dict:
     predicted = np.asarray(episode.prefix_conditional_entropy_predictions, dtype=np.float64)
     normalized = information * SETUP_CONDITIONAL_ENTROPY_NORMALIZER
     outcome_term = outcome - expected
-    entropy_term = SETUP_ENTROPY_BONUS_COEFFICIENT * alpha * normalized
-    residual = normalized - predicted
+    entropy_term = alpha * (information - predicted)
     return {
-        "conditional_entropy_residual_abs_mean": float(np.mean(np.abs(residual))),
-        "v1_centered_entropy_term_abs_mean": float(np.mean(np.abs(alpha * residual))),
         "outcome_term_mean": float(np.mean(outcome_term)),
         "entropy_term_mean": float(np.mean(entropy_term)),
         "outcome_term_abs_mean": float(np.mean(np.abs(outcome_term))),
         "entropy_term_abs_mean": float(np.mean(np.abs(entropy_term))),
         "outcome_term_max_abs": float(np.max(np.abs(outcome_term))),
         "entropy_term_max_abs": float(np.max(np.abs(entropy_term))),
-        "information_mean": float(np.mean(information)),
+        "entropy_to_outcome_abs_ratio": float(
+            np.mean(np.abs(entropy_term)) / max(float(np.mean(np.abs(outcome_term))), 1e-12)
+        ),
+        "information_nats_mean": float(np.mean(information)),
         "normalized_information_mean": float(np.mean(normalized)),
         "predicted_conditional_entropy_mean": float(np.mean(predicted)),
+        # `L_h` trains `h` toward `I/10`; this is how far it has got.
+        # Descriptive only -- unlike the retired D7-B form, the advantage does
+        # not go inert when this reaches zero, because it subtracts `h` from
+        # `I` in nats rather than from `I/10`.
+        "conditional_entropy_residual_abs_mean": float(
+            np.mean(np.abs(normalized - predicted))
+        ),
         "expected_value_mean": float(np.mean(expected)),
         "alpha": float(alpha),
     }
@@ -416,7 +334,7 @@ def build_batch(
 
 
 def setup_batch_loss(
-    model: Phase17SetupModel, batch: SetupBatch, *, config: SetupTrainingConfig, beta: float
+    model: Phase17SetupModel, batch: SetupBatch, *, config: SetupTrainingConfig
 ) -> tuple:
     """Every term of `L_setup`, each returned under its own name.
 
@@ -450,7 +368,9 @@ def setup_batch_loss(
 
     # Reverse KL, D(pi_current || pi_behavior), over the masked 12-way
     # distribution -- the paper's direction (row S11), NOT the move
-    # controller's forward direction.
+    # controller's forward direction. Its coefficient is the FIXED 0.1 of D10
+    # section 4, read straight off the config: there is no controller to ask
+    # and no beta to carry between iterations.
     behavior_log = torch.log(batch.behavior_probabilities.clamp_min(_LOG_EPSILON))
     surprise = (log_probabilities - behavior_log).masked_fill(~batch.masks, 0.0)
     per_prefix_kl = (probabilities * surprise).sum(dim=-1)
@@ -460,7 +380,7 @@ def setup_batch_loss(
         policy_loss
         + config.value_loss_weight * value_loss
         + config.conditional_entropy_loss_weight * entropy_loss
-        + float(beta) * kl
+        + float(config.behavior_kl_coefficient) * kl
     )
 
     with torch.no_grad():
@@ -492,55 +412,65 @@ def setup_batch_loss(
 class SetupUpdateResult:
     """What one complete setup iteration did, with nothing summarised away."""
 
+    #: The shared global tandem iteration this update belongs to (D10).
     setup_iteration: int
     skipped: bool
     skip_reason: str | None
     episodes_consumed: int
     alpha: float
-    beta_before: float
-    beta_after: float
+    #: Fixed by contract; carried on the result so every row states it.
+    behavior_kl_coefficient: float
     optimizer_steps: int
     epochs: "list[dict]" = field(default_factory=list)
     digest_before: str | None = None
     digest_after: str | None = None
     gradient_norm_mean: float | None = None
-    queue: dict | None = None
+    buffer: dict | None = None
     advantage_telemetry: dict | None = None
     mean_iteration_kl: float | None = None
-    control_kl: float | None = None
+    final_epoch_kl: float | None = None
     per_epoch_kl: "list[float]" = field(default_factory=list)
     shuffle_orders: "list[list[int]]" = field(default_factory=list)
 
     def document(self) -> dict:
         return {
+            "recipe": SETUP_RECIPE_VERSION,
             "setup_equation_version": SETUP_EQUATION_VERSION,
             "setup_iteration": self.setup_iteration,
             "skipped": self.skipped,
             "skip_reason": self.skip_reason,
             "episodes_consumed": self.episodes_consumed,
             "alpha": self.alpha,
-            "beta_before": self.beta_before,
-            "beta_after": self.beta_after,
+            "behavior_kl_coefficient": self.behavior_kl_coefficient,
+            "behavior_kl_is_adaptive": False,
             "optimizer_steps": self.optimizer_steps,
             "epochs": self.epochs,
             "setup_raw_model_state_digest_before": self.digest_before,
             "setup_raw_model_state_digest_after": self.digest_after,
             "gradient_norm_mean": self.gradient_norm_mean,
             "mean_iteration_kl": self.mean_iteration_kl,
-            "control_kl": self.control_kl,
+            "final_epoch_kl": self.final_epoch_kl,
             "per_epoch_kl": self.per_epoch_kl,
-            "queue": self.queue,
+            "completed_episode_buffer": self.buffer,
             "advantage_telemetry": self.advantage_telemetry,
             "shuffle_orders": self.shuffle_orders,
         }
 
 
 class SetupTrainer:
-    """Raw weights, optimizer, KL controller, EMA and queue, updated together.
+    """Raw weights, optimizer, EMA and pending buffer, updated together.
 
-    Ordering is contractual, not incidental (section 5): raw weights update
-    first across all five epochs, and the setup EMA updates only after the
-    complete setup update.
+    Ordering is contractual, not incidental: raw weights update first across
+    all five epochs, and the setup EMA updates only after the complete setup
+    update.
+
+    One index, shared with the move half
+    ------------------------------------
+    `setup_iteration` is the GLOBAL tandem iteration the runner is on, not a
+    count of setup updates. Operator decision D10 section 4 makes alpha a
+    function of that shared index, which settles Agent 4's carry-forward
+    `A4-CF6`: the two diverge exactly when a setup update is skipped, and a
+    skipped update must still let the run's regularization advance.
     """
 
     def __init__(
@@ -549,14 +479,10 @@ class SetupTrainer:
         config: SetupTrainingConfig,
         *,
         queue: SetupEpisodeQueue | None = None,
-        controller: SetupKLController | None = None,
     ) -> None:
         self.model = model
         self.config = config
-        self.queue = queue or SetupEpisodeQueue(
-            config.queue_capacity, config.queue_max_age_iterations
-        )
-        self.controller = controller or SetupKLController.from_config(config)
+        self.queue = queue or SetupEpisodeQueue()
         self.optimizer = torch.optim.Adam(
             model.parameters(),
             lr=config.learning_rate,
@@ -565,6 +491,8 @@ class SetupTrainer:
         )
         self.ema = SetupEMA(model, config.ema_decay)
         self.setup_iteration = 0
+        self.updates = 0
+        self.skips = 0
         self.optimizer_step_count = 0
 
     # -- helpers ---------------------------------------------------------
@@ -589,33 +517,34 @@ class SetupTrainer:
 
     # -- the update ------------------------------------------------------
 
-    def update(self, batch_episodes: int | None = None) -> SetupUpdateResult:
-        """Run one setup iteration, or record an explicit skip.
+    def update(self, *, global_iteration: int) -> SetupUpdateResult:
+        """Train five epochs on every episode that completed this iteration.
 
-        A short queue produces a skip with a reason, never a smaller batch:
-        section 8 forbids fabricating or reusing episodes, and a silently
-        undersized batch is the same failure wearing a different name.
+        D10 section 4: every setup episode whose game completed during the
+        fixed-transition iteration, both sides, exactly once. There is no
+        quota to meet, so there is nothing to be short of -- an empty buffer is
+        the only skip, and it is recorded rather than waited out.
         """
-        self.setup_iteration += 1
-        target = batch_episodes or self.config.minibatch_episodes
+        if global_iteration < 1:
+            raise Phase17SetupError(
+                f"the global tandem iteration is one-based, got {global_iteration}"
+            )
+        self.setup_iteration = int(global_iteration)
         alpha = self.config.alpha(self.setup_iteration)
-        beta_before = self.controller.beta
+        coefficient = float(self.config.behavior_kl_coefficient)
 
-        episodes = self.queue.consume_exact(target, setup_iteration=self.setup_iteration)
+        episodes = self.queue.consume_all(setup_iteration=self.setup_iteration)
         if not episodes:
+            self.skips += 1
             return SetupUpdateResult(
                 setup_iteration=self.setup_iteration,
                 skipped=True,
-                skip_reason=(
-                    f"queue held {len(self.queue)} completed episodes, "
-                    f"the fixed setup-sequence budget is {target}"
-                ),
+                skip_reason="no game completed during this fixed-transition iteration",
                 episodes_consumed=0,
                 alpha=alpha,
-                beta_before=beta_before,
-                beta_after=beta_before,
+                behavior_kl_coefficient=coefficient,
                 optimizer_steps=0,
-                queue=self.queue.telemetry(self.setup_iteration).__dict__,
+                buffer=self.queue.telemetry(self.setup_iteration).__dict__,
             )
 
         digest_before = self._digest()
@@ -637,7 +566,7 @@ class SetupTrainer:
                 indices = order[start : start + self.config.minibatch_episodes]
                 minibatch = _select(batch, indices, self.config.device)
                 total, terms = setup_batch_loss(
-                    self.model, minibatch, config=self.config, beta=self.controller.beta
+                    self.model, minibatch, config=self.config
                 )
                 if not torch.isfinite(total):
                     raise Phase17SetupError(
@@ -668,41 +597,30 @@ class SetupTrainer:
                     "epoch": epoch,
                     "minibatches": len(epoch_terms),
                     "mean_behavior_kl": mean_kl,
-                    "kl_direction": self.controller.direction,
-                    "beta_during_epoch": self.controller.beta,
+                    "kl_direction": self.config.kl_direction,
+                    "behavior_kl_coefficient": coefficient,
                     **_mean_documents(epoch_terms),
                 }
             )
 
-        # The controller steps ONCE PER ITERATION, on the mean across every
-        # minibatch of every epoch.
+        # Both KL readings are TELEMETRY. Nothing consumes them: the
+        # coefficient is fixed and no controller steps here.
         #
-        # Stepping once per epoch -- the shape the accepted move controller
-        # uses, where there are only one or two epochs -- is wrong here, and
-        # measurably so. Epoch 0 begins with the current policy sitting exactly
-        # on the behavior snapshot, so its KL is near zero by construction
-        # rather than by evidence: measured 0.000187, 0.000151, 0.000081 on the
-        # first three iterations, against a decrease threshold of 0.00185. Over
-        # five epochs the reading climbs monotonically (to ~0.0108 by epoch 4),
-        # so every iteration handed the controller two tautological
-        # below-threshold readings and one above, netting a ~0.67x ratchet that
-        # drove beta from 0.1 to its floor in about eleven iterations and held
-        # it there for 98.9% of a 626-iteration run.
-        #
-        # The signal is the FINAL epoch's KL, not the mean across epochs. What a
-        # behavior-KL regulariser limits is how far the policy ends up from the
-        # snapshot it is being regularised against -- the end of the path, not
-        # its average. Averaging drags in epoch 0's tautological near-zero
-        # reading and understates the true drift by roughly 2.5x. The final
-        # epoch is also the statistic the operator's 0.0037 target was
-        # calibrated against, since it is what the v1 telemetry recorded.
+        # They are still both reported, and the split matters for reading the
+        # run. Epoch 0 begins with the current policy sitting exactly on the
+        # behavior snapshot, so its KL is near zero by construction rather than
+        # by evidence -- Agent 3 measured 0.000187, 0.000151, 0.000081 on its
+        # first three iterations against a final-epoch reading around 0.0108.
+        # A mean across epochs therefore understates the drift by roughly 2.5x.
+        # What a behavior-KL term actually limits is where the policy ENDS UP
+        # relative to the snapshot, which is the final epoch's reading.
         mean_iteration_kl = float(np.mean(iteration_kl))
-        control_kl = float(iteration_kl[-1])
-        self.controller.update(control_kl)
+        final_epoch_kl = float(iteration_kl[-1])
 
-        # Raw first, EMA only after the complete update (section 5).
+        # Raw first, EMA only after the complete update.
         self.ema.update(self.model)
         digest_after = self._digest()
+        self.updates += 1
 
         return SetupUpdateResult(
             setup_iteration=self.setup_iteration,
@@ -710,17 +628,16 @@ class SetupTrainer:
             skip_reason=None,
             episodes_consumed=len(episodes),
             alpha=alpha,
-            beta_before=beta_before,
-            beta_after=self.controller.beta,
+            behavior_kl_coefficient=coefficient,
             optimizer_steps=len(gradient_norms),
             epochs=epoch_records,
             digest_before=digest_before,
             digest_after=digest_after,
             gradient_norm_mean=float(np.mean(gradient_norms)),
             mean_iteration_kl=mean_iteration_kl,
-            control_kl=control_kl,
+            final_epoch_kl=final_epoch_kl,
             per_epoch_kl=[float(value) for value in iteration_kl],
-            queue=self.queue.telemetry(self.setup_iteration).__dict__,
+            buffer=self.queue.telemetry(self.setup_iteration).__dict__,
             advantage_telemetry=telemetry,
             shuffle_orders=shuffle_orders,
         )
@@ -733,10 +650,13 @@ class SetupTrainer:
 
         ema_model = self.ema.as_model(device="cpu")
         return {
+            "recipe": SETUP_RECIPE_VERSION,
             "setup_contract_version": self.config.document()["setup_contract_version"],
             "setup_equation_version": SETUP_EQUATION_VERSION,
             "run_id": self.config.run_id,
             "setup_iteration": self.setup_iteration,
+            "setup_updates": self.updates,
+            "setup_skips": self.skips,
             "setup_optimizer_step_count": self.optimizer_step_count,
             "setup_raw_state": {
                 name: tensor.detach().cpu().clone()
@@ -752,22 +672,27 @@ class SetupTrainer:
             # tensors, so a captured checkpoint would be silently rewritten by
             # the next optimizer step before it ever reached disk.
             "setup_optimizer_state": copy.deepcopy(self.optimizer.state_dict()),
-            "setup_kl_controller_state": copy.deepcopy(self.controller.state_document()),
+            # A FIXED COEFFICIENT, not controller state. Serialized as a scalar
+            # with its direction so no reader can restore it as a beta.
+            "setup_behavior_kl": {
+                "direction": self.config.kl_direction,
+                "coefficient": float(self.config.behavior_kl_coefficient),
+                "adaptive": False,
+            },
             "setup_scheduler_position": {
                 "iteration": self.setup_iteration,
-                "total_iterations": self.config.total_iterations,
-                "n_paper": self.config.document()["alpha_schedule"]["n_paper"],
-                "p": self.config.document()["alpha_schedule"]["p"],
                 "alpha": self.config.alpha(max(1, self.setup_iteration)),
+                "alpha_formula": "0.1 * n**-0.3",
                 "learning_rate": self.config.learning_rate,
             },
-            "completed_setup_queue": self.queue.state_document(),
+            "completed_setup_buffer": self.queue.state_document(),
             "config_digest": self.config.config_digest(),
         }
 
     def load_state_document(self, document: dict) -> None:
         """Restore every fragment, refusing a partial or mismatched load."""
         required = (
+            "recipe",
             "setup_equation_version",
             "run_id",
             "setup_iteration",
@@ -775,13 +700,18 @@ class SetupTrainer:
             "setup_raw_state",
             "setup_ema_state",
             "setup_optimizer_state",
-            "setup_kl_controller_state",
-            "completed_setup_queue",
+            "setup_behavior_kl",
+            "completed_setup_buffer",
             "config_digest",
         )
         missing = [name for name in required if name not in document]
         if missing:
             raise Phase17SetupError(f"setup state document is missing {missing}")
+        if document["recipe"] != SETUP_RECIPE_VERSION:
+            raise Phase17SetupError(
+                f"setup state was written under recipe {document['recipe']!r}, "
+                f"this process is {SETUP_RECIPE_VERSION!r}"
+            )
         if document["setup_equation_version"] != SETUP_EQUATION_VERSION:
             raise Phase17SetupError(
                 f"setup equation {document['setup_equation_version']!r}, "
@@ -796,18 +726,41 @@ class SetupTrainer:
             raise Phase17SetupError(
                 "setup state was written under a different setup config digest"
             )
+        recorded_kl = document["setup_behavior_kl"]
+        if not isinstance(recorded_kl, dict) or "adaptive" not in recorded_kl:
+            raise Phase17SetupError(
+                "setup_behavior_kl does not declare `adaptive`; refusing a state "
+                f"document that cannot answer it: {recorded_kl!r}"
+            )
+        if recorded_kl["adaptive"]:
+            raise Phase17SetupError(
+                "setup state carries an ADAPTIVE behavior-KL state; operator "
+                "decision D10 retired the controller and this recipe has only a "
+                "fixed coefficient"
+            )
+        if float(recorded_kl["coefficient"]) != float(self.config.behavior_kl_coefficient):
+            raise Phase17SetupError(
+                f"setup state was written under behavior-KL coefficient "
+                f"{recorded_kl['coefficient']}, this process uses "
+                f"{self.config.behavior_kl_coefficient}"
+            )
+        if recorded_kl["direction"] != self.config.kl_direction:
+            raise Phase17SetupError(
+                f"setup state was written under KL direction "
+                f"{recorded_kl['direction']!r}, this process uses "
+                f"{self.config.kl_direction!r}"
+            )
         device = self.config.device
         self.model.load_state_dict(
             {name: tensor.to(device) for name, tensor in document["setup_raw_state"].items()}
         )
         self.ema.load_state_dict(document["setup_ema_state"])
         self.optimizer.load_state_dict(document["setup_optimizer_state"])
-        self.controller = SetupKLController.from_state_document(
-            document["setup_kl_controller_state"]
-        )
-        self.queue = SetupEpisodeQueue.from_state_document(document["completed_setup_queue"])
+        self.queue = SetupEpisodeQueue.from_state_document(document["completed_setup_buffer"])
         self.setup_iteration = int(document["setup_iteration"])
         self.optimizer_step_count = int(document["setup_optimizer_step_count"])
+        self.updates = int(document.get("setup_updates", 0))
+        self.skips = int(document.get("setup_skips", 0))
         self.ema.updates = int(document.get("setup_ema_updates", 0))
 
 
@@ -840,7 +793,6 @@ def _mean_documents(documents: "list[dict]") -> dict:
 __all__ = [
     "SetupBatch",
     "SetupEMA",
-    "SetupKLController",
     "SetupTrainer",
     "SetupUpdateResult",
     "advantage_terms",

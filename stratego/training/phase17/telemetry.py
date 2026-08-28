@@ -37,7 +37,7 @@ from pathlib import Path
 
 from .move_contract import Phase17MoveError
 
-TELEMETRY_SCHEMA_VERSION = "phase17_tandem_telemetry_v1"
+TELEMETRY_SCHEMA_VERSION = "phase17_simple_tandem_telemetry_v1"
 
 #: Top-level blocks every row carries.
 REQUIRED_BLOCKS = ("move", "setup", "system")
@@ -73,27 +73,33 @@ REQUIRED_MOVE_KEYS = (
     "target_seconds",
     "optimization_seconds",
 )
+#: The setup block names a fixed `kl_coefficient`, never a `kl_beta`: operator
+#: decision D10 section 1 requires telemetry to call the reverse-KL weight what
+#: it is, so no reader can mistake a constant for a regulated quantity.
 REQUIRED_SETUP_KEYS = (
     "generated",
     "refills",
     "unused",
+    "discarded_on_rebind",
     "snapshot_iteration",
     "raw_model_state_digest",
     "ema_model_state_digest",
     "legality_failures",
     "orientation_failures",
     "fallback_attempts",
-    "queue",
-    "starvation",
+    "completed_episode_buffer",
+    "activity",
     "updated",
     "skip_reason",
     "episodes_consumed",
     "loss_components",
+    "advantage_components",
     "empirical_entropy",
     "predicted_entropy",
     "mean_kl",
-    "control_kl",
-    "kl_beta",
+    "final_epoch_kl",
+    "kl_coefficient",
+    "kl_direction",
     "grad_norm",
     "learning_rate",
     "alpha",

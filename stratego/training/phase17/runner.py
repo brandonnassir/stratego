@@ -1,30 +1,41 @@
-"""Phase 17 Agent 4: the bulk-synchronous tandem move/setup runner.
+"""Phase 17: the bulk-synchronous tandem move/setup runner.
 
-Specification sources: Agent 4 instruction sections 3, 4, 5 and 10, common
-contract sections 5, 6, 7, 8 and 9, operator decision D9-B sections 3 and 5.
+Specification sources: operator decision D10 sections 3-7, common contract
+sections 5, 6, 7, 8 and 9.
 
 One iteration, in the contractual order
 ---------------------------------------
 ```text
 1  bind the current raw move and setup snapshot identities
-2  refill the setup pools under that setup snapshot
+2  regenerate both setup pools from the current raw setup snapshot
 3  advance the persistent population until exactly the move budget lands
 4  replacement games draw both setups from the bound raw setup distribution
    and attach both behavior episodes
 5  a finished game enqueues both of its setup episodes
 6  build boundary-bootstrapped targets and run ONE move epoch
-7  consume exactly the frozen setup budget, or SKIP explicitly; five setup epochs
-8  update the two independent KL controllers and both raw-to-EMA states
+7  train five setup epochs on EVERY episode that completed, or SKIP explicitly
+8  advance the move KL controller and both raw-to-EMA states
 9  atomically checkpoint and emit the telemetry row
 10 rebind every active game to the newly updated raw move snapshot
 ```
 
-Steps 3-5 happen inside Agent 2's collector, which is why the enqueue hook is
-an override of `_retire` rather than a scan afterwards: `_retire` is the single
+Steps 3-5 happen inside the collector, which is why the enqueue hook is an
+override of `_retire` rather than a scan afterwards: `_retire` is the single
 point at which a game is known to be finished *and* still addressable, so
 hooking it makes "a completed game always enqueues both episodes" structural.
 Scanning for disappeared game ids afterwards would work until the first game
 that finished and was replaced inside the same window.
+
+Step 2 is unconditional under D10
+----------------------------------
+Both pools are rebound to the live raw setup snapshot at the top of every
+global iteration and their unused candidates discarded, rather than only when
+the setup digest happens to have moved. D10 section 4: 512 fresh samples per
+side, regenerated at every shared tandem iteration, and refilled within an
+iteration only from that same snapshot. Discarding is not waste -- a leftover
+candidate carries the OLD behavior probabilities, and reusing it under a new
+digest would make the PPO ratio's denominator a distribution the model no
+longer has.
 
 Step 10 is one assignment
 -------------------------
@@ -38,20 +49,20 @@ Setups are bound at creation, moves are not
 --------------------------------------------
 Contract section 5. A setup is drawn once when the game is created and its
 behavior probabilities stay attached until the outcome arrives, even if the
-setup learner has updated ten times since. The move policy is the opposite: it
-is resolved per decision. Mixing these up in either direction silently breaks
-the PPO ratio of whichever half was got wrong, so the two are held by different
+setup learner has updated since. The move policy is the opposite: it is
+resolved per decision. Mixing these up in either direction silently breaks the
+PPO ratio of whichever half was got wrong, so the two are held by different
 mechanisms -- an immutable `SetupEpisode` and a mutable policy cell.
 
-The D7-B/D5 setup recipe is consumed, not reinterpreted
---------------------------------------------------------
-`SetupTrainingConfig` already carries D7-B's `0.9 * alpha * (I/10)` bonus and
-D5's reverse-KL controller at target `0.0018` with a **per-iteration** update
-from the **final epoch's** KL. The stale `d5_resolution.controller_update_cadence`
-field in Agent 3's handoff says "once per setup EPOCH"; decision D9-B section 4
-records that as an upstream documentation irregularity and Agent 3's
-implementation already does the right thing. Nothing here re-implements the
-controller.
+What D10 removed from step 7
+-----------------------------
+The fixed setup quota, the two-budget warm-up, the max-age selection and the
+backlog alarm are gone, along with the pre-window overflow check they needed.
+Those existed to keep a *fixed-size* setup batch unbiased while episodes were
+carried across iterations. Draining the buffer completely has no such problem:
+the batch is exactly what arrived in this window, so there is no count to hold
+constant and nothing to be starved of. The only skip left is "no game
+completed", and it is recorded.
 """
 
 from __future__ import annotations
@@ -84,17 +95,22 @@ from .move_contract import (
 from .move_snapshot import CurrentMovePolicy, snapshot_from_model
 from .move_start import build_move_start
 from .move_trainer import MoveWindowTrainer, state_mapping_digest
-from .queue import SetupBudgetPolicy
-from .setup_contract import SETUP_EQUATION_VERSION, SetupTrainingConfig
+from .setup_contract import (
+    PRODUCTION_RUN_ID,
+    SETUP_EQUATION_VERSION,
+    SETUP_POOL_SIZE_PER_SIDE,
+    SETUP_RECIPE_VERSION,
+    SetupTrainingConfig,
+)
 from .setup_episode import attach_setup_episodes
 from .setup_learning import SetupTrainer
 from .setup_metrics import diversity_profile
 from .setup_model import build_setup_model
 from .setup_sampling import SetupPool
-from .supervisor import CollapseSupervisor, MODE_INTEGRATION, MODE_PRODUCTION
+from .supervisor import CollapseSupervisor, MODE_PRODUCTION
 from .transition_collector import FixedTransitionCollector
 
-TANDEM_RUNNER_VERSION = "phase17_tandem_runner_v1"
+TANDEM_RUNNER_VERSION = "phase17_tandem_runner_v2"
 
 
 def _utc_now() -> str:
@@ -342,11 +358,13 @@ class Phase17SetupProvider:
             "setup_model_state_digest": self.model_state_digest,
             "snapshot_iteration": int(self.snapshot_iteration),
             "pool_size_per_side": int(self.pool_size),
+            "regeneration_cadence": "every global tandem iteration (D10 section 4)",
             "unused_discard_rule": (
-                "unused pool candidates are DISCARDED on resume, never carried: "
-                "they were drawn under the checkpointed snapshot and the resume "
-                "regenerates under the same snapshot from the same per-game seed, "
-                "so the setup a game receives is unchanged"
+                "unused pool candidates are DISCARDED at every regeneration and "
+                "on resume, never carried: a candidate drawn under an older "
+                "snapshot carries that snapshot's behavior probabilities, and a "
+                "resume regenerates under the checkpointed snapshot from the same "
+                "per-game seed, so the setup a game receives is unchanged"
             ),
         }
 
@@ -394,14 +412,12 @@ class TandemConfig:
     """Everything frozen before h0. Nothing here is recomputed from run speed."""
 
     run_id: str
+    #: The move schedule's horizon. The setup half no longer reads it: D10's
+    #: alpha is `0.1 * n**-0.3` with no dependence on the run length.
     total_iterations: int
     move_budget: int = WINDOW_TRANSITIONS
     population: int = 256
-    pool_size_per_side: int = 512
-    setup_budget: int = 320
-    setup_queue_capacity: int = 1280
-    setup_warm_up_minimum: int = 320
-    setup_max_age_iterations: int = 4
+    pool_size_per_side: int = SETUP_POOL_SIZE_PER_SIDE
     setup_minibatch_episodes: int = 64
     move_device: str = "cpu"
     setup_device: str = "cpu"
@@ -410,45 +426,44 @@ class TandemConfig:
     work_package: str = "phase17"
 
     def __post_init__(self) -> None:
-        # >= 2 because the setup alpha re-horizon divides by ln(N), which is
-        # zero at N = 1. Enforced here so a mis-measured horizon fails when the
-        # config is built rather than inside the first setup update.
-        if self.total_iterations < 2:
-            raise Phase17RunnerError("the frozen horizon N must be >= 2")
-        if self.setup_budget > self.setup_queue_capacity:
-            raise Phase17RunnerError(
-                f"setup budget {self.setup_budget} exceeds queue capacity "
-                f"{self.setup_queue_capacity}"
-            )
+        if self.total_iterations < 1:
+            raise Phase17RunnerError("the frozen horizon N must be >= 1")
+        if self.population < 1:
+            raise Phase17RunnerError("the population must be >= 1")
+        if self.pool_size_per_side < 1:
+            raise Phase17RunnerError("the setup pool must hold at least one side")
+
+    @property
+    def recipe(self) -> str:
+        return SETUP_RECIPE_VERSION
+
+    @property
+    def is_production(self) -> bool:
+        return self.run_id == PRODUCTION_RUN_ID
 
     @property
     def reference_iteration(self) -> int:
         return reference_iteration(self.total_iterations)
 
-    @property
-    def setup_p(self) -> float:
-        return 0.3 * math.log(42376) / math.log(self.total_iterations)
-
     def setup_config(self) -> SetupTrainingConfig:
-        """Agent 3's config, with only the fields Agent 4 owns filled in."""
+        """The setup half's config, with only the fields the runner owns filled in."""
         return SetupTrainingConfig(
             run_id=self.run_id,
-            total_iterations=self.total_iterations,
             device=self.setup_device,
             minibatch_episodes=self.setup_minibatch_episodes,
-            queue_capacity=self.setup_queue_capacity,
-            queue_max_age_iterations=self.setup_max_age_iterations,
+            pool_size_per_side=self.pool_size_per_side,
         )
 
     def document(self) -> dict:
         return {
+            "recipe": SETUP_RECIPE_VERSION,
             "runner_version": TANDEM_RUNNER_VERSION,
             "work_package": self.work_package,
             "run_id": self.run_id,
             "horizon": {
                 "N": int(self.total_iterations),
                 "n_ref": self.reference_iteration,
-                "p_setup": self.setup_p,
+                "applies_to": "the move LR and move entropy schedules only",
                 "frozen_before_h0": True,
                 "never": "recomputed from changing production speed",
             },
@@ -462,25 +477,23 @@ class TandemConfig:
             },
             "setup": {
                 "pool_size_per_side": int(self.pool_size_per_side),
-                "budget_episodes": int(self.setup_budget),
-                "queue_capacity": int(self.setup_queue_capacity),
-                "warm_up_minimum": int(self.setup_warm_up_minimum),
-                "max_age_iterations": int(self.setup_max_age_iterations),
+                "pool_cadence": "regenerated every global tandem iteration",
+                "consumption": (
+                    "every episode whose game completed in the iteration, both "
+                    "sides, exactly once; no quota, warm-up, age selection or "
+                    "backlog balancing"
+                ),
                 "minibatch_episodes": int(self.setup_minibatch_episodes),
                 "epochs_per_iteration": 5,
                 "device": self.setup_device,
-                # In the config digest because it determines the initial masked
-                # setup model, and therefore every diversity baseline the stop
-                # policy is calibrated against. A digest that did not cover it
+                # In the config digest because it determines the initial random
+                # setup model, and therefore every descriptive baseline the
+                # telemetry is read against. A digest that did not cover it
                 # would call two different starting distributions the same run.
                 "model_seed": int(self.setup_model_seed),
-                "recipe": "phase17_setup_update_v2 (D7-B) with the D5 controller",
-                "controller_cadence": "once per setup ITERATION, on the FINAL epoch's KL",
-                "controller_cadence_note": (
-                    "the stale d5_resolution.controller_update_cadence field in "
-                    "Agent 3's handoff says once per epoch; decision D9-B section 4 "
-                    "records that as an upstream documentation irregularity"
-                ),
+                "alpha_formula": "0.1 * n**-0.3, n the global tandem iteration",
+                "behavior_kl": "fixed reverse coefficient 0.1, no controller",
+                "advantage": "(outcome - E[v]) + alpha(n) * (I - h_behavior)",
             },
         }
 
@@ -503,7 +516,9 @@ class IterationResult:
     rebind: dict = field(default_factory=dict)
     seconds: dict = field(default_factory=dict)
     provider_telemetry: dict = field(default_factory=dict)
-    queue_telemetry: dict = field(default_factory=dict)
+    buffer_telemetry: dict = field(default_factory=dict)
+    pool_discarded: int = 0
+    bound_digests: dict = field(default_factory=dict)
     verdicts: list = field(default_factory=list)
 
 
@@ -514,15 +529,24 @@ class TandemRunner:
         self,
         config: TandemConfig,
         *,
-        budget_policy: "SetupBudgetPolicy | None" = None,
         supervisor_mode: str = MODE_PRODUCTION,
         move_start_path: "str | Path | None" = None,
         root: "str | Path" = ".",
         setup_model=None,
     ) -> None:
         self.config = config
-        self.budget_policy = budget_policy
         self.supervisor_mode = supervisor_mode
+        # D10 section 3: production reinitializes from Phase 9 plus a NEWLY
+        # RANDOM setup model, and no setup state from a rehearsal may enter it.
+        # `setup_model` exists so a test can inject a tiny model; the production
+        # run ID refuses it outright rather than trusting a caller to pass a
+        # fresh one.
+        if setup_model is not None and config.is_production:
+            raise Phase17RunnerError(
+                f"run {config.run_id!r} is the D10 production lineage and must "
+                "build its own setup model from scratch under the recorded "
+                "seed; an injected setup model could carry rehearsal state"
+            )
 
         self.start = build_move_start(
             total_iterations=config.total_iterations,
@@ -551,6 +575,10 @@ class TandemRunner:
             device=config.setup_device, seed=config.setup_model_seed
         )
         self.setup_trainer = SetupTrainer(self.setup_model, self.setup_config)
+        #: The freshly initialised setup identity, before any update. Recorded
+        #: so a reader can prove the run started from a random setup model
+        #: rather than from a rehearsal's weights.
+        self.setup_start_digest = self._setup_digest()
 
         self.provider = Phase17SetupProvider(
             self.setup_model,
@@ -576,7 +604,6 @@ class TandemRunner:
 
         self.iteration = 0
         self.elapsed_active_training_seconds = 0.0
-        self.warmed_up = False
         self.enqueue_rejections: list = []
         self.setup_updates = 0
         self.setup_skips = 0
@@ -623,36 +650,21 @@ class TandemRunner:
         result = IterationResult(iteration=n)
         started = time.perf_counter()
 
-        # 0  refuse a window the completed-episode queue could not absorb.
-        #
-        # Agent 3's queue raises at capacity rather than evicting, which is
-        # correct -- silent dropping is what section 8 forbids -- but a raise
-        # lands in the MIDDLE of a window, after tens of thousands of
-        # transitions have been collected, and discards all of it. Checking
-        # first means a run that has genuinely run out of queue stops having
-        # lost nothing. P8's backlog alarm is sized to fire several windows
-        # before this point; reaching here means the arrival rate moved faster
-        # than the alarm could accumulate.
-        if self.budget_policy is not None:
-            headroom = self.budget_policy.would_overflow(
-                len(self.setup_trainer.queue)
-            )
-            if headroom["would_overflow"]:
-                raise Phase17RunnerError(
-                    f"iteration {n}: the completed-setup queue holds "
-                    f"{headroom['queue_depth']} episodes and one more window "
-                    f"could reach the capacity {headroom['capacity']}, which "
-                    "Agent 3's queue raises on. Stopping before the window "
-                    "rather than losing it mid-collection. Evidence: "
-                    f"{headroom}"
-                )
-
         # 1  bind the current raw move and setup snapshot identities
         bound_move_digest = self.cell.digest
-        bound_setup_digest = self.provider.model_state_digest
+        bound_setup_digest = self._setup_digest()
 
-        # 2  refill the setup pools under the bound setup snapshot
+        # 2  regenerate both setup pools from the current raw setup snapshot.
+        #    Unconditional: D10 section 4 asks for a fresh 512-per-side pool at
+        #    every global iteration, and refills within the iteration then come
+        #    from this same snapshot because `SetupPool.take` falls back to the
+        #    model and digest bound here.
         generation_started = time.perf_counter()
+        result.pool_discarded = self.provider.rebind(
+            self.setup_model,
+            model_state_digest=bound_setup_digest,
+            snapshot_iteration=n,
+        )
         self.provider.prefetch(self._upcoming_game_ids())
         result.seconds["setup_generation"] = time.perf_counter() - generation_started
 
@@ -675,35 +687,26 @@ class TandemRunner:
         result.move_update = move_update
         result.seconds["move_optimization"] = time.perf_counter() - optimization_started
 
-        # 7  exactly the frozen setup budget, or an explicit skip; five epochs
+        # 7  five setup epochs on everything that completed, or an explicit skip
         setup_started = time.perf_counter()
-        depth = len(self.setup_trainer.queue)
-        if not self.warmed_up and depth >= self.config.setup_warm_up_minimum:
-            self.warmed_up = True
-        gate = self._setup_gate(depth)
-        if gate["update"]:
-            update = self.setup_trainer.update(batch_episodes=self.config.setup_budget)
-            result.setup_update = update
-            result.setup_skipped = bool(update.skipped)
-            result.setup_skip_reason = update.skip_reason
-            if update.skipped:
-                self.setup_skips += 1
-            else:
-                self.setup_updates += 1
-        else:
-            result.setup_skipped = True
-            result.setup_skip_reason = gate["detail"]
+        update = self.setup_trainer.update(global_iteration=n)
+        result.setup_update = update
+        result.setup_skipped = bool(update.skipped)
+        result.setup_skip_reason = update.skip_reason
+        if update.skipped:
             self.setup_skips += 1
+        else:
+            self.setup_updates += 1
         result.seconds["setup_optimization"] = time.perf_counter() - setup_started
-        result.queue_telemetry = self.setup_trainer.queue.telemetry(
+        result.buffer_telemetry = self.setup_trainer.queue.telemetry(
             self.setup_trainer.setup_iteration
         ).__dict__
 
-        # 8  the two independent controllers and both EMAs are advanced by the
-        #    two trainers themselves; nothing is re-stepped here. Re-stepping
-        #    either would double-count exactly the quantity D5 was about.
+        # 8  the move KL controller and both EMAs are advanced by the two
+        #    trainers themselves; nothing is re-stepped here. The setup half has
+        #    no controller to step -- its coefficient is fixed at 0.1.
 
-        # 9  telemetry / checkpointing is the caller's, so a rehearsal and a
+        # 9  telemetry / checkpointing is the caller's, so a smoke and a
         #    production run share this method verbatim.
 
         # 10 rebind every active game to the newly updated raw move snapshot
@@ -716,14 +719,14 @@ class TandemRunner:
                 "but the raw move digest did not change; the population would "
                 "keep playing under the pre-update weights"
             )
-        # The setup snapshot rebinds only when the setup model actually moved.
-        setup_digest_now = self._setup_digest()
-        if setup_digest_now != bound_setup_digest:
-            self.provider.rebind(
-                self.setup_model,
-                model_state_digest=setup_digest_now,
-                snapshot_iteration=self.setup_trainer.setup_iteration,
-            )
+        # The setup snapshot is NOT rebound here. Step 2 of the next iteration
+        # rebinds it, which is the single point at which the pool is
+        # regenerated -- two rebind sites would give a game's setup two possible
+        # provenances for the same iteration.
+        result.bound_digests = {
+            "move": bound_move_digest,
+            "setup": bound_setup_digest,
+        }
 
         result.seconds["total"] = time.perf_counter() - started
         self.elapsed_active_training_seconds += result.seconds["total"]
@@ -753,32 +756,16 @@ class TandemRunner:
                 upcoming.append(make_game_id(self.config.run_id, slot, base + step))
         return upcoming[: self.config.pool_size_per_side]
 
-    def _setup_gate(self, depth: int) -> dict:
-        if self.budget_policy is not None:
-            return self.budget_policy.may_update(depth, warmed_up=self.warmed_up)
-        if not self.warmed_up:
-            return {
-                "update": False,
-                "reason": "warm_up",
-                "detail": (
-                    f"queue holds {depth} completed episodes; warm-up needs "
-                    f"{self.config.setup_warm_up_minimum}"
-                ),
-            }
-        if depth < self.config.setup_budget:
-            return {
-                "update": False,
-                "reason": "starved",
-                "detail": (
-                    f"queue holds {depth} completed episodes; the fixed setup "
-                    f"budget is {self.config.setup_budget}"
-                ),
-            }
-        return {"update": True, "reason": None, "detail": None}
-
     # -- guards ------------------------------------------------------------
 
     def _supervise(self, result: IterationResult) -> list:
+        """Every D10 section 7 reading, folded into the supervisor.
+
+        The integrity family (`I*`) still stops the run. Everything statistical
+        is a warning: D10 makes EWR decline, high but finite KL, entropy
+        decline, low diversity and setup concentration telemetry, because the
+        12-hour learning curve is the experiment.
+        """
         verdicts = []
         ledger = self.collector.participant_ledger()
         verdicts.extend(self.supervisor.check_participant_ledger(ledger))
@@ -789,10 +776,20 @@ class TandemRunner:
                 fallback_attempts=self.provider.fallback_attempts,
             )
         )
+        # A fixed-transition count violation is one of D10's named stops, and
+        # it is checked against the window's own harvest rather than trusted:
+        # a window that emitted the wrong number of rows has already trained on
+        # them by the time this runs, so the run must not continue.
+        harvested = int(result.window.transitions_harvested) if result.window else 0
+        verdicts.append(
+            self.supervisor.check_transition_count(
+                harvested=harvested, budget=int(self.config.move_budget)
+            )
+        )
         # MoveUpdate.means keys carry a `mean_` prefix -- `mean_behavior_kl`, not
         # `behavior_kl`. Reading the unprefixed name silently yields 0.0, which
         # would feed the move-KL and move-entropy predicates a constant zero and
-        # make P2 and P6 unfireable. `move_means` fails loudly instead.
+        # make P2 and P6 unreadable. `move_means` fails loudly instead.
         means = (result.move_update.means or {}) if result.move_update else {}
         verdicts.append(
             self.supervisor.check_finite(
@@ -810,27 +807,27 @@ class TandemRunner:
             )
         update = result.setup_update
         if update is not None and not update.skipped:
-            verdicts.append(self.supervisor.observe_setup_kl(float(update.control_kl)))
-        if self.budget_policy is not None:
             verdicts.append(
-                self.supervisor.observe_queue(
-                    self.budget_policy.alarms(result.queue_telemetry)
-                )
+                self.supervisor.observe_setup_kl(float(update.final_epoch_kl))
             )
         return verdicts
 
-    # -- the D9-B tandem concentration reading ----------------------------
+    # -- the descriptive setup-concentration reading -----------------------
 
     def concentration_reading(self, *, samples: int = 160, label: str = "tandem") -> dict:
-        """Decision D9-B section 5, measured under the live raw setup snapshot.
+        """A descriptive reading of the live raw setup snapshot.
 
-        Drawn from the *current* raw setup policy and scored with exactly Agent
-        3's metric functions, at exactly Agent 3's sample shape: its soak drew
-        160 Red plus 160 Blue and profiled the 320 together, so the `matched`
-        profile below is the one its trajectory is comparable with. The
-        per-colour profiles are extra, because a Red-only or Blue-only collapse
-        and a symmetric one are different failures and the pooled number hides
-        which happened.
+        Drawn from the *current* raw setup policy and scored with exactly the
+        setup half's metric functions, at exactly Agent 3's sample shape: its
+        soak drew 160 Red plus 160 Blue and profiled the 320 together, so the
+        `matched` profile below is the one its trajectory is comparable with.
+        The per-colour profiles are extra, because a Red-only or Blue-only
+        collapse and a symmetric one are different failures and the pooled
+        number hides which happened.
+
+        Under D10 nothing here can stop a run. Concentration and entropy inform
+        interpretation of the 12-hour curve and no longer make a checkpoint
+        ineligible by themselves.
 
         Drawing is a *read*. It uses reading-only game ids that no game will
         ever hold, so no training seed is consumed, no pool entry is taken from
@@ -978,6 +975,7 @@ class TandemRunner:
         setup_state = self.setup_trainer.state_document()
         return {
             "schema_version": JOINT_CHECKPOINT_SCHEMA_VERSION,
+            "recipe": SETUP_RECIPE_VERSION,
             "run_id": self.config.run_id,
             "work_package": self.config.work_package,
             "iteration": int(self.iteration),
@@ -985,6 +983,7 @@ class TandemRunner:
                 key: self.start.identity[key]
                 for key in ("path", "file_sha256", "model_state_digest", "parameter_count")
             },
+            "setup_start_model_state_digest": self.setup_start_digest,
             "move_raw_state": {
                 name: tensor.detach().to("cpu").clone()
                 for name, tensor in self.move_model.state_dict().items()
@@ -1001,7 +1000,9 @@ class TandemRunner:
             "move_optimizer_state": self.start.optimizer.state_dict(),
             "setup_optimizer_state": setup_state["setup_optimizer_state"],
             "move_kl_controller_state": self.move_trainer.controller.to_dict(),
-            "setup_kl_controller_state": setup_state["setup_kl_controller_state"],
+            # A scalar plus its direction, never controller state: D10 section 1
+            # requires the checkpoint to call this a fixed coefficient.
+            "setup_behavior_kl": setup_state["setup_behavior_kl"],
             "move_scheduler_position": {
                 "iteration": int(self.iteration),
                 "N": int(self.config.total_iterations),
@@ -1011,12 +1012,10 @@ class TandemRunner:
             },
             "setup_scheduler_position": {
                 "iteration": int(self.setup_trainer.setup_iteration),
-                "N": int(self.config.total_iterations),
-                "N_paper": 42376,
-                "p": self.config.setup_p,
                 "alpha": self.setup_config.alpha(
                     max(1, self.setup_trainer.setup_iteration)
                 ),
+                "alpha_formula": "0.1 * n**-0.3",
             },
             "move_optimizer_step_count": int(self.move_trainer.global_step),
             "setup_optimizer_step_count": int(self.setup_trainer.optimizer_step_count),
@@ -1024,7 +1023,7 @@ class TandemRunner:
             "active_games": active,
             "active_game_setup_episodes": self.provider.capture_open_episodes(),
             "boundary_carry_state": self.collector.state(),
-            "completed_setup_queue": setup_state["completed_setup_queue"],
+            "completed_setup_buffer": setup_state["completed_setup_buffer"],
             "setup_pool_identity": self.provider.pool_identity(),
             "run_digest": run_digest,
             "config_digest": config_digest,
@@ -1039,7 +1038,6 @@ class TandemRunner:
             "telemetry_position": dict(telemetry_position),
             "supervisor_state": self.supervisor.state_document(),
             "collector_counters": {
-                "warmed_up": bool(self.warmed_up),
                 "setup_updates": int(self.setup_updates),
                 "setup_skips": int(self.setup_skips),
                 "enqueue_rejections": list(self.enqueue_rejections),
@@ -1087,11 +1085,12 @@ class TandemRunner:
                         "setup_ema_state",
                         "setup_ema_model_state_digest",
                         "setup_optimizer_state",
-                        "setup_kl_controller_state",
-                        "completed_setup_queue",
+                        "setup_behavior_kl",
+                        "completed_setup_buffer",
                     )
                 },
                 "config_digest": payload["setup_config_digest"],
+                "recipe": payload["recipe"],
                 "setup_contract_version": self.setup_config.document()[
                     "setup_contract_version"
                 ],
@@ -1099,8 +1098,9 @@ class TandemRunner:
                 "run_id": payload["run_id"],
                 "setup_iteration": int(payload["setup_scheduler_position"]["iteration"]),
                 "setup_optimizer_step_count": int(payload["setup_optimizer_step_count"]),
+                "setup_updates": int(payload["collector_counters"]["setup_updates"]),
+                "setup_skips": int(payload["collector_counters"]["setup_skips"]),
                 "setup_ema_updates": int(payload["setup_ema_updates"]),
-                "setup_scheduler_position": payload["setup_scheduler_position"],
             }
         )
 
@@ -1109,7 +1109,6 @@ class TandemRunner:
             payload["elapsed_active_training_seconds"]
         )
         counters = payload["collector_counters"]
-        self.warmed_up = bool(counters["warmed_up"])
         self.setup_updates = int(counters["setup_updates"])
         self.setup_skips = int(counters["setup_skips"])
         self.enqueue_rejections = list(counters["enqueue_rejections"])
@@ -1168,13 +1167,14 @@ class TandemRunner:
             "move_raw_model_state_digest": observed_move,
             "setup_raw_model_state_digest": self._setup_digest(),
             "cell_digest": self.cell.digest,
-            "queue_depth": len(self.setup_trainer.queue),
+            "completed_setup_buffer_depth": len(self.setup_trainer.queue),
         }
 
     # -- documents ---------------------------------------------------------
 
     def identity_document(self) -> dict:
         return {
+            "recipe": SETUP_RECIPE_VERSION,
             "runner_version": TANDEM_RUNNER_VERSION,
             "run_id": self.config.run_id,
             "iteration": int(self.iteration),
@@ -1189,6 +1189,7 @@ class TandemRunner:
                 key: self.start.identity[key]
                 for key in ("path", "file_sha256", "model_state_digest", "parameter_count")
             },
+            "setup_start_model_state_digest": self.setup_start_digest,
             "elapsed_active_training_seconds": float(
                 self.elapsed_active_training_seconds
             ),

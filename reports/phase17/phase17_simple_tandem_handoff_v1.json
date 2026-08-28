@@ -1,0 +1,316 @@
+{
+ "artifact": "phase17_simple_tandem_handoff_v1",
+ "identities": {
+  "commit": "eab8a3347a3955c8f1b1001f2729172b20abadb3",
+  "completed_setup_buffer_version": "phase17_completed_setup_buffer_v1",
+  "config_digest": "ee19d62789634c079ca1d4164ee7dc721def1f94b0b30b252fa08092807a79de",
+  "export_schema": "phase17_paired_export_v1",
+  "joint_checkpoint_schema": "phase17_joint_checkpoint_v2",
+  "runner_version": "phase17_tandem_runner_v2",
+  "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+  "setup_equation_version": "phase17_setup_update_paper_v1",
+  "source_closure_digest": "2be3db6c83d1af3552d652163d4c53bbd7b615b061ba7fb26c64c22b89271d6f",
+  "supervisor_version": "phase17_run_supervisor_v2",
+  "telemetry_schema": "phase17_simple_tandem_telemetry_v1"
+ },
+ "integration_base": "eab8a33",
+ "known_issues": [
+  {
+   "fix": "SetupEMA binds the shadow to the model's device on load",
+   "found_by": "the D10 smoke, check 8, first attempt",
+   "id": "A4B-1",
+   "pinned_by": [
+    "tests/training/phase17/test_setup_learning.py::test_a_restored_ema_lands_on_the_models_device_not_the_payloads",
+    "tests/training/phase17/test_setup_learning.py::test_a_restored_ema_lands_on_the_accelerator_when_there_is_one"
+   ],
+   "severity": "would have killed any resumed production run",
+   "status": "FIXED",
+   "summary": "SetupEMA.load_state_dict preserved the checkpoint payload's device. A paired checkpoint serializes the setup EMA to CPU and read_joint_checkpoint maps to CPU, so a resume on the MPS production device left a CPU shadow accumulating against MPS parameters and SetupEMA.update raised on the first setup update after the resume.",
+   "why_it_survived": "Agent 4's resume rehearsal ran on CPU on purpose, because MPS is not bitwise reproducible run to run, so the device mismatch could not occur there. The D10 smoke is the first thing to resume on the production device."
+  },
+  {
+   "consequence": "the hour 6-12 learning curve loses one row per resume and record_index no longer tracks the iteration number. Every row carries system.iteration, so a reader realigns by that field rather than by position.",
+   "id": "A4B-2",
+   "measured": "the smoke's log holds iterations 1, 2, 4 at record indices 0, 1, 2; iteration 3's row is gone although its weights were checkpointed and restored",
+   "not_changed_because": "this is Agent 4's accepted checkpoint/append ordering and the row's own content includes the checkpoint identity, so reversing the order is a restructure of machinery the 4B brief says to reuse rather than rebuild. Operator call.",
+   "severity": "telemetry only; training and checkpoints unaffected",
+   "status": "REPORTED, NOT CHANGED",
+   "summary": "one telemetry row is lost per resume. TrainingSession.step writes the checkpoint BEFORE it appends the row, so the checkpoint's telemetry_position excludes the row of the iteration it was taken at. TelemetryWriter.resume then truncates that row back and the next iteration writes into its record slot."
+  }
+ ],
+ "measured_in_the_smoke": {
+  "advantage_balance_note": "the printed advantage's entropy term is several times the outcome term, which is the deliberate consequence of D10 section 4 keeping `alpha * (I - h)` with I in nats while L_h targets I/10. Recorded per iteration, not compensated for.",
+  "advantage_components": [
+   {
+    "alpha": 0.09999999999999999,
+    "entropy_term_abs_mean": 2.7015812253289906,
+    "entropy_to_outcome_abs_ratio": 2.839019688007968,
+    "information_nats_mean": 26.962755342182827,
+    "iteration": 1,
+    "outcome_term_abs_mean": 0.9986959348784162,
+    "predicted_conditional_entropy_mean": -0.04285781980692745
+   },
+   {
+    "alpha": 0.08122523963562357,
+    "entropy_term_abs_mean": 2.158216095399918,
+    "entropy_to_outcome_abs_ratio": 2.252309320741588,
+    "information_nats_mean": 26.862938060630285,
+    "iteration": 2,
+    "outcome_term_abs_mean": 1.001078914008488,
+    "predicted_conditional_entropy_mean": 0.3675523961982927
+   },
+   {
+    "alpha": 0.07192230933248643,
+    "entropy_term_abs_mean": 1.8135540640208423,
+    "entropy_to_outcome_abs_ratio": 1.881308576970994,
+    "information_nats_mean": 26.78799946897394,
+    "iteration": 3,
+    "outcome_term_abs_mean": 0.9978568912475473,
+    "predicted_conditional_entropy_mean": 1.8277333940902833
+   }
+  ],
+  "frozen_mean_iteration_seconds": 67.40442866057025,
+  "iterations": 3,
+  "mean_iteration_seconds": 67.99505395869103,
+  "peak_memory_mib": 18135.875,
+  "seconds_per_iteration": [
+   70.71449533395935,
+   66.14774729206692,
+   67.12291925004683
+  ]
+ },
+ "not_established": [
+  "any strength claim: no benchmark lane was evaluated",
+  "the external 30-minute round trip, which is Agent 5's h0 handshake",
+  "setup diversity or concentration behavior over 12 hours",
+  "whether the printed advantage's entropy term dominates in practice; its magnitude is recorded per iteration and is the experiment"
+ ],
+ "preflight": {
+  "all_passed": true,
+  "cap_seconds": 1800,
+  "checks": [
+   {
+    "check": 1,
+    "name": "exact Phase 9 move identity and a from-scratch setup model",
+    "ok": true
+   },
+   {
+    "check": 2,
+    "name": "both move seats use the current raw policy and sample legal actions",
+    "ok": true
+   },
+   {
+    "check": 3,
+    "name": "fresh legal, inventory-correct, oriented setups with no library fallback",
+    "ok": true
+   },
+   {
+    "check": 4,
+    "name": "exactly the configured move-transition count is emitted",
+    "ok": true
+   },
+   {
+    "check": 5,
+    "name": "at least one real completed game updates the setup model for five epochs",
+    "ok": true
+   },
+   {
+    "check": 6,
+    "name": "setup reverse KL has fixed coefficient 0.1 with no adaptive controller",
+    "ok": true
+   },
+   {
+    "check": 7,
+    "name": "setup alpha equals 0.1 * n**-0.3 at the shared global iteration",
+    "ok": true
+   },
+   {
+    "check": 8,
+    "name": "a paired checkpoint reloads without identity loss or duplicated/dropped outcomes",
+    "ok": true
+   },
+   {
+    "check": 9,
+    "name": "search, belief, historical and handcrafted training participants are absent",
+    "ok": true
+   }
+  ],
+  "passed": 9,
+  "path": "reports/phase17/phase17_simple_tandem_preflight.json",
+  "seconds": 291.23757445800584,
+  "sha256": "2355fe96e2c59e31dfe4f8379d79d92df847dd86f4f0726c19540115dfe89382",
+  "total": 9
+ },
+ "production_command": "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py --run-id RUN-2026-B --start --i-am-agent-7 > <log> 2>&1 &",
+ "production_run_id": "RUN-2026-B",
+ "ready_for_short_launch_check": true,
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "recipe_constants": {
+  "move": {
+   "budget_transitions": 65536,
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 1,
+   "horizon_N": 640,
+   "n_ref": 80,
+   "population": 256,
+   "schedule": "unchanged Phase 17 move LR/entropy/KL behavior"
+  },
+  "setup": {
+   "advantage": "(outcome - E[behavior W/D/L value]) + alpha(n) * (I - h_behavior)",
+   "alpha_at_1": 0.1,
+   "alpha_at_2": 0.08122523963562356,
+   "alpha_at_N": 0.014392823770329062,
+   "alpha_formula": "0.1 * n**-0.3",
+   "alpha_index": "the shared one-based global tandem iteration",
+   "behavior_kl_adaptive": false,
+   "behavior_kl_coefficient": 0.1,
+   "behavior_kl_direction": "reverse_current_given_behavior",
+   "conditional_entropy_loss_target": "I/10",
+   "conditional_entropy_loss_weight": 1.0,
+   "consumption": "every episode whose game completed in the iteration, both sides, exactly once",
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 5,
+   "gradient_clip_norm": 0.5,
+   "learning_rate": 5e-05,
+   "optimizer": "Adam",
+   "pool_cadence": "regenerated at every global tandem iteration",
+   "pool_size_per_side": 512,
+   "ppo_clip_epsilon": 0.2,
+   "value_loss_weight": 0.5
+  }
+ },
+ "sources": {
+  "closure_digest": "2be3db6c83d1af3552d652163d4c53bbd7b615b061ba7fb26c64c22b89271d6f",
+  "files": [
+   {
+    "path": "stratego/training/phase17/setup_contract.py",
+    "sha256": "8e24301b60a7a4290ec1c92266c1774b2df445e8b1de673f491e2e9ea5c62899"
+   },
+   {
+    "path": "stratego/training/phase17/setup_episode.py",
+    "sha256": "b0dbc0debf49ebd717e00f644a7727c359550845825687ff3b11a5321e6f3325"
+   },
+   {
+    "path": "stratego/training/phase17/setup_learning.py",
+    "sha256": "ed76bf175c2c00b5d1ed6253dbacc44da7b8d4dc2137386e0805d0f00d75a6cc"
+   },
+   {
+    "path": "stratego/training/phase17/setup_metrics.py",
+    "sha256": "386314e8d9d11e71da7d73b2b0a01a0aab7789b11f4213cbdefb201b8da86893"
+   },
+   {
+    "path": "stratego/training/phase17/runner.py",
+    "sha256": "92e8a493c0028ac129ba3b797bbdf888e4e584a2f75707a74985bbb6671e27de"
+   },
+   {
+    "path": "stratego/training/phase17/checkpoint.py",
+    "sha256": "951e15b2fb1d0ed005f6ea97d375f374ce8c6e12a829d25887bd506bc44496ec"
+   },
+   {
+    "path": "stratego/training/phase17/supervisor.py",
+    "sha256": "8620ccd3506d958a50ed72a805312136655977515ff05a05c6ae4fd31292b000"
+   },
+   {
+    "path": "stratego/training/phase17/telemetry.py",
+    "sha256": "085ef7f40839330ad47a76041715150cba91bab15bf7fa469db0ca730a5647ca"
+   },
+   {
+    "path": "stratego/training/phase17/export.py",
+    "sha256": "66161130cbc579a2d3a0799e12c1d293ddb065afd503f6a4109f1cd4547511f0"
+   },
+   {
+    "path": "scripts/run_phase17_training.py",
+    "sha256": "d268fd9d5be12cb22c90310428c6b81dd0885438bd3ec4388cc9051d0a38a71a"
+   },
+   {
+    "path": "scripts/run_phase17_d10_smoke.py",
+    "sha256": "3659b9ed3e22287e243ff768b0d202e1ac732c403391c018af83b0b0ff9a0258"
+   }
+  ]
+ },
+ "start": {
+  "move_checkpoint": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "move_file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "move_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "no_rehearsal_state": "the runner refuses an injected setup model under RUN-2026-B, and read_joint_checkpoint refuses any checkpoint whose run ID or recipe differs",
+  "setup_initialization": "from scratch under the recorded seed",
+  "setup_model_seed": 17
+ },
+ "stop_policy": {
+  "not_wired": {
+   "resource_exhaustion": "D10 section 7 names it a stop condition, but there is no threshold to freeze and the runner has no resource monitor. It surfaces as a process-level failure, unchanged from Agent 4. Recorded rather than invented."
+  },
+  "stops": {
+   "I1": "rules, orientation, legality, candidate or digest mismatch",
+   "I2": "a decision recorded under the wrong current move-policy digest",
+   "I3": "nonfinite loss, gradient, parameter or schedule value",
+   "I4": "setup generation/masking failure or silent fallback attempt",
+   "I5": "search or a non-current training opponent entered collection",
+   "I6": "evaluation result bound to the wrong candidate or benchmark",
+   "I7": "unrecoverable checkpoint/resume identity failure",
+   "I8": "fixed-transition count violation"
+  },
+  "warnings_only": {
+   "P1": "fixed-pack EWR decline",
+   "P2": "move mean KL above 0.08",
+   "P3": "setup reverse KL above 0.08",
+   "P4": "setup prefix entropy below 60% of its initial baseline",
+   "P5": "flag effective support below 4",
+   "P6": "move entropy below 25% of its first-hour median",
+   "P7": "no setup update for a whole cadence interval"
+  }
+ },
+ "supersedes": {
+  "decision": "D10",
+  "retained_from_agent_4": [
+   "exact Phase 9 move start and fresh optimizer/schedule/EMA state",
+   "fixed-transition move collection and boundary bootstrapping",
+   "sampled legal moves from the current raw move policy on both seats",
+   "current-policy rebind for active games",
+   "fresh autoregressive setup generation and outcome binding",
+   "paired raw/EMA checkpointing and exact active-game persistence",
+   "exports, telemetry and integrity-oriented safety stops",
+   "no-search / no-belief / no-training-opponent boundaries",
+   "the external 30-minute evaluation interface"
+  ],
+  "retired": [
+   "the adaptive setup-KL controller and all target/beta-bound logic (D5)",
+   "the endpoint-re-horizoned setup entropy schedule (D3)",
+   "phase17_setup_update_v2 and its uncentered normalized bonus (D7-B)",
+   "the standalone setup-diversity pass/fail gate",
+   "the fixed setup-episode quota, warm-up gate and age calibration",
+   "broad preflight certification beyond the D10 smoke"
+  ]
+ },
+ "tests": {
+  "closure_digest": "1c79d9a58a8fffaf0bf651d096c875d3c9f1d465a8dc3b872c7fc4a48876d0c3",
+  "files": [
+   {
+    "path": "tests/training/phase17/test_simple_paper_recipe.py",
+    "sha256": "be27ada07887d685e5d614668286179dc57fd96868c8fb5fbec7233e49d4d046"
+   },
+   {
+    "path": "tests/training/phase17/test_setup_learning.py",
+    "sha256": "60d390250e4c74a2f4c7494f7882e886ae835dd7aa22429f7bb41f14a4324f12"
+   },
+   {
+    "path": "tests/training/phase17/test_setup_episode.py",
+    "sha256": "83ff9499c2e9ae59f9dac2e5c45a97c684e0b85678eb2b2c5af406290f7d63dd"
+   },
+   {
+    "path": "tests/training/phase17/test_runner_tandem.py",
+    "sha256": "739576c8b6d363bab06468d0e93125b84a68b7bab9c310c80c0bb787ad8543f7"
+   },
+   {
+    "path": "tests/training/phase17/test_supervisor_predicates.py",
+    "sha256": "a051707e08a5dd64e4d07117012edf814b6b3ef830b4e2ee4499afbbef5ebef8"
+   },
+   {
+    "path": "tests/training/phase17/test_checkpoint_persistence.py",
+    "sha256": "5839ee749b8c1265478610ee29796a58e02b0f8dfa75994ef1c8313dd7c4a07d"
+   }
+  ]
+ },
+ "work_package": "phase17",
+ "written_utc": "2026-08-28T16:03:43Z"
+}

@@ -1,9 +1,9 @@
-"""Agent 4: the tandem runner's integration behaviour.
+"""The tandem runner's integration behaviour, under operator decision D10.
 
 Everything here runs a real tandem iteration -- real move forward passes, real
-boundary targets, a real move epoch, real setup generation and, where the queue
-allows, five real setup epochs. Nothing is mocked: a mocked timing path would
-prove that the mock works.
+boundary targets, a real move epoch, real setup generation and, where a game
+completes, five real setup epochs. Nothing is mocked: a mocked timing path
+would prove that the mock works.
 
 The population and budget are small so the mechanics are exercised quickly. A
 small window says nothing about strength, and none of these tests claim any.
@@ -23,16 +23,18 @@ from stratego.training.phase17.checkpoint import (
     read_joint_checkpoint,
     write_joint_checkpoint,
 )
-from stratego.training.phase17.queue import (
-    Phase17BudgetError,
-    SetupBudgetPolicy,
-)
 from stratego.training.phase17.runner import (
     PHASE17_SETUP_FAMILY,
     Phase17RunnerError,
     TandemConfig,
     TandemRunner,
 )
+from stratego.training.phase17.setup_contract import (
+    PRODUCTION_RUN_ID,
+    SETUP_RECIPE_VERSION,
+    setup_alpha,
+)
+from stratego.training.phase17.setup_model import build_setup_model
 from stratego.training.phase17.supervisor import MODE_INTEGRATION
 from stratego.training.phase17.telemetry import (
     Phase17TelemetryError,
@@ -48,9 +50,6 @@ def tiny_config(run_id: str = "RUN-TEST-A") -> TandemConfig:
         move_budget=400,
         population=8,
         pool_size_per_side=16,
-        setup_budget=4,
-        setup_queue_capacity=64,
-        setup_warm_up_minimum=4,
         setup_minibatch_episodes=4,
         move_minibatch_size=64,
     )
@@ -149,7 +148,8 @@ def test_every_finished_game_enqueued_both_of_its_episodes(advanced):
     assert not runner.enqueue_rejections
 
 
-def test_a_setup_update_consumes_exactly_the_frozen_budget(advanced):
+def test_a_setup_update_consumes_every_episode_that_completed(advanced):
+    """D10 section 4: the batch is exactly what arrived, not a fixed quota."""
     runner, results = advanced
     real = [
         result
@@ -158,7 +158,50 @@ def test_a_setup_update_consumes_exactly_the_frozen_budget(advanced):
     ]
     assert real, "no setup update ran; the tandem path is unproven"
     for result in real:
-        assert result.setup_update.episodes_consumed == 4
+        assert result.setup_update.episodes_consumed == 2 * result.window.games_finished
+        # And nothing was carried into the next iteration.
+        assert result.buffer_telemetry["depth"] == 0
+    # Across the whole run: every episode that was enqueued was consumed once.
+    buffer = runner.setup_trainer.queue
+    assert buffer.enqueued_count == buffer.consumed_count
+    assert buffer.rejected_count == 0
+
+
+def test_the_setup_pool_is_regenerated_from_the_live_snapshot_every_iteration(
+    advanced,
+):
+    """D10 section 4: 512 fresh samples per side at every global iteration.
+
+    Iteration 1 has nothing to discard. Every iteration after it discards the
+    leftovers of the one before, because a stale candidate carries the OLD
+    behavior probabilities and reusing it would misattribute the PPO ratio's
+    denominator.
+    """
+    runner, results = advanced
+    assert results[0].pool_discarded == 0
+    assert all(result.pool_discarded > 0 for result in results[1:])
+    # The snapshot each pool is bound to is the global iteration, and the
+    # digest is the live raw setup model at the top of that iteration.
+    assert runner.provider.snapshot_iteration == results[-1].iteration
+    for result in results:
+        assert result.provider_telemetry["snapshot_iteration"] == result.iteration
+
+
+def test_the_setup_alpha_follows_the_shared_global_iteration(advanced):
+    """A4-CF6, settled by D10: the same `n` the move schedule reads."""
+    _, results = advanced
+    for result in results:
+        assert result.setup_update.alpha == pytest.approx(setup_alpha(result.iteration))
+
+
+def test_the_setup_kl_coefficient_is_fixed_and_never_stepped(advanced):
+    runner, results = advanced
+    for result in results:
+        update = result.setup_update
+        assert update.behavior_kl_coefficient == 0.1
+        if not update.skipped:
+            assert {epoch["behavior_kl_coefficient"] for epoch in update.epochs} == {0.1}
+    assert not hasattr(runner.setup_trainer, "controller")
 
 
 def test_five_setup_epochs_run_and_are_timed(advanced):
@@ -173,9 +216,9 @@ def test_five_setup_epochs_run_and_are_timed(advanced):
         assert result.seconds["setup_optimization"] > 0.0
 
 
-def test_the_setup_controller_steps_once_per_iteration_on_the_final_epoch(advanced):
-    """Decision D9-B section 4: not once per epoch, and not the epoch mean."""
-    runner, results = advanced
+def test_both_kl_readings_are_reported_as_telemetry(advanced):
+    """Nothing consumes them, but the split still has to be readable."""
+    _, results = advanced
     real = [
         result
         for result in results
@@ -184,24 +227,19 @@ def test_the_setup_controller_steps_once_per_iteration_on_the_final_epoch(advanc
     for result in real:
         update = result.setup_update
         assert len(update.per_epoch_kl) == 5
-        assert update.control_kl == pytest.approx(update.per_epoch_kl[-1])
-        # The final epoch, NOT the mean across epochs. These differ whenever
-        # the KL climbs across epochs, which is the normal case: epoch 0 starts
-        # on the behavior snapshot and its KL is near zero by construction.
+        assert update.final_epoch_kl == pytest.approx(update.per_epoch_kl[-1])
         if len(set(update.per_epoch_kl)) > 1:
-            assert update.control_kl != pytest.approx(update.mean_iteration_kl)
-        # Exactly one beta move per iteration, across five epochs.
-        assert len(update.epochs) == 5
-        assert len(runner.setup_trainer.controller.history) == runner.setup_updates
+            assert update.final_epoch_kl != pytest.approx(update.mean_iteration_kl)
 
 
-def test_a_short_queue_skips_explicitly_rather_than_shrinking(advanced):
+def test_an_iteration_with_no_completed_game_skips_explicitly(advanced):
+    """The only skip D10 leaves: nothing arrived."""
     _, results = advanced
     skipped = [result for result in results if result.setup_skipped]
-    assert skipped, "the warm-up path never ran"
+    assert skipped, "no iteration skipped; the skip path is unproven"
     for result in skipped:
-        assert result.setup_skip_reason
-        assert "queue holds" in result.setup_skip_reason
+        assert result.window.games_finished == 0
+        assert "no game completed" in result.setup_skip_reason
 
 
 def test_a_real_setup_update_moves_the_setup_weights(advanced):
@@ -224,9 +262,6 @@ def test_the_horizon_is_never_extended_by_production_speed():
             move_budget=60,
             population=2,
             pool_size_per_side=4,
-            setup_budget=2,
-            setup_queue_capacity=8,
-            setup_warm_up_minimum=2,
             setup_minibatch_episodes=2,
             move_minibatch_size=32,
         ),
@@ -236,6 +271,87 @@ def test_the_horizon_is_never_extended_by_production_speed():
         runner.run_iteration()
     with pytest.raises(Phase17RunnerError, match="outside the frozen horizon"):
         runner.run_iteration()
+
+
+# -- the D10 production identity -------------------------------------------
+
+
+def test_the_config_and_checkpoint_carry_the_d10_recipe_identity():
+    config = tiny_config()
+    assert config.recipe == SETUP_RECIPE_VERSION == "phase17_simple_paper_tandem_v1"
+    assert config.document()["recipe"] == SETUP_RECIPE_VERSION
+
+
+def test_production_starts_from_phase_9_plus_a_freshly_random_setup_model():
+    """D10 section 3: no rehearsal setup state may enter production."""
+    runner = TandemRunner(tiny_config(PRODUCTION_RUN_ID))
+    identity = runner.identity_document()
+    assert identity["start_identity"]["model_state_digest"] == (
+        "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+    )
+    # The setup half is the seeded from-scratch model and nothing else.
+    fresh = build_setup_model(
+        device="cpu", seed=runner.config.setup_model_seed
+    )
+    from stratego.training.phase9_behavior import state_dict_digest
+
+    assert identity["setup_start_model_state_digest"] == state_dict_digest(fresh)
+    assert runner._setup_digest() == runner.setup_start_digest
+    assert runner.setup_trainer.updates == 0
+
+
+def test_production_refuses_an_injected_setup_model():
+    """The one way rehearsal weights could reach production, closed."""
+    rehearsed = build_setup_model(device="cpu", seed=4242)
+    with pytest.raises(Phase17RunnerError, match="build its own setup model"):
+        TandemRunner(tiny_config(PRODUCTION_RUN_ID), setup_model=rehearsed)
+
+
+def test_a_checkpoint_from_the_retired_recipe_is_refused(tmp_path):
+    config = tiny_config("RUN-TEST-A")
+    runner = TandemRunner(config, supervisor_mode=MODE_INTEGRATION)
+    runner.run_iteration()
+    payload = runner.capture(
+        checkpoint_generation=1,
+        parent_checkpoint_identity={},
+        config_digest="cfg",
+        source_digest="src",
+        run_digest="run",
+        telemetry_position={"path": str(tmp_path / "t.jsonl"), "records": 0, "offset": 0, "last_record_digest": None},
+        next_export_boundary_seconds=1800.0,
+    )
+    payload["recipe"] = "phase17_setup_update_v2"
+    write_joint_checkpoint(payload, tmp_path / "old.pt")
+    from stratego.training.phase17.checkpoint import Phase17CheckpointError
+
+    with pytest.raises(Phase17CheckpointError, match="written under recipe"):
+        read_joint_checkpoint(tmp_path / "old.pt", run_id=config.run_id)
+
+
+def test_a_checkpoint_carrying_an_adaptive_controller_is_refused(tmp_path):
+    config = tiny_config("RUN-TEST-A")
+    runner = TandemRunner(config, supervisor_mode=MODE_INTEGRATION)
+    runner.run_iteration()
+    payload = runner.capture(
+        checkpoint_generation=1,
+        parent_checkpoint_identity={},
+        config_digest="cfg",
+        source_digest="src",
+        run_digest="run",
+        telemetry_position={"path": str(tmp_path / "t.jsonl"), "records": 0, "offset": 0, "last_record_digest": None},
+        next_export_boundary_seconds=1800.0,
+    )
+    assert payload["setup_behavior_kl"] == {
+        "direction": "reverse_current_given_behavior",
+        "coefficient": 0.1,
+        "adaptive": False,
+    }
+    payload["setup_behavior_kl"] = dict(payload["setup_behavior_kl"], adaptive=True)
+    write_joint_checkpoint(payload, tmp_path / "adaptive.pt")
+    from stratego.training.phase17.checkpoint import Phase17CheckpointError
+
+    with pytest.raises(Phase17CheckpointError, match="ADAPTIVE"):
+        read_joint_checkpoint(tmp_path / "adaptive.pt", run_id=config.run_id)
 
 
 # -- persistence -----------------------------------------------------------
@@ -261,7 +377,7 @@ def _fingerprint(runner, result) -> dict:
         "move_ema": runner.move_ema_digest(),
         "setup_raw": runner._setup_digest(),
         "setup_ema": runner.setup_ema_digest(),
-        "queue_depth": result.queue_telemetry["depth"],
+        "buffer_depth": result.buffer_telemetry["depth"],
         "setup_skipped": result.setup_skipped,
     }
 
@@ -462,8 +578,9 @@ def test_an_injected_stop_records_its_reason_and_exits_safely(tmp_path):
     """Agent 4 instruction section 9: one injected event, proved end to end."""
     runner = TandemRunner(tiny_config(), supervisor_mode=MODE_INTEGRATION)
     runner.run_iteration()
-    # Inject an absolute-floor failure, which is hard in every mode.
-    verdict = runner.supervisor.observe_flag_support(2.0)
+    # An integrity failure, which is what D10 leaves as a stop. A statistical
+    # reading -- flag support, entropy, EWR -- could not do this any more.
+    verdict = runner.supervisor.check_transition_count(harvested=1, budget=400)
     assert verdict["fired"]
     assert runner.supervisor.should_stop
 
@@ -478,65 +595,14 @@ def test_an_injected_stop_records_its_reason_and_exits_safely(tmp_path):
     )
     identity = write_joint_checkpoint(payload, tmp_path / "stop.pt")
     record = runner.supervisor.stop_record()
-    assert record["code"] == "P5"
-    assert record["evidence"]["flag_effective_support"] == 2.0
+    assert record["code"] == "I8"
+    assert record["evidence"]["transitions_harvested"] == 1
     assert "no hyperparameter was changed" in record["action"]
     # The safe exit produced a loadable checkpoint, not a corpse.
     assert read_joint_checkpoint(
         tmp_path / "stop.pt", run_id=runner.config.run_id, config_digest="cfg"
     )["checkpoint_generation"] == 99
     assert identity.generation == 99
-
-
-# -- the budget policy ------------------------------------------------------
-
-
-def test_an_unsustainable_budget_is_refused_rather_than_frozen():
-    with pytest.raises(Phase17BudgetError, match="completed no games"):
-        SetupBudgetPolicy.freeze(games_per_iteration=0.0)
-
-
-def test_the_budget_exceeds_the_arrival_rate_so_the_queue_cannot_grow():
-    """The margin points UP: Agent 3's queue raises at capacity, never evicts.
-
-    A budget below the arrival rate is not conservative -- it is a run that
-    dies on an exception some hours in.
-    """
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=100.0)
-    arrivals = 200.0
-    assert policy.budget > arrivals
-    assert policy.sustainability_margin >= 1.10
-    assert policy.capacity > policy.budget
-    assert policy.warm_up_minimum >= policy.budget
-    assert 0.0 < policy.document()["expected_skip_fraction"] < 0.2
-
-    # Simulate the equilibrium: with a fixed arrival rate the depth must stay
-    # bounded rather than march at the capacity.
-    depth, peak = 0.0, 0.0
-    for _ in range(400):
-        depth += arrivals
-        if policy.may_update(int(depth), warmed_up=True)["update"]:
-            depth -= policy.budget
-        peak = max(peak, depth)
-    assert peak < policy.capacity, "the queue reached the capacity that raises"
-
-
-def test_a_budget_below_the_arrival_rate_is_refused():
-    from stratego.training.phase17.queue import SetupBudgetPolicy as Policy
-
-    with pytest.raises(Phase17BudgetError, match="grow without bound"):
-        Policy.freeze(games_per_iteration=100.0, margin=0.9)
-
-
-def test_the_budget_never_prefers_short_games():
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=100.0)
-    assert policy.may_update(policy.budget, warmed_up=True)["update"]
-    short = policy.may_update(policy.budget - 1, warmed_up=True)
-    assert not short["update"] and short["reason"] == "starved"
-    # Warm-up is two budgets deep, so one budget is not yet enough.
-    cold = policy.may_update(policy.budget, warmed_up=False)
-    assert not cold["update"] and cold["reason"] == "warm_up"
-    assert policy.may_update(policy.warm_up_minimum, warmed_up=False)["update"]
 
 
 # -- telemetry --------------------------------------------------------------
@@ -559,7 +625,7 @@ def make_row(index: int) -> dict:
 def test_a_row_missing_a_frozen_field_is_refused(tmp_path):
     writer = TelemetryWriter(path=tmp_path / "t.jsonl", run_id="RUN-TEST-A")
     row = make_row(0)
-    del row["setup"]["queue"]
+    del row["setup"]["completed_episode_buffer"]
     with pytest.raises(Phase17TelemetryError, match="missing"):
         writer.append(row)
 
@@ -695,49 +761,6 @@ def test_a_session_step_writes_a_valid_telemetry_row_and_a_checkpoint(tmp_path):
     assert rows[0]["move"]["transitions_harvested"] == session.config.move_budget
 
 
-def test_the_backlog_alarm_fires_with_room_for_its_own_consecutive_count():
-    """P8 needs three consecutive windows; the alarm must leave room for them.
-
-    An alarm too close to the capacity can never complete: Agent 3's queue
-    raises at capacity, so the run dies between the first and second reading.
-    A rehearsal found this the hard way.
-    """
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=260.0)
-    assert policy.headroom_windows > policy.alarm_consecutive_windows
-
-    # Walk it: from the alarm depth, at a DOUBLED arrival rate, three more
-    # windows must still sit under the capacity.
-    depth = policy.backlog_alarm_depth
-    for _ in range(policy.alarm_consecutive_windows):
-        depth += 2 * policy.measured_completions_per_iteration - policy.budget
-        assert depth < policy.capacity
-
-
-def test_an_alarm_that_cannot_complete_is_refused_at_freeze_time():
-    from dataclasses import replace
-
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=260.0)
-    with pytest.raises(Phase17BudgetError, match="could never complete"):
-        replace(policy, backlog_alarm_depth=policy.capacity - 1)
-
-
-def test_a_window_that_could_overflow_the_queue_is_refused_before_it_starts():
-    """Stopping before the window costs nothing; raising inside it costs the window."""
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=4.0)
-    runner = TandemRunner(
-        tiny_config(), budget_policy=policy, supervisor_mode=MODE_INTEGRATION
-    )
-    # Fill the queue past the point where one more window fits.
-    class _Full:
-        def __len__(self):
-            return policy.capacity
-
-    runner.setup_trainer.queue = _Full()
-    with pytest.raises(Phase17RunnerError, match="could reach the capacity"):
-        runner.run_iteration()
-    assert runner.collector.iteration == 0, "no window was collected"
-
-
 def test_move_means_fails_loudly_on_an_unprefixed_name():
     """A guard fed a silent 0.0 is a guard that is switched off.
 
@@ -783,27 +806,36 @@ def test_the_config_digest_covers_every_field_that_changes_the_run():
     from stratego.training.phase17.checkpoint import json_digest
 
     config = TandemConfig(run_id="RUN-TEST-A", total_iterations=640)
-    document = json.dumps(config.document())
-    for field in dataclasses.fields(config):
-        assert field.name.rsplit("_", 1)[-1] in document or field.name in document, (
-            f"{field.name} is not represented in TandemConfig.document()"
-        )
-
-    # And changing any one of them changes the digest.
     baseline = json_digest(config.document())
     for name, value in (
+        ("run_id", "RUN-OTHER"),
         ("total_iterations", 641),
         ("move_budget", 32768),
         ("population", 128),
         ("pool_size_per_side", 1000),
-        ("setup_budget", 573),
-        ("setup_queue_capacity", 4577),
-        ("setup_warm_up_minimum", 1145),
-        ("setup_max_age_iterations", 9),
         ("setup_minibatch_episodes", 32),
         ("setup_model_seed", 18),
         ("move_minibatch_size", 256),
         ("move_device", "mps"),
+        ("setup_device", "mps"),
+        ("work_package", "phase18"),
     ):
         altered = dataclasses.replace(config, **{name: value})
         assert json_digest(altered.document()) != baseline, f"{name} is not digested"
+
+    # Every field of the dataclass is covered by the list above, so a field
+    # added later fails here rather than silently escaping the digest.
+    covered = {
+        "run_id",
+        "total_iterations",
+        "move_budget",
+        "population",
+        "pool_size_per_side",
+        "setup_minibatch_episodes",
+        "setup_model_seed",
+        "move_minibatch_size",
+        "move_device",
+        "setup_device",
+        "work_package",
+    }
+    assert {field.name for field in dataclasses.fields(config)} == covered

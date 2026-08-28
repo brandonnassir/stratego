@@ -55,12 +55,15 @@ from ...setups.identity import (
     reflect_canonical,
 )
 from .setup_contract import (
-    PROVISIONAL_FLAG_EFFECTIVE_SUPPORT_FLOOR,
-    PROVISIONAL_PREFIX_ENTROPY_FLOOR_CONSECUTIVE_CHECKS,
-    PROVISIONAL_PREFIX_ENTROPY_FLOOR_FRACTION,
+    DESCRIPTIVE_FLAG_EFFECTIVE_SUPPORT_FLOOR,
+    DESCRIPTIVE_PREFIX_ENTROPY_FLOOR_FRACTION,
     SETUP_PREFIXES,
     Phase17SetupError,
 )
+
+#: How many consecutive readings a band has to hold before it is worth saying
+#: out loud. Descriptive under D10; nothing acts on it.
+DESCRIPTIVE_CONSECUTIVE_CHECKS = 3
 
 #: The label carried by the throwaway `LibraryEntry` wrappers below. The
 #: accepted per-square-entropy and folded-support helpers read only
@@ -94,11 +97,11 @@ def shannon_entropy_nats(probabilities: np.ndarray) -> float:
 def effective_support(probabilities: np.ndarray) -> float:
     """`exp(H)` -- how many outcomes the distribution behaves like it has.
 
-    The production stop condition is stated in these units (`flag effective
-    support below four`), so it is computed as a perplexity rather than as a
-    raw count of distinct values: 100 boards that put the flag on square 3
-    once and square 7 ninety-nine times have a support of 2 and an effective
-    support of 1.06.
+    The descriptive floor is stated in these units (`flag effective support
+    below four`), so it is computed as a perplexity rather than as a raw count
+    of distinct values: 100 boards that put the flag on square 3 once and
+    square 7 ninety-nine times have a support of 2 and an effective support of
+    1.06.
     """
     return float(np.exp(shannon_entropy_nats(probabilities)))
 
@@ -337,8 +340,13 @@ class DiversityAlarms:
 
     The hard floors are the common contract's provisional ones expressed
     against *this run's* measured baseline, never against a library standard.
-    The warning band sits at 80% so a drift is visible before the stop
-    condition fires.
+    The warning band sits at 80% so a drift is visible before the `hard` band
+    is reached.
+
+    Under operator decision D10 section 7 none of these bands stops a run:
+    setup entropy decline, low diversity and concentration are telemetry. The
+    `hard` label survives only so a reading can be named against the level
+    Agent 3 measured as collapse.
     """
 
     baseline_label: str
@@ -364,11 +372,11 @@ class DiversityAlarms:
             baseline_reflection_class_unique_fraction=float(
                 profile["reflection_class_unique_fraction"]
             ),
-            hard_mean_prefix_entropy_nats=entropy * PROVISIONAL_PREFIX_ENTROPY_FLOOR_FRACTION,
+            hard_mean_prefix_entropy_nats=entropy * DESCRIPTIVE_PREFIX_ENTROPY_FLOOR_FRACTION,
             warn_mean_prefix_entropy_nats=entropy * 0.80,
-            hard_flag_effective_support=PROVISIONAL_FLAG_EFFECTIVE_SUPPORT_FLOOR,
-            warn_flag_effective_support=PROVISIONAL_FLAG_EFFECTIVE_SUPPORT_FLOOR * 1.5,
-            consecutive_checks=PROVISIONAL_PREFIX_ENTROPY_FLOOR_CONSECUTIVE_CHECKS,
+            hard_flag_effective_support=DESCRIPTIVE_FLAG_EFFECTIVE_SUPPORT_FLOOR,
+            warn_flag_effective_support=DESCRIPTIVE_FLAG_EFFECTIVE_SUPPORT_FLOOR * 1.5,
+            consecutive_checks=DESCRIPTIVE_CONSECUTIVE_CHECKS,
         )
 
     def evaluate(self, profile: dict) -> dict:

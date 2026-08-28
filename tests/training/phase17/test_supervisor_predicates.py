@@ -1,8 +1,8 @@
-"""Agent 4: the collapse supervisor's predicate arithmetic and the D9-B rule.
+"""The run supervisor's predicate arithmetic and D10's two families.
 
-These tests are about counting and classification, not about training. Agent 4
-instruction section 9: "Unit tests cover predicate arithmetic; no broad
-failure-injection campaign is required."
+These tests are about counting and classification, not about training. Their
+subject is the line D10 section 7 drew: `I1`-`I8` stop a run and `P1`-`P7` are
+warnings that never can.
 """
 
 from __future__ import annotations
@@ -12,8 +12,8 @@ import pytest
 from stratego.training.phase17.supervisor import (
     MODE_INTEGRATION,
     MODE_PRODUCTION,
-    SEVERITY_DIAGNOSTIC,
     SEVERITY_STOP,
+    SEVERITY_WARNING,
     CollapseSupervisor,
     Phase17SupervisorError,
 )
@@ -40,14 +40,51 @@ def test_one_reading_is_a_warning_not_a_stop():
     assert not supervisor.should_stop
 
 
-def test_three_consecutive_readings_stop_in_production():
+def test_three_consecutive_readings_still_only_warn():
+    """D10 section 7: setup entropy decline is telemetry, not a stop.
+
+    The consecutive count still fires -- that is what turns one noisy reading
+    into a warning worth reading -- but firing a statistical predicate can
+    never set `stopped`.
+    """
     supervisor = make()
     for _ in range(2):
         assert not supervisor.observe_setup_entropy(FLOOR - 0.1)["fired"]
     verdict = supervisor.observe_setup_entropy(FLOOR - 0.1)
-    assert verdict["fired"] and verdict["severity"] == SEVERITY_STOP
-    assert supervisor.should_stop
-    assert supervisor.stop_record()["code"] == "P4"
+    assert verdict["fired"] and verdict["severity"] == SEVERITY_WARNING
+    assert verdict["stops_the_run"] is False
+    assert not supervisor.should_stop
+    assert supervisor.stop_record() is None
+    assert any(entry["code"] == "P4" for entry in supervisor.warnings)
+
+
+def test_every_statistical_predicate_is_a_warning_in_every_mode():
+    for mode in (MODE_PRODUCTION, MODE_INTEGRATION):
+        supervisor = make(mode)
+        for code in supervisor.WARNING_CODES:
+            assert supervisor.predicates[code].severity == SEVERITY_WARNING, code
+        for code in ("I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8"):
+            assert supervisor.predicates[code].severity == SEVERITY_STOP, code
+
+
+def test_no_statistical_reading_can_stop_a_run():
+    """Every P-family entry point, driven past its consecutive count."""
+    supervisor = make()
+    for _ in range(6):
+        supervisor.observe_setup_entropy(FLOOR - 0.2)
+        supervisor.observe_flag_support(1.0)
+        supervisor.observe_setup_kl(10.0)
+        supervisor.observe_move_kl(10.0)
+        supervisor.observe_move_entropy(0.0, first_hour_median=1.0)
+        supervisor.observe_ewr(0.10, hour0=0.90)
+        supervisor.observe_setup_update_activity(
+            updated=False, interval_complete=True, episodes_available=True
+        )
+    assert not supervisor.should_stop
+    assert supervisor.stop_record() is None
+    assert {entry["code"] for entry in supervisor.warnings} == set(
+        supervisor.WARNING_CODES
+    )
 
 
 def test_a_good_reading_resets_the_consecutive_run():
@@ -64,48 +101,30 @@ def test_a_good_reading_resets_the_consecutive_run():
     assert supervisor.predicates["P4"].trips == 3
 
 
-def test_d9b_makes_p4_a_diagnostic_in_integration_mode_only():
-    """Decision D9-B section 6: the relative reading does not veto integration."""
-    supervisor = make(MODE_INTEGRATION)
-    for _ in range(3):
-        verdict = supervisor.observe_setup_entropy(FLOOR - 0.2)
-    assert verdict["fired"]
-    assert verdict["severity"] == SEVERITY_DIAGNOSTIC
-    assert not supervisor.should_stop, "a relative-only reading may not stop Agent 4"
-    assert supervisor.stop_record() is None
+def test_the_descriptive_thresholds_are_unchanged():
+    """D10 demoted the consequences, not the numbers.
 
-
-def test_d9b_does_not_move_the_threshold():
-    production = make(MODE_PRODUCTION)
-    integration = make(MODE_INTEGRATION)
-    assert production.setup_entropy_floor == integration.setup_entropy_floor
-    assert production.setup_entropy_floor == pytest.approx(0.9257366873314787)
-    assert (
-        production.predicates["P4"].consecutive_required
-        == integration.predicates["P4"].consecutive_required
-        == 3
-    )
-
-
-def test_absolute_floors_stay_hard_in_integration_mode():
-    """P5 is an absolute floor; D9-B leaves every absolute floor a stop."""
-    supervisor = make(MODE_INTEGRATION)
-    verdict = supervisor.observe_flag_support(3.9)
-    assert verdict["fired"] and verdict["severity"] == SEVERITY_STOP
-    assert supervisor.should_stop
-    assert supervisor.stop_record()["code"] == "P5"
+    The thresholds survive so a warning can still say "this is below the level
+    Agent 3 measured as collapse". Rewriting one to manufacture a quiet run
+    would be the opposite of what the demotion is for.
+    """
+    supervisor = make()
+    assert supervisor.setup_entropy_floor == pytest.approx(0.9257366873314787)
+    assert supervisor.flag_support_floor == 4.0
+    assert supervisor.predicates["P4"].consecutive_required == 3
 
 
 def test_flag_support_at_the_floor_does_not_trip():
-    assert not make(MODE_INTEGRATION).observe_flag_support(4.0)["tripped"]
+    assert not make().observe_flag_support(4.0)["tripped"]
 
 
 def test_setup_kl_hard_limit_needs_three_consecutive_updates():
     supervisor = make()
     for _ in range(2):
         assert not supervisor.observe_setup_kl(0.09)["fired"]
-    assert supervisor.observe_setup_kl(0.09)["fired"]
-    assert supervisor.stop_record()["code"] == "P3"
+    verdict = supervisor.observe_setup_kl(0.09)
+    assert verdict["fired"] and verdict["severity"] == SEVERITY_WARNING
+    assert not supervisor.should_stop
 
 
 def test_setup_kl_at_the_limit_does_not_trip():
@@ -116,7 +135,17 @@ def test_move_kl_hard_limit():
     supervisor = make()
     for _ in range(3):
         verdict = supervisor.observe_move_kl(0.081)
-    assert verdict["fired"] and supervisor.stop_record()["code"] == "P2"
+    assert verdict["fired"] and not supervisor.should_stop
+
+
+def test_a_fixed_transition_count_violation_stops_immediately():
+    """One of D10 section 7's named stops: the iteration already trained."""
+    supervisor = make()
+    assert not supervisor.check_transition_count(harvested=65536, budget=65536)["tripped"]
+    verdict = supervisor.check_transition_count(harvested=65535, budget=65536)
+    assert verdict["fired"] and verdict["severity"] == SEVERITY_STOP
+    assert supervisor.should_stop
+    assert supervisor.stop_record()["code"] == "I8"
 
 
 def test_nonfinite_stops_immediately():
@@ -183,14 +212,15 @@ def test_setup_generation_failure_is_i4():
 def test_setup_silence_only_trips_when_work_was_available():
     supervisor = make()
     assert not supervisor.observe_setup_update_activity(
-        updated=False, interval_complete=True, warmed_up=False, episodes_available=True
+        updated=True, interval_complete=True, episodes_available=True
     )["tripped"]
     assert not supervisor.observe_setup_update_activity(
-        updated=False, interval_complete=True, warmed_up=True, episodes_available=False
+        updated=False, interval_complete=True, episodes_available=False
     )["tripped"]
-    assert supervisor.observe_setup_update_activity(
-        updated=False, interval_complete=True, warmed_up=True, episodes_available=True
-    )["fired"]
+    verdict = supervisor.observe_setup_update_activity(
+        updated=False, interval_complete=True, episodes_available=True
+    )
+    assert verdict["fired"] and not supervisor.should_stop
 
 
 def test_move_entropy_needs_a_first_hour_median_before_it_can_trip():
@@ -199,7 +229,8 @@ def test_move_entropy_needs_a_first_hour_median_before_it_can_trip():
     supervisor.observe_move_entropy(0.001, first_hour_median=1.0)
     for _ in range(4):
         verdict = supervisor.observe_move_entropy(0.001)
-    assert verdict["fired"] and supervisor.stop_record()["code"] == "P6"
+    assert verdict["fired"] and verdict["code"] == "P6"
+    assert not supervisor.should_stop
 
 
 def test_ewr_collapse_is_measured_against_hour_zero():
@@ -207,17 +238,16 @@ def test_ewr_collapse_is_measured_against_hour_zero():
     supervisor.observe_ewr(0.70, hour0=0.70)
     for _ in range(3):
         verdict = supervisor.observe_ewr(0.54)
-    assert verdict["fired"] and supervisor.stop_record()["code"] == "P1"
+    assert verdict["fired"] and verdict["code"] == "P1"
     assert verdict["evidence"]["drop"] == pytest.approx(0.16)
+    assert not supervisor.should_stop
 
 
-def test_queue_alarms_map_to_p8():
+def test_the_retired_queue_backlog_predicate_is_gone():
+    """P8 watched a backlog. D10 drains the buffer every iteration."""
     supervisor = make()
-    for _ in range(3):
-        verdict = supervisor.observe_queue(
-            {"backlog": {"over": True, "depth": 5000}, "age": {"over": False}}
-        )
-    assert verdict["fired"] and supervisor.stop_record()["code"] == "P8"
+    assert "P8" not in supervisor.predicates
+    assert not hasattr(supervisor, "observe_queue")
 
 
 def test_the_supervisor_changes_no_hyperparameter():
@@ -225,7 +255,7 @@ def test_the_supervisor_changes_no_hyperparameter():
     supervisor = make()
     for name in (
         "learning_rate",
-        "kl_target",
+        "kl_coefficient",
         "entropy_coefficient",
         "population",
         "epochs",
@@ -233,6 +263,10 @@ def test_the_supervisor_changes_no_hyperparameter():
     ):
         assert not hasattr(supervisor, f"set_{name}")
     assert "learning rate" in supervisor.document()["may_not_change"]
+    assert (
+        "the fixed setup behavior-KL coefficient"
+        in supervisor.document()["may_not_change"]
+    )
 
 
 def test_consecutive_state_survives_a_round_trip():
@@ -244,8 +278,10 @@ def test_consecutive_state_survives_a_round_trip():
     resumed.load_state_document(supervisor.state_document())
     assert resumed.predicates["P4"].consecutive == 2
     assert resumed.hour0_ewr == pytest.approx(0.7)
-    # The third reading after a resume still fires, exactly as it would have.
+    # The third reading after a resume still fires as a warning, exactly as it
+    # would have without the resume.
     assert resumed.observe_setup_entropy(FLOOR - 0.1)["fired"]
+    assert not resumed.should_stop
 
 
 def test_a_foreign_supervisor_state_is_refused():
@@ -269,18 +305,9 @@ def test_a_ledger_missing_a_required_field_is_refused_not_passed():
         supervisor.check_participant_ledger({"unknown_model_states": {}})
 
 
-def test_a_malformed_queue_alarm_is_refused_not_read_as_not_over():
-    supervisor = make()
-    with pytest.raises(Phase17SupervisorError, match="cannot answer"):
-        supervisor.observe_queue({"backlog": {"depth": 5000}, "age": {"over": False}})
+def test_the_retired_budget_policy_module_is_gone():
+    """D10 removed the quota, the warm-up and the backlog alarm together."""
+    import importlib
 
-
-def test_queue_telemetry_without_a_depth_is_refused():
-    from stratego.training.phase17.queue import Phase17BudgetError, SetupBudgetPolicy
-
-    policy = SetupBudgetPolicy.freeze(games_per_iteration=100.0)
-    with pytest.raises(Phase17BudgetError, match="no 'depth'"):
-        policy.alarms({"oldest_age": 3})
-    # An empty queue legitimately has no oldest age; that is absence, not a
-    # missing field, and must not raise.
-    assert policy.alarms({"depth": 0, "oldest_age": None})["age"]["over"] is False
+    with pytest.raises(ModuleNotFoundError):
+        importlib.import_module("stratego.training.phase17.queue")

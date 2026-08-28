@@ -1,24 +1,23 @@
 #!/usr/bin/env python
-"""Phase 17 Agent 4: the tandem training session and its production entry point.
+"""Phase 17: the tandem training session and its production entry point.
 
-This module is the production loop. Agent 4 does **not** start the 12-hour job;
-`--start` exists so Agent 6 has one exact command to bind in the launch
-manifest, and it refuses to run without an explicit `--i-am-agent-7` token so
-it cannot be launched by accident from this agent's own rehearsals.
+This module is the production loop for operator decision D10's simplified
+paper-shaped recipe (`phase17_simple_paper_tandem_v1`, run `RUN-2026-B`).
+`--start` refuses to run without an explicit `--i-am-agent-7` token so the
+12-hour job cannot be launched by accident from a smoke.
 
 What the session owns, and why it is separate from `TandemRunner`
 -----------------------------------------------------------------
 `TandemRunner` is the ten contractual steps of one iteration. Everything with a
-*cadence* -- checkpoints, 30-minute exports, telemetry rows, stop checks --
-lives here, so the rehearsal and the production run drive the identical
-iteration code and differ only in how long they are asked to run and in what
-the supervisor is allowed to treat as fatal.
+*cadence* -- checkpoints, 30-minute exports, telemetry rows, warning readings --
+lives here, so the smoke and the production run drive the identical iteration
+code and differ only in how long they are asked to run.
 
 Hour 0 is before the first optimizer update
 --------------------------------------------
 Not "at the first thirty-minute mark". :meth:`TrainingSession.export_hour_zero`
-must be called before :meth:`step`, and it is the Phase 9 policy plus the
-freshly initialised setup policy -- the baseline every later candidate is
+must be called before :meth:`step`, and it is the Phase 9 move policy plus the
+freshly initialised random setup policy -- the baseline every later candidate is
 measured against.
 """
 
@@ -46,16 +45,16 @@ from stratego.training.phase17.export import (  # noqa: E402
     due_boundaries,
     write_paired_export,
 )
-from stratego.training.phase17.queue import SetupBudgetPolicy  # noqa: E402
 from stratego.training.phase17.runner import (  # noqa: E402
     TandemConfig,
     TandemRunner,
     move_means,
 )
-from stratego.training.phase17.supervisor import (  # noqa: E402
-    MODE_INTEGRATION,
-    MODE_PRODUCTION,
+from stratego.training.phase17.setup_contract import (  # noqa: E402
+    PRODUCTION_RUN_ID,
+    SETUP_RECIPE_VERSION,
 )
+from stratego.training.phase17.supervisor import MODE_PRODUCTION  # noqa: E402
 from stratego.training.phase17.telemetry import (  # noqa: E402
     TelemetryWriter,
     telemetry_schema,
@@ -73,7 +72,6 @@ class TrainingSession:
         config: TandemConfig,
         *,
         directory: "str | Path",
-        budget_policy: "SetupBudgetPolicy | None" = None,
         supervisor_mode: str = MODE_PRODUCTION,
         source_digest: str = "",
         schedule_digest: str = "",
@@ -89,7 +87,7 @@ class TrainingSession:
             path.mkdir(parents=True, exist_ok=True)
 
         self.runner = runner or TandemRunner(
-            config, budget_policy=budget_policy, supervisor_mode=supervisor_mode
+            config, supervisor_mode=supervisor_mode
         )
         self.telemetry = TelemetryWriter(
             path=self.directory / "telemetry.jsonl", run_id=config.run_id
@@ -226,6 +224,10 @@ class TrainingSession:
         supervisor = self.runner.supervisor
         elapsed = self.runner.elapsed_active_training_seconds
 
+        # Every predicate fed here is a WARNING under D10 section 7. They are
+        # still read on their proper cadence, because a warning nobody measures
+        # is not telemetry.
+        #
         # P6: collect the first hour, then fix the median once and for all.
         # The predicate is observed on EVERY iteration regardless, so the
         # telemetry carries a P6 verdict from iteration 1 rather than starting
@@ -256,8 +258,7 @@ class TrainingSession:
             interval_complete=(
                 elapsed - self.last_setup_update_seconds >= EXPORT_INTERVAL_SECONDS
             ),
-            warmed_up=bool(self.runner.warmed_up),
-            episodes_available=bool(result.queue_telemetry.get("depth", 0)),
+            episodes_available=bool(result.buffer_telemetry.get("depth", 0)),
         )
 
         # P4 and P5: on the reading cadence, from a fresh sample.
@@ -391,9 +392,8 @@ class TrainingSession:
                 "legality_failures": int(runner.provider.legality_failures),
                 "orientation_failures": int(runner.provider.orientation_failures),
                 "fallback_attempts": int(runner.provider.fallback_attempts),
-                "queue": dict(result.queue_telemetry),
-                "starvation": {
-                    "warmed_up": bool(runner.warmed_up),
+                "completed_episode_buffer": dict(result.buffer_telemetry),
+                "activity": {
                     "skips": int(runner.setup_skips),
                     "updates": int(runner.setup_updates),
                 },
@@ -405,6 +405,14 @@ class TrainingSession:
                     for name, value in setup_means.items()
                     if isinstance(value, (int, float))
                 },
+                # D10 section 4: record the component magnitudes. The printed
+                # advantage's entropy term is `alpha * (I - h)` in nats against
+                # an outcome term bounded by 2, so their ratio is the number a
+                # reader of the 12-hour curve needs and it is carried here every
+                # iteration rather than derived afterwards.
+                "advantage_components": dict(setup.advantage_telemetry or {})
+                if setup and not setup.skipped
+                else {},
                 "empirical_entropy": float(
                     setup_means.get("mean_prefix_entropy_nats", 0.0)
                 ),
@@ -412,17 +420,20 @@ class TrainingSession:
                     setup_means.get("conditional_entropy_loss", 0.0)
                 ),
                 "predicted_entropy_is": (
-                    "L_h, the conditional-entropy head's loss. The head's "
-                    "prediction h is retained for telemetry and paper alignment "
-                    "and is NOT read by the D7-B advantage."
+                    "L_h, the conditional-entropy head's squared error against "
+                    "its target I/10. The prediction h itself IS read by the "
+                    "D10 advantage, which subtracts it from I in nats."
                 ),
                 "mean_kl": float(setup.mean_iteration_kl) if setup and not setup.skipped else 0.0,
-                "control_kl": float(setup.control_kl) if setup and not setup.skipped else 0.0,
-                "kl_beta": float(setup.beta_after) if setup else float(runner.setup_trainer.controller.beta),
+                "final_epoch_kl": float(setup.final_epoch_kl) if setup and not setup.skipped else 0.0,
+                # A FIXED coefficient. Never named `kl_beta`, never carrying a
+                # controller's target or bounds: D10 section 1.
+                "kl_coefficient": float(runner.setup_config.behavior_kl_coefficient),
+                "kl_direction": runner.setup_config.kl_direction,
                 "grad_norm": float(setup.gradient_norm_mean) if setup and not setup.skipped else 0.0,
                 "learning_rate": float(runner.setup_config.learning_rate),
                 "alpha": float(setup.alpha) if setup else float(
-                    runner.setup_config.alpha(max(1, runner.setup_trainer.setup_iteration))
+                    runner.setup_config.alpha(max(1, result.iteration))
                 ),
                 "optimizer_steps": int(setup.optimizer_steps) if setup else 0,
                 "concentration": {
@@ -469,6 +480,7 @@ class TrainingSession:
                 "optimization_seconds": float(result.seconds["setup_optimization"]),
             },
             "system": {
+                "recipe": SETUP_RECIPE_VERSION,
                 "run_id": self.config.run_id,
                 "work_package": self.config.work_package,
                 "iteration": int(result.iteration),
@@ -507,15 +519,20 @@ def _peak_memory_mib() -> float:
 
 
 def load_frozen(schedule_path: Path, throughput_path: Path) -> dict:
+    """The frozen horizon and the measured host configuration.
+
+    The setup budget policy that used to be read from `throughput` is gone:
+    D10 consumes every completed episode, so there is no quota to freeze. What
+    survives is the move schedule's horizon `N`, which is still frozen before
+    h0 and never recomputed from production speed.
+    """
     schedule = json.loads(schedule_path.read_text())
     throughput = json.loads(throughput_path.read_text())
-    policy = throughput["setup_budget_policy"]
-    return {"schedule": schedule, "throughput": throughput, "policy": policy}
+    return {"schedule": schedule, "throughput": throughput}
 
 
 def build_production_config(frozen: dict, *, run_id: str) -> TandemConfig:
     schedule = frozen["schedule"]
-    policy = frozen["policy"]
     configuration = frozen["throughput"]["configuration"]
     return TandemConfig(
         run_id=run_id,
@@ -523,10 +540,6 @@ def build_production_config(frozen: dict, *, run_id: str) -> TandemConfig:
         move_budget=int(configuration["budget_transitions"]),
         population=int(configuration["population"]),
         pool_size_per_side=int(configuration["pool_size_per_side"]),
-        setup_budget=int(policy["budget"]),
-        setup_queue_capacity=int(policy["capacity"]),
-        setup_warm_up_minimum=int(policy["warm_up_minimum"]),
-        setup_max_age_iterations=int(policy["max_age_iterations"]),
         move_device=frozen["throughput"]["host"]["move_device"],
         setup_device=frozen["throughput"]["host"]["setup_device"],
     )
@@ -534,8 +547,10 @@ def build_production_config(frozen: dict, *, run_id: str) -> TandemConfig:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--run-id", default="RUN-2026-A")
-    parser.add_argument("--directory", default="checkpoints/phase17/RUN-2026-A")
+    parser.add_argument("--run-id", default=PRODUCTION_RUN_ID)
+    parser.add_argument(
+        "--directory", default=f"checkpoints/phase17/{PRODUCTION_RUN_ID}"
+    )
     parser.add_argument("--schedule", default="reports/phase17/agent_04_schedule.json")
     parser.add_argument("--throughput", default="reports/phase17/agent_04_throughput.json")
     parser.add_argument("--resume", default=None)
@@ -553,14 +568,14 @@ def main() -> int:
         print(
             json.dumps(
                 {
+                    "recipe": SETUP_RECIPE_VERSION,
                     "would_run": config.document(),
                     "schedule_digest": frozen["schedule"]["schedule_digest"],
-                    "setup_budget_policy": frozen["policy"],
                     "telemetry_schema": telemetry_schema()["schema_version"],
                     "expected_candidates": 25,
                     "started": False,
                     "note": (
-                        "Agent 4 does not start the 12-hour run. Agent 6 binds "
+                        "Agent 4B does not start the 12-hour run. Agent 6 binds "
                         "this command in the launch manifest and Agent 7 runs it "
                         "with --start --i-am-agent-7 after operator approval."
                     ),
@@ -574,7 +589,7 @@ def main() -> int:
     if not arguments.i_am_agent_7:
         print(
             "refusing to start: the 12-hour production run needs --i-am-agent-7 "
-            "and operator launch approval. Agent 4 rehearses; it does not launch.",
+            "and operator launch approval.",
             file=sys.stderr,
         )
         return 2
@@ -582,7 +597,6 @@ def main() -> int:
     session = TrainingSession(
         config,
         directory=REPOSITORY_ROOT / arguments.directory,
-        budget_policy=None,
         supervisor_mode=MODE_PRODUCTION,
         schedule_digest=frozen["schedule"]["schedule_digest"],
     )

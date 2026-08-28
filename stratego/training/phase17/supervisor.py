@@ -1,38 +1,36 @@
-"""Phase 17 Agent 4: the collapse supervisor.
+"""Phase 17: the run supervisor.
 
-Specification sources: common contract section 13, Agent 4 instruction section
-9, operator decision D9-B section 6.
+Specification sources: operator decision D10 section 7, common contract
+section 13.
 
 What a supervisor may and may not do
 ------------------------------------
-It may checkpoint and stop. It may **not** change a learning rate, a KL target,
-an entropy coefficient, the population size, an epoch count, the setup batch,
-or a benchmark case. That is not a style preference: a guard that adjusts the
-thing it is measuring stops being evidence about the run and becomes part of
-the recipe, and the run's telemetry would then describe a schedule nobody
-froze. Every method here returns a verdict; nothing here writes a
-hyperparameter.
+It may checkpoint and stop. It may **not** change a learning rate, a KL
+coefficient, an entropy schedule, the population size, an epoch count, the
+setup batch, or a benchmark case. That is not a style preference: a guard that
+adjusts the thing it is measuring stops being evidence about the run and
+becomes part of the recipe, and the run's telemetry would then describe a
+schedule nobody froze. Every method here returns a verdict; nothing here
+writes a hyperparameter.
 
-Immediate versus persistent
----------------------------
-An immediate predicate (`I1`..`I7`) fires on one observation, because each one
-means the data already recorded is wrong. A persistent predicate (`P1`..`P8`)
-needs its frozen consecutive count, because one noisy EWR, KL or entropy
-reading is a warning -- contract section 13's `single_reading_rule`.
+Two families, and D10 moved the line between them
+--------------------------------------------------
+An **integrity** predicate (`I1`..`I8`) fires on one observation and stops the
+run, because each one means the data already recorded is wrong or the run
+cannot continue safely: a wrong identity, a wrong policy on a seat, an illegal
+or misoriented setup, a silent fallback, a nonfinite number, a prohibited
+training participant, a fixed-transition count violation, a corrupt resume.
 
-Consecutive counting has a reset rule, and it is per predicate: a reading that
-does *not* trip resets that predicate's run to zero. Without the reset, three
-trips spread across a twelve-hour run would eventually stop a healthy job.
+A **statistical** predicate (`P1`..`P7`) is a WARNING and can never stop the
+run. D10 section 7: "EWR decline, high but finite KL, setup entropy decline,
+low diversity, game-length change, and setup concentration are telemetry and
+warnings, not automatic stops. The 12-hour learning curve is the experiment."
+The consecutive counting stays, because it is what turns one noisy reading into
+a warning worth reading; only the consequence changed.
 
-The D9-B exception, stated precisely
-------------------------------------
-`P4` -- setup mean prefix entropy below 60% of its initial baseline for three
-checks -- remains the default **production** stop predicate. During Agent 4's
-bounded integration rehearsal it is recorded as a *diagnostic*: the verdict
-still carries the full evidence payload and the consecutive count, and
-`severity` becomes `diagnostic` instead of `stop`. Nothing else moves.
-`P5` (flag effective support below four) and every absolute floor stay hard in
-both modes, and no threshold is ever rewritten to manufacture a pass.
+The predicates still carry their frozen thresholds. Deleting them would leave
+the telemetry unable to say "this is below the level Agent 3 measured as
+collapse", which is exactly the context a reader of a bad curve needs.
 """
 
 from __future__ import annotations
@@ -41,7 +39,7 @@ from dataclasses import dataclass, field
 
 from .move_contract import Phase17MoveError
 
-SUPERVISOR_VERSION = "phase17_collapse_supervisor_v1"
+SUPERVISOR_VERSION = "phase17_run_supervisor_v2"
 
 #: Contract section 13 thresholds. Frozen here; the supervisor reads them and
 #: never writes them.
@@ -54,7 +52,6 @@ SETUP_ENTROPY_RELATIVE_FRACTION = 0.60
 
 SEVERITY_STOP = "stop"
 SEVERITY_WARNING = "warning"
-SEVERITY_DIAGNOSTIC = "diagnostic"
 
 MODE_PRODUCTION = "production"
 MODE_INTEGRATION = "integration"
@@ -93,6 +90,7 @@ class Predicate:
             "consecutive": int(self.consecutive),
             "consecutive_required": int(self.consecutive_required),
             "severity": self.severity if fired else (SEVERITY_WARNING if tripped else "ok"),
+            "stops_the_run": bool(fired and self.severity == SEVERITY_STOP),
             "evidence": dict(evidence),
         }
 
@@ -100,6 +98,7 @@ class Predicate:
         return {
             "code": self.code,
             "description": self.description,
+            "family": "integrity" if self.severity == SEVERITY_STOP else "statistical",
             "consecutive": int(self.consecutive),
             "consecutive_required": int(self.consecutive_required),
             "trips": int(self.trips),
@@ -113,11 +112,15 @@ def _immediate(code: str, description: str) -> Predicate:
 
 
 class CollapseSupervisor:
-    """Every contract section 13 predicate, with frozen thresholds.
+    """Every D10 section 7 predicate, with frozen thresholds.
 
-    `mode` selects only how `P4` is *reported*. It changes no threshold, no
-    consecutive count and no other predicate.
+    `mode` is a label on the run, recorded in the document. It changes no
+    threshold, no consecutive count and no severity: under D10 every
+    statistical predicate is a warning in every mode.
     """
+
+    #: The statistical family. Warnings, never stops (D10 section 7).
+    WARNING_CODES = ("P1", "P2", "P3", "P4", "P5", "P6", "P7")
 
     def __init__(
         self,
@@ -151,6 +154,14 @@ class CollapseSupervisor:
         self.warnings: list = []
         self.verdicts: list = []
 
+        def warning(code: str, description: str, consecutive: int) -> Predicate:
+            return Predicate(
+                code=code,
+                description=description,
+                consecutive_required=consecutive,
+                severity=SEVERITY_WARNING,
+            )
+
         self.predicates = {
             "I1": _immediate("I1", "rules, orientation, legality, candidate or digest mismatch"),
             "I2": _immediate("I2", "a decision recorded under the wrong current move-policy digest"),
@@ -159,27 +170,24 @@ class CollapseSupervisor:
             "I5": _immediate("I5", "search or a non-current training opponent entered collection"),
             "I6": _immediate("I6", "evaluation result bound to the wrong candidate or benchmark"),
             "I7": _immediate("I7", "unrecoverable checkpoint/resume identity failure"),
-            "P1": Predicate("P1", f"fixed-pack EWR at least {EWR_COLLAPSE_DROP} below hour 0", 3),
-            "P2": Predicate("P2", f"move mean KL above {move_kl_hard_limit}", 3),
-            "P3": Predicate("P3", f"setup KL above {setup_kl_hard_limit}", 3),
-            "P4": Predicate(
+            "I8": _immediate("I8", "fixed-transition count violation"),
+            "P1": warning("P1", f"fixed-pack EWR at least {EWR_COLLAPSE_DROP} below hour 0", 3),
+            "P2": warning("P2", f"move mean KL above {move_kl_hard_limit}", 3),
+            "P3": warning("P3", f"setup KL above {setup_kl_hard_limit}", 3),
+            "P4": warning(
                 "P4",
                 f"setup mean prefix entropy below {SETUP_ENTROPY_RELATIVE_FRACTION:.0%} "
                 f"of its initial baseline ({self.setup_entropy_floor:.10f} nats)",
                 3,
-                severity=(
-                    SEVERITY_DIAGNOSTIC if mode == MODE_INTEGRATION else SEVERITY_STOP
-                ),
             ),
-            "P5": Predicate("P5", f"flag effective support below {flag_support_floor}", 1),
-            "P6": Predicate("P6", "move entropy below 25% of its first-hour median", 5),
-            "P7": Predicate(
+            "P5": warning("P5", f"flag effective support below {flag_support_floor}", 1),
+            "P6": warning("P6", "move entropy below 25% of its first-hour median", 5),
+            "P7": warning(
                 "P7",
                 "no setup optimizer update for one complete 30-minute interval "
-                "after warm-up while games and setup episodes complete",
+                "while games and setup episodes complete",
                 1,
             ),
-            "P8": Predicate("P8", "setup queue age or backlog above the frozen ceiling", 3),
         }
 
     # -- recording ---------------------------------------------------------
@@ -268,6 +276,20 @@ class CollapseSupervisor:
             },
         )
 
+    def check_transition_count(self, *, harvested: int, budget: int) -> dict:
+        """`I8`. The window emitted exactly the configured transition budget.
+
+        Checked after the fact rather than trusted, because by the time this
+        runs the move learner has already trained on whatever the window
+        produced. A short or long window is not a recoverable warning: the
+        iteration's data no longer matches the recipe it is recorded under.
+        """
+        return self.observe(
+            "I8",
+            int(harvested) != int(budget),
+            {"transitions_harvested": int(harvested), "budget": int(budget)},
+        )
+
     def check_evaluation_binding(self, ok: bool, evidence: dict) -> dict:
         return self.observe("I6", not ok, evidence)
 
@@ -295,15 +317,21 @@ class CollapseSupervisor:
             {"mean_kl": float(mean_kl), "limit": self.move_kl_hard_limit},
         )
 
-    def observe_setup_kl(self, control_kl: float) -> dict:
+    def observe_setup_kl(self, final_epoch_kl: float) -> dict:
+        """`P3`. The final epoch's reverse KL -- where the policy ended up.
+
+        Not a controller input: D10 fixed the coefficient at 0.1, so this is a
+        reading of how far five epochs moved the setup policy away from the
+        snapshot that drew the episodes, and nothing acts on it.
+        """
         return self.observe(
             "P3",
-            float(control_kl) > self.setup_kl_hard_limit,
-            {"control_kl": float(control_kl), "limit": self.setup_kl_hard_limit},
+            float(final_epoch_kl) > self.setup_kl_hard_limit,
+            {"final_epoch_kl": float(final_epoch_kl), "limit": self.setup_kl_hard_limit},
         )
 
     def observe_setup_entropy(self, mean_prefix_entropy: float) -> dict:
-        """`P4`. Diagnostic in integration mode, a stop in production mode."""
+        """`P4`. A warning in every mode under D10 section 7."""
         value = float(mean_prefix_entropy)
         return self.observe(
             "P4",
@@ -314,10 +342,11 @@ class CollapseSupervisor:
                 "floor_nats": self.setup_entropy_floor,
                 "percent_of_baseline": 100.0 * value / self.setup_entropy_baseline,
                 "mode": self.mode,
-                "production_rule": (
-                    "the 60%/three-check rule remains the production stop "
-                    "predicate; decision D9-B changes only Agent 4's bounded "
-                    "integration interpretation"
+                "rule": (
+                    "descriptive. D10 section 7 makes setup entropy decline and "
+                    "concentration telemetry; the 60%/three-check threshold is "
+                    "kept only so a reading can be named against the level "
+                    "Agent 3 measured as collapse"
                 ),
             },
         )
@@ -345,36 +374,23 @@ class CollapseSupervisor:
             {"entropy": float(entropy), "first_hour_median": median, "floor": floor},
         )
 
-    def observe_setup_update_activity(self, *, updated: bool, interval_complete: bool, warmed_up: bool, episodes_available: bool) -> dict:
-        """`P7`: silence for a whole cadence interval while work was available."""
-        tripped = bool(
-            interval_complete and warmed_up and episodes_available and not updated
-        )
+    def observe_setup_update_activity(self, *, updated: bool, interval_complete: bool, episodes_available: bool) -> dict:
+        """`P7`: silence for a whole cadence interval while work was available.
+
+        Under D10 the only reason a setup update is skipped is that no game
+        completed in the window, so a sustained `P7` means the population has
+        stopped finishing games -- worth a loud warning, and worth reading
+        alongside the game-length telemetry, but not a reason to stop.
+        """
+        tripped = bool(interval_complete and episodes_available and not updated)
         return self.observe(
             "P7",
             tripped,
             {
                 "updated": bool(updated),
                 "interval_complete": bool(interval_complete),
-                "warmed_up": bool(warmed_up),
                 "episodes_available": bool(episodes_available),
             },
-        )
-
-    def observe_queue(self, alarms: dict) -> dict:
-        """`P8`. Required fields, not defaults: a malformed alarm document must
-        not read as "not over"."""
-        for name in ("backlog", "age"):
-            if name not in alarms or "over" not in alarms[name]:
-                raise Phase17SupervisorError(
-                    f"the queue alarm document has no {name!r}.over; refusing to "
-                    "evaluate P8 against a document that cannot answer it"
-                )
-        backlog, age = alarms["backlog"], alarms["age"]
-        return self.observe(
-            "P8",
-            bool(backlog["over"] or age["over"]),
-            {"backlog": dict(backlog), "age": dict(age)},
         )
 
     # -- verdicts ----------------------------------------------------------
@@ -406,8 +422,9 @@ class CollapseSupervisor:
             "mode": self.mode,
             "may_not_change": [
                 "learning rate",
-                "KL targets",
-                "entropy coefficients",
+                "the fixed setup behavior-KL coefficient",
+                "the move KL controller",
+                "entropy schedules",
                 "population size",
                 "epoch counts",
                 "setup batch",
@@ -423,11 +440,17 @@ class CollapseSupervisor:
                 "ewr_collapse_drop": EWR_COLLAPSE_DROP,
                 "move_entropy_collapse_fraction": MOVE_ENTROPY_COLLAPSE_FRACTION,
             },
-            "d9b_exception": (
-                "P4 is reported as a DIAGNOSTIC in integration mode only. It "
-                "remains the production stop predicate and its threshold is "
-                "unchanged. Agent 6 owns the production decision."
+            "stop_policy": (
+                "operator decision D10 section 7. I1-I8 stop the run: wrong "
+                "identity, wrong seat routing, nonfinite numbers, illegal or "
+                "misoriented setups or a silent fallback, a prohibited training "
+                "participant, a wrong evaluation binding, an unrecoverable "
+                "resume, and a fixed-transition count violation. P1-P7 are "
+                "warnings and can never stop a run: EWR decline, high but "
+                "finite KL, entropy decline, low diversity and setup "
+                "concentration are the experiment's results."
             ),
+            "warning_codes": list(self.WARNING_CODES),
             "predicates": {code: p.to_dict() for code, p in self.predicates.items()},
             "warnings": list(self.warnings),
             "stopped": self.stop_record(),
@@ -484,7 +507,6 @@ __all__ = [
     "Predicate",
     "SETUP_ENTROPY_RELATIVE_FRACTION",
     "SETUP_KL_HARD_LIMIT",
-    "SEVERITY_DIAGNOSTIC",
     "SEVERITY_STOP",
     "SEVERITY_WARNING",
     "SUPERVISOR_VERSION",

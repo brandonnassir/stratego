@@ -24,6 +24,7 @@ from stratego.training.phase17.checkpoint import (
     write_joint_checkpoint,
 )
 from stratego.training.phase17.checkpoint import REQUIRED_KEYS
+from stratego.training.phase17.setup_contract import SETUP_RECIPE_VERSION
 
 RUN_ID = "RUN-TEST-A"
 
@@ -33,6 +34,12 @@ def minimal_payload(**overrides) -> dict:
     payload.update(
         {
             "schema_version": JOINT_CHECKPOINT_SCHEMA_VERSION,
+            "recipe": SETUP_RECIPE_VERSION,
+            "setup_behavior_kl": {
+                "direction": "reverse_current_given_behavior",
+                "coefficient": 0.1,
+                "adaptive": False,
+            },
             "run_id": RUN_ID,
             "work_package": "phase17",
             "iteration": 4,
@@ -124,6 +131,16 @@ def test_a_foreign_source_digest_is_refused(tmp_path):
         read_joint_checkpoint(
             tmp_path / "joint.pt", run_id=RUN_ID, source_digest="different"
         )
+
+
+def test_a_checkpoint_that_cannot_say_whether_its_kl_is_adaptive_is_refused(tmp_path):
+    """Fail closed. A `.get("adaptive")` here would read absence as "no"."""
+    payload = minimal_payload(
+        setup_behavior_kl={"direction": "reverse_current_given_behavior"}
+    )
+    write_joint_checkpoint(payload, tmp_path / "joint.pt")
+    with pytest.raises(Phase17CheckpointError, match="does not declare"):
+        read_joint_checkpoint(tmp_path / "joint.pt", run_id=RUN_ID)
 
 
 def test_a_tampered_payload_is_refused(tmp_path):

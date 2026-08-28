@@ -1,0 +1,1223 @@
+{
+ "advantage_components": [
+  {
+   "alpha": 0.09999999999999999,
+   "entropy_term_abs_mean": 2.7015812253289906,
+   "entropy_to_outcome_abs_ratio": 2.839019688007968,
+   "information_nats_mean": 26.962755342182827,
+   "iteration": 1,
+   "outcome_term_abs_mean": 0.9986959348784162,
+   "predicted_conditional_entropy_mean": -0.04285781980692745
+  },
+  {
+   "alpha": 0.08122523963562357,
+   "entropy_term_abs_mean": 2.158216095399918,
+   "entropy_to_outcome_abs_ratio": 2.252309320741588,
+   "information_nats_mean": 26.862938060630285,
+   "iteration": 2,
+   "outcome_term_abs_mean": 1.001078914008488,
+   "predicted_conditional_entropy_mean": 0.3675523961982927
+  },
+  {
+   "alpha": 0.07192230933248643,
+   "entropy_term_abs_mean": 1.8135540640208423,
+   "entropy_to_outcome_abs_ratio": 1.881308576970994,
+   "information_nats_mean": 26.78799946897394,
+   "iteration": 3,
+   "outcome_term_abs_mean": 0.9978568912475473,
+   "predicted_conditional_entropy_mean": 1.8277333940902833
+  }
+ ],
+ "all_passed": true,
+ "artifact": "phase17_simple_tandem_preflight",
+ "checks": [
+  {
+   "check": 1,
+   "evidence": {
+    "move_start": {
+     "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+     "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "parameter_count": 863959,
+     "path": "checkpoints/phase9/selfplay_c1_v1.pt"
+    },
+    "production_refuses_an_injected_setup_model": true,
+    "recipe": "phase17_simple_paper_tandem_v1",
+    "setup_initialization": "from scratch under the recorded seed",
+    "setup_model_seed": 1017,
+    "setup_start_model_state_digest": "9568aaa529d877b4f9f21ddfb4faa2b159c5c43e40e88384c23086e139dd4d48"
+   },
+   "name": "exact Phase 9 move identity and a from-scratch setup model",
+   "ok": true
+  },
+  {
+   "check": 2,
+   "evidence": {
+    "argmax_agreement_fraction": 0.4088333333333333,
+    "argmax_rows_examined": 6000,
+    "illegal_sampled_actions": 0,
+    "rebinds": [
+     {
+      "changed": true,
+      "iteration": 2,
+      "model_state_digest_after": "735c2f1a3b042c1100e7cca1d9fd549d5449f8e717e51005dea57724bdfeb2a4",
+      "model_state_digest_before": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "rebind": 1
+     },
+     {
+      "changed": true,
+      "iteration": 3,
+      "model_state_digest_after": "08b449bc5c670f1fc4e53fc62ec39f42f2623aab0a156f9730a425319ff2c32e",
+      "model_state_digest_before": "735c2f1a3b042c1100e7cca1d9fd549d5449f8e717e51005dea57724bdfeb2a4",
+      "rebind": 2
+     },
+     {
+      "changed": true,
+      "iteration": 4,
+      "model_state_digest_after": "cb1f5bdafd3dc644e749caacc072ccc62433d90ad390791e3e74590575a0dd22",
+      "model_state_digest_before": "08b449bc5c670f1fc4e53fc62ec39f42f2623aab0a156f9730a425319ff2c32e",
+      "rebind": 3
+     }
+    ],
+    "rows_by_color": {
+     "blue": 98097,
+     "red": 98511
+    },
+    "rows_under_an_unknown_policy_digest": 0
+   },
+   "name": "both move seats use the current raw policy and sample legal actions",
+   "ok": true
+  },
+  {
+   "check": 3,
+   "evidence": {
+    "fallback_attempts": 0,
+    "games_checked": 256,
+    "inventory_violations": 0,
+    "legality_failures": 0,
+    "orientation_failures": 0,
+    "orientation_violations": 0,
+    "pool_regenerated_every_iteration": [
+     {
+      "discarded_on_rebind": 0,
+      "iteration": 1,
+      "snapshot_iteration": 1
+     },
+     {
+      "discarded_on_rebind": 320,
+      "iteration": 2,
+      "snapshot_iteration": 2
+     },
+     {
+      "discarded_on_rebind": 592,
+      "iteration": 3,
+      "snapshot_iteration": 3
+     }
+    ],
+    "pool_telemetry": {
+     "assigned": 805,
+     "blue": {
+      "color": 1,
+      "consumed": 805,
+      "generated": 1546,
+      "refills": 10,
+      "setup_model_state_digest": "0967f4da06e31dae1329fdb4ddafa763f59741d6acdd0d76b381f6839f7d232d",
+      "size": 512,
+      "snapshot_iteration": 3,
+      "unused": 285
+     },
+     "consumed": 1610,
+     "discarded_on_rebind": 912,
+     "generated": 3092,
+     "open_episodes": 256,
+     "red": {
+      "color": 0,
+      "consumed": 805,
+      "generated": 1546,
+      "refills": 10,
+      "setup_model_state_digest": "0967f4da06e31dae1329fdb4ddafa763f59741d6acdd0d76b381f6839f7d232d",
+      "size": 512,
+      "snapshot_iteration": 3,
+      "unused": 285
+     },
+     "refills": 20,
+     "setup_model_state_digest": "0967f4da06e31dae1329fdb4ddafa763f59741d6acdd0d76b381f6839f7d232d",
+     "snapshot_iteration": 3,
+     "unused": 570
+    },
+    "setup_family": "phase17_current_raw_setup_v1"
+   },
+   "name": "fresh legal, inventory-correct, oriented setups with no library fallback",
+   "ok": true
+  },
+  {
+   "check": 4,
+   "evidence": {
+    "active_games": [
+     254,
+     253,
+     256
+    ],
+    "boundary_rows": [
+     47996,
+     41013,
+     40520
+    ],
+    "budget": 65536,
+    "harvested": [
+     65536,
+     65536,
+     65536
+    ],
+    "ppo_eligible_note": "the accepted Phase 9 top-quartile advantage filter, unchanged by D10; the value head sees every emitted row",
+    "ppo_eligible_rows": [
+     16384,
+     16384,
+     16384
+    ],
+    "rows_emitted": [
+     65536,
+     65536,
+     65536
+    ],
+    "terminal_rows": [
+     17540,
+     24523,
+     25016
+    ]
+   },
+   "name": "exactly the configured move-transition count is emitted",
+   "ok": true
+  },
+  {
+   "check": 5,
+   "evidence": {
+    "buffer": {
+     "consumed_count": 1098,
+     "depth": 0,
+     "enqueued_count": 1098,
+     "max_policy_age": null,
+     "mean_age": null,
+     "oldest_age": null,
+     "rejected_count": 0
+    },
+    "enqueue_rejections": [],
+    "episodes_consumed": [
+     212,
+     436,
+     450
+    ],
+    "epochs": [
+     5,
+     5,
+     5
+    ],
+    "games_finished": [
+     106,
+     218,
+     225
+    ],
+    "optimizer_steps": [
+     20,
+     35,
+     40
+    ],
+    "real_updates": 3,
+    "seconds": [
+     0.6124528329819441,
+     0.7650149170076475,
+     0.8741975829470903
+    ],
+    "skips": []
+   },
+   "name": "at least one real completed game updates the setup model for five epochs",
+   "ok": true
+  },
+  {
+   "check": 6,
+   "evidence": {
+    "adaptive_controller_present": false,
+    "coefficient": 0.1,
+    "direction": "reverse_current_given_behavior",
+    "measured_final_epoch_kl": [
+     0.028278769459575415,
+     0.01834676760647978,
+     0.015164058189839125
+    ],
+    "measured_mean_iteration_kl": [
+     0.013930304422925399,
+     0.01919940949550697,
+     0.01579132133629173
+    ],
+    "observed_per_epoch": [
+     0.1
+    ],
+    "observed_per_iteration": [
+     0.1
+    ],
+    "telemetry_names_it": "setup.kl_coefficient (never setup.kl_beta)"
+   },
+   "name": "setup reverse KL has fixed coefficient 0.1 with no adaptive controller",
+   "ok": true
+  },
+  {
+   "check": 7,
+   "evidence": {
+    "formula": "0.1 * n**-0.3",
+    "n_is": "the shared one-based global tandem iteration",
+    "observed": [
+     {
+      "alpha": 0.1,
+      "expected": 0.1,
+      "iteration": 1,
+      "setup_index": 1
+     },
+     {
+      "alpha": 0.08122523963562356,
+      "expected": 0.08122523963562356,
+      "iteration": 2,
+      "setup_index": 2
+     },
+     {
+      "alpha": 0.07192230933248643,
+      "expected": 0.07192230933248643,
+      "iteration": 3,
+      "setup_index": 3
+     }
+    ],
+    "reference_points": {
+     "1": 0.1,
+     "2": 0.08122523963562356,
+     "640": 0.014392823770329062
+    }
+   },
+   "name": "setup alpha equals 0.1 * n**-0.3 at the shared global iteration",
+   "ok": true
+  },
+  {
+   "check": 8,
+   "evidence": {
+    "buffer_after_one_resumed_iteration": {
+     "consumed_count": 1542,
+     "depth": 0,
+     "enqueued_count": 1542,
+     "max_policy_age": null,
+     "mean_age": null,
+     "oldest_age": null,
+     "rejected_count": 0
+    },
+    "buffer_before": {
+     "consumed_count": 1098,
+     "depth": 0,
+     "enqueued_count": 1098,
+     "max_policy_age": null,
+     "mean_age": null,
+     "oldest_age": null,
+     "rejected_count": 0
+    },
+    "checkpoint": {
+     "file_sha256": "2d20daa5e012392270b9bb97444257a13990407891fa5dc2cb0404d9a7845ce5",
+     "generation": 3,
+     "iteration": 3,
+     "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/smoke_d10/checkpoints/joint_00003.pt",
+     "payload_digest": "e3044f2414ff58fa349d64653591bd524f5292672da15d36c0346e6bd19f062b"
+    },
+    "differing_identity_fields": [],
+    "exactness_note": "identity and outcome accounting, which is what D10 check 8 asks for. Bitwise continuation equivalence is proved on CPU by tests/training/phase17/test_runner_tandem.py::test_a_round_trip_reproduces_the_next_iteration_exactly; MPS is not bitwise reproducible run to run, so it is not asserted here",
+    "identity_fields_compared": [
+     "move_raw_model_state_digest",
+     "move_ema_model_state_digest",
+     "setup_raw_model_state_digest",
+     "setup_ema_model_state_digest",
+     "cell_digest",
+     "iteration",
+     "setup_start_model_state_digest"
+    ],
+    "recipe_in_checkpoint": "phase17_simple_paper_tandem_v1",
+    "restore_report": {
+     "cell_digest": "cb1f5bdafd3dc644e749caacc072ccc62433d90ad390791e3e74590575a0dd22",
+     "completed_setup_buffer_depth": 0,
+     "games_reseated": 256,
+     "games_restored": 256,
+     "iteration": 3,
+     "move_raw_model_state_digest": "cb1f5bdafd3dc644e749caacc072ccc62433d90ad390791e3e74590575a0dd22",
+     "setup_episodes_restored": 256,
+     "setup_raw_model_state_digest": "a7c332e8f9e93577711d806ce252f103ecff492b19711299b5f5b4c0e1d8570c"
+    },
+    "setup_behavior_kl_in_checkpoint": {
+     "adaptive": false,
+     "coefficient": 0.1,
+     "direction": "reverse_current_given_behavior"
+    },
+    "telemetry_position_in_checkpoint": {
+     "last_record_digest": "241809a192e87b1388987af1a31a11a864eb3098c87d920da3cbab40a80730e7",
+     "offset": 14051,
+     "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/smoke_d10/telemetry.jsonl",
+     "records": 2,
+     "telemetry_schema_version": "phase17_simple_tandem_telemetry_v1"
+    },
+    "telemetry_rows_after_one_resumed_iteration": 3,
+    "telemetry_rows_before_resume": 3
+   },
+   "name": "a paired checkpoint reloads without identity loss or duplicated/dropped outcomes",
+   "ok": true
+  },
+  {
+   "check": 9,
+   "evidence": {
+    "belief_loss_weight": 0.0,
+    "import_scan": {
+     "allowed_exception": "stratego.belief.phase15.orientation",
+     "allowed_exception_reason": "the accepted Phase 15 orientation helper; the setup half must import it rather than re-derive the rule",
+     "forbidden_package_imports": [
+      "stratego.setups.library",
+      "stratego.setups.sampler",
+      "stratego.setups.perturbation",
+      "stratego.evaluation.setup_bank",
+      "stratego.evaluation.phase10_banks",
+      "stratego.training.phase10_selector",
+      "stratego.training.phase16.setups",
+      "stratego.belief.phase11b.corpus",
+      "stratego.belief.phase15.setups"
+     ],
+     "forbidden_runtime_roots": [
+      "stratego.search",
+      "stratego.policies"
+     ],
+     "offending_modules": [],
+     "phase17_modules_scanned": 20,
+     "runtime_offenders": [],
+     "source_offenders": {},
+     "stratego_modules_loaded": 113
+    },
+    "participant_ledger": {
+     "cell_digest_history": [
+      {
+       "iteration": 1,
+       "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+      },
+      {
+       "iteration": 2,
+       "model_state_digest": "735c2f1a3b042c1100e7cca1d9fd549d5449f8e717e51005dea57724bdfeb2a4"
+      },
+      {
+       "iteration": 3,
+       "model_state_digest": "08b449bc5c670f1fc4e53fc62ec39f42f2623aab0a156f9730a425319ff2c32e"
+      },
+      {
+       "iteration": 4,
+       "model_state_digest": "cb1f5bdafd3dc644e749caacc072ccc62433d90ad390791e3e74590575a0dd22"
+      }
+     ],
+     "collector_version": "phase17_move_collector_v1",
+     "distinct_acting_model_states": 3,
+     "historical_participants": 0,
+     "holds": true,
+     "policy_token": "phase17_current_raw_move_v1|P17RAW",
+     "rule_or_stress_decisions": 0,
+     "search_participants": 0,
+     "seats": {
+      "blue": "phase17_current_raw_move_v1|P17RAW",
+      "red": "phase17_current_raw_move_v1|P17RAW"
+     },
+     "transitions_by_model_state": {
+      "08b449bc5c670f1fc4e53fc62ec39f42f2623aab0a156f9730a425319ff2c32e": 65536,
+      "735c2f1a3b042c1100e7cca1d9fd549d5449f8e717e51005dea57724bdfeb2a4": 65536,
+      "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd": 65536
+     },
+     "unknown_model_states": {}
+    },
+    "supervisor_stopped": null
+   },
+   "name": "search, belief, historical and handcrafted training participants are absent",
+   "ok": true
+  }
+ ],
+ "commit": "eab8a3347a3955c8f1b1001f2729172b20abadb3",
+ "config_digest": "ee19d62789634c079ca1d4164ee7dc721def1f94b0b30b252fa08092807a79de",
+ "configuration": {
+  "horizon": {
+   "N": 640,
+   "applies_to": "the move LR and move entropy schedules only",
+   "frozen_before_h0": true,
+   "n_ref": 80,
+   "never": "recomputed from changing production speed"
+  },
+  "move": {
+   "budget_transitions": 65536,
+   "device": "mps",
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 1,
+   "minibatch_size": 512,
+   "population": 256
+  },
+  "recipe": "phase17_simple_paper_tandem_v1",
+  "run_id": "RUN-SMOKE-D10",
+  "runner_version": "phase17_tandem_runner_v2",
+  "setup": {
+   "advantage": "(outcome - E[v]) + alpha(n) * (I - h_behavior)",
+   "alpha_formula": "0.1 * n**-0.3, n the global tandem iteration",
+   "behavior_kl": "fixed reverse coefficient 0.1, no controller",
+   "consumption": "every episode whose game completed in the iteration, both sides, exactly once; no quota, warm-up, age selection or backlog balancing",
+   "device": "mps",
+   "epochs_per_iteration": 5,
+   "minibatch_episodes": 64,
+   "model_seed": 1017,
+   "pool_cadence": "regenerated every global tandem iteration",
+   "pool_size_per_side": 512
+  },
+  "work_package": "phase17"
+ },
+ "descriptive_setup_reading": {
+  "baseline_nats": 1.542894478885798,
+  "bomb_effective_support": 29.787001820279848,
+  "bomb_square_support": 40,
+  "by_color": {
+   "blue": {
+    "bomb_effective_support": 29.022429454905616,
+    "bomb_folded_support": 20,
+    "bomb_pattern_top": [
+     5,
+     7,
+     8,
+     15,
+     21,
+     26
+    ],
+    "bomb_pattern_top_count": 1,
+    "bomb_pattern_unique": 64,
+    "bomb_square_support": 40,
+    "class_distance_quantiles": {
+     "0.01": 28.0,
+     "0.05": 30.0,
+     "0.25": 32.0,
+     "0.5": 33.0,
+     "0.75": 34.0,
+     "0.95": 36.0
+    },
+    "distance_pairs": 2016,
+    "distance_sample_cap": 600,
+    "exact_collision_rate": 0.0,
+    "exact_unique": 64,
+    "exact_unique_fraction": 1.0,
+    "first_prefix_entropy_nats": 2.388522275052313,
+    "flag_effective_support": 15.187828947900046,
+    "flag_folded_support": 11,
+    "flag_square_distribution": [
+     0.046875,
+     0.046875,
+     0.125,
+     0.109375,
+     0.0625,
+     0.046875,
+     0.046875,
+     0.09375,
+     0.078125,
+     0.015625,
+     0.09375,
+     0.0625,
+     0.015625,
+     0.046875,
+     0.046875,
+     0.0,
+     0.015625,
+     0.0,
+     0.03125,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.015625,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "flag_square_support": 18,
+    "flag_top_square_share": 0.125,
+    "hamming_quantiles": {
+     "0.01": 28.0,
+     "0.05": 30.0,
+     "0.25": 33.0,
+     "0.5": 34.0,
+     "0.75": 36.0,
+     "0.95": 38.0
+    },
+    "label": "iteration_3_blue",
+    "max_per_square_entropy_bits": 3.440817,
+    "max_top_token_concentration": 0.453125,
+    "mean_class_distance": 33.020833333333336,
+    "mean_hamming": 34.111607142857146,
+    "mean_per_square_entropy_bits": 2.929578325,
+    "mean_prefix_entropy_nats": 1.6329031285882585,
+    "mean_sequence_entropy_nats": 65.31612514353033,
+    "mean_top_token_concentration": 0.243359375,
+    "min_class_distance": 26,
+    "min_hamming": 26,
+    "min_per_square_entropy_bits": 1.820981,
+    "mirrored_pairs_present": 0,
+    "most_frequent_reflection_class": "d4cadbe0bc0235b9af4107c5846ade0e785bf3525c951dbb63a45ee60f53b5e9",
+    "most_frequent_reflection_class_count": 1,
+    "near_duplicate_pair_fraction": 0.0,
+    "per_prefix_entropy_nats": [
+     2.3885222750523107,
+     2.3412906280097863,
+     2.328063224706097,
+     2.2546194973775147,
+     2.211593800600235,
+     2.198066561447553,
+     2.188325418398626,
+     2.169345695522039,
+     2.133230328737567,
+     2.0963868609859704,
+     2.087323274431409,
+     2.022913935398438,
+     2.0229764072956766,
+     1.9722327409134683,
+     1.9441099795184762,
+     1.9029641802963932,
+     1.8876839714389484,
+     1.838036336011109,
+     1.834942408041038,
+     1.7829018709291584,
+     1.7673781210739867,
+     1.7206825120101852,
+     1.6740986744175963,
+     1.6231142530477896,
+     1.5866579390169124,
+     1.5593029583177191,
+     1.5161007216945466,
+     1.4783050373388096,
+     1.4225445387220055,
+     1.3760517314565228,
+     1.317364401219371,
+     1.231626902316924,
+     1.1617793943981323,
+     1.081320457211471,
+     0.9642773591709849,
+     0.8433331015289793,
+     0.7007582707403768,
+     0.4753628632494987,
+     0.21053651148670519,
+     0.0
+    ],
+    "per_square_entropy_bits": [
+     3.437042,
+     3.389862,
+     3.440817,
+     3.395265,
+     3.251262,
+     3.107256,
+     3.291186,
+     3.355154,
+     3.428729,
+     3.177462,
+     3.348738,
+     3.26554,
+     3.303182,
+     3.233929,
+     3.348552,
+     3.192738,
+     2.966331,
+     2.947934,
+     3.295522,
+     3.09774,
+     2.944952,
+     3.035245,
+     3.164784,
+     2.789894,
+     3.054307,
+     2.541358,
+     2.857262,
+     2.638204,
+     2.699556,
+     2.644921,
+     2.493168,
+     2.803401,
+     2.706877,
+     2.519,
+     2.297646,
+     2.422489,
+     2.373859,
+     1.926098,
+     1.820981,
+     2.17489
+    ],
+    "reflection_class_collision_rate": 0.0,
+    "reflection_class_unique": 64,
+    "reflection_class_unique_fraction": 1.0,
+    "sample_count": 64,
+    "sequence_information_max_nats": 82.05259704589844,
+    "sequence_information_mean_nats": 65.45783030986786,
+    "sequence_information_min_nats": 55.07521057128906,
+    "sequence_information_quantiles_nats": {
+     "0.05": 58.68371047973633,
+     "0.25": 61.46696090698242,
+     "0.5": 65.18031311035156,
+     "0.75": 68.61770629882812,
+     "0.95": 75.06939277648925
+    },
+    "sequence_information_std_nats": 5.313547258092161
+   },
+   "red": {
+    "bomb_effective_support": 28.86131407983175,
+    "bomb_folded_support": 20,
+    "bomb_pattern_top": [
+     17,
+     25,
+     26,
+     35,
+     36,
+     39
+    ],
+    "bomb_pattern_top_count": 1,
+    "bomb_pattern_unique": 64,
+    "bomb_square_support": 40,
+    "class_distance_quantiles": {
+     "0.01": 28.0,
+     "0.05": 30.0,
+     "0.25": 32.0,
+     "0.5": 33.0,
+     "0.75": 34.0,
+     "0.95": 36.0
+    },
+    "distance_pairs": 2016,
+    "distance_sample_cap": 600,
+    "exact_collision_rate": 0.0,
+    "exact_unique": 64,
+    "exact_unique_fraction": 1.0,
+    "first_prefix_entropy_nats": 2.388522275052313,
+    "flag_effective_support": 17.35323721113251,
+    "flag_folded_support": 12,
+    "flag_square_distribution": [
+     0.015625,
+     0.078125,
+     0.03125,
+     0.09375,
+     0.09375,
+     0.125,
+     0.046875,
+     0.03125,
+     0.078125,
+     0.03125,
+     0.03125,
+     0.046875,
+     0.0625,
+     0.0625,
+     0.046875,
+     0.015625,
+     0.03125,
+     0.0,
+     0.015625,
+     0.03125,
+     0.0,
+     0.015625,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.015625,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "flag_square_support": 21,
+    "flag_top_square_share": 0.125,
+    "hamming_quantiles": {
+     "0.01": 28.0,
+     "0.05": 30.0,
+     "0.25": 33.0,
+     "0.5": 34.0,
+     "0.75": 36.0,
+     "0.95": 38.0
+    },
+    "label": "iteration_3_red",
+    "max_per_square_entropy_bits": 3.486187,
+    "max_top_token_concentration": 0.5625,
+    "mean_class_distance": 32.99652777777778,
+    "mean_hamming": 34.04662698412698,
+    "mean_per_square_entropy_bits": 2.9394005250000004,
+    "mean_prefix_entropy_nats": 1.6381432096034387,
+    "mean_sequence_entropy_nats": 65.52572838413755,
+    "mean_top_token_concentration": 0.255859375,
+    "min_class_distance": 25,
+    "min_hamming": 25,
+    "min_per_square_entropy_bits": 1.916683,
+    "mirrored_pairs_present": 0,
+    "most_frequent_reflection_class": "d5ce048601b1561e24736b400e8269c4feee12acb5595552cfc5c629d8b12b24",
+    "most_frequent_reflection_class_count": 1,
+    "near_duplicate_pair_fraction": 0.0,
+    "per_prefix_entropy_nats": [
+     2.3885222750523107,
+     2.342851204237559,
+     2.3181673619305614,
+     2.2987199435857018,
+     2.2475517564646723,
+     2.230923394656478,
+     2.1922228545129534,
+     2.1922517130953096,
+     2.160463612430885,
+     2.1011695761134765,
+     2.0954594816322194,
+     2.059266716026922,
+     2.036456815542314,
+     2.015813679987048,
+     1.9791169264167718,
+     1.9478146232870894,
+     1.9275868230379016,
+     1.8662111591209487,
+     1.866916284470689,
+     1.79289439624789,
+     1.7528570465845938,
+     1.73792455835299,
+     1.6734836180487722,
+     1.61753860760077,
+     1.5789897501753638,
+     1.5214217702207973,
+     1.4823467063208717,
+     1.4503879095316405,
+     1.373414676131278,
+     1.3474506077939006,
+     1.2890487236629746,
+     1.207638605133561,
+     1.1597966072476427,
+     1.0650757966614968,
+     0.9655571821071061,
+     0.8143890616145802,
+     0.6749537348098286,
+     0.4882751032624557,
+     0.2647977210272254,
+     0.0
+    ],
+    "per_square_entropy_bits": [
+     3.297847,
+     3.424114,
+     3.486187,
+     3.468696,
+     3.44728,
+     3.163856,
+     3.342703,
+     3.311278,
+     3.479248,
+     3.299832,
+     3.243123,
+     3.238805,
+     3.151523,
+     3.084325,
+     3.419444,
+     3.276364,
+     3.106979,
+     2.935778,
+     3.282845,
+     2.909928,
+     2.954617,
+     3.157353,
+     2.897161,
+     2.925113,
+     2.916748,
+     3.029996,
+     2.798036,
+     2.751934,
+     2.552727,
+     2.806707,
+     2.715446,
+     2.420055,
+     2.4005,
+     2.605405,
+     2.510727,
+     2.225002,
+     2.360303,
+     2.1011,
+     1.916683,
+     2.160253
+    ],
+    "reflection_class_collision_rate": 0.0,
+    "reflection_class_unique": 64,
+    "reflection_class_unique_fraction": 1.0,
+    "sample_count": 64,
+    "sequence_information_max_nats": 76.43817138671875,
+    "sequence_information_mean_nats": 66.36938178539276,
+    "sequence_information_min_nats": 52.32511901855469,
+    "sequence_information_quantiles_nats": {
+     "0.05": 58.65593967437744,
+     "0.25": 63.893239974975586,
+     "0.5": 66.11479568481445,
+     "0.75": 69.59166145324707,
+     "0.95": 74.44839820861816
+    },
+    "sequence_information_std_nats": 4.847046004813946
+   }
+  },
+  "crosses_relative_floor": false,
+  "flag_effective_support": 17.828823729693685,
+  "flag_square_support": 22,
+  "label": "iteration_3",
+  "matched": {
+   "bomb_effective_support": 29.787001820279848,
+   "bomb_folded_support": 20,
+   "bomb_pattern_top": [
+    17,
+    25,
+    26,
+    35,
+    36,
+    39
+   ],
+   "bomb_pattern_top_count": 1,
+   "bomb_pattern_unique": 128,
+   "bomb_square_support": 40,
+   "class_distance_quantiles": {
+    "0.01": 28.0,
+    "0.05": 29.0,
+    "0.25": 32.0,
+    "0.5": 33.0,
+    "0.75": 34.0,
+    "0.95": 36.0
+   },
+   "distance_pairs": 8128,
+   "distance_sample_cap": 600,
+   "exact_collision_rate": 0.0,
+   "exact_unique": 128,
+   "exact_unique_fraction": 1.0,
+   "first_prefix_entropy_nats": 2.3885222750523125,
+   "flag_effective_support": 17.828823729693685,
+   "flag_folded_support": 13,
+   "flag_square_distribution": [
+    0.03125,
+    0.0625,
+    0.078125,
+    0.1015625,
+    0.078125,
+    0.0859375,
+    0.046875,
+    0.0625,
+    0.078125,
+    0.0234375,
+    0.0625,
+    0.0546875,
+    0.0390625,
+    0.0546875,
+    0.046875,
+    0.0078125,
+    0.0234375,
+    0.0,
+    0.0234375,
+    0.015625,
+    0.0,
+    0.0078125,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0078125,
+    0.0078125,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "flag_square_support": 22,
+   "flag_top_square_share": 0.1015625,
+   "hamming_quantiles": {
+    "0.01": 28.0,
+    "0.05": 30.0,
+    "0.25": 33.0,
+    "0.5": 34.0,
+    "0.75": 36.0,
+    "0.95": 38.0
+   },
+   "label": "iteration_3_matched",
+   "max_per_square_entropy_bits": 3.527068,
+   "max_top_token_concentration": 0.4765625,
+   "mean_class_distance": 32.99052657480315,
+   "mean_hamming": 34.065821850393704,
+   "mean_per_square_entropy_bits": 2.9935948249999997,
+   "mean_prefix_entropy_nats": 1.6355231690958487,
+   "mean_sequence_entropy_nats": 65.42092676383393,
+   "mean_top_token_concentration": 0.2427734375,
+   "min_class_distance": 24,
+   "min_hamming": 24,
+   "min_per_square_entropy_bits": 1.943409,
+   "mirrored_pairs_present": 0,
+   "most_frequent_reflection_class": "d5ce048601b1561e24736b400e8269c4feee12acb5595552cfc5c629d8b12b24",
+   "most_frequent_reflection_class_count": 1,
+   "near_duplicate_pair_fraction": 0.0,
+   "per_prefix_entropy_nats": [
+    2.3885222750523103,
+    2.342070916123674,
+    2.3231152933183288,
+    2.2766697204816078,
+    2.2295727785324537,
+    2.2144949780520164,
+    2.19027413645579,
+    2.1807987043086747,
+    2.1468469705842264,
+    2.0987782185497252,
+    2.091391378031815,
+    2.04109032571268,
+    2.029716611418994,
+    1.9940232104502582,
+    1.9616134529676235,
+    1.9253894017917406,
+    1.9076353972384243,
+    1.8521237475660293,
+    1.8509293462558642,
+    1.7878981335885242,
+    1.7601175838292908,
+    1.729303535181587,
+    1.6737911462331843,
+    1.62032643032428,
+    1.5828238445961391,
+    1.5403623642692583,
+    1.4992237140077094,
+    1.464346473435225,
+    1.3979796074266413,
+    1.3617511696252118,
+    1.3032065624411728,
+    1.2196327537252436,
+    1.1607880008228872,
+    1.0731981269364839,
+    0.9649172706390456,
+    0.8288610815717801,
+    0.6878560027751028,
+    0.4818189832559773,
+    0.23766711625696527,
+    0.0
+   ],
+   "per_square_entropy_bits": [
+    3.424603,
+    3.456499,
+    3.527068,
+    3.469145,
+    3.421302,
+    3.183956,
+    3.402074,
+    3.441055,
+    3.473997,
+    3.26031,
+    3.332842,
+    3.342363,
+    3.380268,
+    3.218068,
+    3.407923,
+    3.293753,
+    3.162494,
+    3.017661,
+    3.31894,
+    3.092117,
+    2.981444,
+    3.14595,
+    3.098894,
+    2.922864,
+    3.030241,
+    2.853089,
+    2.865673,
+    2.77048,
+    2.660197,
+    2.774917,
+    2.630469,
+    2.705767,
+    2.597465,
+    2.58454,
+    2.487978,
+    2.390218,
+    2.419718,
+    2.056239,
+    1.943409,
+    2.197803
+   ],
+   "reflection_class_collision_rate": 0.0,
+   "reflection_class_unique": 128,
+   "reflection_class_unique_fraction": 1.0,
+   "sample_count": 128,
+   "sequence_information_max_nats": 82.05259704589844,
+   "sequence_information_mean_nats": 65.91360604763031,
+   "sequence_information_min_nats": 52.32511901855469,
+   "sequence_information_quantiles_nats": {
+    "0.05": 58.654031944274905,
+    "0.25": 61.877163887023926,
+    "0.5": 65.90306091308594,
+    "0.75": 69.37101745605469,
+    "0.95": 74.98854293823241
+   },
+   "sequence_information_std_nats": 5.106030869620128
+  },
+  "matched_sample_count": 128,
+  "matched_to": "Agent 3's soak diversity check: 160 Red + 160 Blue, profiled together",
+  "mean_class_distance": 32.99052657480315,
+  "mean_per_square_entropy_bits": 2.9935948249999997,
+  "mean_prefix_entropy_nats": 1.6355231690958487,
+  "mean_top_token_concentration": 0.2427734375,
+  "min_class_distance": 24.0,
+  "move_iteration": 3,
+  "move_raw_model_state_digest": "cb1f5bdafd3dc644e749caacc072ccc62433d90ad390791e3e74590575a0dd22",
+  "percent_of_baseline": 106.00356612053876,
+  "reflection_class_unique_fraction": 1.0,
+  "relative_60_percent_floor_nats": 0.9257366873314787,
+  "samples_per_color": 64,
+  "sequence_information_mean_nats": 65.91360604763031,
+  "setup_iteration": 3,
+  "setup_model_state_digest": "a7c332e8f9e93577711d806ce252f103ecff492b19711299b5f5b4c0e1d8570c"
+ },
+ "h0_candidate": {
+  "candidate_id": "RUN-SMOKE-D10-cand-000",
+  "elapsed_active_training_seconds": 0.0,
+  "file_sha256": "8d267dc6fb6065c2ab56225b721b6813dd961a99a2d73b4e788bf25c308db286",
+  "index": 0,
+  "manifest_digest": "ba84fd24a73b9d2d58fc9ca654cd70e8579d188afac6c53192d239e9a1eea0a3",
+  "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/smoke_d10/exports/RUN-SMOKE-D10-cand-000.pt",
+  "setup_ema_model_state_digest": "9568aaa529d877b4f9f21ddfb4faa2b159c5c43e40e88384c23086e139dd4d48"
+ },
+ "h0_reverification": {
+  "candidate_id": "RUN-SMOKE-D10-cand-000",
+  "file_sha256": "8d267dc6fb6065c2ab56225b721b6813dd961a99a2d73b4e788bf25c308db286",
+  "manifest_digest": "ba84fd24a73b9d2d58fc9ca654cd70e8579d188afac6c53192d239e9a1eea0a3",
+  "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "setup_ema_model_state_digest": "9568aaa529d877b4f9f21ddfb4faa2b159c5c43e40e88384c23086e139dd4d48",
+  "verified": true
+ },
+ "host": {
+  "move_device": "mps",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "setup_device": "mps"
+ },
+ "iterations": 3,
+ "note": "the D10 section 6 tandem smoke on the production code path. No strength comparison, no diversity certification, no gate campaign, and the 12-hour run was not started. These weights are discarded.",
+ "output_directory": "checkpoints/phase17/smoke_d10",
+ "passed": 9,
+ "peak_memory_mib": 18135.875,
+ "production_configuration": {
+  "horizon": {
+   "N": 640,
+   "applies_to": "the move LR and move entropy schedules only",
+   "frozen_before_h0": true,
+   "n_ref": 80,
+   "never": "recomputed from changing production speed"
+  },
+  "move": {
+   "budget_transitions": 65536,
+   "device": "mps",
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 1,
+   "minibatch_size": 512,
+   "population": 256
+  },
+  "recipe": "phase17_simple_paper_tandem_v1",
+  "run_id": "RUN-2026-B",
+  "runner_version": "phase17_tandem_runner_v2",
+  "setup": {
+   "advantage": "(outcome - E[v]) + alpha(n) * (I - h_behavior)",
+   "alpha_formula": "0.1 * n**-0.3, n the global tandem iteration",
+   "behavior_kl": "fixed reverse coefficient 0.1, no controller",
+   "consumption": "every episode whose game completed in the iteration, both sides, exactly once; no quota, warm-up, age selection or backlog balancing",
+   "device": "mps",
+   "epochs_per_iteration": 5,
+   "minibatch_episodes": 64,
+   "model_seed": 17,
+   "pool_cadence": "regenerated every global tandem iteration",
+   "pool_size_per_side": 512
+  },
+  "work_package": "phase17"
+ },
+ "production_run_id": "RUN-2026-B",
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+ "seconds": {
+  "cap": 1800,
+  "mean_iteration": 67.99505395869103,
+  "per_iteration": [
+   70.71449533395935,
+   66.14774729206692,
+   67.12291925004683
+  ],
+  "total": 291.23757445800584
+ },
+ "smoke_run_id": "RUN-SMOKE-D10",
+ "smoked_utc": "2026-08-28T16:03:26Z",
+ "source_closure": {
+  "closure_digest": "2be3db6c83d1af3552d652163d4c53bbd7b615b061ba7fb26c64c22b89271d6f",
+  "files": [
+   {
+    "path": "stratego/training/phase17/setup_contract.py",
+    "sha256": "8e24301b60a7a4290ec1c92266c1774b2df445e8b1de673f491e2e9ea5c62899"
+   },
+   {
+    "path": "stratego/training/phase17/setup_episode.py",
+    "sha256": "b0dbc0debf49ebd717e00f644a7727c359550845825687ff3b11a5321e6f3325"
+   },
+   {
+    "path": "stratego/training/phase17/setup_learning.py",
+    "sha256": "ed76bf175c2c00b5d1ed6253dbacc44da7b8d4dc2137386e0805d0f00d75a6cc"
+   },
+   {
+    "path": "stratego/training/phase17/setup_metrics.py",
+    "sha256": "386314e8d9d11e71da7d73b2b0a01a0aab7789b11f4213cbdefb201b8da86893"
+   },
+   {
+    "path": "stratego/training/phase17/runner.py",
+    "sha256": "92e8a493c0028ac129ba3b797bbdf888e4e584a2f75707a74985bbb6671e27de"
+   },
+   {
+    "path": "stratego/training/phase17/checkpoint.py",
+    "sha256": "951e15b2fb1d0ed005f6ea97d375f374ce8c6e12a829d25887bd506bc44496ec"
+   },
+   {
+    "path": "stratego/training/phase17/supervisor.py",
+    "sha256": "8620ccd3506d958a50ed72a805312136655977515ff05a05c6ae4fd31292b000"
+   },
+   {
+    "path": "stratego/training/phase17/telemetry.py",
+    "sha256": "085ef7f40839330ad47a76041715150cba91bab15bf7fa469db0ca730a5647ca"
+   },
+   {
+    "path": "stratego/training/phase17/export.py",
+    "sha256": "66161130cbc579a2d3a0799e12c1d293ddb065afd503f6a4109f1cd4547511f0"
+   },
+   {
+    "path": "scripts/run_phase17_training.py",
+    "sha256": "d268fd9d5be12cb22c90310428c6b81dd0885438bd3ec4388cc9051d0a38a71a"
+   },
+   {
+    "path": "scripts/run_phase17_d10_smoke.py",
+    "sha256": "3659b9ed3e22287e243ff768b0d202e1ac732c403391c018af83b0b0ff9a0258"
+   }
+  ]
+ },
+ "stop_predicates_fired": [],
+ "telemetry_rows": 3,
+ "telemetry_schema": "phase17_simple_tandem_telemetry_v1",
+ "total": 9,
+ "warnings": [],
+ "weights_discarded": true
+}

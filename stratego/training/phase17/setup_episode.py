@@ -1,39 +1,36 @@
-"""Phase 17 Agent 3: the setup episode, its FIFO queue, and the Agent 4 API.
+"""Phase 17: the setup episode, the completed-episode buffer, and the runner API.
 
 Specification sources:
 
-- `03_AGENT_3_AUTOREGRESSIVE_SETUP_NETWORK.md` sections 5 and 8
+- `09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` sections 4 and 7
 - `00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` sections 8 and 10
-- `reports/phase17/phase17_contract_handoff_v1.json` -> `schemas.setup_episode`
-  (schema `phase17_setup_episode_v1`), `schedules_and_controllers.setup.queue`
 - `reports/phase17/ataraxos_method_map_v1.md` rows S05, S06, S17
 
 Module name
 -----------
-Agent 1's recommended split names `setup_episode.py`; the Agent 3 charter
-names `setup_sampling.py` / `setup_learning.py`. Both are honoured: the
-episode schema and its queue live here under Agent 1's name, generation lives
-in `setup_sampling`, and the update lives in `setup_learning`. Every path is
-inside the `phase17` setup namespace and none collides with Agent 2's files.
+The episode schema and its pending buffer live here, generation lives in
+`setup_sampling`, and the update lives in `setup_learning`. Every path is
+inside the `phase17` setup namespace and none collides with the move half's
+files.
 
-The four things Agent 4 must not be able to do
-----------------------------------------------
-Section 8 requires that silent dropping, double consumption, outcome
-rebinding and behavior-identity mismatch be *impossible or fatal*. Each has a
-mechanism here, not a convention:
+The four things the runner must not be able to do
+--------------------------------------------------
+Silent dropping, double consumption, outcome rebinding and behavior-identity
+mismatch must be *impossible or fatal*. Each has a mechanism here, not a
+convention:
 
-- dropping: every departure from the queue increments a named counter, and a
-  capacity overflow raises instead of evicting;
+- dropping: every departure from the buffer increments a named counter, and
+  the whole buffer is drained every iteration so nothing can age out of it;
 - double consumption: an episode's `state` advances one way only, and
-  `consume` refuses anything already `consumed`;
+  `consume_all` refuses anything already `consumed`;
 - outcome rebinding: `complete` refuses a second, different result;
 - behavior identity: a batch is refused if its episodes carry a
   `setup_model_state_digest` that no longer matches what the caller declared.
 
-An episode records the raw snapshot that generated it and keeps it. Section 5:
-old completed games are valid only with their attached behavior identity, so
-the ratio denominator is always the recorded probability and never a re-run
-of the latest network.
+An episode records the raw snapshot that generated it and keeps it: an old
+completed game is valid only with its attached behavior identity, so the ratio
+denominator is always the recorded probability and never a re-run of the latest
+network.
 """
 
 from __future__ import annotations
@@ -49,7 +46,7 @@ from .setup_contract import (
     ORIENTATION_RULE_VERSION,
     SETUP_EPISODE_SCHEMA_VERSION,
     SETUP_PREFIXES,
-    SETUP_QUEUE_VERSION,
+    SETUP_BUFFER_VERSION,
     Phase17SetupError,
     json_document_digest,
 )
@@ -372,7 +369,7 @@ class SetupEpisode:
 
 @dataclass
 class QueueTelemetry:
-    """Everything section 8 requires the queue to record."""
+    """Everything the completed-episode buffer records each iteration."""
 
     depth: int
     oldest_age: int | None
@@ -381,33 +378,44 @@ class QueueTelemetry:
     enqueued_count: int
     consumed_count: int
     rejected_count: int
-    skip_count: int
-    capacity: int
-    max_age_iterations: int
 
 
 class SetupEpisodeQueue:
-    """Bounded FIFO of completed setup episodes, each consumed exactly once.
+    """The pending buffer of completed setup episodes, each consumed once.
 
-    Silent dropping is prohibited (section 8), so this class has no eviction
-    path at all: an overflow raises. If the operator later decides that
-    dropping the oldest is preferable to stopping, that is a contract change
-    with a named counter, not a default.
+    Under operator decision D10 this is a *pending buffer*, not a backlog. Every
+    episode whose game completed during the current fixed-transition iteration
+    is trained on in that iteration and then removed, so the buffer is empty
+    between iterations and holds at most one window's arrivals while a window is
+    open. It exists so that a crash cannot lose or duplicate an outcome before
+    the iteration closes -- nothing more.
+
+    What D10 removed, and why none of it is still here
+    ---------------------------------------------------
+    Agent 3's version was a bounded FIFO that raised at a frozen capacity, and
+    Agent 4 wrapped it in a fixed quota, a two-budget warm-up and a backlog
+    alarm. All of that existed to keep a *fixed-size* batch unbiased while the
+    queue carried episodes across iterations. A total drain has no such
+    problem: the batch is exactly what arrived, so there is no count to hold
+    constant, no arrival-rate margin to maintain, and no depth for an alarm to
+    watch. Keeping the capacity would only reintroduce a way for a large window
+    to kill the run.
+
+    Duplicate detection is scoped to what is pending, for the same reason. A
+    consumed episode's game has been retired and its `(run, game, colour)` key
+    can never be offered again -- game ids only ever gain a new draw number --
+    so a whole-run ledger would add several hundred thousand keys to every
+    checkpoint and detect nothing a pending-set check does not.
     """
 
-    version = SETUP_QUEUE_VERSION
+    version = SETUP_BUFFER_VERSION
 
-    def __init__(self, capacity: int, max_age_iterations: int) -> None:
-        if capacity < 1:
-            raise Phase17SetupError("queue capacity must be at least 1")
-        self.capacity = int(capacity)
-        self.max_age_iterations = int(max_age_iterations)
+    def __init__(self) -> None:
         self._queue: "deque[SetupEpisode]" = deque()
         self._seen: set = set()
         self.enqueued_count = 0
         self.consumed_count = 0
         self.rejected_count = 0
-        self.skip_count = 0
         self.rejections: "list[dict]" = []
 
     def __len__(self) -> int:
@@ -433,37 +441,35 @@ class SetupEpisodeQueue:
     def enqueue(self, episode: SetupEpisode) -> bool:
         """Validate and enqueue one completed episode.
 
-        Returns whether it entered the queue. A refusal is *recorded* with a
+        Returns whether it entered the buffer. A refusal is *recorded* with a
         reason -- the one thing this class may never do is discard quietly.
         """
         if not episode.is_complete:
             self._reject(episode, "episode has no terminal result")
             return False
-        key = self.key(episode)
-        if key in self._seen:
+        if self.key(episode) in self._seen:
             self._reject(episode, "duplicate (run_id, game_id, color)")
             return False
         if episode.state == "consumed":
             self._reject(episode, "already consumed")
             return False
-        if len(self._queue) >= self.capacity:
-            raise Phase17SetupError(
-                f"setup episode queue is at capacity {self.capacity}; refusing to "
-                "evict. Silent dropping is prohibited by common contract section 8"
-            )
         episode.state = "queued"
         episode.enqueued_utc = utc_now()
         self._queue.append(episode)
-        self._seen.add(key)
+        self._seen.add(self.key(episode))
         self.enqueued_count += 1
         return True
 
-    def consume(self, count: int, *, setup_iteration: int) -> "list[SetupEpisode]":
-        """Take up to `count` episodes in FIFO order, each exactly once."""
-        if count < 1:
-            raise Phase17SetupError("consume needs a positive count")
+    def consume_all(self, *, setup_iteration: int) -> "list[SetupEpisode]":
+        """Take every pending episode, in FIFO order, each exactly once.
+
+        The whole buffer, never a slice: D10 section 4 trains on every episode
+        whose game completed during the iteration, with both sides represented.
+        An empty buffer returns an empty list and the caller records a skipped
+        setup update.
+        """
         taken: "list[SetupEpisode]" = []
-        while self._queue and len(taken) < count:
+        while self._queue:
             episode = self._queue.popleft()
             if episode.state == "consumed":
                 raise Phase17SetupError(
@@ -475,20 +481,8 @@ class SetupEpisodeQueue:
             episode.policy_age_iterations = episode.policy_age(setup_iteration)
             taken.append(episode)
         self.consumed_count += len(taken)
+        self._seen = {self.key(episode) for episode in self._queue}
         return taken
-
-    def consume_exact(self, count: int, *, setup_iteration: int) -> "list[SetupEpisode]":
-        """A fixed-size batch, or an explicit skip.
-
-        Section 8: too few episodes must SKIP the setup update explicitly
-        rather than fabricate data or reuse an episode. Returning a short
-        batch would let a caller train on a smaller sample without noticing,
-        so this returns nothing and counts the skip.
-        """
-        if len(self._queue) < count:
-            self.skip_count += 1
-            return []
-        return self.consume(count, setup_iteration=setup_iteration)
 
     def ages(self, setup_iteration: int) -> "list[int]":
         return [episode.policy_age(setup_iteration) for episode in self._queue]
@@ -503,25 +497,19 @@ class SetupEpisodeQueue:
             enqueued_count=self.enqueued_count,
             consumed_count=self.consumed_count,
             rejected_count=self.rejected_count,
-            skip_count=self.skip_count,
-            capacity=self.capacity,
-            max_age_iterations=self.max_age_iterations,
         )
 
-    def over_age(self, setup_iteration: int) -> int:
-        """How many queued episodes exceed the frozen age ceiling."""
-        return sum(1 for age in self.ages(setup_iteration) if age > self.max_age_iterations)
-
     def state_document(self) -> dict:
-        """The full queue state, for the paired checkpoint."""
+        """The pending buffer, for the paired checkpoint.
+
+        `seen` is exactly the pending set, so a resume can neither lose an
+        outcome that had arrived nor accept it twice.
+        """
         return {
-            "queue_version": self.version,
-            "capacity": self.capacity,
-            "max_age_iterations": self.max_age_iterations,
+            "buffer_version": self.version,
             "enqueued_count": self.enqueued_count,
             "consumed_count": self.consumed_count,
             "rejected_count": self.rejected_count,
-            "skip_count": self.skip_count,
             "rejections": list(self.rejections),
             "seen": [list(key) for key in sorted(self._seen)],
             "episodes": [episode.to_document() for episode in self._queue],
@@ -529,20 +517,26 @@ class SetupEpisodeQueue:
 
     @classmethod
     def from_state_document(cls, document: dict) -> "SetupEpisodeQueue":
-        version = document.get("queue_version")
-        if version != SETUP_QUEUE_VERSION:
+        version = document.get("buffer_version")
+        if version != SETUP_BUFFER_VERSION:
             raise Phase17SetupError(
-                f"queue schema {version!r}, expected {SETUP_QUEUE_VERSION!r}"
+                f"completed-setup buffer schema {version!r}, expected "
+                f"{SETUP_BUFFER_VERSION!r}"
             )
-        queue = cls(int(document["capacity"]), int(document["max_age_iterations"]))
+        queue = cls()
         queue.enqueued_count = int(document["enqueued_count"])
         queue.consumed_count = int(document["consumed_count"])
         queue.rejected_count = int(document["rejected_count"])
-        queue.skip_count = int(document["skip_count"])
         queue.rejections = list(document["rejections"])
         queue._seen = {tuple(key) for key in document["seen"]}
         for entry in document["episodes"]:
             queue._queue.append(SetupEpisode.from_document(entry))
+        if {queue.key(episode) for episode in queue._queue} != queue._seen:
+            raise Phase17SetupError(
+                "the restored buffer's duplicate ledger does not match its own "
+                "pending episodes; refusing a state that could lose or "
+                "duplicate a completed setup outcome"
+            )
         return queue
 
 

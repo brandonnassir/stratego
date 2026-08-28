@@ -64,9 +64,10 @@ from ...engine.snapshot import create_snapshot, restore_snapshot
 from ..trajectory import DecisionRecord, SnapshotEntry
 from ..warmstart_contract import CORPUS_RULES
 from .move_contract import Phase17MoveError
+from .setup_contract import SETUP_RECIPE_VERSION
 from .transition_targets import SeatTrace
 
-JOINT_CHECKPOINT_SCHEMA_VERSION = "phase17_joint_checkpoint_v1"
+JOINT_CHECKPOINT_SCHEMA_VERSION = "phase17_joint_checkpoint_v2"
 
 #: The snapshot dictionary keys `create_snapshot(include_history=True)` emits.
 #: Listed so a future engine field addition fails here rather than silently
@@ -94,10 +95,12 @@ ACTIVE_GAME_SNAPSHOT_KEYS = (
 
 REQUIRED_KEYS = (
     "schema_version",
+    "recipe",
     "run_id",
     "work_package",
     "iteration",
     "start_identity",
+    "setup_start_model_state_digest",
     "move_raw_state",
     "move_raw_model_state_digest",
     "move_ema_state",
@@ -109,7 +112,7 @@ REQUIRED_KEYS = (
     "move_optimizer_state",
     "setup_optimizer_state",
     "move_kl_controller_state",
-    "setup_kl_controller_state",
+    "setup_behavior_kl",
     "move_scheduler_position",
     "setup_scheduler_position",
     "move_optimizer_step_count",
@@ -118,7 +121,7 @@ REQUIRED_KEYS = (
     "active_games",
     "active_game_setup_episodes",
     "boundary_carry_state",
-    "completed_setup_queue",
+    "completed_setup_buffer",
     "setup_pool_identity",
     "run_digest",
     "config_digest",
@@ -415,6 +418,27 @@ def read_joint_checkpoint(
     if payload["run_id"] != run_id:
         raise Phase17CheckpointError(
             f"{target} belongs to run {payload['run_id']!r}, not {run_id!r}"
+        )
+    # Operator decision D10 section 1: refuse an incompatible recipe. A D7-B/D5
+    # checkpoint carries advantages built from a different equation and a beta
+    # that no longer exists, so it is refused rather than migrated.
+    if payload["recipe"] != SETUP_RECIPE_VERSION:
+        raise Phase17CheckpointError(
+            f"{target} was written under recipe {payload['recipe']!r}, this "
+            f"process runs {SETUP_RECIPE_VERSION!r}"
+        )
+    # Required fields, not `.get()` defaults: a document that cannot answer
+    # "is this adaptive?" must fail rather than read as "no".
+    behavior_kl = payload["setup_behavior_kl"]
+    if not isinstance(behavior_kl, dict) or "adaptive" not in behavior_kl:
+        raise Phase17CheckpointError(
+            f"{target}: setup_behavior_kl does not declare `adaptive`; refusing "
+            f"to authorize a checkpoint that cannot answer it: {behavior_kl!r}"
+        )
+    if behavior_kl["adaptive"]:
+        raise Phase17CheckpointError(
+            f"{target} carries an ADAPTIVE setup behavior-KL state; D10 retired "
+            "the controller and this recipe has only a fixed coefficient"
         )
     recorded = payload.get("payload_digest")
     observed = json_digest(_digestible(payload))

@@ -1,36 +1,44 @@
-"""Phase 17 Agent 3: the setup half's frozen constants, identities and refusals.
+"""Phase 17: the setup half's frozen constants, identities and refusals.
 
 Specification sources:
 
+- `09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` sections 3, 4 and 7
 - `00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` sections 7, 8, 10, 12, 13
-- `03_AGENT_3_AUTOREGRESSIVE_SETUP_NETWORK.md` sections 2-8
-- `reports/phase17/phase17_contract_handoff_v1.json`
-  (`schedules_and_controllers.setup`, `schedules_and_controllers.setup_architecture`,
-  `schemas.setup_episode`, `schemas.encoding_rules`)
 - `reports/phase17/ataraxos_method_map_v1.md` rows S01-S17
 
 Why a separate `setup_contract` and not `contract.py`
 -----------------------------------------------------
 Agent 1's recommended module split reserves `phase17/contract.py` for the
-shared move-side constants that Agent 2 owns. Agents 2 and 3 work in
-parallel, so this module takes a setup-scoped name: nothing here is a move
-constant and nothing here may be imported as one. The two gradient clips are
-the concrete reason -- the setup side clips at 0.5 and the move side at 1.0
+shared move-side constants that Agent 2 owns. Nothing here is a move constant
+and nothing here may be imported as one. The two gradient clips are the
+concrete reason -- the setup side clips at 0.5 and the move side at 1.0
 (method map rows S13 and M12), and merging them into one symbol is exactly
 the mistake that would silently retune the move learner.
 
-Nothing numeric here was chosen by this agent. Every value is either
-transcribed from the paper through Agent 1's frozen map, or carries a
-`PROVISIONAL_` prefix because Agent 1 deferred it to this agent's soak
-(operator decision D5). A provisional value is a starting point that the gate
-must measure, never a result.
+What operator decision D10 changed here (2026-08-28)
+-----------------------------------------------------
+D10 stopped treating the setup learner as an independently certified
+subsystem and put the paper's printed recipe on the active path. Three things
+in this module were replaced outright rather than parameterised, because a
+switch between two recipes is a second recipe:
+
+```text
+adaptive reverse-KL controller  ->  fixed coefficient 0.1
+alpha re-horizoned on N (D3)    ->  alpha(n) = 0.1 * n**-0.3, no floor
+uncentered I/10 bonus (D7-B)    ->  the printed advantage, alpha * (I - h)
+fixed quota / warm-up / max age ->  every completed episode, exactly once
+```
+
+The measurements that produced D3, D5 and D7-B remain valid history; they are
+simply no longer the active recipe. Nothing numeric here was chosen by this
+agent: every value is transcribed from the paper through Agent 1's frozen map
+or restated verbatim from D10 section 4.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
-import math
 from dataclasses import dataclass, replace
 
 from ...engine.constants import (
@@ -59,23 +67,27 @@ SETUP_EPISODE_SCHEMA_VERSION = "phase17_setup_episode_v1"
 #: The setup network's architecture identity.
 SETUP_MODEL_VERSION = "phase17_setup_model_v1"
 
-#: The setup update's identity. Bumping this invalidates recorded behavior data.
+#: The active recipe under operator decision D10. Recorded in every config
+#: document, checkpoint and handoff so a D7-B/D5 artifact and a D10 artifact can
+#: never be read as the same experiment.
+SETUP_RECIPE_VERSION = "phase17_simple_paper_tandem_v1"
+
+#: The one production run of this recipe. Agent 3/4's rehearsal lineage
+#: `RUN-2026-A` is a different run and its state may not enter production.
+PRODUCTION_RUN_ID = "RUN-2026-B"
+
+#: The setup update's identity. Bumping this invalidates recorded behavior data,
+#: which is the point: a `phase17_setup_update_v2` checkpoint carries advantages
+#: built from a different equation and must be refused, not migrated.
 #:
-#: v2 (operator decision D7-B, 2026-08-27): the advantage's entropy term changed
-#: from the centered residual `alpha*(I/10 - h)` to the uncentered bonus
-#: `0.9*alpha*(I/10)`. Agent 3's soak measured the centered form converging to
-#: zero by construction -- `L_h` trains `h` toward `I/10`, so the residual is the
-#: error of a prediction another loss term is actively making accurate, and it
-#: fell to ~1/100th of the outcome term within ten iterations. The uncentered
-#: form is the paper's own `(H - h) ~ 0.9*H` shape expressed in the normalized
-#: I/10 units, which keeps it commensurate with the outcome term.
-SETUP_EQUATION_VERSION = "phase17_setup_update_v2"
+#: D10 retires v2's locally invented uncentered `0.9*alpha*(I/10)` bonus and
+#: uses the paper's printed advantage `(o - E[v]) + alpha*(I - h)` directly.
+SETUP_EQUATION_VERSION = "phase17_setup_update_paper_v1"
 
-#: The queue identity frozen by Agent 1.
-SETUP_QUEUE_VERSION = "phase17_setup_episode_queue_v1"
-
-#: The KL controller identity frozen by Agent 1 (constants provisional, D5).
-SETUP_KL_CONTROLLER_VERSION = "phase17_setup_behavior_kl_controller_v1"
+#: The completed-episode buffer's identity. Under D10 this is a pending buffer
+#: that is fully drained every global iteration, not Agent 3's bounded FIFO with
+#: a fixed quota, so the version changes with the semantics.
+SETUP_BUFFER_VERSION = "phase17_completed_setup_buffer_v1"
 
 #: The accepted Phase 15 orientation rule. Never re-derived here.
 ORIENTATION_RULE_VERSION = "phase15_orientation_rule_v1"
@@ -142,14 +154,14 @@ SETUP_PPO_CLIP_EPSILON = 0.2
 SETUP_VALUE_LOSS_WEIGHT = 0.5
 SETUP_CONDITIONAL_ENTROPY_LOSS_WEIGHT = 1.0
 
-#: The paper's 1/10 normaliser (Eq. 1). Both sides of the advantage's entropy
-#: term are expressed in these units -- operator decision D4.
+#: The paper's 1/10 normaliser (Eq. 1). Under D10 it applies to `L_h`'s TARGET
+#: only: the conditional-entropy head is trained toward `I/10`, while the
+#: printed advantage uses `I` in raw nats against the recorded `h`. That
+#: asymmetry is the paper's own and D10 section 4 keeps it deliberately --
+#: "do not add a compensating scale, floor, centering rule, horizon map, or
+#: controller". It is measured, not corrected: `advantage_terms` reports the
+#: outcome and entropy magnitudes separately every iteration.
 SETUP_CONDITIONAL_ENTROPY_NORMALIZER = 0.1
-
-#: The paper's `(H - h)` reduces to `0.9*H` once `h` has converged to `H/10`.
-#: D7-B keeps that coefficient and expresses it in normalized units, so the
-#: bonus is `0.9 * alpha * (I/10)`.
-SETUP_ENTROPY_BONUS_COEFFICIENT = 0.9
 
 #: Distinct from the move side's 1.0 (row M12). Do not merge.
 SETUP_GRADIENT_CLIP_NORM = 0.5
@@ -158,116 +170,73 @@ SETUP_EMA_DECAY = 0.999
 SETUP_EPOCHS_PER_ITERATION = 5
 
 # ---------------------------------------------------------------------------
-# Regularization temperature (method map S15; operator decision D3)
-# ---------------------------------------------------------------------------
-
-#: Agent 1's derived constant: the paper's own iteration count.
-N_PAPER = 42_376
-PAPER_ALPHA_START = 0.1
-PAPER_ALPHA_EXPONENT = 0.3
-
-#: alpha(N_paper) under the paper's raw schedule. Both endpoints are preserved
-#: exactly by the re-horizoning, so this is also the floor.
-ALPHA_FLOOR = PAPER_ALPHA_START * float(N_PAPER) ** -PAPER_ALPHA_EXPONENT
-
-
-def setup_alpha_exponent(total_iterations: int) -> float:
-    """`p = 0.3 * ln(N_paper) / ln(N)` -- the endpoint-preserving rescale.
-
-    Operator decision D3. The raw transcription `0.1 * n**-0.3` ends 3.5x
-    more heavily regularized than the paper on a 12-hour horizon, so the setup
-    policy would never leave the high-entropy regime. Rescaling the exponent
-    keeps the same power-law family and pins both endpoints; the move LR's
-    `n_ref` shift preserves only the upper one.
-    """
-    if total_iterations < 2:
-        raise Phase17SetupError(
-            f"the alpha horizon needs at least 2 iterations, got {total_iterations}"
-        )
-    return PAPER_ALPHA_EXPONENT * math.log(N_PAPER) / math.log(float(total_iterations))
-
-
-def setup_alpha(iteration: int, total_iterations: int) -> float:
-    """`alpha(n) = max(0.1 * n**-p, alpha(N_paper))`, one-based `n`."""
-    if iteration < 1:
-        raise Phase17SetupError(f"iteration is one-based, got {iteration}")
-    exponent = setup_alpha_exponent(total_iterations)
-    return max(PAPER_ALPHA_START * float(iteration) ** -exponent, ALPHA_FLOOR)
-
-
-# ---------------------------------------------------------------------------
-# PROVISIONAL constants -- operator decision D5, calibrated by this agent's gate
+# Behavior KL (method map S11; operator decision D10 section 4)
 # ---------------------------------------------------------------------------
 
 #: Reverse KL, `D_KL(pi_current || pi_behavior)`, which is the paper's
-#: direction (S11) and deliberately NOT the move controller's forward
-#: direction. The direction is a required logged field precisely so the two
-#: are never reported as one another.
-#:
-#: RESOLVED by operator decision D5, 2026-08-27, from Agent 3's measured soak.
-#: The names keep their `PROVISIONAL_` prefix nowhere: these are frozen. The
-#: 0.015 target was borrowed from the move controller and measurement showed it
-#: sits roughly 4x above the observed p95, so the controller drove beta to its
-#: lower bound and held it there for every iteration -- regulating nothing. The
-#: target is now the measured scale and the lower bound is widened by a decade
-#: so the controller has room to act in both directions.
+#: direction and deliberately NOT the move controller's forward direction. The
+#: direction is a required logged field precisely so the two are never reported
+#: as one another.
 SETUP_KL_DIRECTION = "reverse_current_given_behavior"
 
-#: The observed MEDIAN of the per-iteration control KL, not its p95.
+#: FIXED. Not a beta, not a controller state, not a target.
 #:
-#: The first D5 resolution took 0.0037 -- the p95 Agent 3's v1 report
-#: highlighted. Measured against a controller that steps once per iteration on
-#: the final epoch's KL, that target sits above the median (0.00176), so 55% of
-#: iterations fall below the decrease threshold against 2.5% above it and beta
-#: walks to its floor by iteration 30. Anchoring on the median centres the hold
-#: band on the actual scale: roughly 8% decrease / 75% hold / 17% increase.
-#: Operator decision, 2026-08-27.
-SETUP_KL_TARGET = 0.0018
-SETUP_KL_BETA_INITIAL = 0.1
-SETUP_KL_BETA_BOUNDS = (0.001, 1.0)
-SETUP_KL_HARD_LIMIT = 0.08
+#: D5's adaptive controller is retired. Agent 4's 200-iteration tandem soak sat
+#: at the controller's UPPER bound for 97.5% of its iterations, which is a
+#: controller that is not controlling; D10 reads that as evidence for removing
+#: it rather than for calibrating it again. Every artifact this module feeds
+#: names this a coefficient so no reader can mistake a constant for a regulated
+#: quantity.
+SETUP_BEHAVIOR_KL_COEFFICIENT = 0.1
 
-#: A controller that lives at a bound is not controlling anything. The soak
-#: reports the fraction of iterations spent at each bound and the gate fails
-#: above this share -- the failure mode D5 was opened to diagnose.
-SETUP_KL_PINNED_FRACTION_LIMIT = 0.50
+# ---------------------------------------------------------------------------
+# Regularization temperature (method map S15; operator decision D10 section 4)
+# ---------------------------------------------------------------------------
 
-#: Agent 3's chosen response shape. D5 fixed the direction, target, initial
-#: beta, bounds and hard limit; it left the response ratios and factors open,
-#: and these are not the accepted Phase 9 controller's. Phase 9 increases above
-#: 2.0x its target and steps by 2.0 / 0.5; these are gentler (1.5x, 1.5 / 1.5),
-#: which suits a controller whose measured signal is small and rises steadily
-#: within an iteration. Stated explicitly because an earlier version of this
-#: comment claimed Phase 9 fidelity that the numbers do not have.
-SETUP_KL_INCREASE_THRESHOLD_RATIO = 1.5
-SETUP_KL_DECREASE_THRESHOLD_RATIO = 0.5
-SETUP_KL_INCREASE_FACTOR = 1.5
-SETUP_KL_DECREASE_FACTOR = 1.0 / 1.5
+PAPER_ALPHA_START = 0.1
+PAPER_ALPHA_EXPONENT = 0.3
 
-PROVISIONAL_SETUP_QUEUE_CAPACITY = 4096
-PROVISIONAL_SETUP_QUEUE_MAX_AGE_ITERATIONS = 8
 
-#: Common contract section 12's provisional production floors.
-PROVISIONAL_PREFIX_ENTROPY_FLOOR_FRACTION = 0.60
-PROVISIONAL_PREFIX_ENTROPY_FLOOR_CONSECUTIVE_CHECKS = 3
-PROVISIONAL_FLAG_EFFECTIVE_SUPPORT_FLOOR = 4.0
+def setup_alpha(iteration: int) -> float:
+    """`alpha(n) = 0.1 * n**-0.3`, with `n` the one-based GLOBAL tandem iteration.
 
-#: Pool sizing band (S04). The gate picks the smallest size that keeps the
-#: game creator supplied.
-SETUP_POOL_SIZE_BAND = (512, 1000)
+    The paper's printed schedule, transcribed, with no floor and no dependence
+    on the expected run length `N`.
 
-PROVISIONAL_FIELDS = (
-    "setup_queue_capacity",
-    "setup_queue_max_age_iterations",
-)
+    Two earlier choices are retired here and both mattered:
 
-#: Frozen by the operator after Agent 3's measured soak.
-RESOLVED_FIELDS = {
-    "D5 (setup KL controller)": (
-        "direction, target 0.0037, beta0 0.1, bounds [0.001, 1.0], hard limit 0.08"
-    ),
-    "D7-B (setup advantage entropy term)": "0.9 * alpha * (I/10), uncentered",
-}
+    - D3 rescaled the exponent to `0.3*ln(N_paper)/ln(N)` so that alpha's two
+      endpoints landed where the paper's did on a 42,376-iteration run. That
+      re-horizoning is gone. D10 accepts that a 640-iteration run ends less
+      annealed than the paper's and treats the resulting curve as the
+      experiment rather than as something to be matched.
+    - Agent 4 left it unresolved (`A4-CF6`) whether `n` counted setup updates
+      or global iterations, and the two diverge whenever a setup update is
+      skipped. D10 settles it: `n` is the shared one-based global tandem
+      iteration the runner is on, the same `n` the move schedule reads. A
+      skipped setup update therefore still advances alpha, because alpha is a
+      property of where the run is, not of how many times the setup optimizer
+      has fired.
+    """
+    if iteration < 1:
+        raise Phase17SetupError(f"iteration is one-based, got {iteration}")
+    return PAPER_ALPHA_START * float(iteration) ** -PAPER_ALPHA_EXPONENT
+
+
+# ---------------------------------------------------------------------------
+# Descriptive floors -- telemetry only under operator decision D10 section 7
+# ---------------------------------------------------------------------------
+
+#: These were the standalone setup gate's pass/fail thresholds. D10 retired the
+#: gate and demoted every statistical setup reading to a warning, so they are
+#: kept only so the telemetry can still say "below the level Agent 3 measured
+#: as collapse". Nothing reads them to stop a run.
+DESCRIPTIVE_PREFIX_ENTROPY_FLOOR_FRACTION = 0.60
+DESCRIPTIVE_FLAG_EFFECTIVE_SUPPORT_FLOOR = 4.0
+
+#: Pool sizing (S04, D10 section 4): 512 fresh samples per side, regenerated at
+#: every global tandem iteration.
+SETUP_POOL_SIZE_PER_SIDE = 512
 
 # ---------------------------------------------------------------------------
 # Inventory
@@ -387,14 +356,19 @@ def seed_uniform(seed: int) -> float:
 
 @dataclass(frozen=True)
 class SetupTrainingConfig:
-    """Everything the setup half needs, with its provenance attached."""
+    """Everything the setup half needs, with its provenance attached.
+
+    One recipe, one path. There is no adaptive-controller branch to fall into
+    and no quota to satisfy: `behavior_kl_coefficient` is a constant, alpha is a
+    function of the shared global iteration alone, and every completed episode
+    is consumed.
+    """
 
     run_id: str
-    total_iterations: int
     device: str = "cpu"
     epochs_per_iteration: int = SETUP_EPOCHS_PER_ITERATION
     minibatch_episodes: int = 32
-    pool_size_per_side: int = SETUP_POOL_SIZE_BAND[0]
+    pool_size_per_side: int = SETUP_POOL_SIZE_PER_SIDE
     learning_rate: float = SETUP_LEARNING_RATE
     ppo_clip_epsilon: float = SETUP_PPO_CLIP_EPSILON
     value_loss_weight: float = SETUP_VALUE_LOSS_WEIGHT
@@ -402,46 +376,44 @@ class SetupTrainingConfig:
     gradient_clip_norm: float = SETUP_GRADIENT_CLIP_NORM
     ema_decay: float = SETUP_EMA_DECAY
     kl_direction: str = SETUP_KL_DIRECTION
-    kl_target: float = SETUP_KL_TARGET
-    kl_beta_initial: float = SETUP_KL_BETA_INITIAL
-    kl_beta_bounds: tuple = SETUP_KL_BETA_BOUNDS
-    kl_hard_limit: float = SETUP_KL_HARD_LIMIT
-    queue_capacity: int = PROVISIONAL_SETUP_QUEUE_CAPACITY
-    queue_max_age_iterations: int = PROVISIONAL_SETUP_QUEUE_MAX_AGE_ITERATIONS
+    behavior_kl_coefficient: float = SETUP_BEHAVIOR_KL_COEFFICIENT
     seed_offset: int = 0
 
     def __post_init__(self) -> None:
-        if self.total_iterations < 2:
-            raise Phase17SetupError("total_iterations must be at least 2")
         if self.epochs_per_iteration < 1:
             raise Phase17SetupError("epochs_per_iteration must be at least 1")
         if self.minibatch_episodes < 1:
             raise Phase17SetupError("minibatch_episodes must be at least 1")
         if self.pool_size_per_side < 1:
             raise Phase17SetupError("pool_size_per_side must be at least 1")
-        low, high = self.kl_beta_bounds
-        if not 0.0 < low <= high:
-            raise Phase17SetupError(f"invalid kl beta bounds: {self.kl_beta_bounds!r}")
-        if not low <= self.kl_beta_initial <= high:
-            raise Phase17SetupError("kl_beta_initial is outside its own bounds")
-        if self.queue_capacity < 1:
-            raise Phase17SetupError("queue_capacity must be at least 1")
+        if self.kl_direction != SETUP_KL_DIRECTION:
+            raise Phase17SetupError(
+                f"the setup behavior KL is {SETUP_KL_DIRECTION!r}; "
+                f"{self.kl_direction!r} would silently flip the paper's direction "
+                "into the move controller's"
+            )
+        if not self.behavior_kl_coefficient >= 0.0:
+            raise Phase17SetupError(
+                f"the behavior KL coefficient must be >= 0, got "
+                f"{self.behavior_kl_coefficient}"
+            )
 
     def replace(self, **changes) -> "SetupTrainingConfig":
         return replace(self, **changes)
 
     def alpha(self, iteration: int) -> float:
-        return setup_alpha(iteration, self.total_iterations)
+        """`alpha(n)` at the one-based GLOBAL tandem iteration `n`."""
+        return setup_alpha(iteration)
 
     def document(self) -> dict:
         """The digestible record of this configuration."""
         return {
+            "recipe": SETUP_RECIPE_VERSION,
             "setup_contract_version": SETUP_CONTRACT_VERSION,
             "setup_model_version": SETUP_MODEL_VERSION,
             "setup_equation_version": SETUP_EQUATION_VERSION,
             "setup_episode_schema_version": SETUP_EPISODE_SCHEMA_VERSION,
-            "setup_queue_version": SETUP_QUEUE_VERSION,
-            "setup_kl_controller_version": SETUP_KL_CONTROLLER_VERSION,
+            "setup_buffer_version": SETUP_BUFFER_VERSION,
             "orientation_rule_version": ORIENTATION_RULE_VERSION,
             "work_package": WORK_PACKAGE,
             "run_id": self.run_id,
@@ -454,6 +426,7 @@ class SetupTrainingConfig:
                 "vocabulary": SETUP_VOCABULARY,
                 "sequence_length": SETUP_SEQUENCE_LENGTH,
                 "parameter_target": SETUP_PARAMETER_TARGET,
+                "initialization": "from scratch under a recorded seed",
             },
             "optimisation": {
                 "optimizer": SETUP_OPTIMIZER,
@@ -463,43 +436,49 @@ class SetupTrainingConfig:
                 "ppo_clip_epsilon": self.ppo_clip_epsilon,
                 "value_loss_weight": self.value_loss_weight,
                 "conditional_entropy_loss_weight": self.conditional_entropy_loss_weight,
-                "conditional_entropy_normalizer": SETUP_CONDITIONAL_ENTROPY_NORMALIZER,
+                "conditional_entropy_loss_target": "I/10",
                 "gradient_clip_norm": self.gradient_clip_norm,
                 "ema_decay": self.ema_decay,
                 "epochs_per_iteration": self.epochs_per_iteration,
                 "minibatch_episodes": self.minibatch_episodes,
             },
+            "advantage": {
+                "formula": "(outcome - E[behavior W/D/L value]) + alpha(n) * (I - h_behavior)",
+                "information_units": "nats",
+                "h_units": "the recorded behavior prediction, trained toward I/10",
+                "source": "the paper's printed setup advantage, D10 section 4",
+                "retired": "phase17_setup_update_v2 (D7-B) 0.9 * alpha * (I/10)",
+            },
             "alpha_schedule": {
-                "formula": "max(0.1 * n**-p, 0.1 * N_paper**-0.3)",
-                "n_paper": N_PAPER,
-                "total_iterations": self.total_iterations,
-                "p": setup_alpha_exponent(self.total_iterations),
-                "alpha_first": setup_alpha(1, self.total_iterations),
-                "alpha_last": setup_alpha(self.total_iterations, self.total_iterations),
-                "floor": ALPHA_FLOOR,
-                "operator_decision": "D3 ACCEPTED",
+                "formula": "0.1 * n**-0.3",
+                "n": "the shared one-based global tandem iteration",
+                "floor": None,
+                "depends_on_run_length": False,
+                "operator_decision": "D10 section 4 (supersedes D3)",
             },
-            "kl_controller": {
-                "version": SETUP_KL_CONTROLLER_VERSION,
+            "behavior_kl": {
                 "direction": self.kl_direction,
-                "target": self.kl_target,
-                "beta_initial": self.kl_beta_initial,
-                "beta_bounds": list(self.kl_beta_bounds),
-                "hard_limit": self.kl_hard_limit,
-                "status": "RESOLVED by operator decision D5, 2026-08-27",
+                "coefficient": self.behavior_kl_coefficient,
+                "adaptive": False,
+                "controller": None,
+                "operator_decision": "D10 section 4 (supersedes D5)",
             },
-            "queue": {
-                "version": SETUP_QUEUE_VERSION,
-                "capacity": self.queue_capacity,
-                "max_age_iterations": self.queue_max_age_iterations,
-                "status": "PROVISIONAL pending operator decision D5",
+            "completed_episode_buffer": {
+                "version": SETUP_BUFFER_VERSION,
+                "policy": (
+                    "every episode whose game completed in the current "
+                    "fixed-transition iteration, both sides, exactly once"
+                ),
+                "quota": None,
+                "warm_up_minimum": None,
+                "max_age_iterations": None,
+                "persisted": "only the current iteration's unconsumed buffer",
             },
             "pool": {
                 "size_per_side": self.pool_size_per_side,
-                "band": list(SETUP_POOL_SIZE_BAND),
+                "cadence": "regenerated at every global tandem iteration",
                 "fallback": "none -- generation or orientation failure is fatal",
             },
-            "provisional_fields": list(PROVISIONAL_FIELDS),
         }
 
     def config_digest(self) -> str:
@@ -507,72 +486,58 @@ class SetupTrainingConfig:
 
 
 __all__ = [
-    "ALPHA_FLOOR",
     "BLUE",
+    "DESCRIPTIVE_FLAG_EFFECTIVE_SUPPORT_FLOOR",
+    "DESCRIPTIVE_PREFIX_ENTROPY_FLOOR_FRACTION",
     "INVENTORY_VECTOR",
     "MASKED_LOGIT",
-    "N_PAPER",
     "ORIENTATION_RULE_VERSION",
-    "PROVISIONAL_FIELDS",
-    "PROVISIONAL_FLAG_EFFECTIVE_SUPPORT_FLOOR",
-    "PROVISIONAL_PREFIX_ENTROPY_FLOOR_CONSECUTIVE_CHECKS",
-    "PROVISIONAL_PREFIX_ENTROPY_FLOOR_FRACTION",
-    "SETUP_KL_BETA_BOUNDS",
-    "SETUP_KL_BETA_INITIAL",
-    "SETUP_KL_DIRECTION",
-    "SETUP_KL_HARD_LIMIT",
-    "SETUP_KL_PINNED_FRACTION_LIMIT",
-    "SETUP_KL_TARGET",
-    "PROVISIONAL_SETUP_QUEUE_CAPACITY",
-    "PROVISIONAL_SETUP_QUEUE_MAX_AGE_ITERATIONS",
+    "PAPER_ALPHA_EXPONENT",
+    "PAPER_ALPHA_START",
+    "POSITIONAL_INIT_STD",
+    "PRODUCTION_RUN_ID",
+    "Phase17SetupError",
+    "Phase17SetupGenerationError",
+    "Phase17SetupOrientationError",
     "RED",
     "SETUP_ADAM_BETAS",
     "SETUP_ADAM_EPSILON",
+    "SETUP_BEHAVIOR_KL_COEFFICIENT",
     "SETUP_BLOCKS",
     "SETUP_CONDITIONAL_ENTROPY_LOSS_WEIGHT",
     "SETUP_CONDITIONAL_ENTROPY_NORMALIZER",
     "SETUP_CONTRACT_VERSION",
     "SETUP_EMA_DECAY",
-    "SETUP_ENTROPY_BONUS_COEFFICIENT",
     "SETUP_EPISODE_SCHEMA_VERSION",
     "SETUP_EPOCHS_PER_ITERATION",
-    "RESOLVED_FIELDS",
     "SETUP_EQUATION_VERSION",
     "SETUP_FEED_FORWARD_WIDTH",
     "SETUP_GRADIENT_CLIP_NORM",
     "SETUP_HEADS",
-    "SETUP_KL_CONTROLLER_VERSION",
-    "SETUP_KL_DECREASE_FACTOR",
-    "SETUP_KL_DECREASE_THRESHOLD_RATIO",
-    "SETUP_KL_INCREASE_FACTOR",
-    "SETUP_KL_INCREASE_THRESHOLD_RATIO",
+    "SETUP_KL_DIRECTION",
     "SETUP_LEARNING_RATE",
     "SETUP_MODEL_VERSION",
     "SETUP_NORMALIZATION",
     "SETUP_OPTIMIZER",
     "SETUP_PARAMETER_TARGET",
     "SETUP_PARAMETER_TOLERANCE",
-    "SETUP_POOL_SIZE_BAND",
+    "SETUP_POOL_SIZE_PER_SIDE",
     "SETUP_PPO_CLIP_EPSILON",
     "SETUP_PREFIXES",
-    "SETUP_QUEUE_VERSION",
+    "SETUP_BUFFER_VERSION",
+    "SETUP_RECIPE_VERSION",
     "SETUP_SEQUENCE_LENGTH",
     "SETUP_VALUE_LOSS_WEIGHT",
     "SETUP_VOCABULARY",
     "SETUP_WIDTH",
     "START_TOKEN",
     "SetupTrainingConfig",
-    "Phase17SetupError",
-    "Phase17SetupGenerationError",
-    "Phase17SetupOrientationError",
-    "POSITIONAL_INIT_STD",
     "WORK_PACKAGE",
     "derive_shuffle_seed",
     "file_sha256",
     "json_document_digest",
     "seed_uniform",
     "setup_alpha",
-    "setup_alpha_exponent",
     "setup_root_seed",
     "setup_token_seed",
 ]

@@ -1,4 +1,4 @@
-"""Shared fixtures for the Phase 17 Agent 3 setup tests.
+"""Shared fixtures for the Phase 17 setup tests.
 
 Everything here is small and on CPU. The tests are about mechanics --
 masking, orientation, causality, outcome signs, queue discipline, resume
@@ -38,9 +38,7 @@ def model_digest(setup_model):
 def config():
     from stratego.training.phase17.setup_contract import SetupTrainingConfig
 
-    return SetupTrainingConfig(
-        run_id=RUN_ID, total_iterations=626, device="cpu", minibatch_episodes=8
-    )
+    return SetupTrainingConfig(run_id=RUN_ID, device="cpu", minibatch_episodes=8)
 
 
 @pytest.fixture(scope="session")
