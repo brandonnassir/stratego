@@ -20,9 +20,10 @@ Established:
 
 - one bulk-synchronous tandem iteration that runs the accepted Agent 2 move learner and
   Agent 3 setup learner together, in the contractual order, with no change to either;
-- that the tandem outcome signal is **decisive**: 0.24% draws across 3,325 real
-  current-policy games (8 draws, 1,681 Red wins, 1,636 Blue wins), against 83% under Agent 3's uniform-random legal fixture. That
-  is the confound decision D9-B set out to remove, and it is removed;
+- that the tandem outcome signal is **decisive**: 1.87% draws across the 32,043 games of
+  the concentration soak, and 0.24% across the 3,325 of the arrival diagnostic, against
+  83.3% under Agent 3's uniform-random legal fixture. That is the confound decision D9-B
+  set out to remove, and it is removed;
 - that the completed-episode arrival rate **is not stationary** — it rises as games
   shorten — which is the main operational risk this agent found and could not fully
   settle;
@@ -608,9 +609,14 @@ exponent. The **only** substantive difference is where the outcomes come from.
 ### 13.1 The confound is removed
 
 ```text
-draw rate, tandem       1.87%   (32,043 completed games)
+draw rate, tandem       1.87%   (32,043 completed games, this soak)
+draw rate, tandem       0.24%   ( 3,325 completed games, the arrival diagnostic)
 draw rate, Agent 3      83.3%   (uniform-random legal move fixture)
 ```
+
+The two tandem figures differ because the arrival diagnostic ran a shorter, earlier
+stretch at a larger move budget; both are two orders of magnitude below the fixture and
+nothing here turns on which one is used.
 
 Agent 3 named this as the confound it could not remove: "83% of its games draw and the
 outcome term is largely noise. A PPO policy fitting noise concentrates." Under the real
