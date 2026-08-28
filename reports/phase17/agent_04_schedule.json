@@ -1,0 +1,4539 @@
+{
+ "N": 640,
+ "N_paper": 42376,
+ "artifact": "agent_04_schedule",
+ "carry_forward_cf1": {
+  "detail": "Agent 1's CF1 says the contract's move LR reaches its floor at n = 1.0139*N (never) and holds its ceiling for 12.50% of the run, against the paper's 82.86% and 5.44%; and that the move entropy floor is reached at n = 214. Both are measured against this frozen N below. The common contract wins over the paper (section 2) and Agent 4 may not amend it without the operator, so the contract form is what is frozen here.",
+  "id": "CF1",
+  "owner": "Agent 1, recorded for Agent 6 and the operator",
+  "status": "RECORDED, NOT CHANGED"
+ },
+ "curve": [
+  {
+   "move_entropy_coefficient": 0.005,
+   "move_learning_rate": 0.00015,
+   "n": 1,
+   "setup_alpha": 0.1,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.004061261981781178,
+   "move_learning_rate": 0.00015,
+   "n": 2,
+   "setup_alpha": 0.0709723485341479,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0035961154666243216,
+   "move_learning_rate": 0.00015,
+   "n": 3,
+   "setup_alpha": 0.05807402524234513,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0032987697769322356,
+   "move_learning_rate": 0.00015,
+   "n": 4,
+   "setup_alpha": 0.05037074256452565,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.003085169313600048,
+   "move_learning_rate": 0.00015,
+   "n": 5,
+   "setup_alpha": 0.045106567083422505,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0029209534053393276,
+   "move_learning_rate": 0.00015,
+   "n": 6,
+   "setup_alpha": 0.04121649960280622,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0027889491265162304,
+   "move_learning_rate": 0.00015,
+   "n": 7,
+   "setup_alpha": 0.03819042285881634,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002679433656340733,
+   "move_learning_rate": 0.00015,
+   "n": 8,
+   "setup_alpha": 0.03574929897213354,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002586409289858933,
+   "move_learning_rate": 0.00015,
+   "n": 9,
+   "setup_alpha": 0.033725924078485396,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0025059361681363614,
+   "move_learning_rate": 0.00015,
+   "n": 10,
+   "setup_alpha": 0.03201319000223585,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002435298486129143,
+   "move_learning_rate": 0.00015,
+   "n": 11,
+   "setup_alpha": 0.030538885895029677,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0023725514031317754,
+   "move_learning_rate": 0.00015,
+   "n": 12,
+   "setup_alpha": 0.029252317751679316,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0023162583537518363,
+   "move_learning_rate": 0.00015,
+   "n": 13,
+   "setup_alpha": 0.02811670826577506,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002265330611328438,
+   "move_learning_rate": 0.00015,
+   "n": 14,
+   "setup_alpha": 0.027104640018024026,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002218925017158375,
+   "move_learning_rate": 0.00015,
+   "n": 15,
+   "setup_alpha": 0.026195199153982125,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0021763764082403103,
+   "move_learning_rate": 0.00015,
+   "n": 16,
+   "setup_alpha": 0.025372117065017165,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0021371515889412975,
+   "move_learning_rate": 0.00015,
+   "n": 17,
+   "setup_alpha": 0.024622522491421005,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0021008171436459476,
+   "move_learning_rate": 0.00015,
+   "n": 18,
+   "setup_alpha": 0.023936080383344768,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002067016407879161,
+   "move_learning_rate": 0.00015,
+   "n": 19,
+   "setup_alpha": 0.023304383386453208,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.002035452657684522,
+   "move_learning_rate": 0.00015,
+   "n": 20,
+   "setup_alpha": 0.022720512785285817,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0020058766178986816,
+   "move_learning_rate": 0.00015,
+   "n": 21,
+   "setup_alpha": 0.022178715811187348,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0019780770312011085,
+   "move_learning_rate": 0.00015,
+   "n": 22,
+   "setup_alpha": 0.021674164535866194,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0019518734357682939,
+   "move_learning_rate": 0.00015,
+   "n": 23,
+   "setup_alpha": 0.021202773040037464,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0019271105626721336,
+   "move_learning_rate": 0.00015,
+   "n": 24,
+   "setup_alpha": 0.02076105690903826,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0019036539387158786,
+   "move_learning_rate": 0.00015,
+   "n": 25,
+   "setup_alpha": 0.020346023940512943,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0018813863984150777,
+   "move_learning_rate": 0.00015,
+   "n": 26,
+   "setup_alpha": 0.019955088186715448,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0018602052900565074,
+   "move_learning_rate": 0.00015,
+   "n": 27,
+   "setup_alpha": 0.019586001662553768,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0018400202175906596,
+   "move_learning_rate": 0.00015,
+   "n": 28,
+   "setup_alpha": 0.019236799582518137,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0018207512004614203,
+   "move_learning_rate": 0.00015,
+   "n": 29,
+   "setup_alpha": 0.018905756068689314,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0018023271625216915,
+   "move_learning_rate": 0.00015,
+   "n": 30,
+   "setup_alpha": 0.018591348042778354,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0017846846823581437,
+   "move_learning_rate": 0.00015,
+   "n": 31,
+   "setup_alpha": 0.018292225572860008,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001767766952966369,
+   "move_learning_rate": 0.00015,
+   "n": 32,
+   "setup_alpha": 0.018007187353876002,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0017515229103631613,
+   "move_learning_rate": 0.00015,
+   "n": 33,
+   "setup_alpha": 0.017735160303410512,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0017359064994941053,
+   "move_learning_rate": 0.00015,
+   "n": 34,
+   "setup_alpha": 0.017475182480510273,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0017208760524639064,
+   "move_learning_rate": 0.00015,
+   "n": 35,
+   "setup_alpha": 0.017226388706254713,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0017063937592326829,
+   "move_learning_rate": 0.00015,
+   "n": 36,
+   "setup_alpha": 0.01698799839508125,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016924252148781274,
+   "move_learning_rate": 0.00015,
+   "n": 37,
+   "setup_alpha": 0.01675930520603947,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016789390306075065,
+   "move_learning_rate": 0.00015,
+   "n": 38,
+   "setup_alpha": 0.01653966820076763,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016659064981249536,
+   "move_learning_rate": 0.00015,
+   "n": 39,
+   "setup_alpha": 0.01632850425558275,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016533012988739213,
+   "move_learning_rate": 0.00015,
+   "n": 40,
+   "setup_alpha": 0.016125281522718683,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016410992511980175,
+   "move_learning_rate": 0.00015,
+   "n": 41,
+   "setup_alpha": 0.01592951377345515,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016292780896831453,
+   "move_learning_rate": 0.00015,
+   "n": 42,
+   "setup_alpha": 0.01574075548591405,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016178172719261178,
+   "move_learning_rate": 0.00015,
+   "n": 43,
+   "setup_alpha": 0.015558597564363452,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0016066978087703285,
+   "move_learning_rate": 0.00015,
+   "n": 44,
+   "setup_alpha": 0.015382663596259637,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015959021146965745,
+   "move_learning_rate": 0.00015,
+   "n": 45,
+   "setup_alpha": 0.015212606568966159,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015854138755868753,
+   "move_learning_rate": 0.00015,
+   "n": 46,
+   "setup_alpha": 0.015048105980879734,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015752179315146068,
+   "move_learning_rate": 0.00015,
+   "n": 47,
+   "setup_alpha": 0.014888865292158923,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015653001725738538,
+   "move_learning_rate": 0.00015,
+   "n": 48,
+   "setup_alpha": 0.014734609668855425,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015556474460591285,
+   "move_learning_rate": 0.00015,
+   "n": 49,
+   "setup_alpha": 0.014585083981352016,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015462474735549586,
+   "move_learning_rate": 0.00015,
+   "n": 50,
+   "setup_alpha": 0.014440051023902018,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001537088776702509,
+   "move_learning_rate": 0.00015,
+   "n": 51,
+   "setup_alpha": 0.014299289926969942,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015281606105846744,
+   "move_learning_rate": 0.00015,
+   "n": 52,
+   "setup_alpha": 0.01416259473817226,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001519452903817885,
+   "move_learning_rate": 0.00015,
+   "n": 53,
+   "setup_alpha": 0.01402977315105642,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015109562045629444,
+   "move_learning_rate": 0.00015,
+   "n": 54,
+   "setup_alpha": 0.01390064536385166,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0015026616317724568,
+   "move_learning_rate": 0.00015,
+   "n": 55,
+   "setup_alpha": 0.013775043052771413,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014945608310819353,
+   "move_learning_rate": 0.00015,
+   "n": 56,
+   "setup_alpha": 0.01365280844652028,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014866459348280997,
+   "move_learning_rate": 0.00015,
+   "n": 57,
+   "setup_alpha": 0.013533793490421723,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001478909525743281,
+   "move_learning_rate": 0.00015,
+   "n": 58,
+   "setup_alpha": 0.013417859090085997,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014713446039310075,
+   "move_learning_rate": 0.00015,
+   "n": 59,
+   "setup_alpha": 0.013304874425824162,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014639445567761783,
+   "move_learning_rate": 0.00015,
+   "n": 60,
+   "setup_alpha": 0.013194716330117137,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014567031314849644,
+   "move_learning_rate": 0.00015,
+   "n": 61,
+   "setup_alpha": 0.013087268721397836,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014496144099856692,
+   "move_learning_rate": 0.00015,
+   "n": 62,
+   "setup_alpha": 0.012982422088222737,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001442672785953107,
+   "move_learning_rate": 0.00015,
+   "n": 63,
+   "setup_alpha": 0.012880073018616931,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001435872943746294,
+   "move_learning_rate": 0.00015,
+   "n": 64,
+   "setup_alpha": 0.01278012376998988,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001429209839072986,
+   "move_learning_rate": 0.00015,
+   "n": 65,
+   "setup_alpha": 0.012682481875552027,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014226786812153256,
+   "move_learning_rate": 0.00015,
+   "n": 66,
+   "setup_alpha": 0.01258705978362635,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014162749166690281,
+   "move_learning_rate": 0.00015,
+   "n": 67,
+   "setup_alpha": 0.012493774526653846,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0014099942140644514,
+   "move_learning_rate": 0.00015,
+   "n": 68,
+   "setup_alpha": 0.012402547417046102,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001403832450251903,
+   "move_learning_rate": 0.00015,
+   "n": 69,
+   "setup_alpha": 0.012313303767348505,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013977856974458668,
+   "move_learning_rate": 0.00015,
+   "n": 70,
+   "setup_alpha": 0.012225972632450186,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013918502113337112,
+   "move_learning_rate": 0.00015,
+   "n": 71,
+   "setup_alpha": 0.012140486571816652,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001386022420064072,
+   "move_learning_rate": 0.00015,
+   "n": 72,
+   "setup_alpha": 0.012056781429932517,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013802989140386187,
+   "move_learning_rate": 0.00015,
+   "n": 73,
+   "setup_alpha": 0.011974796133328476,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013746764364384759,
+   "move_learning_rate": 0.00015,
+   "n": 74,
+   "setup_alpha": 0.011894472502731925,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013691518744232958,
+   "move_learning_rate": 0.00015,
+   "n": 75,
+   "setup_alpha": 0.01181575507902707,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013637222509469621,
+   "move_learning_rate": 0.00015,
+   "n": 76,
+   "setup_alpha": 0.011738590961840432,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001358384717139234,
+   "move_learning_rate": 0.00015,
+   "n": 77,
+   "setup_alpha": 0.011662929659683253,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013531365452074178,
+   "move_learning_rate": 0.00015,
+   "n": 78,
+   "setup_alpha": 0.01158872295068536,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013479751218164024,
+   "move_learning_rate": 0.00015,
+   "n": 79,
+   "setup_alpha": 0.011515924753046898,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013428979419092195,
+   "move_learning_rate": 0.00015,
+   "n": 80,
+   "setup_alpha": 0.011444491004416456,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001337902602933718,
+   "move_learning_rate": 0.00014796422507788945,
+   "n": 81,
+   "setup_alpha": 0.011374379549477613,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013329867994440134,
+   "move_learning_rate": 0.00014598055388177699,
+   "n": 82,
+   "setup_alpha": 0.011305550035091684,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013281483180481418,
+   "move_learning_rate": 0.0001440470415503119,
+   "n": 83,
+   "setup_alpha": 0.011237963812403606,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013233850326758443,
+   "move_learning_rate": 0.0001421618380928439,
+   "n": 84,
+   "setup_alpha": 0.011171583845370927,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001318694900142655,
+   "move_learning_rate": 0.00014032318270056844,
+   "n": 85,
+   "setup_alpha": 0.011106374625223608,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013140759559884965,
+   "move_learning_rate": 0.00013852939846094648,
+   "n": 86,
+   "setup_alpha": 0.011042302090405477,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001309526310570823,
+   "move_learning_rate": 0.0001367788874425064,
+   "n": 87,
+   "setup_alpha": 0.010979333551586827,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013050441453940121,
+   "move_learning_rate": 0.00013507012612016202,
+   "n": 88,
+   "setup_alpha": 0.010917437621372879,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0013006277096582212,
+   "move_learning_rate": 0.00013340166111389858,
+   "n": 89,
+   "setup_alpha": 0.010856584148364361,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012962753170122766,
+   "move_learning_rate": 0.00013177210521611747,
+   "n": 90,
+   "setup_alpha": 0.01079674415525534,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012919853424964208,
+   "move_learning_rate": 0.0001301801336851325,
+   "n": 91,
+   "setup_alpha": 0.010737889780679261,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001287756219661866,
+   "move_learning_rate": 0.00012862448078428785,
+   "n": 92,
+   "setup_alpha": 0.010679994224537921,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012835864378551271,
+   "move_learning_rate": 0.00012710393654795658,
+   "n": 93,
+   "setup_alpha": 0.010623031696569432,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001279474539656052,
+   "move_learning_rate": 0.00012561734375729226,
+   "n": 94,
+   "setup_alpha": 0.010566977367930809,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012754191184593175,
+   "move_learning_rate": 0.00012416359511006547,
+   "n": 95,
+   "setup_alpha": 0.010511807325588485,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012714188161899417,
+   "move_learning_rate": 0.00012274163057023909,
+   "n": 96,
+   "setup_alpha": 0.010457498529326328,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012674723211440744,
+   "move_learning_rate": 0.00012135043488413263,
+   "n": 97,
+   "setup_alpha": 0.01040402877119542,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001263578365946985,
+   "move_learning_rate": 0.00011998903525111304,
+   "n": 98,
+   "setup_alpha": 0.010351376637243328,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001259735725620762,
+   "move_learning_rate": 0.00011865649913773499,
+   "n": 99,
+   "setup_alpha": 0.010299521471372995,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012559432157547902,
+   "move_learning_rate": 0.0001173519322251514,
+   "n": 100,
+   "setup_alpha": 0.010248443341192532,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012521996907725662,
+   "move_learning_rate": 0.00011607447648042998,
+   "n": 101,
+   "setup_alpha": 0.01019812300572759,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012485040422888876,
+   "move_learning_rate": 0.00011482330834315557,
+   "n": 102,
+   "setup_alpha": 0.010148541884877411,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012448551975518666,
+   "move_learning_rate": 0.00011359763701937498,
+   "n": 103,
+   "setup_alpha": 0.010099682030504334,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012412521179646098,
+   "move_learning_rate": 0.00011239670287556016,
+   "n": 104,
+   "setup_alpha": 0.010051526099054508,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012376937976817724,
+   "move_learning_rate": 0.00011121977592582912,
+   "n": 105,
+   "setup_alpha": 0.010004057325614853,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012341792622765177,
+   "move_learning_rate": 0.00011006615440618185,
+   "n": 106,
+   "setup_alpha": 0.009957259499318066,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012307075674737262,
+   "move_learning_rate": 0.0001089351634299796,
+   "n": 107,
+   "setup_alpha": 0.009911116940013653,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012272777979455741,
+   "move_learning_rate": 0.00010782615371932909,
+   "n": 108,
+   "setup_alpha": 0.009865614476128673,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012238890661658663,
+   "move_learning_rate": 0.00010673850040742983,
+   "n": 109,
+   "setup_alpha": 0.009820737423647136,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012205405113197491,
+   "move_learning_rate": 0.00010567160190730609,
+   "n": 110,
+   "setup_alpha": 0.009776471566141854,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001217231298265645,
+   "move_learning_rate": 0.00010462487884267946,
+   "n": 111,
+   "setup_alpha": 0.009732803135797023,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012139606165464689,
+   "move_learning_rate": 0.00010359777303704451,
+   "n": 112,
+   "setup_alpha": 0.009689718795363957,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012107276794473632,
+   "move_learning_rate": 0.0001025897465572917,
+   "n": 113,
+   "setup_alpha": 0.009647205620996219,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.00120753172309738,
+   "move_learning_rate": 0.00010160028080848266,
+   "n": 114,
+   "setup_alpha": 0.009605251085913924,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001204372005612687,
+   "move_learning_rate": 0.00010062887567662026,
+   "n": 115,
+   "setup_alpha": 0.009563843044850319,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0012012478062790439,
+   "move_learning_rate": 9.967504871647771e-05,
+   "n": 116,
+   "setup_alpha": 0.00952296971923668,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011981584247714213,
+   "move_learning_rate": 9.87383343817534e-05,
+   "n": 117,
+   "setup_alpha": 0.009482619683084524,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001195103180408777,
+   "move_learning_rate": 9.781828329500555e-05,
+   "n": 118,
+   "setup_alpha": 0.009442781849526634,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011920814114421208,
+   "move_learning_rate": 9.69144615549948e-05,
+   "n": 119,
+   "setup_alpha": 0.009403445457980842,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011890924743741178,
+   "move_learning_rate": 9.60264500792218e-05,
+   "n": 120,
+   "setup_alpha": 0.009364600061902864,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011861357433085788,
+   "move_learning_rate": 9.515384397959593e-05,
+   "n": 121,
+   "setup_alpha": 0.009326235517096425,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001183210609328295,
+   "move_learning_rate": 9.429625196930766e-05,
+   "n": 122,
+   "setup_alpha": 0.009288341970550992,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011803164798997567,
+   "move_learning_rate": 9.345329579910404e-05,
+   "n": 123,
+   "setup_alpha": 0.009250909849779188,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011774527783033903,
+   "move_learning_rate": 9.262460972128457e-05,
+   "n": 124,
+   "setup_alpha": 0.009213929852627643,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011746189430880192,
+   "move_learning_rate": 9.180983997984355e-05,
+   "n": 125,
+   "setup_alpha": 0.009177392937536671,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011718144275483374,
+   "move_learning_rate": 9.100864432528592e-05,
+   "n": 126,
+   "setup_alpha": 0.009141290314225553,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001169038699224252,
+   "move_learning_rate": 9.02206915527383e-05,
+   "n": 127,
+   "setup_alpha": 0.009105613434781631,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011662912394210093,
+   "move_learning_rate": 8.9445661062063e-05,
+   "n": 128,
+   "setup_alpha": 0.009070353985132699,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011635715427490956,
+   "move_learning_rate": 8.868324243876468e-05,
+   "n": 129,
+   "setup_alpha": 0.009035503876883327,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011608791166829427,
+   "move_learning_rate": 8.793313505455479e-05,
+   "n": 130,
+   "setup_alpha": 0.009001055239496921,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011582134811375373,
+   "move_learning_rate": 8.719504768650819e-05,
+   "n": 131,
+   "setup_alpha": 0.008967000412806339,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011555741680620772,
+   "move_learning_rate": 8.646869815381289e-05,
+   "n": 132,
+   "setup_alpha": 0.008933331939836855,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011529607210498602,
+   "move_learning_rate": 8.575381297117367e-05,
+   "n": 133,
+   "setup_alpha": 0.008900042559926224,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011503726949636459,
+   "move_learning_rate": 8.505012701798777e-05,
+   "n": 134,
+   "setup_alpha": 0.008867125202127355,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011478096555757628,
+   "move_learning_rate": 8.43573832224631e-05,
+   "n": 135,
+   "setup_alpha": 0.008834572978880061,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011452711792222774,
+   "move_learning_rate": 8.367533225989992e-05,
+   "n": 136,
+   "setup_alpha": 0.008802379179938917,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011427568524705778,
+   "move_learning_rate": 8.300373226440111e-05,
+   "n": 137,
+   "setup_alpha": 0.008770537266545144,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011402662717997542,
+   "move_learning_rate": 8.23423485533216e-05,
+   "n": 138,
+   "setup_alpha": 0.008739040865830945,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011377990432931999,
+   "move_learning_rate": 8.169095336380557e-05,
+   "n": 139,
+   "setup_alpha": 0.008707883765445474,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011353547823428774,
+   "move_learning_rate": 8.10493256007991e-05,
+   "n": 140,
+   "setup_alpha": 0.008677059908392083,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.00113293311336473,
+   "move_learning_rate": 8.041725059596047e-05,
+   "n": 141,
+   "setup_alpha": 0.008646563388067137,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011305336695247397,
+   "move_learning_rate": 7.979451987692344e-05,
+   "n": 142,
+   "setup_alpha": 0.008616388443491139,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011281560924751653,
+   "move_learning_rate": 7.918093094639972e-05,
+   "n": 143,
+   "setup_alpha": 0.008586529454723423,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011258000321005112,
+   "move_learning_rate": 7.857628707063566e-05,
+   "n": 144,
+   "setup_alpha": 0.008556980938452127,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011234651462728048,
+   "move_learning_rate": 7.798039707676505e-05,
+   "n": 145,
+   "setup_alpha": 0.008527737543751563,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011211511006157776,
+   "move_learning_rate": 7.73930751586261e-05,
+   "n": 146,
+   "setup_alpha": 0.008498794047999551,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011188575682775715,
+   "move_learning_rate": 7.681414069063328e-05,
+   "n": 147,
+   "setup_alpha": 0.008470145352947605,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011165842297116023,
+   "move_learning_rate": 7.624341804931821e-05,
+   "n": 148,
+   "setup_alpha": 0.008441786480937286,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011143307724652365,
+   "move_learning_rate": 7.56807364421741e-05,
+   "n": 149,
+   "setup_alpha": 0.00841371257125631,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011120968909759537,
+   "move_learning_rate": 7.512592974345815e-05,
+   "n": 150,
+   "setup_alpha": 0.008385918876628375,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011098822863746791,
+   "move_learning_rate": 7.45788363366249e-05,
+   "n": 151,
+   "setup_alpha": 0.00835840075983092,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011076866662959896,
+   "move_learning_rate": 7.403929896308094e-05,
+   "n": 152,
+   "setup_alpha": 0.008331153690435375,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011055097446949103,
+   "move_learning_rate": 7.350716457696746e-05,
+   "n": 153,
+   "setup_alpha": 0.00830417324166464,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.00110335124167003,
+   "move_learning_rate": 7.298228420569343e-05,
+   "n": 154,
+   "setup_alpha": 0.008277455087362908,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0011012108832926788,
+   "move_learning_rate": 7.246451281595526e-05,
+   "n": 155,
+   "setup_alpha": 0.008250994999073065,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001099088401441923,
+   "move_learning_rate": 7.195370918499404e-05,
+   "n": 156,
+   "setup_alpha": 0.008224788843217203,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010969835336451408,
+   "move_learning_rate": 7.14497357768531e-05,
+   "n": 157,
+   "setup_alpha": 0.008198832578375961,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010948960229239615,
+   "move_learning_rate": 7.095245862341166e-05,
+   "n": 158,
+   "setup_alpha": 0.008173122252662654,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001092825617645347,
+   "move_learning_rate": 7.046174720998093e-05,
+   "n": 159,
+   "setup_alpha": 0.008147654001188265,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010907720713776202,
+   "move_learning_rate": 6.997747436526054e-05,
+   "n": 160,
+   "setup_alpha": 0.00812242404361365,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010887351427512433,
+   "move_learning_rate": 6.949951615546316e-05,
+   "n": 161,
+   "setup_alpha": 0.008097428681785415,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010867145953241573,
+   "move_learning_rate": 6.902775178242435e-05,
+   "n": 162,
+   "setup_alpha": 0.008072664297452093,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010847101974515154,
+   "move_learning_rate": 6.856206348552443e-05,
+   "n": 163,
+   "setup_alpha": 0.008048127350057433,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010827217221596286,
+   "move_learning_rate": 6.810233644725724e-05,
+   "n": 164,
+   "setup_alpha": 0.00802381437460775,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010807489470239747,
+   "move_learning_rate": 6.764845870228884e-05,
+   "n": 165,
+   "setup_alpha": 0.00799972197961038,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010787916540511068,
+   "move_learning_rate": 6.720032104985716e-05,
+   "n": 166,
+   "setup_alpha": 0.007975846845080504,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010768496295643197,
+   "move_learning_rate": 6.675781696937033e-05,
+   "n": 167,
+   "setup_alpha": 0.007952185720613627,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010749226640929296,
+   "move_learning_rate": 6.63208425390687e-05,
+   "n": 168,
+   "setup_alpha": 0.007928735423521216,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001073010552265033,
+   "move_learning_rate": 6.5889296357622e-05,
+   "n": 169,
+   "setup_alpha": 0.007905492837027036,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010711130927036183,
+   "move_learning_rate": 6.546307946853866e-05,
+   "n": 170,
+   "setup_alpha": 0.007882454908521862,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010692300879259005,
+   "move_learning_rate": 6.504209528727117e-05,
+   "n": 171,
+   "setup_alpha": 0.007859618647874373,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010673613442457675,
+   "move_learning_rate": 6.462624953090565e-05,
+   "n": 172,
+   "setup_alpha": 0.007836981125796073,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010655066716792187,
+   "move_learning_rate": 6.42154501503299e-05,
+   "n": 173,
+   "setup_alpha": 0.007814539472258224,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010636658838526908,
+   "move_learning_rate": 6.380960726477899e-05,
+   "n": 174,
+   "setup_alpha": 0.007792290874958842,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001061838797914166,
+   "move_learning_rate": 6.340863309866137e-05,
+   "n": 175,
+   "setup_alpha": 0.007770232577837899,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010600252344469617,
+   "move_learning_rate": 6.301244192057433e-05,
+   "n": 176,
+   "setup_alpha": 0.007748361879638945,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010582250173861065,
+   "move_learning_rate": 6.262094998442018e-05,
+   "n": 177,
+   "setup_alpha": 0.007726676132515445,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010564379739372123,
+   "move_learning_rate": 6.22340754725401e-05,
+   "n": 178,
+   "setup_alpha": 0.007705172740680207,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001054663934497752,
+   "move_learning_rate": 6.185173844078519e-05,
+   "n": 179,
+   "setup_alpha": 0.007683849159096309,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010529027325806605,
+   "move_learning_rate": 6.14738607654485e-05,
+   "n": 180,
+   "setup_alpha": 0.007662702892208062,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010511542047401765,
+   "move_learning_rate": 6.110036609198512e-05,
+   "n": 181,
+   "setup_alpha": 0.007641731492710545,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010494181904998495,
+   "move_learning_rate": 6.073117978545033e-05,
+   "n": 182,
+   "setup_alpha": 0.007620932560356335,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010476945322826327,
+   "move_learning_rate": 6.036622888258961e-05,
+   "n": 183,
+   "setup_alpha": 0.007600303740798119,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010459830753429976,
+   "move_learning_rate": 6.000544204551634e-05,
+   "n": 184,
+   "setup_alpha": 0.0075798427244659185,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010442836677009933,
+   "move_learning_rate": 5.964874951691651e-05,
+   "n": 185,
+   "setup_alpha": 0.007559547245477712,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010425961600781912,
+   "move_learning_rate": 5.9296083076722235e-05,
+   "n": 186,
+   "setup_alpha": 0.007539415080582263,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010409204058354467,
+   "move_learning_rate": 5.894737600019806e-05,
+   "n": 187,
+   "setup_alpha": 0.007519444048133078,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010392562609124196,
+   "move_learning_rate": 5.860256301738694e-05,
+   "n": 188,
+   "setup_alpha": 0.007499632007092381,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010376035837687935,
+   "move_learning_rate": 5.82615802738648e-05,
+   "n": 189,
+   "setup_alpha": 0.007479976856064082,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001035962235327138,
+   "move_learning_rate": 5.792436529275464e-05,
+   "n": 190,
+   "setup_alpha": 0.00746047653235475,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010343320789173598,
+   "move_learning_rate": 5.75908569379536e-05,
+   "n": 191,
+   "setup_alpha": 0.007441129011061646,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010327129802226885,
+   "move_learning_rate": 5.726099537852791e-05,
+   "n": 192,
+   "setup_alpha": 0.007421932304186873,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010311048072271494,
+   "move_learning_rate": 5.6934722054232995e-05,
+   "n": 193,
+   "setup_alpha": 0.0074028844597767915,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010295074301644746,
+   "move_learning_rate": 5.661197964211741e-05,
+   "n": 194,
+   "setup_alpha": 0.007383983561085838,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010279207214684046,
+   "move_learning_rate": 5.629271202417116e-05,
+   "n": 195,
+   "setup_alpha": 0.00736522772576393,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010263445557243348,
+   "move_learning_rate": 5.597686425598071e-05,
+   "n": 196,
+   "setup_alpha": 0.007346615105066692,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010247788096222677,
+   "move_learning_rate": 5.566438253635431e-05,
+   "n": 197,
+   "setup_alpha": 0.00732814388308773,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010232233619110252,
+   "move_learning_rate": 5.5355214177882746e-05,
+   "n": 198,
+   "setup_alpha": 0.00730981227601224,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010216780933536822,
+   "move_learning_rate": 5.50493075784025e-05,
+   "n": 199,
+   "setup_alpha": 0.00729161853139125,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010201428866841848,
+   "move_learning_rate": 5.474661219332884e-05,
+   "n": 200,
+   "setup_alpha": 0.0072735609274358366,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001018617626565113,
+   "move_learning_rate": 5.4447078508828496e-05,
+   "n": 201,
+   "setup_alpha": 0.007255637772330641,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001017102199546554,
+   "move_learning_rate": 5.415065801580219e-05,
+   "n": 202,
+   "setup_alpha": 0.0072378474035661045,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001015596494026051,
+   "move_learning_rate": 5.385730318464877e-05,
+   "n": 203,
+   "setup_alpha": 0.007220188187288781,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010141004002095957,
+   "move_learning_rate": 5.356696744078385e-05,
+   "n": 204,
+   "setup_alpha": 0.007202658517669178,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001012613810073628,
+   "move_learning_rate": 5.32796051408866e-05,
+   "n": 205,
+   "setup_alpha": 0.007185256816286573,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010111366173280185,
+   "move_learning_rate": 5.2995171549849904e-05,
+   "n": 206,
+   "setup_alpha": 0.00716798153153024,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010096687173799977,
+   "move_learning_rate": 5.271362281840946e-05,
+   "n": 207,
+   "setup_alpha": 0.007150831138016606,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010082100072990072,
+   "move_learning_rate": 5.243491596142879e-05,
+   "n": 208,
+   "setup_alpha": 0.0071338041360218055,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010067603857824437,
+   "move_learning_rate": 5.215900883681806e-05,
+   "n": 209,
+   "setup_alpha": 0.007116899050929198,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010053197531222694,
+   "move_learning_rate": 5.188586012506486e-05,
+   "n": 210,
+   "setup_alpha": 0.007100114432691329,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010038880111724602,
+   "move_learning_rate": 5.161542930935684e-05,
+   "n": 211,
+   "setup_alpha": 0.007083448855305941,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010024650633172723,
+   "move_learning_rate": 5.1347676656276e-05,
+   "n": 212,
+   "setup_alpha": 0.007066900916305567,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.0010010508144402978,
+   "move_learning_rate": 5.1082563197045725e-05,
+   "n": 213,
+   "setup_alpha": 0.007050469236260324,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 5.0820050709312446e-05,
+   "n": 214,
+   "setup_alpha": 0.007034152458293464,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 5.056010169944376e-05,
+   "n": 215,
+   "setup_alpha": 0.00701794924760934,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 5.0302679385326636e-05,
+   "n": 216,
+   "setup_alpha": 0.007001858291033391,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 5.004774767964891e-05,
+   "n": 217,
+   "setup_alpha": 0.006985878296563776,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.9795271173648484e-05,
+   "n": 218,
+   "setup_alpha": 0.006970007992934343,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.954521512131514e-05,
+   "n": 219,
+   "setup_alpha": 0.0069542461291885495,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.929754542403019e-05,
+   "n": 220,
+   "setup_alpha": 0.006938591474264064,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.905222861563016e-05,
+   "n": 221,
+   "setup_alpha": 0.006923042816587692,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.880923184788063e-05,
+   "n": 222,
+   "setup_alpha": 0.0069075989636803396,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.856852287634741e-05,
+   "n": 223,
+   "setup_alpha": 0.006892258741771722,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.8330070046652425e-05,
+   "n": 224,
+   "setup_alpha": 0.006877020995424545,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.809384228110206e-05,
+   "n": 225,
+   "setup_alpha": 0.006861884587167858,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.7859809065676384e-05,
+   "n": 226,
+   "setup_alpha": 0.006846848397139342,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.762794043736794e-05,
+   "n": 227,
+   "setup_alpha": 0.006831911322736268,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.739820697185913e-05,
+   "n": 228,
+   "setup_alpha": 0.006817072278274857,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.7170579771527876e-05,
+   "n": 229,
+   "setup_alpha": 0.006802330194657855,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.6945030453771224e-05,
+   "n": 230,
+   "setup_alpha": 0.006787684019050031,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.672153113963732e-05,
+   "n": 231,
+   "setup_alpha": 0.00677313271456141,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.65000544427561e-05,
+   "n": 232,
+   "setup_alpha": 0.006758675259938021,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.628057345855982e-05,
+   "n": 233,
+   "setup_alpha": 0.006744310649259947,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.606306175378448e-05,
+   "n": 234,
+   "setup_alpha": 0.006730037891646459,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.584749335624372e-05,
+   "n": 235,
+   "setup_alpha": 0.006715856010968075,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.563384274486697e-05,
+   "n": 236,
+   "setup_alpha": 0.0067017640455653,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.5422084839993944e-05,
+   "n": 237,
+   "setup_alpha": 0.006687761047973927,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.5212194993917856e-05,
+   "n": 238,
+   "setup_alpha": 0.0066738460846566625,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.500414898166993e-05,
+   "n": 239,
+   "setup_alpha": 0.006660018235740939,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.4797922992038103e-05,
+   "n": 240,
+   "setup_alpha": 0.006646276594762731,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.459349361881299e-05,
+   "n": 241,
+   "setup_alpha": 0.006632620268416222,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.4390837852254516e-05,
+   "n": 242,
+   "setup_alpha": 0.006619048376309166,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.418993307077256e-05,
+   "n": 243,
+   "setup_alpha": 0.006605560050723771,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.399075703281585e-05,
+   "n": 244,
+   "setup_alpha": 0.0065921544363829925,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.379328786896234e-05,
+   "n": 245,
+   "setup_alpha": 0.006578830690222056,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.35975040742061e-05,
+   "n": 246,
+   "setup_alpha": 0.006565587981165103,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.340338450043436e-05,
+   "n": 247,
+   "setup_alpha": 0.0065524254899068,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.321090834908969e-05,
+   "n": 248,
+   "setup_alpha": 0.006539342408698791,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.302005516401191e-05,
+   "n": 249,
+   "setup_alpha": 0.006526337941140882,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.28308048244545e-05,
+   "n": 250,
+   "setup_alpha": 0.0065134113019768005,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.2643137538270864e-05,
+   "n": 251,
+   "setup_alpha": 0.006500561716894441,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.2457033835265404e-05,
+   "n": 252,
+   "setup_alpha": 0.006487788422330463,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.227247456070486e-05,
+   "n": 253,
+   "setup_alpha": 0.006475090665279156,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.208944086898549e-05,
+   "n": 254,
+   "setup_alpha": 0.006462467703105415,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.1907914217451725e-05,
+   "n": 255,
+   "setup_alpha": 0.006449918803361774,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.172787636036198e-05,
+   "n": 256,
+   "setup_alpha": 0.0064374432436093525,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.154930934299784e-05,
+   "n": 257,
+   "setup_alpha": 0.006425040311242656,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.137219549591228e-05,
+   "n": 258,
+   "setup_alpha": 0.006412709303318081,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.119651742931357e-05,
+   "n": 259,
+   "setup_alpha": 0.0064004495263860935,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.1022258027580674e-05,
+   "n": 260,
+   "setup_alpha": 0.006388260296326937,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.084940044390698e-05,
+   "n": 261,
+   "setup_alpha": 0.006376140938189803,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.0677928095068656e-05,
+   "n": 262,
+   "setup_alpha": 0.006364090786035396,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.050782465631428e-05,
+   "n": 263,
+   "setup_alpha": 0.006352109182781765,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.033907405637263e-05,
+   "n": 264,
+   "setup_alpha": 0.006340195480053369,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.017166047257527e-05,
+   "n": 265,
+   "setup_alpha": 0.006328349038033261,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 4.000556832609102e-05,
+   "n": 266,
+   "setup_alpha": 0.006316569225318338,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.9840782277269294e-05,
+   "n": 267,
+   "setup_alpha": 0.006304855418777559,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.9677287221089285e-05,
+   "n": 268,
+   "setup_alpha": 0.006293207003413093,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.951506828271254e-05,
+   "n": 269,
+   "setup_alpha": 0.006281623372224285,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.935411081313582e-05,
+   "n": 270,
+   "setup_alpha": 0.00627010392607441,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.9194400384941846e-05,
+   "n": 271,
+   "setup_alpha": 0.006258648073560114,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.9035922788145364e-05,
+   "n": 272,
+   "setup_alpha": 0.006247255230883518,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.8878664026131935e-05,
+   "n": 273,
+   "setup_alpha": 0.006235924821726873,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.872261031168719e-05,
+   "n": 274,
+   "setup_alpha": 0.006224656277129747,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.85677480631141e-05,
+   "n": 275,
+   "setup_alpha": 0.006213449035368668,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.841406390043607e-05,
+   "n": 276,
+   "setup_alpha": 0.006202302541839155,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.8261544641683667e-05,
+   "n": 277,
+   "setup_alpha": 0.006191216248940101,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.8110177299262666e-05,
+   "n": 278,
+   "setup_alpha": 0.006180189615960444,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.795994907640172e-05,
+   "n": 279,
+   "setup_alpha": 0.006169222108968057,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.781084736367717e-05,
+   "n": 280,
+   "setup_alpha": 0.006158313200700843,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.766285973561348e-05,
+   "n": 281,
+   "setup_alpha": 0.006147462370459943,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.751597394735705e-05,
+   "n": 282,
+   "setup_alpha": 0.0061366691040050355,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.737017793142179e-05,
+   "n": 283,
+   "setup_alpha": 0.0061259328934516665,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.722545979450456e-05,
+   "n": 284,
+   "setup_alpha": 0.006115253237170572,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.708180781436875e-05,
+   "n": 285,
+   "setup_alpha": 0.006104629639688941,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.693921043679435e-05,
+   "n": 286,
+   "setup_alpha": 0.006094061611593577,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.67976562725928e-05,
+   "n": 287,
+   "setup_alpha": 0.006083548669435912,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.665713409468507e-05,
+   "n": 288,
+   "setup_alpha": 0.006073090335638843,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.651763283524137e-05,
+   "n": 289,
+   "setup_alpha": 0.006062686138405332,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.63791415828811e-05,
+   "n": 290,
+   "setup_alpha": 0.006052335611628743,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.624164957993139e-05,
+   "n": 291,
+   "setup_alpha": 0.006042038294804878,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.6105146219742945e-05,
+   "n": 292,
+   "setup_alpha": 0.00603179373294566,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.5969621044061766e-05,
+   "n": 293,
+   "setup_alpha": 0.0060216014764944426,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.583506374045538e-05,
+   "n": 294,
+   "setup_alpha": 0.006011461081242907,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.570146413979231e-05,
+   "n": 295,
+   "setup_alpha": 0.006001372108249499,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.5568812213773386e-05,
+   "n": 296,
+   "setup_alpha": 0.005991334123759389,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.543709807251393e-05,
+   "n": 297,
+   "setup_alpha": 0.00598134669912591,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.5306311962175185e-05,
+   "n": 298,
+   "setup_alpha": 0.005971409410733445,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.517644426264433e-05,
+   "n": 299,
+   "setup_alpha": 0.00596152183992174,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.5047485485261386e-05,
+   "n": 300,
+   "setup_alpha": 0.00595168357291159,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4919426270592414e-05,
+   "n": 301,
+   "setup_alpha": 0.005941894200731903,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4792257386247544e-05,
+   "n": 302,
+   "setup_alpha": 0.005932153319148068,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4665969724742936e-05,
+   "n": 303,
+   "setup_alpha": 0.005922460528591647,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.454055430140572e-05,
+   "n": 304,
+   "setup_alpha": 0.00591281543409132,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4416002252320716e-05,
+   "n": 305,
+   "setup_alpha": 0.005903217645205085,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.429230483231819e-05,
+   "n": 306,
+   "setup_alpha": 0.005893666775953675,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4169453413001505e-05,
+   "n": 307,
+   "setup_alpha": 0.0058841624447551685,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.4047439480813816e-05,
+   "n": 308,
+   "setup_alpha": 0.0058747042743607595,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.3926254635143056e-05,
+   "n": 309,
+   "setup_alpha": 0.005865291891791682,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.3805890586464024e-05,
+   "n": 310,
+   "setup_alpha": 0.005855924928277249,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.368633915451706e-05,
+   "n": 311,
+   "setup_alpha": 0.005846603019193983,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.3567592266522215e-05,
+   "n": 312,
+   "setup_alpha": 0.005837325804005825,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.344964195542829e-05,
+   "n": 313,
+   "setup_alpha": 0.005828092926205388,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.333248035819585e-05,
+   "n": 314,
+   "setup_alpha": 0.0058189040332562525,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.321609971411351e-05,
+   "n": 315,
+   "setup_alpha": 0.005809758776536248,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.3100492363146664e-05,
+   "n": 316,
+   "setup_alpha": 0.005800656811281739,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.2985650744318074e-05,
+   "n": 317,
+   "setup_alpha": 0.005791597796532877,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.28715673941194e-05,
+   "n": 318,
+   "setup_alpha": 0.0057825813950797824,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.2758234944953216e-05,
+   "n": 319,
+   "setup_alpha": 0.005773607273409677,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.264564612360465e-05,
+   "n": 320,
+   "setup_alpha": 0.00576467510165491,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.2533793749742076e-05,
+   "n": 321,
+   "setup_alpha": 0.005755784553541873,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.242267073444623e-05,
+   "n": 322,
+   "setup_alpha": 0.005746935306340803,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.231227007876707e-05,
+   "n": 323,
+   "setup_alpha": 0.005738127040816421,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.2202584872307785e-05,
+   "n": 324,
+   "setup_alpha": 0.005729359441179421,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.2093608291835474e-05,
+   "n": 325,
+   "setup_alpha": 0.005720632195038775,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.198533359991768e-05,
+   "n": 326,
+   "setup_alpha": 0.005711944993354843,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.1877754143584454e-05,
+   "n": 327,
+   "setup_alpha": 0.005703297530393273,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.177086335301529e-05,
+   "n": 328,
+   "setup_alpha": 0.005694689503679671,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.166465474025029e-05,
+   "n": 329,
+   "setup_alpha": 0.005686120613955034,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.155912189792536e-05,
+   "n": 330,
+   "setup_alpha": 0.005677590565131915,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.145425849803051e-05,
+   "n": 331,
+   "setup_alpha": 0.005669099064251331,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.135005829069105e-05,
+   "n": 332,
+   "setup_alpha": 0.005660645821440374,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.124651510297115e-05,
+   "n": 333,
+   "setup_alpha": 0.005652230549870522,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.1143622837699116e-05,
+   "n": 334,
+   "setup_alpha": 0.005643852965716643,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.104137547231424e-05,
+   "n": 335,
+   "setup_alpha": 0.00563551278811667,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.093976705773441e-05,
+   "n": 336,
+   "setup_alpha": 0.005627209739131925,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.083879171724431e-05,
+   "n": 337,
+   "setup_alpha": 0.005618943543708113,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.073844364540366e-05,
+   "n": 338,
+   "setup_alpha": 0.0056107139296369245,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.063871710697507e-05,
+   "n": 339,
+   "setup_alpha": 0.005602520627518282,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.053960643587119e-05,
+   "n": 340,
+   "setup_alpha": 0.0055943633707231846,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.0441106034120637e-05,
+   "n": 341,
+   "setup_alpha": 0.005586241895357157,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.0343210370852354e-05,
+   "n": 342,
+   "setup_alpha": 0.0055781559402242826,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.0245913981298105e-05,
+   "n": 343,
+   "setup_alpha": 0.00557010524679182,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.0149211465812545e-05,
+   "n": 344,
+   "setup_alpha": 0.0055620895591553775,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 3.0053097488910738e-05,
+   "n": 345,
+   "setup_alpha": 0.005554108624004643,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.995756677832252e-05,
+   "n": 346,
+   "setup_alpha": 0.005546162190589669,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.986261412406358e-05,
+   "n": 347,
+   "setup_alpha": 0.005538250010687675,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9768234377522768e-05,
+   "n": 348,
+   "setup_alpha": 0.005530371838570393,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9674422450565344e-05,
+   "n": 349,
+   "setup_alpha": 0.005522527430971907,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9581173314651923e-05,
+   "n": 350,
+   "setup_alpha": 0.005514716547057019,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9488481999972642e-05,
+   "n": 351,
+   "setup_alpha": 0.005506938948390095,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9396343594596393e-05,
+   "n": 352,
+   "setup_alpha": 0.005499194398904405,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9304753243634735e-05,
+   "n": 353,
+   "setup_alpha": 0.005491482664871937,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9213706148420173e-05,
+   "n": 354,
+   "setup_alpha": 0.005483803514873682,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.912319756569865e-05,
+   "n": 355,
+   "setup_alpha": 0.005476156719770378,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.9033222806835764e-05,
+   "n": 356,
+   "setup_alpha": 0.0054685420526737125,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.894377723703663e-05,
+   "n": 357,
+   "setup_alpha": 0.005460959288917951,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8854856274578974e-05,
+   "n": 358,
+   "setup_alpha": 0.005453408206032025,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8766455390059296e-05,
+   "n": 359,
+   "setup_alpha": 0.005445888583712026,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8678570105651797e-05,
+   "n": 360,
+   "setup_alpha": 0.005438400203794137,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8591195994379798e-05,
+   "n": 361,
+   "setup_alpha": 0.005430942850227963,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8504328679399487e-05,
+   "n": 362,
+   "setup_alpha": 0.005423516309050271,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.841796383329565e-05,
+   "n": 363,
+   "setup_alpha": 0.005416120368359135,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8332097177389202e-05,
+   "n": 364,
+   "setup_alpha": 0.0054087548182884596,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.824672448105637e-05,
+   "n": 365,
+   "setup_alpha": 0.005401419450982893,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8161841561059107e-05,
+   "n": 366,
+   "setup_alpha": 0.005394114060573121,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.8077444280886703e-05,
+   "n": 367,
+   "setup_alpha": 0.005386838443151526,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7993528550108318e-05,
+   "n": 368,
+   "setup_alpha": 0.0053795923967482045,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.791009032373614e-05,
+   "n": 369,
+   "setup_alpha": 0.005372375721307358,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7827125601599152e-05,
+   "n": 370,
+   "setup_alpha": 0.005365188218664019,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7744630427727102e-05,
+   "n": 371,
+   "setup_alpha": 0.0053580296925211275,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7662600889744602e-05,
+   "n": 372,
+   "setup_alpha": 0.005350899948426951,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7581033118275167e-05,
+   "n": 373,
+   "setup_alpha": 0.0053437987937528285,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.74999232863549e-05,
+   "n": 374,
+   "setup_alpha": 0.005336726037671248,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7419267608855814e-05,
+   "n": 375,
+   "setup_alpha": 0.005329681491134246,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7339062341918405e-05,
+   "n": 376,
+   "setup_alpha": 0.005322664966852117,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7259303782393484e-05,
+   "n": 377,
+   "setup_alpha": 0.005315676279272438,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7179988267292964e-05,
+   "n": 378,
+   "setup_alpha": 0.005308715244559399,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7101112173249503e-05,
+   "n": 379,
+   "setup_alpha": 0.005301781680573429,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.7022671915984843e-05,
+   "n": 380,
+   "setup_alpha": 0.005294875406851124,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.694466394978662e-05,
+   "n": 381,
+   "setup_alpha": 0.005287996244585454,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.686708476699357e-05,
+   "n": 382,
+   "setup_alpha": 0.005281144016606264,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6789930897488868e-05,
+   "n": 383,
+   "setup_alpha": 0.005274318547361052,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6713198908201596e-05,
+   "n": 384,
+   "setup_alpha": 0.005267519662896021,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6636885402616052e-05,
+   "n": 385,
+   "setup_alpha": 0.005260747190837405,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6560987020288824e-05,
+   "n": 386,
+   "setup_alpha": 0.005254000960373057,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.64855004363735e-05,
+   "n": 387,
+   "setup_alpha": 0.005247280802234296,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6410422361152823e-05,
+   "n": 388,
+   "setup_alpha": 0.005240586548678027,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6335749539578148e-05,
+   "n": 389,
+   "setup_alpha": 0.005233918033469088,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6261478750816214e-05,
+   "n": 390,
+   "setup_alpha": 0.0052272750918628715,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.618760680780285e-05,
+   "n": 391,
+   "setup_alpha": 0.005220657560588173,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6114130556803735e-05,
+   "n": 392,
+   "setup_alpha": 0.0052140652778302895,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.6041046876981897e-05,
+   "n": 393,
+   "setup_alpha": 0.005207498083214346,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.596835267997194e-05,
+   "n": 394,
+   "setup_alpha": 0.0052009558177888646,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5896044909460866e-05,
+   "n": 395,
+   "setup_alpha": 0.005194438324009555,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5824120540775314e-05,
+   "n": 396,
+   "setup_alpha": 0.005187945445723336,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5752576580475168e-05,
+   "n": 397,
+   "setup_alpha": 0.005181477028152567,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5681410065953362e-05,
+   "n": 398,
+   "setup_alpha": 0.005175032917879515,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5610618065041852e-05,
+   "n": 399,
+   "setup_alpha": 0.005168612962831015,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5540197675623533e-05,
+   "n": 400,
+   "setup_alpha": 0.0051622170122633615,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.547014602525013e-05,
+   "n": 401,
+   "setup_alpha": 0.005155844916747394,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.540046027076583e-05,
+   "n": 402,
+   "setup_alpha": 0.005149496528153788,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5331137597936627e-05,
+   "n": 403,
+   "setup_alpha": 0.0051431716996385496,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5262175221085254e-05,
+   "n": 404,
+   "setup_alpha": 0.00513687028562871,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.5193570382731668e-05,
+   "n": 405,
+   "setup_alpha": 0.005130592141808209,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.512532035323883e-05,
+   "n": 406,
+   "setup_alpha": 0.0051243371251039685,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.505742243046392e-05,
+   "n": 407,
+   "setup_alpha": 0.005118105093672162,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4989873939414655e-05,
+   "n": 408,
+   "setup_alpha": 0.005111895906884659,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4922672231910785e-05,
+   "n": 409,
+   "setup_alpha": 0.005105709425315666,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4855814686250646e-05,
+   "n": 410,
+   "setup_alpha": 0.005099545510728526,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4789298706882596e-05,
+   "n": 411,
+   "setup_alpha": 0.005093404026062714,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4723121724081383e-05,
+   "n": 412,
+   "setup_alpha": 0.0050872848354209955,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4657281193629248e-05,
+   "n": 413,
+   "setup_alpha": 0.00508118780405676,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4591774596501743e-05,
+   "n": 414,
+   "setup_alpha": 0.00507511279836152,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4526599438558153e-05,
+   "n": 415,
+   "setup_alpha": 0.005069059685852578,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4461753250236492e-05,
+   "n": 416,
+   "setup_alpha": 0.005063028335160855,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.439723358625292e-05,
+   "n": 417,
+   "setup_alpha": 0.005057018616018878,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.433303802530556e-05,
+   "n": 418,
+   "setup_alpha": 0.005051030399248934,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4269164169782628e-05,
+   "n": 419,
+   "setup_alpha": 0.005045063556751365,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.420560964547481e-05,
+   "n": 420,
+   "setup_alpha": 0.005039117961493028,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4142372101291796e-05,
+   "n": 421,
+   "setup_alpha": 0.005033193487495901,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4079449208982912e-05,
+   "n": 422,
+   "setup_alpha": 0.005027290009825842,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.4016838662861785e-05,
+   "n": 423,
+   "setup_alpha": 0.0050214074045814815,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.395453817953494e-05,
+   "n": 424,
+   "setup_alpha": 0.005015545548883279,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3892545497634362e-05,
+   "n": 425,
+   "setup_alpha": 0.005009704320862701,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.38308583775538e-05,
+   "n": 426,
+   "setup_alpha": 0.005003883599651553,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3769474601188894e-05,
+   "n": 427,
+   "setup_alpha": 0.0049980832653714405,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.370839197168102e-05,
+   "n": 428,
+   "setup_alpha": 0.00499230319912337,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3647608313164678e-05,
+   "n": 429,
+   "setup_alpha": 0.004986543282977481,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3587121470518614e-05,
+   "n": 430,
+   "setup_alpha": 0.0049808033999629115,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.352692930912032e-05,
+   "n": 431,
+   "setup_alpha": 0.004975083434057788,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3467029714604096e-05,
+   "n": 432,
+   "setup_alpha": 0.00496938327017935,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.34074205926225e-05,
+   "n": 433,
+   "setup_alpha": 0.004963702794174192,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3348099868611066e-05,
+   "n": 434,
+   "setup_alpha": 0.004958041892808638,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3289065487556492e-05,
+   "n": 435,
+   "setup_alpha": 0.004952400453759227,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.32303154137679e-05,
+   "n": 436,
+   "setup_alpha": 0.004946778365603328,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3171847630651377e-05,
+   "n": 437,
+   "setup_alpha": 0.00494117551780987,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3113660140487664e-05,
+   "n": 438,
+   "setup_alpha": 0.004935591800730187,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.3055750964212864e-05,
+   "n": 439,
+   "setup_alpha": 0.004930027105588972,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.299811814120227e-05,
+   "n": 440,
+   "setup_alpha": 0.004924481324475363,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2940759729057135e-05,
+   "n": 441,
+   "setup_alpha": 0.0049189543503341164,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2883673803394398e-05,
+   "n": 442,
+   "setup_alpha": 0.004913446076956907,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2826858457639296e-05,
+   "n": 443,
+   "setup_alpha": 0.004907956398973727,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2770311802820837e-05,
+   "n": 444,
+   "setup_alpha": 0.004902485211844399,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2714031967370076e-05,
+   "n": 445,
+   "setup_alpha": 0.004897032411850184,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.265801709692114e-05,
+   "n": 446,
+   "setup_alpha": 0.004891597896085503,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.260226535411498e-05,
+   "n": 447,
+   "setup_alpha": 0.004886181562449756,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.254677491840578e-05,
+   "n": 448,
+   "setup_alpha": 0.004880783309639235,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2491543985869996e-05,
+   "n": 449,
+   "setup_alpha": 0.004875403037139153,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2436570769018024e-05,
+   "n": 450,
+   "setup_alpha": 0.004870040645215748,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2381853496608337e-05,
+   "n": 451,
+   "setup_alpha": 0.004864696034908504,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2327390413464224e-05,
+   "n": 452,
+   "setup_alpha": 0.0048593691080224535,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.227317978029291e-05,
+   "n": 453,
+   "setup_alpha": 0.004854059767120577,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2219219873507143e-05,
+   "n": 454,
+   "setup_alpha": 0.004848767915516298,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2165508985049212e-05,
+   "n": 455,
+   "setup_alpha": 0.00484349345726606,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.211204542221724e-05,
+   "n": 456,
+   "setup_alpha": 0.004838236297162008,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2058827507493858e-05,
+   "n": 457,
+   "setup_alpha": 0.004832996340724739,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.2005853578377133e-05,
+   "n": 458,
+   "setup_alpha": 0.004827773494196154,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1953121987213735e-05,
+   "n": 459,
+   "setup_alpha": 0.004822567664532393,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.190063110103435e-05,
+   "n": 460,
+   "setup_alpha": 0.0048173787593968455,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1848379301391238e-05,
+   "n": 461,
+   "setup_alpha": 0.00481220668715326,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1796364984197954e-05,
+   "n": 462,
+   "setup_alpha": 0.004807051356858917,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.174458655957117e-05,
+   "n": 463,
+   "setup_alpha": 0.0048019126782579006,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1693042451674568e-05,
+   "n": 464,
+   "setup_alpha": 0.004796790561774439,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1641731098564814e-05,
+   "n": 465,
+   "setup_alpha": 0.004791684918506327,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1590650952039516e-05,
+   "n": 466,
+   "setup_alpha": 0.004786595660218423,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.153980047748718e-05,
+   "n": 467,
+   "setup_alpha": 0.00478152269933623,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1489178153739117e-05,
+   "n": 468,
+   "setup_alpha": 0.004776465948939545,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1438782472923278e-05,
+   "n": 469,
+   "setup_alpha": 0.004771425322756184,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.138861194031999e-05,
+   "n": 470,
+   "setup_alpha": 0.004766400735155784,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.133866507421957e-05,
+   "n": 471,
+   "setup_alpha": 0.004761392101143673,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.128894040578173e-05,
+   "n": 472,
+   "setup_alpha": 0.004756399336354814,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1239436478896877e-05,
+   "n": 473,
+   "setup_alpha": 0.004751422357047822,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1190151850049105e-05,
+   "n": 474,
+   "setup_alpha": 0.004746461080099037,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1141085088181038e-05,
+   "n": 475,
+   "setup_alpha": 0.004741515422996691,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.109223477456032e-05,
+   "n": 476,
+   "setup_alpha": 0.0047365853038351105,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.1043599502647877e-05,
+   "n": 477,
+   "setup_alpha": 0.004731670641309017,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0995177877967826e-05,
+   "n": 478,
+   "setup_alpha": 0.0047267713547078675,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0946968517979055e-05,
+   "n": 479,
+   "setup_alpha": 0.004721887363910279,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0898970051948414e-05,
+   "n": 480,
+   "setup_alpha": 0.004717018589378502,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0851181120825556e-05,
+   "n": 481,
+   "setup_alpha": 0.004712164952152969,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0803600377119307e-05,
+   "n": 482,
+   "setup_alpha": 0.004707326373846897,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0756226484775645e-05,
+   "n": 483,
+   "setup_alpha": 0.004702502776640957,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0709058119057186e-05,
+   "n": 484,
+   "setup_alpha": 0.004697694083277999,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0662093966424197e-05,
+   "n": 485,
+   "setup_alpha": 0.004692900217057839,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.061533272441711e-05,
+   "n": 486,
+   "setup_alpha": 0.004688121101832112,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0568773101540502e-05,
+   "n": 487,
+   "setup_alpha": 0.004683356661999165,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0522413817148504e-05,
+   "n": 488,
+   "setup_alpha": 0.00467860682249903,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0476253601331675e-05,
+   "n": 489,
+   "setup_alpha": 0.004673871508808436,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0430291194805254e-05,
+   "n": 490,
+   "setup_alpha": 0.0046691506469358855,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.038452534879882e-05,
+   "n": 491,
+   "setup_alpha": 0.004664444163416783,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.033895482494733e-05,
+   "n": 492,
+   "setup_alpha": 0.004659751985308622,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.029357839518345e-05,
+   "n": 493,
+   "setup_alpha": 0.004655074040186217,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0248394841631284e-05,
+   "n": 494,
+   "setup_alpha": 0.004650410256137001,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.020340295650137e-05,
+   "n": 495,
+   "setup_alpha": 0.004645760561756364,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0158601541986984e-05,
+   "n": 496,
+   "setup_alpha": 0.004641124886143048,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0113989410161706e-05,
+   "n": 497,
+   "setup_alpha": 0.004636503158894595,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.0069565382878258e-05,
+   "n": 498,
+   "setup_alpha": 0.004631895310102839,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 2.002532829166854e-05,
+   "n": 499,
+   "setup_alpha": 0.004627301270349457,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9981276977644952e-05,
+   "n": 500,
+   "setup_alpha": 0.004622720970701556,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.993741029140284e-05,
+   "n": 501,
+   "setup_alpha": 0.004618154342707323,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9893727092924193e-05,
+   "n": 502,
+   "setup_alpha": 0.00461360131839171,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.985022625148247e-05,
+   "n": 503,
+   "setup_alpha": 0.004609061830252177,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9806906645548564e-05,
+   "n": 504,
+   "setup_alpha": 0.0046045358112544715,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.976376716269798e-05,
+   "n": 505,
+   "setup_alpha": 0.004600023194828458,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9720806699519018e-05,
+   "n": 506,
+   "setup_alpha": 0.004595523914863999,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.967802416152218e-05,
+   "n": 507,
+   "setup_alpha": 0.004591037905706867,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9635418463050548e-05,
+   "n": 508,
+   "setup_alpha": 0.004586565102154718,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.959298852719134e-05,
+   "n": 509,
+   "setup_alpha": 0.004582105439453089,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9550733285688437e-05,
+   "n": 510,
+   "setup_alpha": 0.004577658853291459,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9508651678856047e-05,
+   "n": 511,
+   "setup_alpha": 0.004573225279799333,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.946674265549328e-05,
+   "n": 512,
+   "setup_alpha": 0.004568804655542385,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9425005172799863e-05,
+   "n": 513,
+   "setup_alpha": 0.004564396917518629,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9383438196292745e-05,
+   "n": 514,
+   "setup_alpha": 0.0045600020031546385,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9342040699723782e-05,
+   "n": 515,
+   "setup_alpha": 0.004555619850301804,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9300811664998333e-05,
+   "n": 516,
+   "setup_alpha": 0.004551250397232635,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9259750082094834e-05,
+   "n": 517,
+   "setup_alpha": 0.00454689358263709,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9218854948985337e-05,
+   "n": 518,
+   "setup_alpha": 0.004542549345618957,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.917812527155694e-05,
+   "n": 519,
+   "setup_alpha": 0.004538217625692265,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9137560063534205e-05,
+   "n": 520,
+   "setup_alpha": 0.0045338983627777425,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.9097158346402414e-05,
+   "n": 521,
+   "setup_alpha": 0.004529591497199298,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.905691914933176e-05,
+   "n": 522,
+   "setup_alpha": 0.004525296969680555,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.901684150910243e-05,
+   "n": 523,
+   "setup_alpha": 0.00452101472134141,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8976924470030526e-05,
+   "n": 524,
+   "setup_alpha": 0.0045167446936946335,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8937167083894875e-05,
+   "n": 525,
+   "setup_alpha": 0.004512486828642507,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8897568409864677e-05,
+   "n": 526,
+   "setup_alpha": 0.004508241068473488,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8858127514428004e-05,
+   "n": 527,
+   "setup_alpha": 0.0045040073558589196,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8818843471321086e-05,
+   "n": 528,
+   "setup_alpha": 0.004499785633849769,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8779715361458463e-05,
+   "n": 529,
+   "setup_alpha": 0.004495575845873395,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8740742272863912e-05,
+   "n": 530,
+   "setup_alpha": 0.0044913779357303625,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8701923300602165e-05,
+   "n": 531,
+   "setup_alpha": 0.004487191847591276,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.866325754671143e-05,
+   "n": 532,
+   "setup_alpha": 0.004483017525993656,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8624744120136657e-05,
+   "n": 533,
+   "setup_alpha": 0.0044788549158388405,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8586382136663592e-05,
+   "n": 534,
+   "setup_alpha": 0.0044747039623889194,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8548170718853567e-05,
+   "n": 535,
+   "setup_alpha": 0.004470564611263709,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8510108995979035e-05,
+   "n": 536,
+   "setup_alpha": 0.004466436808437745,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.847219610395985e-05,
+   "n": 537,
+   "setup_alpha": 0.004462320500237315,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8434431185300247e-05,
+   "n": 538,
+   "setup_alpha": 0.004458215633337514,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8396813389026544e-05,
+   "n": 539,
+   "setup_alpha": 0.004454122154759344,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8359341870625567e-05,
+   "n": 540,
+   "setup_alpha": 0.004450040011866821,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.832201579198373e-05,
+   "n": 541,
+   "setup_alpha": 0.004445969152364134,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8284834321326846e-05,
+   "n": 542,
+   "setup_alpha": 0.0044419095242928175,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.824779663316057e-05,
+   "n": 543,
+   "setup_alpha": 0.00443786107602896,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8210901908211553e-05,
+   "n": 544,
+   "setup_alpha": 0.004433823756280437,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8174149333369207e-05,
+   "n": 545,
+   "setup_alpha": 0.004429797514084174,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.813753810162817e-05,
+   "n": 546,
+   "setup_alpha": 0.004425782298803437,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8101067412031373e-05,
+   "n": 547,
+   "setup_alpha": 0.004421778060125151,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8064736469613764e-05,
+   "n": 548,
+   "setup_alpha": 0.0044177847480572395,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.8028544485346642e-05,
+   "n": 549,
+   "setup_alpha": 0.004413802312926001,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7992490676082627e-05,
+   "n": 550,
+   "setup_alpha": 0.004409830705373502,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.795657426450122e-05,
+   "n": 551,
+   "setup_alpha": 0.004405869876355001,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7920794479054974e-05,
+   "n": 552,
+   "setup_alpha": 0.004401919777136399,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.788515055391626e-05,
+   "n": 553,
+   "setup_alpha": 0.004397980359291711,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7849641728924606e-05,
+   "n": 554,
+   "setup_alpha": 0.004394051574700567,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7814267249534642e-05,
+   "n": 555,
+   "setup_alpha": 0.004390133375545733,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7779026366764587e-05,
+   "n": 556,
+   "setup_alpha": 0.004386225714310662,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7743918337145314e-05,
+   "n": 557,
+   "setup_alpha": 0.004382328543777069,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.770894242266998e-05,
+   "n": 558,
+   "setup_alpha": 0.0043784418170225185,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7674097890744177e-05,
+   "n": 559,
+   "setup_alpha": 0.004374565487418056,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7639384014136657e-05,
+   "n": 560,
+   "setup_alpha": 0.0043706995086258416,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7604800070930588e-05,
+   "n": 561,
+   "setup_alpha": 0.0043668438345968235,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7570345344475306e-05,
+   "n": 562,
+   "setup_alpha": 0.0043629984195684215,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.753601912333865e-05,
+   "n": 563,
+   "setup_alpha": 0.0043591632180622454,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.750182070125974e-05,
+   "n": 564,
+   "setup_alpha": 0.0043553381848818245,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.746774937710233e-05,
+   "n": 565,
+   "setup_alpha": 0.0043515232751103645,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7433804454808625e-05,
+   "n": 566,
+   "setup_alpha": 0.004347718444108527,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.739998524335361e-05,
+   "n": 567,
+   "setup_alpha": 0.004343923647512229,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7366291056699866e-05,
+   "n": 568,
+   "setup_alpha": 0.00434013884123046,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7332721213752852e-05,
+   "n": 569,
+   "setup_alpha": 0.004336363981443132,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7299275038316715e-05,
+   "n": 570,
+   "setup_alpha": 0.004332599024598933,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.726595185905051e-05,
+   "n": 571,
+   "setup_alpha": 0.004328843927413216,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7232751009424944e-05,
+   "n": 572,
+   "setup_alpha": 0.004325098646865903,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7199671827679526e-05,
+   "n": 573,
+   "setup_alpha": 0.004321363140199407,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7166713656780215e-05,
+   "n": 574,
+   "setup_alpha": 0.004317637364916573,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.713387584437751e-05,
+   "n": 575,
+   "setup_alpha": 0.004313921278778646,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.710115774276495e-05,
+   "n": 576,
+   "setup_alpha": 0.004310214839803253,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.706855870883812e-05,
+   "n": 577,
+   "setup_alpha": 0.004306518006262401,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7036078104054e-05,
+   "n": 578,
+   "setup_alpha": 0.0043028307366805045,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.7003715294390823e-05,
+   "n": 579,
+   "setup_alpha": 0.00429915298983242,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.697146965030831e-05,
+   "n": 580,
+   "setup_alpha": 0.004295484724741504,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.693934054670834e-05,
+   "n": 581,
+   "setup_alpha": 0.004291825900677696,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.690732736289603e-05,
+   "n": 582,
+   "setup_alpha": 0.004288176477155604,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6875429482541206e-05,
+   "n": 583,
+   "setup_alpha": 0.004284536413932629,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6843646293640304e-05,
+   "n": 584,
+   "setup_alpha": 0.004280905671007084,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.681197718847865e-05,
+   "n": 585,
+   "setup_alpha": 0.004277284208616347,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6780421563593125e-05,
+   "n": 586,
+   "setup_alpha": 0.004273671987235032,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6748978819735252e-05,
+   "n": 587,
+   "setup_alpha": 0.004270068967573161,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6717648361834632e-05,
+   "n": 588,
+   "setup_alpha": 0.004266475110574371,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6686429598962756e-05,
+   "n": 589,
+   "setup_alpha": 0.004262890377414132,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6655321944297233e-05,
+   "n": 590,
+   "setup_alpha": 0.004259314729497974,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.662432481508634e-05,
+   "n": 591,
+   "setup_alpha": 0.0042557481284597395,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6593437632613957e-05,
+   "n": 592,
+   "setup_alpha": 0.00425219053615985,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.656265982216488e-05,
+   "n": 593,
+   "setup_alpha": 0.004248641914683588,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.653199081299045e-05,
+   "n": 594,
+   "setup_alpha": 0.004245102226339391,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6501430038274566e-05,
+   "n": 595,
+   "setup_alpha": 0.004241571433657175,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.647097693510004e-05,
+   "n": 596,
+   "setup_alpha": 0.004238049499386648,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6440630944415297e-05,
+   "n": 597,
+   "setup_alpha": 0.00423453638649567,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.64103915110014e-05,
+   "n": 598,
+   "setup_alpha": 0.004231032058168604,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6380258083439415e-05,
+   "n": 599,
+   "setup_alpha": 0.0042275364778046895,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6350230114078133e-05,
+   "n": 600,
+   "setup_alpha": 0.00422404960901644,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.632030705900209e-05,
+   "n": 601,
+   "setup_alpha": 0.004220571415628041,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.629048837799991e-05,
+   "n": 602,
+   "setup_alpha": 0.004217101861673767,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6260773534533014e-05,
+   "n": 603,
+   "setup_alpha": 0.004213640911396425,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6231161995704565e-05,
+   "n": 604,
+   "setup_alpha": 0.00421018852924579,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.62016532322288e-05,
+   "n": 605,
+   "setup_alpha": 0.004206744679877074,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.617224671840065e-05,
+   "n": 606,
+   "setup_alpha": 0.0042033093281494014,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6142941932065622e-05,
+   "n": 607,
+   "setup_alpha": 0.0041998824391242945,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.611373835459006e-05,
+   "n": 608,
+   "setup_alpha": 0.004196463978064182,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.608463547083163e-05,
+   "n": 609,
+   "setup_alpha": 0.004193053910430908,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.605563276911015e-05,
+   "n": 610,
+   "setup_alpha": 0.004189652201884271,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.6026729741178697e-05,
+   "n": 611,
+   "setup_alpha": 0.004186258818280562,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5997925882194982e-05,
+   "n": 612,
+   "setup_alpha": 0.00418287372567112,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5969220690693038e-05,
+   "n": 613,
+   "setup_alpha": 0.0041794968903009055,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.594061366855518e-05,
+   "n": 614,
+   "setup_alpha": 0.004176128278607076,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5912104320984237e-05,
+   "n": 615,
+   "setup_alpha": 0.0041727678572175885,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.588369215647606e-05,
+   "n": 616,
+   "setup_alpha": 0.004169415592949802,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5855376686792306e-05,
+   "n": 617,
+   "setup_alpha": 0.004166071452809097,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.58271574269335e-05,
+   "n": 618,
+   "setup_alpha": 0.00416273540398751,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5799033895112336e-05,
+   "n": 619,
+   "setup_alpha": 0.0041594074138623744,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.577100561272726e-05,
+   "n": 620,
+   "setup_alpha": 0.00415608744999498,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5743072104336328e-05,
+   "n": 621,
+   "setup_alpha": 0.004152775480129239,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.571523289763127e-05,
+   "n": 622,
+   "setup_alpha": 0.004149471472190368,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.568748752341186e-05,
+   "n": 623,
+   "setup_alpha": 0.004146175394283574,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.565983551556051e-05,
+   "n": 624,
+   "setup_alpha": 0.004142887214692764,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5632276411017124e-05,
+   "n": 625,
+   "setup_alpha": 0.004139606901879258,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5604809749754176e-05,
+   "n": 626,
+   "setup_alpha": 0.004136334424480507,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5577435074752067e-05,
+   "n": 627,
+   "setup_alpha": 0.004133069751308844,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5550151931974673e-05,
+   "n": 628,
+   "setup_alpha": 0.004129812851350217,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5522959870345176e-05,
+   "n": 629,
+   "setup_alpha": 0.004126563693762959,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.549585844172211e-05,
+   "n": 630,
+   "setup_alpha": 0.004123322247876552,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.546884720087562e-05,
+   "n": 631,
+   "setup_alpha": 0.00412008848319041,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.544192570546399e-05,
+   "n": 632,
+   "setup_alpha": 0.004116862369372666,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5415093516010366e-05,
+   "n": 633,
+   "setup_alpha": 0.004113643876258979,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5388350195879706e-05,
+   "n": 634,
+   "setup_alpha": 0.004110432973851343,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5361695311255963e-05,
+   "n": 635,
+   "setup_alpha": 0.004107229632316908,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5335128431119497e-05,
+   "n": 636,
+   "setup_alpha": 0.0041040338219868145,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.530864912722466e-05,
+   "n": 637,
+   "setup_alpha": 0.004100845513355037,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.528225697407764e-05,
+   "n": 638,
+   "setup_alpha": 0.004097664677077229,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5255951548914498e-05,
+   "n": 639,
+   "setup_alpha": 0.004094491283969599,
+   "setup_learning_rate": 5e-05
+  },
+  {
+   "move_entropy_coefficient": 0.001,
+   "move_learning_rate": 1.5229732431679412e-05,
+   "n": 640,
+   "setup_alpha": 0.004091325305007767,
+   "setup_learning_rate": 5e-05
+  }
+ ],
+ "curve_digest": "e3bb29ac0744daa38a98126b684d85e9383c14163956a8f568035e5769f5bb8a",
+ "frozen_before_h0": true,
+ "frozen_utc": "2026-08-28T03:56:45Z",
+ "measurement": {
+  "mean_iteration_seconds": 67.40442866057025,
+  "rows_used": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8
+  ],
+  "source": "agent_04_throughput",
+  "warm_up_rows_discarded": [
+   1
+  ]
+ },
+ "move": {
+  "ema_decay": 0.999,
+  "entropy_first": 0.005,
+  "entropy_floor_reached_at_n": 214,
+  "entropy_formula": "max(0.001, 0.005 * n**-0.3)",
+  "entropy_is": "an entropy BONUS; the paper has no move entropy bonus",
+  "entropy_last": 0.001,
+  "epochs_per_iteration": 1,
+  "learning_rate_formula": "clamp(1.5e-4 * (n/80)**-1.1, 1.5e-5, 1.5e-4)",
+  "lr_first": 0.00015,
+  "lr_floor_reached_at_n": null,
+  "lr_last": 1.5229732431679412e-05
+ },
+ "n_ref": 80,
+ "never": "recomputed from changing production speed; telemetry records the difference",
+ "p_setup": 0.4946710477758662,
+ "run_id": "RUN-2026-A",
+ "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+ "setup": {
+  "alpha_first": 0.1,
+  "alpha_formula": "max(0.1 * n**-0.4946710477758662, 0.1 * 42376**-0.3)",
+  "alpha_last": 0.004091325305007767,
+  "ema_decay": 0.999,
+  "epochs_per_iteration": 5,
+  "learning_rate": 5e-05
+ },
+ "work_package": "phase17"
+}

@@ -1,0 +1,89 @@
+{
+ "artifact": "agent_04_throughput_probe",
+ "note": "a device/population configuration probe; no strength claim",
+ "probed_utc": "2026-08-28T03:31:01Z",
+ "rows": [
+  {
+   "budget": 65536,
+   "device": "mps",
+   "iterations": 2,
+   "mean_seconds": 84.26862175005954,
+   "population": 96,
+   "timings": [
+    {
+     "collection": 55.00606879207771,
+     "games_finished": 181,
+     "move_optimization": 29.65174595802091,
+     "seconds": 86.70838445902336,
+     "setup_generation": 2.0052257920615375,
+     "setup_optimization": 9.833951480686665e-06
+    },
+    {
+     "collection": 53.538693749927916,
+     "games_finished": 226,
+     "move_optimization": 29.423735667020082,
+     "seconds": 84.26862175005954,
+     "setup_generation": 1.257932125008665,
+     "setup_optimization": 7.833004929125309e-06
+    }
+   ],
+   "transitions_per_second": 777.7034753740196
+  },
+  {
+   "budget": 65536,
+   "device": "mps",
+   "iterations": 2,
+   "mean_seconds": 63.75283620902337,
+   "population": 256,
+   "timings": [
+    {
+     "collection": 39.29987837502267,
+     "games_finished": 125,
+     "move_optimization": 29.330150541034527,
+     "seconds": 70.03305908397306,
+     "setup_generation": 1.3565945840673521,
+     "setup_optimization": 7.5410353019833565e-06
+    },
+    {
+     "collection": 32.79046370810829,
+     "games_finished": 214,
+     "move_optimization": 29.458945541991852,
+     "seconds": 63.75283620902337,
+     "setup_generation": 1.4572145839920267,
+     "setup_optimization": 6.207963451743126e-06
+    }
+   ],
+   "transitions_per_second": 1027.969952350516
+  },
+  {
+   "budget": 65536,
+   "device": "mps",
+   "iterations": 2,
+   "mean_seconds": 71.91364512499422,
+   "population": 512,
+   "timings": [
+    {
+     "collection": 84.61118695908226,
+     "games_finished": 73,
+     "move_optimization": 29.153700708062388,
+     "seconds": 115.2972847080091,
+     "setup_generation": 1.4847659589722753,
+     "setup_optimization": 7.3750270530581474e-06
+    },
+    {
+     "collection": 40.95715108292643,
+     "games_finished": 199,
+     "move_optimization": 29.237199541996233,
+     "seconds": 71.91364512499422,
+     "setup_generation": 1.6746159159811214,
+     "setup_optimization": 6.1659375205636024e-06
+    }
+   ],
+   "transitions_per_second": 911.3152293433445
+  }
+ ],
+ "selected": {
+  "device": "mps",
+  "population": 256
+ }
+}

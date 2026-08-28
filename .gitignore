@@ -76,3 +76,10 @@ checkpoints/phase14/
 checkpoints/phase15/
 data/phase15/
 checkpoints/phase16/arms/
+
+# Phase 17 Agent 4 rehearsal bytes. `checkpoints/phase17/rehearsal/` holds the
+# paired checkpoints, exports and telemetry the bounded integration rehearsal
+# produced -- 641 MiB of reproducible output whose *findings* live in
+# reports/phase17/agent_04_*.json. The production run writes under
+# checkpoints/phase17/<run-id>/ and is excluded for the same reason.
+checkpoints/phase17/

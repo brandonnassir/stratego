@@ -1,0 +1,606 @@
+{
+ "all_passed": true,
+ "artifact": "agent_04_integration",
+ "candidates": [
+  {
+   "candidate_id": "RUN-2026-A-cand-000",
+   "elapsed_active_training_seconds": 0.0,
+   "file_sha256": "7424acda6960382a6aad91511ac43410bf02670c9c88ef4b072e5630060fe329",
+   "index": 0,
+   "manifest_digest": "ac2fa188f9fb49ae8ef435cac19b36045922fe9115c998881412d949bb10c2a9",
+   "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/exports/RUN-2026-A-cand-000.pt",
+   "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa"
+  }
+ ],
+ "checks": [
+  {
+   "check": "h0 paired EMA export and digest re-verification",
+   "evidence": {
+    "candidate": {
+     "candidate_id": "RUN-2026-A-cand-000",
+     "elapsed_active_training_seconds": 0.0,
+     "file_sha256": "7424acda6960382a6aad91511ac43410bf02670c9c88ef4b072e5630060fe329",
+     "index": 0,
+     "manifest_digest": "ac2fa188f9fb49ae8ef435cac19b36045922fe9115c998881412d949bb10c2a9",
+     "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/exports/RUN-2026-A-cand-000.pt",
+     "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa"
+    },
+    "reverified": {
+     "candidate_id": "RUN-2026-A-cand-000",
+     "file_sha256": "7424acda6960382a6aad91511ac43410bf02670c9c88ef4b072e5630060fe329",
+     "manifest_digest": "ac2fa188f9fb49ae8ef435cac19b36045922fe9115c998881412d949bb10c2a9",
+     "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+     "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+     "verified": true
+    }
+   },
+   "ok": true
+  },
+  {
+   "check": "h0 move EMA equals the accepted Phase 9 start",
+   "evidence": {
+    "start_file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "start_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+   },
+   "ok": true
+  },
+  {
+   "check": "at least one full transition iteration with completed and unfinished games",
+   "evidence": {
+    "active_games": [
+     256,
+     256,
+     256,
+     256,
+     256,
+     256
+    ],
+    "boundary_rows": [
+     16202,
+     15538,
+     15224,
+     14358,
+     14635,
+     14213
+    ],
+    "emitted": [
+     16384,
+     16384,
+     16384,
+     16384,
+     16384,
+     16384
+    ],
+    "games_finished": [
+     9,
+     22,
+     35,
+     61,
+     54,
+     69
+    ],
+    "harvested": [
+     16384,
+     16384,
+     16384,
+     16384,
+     16384,
+     16384
+    ],
+    "terminal_rows": [
+     182,
+     846,
+     1160,
+     2026,
+     1749,
+     2171
+    ]
+   },
+   "ok": true
+  },
+  {
+   "check": "at least one real setup update from completed outcomes",
+   "evidence": {
+    "digest_changed": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "episodes_consumed": [
+     64,
+     64,
+     64,
+     64
+    ],
+    "optimizer_steps": [
+     5,
+     5,
+     5,
+     5
+    ],
+    "skips": [
+     "queue holds 18 completed episodes; warm-up needs 128",
+     "queue holds 62 completed episodes; warm-up needs 128"
+    ],
+    "updates": 4
+   },
+   "ok": true
+  },
+  {
+   "check": "five setup epochs observed and timed",
+   "evidence": {
+    "control_kl_is_final_epoch": [
+     true,
+     true,
+     true,
+     true
+    ],
+    "controller_steps_per_iteration": 1,
+    "epochs": [
+     5,
+     5,
+     5,
+     5
+    ],
+    "seconds": [
+     0.24657733307685703,
+     0.12240408302750438,
+     0.131910250056535,
+     0.13443133397959173
+    ]
+   },
+   "ok": true
+  },
+  {
+   "check": "forced move-policy rebind observed in active games",
+   "evidence": {
+    "all_rebound": true,
+    "cell_digest_history": [
+     {
+      "iteration": 1,
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+     },
+     {
+      "iteration": 2,
+      "model_state_digest": "8d6295a195f1f3d07ddf137a0cc0aaa0474ee7f91b7d0f13fce08933a53cf222"
+     },
+     {
+      "iteration": 3,
+      "model_state_digest": "f4f6f010995ec0f8b5c3e6c4929d2ae37ca5f7d1ce6d0be767010be3d91c5b9a"
+     },
+     {
+      "iteration": 4,
+      "model_state_digest": "01a7a1f208a5502b0229b4beb5ab1e2de5ca424b6025986322a5e2c8dcf94707"
+     },
+     {
+      "iteration": 5,
+      "model_state_digest": "de7d82d449c34b2df88822d07147fc1b82dedcd8befaf0bc0c0e97d50f9fc041"
+     },
+     {
+      "iteration": 6,
+      "model_state_digest": "b9b7927ab2e0ef08a0347fe1d9b8ae9383bfa38e955dae6f5030e63910b04a3e"
+     },
+     {
+      "iteration": 7,
+      "model_state_digest": "638d700a2a8c83001bb5a81460396fa43b311d43712875415e83515e4c6c7a51"
+     }
+    ],
+    "games_alive_across_the_rebinds": 103,
+    "rebinds": [
+     {
+      "changed": true,
+      "iteration": 2,
+      "model_state_digest_after": "8d6295a195f1f3d07ddf137a0cc0aaa0474ee7f91b7d0f13fce08933a53cf222",
+      "model_state_digest_before": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+      "rebind": 1
+     },
+     {
+      "changed": true,
+      "iteration": 3,
+      "model_state_digest_after": "f4f6f010995ec0f8b5c3e6c4929d2ae37ca5f7d1ce6d0be767010be3d91c5b9a",
+      "model_state_digest_before": "8d6295a195f1f3d07ddf137a0cc0aaa0474ee7f91b7d0f13fce08933a53cf222",
+      "rebind": 2
+     },
+     {
+      "changed": true,
+      "iteration": 4,
+      "model_state_digest_after": "01a7a1f208a5502b0229b4beb5ab1e2de5ca424b6025986322a5e2c8dcf94707",
+      "model_state_digest_before": "f4f6f010995ec0f8b5c3e6c4929d2ae37ca5f7d1ce6d0be767010be3d91c5b9a",
+      "rebind": 3
+     },
+     {
+      "changed": true,
+      "iteration": 5,
+      "model_state_digest_after": "de7d82d449c34b2df88822d07147fc1b82dedcd8befaf0bc0c0e97d50f9fc041",
+      "model_state_digest_before": "01a7a1f208a5502b0229b4beb5ab1e2de5ca424b6025986322a5e2c8dcf94707",
+      "rebind": 4
+     },
+     {
+      "changed": true,
+      "iteration": 6,
+      "model_state_digest_after": "b9b7927ab2e0ef08a0347fe1d9b8ae9383bfa38e955dae6f5030e63910b04a3e",
+      "model_state_digest_before": "de7d82d449c34b2df88822d07147fc1b82dedcd8befaf0bc0c0e97d50f9fc041",
+      "rebind": 5
+     },
+     {
+      "changed": true,
+      "iteration": 7,
+      "model_state_digest_after": "638d700a2a8c83001bb5a81460396fa43b311d43712875415e83515e4c6c7a51",
+      "model_state_digest_before": "b9b7927ab2e0ef08a0347fe1d9b8ae9383bfa38e955dae6f5030e63910b04a3e",
+      "rebind": 6
+     }
+    ]
+   },
+   "ok": true
+  },
+  {
+   "check": "no search or training-opponent participants",
+   "evidence": {
+    "cell_digest_history": [
+     {
+      "iteration": 1,
+      "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+     },
+     {
+      "iteration": 2,
+      "model_state_digest": "8d6295a195f1f3d07ddf137a0cc0aaa0474ee7f91b7d0f13fce08933a53cf222"
+     },
+     {
+      "iteration": 3,
+      "model_state_digest": "f4f6f010995ec0f8b5c3e6c4929d2ae37ca5f7d1ce6d0be767010be3d91c5b9a"
+     },
+     {
+      "iteration": 4,
+      "model_state_digest": "01a7a1f208a5502b0229b4beb5ab1e2de5ca424b6025986322a5e2c8dcf94707"
+     },
+     {
+      "iteration": 5,
+      "model_state_digest": "de7d82d449c34b2df88822d07147fc1b82dedcd8befaf0bc0c0e97d50f9fc041"
+     },
+     {
+      "iteration": 6,
+      "model_state_digest": "b9b7927ab2e0ef08a0347fe1d9b8ae9383bfa38e955dae6f5030e63910b04a3e"
+     },
+     {
+      "iteration": 7,
+      "model_state_digest": "638d700a2a8c83001bb5a81460396fa43b311d43712875415e83515e4c6c7a51"
+     }
+    ],
+    "collector_version": "phase17_move_collector_v1",
+    "distinct_acting_model_states": 6,
+    "historical_participants": 0,
+    "holds": true,
+    "policy_token": "phase17_current_raw_move_v1|P17RAW",
+    "rule_or_stress_decisions": 0,
+    "search_participants": 0,
+    "seats": {
+     "blue": "phase17_current_raw_move_v1|P17RAW",
+     "red": "phase17_current_raw_move_v1|P17RAW"
+    },
+    "transitions_by_model_state": {
+     "01a7a1f208a5502b0229b4beb5ab1e2de5ca424b6025986322a5e2c8dcf94707": 16384,
+     "8d6295a195f1f3d07ddf137a0cc0aaa0474ee7f91b7d0f13fce08933a53cf222": 16384,
+     "b9b7927ab2e0ef08a0347fe1d9b8ae9383bfa38e955dae6f5030e63910b04a3e": 16384,
+     "de7d82d449c34b2df88822d07147fc1b82dedcd8befaf0bc0c0e97d50f9fc041": 16384,
+     "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd": 16384,
+     "f4f6f010995ec0f8b5c3e6c4929d2ae37ca5f7d1ce6d0be767010be3d91c5b9a": 16384
+    },
+    "unknown_model_states": {}
+   },
+   "ok": true
+  },
+  {
+   "check": "no search or training-opponent imports reachable from the runner",
+   "evidence": {
+    "forbidden_roots": [
+     "stratego.search",
+     "stratego.policies"
+    ],
+    "newly_reached_stratego_modules": [],
+    "note": "the scan is over the runner's own import closure. The structural refusals live in Agent 2's move_contract and its _rule_decision override, which raise rather than rely on an import check.",
+    "offending_modules_loaded_in_this_process": []
+   },
+   "ok": true
+  },
+  {
+   "check": "telemetry schema and append-resume continuity",
+   "evidence": {
+    "position": {
+     "last_record_digest": "18ff0512066b79fba294e3bff9cd65e3f61908093f36d14e56ff231962b48c23",
+     "offset": 36571,
+     "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/telemetry.jsonl",
+     "records": 6,
+     "telemetry_schema_version": "phase17_tandem_telemetry_v1"
+    },
+    "resumed_records": 6,
+    "rows": 6,
+    "schema_version": "phase17_tandem_telemetry_v1"
+   },
+   "ok": true
+  },
+  {
+   "check": "the device the persistence proof runs on is bitwise reproducible",
+   "evidence": {
+    "consequence": "the exact resume assertion is made on the reproducible device; on a non-reproducible production device the honest claim is equality up to that device's own measured noise floor",
+    "production_device": {
+     "actions_identical": true,
+     "bitwise_reproducible": false,
+     "device": "mps",
+     "iterations": 3,
+     "max_advantage_difference": 9.760260581970215e-07,
+     "max_stored_wdl_difference": 6.556510925292969e-07,
+     "move_digest_identical": false,
+     "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+     "rows_compared": 16384,
+     "setup_digest_identical": true,
+     "terminal_results_identical": true
+    },
+    "proof_device": {
+     "actions_identical": true,
+     "bitwise_reproducible": true,
+     "device": "cpu",
+     "iterations": 3,
+     "max_advantage_difference": 0.0,
+     "max_stored_wdl_difference": 0.0,
+     "move_digest_identical": true,
+     "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+     "rows_compared": 16384,
+     "setup_digest_identical": true,
+     "terminal_results_identical": true
+    }
+   },
+   "ok": true
+  },
+  {
+   "check": "paired checkpoint save/load continuation equivalence",
+   "evidence": {
+    "compared_fields": [
+     "advantage_targets",
+     "cell_digest",
+     "games_finished",
+     "iteration",
+     "move_ema_model_state_digest",
+     "move_raw_model_state_digest",
+     "queue_depth",
+     "sampled_actions",
+     "setup_ema_model_state_digest",
+     "setup_optimizer_steps",
+     "setup_raw_model_state_digest",
+     "setup_skipped",
+     "target_provenance",
+     "terminal_results",
+     "transitions_harvested",
+     "wdl_targets"
+    ],
+    "device": "cpu",
+    "differing_fields": [],
+    "restore_report": {
+     "cell_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+     "games_reseated": 16,
+     "games_restored": 16,
+     "iteration": 2,
+     "move_raw_model_state_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+     "queue_depth": 0,
+     "setup_episodes_restored": 16,
+     "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa"
+    }
+   },
+   "ok": true
+  },
+  {
+   "check": "one injected supervisor stop, recorded with a safe exit",
+   "evidence": {
+    "injected": {
+     "code": "P5",
+     "consecutive": 1,
+     "consecutive_required": 1,
+     "description": "flag effective support below 4.0",
+     "evidence": {
+      "flag_effective_support": 2.0,
+      "floor": 4.0
+     },
+     "fired": true,
+     "severity": "stop",
+     "tripped": true
+    },
+    "reloadable": true,
+    "safe_checkpoint": {
+     "file_sha256": "21545e2b7acbd559255d9ace870c68ccd0881a12ca0d1f62143f4d661626a8dd",
+     "generation": 7,
+     "iteration": 6,
+     "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/checkpoints/joint_00007.pt",
+     "payload_digest": "3ff926d4d04caa22e487859044b4ed8dd33fd1cb94b88a7b69dde8d369d3e712"
+    },
+    "stop_record": {
+     "action": "safe checkpoint then exit; no hyperparameter was changed",
+     "code": "P5",
+     "consecutive": 1,
+     "consecutive_required": 1,
+     "description": "flag effective support below 4.0",
+     "evidence": {
+      "flag_effective_support": 2.0,
+      "floor": 4.0
+     },
+     "mode": "integration",
+     "run_id": "RUN-2026-A",
+     "supervisor_version": "phase17_collapse_supervisor_v1"
+    }
+   },
+   "ok": true
+  }
+ ],
+ "configuration": {
+  "horizon": {
+   "N": 640,
+   "frozen_before_h0": true,
+   "n_ref": 80,
+   "never": "recomputed from changing production speed",
+   "p_setup": 0.4946710477758662
+  },
+  "move": {
+   "budget_transitions": 16384,
+   "device": "mps",
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 1,
+   "minibatch_size": 512,
+   "population": 256
+  },
+  "run_id": "RUN-2026-A",
+  "runner_version": "phase17_tandem_runner_v1",
+  "setup": {
+   "budget_episodes": 64,
+   "controller_cadence": "once per setup ITERATION, on the FINAL epoch's KL",
+   "controller_cadence_note": "the stale d5_resolution.controller_update_cadence field in Agent 3's handoff says once per epoch; decision D9-B section 4 records that as an upstream documentation irregularity",
+   "device": "mps",
+   "epochs_per_iteration": 5,
+   "max_age_iterations": 8,
+   "minibatch_episodes": 64,
+   "model_seed": 17,
+   "pool_size_per_side": 512,
+   "queue_capacity": 512,
+   "recipe": "phase17_setup_update_v2 (D7-B) with the D5 controller",
+   "warm_up_minimum": 128
+  },
+  "work_package": "phase17"
+ },
+ "device_determinism_baseline": {
+  "production_device": {
+   "actions_identical": true,
+   "bitwise_reproducible": false,
+   "device": "mps",
+   "iterations": 3,
+   "max_advantage_difference": 9.760260581970215e-07,
+   "max_stored_wdl_difference": 6.556510925292969e-07,
+   "move_digest_identical": false,
+   "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+   "rows_compared": 16384,
+   "setup_digest_identical": true,
+   "terminal_results_identical": true
+  },
+  "proof_device": {
+   "actions_identical": true,
+   "bitwise_reproducible": true,
+   "device": "cpu",
+   "iterations": 3,
+   "max_advantage_difference": 0.0,
+   "max_stored_wdl_difference": 0.0,
+   "move_digest_identical": true,
+   "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+   "rows_compared": 16384,
+   "setup_digest_identical": true,
+   "terminal_results_identical": true
+  }
+ },
+ "elapsed_seconds": 435.4986270830268,
+ "iterations": 6,
+ "note": "a bounded integration rehearsal. No strength comparison was run, no benchmark lane was evaluated, and the 12-hour job was not started.",
+ "passed": 12,
+ "peak_memory_mib": 16042.375,
+ "rehearsed_utc": "2026-08-28T06:45:06Z",
+ "resume_rehearsal": {
+  "artifact": "agent_04_resume_rehearsal",
+  "checkpoint": {
+   "file_sha256": "5ab79528161379550c4f3a4027faa20cc4c711f01626e9b8f7e325a674c23489",
+   "generation": 1,
+   "iteration": 2,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/resume_checkpoint.pt",
+   "payload_digest": "a92fbbb3b46baddafb33d9e50198ab803e260712fcfd6bdae91dc384433c9325"
+  },
+  "compared_fields": [
+   "advantage_targets",
+   "cell_digest",
+   "games_finished",
+   "iteration",
+   "move_ema_model_state_digest",
+   "move_raw_model_state_digest",
+   "queue_depth",
+   "sampled_actions",
+   "setup_ema_model_state_digest",
+   "setup_optimizer_steps",
+   "setup_raw_model_state_digest",
+   "setup_skipped",
+   "target_provenance",
+   "terminal_results",
+   "transitions_harvested",
+   "wdl_targets"
+  ],
+  "device": "cpu",
+  "device_determinism_baseline": {
+   "production_device": {
+    "actions_identical": true,
+    "bitwise_reproducible": false,
+    "device": "mps",
+    "iterations": 3,
+    "max_advantage_difference": 9.760260581970215e-07,
+    "max_stored_wdl_difference": 6.556510925292969e-07,
+    "move_digest_identical": false,
+    "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+    "rows_compared": 16384,
+    "setup_digest_identical": true,
+    "terminal_results_identical": true
+   },
+   "proof_device": {
+    "actions_identical": true,
+    "bitwise_reproducible": true,
+    "device": "cpu",
+    "iterations": 3,
+    "max_advantage_difference": 0.0,
+    "max_stored_wdl_difference": 0.0,
+    "move_digest_identical": true,
+    "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+    "rows_compared": 16384,
+    "setup_digest_identical": true,
+    "terminal_results_identical": true
+   }
+  },
+  "device_rationale": "MPS is not bitwise reproducible run to run on this host, so an exact resume assertion is only meaningful on CPU. The production device's own noise floor is measured separately in device_determinism_baseline.",
+  "differing_fields": [],
+  "equivalent": true,
+  "expected_summary": {
+   "cell_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+   "games_finished": 0,
+   "iteration": 3,
+   "move_ema_model_state_digest": "61f61a6f11e1eedb3c6752b517a5f04dd9ce114fa02e4db29d5ac4cb495c9204",
+   "move_raw_model_state_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+   "queue_depth": 0,
+   "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "setup_optimizer_steps": 0,
+   "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "setup_skipped": true,
+   "terminal_results": {},
+   "transitions_harvested": 512
+  },
+  "observed_summary": {
+   "cell_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+   "games_finished": 0,
+   "iteration": 3,
+   "move_ema_model_state_digest": "61f61a6f11e1eedb3c6752b517a5f04dd9ce114fa02e4db29d5ac4cb495c9204",
+   "move_raw_model_state_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+   "queue_depth": 0,
+   "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "setup_optimizer_steps": 0,
+   "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "setup_skipped": true,
+   "terminal_results": {},
+   "transitions_harvested": 512
+  },
+  "rehearsed_utc": "2026-08-28T06:45:00Z",
+  "restore_report": {
+   "cell_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+   "games_reseated": 16,
+   "games_restored": 16,
+   "iteration": 2,
+   "move_raw_model_state_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+   "queue_depth": 0,
+   "setup_episodes_restored": 16,
+   "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa"
+  },
+  "rows_compared": 512,
+  "statement": "an interrupted run resumed from its paired checkpoint produced the SAME next iteration as an uninterrupted one: the same games at the same plies sampling the same actions, the same advantage and W/D/L targets with the same provenance, the same terminal outcomes, and the same four model-state digests after the update",
+  "warm_iterations_before_the_checkpoint": 2
+ },
+ "total": 12
+}

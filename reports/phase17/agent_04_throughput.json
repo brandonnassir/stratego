@@ -1,0 +1,310 @@
+{
+ "agent_04_source_identity": {
+  "sources": {
+   "files": [
+    {
+     "bytes": 27329,
+     "file_sha256": "91b3ff0a75fa9fefb25fe86a8e1d70fffba529ded754aa09bb21604c567d80c4",
+     "path": "scripts/run_phase17_preflight.py"
+    },
+    {
+     "bytes": 19379,
+     "file_sha256": "b9c61f3287d5afe50ffe5a96e1b7beb5b9160546811322c1d4c6a2167f16c303",
+     "path": "stratego/training/phase17/checkpoint.py"
+    },
+    {
+     "bytes": 12039,
+     "file_sha256": "66161130cbc579a2d3a0799e12c1d293ddb065afd503f6a4109f1cd4547511f0",
+     "path": "stratego/training/phase17/export.py"
+    },
+    {
+     "bytes": 13143,
+     "file_sha256": "5ff4e9942fd142850d3007cb491bf89a8b652ef58c0c3e40e06b914e4153437a",
+     "path": "stratego/training/phase17/queue.py"
+    },
+    {
+     "bytes": 48451,
+     "file_sha256": "926c8d74510a4c5ec3450b90eeda6910234d68882ca649233c06fe5da7b72534",
+     "path": "stratego/training/phase17/runner.py"
+    },
+    {
+     "bytes": 19253,
+     "file_sha256": "5e3abb27da78a1e108b2e0f168019b15b25ba81a0816450761bd9409b698434e",
+     "path": "stratego/training/phase17/supervisor.py"
+    },
+    {
+     "bytes": 10880,
+     "file_sha256": "cfcc0aba0722f5f86a8acfa045fd2f388f1aea1741a6c1ba7c610ff118551ca3",
+     "path": "stratego/training/phase17/telemetry.py"
+    }
+   ],
+   "source_digest": "be6f95d3f74ca8425ff979336184c7d142da0a6d9d1162ca670271d06cab253b"
+  },
+  "tests": {
+   "files": [
+    {
+     "bytes": 8067,
+     "file_sha256": "0a66e6094628472acb537bbb9d75e85193519867181edf619e6ca0dee1d70f4b",
+     "path": "tests/training/phase17/test_checkpoint_persistence.py"
+    },
+    {
+     "bytes": 23058,
+     "file_sha256": "a709a2ae2886b4ed7e574a466f0b4030e427bcf389012d274b09956d232a0504",
+     "path": "tests/training/phase17/test_runner_tandem.py"
+    },
+    {
+     "bytes": 9059,
+     "file_sha256": "4d1b14e8475604f1f240ff6dfebd45f4cc91215f19965ca6340394808525d96a",
+     "path": "tests/training/phase17/test_supervisor_predicates.py"
+    }
+   ],
+   "source_digest": "83e0f31af953d873e8234115b6ad741b4f37f5471c45b17465e7d3b4a542b27b"
+  }
+ },
+ "artifact": "agent_04_throughput",
+ "budget_sizing_rule": "the PEAK steady-state completion rate, not the mean: a short rehearsal's mean understates arrivals because a fresh population ramps, and understating arrivals is the one error Agent 3's queue cannot absorb",
+ "configuration": {
+  "assumed_iterations_for_the_rehearsal_schedule": 700,
+  "budget_transitions": 65536,
+  "pool_size_per_side": 512,
+  "population": 256,
+  "setup_budget_rehearsed": 572
+ },
+ "elapsed_seconds": 545.6690694999415,
+ "expected_iterations_in_12_active_hours": 640,
+ "export_interval_seconds": 1800,
+ "games_finished_series": [
+  125,
+  214,
+  243,
+  248,
+  244,
+  240,
+  228,
+  241
+ ],
+ "host": {
+  "move_device": "mps",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "setup_device": "mps"
+ },
+ "mean_game_length_plies": 276.72755997745674,
+ "mean_games_finished_per_iteration": 236.85714285714286,
+ "mean_iteration_seconds": 67.40442866057025,
+ "measured_utc": "2026-08-28T03:56:45Z",
+ "measurement_rows_used": [
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "peak_games_finished_per_iteration": 248,
+ "peak_memory_mib": 13005.03125,
+ "rehearsed_setup_budget": 572,
+ "rows": [
+  {
+   "active_games": 255,
+   "boundary_rows": 45178,
+   "collection_seconds": 39.510141125065275,
+   "games_finished": 125,
+   "iteration": 1,
+   "mean_game_length": 162.864,
+   "move_optimization_seconds": 29.576763667049818,
+   "queue_depth": 250,
+   "seconds": 71.08697599999141,
+   "setup_epochs": 0,
+   "setup_generation_seconds": 1.9566581670660526,
+   "setup_optimization_seconds": 1.0209041647613049e-05,
+   "setup_skip_reason": "queue holds 250 completed episodes; warm-up needs 572",
+   "setup_skipped": true,
+   "terminal_rows": 20358,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 71.08704358397517,
+   "warm_up": true
+  },
+  {
+   "active_games": 253,
+   "boundary_rows": 39588,
+   "collection_seconds": 33.24804266600404,
+   "games_finished": 214,
+   "iteration": 2,
+   "mean_game_length": 285.0420560747664,
+   "move_optimization_seconds": 29.431633291998878,
+   "queue_depth": 106,
+   "seconds": 65.57121533306781,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.1551711250795051,
+   "setup_optimization_seconds": 1.6941496669314802,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 25948,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 65.69398362492211,
+   "warm_up": false
+  },
+  {
+   "active_games": 255,
+   "boundary_rows": 36916,
+   "collection_seconds": 37.34939833392855,
+   "games_finished": 243,
+   "iteration": 3,
+   "mean_game_length": 299.30041152263374,
+   "move_optimization_seconds": 29.531080292072147,
+   "queue_depth": 20,
+   "seconds": 69.19413550000172,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.4467929160455242,
+   "setup_optimization_seconds": 0.8239954999880865,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 28620,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 69.31045879190788,
+   "warm_up": false
+  },
+  {
+   "active_games": 255,
+   "boundary_rows": 37010,
+   "collection_seconds": 35.17865400004666,
+   "games_finished": 248,
+   "iteration": 4,
+   "mean_game_length": 265.43145161290323,
+   "move_optimization_seconds": 29.30434008303564,
+   "queue_depth": 516,
+   "seconds": 66.08328987495042,
+   "setup_epochs": 0,
+   "setup_generation_seconds": 1.5527770828921348,
+   "setup_optimization_seconds": 8.167000487446785e-06,
+   "setup_skip_reason": "queue holds 516 completed episodes; the fixed setup budget is 572",
+   "setup_skipped": true,
+   "terminal_rows": 28526,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 66.26469504204579,
+   "warm_up": false
+  },
+  {
+   "active_games": 256,
+   "boundary_rows": 38062,
+   "collection_seconds": 36.062911250046454,
+   "games_finished": 244,
+   "iteration": 5,
+   "mean_game_length": 262.25409836065575,
+   "move_optimization_seconds": 29.194895040942356,
+   "queue_depth": 432,
+   "seconds": 67.62622570898384,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.4919349160045385,
+   "setup_optimization_seconds": 0.8315819579875097,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 27474,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 67.76025420799851,
+   "warm_up": false
+  },
+  {
+   "active_games": 254,
+   "boundary_rows": 35734,
+   "collection_seconds": 35.15122112503741,
+   "games_finished": 240,
+   "iteration": 6,
+   "mean_game_length": 275.8958333333333,
+   "move_optimization_seconds": 29.178534250007942,
+   "queue_depth": 340,
+   "seconds": 66.74395329097752,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.5520057909889147,
+   "setup_optimization_seconds": 0.8181190000614151,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 29802,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 66.88280587503687,
+   "warm_up": false
+  },
+  {
+   "active_games": 256,
+   "boundary_rows": 39661,
+   "collection_seconds": 36.76679062505718,
+   "games_finished": 228,
+   "iteration": 7,
+   "mean_game_length": 269.9035087719298,
+   "move_optimization_seconds": 29.30475137499161,
+   "queue_depth": 224,
+   "seconds": 68.44001333299093,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.5104613750008866,
+   "setup_optimization_seconds": 0.814430958009325,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 25875,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 68.58019024995156,
+   "warm_up": false
+  },
+  {
+   "active_games": 251,
+   "boundary_rows": 38061,
+   "collection_seconds": 36.46237320895307,
+   "games_finished": 241,
+   "iteration": 8,
+   "mean_game_length": 279.2655601659751,
+   "move_optimization_seconds": 29.298359667067416,
+   "queue_depth": 134,
+   "seconds": 68.17216758301947,
+   "setup_epochs": 5,
+   "setup_generation_seconds": 1.5433714169776067,
+   "setup_optimization_seconds": 0.8234759999904782,
+   "setup_skip_reason": null,
+   "setup_skipped": false,
+   "terminal_rows": 27475,
+   "transitions_harvested": 65536,
+   "transitions_trained": 16384,
+   "wall_seconds": 68.31285133294296,
+   "warm_up": false
+  }
+ ],
+ "setup_budget_policy": {
+  "age_alarm_iterations": 8,
+  "alarm_consecutive_windows": 3,
+  "backlog_alarm_depth": 2288,
+  "backlog_alarm_fraction_of_capacity": 0.5,
+  "bias_rule": "a fixed batch never prefers short games: the count is constant and only whether an update happens varies, which is a counted event",
+  "budget": 572,
+  "capacity": 4576,
+  "capacity_reserve_multiple": 8,
+  "consumption": "each episode exactly once; a short queue SKIPS explicitly",
+  "epochs_per_iteration": 5,
+  "expected_skip_fraction": 0.09090909090909094,
+  "headroom_windows_at_a_doubled_arrival_rate": 4.0,
+  "max_age_iterations": 8,
+  "measured_completions_per_iteration": 520.0,
+  "measured_five_epoch_seconds": 0.9676255138280491,
+  "measured_games_per_iteration": 260.0,
+  "minimum_sustainability_margin": 1.1,
+  "notes": [
+   "derived from the Agent 4 bounded steady-state rehearsal, not from Agent 3's standalone soak",
+   "RE-DERIVED from the recorded rows after the backlog alarm moved from 90% to 50% of capacity; the measurement itself was not repeated"
+  ],
+  "overflow_rule": "capacity overflow and age rejection are counted rejections in Agent 3's queue, never silent drops",
+  "policy_version": "phase17_setup_budget_policy_v1",
+  "sustainability_margin": 1.1,
+  "warm_up_budget_multiple": 2,
+  "warm_up_minimum": 1144
+ },
+ "setup_budget_policy_rederived_utc": "2026-08-28T05:22:20Z",
+ "warm_up_rows_discarded": [
+  1
+ ]
+}

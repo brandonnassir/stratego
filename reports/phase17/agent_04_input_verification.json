@@ -1,0 +1,480 @@
+{
+ "all_passed": true,
+ "artifact": "agent_04_input_verification",
+ "checks": [
+  {
+   "actual": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+   "check": "A2 sources: stratego/training/phase17/__init__.py",
+   "expected": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+   "ok": true
+  },
+  {
+   "actual": 2071,
+   "check": "A2 sources bytes: stratego/training/phase17/__init__.py",
+   "expected": 2071,
+   "ok": true
+  },
+  {
+   "actual": "160e9c940de1047a85cd0a211f8fb35f530d93bc1569c833c9c5d5a02971bcab",
+   "check": "A2 sources: stratego/training/phase17/move_contract.py",
+   "expected": "160e9c940de1047a85cd0a211f8fb35f530d93bc1569c833c9c5d5a02971bcab",
+   "ok": true
+  },
+  {
+   "actual": 24453,
+   "check": "A2 sources bytes: stratego/training/phase17/move_contract.py",
+   "expected": 24453,
+   "ok": true
+  },
+  {
+   "actual": "82e9b9b4fa7611c6d1d95b8c52519c0075f18b4c2072881050b8197e9db7efb7",
+   "check": "A2 sources: stratego/training/phase17/move_loss.py",
+   "expected": "82e9b9b4fa7611c6d1d95b8c52519c0075f18b4c2072881050b8197e9db7efb7",
+   "ok": true
+  },
+  {
+   "actual": 15760,
+   "check": "A2 sources bytes: stratego/training/phase17/move_loss.py",
+   "expected": 15760,
+   "ok": true
+  },
+  {
+   "actual": "bcc07cf422b93311ae780753312f6d7f77584db828d6c78ac1f46e4e15d8b70c",
+   "check": "A2 sources: stratego/training/phase17/move_snapshot.py",
+   "expected": "bcc07cf422b93311ae780753312f6d7f77584db828d6c78ac1f46e4e15d8b70c",
+   "ok": true
+  },
+  {
+   "actual": 15382,
+   "check": "A2 sources bytes: stratego/training/phase17/move_snapshot.py",
+   "expected": 15382,
+   "ok": true
+  },
+  {
+   "actual": "e47b0b083e2ff5ef8737b95c9779e53d84f981f2ada73d2fe25657c3018fadc1",
+   "check": "A2 sources: stratego/training/phase17/move_start.py",
+   "expected": "e47b0b083e2ff5ef8737b95c9779e53d84f981f2ada73d2fe25657c3018fadc1",
+   "ok": true
+  },
+  {
+   "actual": 12089,
+   "check": "A2 sources bytes: stratego/training/phase17/move_start.py",
+   "expected": 12089,
+   "ok": true
+  },
+  {
+   "actual": "e82d7e08aac58f04bd48ac1fc5a3f6293ead80b44aba330858afaaa32d14a7bf",
+   "check": "A2 sources: stratego/training/phase17/move_trainer.py",
+   "expected": "e82d7e08aac58f04bd48ac1fc5a3f6293ead80b44aba330858afaaa32d14a7bf",
+   "ok": true
+  },
+  {
+   "actual": 23611,
+   "check": "A2 sources bytes: stratego/training/phase17/move_trainer.py",
+   "expected": 23611,
+   "ok": true
+  },
+  {
+   "actual": "482a57d615652a31e16a3192503defa38262ef163669ba8a361150ef368c7215",
+   "check": "A2 sources: stratego/training/phase17/transition_collector.py",
+   "expected": "482a57d615652a31e16a3192503defa38262ef163669ba8a361150ef368c7215",
+   "ok": true
+  },
+  {
+   "actual": 38581,
+   "check": "A2 sources bytes: stratego/training/phase17/transition_collector.py",
+   "expected": 38581,
+   "ok": true
+  },
+  {
+   "actual": "63b8c49fb883ba7be62a1811d224ac8ed9a7ed9467c91745c037896f31a53e12",
+   "check": "A2 sources: stratego/training/phase17/transition_schema.py",
+   "expected": "63b8c49fb883ba7be62a1811d224ac8ed9a7ed9467c91745c037896f31a53e12",
+   "ok": true
+  },
+  {
+   "actual": 13248,
+   "check": "A2 sources bytes: stratego/training/phase17/transition_schema.py",
+   "expected": 13248,
+   "ok": true
+  },
+  {
+   "actual": "fabd635ff285e34ef31ad388daed0ec31cbde9b626433ec92d3a0961bd3bb687",
+   "check": "A2 sources: stratego/training/phase17/transition_targets.py",
+   "expected": "fabd635ff285e34ef31ad388daed0ec31cbde9b626433ec92d3a0961bd3bb687",
+   "ok": true
+  },
+  {
+   "actual": 25187,
+   "check": "A2 sources bytes: stratego/training/phase17/transition_targets.py",
+   "expected": 25187,
+   "ok": true
+  },
+  {
+   "actual": "58f766691386e87e0f2a14aecef6615015adfe7469ab62065b8e2d172afdf5d0",
+   "check": "A2 sources closure digest",
+   "expected": "58f766691386e87e0f2a14aecef6615015adfe7469ab62065b8e2d172afdf5d0",
+   "ok": true
+  },
+  {
+   "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "check": "A2 tests: tests/training/phase17/__init__.py",
+   "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "ok": true
+  },
+  {
+   "actual": 0,
+   "check": "A2 tests bytes: tests/training/phase17/__init__.py",
+   "expected": 0,
+   "ok": true
+  },
+  {
+   "actual": "d2138e6d2dfd3d6c31eda9d339b9cef29780d1ba49b3f74c87bc652e0d31fca1",
+   "check": "A2 tests: tests/training/phase17/test_move_loss_and_trainer.py",
+   "expected": "d2138e6d2dfd3d6c31eda9d339b9cef29780d1ba49b3f74c87bc652e0d31fca1",
+   "ok": true
+  },
+  {
+   "actual": 18539,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_loss_and_trainer.py",
+   "expected": 18539,
+   "ok": true
+  },
+  {
+   "actual": "f9d8cea8f44d3fe2294ba140b0d86c191f227e68204ce907ae0ca235580af8ca",
+   "check": "A2 tests: tests/training/phase17/test_move_no_search.py",
+   "expected": "f9d8cea8f44d3fe2294ba140b0d86c191f227e68204ce907ae0ca235580af8ca",
+   "ok": true
+  },
+  {
+   "actual": 7158,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_no_search.py",
+   "expected": 7158,
+   "ok": true
+  },
+  {
+   "actual": "3872e81b0e977bd33c293723698a146ee7f2aacca3cca624de6c63a7933366e2",
+   "check": "A2 tests: tests/training/phase17/test_move_sampling.py",
+   "expected": "3872e81b0e977bd33c293723698a146ee7f2aacca3cca624de6c63a7933366e2",
+   "ok": true
+  },
+  {
+   "actual": 4127,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_sampling.py",
+   "expected": 4127,
+   "ok": true
+  },
+  {
+   "actual": "3b1a4fc422aef5cff048c57e6114139cacb14b0fccb0241f920a676e82ee9223",
+   "check": "A2 tests: tests/training/phase17/test_move_seating.py",
+   "expected": "3b1a4fc422aef5cff048c57e6114139cacb14b0fccb0241f920a676e82ee9223",
+   "ok": true
+  },
+  {
+   "actual": 5112,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_seating.py",
+   "expected": 5112,
+   "ok": true
+  },
+  {
+   "actual": "9aed9971143311127f5493253b7da74205ac5f37568c06184a5945e14f9e9225",
+   "check": "A2 tests: tests/training/phase17/test_move_start.py",
+   "expected": "9aed9971143311127f5493253b7da74205ac5f37568c06184a5945e14f9e9225",
+   "ok": true
+  },
+  {
+   "actual": 6023,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_start.py",
+   "expected": 6023,
+   "ok": true
+  },
+  {
+   "actual": "29e93752fe653844d9f0a9b68cc9dab19923c9a1e11423f5371ed7682cdeec6a",
+   "check": "A2 tests: tests/training/phase17/test_move_support.py",
+   "expected": "29e93752fe653844d9f0a9b68cc9dab19923c9a1e11423f5371ed7682cdeec6a",
+   "ok": true
+  },
+  {
+   "actual": 3385,
+   "check": "A2 tests bytes: tests/training/phase17/test_move_support.py",
+   "expected": 3385,
+   "ok": true
+  },
+  {
+   "actual": "377161a2f15c3d3641d3e4bcb5056ded18c632a4c6d52105aa3e43ea8a983190",
+   "check": "A2 tests: tests/training/phase17/test_transition_collector.py",
+   "expected": "377161a2f15c3d3641d3e4bcb5056ded18c632a4c6d52105aa3e43ea8a983190",
+   "ok": true
+  },
+  {
+   "actual": 16879,
+   "check": "A2 tests bytes: tests/training/phase17/test_transition_collector.py",
+   "expected": 16879,
+   "ok": true
+  },
+  {
+   "actual": "02d013fddd395b9137bed8923690768cdf87f091e7eb7f028cb6f01d1e14ff37",
+   "check": "A2 tests: tests/training/phase17/test_transition_schema.py",
+   "expected": "02d013fddd395b9137bed8923690768cdf87f091e7eb7f028cb6f01d1e14ff37",
+   "ok": true
+  },
+  {
+   "actual": 8293,
+   "check": "A2 tests bytes: tests/training/phase17/test_transition_schema.py",
+   "expected": 8293,
+   "ok": true
+  },
+  {
+   "actual": "8b96c881036f9b3e224c60c8cd12296a22d9f7cac7cd665be29fb2cf251be6b9",
+   "check": "A2 tests: tests/training/phase17/test_transition_targets.py",
+   "expected": "8b96c881036f9b3e224c60c8cd12296a22d9f7cac7cd665be29fb2cf251be6b9",
+   "ok": true
+  },
+  {
+   "actual": 13870,
+   "check": "A2 tests bytes: tests/training/phase17/test_transition_targets.py",
+   "expected": 13870,
+   "ok": true
+  },
+  {
+   "actual": "abaa75ccf44495aaa1a93ae766a32cbada6f2d372e0398ab83ab0622b60e8f3b",
+   "check": "A2 tests closure digest",
+   "expected": "abaa75ccf44495aaa1a93ae766a32cbada6f2d372e0398ab83ab0622b60e8f3b",
+   "ok": true
+  },
+  {
+   "actual": "5178e696d7abcef8d4bfb6f67acdae0feac045eae56f3450497e5d4ab046d78f",
+   "check": "A2 artifact agent_02_start_identity.json",
+   "expected": "5178e696d7abcef8d4bfb6f67acdae0feac045eae56f3450497e5d4ab046d78f",
+   "ok": true
+  },
+  {
+   "actual": "eb4f266daf344e0dde005400d19a606f942fa522d4099fa23c99c3858e517b41",
+   "check": "A2 artifact agent_02_target_invariants.json",
+   "expected": "eb4f266daf344e0dde005400d19a606f942fa522d4099fa23c99c3858e517b41",
+   "ok": true
+  },
+  {
+   "actual": "b57e0080cd74f96ff58718e48583d1bf709b8f4e2d091811b336436d86e62df2",
+   "check": "A2 artifact agent_02_forced_rebind.json",
+   "expected": "b57e0080cd74f96ff58718e48583d1bf709b8f4e2d091811b336436d86e62df2",
+   "ok": true
+  },
+  {
+   "actual": "5a38124cc5196df5f129e917ca2ae088c0901a1a57d571447f63cdc34e021355",
+   "check": "A2 artifact agent_02_window_verification.json",
+   "expected": "5a38124cc5196df5f129e917ca2ae088c0901a1a57d571447f63cdc34e021355",
+   "ok": true
+  },
+  {
+   "actual": "6198bd6f32122976329d9ac4fd65c1ac696182236a7c94d764d35cb41a0df464",
+   "check": "A2 handoff digest",
+   "expected": "6198bd6f32122976329d9ac4fd65c1ac696182236a7c94d764d35cb41a0df464",
+   "ok": true
+  },
+  {
+   "actual": "6d5aa549c6ab7d14593960d6e4908013f3129030d9249be21ca92e5507bdd90e",
+   "check": "A3 source: scripts/run_phase17_setup_gate.py",
+   "expected": "6d5aa549c6ab7d14593960d6e4908013f3129030d9249be21ca92e5507bdd90e",
+   "ok": true
+  },
+  {
+   "actual": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+   "check": "A3 source: stratego/training/phase17/__init__.py",
+   "expected": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+   "ok": true
+  },
+  {
+   "actual": "4018f460313e09bbe3aca216048ce03af9e8997a8cd5feb55ec6a4cf859225e0",
+   "check": "A3 source: stratego/training/phase17/setup_contract.py",
+   "expected": "4018f460313e09bbe3aca216048ce03af9e8997a8cd5feb55ec6a4cf859225e0",
+   "ok": true
+  },
+  {
+   "actual": "6c00b0da083afe8f134a66ad5e4e0c5d80cf7d7d6e85e3654312a179474e4876",
+   "check": "A3 source: stratego/training/phase17/setup_episode.py",
+   "expected": "6c00b0da083afe8f134a66ad5e4e0c5d80cf7d7d6e85e3654312a179474e4876",
+   "ok": true
+  },
+  {
+   "actual": "dad441013c2672283ae7a4723e6cc636629c44b68520a162298b40fda9b7a299",
+   "check": "A3 source: stratego/training/phase17/setup_learning.py",
+   "expected": "dad441013c2672283ae7a4723e6cc636629c44b68520a162298b40fda9b7a299",
+   "ok": true
+  },
+  {
+   "actual": "5168423cb03f9a59911ce2258b918c1354fe387823164733580822581cafafec",
+   "check": "A3 source: stratego/training/phase17/setup_metrics.py",
+   "expected": "5168423cb03f9a59911ce2258b918c1354fe387823164733580822581cafafec",
+   "ok": true
+  },
+  {
+   "actual": "f588e78a8dd8c5c352bafc830c0378e6ab8077faeeaec23c4e7f7db5e9a1b534",
+   "check": "A3 source: stratego/training/phase17/setup_model.py",
+   "expected": "f588e78a8dd8c5c352bafc830c0378e6ab8077faeeaec23c4e7f7db5e9a1b534",
+   "ok": true
+  },
+  {
+   "actual": "1cde06bdcb73c0684f892fc64581e17f6485978d2f6f5363fb51c80232c22bca",
+   "check": "A3 source: stratego/training/phase17/setup_sampling.py",
+   "expected": "1cde06bdcb73c0684f892fc64581e17f6485978d2f6f5363fb51c80232c22bca",
+   "ok": true
+  },
+  {
+   "actual": "2febd2e2e8483935aefa628545b91d7a01be2694dbc1eb9f6016f8b746cb47d3",
+   "check": "A3 source: tests/training/phase17/conftest.py",
+   "expected": "2febd2e2e8483935aefa628545b91d7a01be2694dbc1eb9f6016f8b746cb47d3",
+   "ok": true
+  },
+  {
+   "actual": "62cf113fc89cf960180c33649cfbe00d75aa729d03a2220d0497c841273fca26",
+   "check": "A3 source: tests/training/phase17/test_setup_episode.py",
+   "expected": "62cf113fc89cf960180c33649cfbe00d75aa729d03a2220d0497c841273fca26",
+   "ok": true
+  },
+  {
+   "actual": "99d83149989e2b72ca310188ce810d59cb127057c2955621f116fee967aa4b84",
+   "check": "A3 source: tests/training/phase17/test_setup_learning.py",
+   "expected": "99d83149989e2b72ca310188ce810d59cb127057c2955621f116fee967aa4b84",
+   "ok": true
+  },
+  {
+   "actual": "89675ec31e2d99f18d09b56eb4d1e03ff631b02e2d2d073df256e10cbfa4a4c9",
+   "check": "A3 source: tests/training/phase17/test_setup_metrics.py",
+   "expected": "89675ec31e2d99f18d09b56eb4d1e03ff631b02e2d2d073df256e10cbfa4a4c9",
+   "ok": true
+  },
+  {
+   "actual": "81a5cb3a77703dc8673f20a329e01d59a4827d15cc4f2a7256b8c5dd02bafdd6",
+   "check": "A3 source: tests/training/phase17/test_setup_model.py",
+   "expected": "81a5cb3a77703dc8673f20a329e01d59a4827d15cc4f2a7256b8c5dd02bafdd6",
+   "ok": true
+  },
+  {
+   "actual": "d03a8f97cf2bf62f3f66d041468d04b94b84d0210a77bc2f1e9278c20a6e7228",
+   "check": "A3 source: tests/training/phase17/test_setup_sampling.py",
+   "expected": "d03a8f97cf2bf62f3f66d041468d04b94b84d0210a77bc2f1e9278c20a6e7228",
+   "ok": true
+  },
+  {
+   "actual": "998dddbf17d616195f3639e047129c7a0f47403da9dab11b7d73143c81f23767",
+   "check": "A3 source: tests/training/phase17/test_setup_structure.py",
+   "expected": "998dddbf17d616195f3639e047129c7a0f47403da9dab11b7d73143c81f23767",
+   "ok": true
+  },
+  {
+   "actual": "c0282a869a4634afb741b6b50b5827b744947ade35ad109932abc36094ce1438",
+   "check": "A3 closure digest",
+   "expected": "c0282a869a4634afb741b6b50b5827b744947ade35ad109932abc36094ce1438",
+   "ok": true
+  },
+  {
+   "actual": "c77d87304c1de69b0b4b03af88ff8f1d09096f707b649f8c40c04f7e0bc933f1",
+   "check": "A3 artifact reports/phase17/agent_03_setup_gate.json",
+   "expected": "c77d87304c1de69b0b4b03af88ff8f1d09096f707b649f8c40c04f7e0bc933f1",
+   "ok": true
+  },
+  {
+   "actual": "876b99e2584bc94a0eb79f5afa23677dc0b33e02fd111f10b2f0001cb27a969c",
+   "check": "A3 artifact reports/phase17/agent_03_setup_throughput.json",
+   "expected": "876b99e2584bc94a0eb79f5afa23677dc0b33e02fd111f10b2f0001cb27a969c",
+   "ok": true
+  },
+  {
+   "actual": "7d77cf2d47a7c0bb076ddd1ffdeb73f8bcb16297a58902819500b4de0cf84f00",
+   "check": "A3 handoff digest",
+   "expected": "7d77cf2d47a7c0bb076ddd1ffdeb73f8bcb16297a58902819500b4de0cf84f00",
+   "ok": true
+  },
+  {
+   "actual": "75568fc8812d578157da7e314cea40c89222a1a9d7720dac371e9d10e19e18cb",
+   "check": "A3 -> A1 contract handoff (file sha256 convention)",
+   "expected": "75568fc8812d578157da7e314cea40c89222a1a9d7720dac371e9d10e19e18cb",
+   "ok": true
+  },
+  {
+   "actual": true,
+   "check": "A1 contract handoff bound commit is an ancestor",
+   "expected": true,
+   "ok": true
+  },
+  {
+   "actual": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "check": "Phase 9 start file sha256",
+   "expected": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "ok": true
+  }
+ ],
+ "failures": [],
+ "handoff_digests": {
+  "phase17_contract_handoff_v1": "0ad902599a2a17e69ecf28d32c13211f4e0e4739db6ae93544081a8b73330b02",
+  "phase17_move_handoff_v1": "6198bd6f32122976329d9ac4fd65c1ac696182236a7c94d764d35cb41a0df464",
+  "phase17_setup_handoff_v1": "7d77cf2d47a7c0bb076ddd1ffdeb73f8bcb16297a58902819500b4de0cf84f00"
+ },
+ "head_commit": "22e967e908a951dd5ec25b378e362f8872feae2d",
+ "head_subject": "Freeze Phase 17 Agent 2/3 integration baseline for Agent 4",
+ "passed": 67,
+ "start_identity": {
+  "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt"
+ },
+ "total": 67,
+ "upstream_documentation_irregularities": [
+  {
+   "artifact": "reports/phase17/phase17_setup_handoff_v1.json",
+   "evidence": "setup_learning.SetupTrainer.update sets control_kl = iteration_kl[-1] and calls controller.update once, after the five-epoch loop",
+   "field": "d5_resolution.controller_update_cadence",
+   "governing": "once per setup ITERATION, from the FINAL epoch's mean reverse KL (decision D9-B section 3)",
+   "id": "A4-UI1",
+   "implementation_already_correct": true,
+   "says": "once per setup EPOCH"
+  },
+  {
+   "artifact": "reports/phase17/phase17_setup_handoff_v1.json",
+   "evidence": "setup_contract.SETUP_KL_TARGET == 0.0018",
+   "field": "operator_decisions_resolved[D5].resolution",
+   "governing": "target 0.0018 (decision D9-B section 3, and the same handoff's own config.kl_controller.target and d5_resolution.frozen)",
+   "id": "A4-UI2",
+   "implementation_already_correct": true,
+   "says": "target 0.0037"
+  },
+  {
+   "artifact": "reports/phase17/phase17_setup_handoff_v1.json",
+   "evidence": "the recorded value verifies exactly under the file convention",
+   "field": "consumes.handoff_digest",
+   "governing": "Agent 1's encoding rules reserve `*_digest` for the json-document digest and `file_sha256` for file bytes",
+   "id": "A4-UI3",
+   "implementation_already_correct": true,
+   "says": "a *_digest field holding a FILE sha256"
+  }
+ ],
+ "verified_utc": "2026-08-28T06:45:39Z",
+ "working_tree_modified_tracked_files": [
+  "eports/phase13/phase14_launch_manifest_v1.json",
+  "stratego_project_docs/05_project_plan.md",
+  "stratego_project_docs/README.md",
+  "checkpoints/phase17/",
+  "reports/phase17/agent_04_arrival_rate.json",
+  "reports/phase17/agent_04_concentration.json",
+  "reports/phase17/agent_04_input_verification.json",
+  "reports/phase17/agent_04_integration.json",
+  "reports/phase17/agent_04_report.md",
+  "reports/phase17/agent_04_resume_rehearsal.json",
+  "reports/phase17/agent_04_schedule.json",
+  "reports/phase17/agent_04_throughput.json",
+  "reports/phase17/agent_04_throughput_probe.json",
+  "reports/phase17/phase17_tandem_handoff_v1.json",
+  "scripts/run_phase17_preflight.py",
+  "scripts/run_phase17_training.py",
+  "stratego/training/phase17/checkpoint.py",
+  "stratego/training/phase17/export.py",
+  "stratego/training/phase17/queue.py",
+  "stratego/training/phase17/runner.py",
+  "stratego/training/phase17/supervisor.py",
+  "stratego/training/phase17/telemetry.py",
+  "tests/training/phase17/test_checkpoint_persistence.py",
+  "tests/training/phase17/test_runner_tandem.py",
+  "tests/training/phase17/test_supervisor_predicates.py"
+ ]
+}

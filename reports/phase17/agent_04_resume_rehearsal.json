@@ -1,0 +1,102 @@
+{
+ "artifact": "agent_04_resume_rehearsal",
+ "checkpoint": {
+  "file_sha256": "5ab79528161379550c4f3a4027faa20cc4c711f01626e9b8f7e325a674c23489",
+  "generation": 1,
+  "iteration": 2,
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase17/rehearsal/resume_checkpoint.pt",
+  "payload_digest": "a92fbbb3b46baddafb33d9e50198ab803e260712fcfd6bdae91dc384433c9325"
+ },
+ "compared_fields": [
+  "advantage_targets",
+  "cell_digest",
+  "games_finished",
+  "iteration",
+  "move_ema_model_state_digest",
+  "move_raw_model_state_digest",
+  "queue_depth",
+  "sampled_actions",
+  "setup_ema_model_state_digest",
+  "setup_optimizer_steps",
+  "setup_raw_model_state_digest",
+  "setup_skipped",
+  "target_provenance",
+  "terminal_results",
+  "transitions_harvested",
+  "wdl_targets"
+ ],
+ "device": "cpu",
+ "device_determinism_baseline": {
+  "production_device": {
+   "actions_identical": true,
+   "bitwise_reproducible": false,
+   "device": "mps",
+   "iterations": 3,
+   "max_advantage_difference": 9.760260581970215e-07,
+   "max_stored_wdl_difference": 6.556510925292969e-07,
+   "move_digest_identical": false,
+   "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+   "rows_compared": 16384,
+   "setup_digest_identical": true,
+   "terminal_results_identical": true
+  },
+  "proof_device": {
+   "actions_identical": true,
+   "bitwise_reproducible": true,
+   "device": "cpu",
+   "iterations": 3,
+   "max_advantage_difference": 0.0,
+   "max_stored_wdl_difference": 0.0,
+   "move_digest_identical": true,
+   "reading": "two identical uninterrupted runs on this device. If bitwise_reproducible is false, no resume test on this device can assert bitwise equality, and the persistence proof belongs on CPU.",
+   "rows_compared": 16384,
+   "setup_digest_identical": true,
+   "terminal_results_identical": true
+  }
+ },
+ "device_rationale": "MPS is not bitwise reproducible run to run on this host, so an exact resume assertion is only meaningful on CPU. The production device's own noise floor is measured separately in device_determinism_baseline.",
+ "differing_fields": [],
+ "equivalent": true,
+ "expected_summary": {
+  "cell_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+  "games_finished": 0,
+  "iteration": 3,
+  "move_ema_model_state_digest": "61f61a6f11e1eedb3c6752b517a5f04dd9ce114fa02e4db29d5ac4cb495c9204",
+  "move_raw_model_state_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+  "queue_depth": 0,
+  "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+  "setup_optimizer_steps": 0,
+  "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+  "setup_skipped": true,
+  "terminal_results": {},
+  "transitions_harvested": 512
+ },
+ "observed_summary": {
+  "cell_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+  "games_finished": 0,
+  "iteration": 3,
+  "move_ema_model_state_digest": "61f61a6f11e1eedb3c6752b517a5f04dd9ce114fa02e4db29d5ac4cb495c9204",
+  "move_raw_model_state_digest": "015ab0b0dc5981d32fb956cec802672b8f153f015ec1a97a946dc1b887c81e7c",
+  "queue_depth": 0,
+  "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+  "setup_optimizer_steps": 0,
+  "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+  "setup_skipped": true,
+  "terminal_results": {},
+  "transitions_harvested": 512
+ },
+ "rehearsed_utc": "2026-08-28T06:45:00Z",
+ "restore_report": {
+  "cell_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+  "games_reseated": 16,
+  "games_restored": 16,
+  "iteration": 2,
+  "move_raw_model_state_digest": "02c9772e9cdf15b571c9b0b0d5da7644d2daaea3479285bc25679a03b3a80eb1",
+  "queue_depth": 0,
+  "setup_episodes_restored": 16,
+  "setup_raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa"
+ },
+ "rows_compared": 512,
+ "statement": "an interrupted run resumed from its paired checkpoint produced the SAME next iteration as an uninterrupted one: the same games at the same plies sampling the same actions, the same advantage and W/D/L targets with the same provenance, the same terminal outcomes, and the same four model-state digests after the update",
+ "warm_iterations_before_the_checkpoint": 2
+}
