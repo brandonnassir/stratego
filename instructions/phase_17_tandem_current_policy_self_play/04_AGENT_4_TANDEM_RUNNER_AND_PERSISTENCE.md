@@ -1,6 +1,12 @@
 # Phase 17 — Agent 4
 ## Tandem move/setup runner, persistence, schedules, telemetry, and guards
 
+> **Closed 2026-08-28.** Agent 4 completed this package at commits `a4aa12d` and
+> `c2c0365`. Its session was then terminated after three self-matching wait loops
+> remained hung despite the work being complete. Do not continue implementation from
+> this instruction. Operator decision D10 and the Agent 4B instruction supersede the
+> active learning recipe while retaining the completed runner/persistence foundation.
+
 ## Mission
 
 Integrate the accepted Agent 2 move learner and Agent 3 setup learner into one bounded,

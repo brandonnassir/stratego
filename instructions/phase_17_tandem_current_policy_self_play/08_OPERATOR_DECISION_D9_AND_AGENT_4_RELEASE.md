@@ -1,6 +1,11 @@
 # Phase 17 — Operator Decision D9-B
 ## Agent 4 integration release and setup-concentration adjudication
 
+> **Historical as of 2026-08-28.** D9-B authorized the completed Agent 4 integration
+> experiment. Operator decision D10 supersedes its adaptive setup-KL recipe,
+> re-horizoned entropy schedule, standalone-diversity interpretation, and launch gates.
+> Preserve this file and its results as evidence; do not use it as the active recipe.
+
 _Written 2026-08-27 after review of Agent 3's D7-B/D5 follow-up._
 
 ## 1. Decision

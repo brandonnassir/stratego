@@ -10,8 +10,9 @@ transport/evaluation/receipt workflow for the actual machines.
 This is intentionally a conversational assignment. Do not assume a Mac model, SSH,
 network topology, shared drive, installation permission, or preferred workflow. Do
 not launch the 12-hour training run. Read
-`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` and the Agent 1 evaluation schema before
-speaking as though a design has been selected.
+`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md`,
+`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md`, and the Agent 1 evaluation
+schema before speaking as though a design has been selected.
 
 ## 1. First interaction with the operator
 
@@ -55,8 +56,8 @@ the cadence or omit the joint lane.
 
 ## 3. Portable evaluator
 
-After Agent 4 freezes the export schema, implement a remote evaluator under additive
-Phase 17 namespaces. It must:
+Agent 4 has frozen the export schema at `c2c0365`. Implement a remote evaluator for
+the D10 `RUN-2026-B` paired candidates under additive Phase 17 namespaces. It must:
 
 - accept only an atomically published immutable bundle;
 - verify expected files, file SHA-256, move/setup state digests, architecture, rules,
@@ -107,8 +108,7 @@ bit-identical.
 
 ## 6. Early-candidate gate and cadence rehearsal
 
-With the operator, transfer one early paired candidate—preferably Agent 4's h0 export—
-and complete the full workflow:
+With the operator, transfer one D10 paired h0 candidate and complete the full workflow:
 
 1. source bundle manifest and hash;
 2. transport staging and atomic publication;
@@ -117,11 +117,11 @@ and complete the full workflow:
 5. atomic results and receipt return;
 6. source-side receipt verification and ledger ingestion.
 
-Repeat only as needed to establish unattended behavior and measure latency. Report
-transfer, verification, each lane, and receipt times. The production gate requires
-estimated/observed p95 below 25 minutes, sufficient disk margin, and a successful
-unattended queue test. One lucky fast run is not enough if the normal operating mode
-is visibly slower.
+Do not turn this into a repeated performance-certification exercise. One complete
+identity-clean round trip is the required silent-false-result check. Report transfer,
+verification, each lane, and receipt times and state plainly whether the observed path
+fits the 30-minute cadence. If it does not, keep backlog explicit rather than changing
+the pack or attributing a late result to a later candidate.
 
 ## 7. Failure behavior
 
@@ -131,9 +131,8 @@ the gate. Failures generate explicit receipts/status rows. Backlog remains bound
 the original candidates. Disk exhaustion, host sleep, network loss, identity mismatch,
 and result-return failure must be visible to Agent 7.
 
-The remote worker does not directly stop the trainer unless Agent 4's authenticated
-stop interface and Agent 6's gate explicitly authorize it. Normally it returns facts;
-the training-side supervisor applies the stop policy.
+The remote worker does not directly stop the trainer. It returns identity-bound facts;
+D10 treats finite EWR decline as learning-curve telemetry rather than a stop command.
 
 ## 8. Handoff and report
 

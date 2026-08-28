@@ -4,13 +4,14 @@
 ## Mission
 
 Operate exactly one authorized 12-active-hour Phase 17 tandem run, preserve the full
-learning curve, enforce the frozen collapse policy without mid-run tuning, reconcile
-all external evaluations, and recommend a robust paired checkpoint.
+learning curve, enforce integrity stops without mid-run tuning, reconcile all external
+evaluations, and recommend a robust paired checkpoint.
 
 You may start only with a digest-valid Agent 6 GO record and explicit operator approval
 of the launch time. You do not redesign code, change hyperparameters, add belief/search,
 or substitute a new benchmark during the run. Read
-`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` completely before validating GO.
+`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` and
+`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` completely before validating GO.
 
 ## 1. Immediate prelaunch verification
 
@@ -24,15 +25,16 @@ Before creating h0:
   free space;
 - confirm power/awake safeguards on both computers;
 - run the production command in validation/dry-run mode if provided;
-- verify the supervisor is armed with the launch-manifest thresholds.
+- verify the supervisor is armed with D10 integrity stops and statistical warnings.
 
 Any mismatch invalidates GO. Stop and return to Agent 6; do not patch the manifest.
 
 ## 2. Start and h0
 
 Create the run only through the frozen Phase 17 start loader. Verify the exact Phase 9
-raw move state, fresh optimizer/controller/schedule, fresh setup model, both initial
-EMAs, and run ID.
+raw move state, fresh optimizer/controller/schedule, newly random setup model, fresh
+setup optimizer, both initial EMAs, recipe `phase17_simple_paper_tandem_v1`, and run ID
+`RUN-2026-B`. Verify no Agent 3/4 setup state was loaded.
 
 Before the first optimizer update:
 
@@ -51,8 +53,10 @@ active elapsed time, not wall-clock relabeling.
 
 At each iteration:
 
-- preserve the frozen transition/setup budgets, schedules, epoch counts, KL rules,
-  population, setup pools, and queue policy;
+- preserve the fixed move-transition budget, five setup epochs, fixed setup reverse-KL
+  coefficient, shared-iteration alpha schedule, population, and fresh setup pools;
+- consume every setup episode completed in that iteration exactly once, with no fixed
+  setup quota or cross-iteration balancing queue;
 - inspect supervisor status and high-level move/setup/system telemetry;
 - never tune based on interim EWR;
 - never replace a failed external case or benchmark stratum;
@@ -75,14 +79,16 @@ Follow Agent 5's exact start/monitor/retry procedure. For every candidate ledger
 - backlog, retry, failure, or missing-result reason.
 
 The trainer should normally continue while remote evaluation is healthy. The
-training-side supervisor applies fixed-pack collapse rules from verified receipts.
+training-side supervisor records fixed-pack learning warnings from verified receipts;
+finite EWR decline does not stop D10 production.
 Never enter an EWR manually or use a result lacking the candidate/pack receipt.
 
 ## 5. Stop and failure behavior
 
-Apply common-contract section 13 exactly. Immediate integrity failures stop at once.
-Persistent predicates use their stored consecutive counts; one noisy evaluation does
-not stop the run.
+Apply D10 section 7 exactly. Stop for identity/routing/legality/numerical/persistence,
+prohibited-participant, fixed-transition, or unrecoverable-resource failures. Treat
+finite EWR, KL, entropy, diversity, concentration, and game-length behavior as warnings
+and experiment results. Do not stop or tune merely because the model learns badly.
 
 On a stop:
 
@@ -104,8 +110,9 @@ Keep monitoring compact and evidence-bearing:
 - fixed transition counts and iteration time;
 - current raw move digest on both seats;
 - move LR, KL, entropy, clip fraction, and EMA identity;
-- setup optimizer activity, five epoch count, KL, empirical/predicted entropy;
-- reflection diversity, flag/bomb support, and setup queue age/backlog;
+- setup optimizer activity, five epoch count, fixed reverse KL, alpha,
+  empirical/predicted entropy, and completed-episode count;
+- reflection diversity and flag/bomb support as descriptive telemetry;
 - game-length/terminal-reason distribution;
 - remote cadence latency, receipt integrity, mean EWR, and worst stratum.
 
@@ -150,9 +157,8 @@ compare EWR values from different pack versions.
 
 ## 9. Shortlist and recommendation
 
-Exclude any candidate with an integrity failure, collapsed setup distribution, or
-unresolved receipt mismatch. From hour 6–12 eligible candidates, construct a Pareto
-shortlist emphasizing:
+Exclude any candidate with an integrity failure or unresolved receipt mismatch. From
+hour 6–12 eligible candidates, construct a Pareto shortlist emphasizing:
 
 1. mean EWR;
 2. worst-stratum EWR;
@@ -161,8 +167,10 @@ shortlist emphasizing:
 5. setup diversity and stability.
 
 Recommend one paired checkpoint and up to two alternatives. Explain every tradeoff.
-A single noisy peak or final timestamp cannot by itself win. The operator makes the
-promotion decision; do not copy the recommendation into an accepted/promoted path.
+A single noisy peak or final timestamp cannot by itself win. Setup concentration may
+make a checkpoint less attractive but does not automatically make its evidence
+ineligible under D10. The operator makes the promotion decision; do not copy the
+recommendation into an accepted/promoted path.
 
 ## 10. Handoff and report
 

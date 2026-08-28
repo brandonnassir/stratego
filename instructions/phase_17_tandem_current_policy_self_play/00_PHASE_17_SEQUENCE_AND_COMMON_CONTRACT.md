@@ -36,8 +36,10 @@ paper and this contract differ, this contract wins and the deviation is recorded
 Numbered operator-decision files in this directory are additive amendments. When a
 later decision explicitly supersedes an earlier provisional formula, threshold, or
 readiness field, the later decision governs and the historical artifact remains
-unchanged. For Agent 4 onward, read
-`08_OPERATOR_DECISION_D9_AND_AGENT_4_RELEASE.md` together with this contract.
+unchanged. The current governing amendment is
+`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md`. D10 replaces the active setup
+recipe and gate-heavy launch workflow while preserving Agent 4's completed
+fixed-transition, persistence, export, telemetry, and integrity-safety foundation.
 
 Accepted earlier phase files and experimental results are historical evidence:
 
@@ -54,14 +56,14 @@ infer that an old date-based restriction is still active or already lifted.
 ## 3. Work-package and run identities
 
 The engineering work package is `phase17`. A concrete training execution receives a
-separate immutable run ID. The first production candidate is provisionally:
+separate immutable run ID. Under D10, the simplified production candidate is:
 
 ```text
-RUN-2026-A
+RUN-2026-B
 ```
 
-Agent 1 may replace that provisional ID only to avoid a collision. Phase numbers must
-not be used as mutable run identities. Every configuration, checkpoint, evaluation
+Do not reuse Agent 3/4's rehearsal identity `RUN-2026-A`. Phase numbers must not be
+used as mutable run identities. Every configuration, checkpoint, evaluation
 bundle, telemetry row, and result receipt binds both `phase17` and the run ID.
 
 The existing Phase 16 implementation is presently visible as untracked work. Before
@@ -90,7 +92,8 @@ This is a new recipe from Phase 9 weights:
 - reset the LR schedule to Phase 17 iteration 1;
 - create a fresh move KL controller;
 - initialize a fresh move EMA from the loaded raw weights;
-- initialize the setup model, optimizer, KL controller, and EMA from scratch.
+- initialize the setup model, optimizer, fixed reverse-KL configuration, and EMA from
+  scratch.
 
 The Phase 9 marginal belief auxiliary loss is disabled for this run. The head may stay
 present for checkpoint compatibility, but it receives zero loss weight and is not a
@@ -200,10 +203,9 @@ The setup model starts from a random masked distribution. There is no frozen set
 library in Phase 17 training and no silent library fallback. A generation or
 orientation failure is fatal.
 
-Generate vectorized fresh pools under each frozen raw setup snapshot. Default initial
-pool sizing is 512–1,000 candidates per side per iteration; Agent 3 selects the
-smallest size that keeps game creation supplied without material training delay.
-Unused and refill counts are recorded.
+Generate vectorized fresh pools of 512 candidates per side under each frozen raw setup
+snapshot at every global tandem iteration. Refill within an iteration only from that
+same snapshot. Unused and refill counts are recorded.
 
 ## 8. Setup learning contract
 
@@ -219,36 +221,27 @@ Each side of a new game creates a setup episode containing:
 Both sides train from the result: win `+1`, draw `0`, loss `-1` from that side's
 perspective. Use all 40 prefixes with no move-style top-quartile advantage filter.
 
-The update follows the paper as closely as practical:
+Under D10, the setup update follows the paper-shaped path directly:
 
-- PPO ratio clipping: 0.2;
+- PPO ratio clipping: `0.2`;
 - behavior probabilities always come from the recorded raw setup snapshot;
-- separate adaptive setup behavior-KL controller using reverse
-  `D_KL(current || behavior)`, target `0.0018`, initial beta `0.1`, beta bounds
-  `[0.001, 1.0]`, and hard limit `0.08`;
-- update the setup KL controller once per setup iteration from the final epoch's KL;
-- W/D/L value cross-entropy;
-- conditional-entropy prediction loss;
-- equation `phase17_setup_update_v2`, whose entropy contribution is
-  `0.9 * alpha * (I / 10)` using recorded suffix information content;
-- retain the conditional-entropy head and `L_h` for telemetry and paper alignment,
-  but do not read its prediction `h` in the v2 setup advantage;
-- setup gradient-norm clip: 0.5;
-- entropy coefficient re-horizoned under accepted decision D3 as
-  `max(0.1 * n^-p, 0.1 * 42376^-0.3)`, where
-  `p = 0.3 * ln(42376) / ln(N)` and Agent 4 freezes `N`;
-- five setup epochs per setup iteration.
+- fixed reverse `D_KL(current || behavior)` coefficient: `0.1`;
+- no adaptive setup-KL controller, target, beta bounds, or calibration;
+- W/D/L value cross-entropy with weight `0.5`;
+- conditional-entropy loss with weight `1.0` and target `I/10`;
+- printed setup advantage
+  `delta = (outcome - E[behavior value]) + alpha(n) * (I - h_behavior)`;
+- `alpha(n) = 0.1 * n^-0.3`, with `n` the shared one-based global tandem iteration;
+- setup gradient-norm clip: `0.5`;
+- constant Adam learning rate `5e-5`;
+- setup EMA decay `0.999`; and
+- five setup epochs per global iteration.
 
-The paper's five setup epochs are the default. Agent 3 may recommend fewer only if a
-short throughput test demonstrates that five epochs materially threaten the 12-hour
-move budget. The agent must present measured generation, forward/backward, and total
-iteration costs. It may not silently reduce the epoch count.
-
-Completed setup episodes enter a bounded FIFO queue and are consumed once in a fixed
-setup-sequence budget. Record queue depth, oldest/mean age, policy age, consumed count,
-and any rejected or discarded episode. Silent dropping is prohibited. If too few
-episodes are ready, skip the setup update explicitly rather than fabricate data or
-reuse an episode; repeated starvation is a production stop condition.
+Train on every setup episode whose game completed in the current fixed-transition
+iteration, both sides, exactly once. Do not impose a fixed setup quota, warm-up
+minimum, age-balancing rule, or independent diversity gate. If no game completes,
+record a skipped setup update. Persist the current iteration's completed buffer only
+to prevent outcome loss or duplication across a crash.
 
 ## 9. Move schedules and regularization
 
@@ -278,8 +271,8 @@ beta bounds: [1e-4, 0.2]
 hard mean KL limit: 0.08
 ```
 
-The setup controller is independent. Behavior KL and any other paper regularizer must
-be named and logged separately; never report one as though it were the other.
+The move controller remains unchanged. Setup behavior KL is a separate reverse KL with
+fixed coefficient `0.1`; never report it as adaptive beta or as the move controller.
 
 ## 10. Raw, behavior, and EMA identities
 
@@ -291,12 +284,12 @@ A paired Phase 17 checkpoint binds:
 - exact Phase 9 start identity;
 - raw and EMA move states;
 - raw and EMA setup states;
-- both optimizers and independent KL controllers;
+- both optimizers, the move KL controller, and the fixed setup reverse-KL coefficient;
 - move and setup scheduler positions and optimizer-step counts;
 - all RNG namespaces and counters;
 - active-game engine states and their setup episodes;
 - boundary-target carry state;
-- completed-setup queue and setup-pool identity;
+- current iteration's unconsumed completed-setup buffer and setup-pool identity;
 - run/config/source digests and elapsed active-training time.
 
 Planned checkpoint/resume must preserve the active population exactly. If exact
@@ -334,13 +327,16 @@ The remote side recomputes candidate, model-state, pack, config, and evaluator-s
 identities. A returned receipt binds every identity, result digest, host identity, and
 runtime. Never evaluate or transfer a mutable `latest` filename.
 
-The cadence is feasible only if transfer + verification + both evaluation lanes +
-receipt return has p95 below 25 minutes. Backlog, retry, or skipped cadence is explicit;
-never attribute an old result to a newer timestamp.
+Measure transfer + verification + both evaluation lanes + receipt return on the single
+D10 h0 round trip. It should fit comfortably inside 30 minutes; if it does not, report
+the measured latency and obtain an explicit operator decision rather than extending the
+gate. Backlog, retry, or skipped cadence is explicit; never attribute an old result to
+a newer timestamp.
 
 ## 12. Gates and time budgets
 
-Only the setup-network and remote-computer gates may receive extended experiment time.
+The standalone setup-network gate is retired by D10. The only remaining prelaunch
+checks are the short tandem integrity smoke and one external identity round trip.
 
 ### Correctness gate — at most 30 minutes
 
@@ -354,33 +350,22 @@ Only the setup-network and remote-computer gates may receive extended experiment
 - checkpoint/save/load/export identity;
 - structural no-search and no-training-opponent assertions.
 
-### Setup gate — target 60–90 minutes
+### Tandem integrity smoke — at most 30 minutes
 
-- at least 5,000 samples split across colors;
-- zero inventory, legality, placement, or orientation failures;
-- exhausted-token adversarial masking and autoregressive causality tests;
-- deterministic trace under identical snapshot/seed and changed draws under changed
-  seeds;
-- reflection-class uniqueness, per-square entropy, pairwise distance, flag/bomb
-  support, sequence entropy, and effective support;
-- Red/Blue/draw outcome-sign tests and synthetic reward-flip gradient test;
-- real short soak proving nonzero setup optimizer steps, gradients, and model-digest
-  change from completed game outcomes;
-- raw/EMA/optimizer/KL/queue checkpoint round trip;
-- five-epoch setup throughput measurement.
+- exact Phase 9 move identity and fresh setup initialization;
+- both move seats use the current raw policy and sample legal actions;
+- legal, inventory-correct, correctly oriented setups from the current raw setup
+  model, with no library fallback;
+- exact fixed-transition output count and boundary bootstrapping;
+- at least one completed outcome produces a real five-epoch setup update;
+- setup reverse KL coefficient exactly `0.1`, with no adaptive controller update;
+- setup alpha matches `0.1 * n^-0.3` at the shared global iteration;
+- one paired checkpoint round trip without lost or duplicated setup outcomes; and
+- structural absence of search, belief, historical, and handcrafted training
+  participants.
 
-Calibrate diversity alarms against the initial masked model and soak. Do not borrow
-frozen-library family thresholds. Agent 3 measured an initial mean-prefix-entropy
-baseline of `1.5428944789`, a 60% threshold of `0.9257366873`, and flag effective
-support floor of four. Its noise-dominated standalone soak crossed the relative
-entropy threshold while every correctness and absolute-support check passed.
-
-Operator decision D9-B therefore releases Agent 4 to resolve that confound with the
-real Phase 9/current-policy tandem signal. During Agent 4's bounded integration soak,
-the relative 60% reading is diagnostic and does not by itself revoke integration
-release. Legality, inventory, orientation, masking, setup-update activity, KL hard
-limit, and absolute diversity floors remain hard. This exception does not authorize
-production; Agent 6 must adjudicate the tandem evidence before GO.
+Do not run another standalone diversity soak, setup entropy gate, controller
+calibration, queue-arrival study, strength test, or broad failure-injection campaign.
 
 ### External gate — conversational duration
 
@@ -406,27 +391,16 @@ Stop immediately on:
 - evaluation result bound to the wrong candidate or benchmark;
 - unrecoverable checkpoint/resume identity failure.
 
-Stop on persistent collapse:
+Under D10, fixed-pack EWR decline, high but finite KL, entropy decline, setup
+concentration, diversity loss, and changing game lengths are warnings and experiment
+results, not automatic stops. Continue the 12-hour run without tuning when identities
+and numerical state remain valid.
 
-- fixed-pack EWR at least 0.15 below hour 0 for three consecutive evaluations;
-- move mean KL above 0.08 for three consecutive windows, unless the existing hard
-  veto stops earlier;
-- setup KL above its Agent 1 hard range for three consecutive setup updates;
-- setup mean prefix entropy below 60% of its initial baseline for three checks;
-- flag effective support below four;
-- move entropy below 25% of its first-hour median for five windows;
-- no setup optimizer update for one complete 30-minute interval after warm-up while
-  games and setup episodes complete;
-- setup queue age/backlog crossing the frozen Agent 1 ceiling for three windows.
-
-One noisy EWR, KL, or entropy reading produces a warning, not a stop. Other accepted
-safety telemetry remains enabled but does not require a new experiment.
-
-The 60% relative setup-entropy rule remains the default **production** stop predicate.
-Decision D9-B changes only Agent 4's bounded integration interpretation. Agent 6 may
-retain or replace the production predicate only through a new, explicit,
-digest-bound decision based on Agent 3's standalone evidence and Agent 4's tandem
-trajectory. It may not silently move the threshold to manufacture a pass.
+Stop for wrong routing or identity, illegal actions/setups, silent setup fallback,
+nonfinite numerical state, prohibited training participants, fixed-transition count
+violations, corrupt persistence, lost/duplicated setup outcomes, or unrecoverable
+resource exhaustion. These are the conditions that could silently falsify the result
+or prevent safe continuation.
 
 ## 14. Checkpoint-selection rule
 
@@ -437,12 +411,13 @@ from eligible hour 6–12 candidates using:
 2. worst opponent/setup stratum EWR;
 3. three-point rolling-median direction from hour 6 through hour 12;
 4. move-only non-regression;
-5. setup legality, entropy, and diversity floors;
-6. KL, queue, and training stability.
+5. setup legality plus descriptive entropy/diversity context;
+6. KL, completed-episode flow, and training stability.
 
 The report recommends a checkpoint and up to two alternatives. A single isolated EWR
-peak cannot override a poor worst stratum or collapsed setup distribution. The operator
-makes the final promotion decision.
+peak cannot override a poor worst stratum. Setup concentration informs the tradeoff but
+does not invalidate an otherwise attributable checkpoint under D10. The operator makes
+the final promotion decision.
 
 ## 15. Agents, dependencies, and handoffs
 
@@ -451,9 +426,10 @@ makes the final promotion decision.
 | 1 | contract, paper map, identities, baseline | now | `phase17_contract_handoff_v1` |
 | 2 | fixed-transition move learner | after Agent 1 | `phase17_move_handoff_v1` |
 | 3 | autoregressive setup learner | after Agent 1 | `phase17_setup_handoff_v1` |
-| 4 | tandem runner, persistence, schedules | after Agent 2/3 outputs are committed and decision D9-B is read | `phase17_tandem_handoff_v1` |
-| 5 | conversational external evaluation | discovery after Agent 1; implementation after Agent 4 export schema | `phase17_external_eval_handoff_v1` |
-| 6 | preflight and launch authorization | after Agents 2–5 | `phase17_launch_decision_v1` |
+| 4 | tandem runner, persistence, schedules | complete at `c2c0365` | `phase17_tandem_handoff_v1` |
+| 4B | simplified paper-shaped recipe conversion | now, from `c2c0365` under D10 | `phase17_simple_tandem_handoff_v1` |
+| 5 | conversational external evaluation | now; Agent 4 export schema is frozen | `phase17_external_eval_handoff_v1` |
+| 6 | short launch-integrity check | after Agent 4B and the h0 external handshake | `phase17_launch_decision_v2` |
 | 7 | 12-hour run and closeout | after Agent 6 GO and operator launch approval | `phase17_run_closeout_v1` |
 
 Agents 2 and 3 may work in parallel only after Agent 1 freezes their shared schemas.
@@ -461,9 +437,8 @@ Agent 5 may conduct remote discovery concurrently, but must not freeze bundle de
 until Agent 4's export schema lands. Consume other agents only through verified handoff
 artifacts, never their work-in-progress state.
 
-Agent 3's historical `ready_for_tandem_integration: false` remains correct for its
-standalone gate. Decision D9-B is the narrow operator override that permits Agent 4
-integration despite that field; it is not permission to mark Agent 3's gate passed.
+Agent 3's historical `ready_for_tandem_integration: false` and Agent 4's D9 results
+remain evidence, but neither is a launch gate under D10.
 
 ## 16. Additive namespaces
 
