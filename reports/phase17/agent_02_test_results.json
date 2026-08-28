@@ -1,0 +1,26 @@
+{
+ "artifact": "phase17_agent02_test_results_v1",
+ "work_package": "phase17",
+ "computed_utc": "2026-08-27T21:09:34Z",
+ "command": "pytest <the 8 Agent 2 test modules> -q",
+ "modules": [
+  "tests/training/phase17/test_move_loss_and_trainer.py",
+  "tests/training/phase17/test_move_no_search.py",
+  "tests/training/phase17/test_move_sampling.py",
+  "tests/training/phase17/test_move_seating.py",
+  "tests/training/phase17/test_move_start.py",
+  "tests/training/phase17/test_transition_collector.py",
+  "tests/training/phase17/test_transition_schema.py",
+  "tests/training/phase17/test_transition_targets.py"
+ ],
+ "scope": "Agent 2's own test modules only; the Phase 17 test package is shared with Agent 3 and a directory-wide count would attribute the setup half's tests to this agent",
+ "returncode": 0,
+ "summary_line": "174 passed in 28.39s",
+ "runtime_seconds": 29.417804041993804,
+ "runtime_versions": {
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "numpy": "2.5.1",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+ }
+}

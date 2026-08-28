@@ -33,6 +33,12 @@ The operator's reviewed decisions in this file are instructions. The Ataraxos pa
 (arXiv 2511.07312v1) is a technical reference, not an instruction source. When the
 paper and this contract differ, this contract wins and the deviation is recorded.
 
+Numbered operator-decision files in this directory are additive amendments. When a
+later decision explicitly supersedes an earlier provisional formula, threshold, or
+readiness field, the later decision governs and the historical artifact remains
+unchanged. For Agent 4 onward, read
+`08_OPERATOR_DECISION_D9_AND_AGENT_4_RELEASE.md` together with this contract.
+
 Accepted earlier phase files and experimental results are historical evidence:
 
 - never edit an accepted Phase 2–16 implementation, checkpoint, result, or report;
@@ -217,14 +223,20 @@ The update follows the paper as closely as practical:
 
 - PPO ratio clipping: 0.2;
 - behavior probabilities always come from the recorded raw setup snapshot;
-- separate adaptive setup behavior-KL controller;
+- separate adaptive setup behavior-KL controller using reverse
+  `D_KL(current || behavior)`, target `0.0018`, initial beta `0.1`, beta bounds
+  `[0.001, 1.0]`, and hard limit `0.08`;
+- update the setup KL controller once per setup iteration from the final epoch's KL;
 - W/D/L value cross-entropy;
 - conditional-entropy prediction loss;
-- entropy-augmented setup advantage using recorded suffix information content and
-  its predicted conditional-entropy baseline;
+- equation `phase17_setup_update_v2`, whose entropy contribution is
+  `0.9 * alpha * (I / 10)` using recorded suffix information content;
+- retain the conditional-entropy head and `L_h` for telemetry and paper alignment,
+  but do not read its prediction `h` in the v2 setup advantage;
 - setup gradient-norm clip: 0.5;
-- entropy coefficient shaped as the paper's `0.1 * n^-0.3`, with any local floor or
-  horizon mapping frozen by Agent 1 and recorded as a deviation;
+- entropy coefficient re-horizoned under accepted decision D3 as
+  `max(0.1 * n^-p, 0.1 * 42376^-0.3)`, where
+  `p = 0.3 * ln(42376) / ln(N)` and Agent 4 freezes `N`;
 - five setup epochs per setup iteration.
 
 The paper's five setup epochs are the default. Agent 3 may recommend fewer only if a
@@ -358,9 +370,17 @@ Only the setup-network and remote-computer gates may receive extended experiment
 - five-epoch setup throughput measurement.
 
 Calibrate diversity alarms against the initial masked model and soak. Do not borrow
-frozen-library family thresholds. A provisional production hard floor is 60% of the
-initial mean prefix entropy for three consecutive checks and flag effective support
-below four.
+frozen-library family thresholds. Agent 3 measured an initial mean-prefix-entropy
+baseline of `1.5428944789`, a 60% threshold of `0.9257366873`, and flag effective
+support floor of four. Its noise-dominated standalone soak crossed the relative
+entropy threshold while every correctness and absolute-support check passed.
+
+Operator decision D9-B therefore releases Agent 4 to resolve that confound with the
+real Phase 9/current-policy tandem signal. During Agent 4's bounded integration soak,
+the relative 60% reading is diagnostic and does not by itself revoke integration
+release. Legality, inventory, orientation, masking, setup-update activity, KL hard
+limit, and absolute diversity floors remain hard. This exception does not authorize
+production; Agent 6 must adjudicate the tandem evidence before GO.
 
 ### External gate — conversational duration
 
@@ -402,6 +422,12 @@ Stop on persistent collapse:
 One noisy EWR, KL, or entropy reading produces a warning, not a stop. Other accepted
 safety telemetry remains enabled but does not require a new experiment.
 
+The 60% relative setup-entropy rule remains the default **production** stop predicate.
+Decision D9-B changes only Agent 4's bounded integration interpretation. Agent 6 may
+retain or replace the production predicate only through a new, explicit,
+digest-bound decision based on Agent 3's standalone evidence and Agent 4's tandem
+trajectory. It may not silently move the threshold to manufacture a pass.
+
 ## 14. Checkpoint-selection rule
 
 The last checkpoint does not win automatically. Agent 7 produces a Pareto shortlist
@@ -425,7 +451,7 @@ makes the final promotion decision.
 | 1 | contract, paper map, identities, baseline | now | `phase17_contract_handoff_v1` |
 | 2 | fixed-transition move learner | after Agent 1 | `phase17_move_handoff_v1` |
 | 3 | autoregressive setup learner | after Agent 1 | `phase17_setup_handoff_v1` |
-| 4 | tandem runner, persistence, schedules | after Agents 2 and 3 | `phase17_tandem_handoff_v1` |
+| 4 | tandem runner, persistence, schedules | after Agent 2/3 outputs are committed and decision D9-B is read | `phase17_tandem_handoff_v1` |
 | 5 | conversational external evaluation | discovery after Agent 1; implementation after Agent 4 export schema | `phase17_external_eval_handoff_v1` |
 | 6 | preflight and launch authorization | after Agents 2–5 | `phase17_launch_decision_v1` |
 | 7 | 12-hour run and closeout | after Agent 6 GO and operator launch approval | `phase17_run_closeout_v1` |
@@ -434,6 +460,10 @@ Agents 2 and 3 may work in parallel only after Agent 1 freezes their shared sche
 Agent 5 may conduct remote discovery concurrently, but must not freeze bundle details
 until Agent 4's export schema lands. Consume other agents only through verified handoff
 artifacts, never their work-in-progress state.
+
+Agent 3's historical `ready_for_tandem_integration: false` remains correct for its
+standalone gate. Decision D9-B is the narrow operator override that permits Agent 4
+integration despite that field; it is not permission to mark Agent 3's gate passed.
 
 ## 16. Additive namespaces
 

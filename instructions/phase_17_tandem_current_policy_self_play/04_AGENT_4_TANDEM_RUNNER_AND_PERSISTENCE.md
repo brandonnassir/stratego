@@ -10,8 +10,11 @@ telemetry for collapse detection.
 
 You do not redesign either model, run the external MacBook setup, authorize launch,
 or run the 12-hour production job. Read
-`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` completely and require verified Agent
-1–3 handoffs with both implementation readiness fields true.
+`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` and
+`08_OPERATOR_DECISION_D9_AND_AGENT_4_RELEASE.md` completely. Require verified Agent
+1–3 handoffs. Agent 2's readiness must be true. Agent 3's historical readiness remains
+false on standalone S6; decision D9-B is the narrow operator override permitting this
+integration and bounded tandem soak.
 
 ## 1. Ownership and integration discipline
 
@@ -36,7 +39,34 @@ Do not alter Agent 2/3 behavior to make integration convenient. If their handoff
 or the shared schema disagree, stop and reconcile through a versioned amendment with
 the owning agent; no adapter may silently change identity, targets, or perspective.
 
-## 2. Iteration order
+Do not begin source changes while Agent 2/3 outputs are uncommitted. First bind their
+source, tests, reports, and handoffs to one immutable commit SHA. Preserve unrelated
+working-tree modifications.
+
+The stale Agent 3 handoff phrase saying its setup KL controller updates per epoch is
+not governing. Consume the D5 resolution in decision D9-B: one controller update per
+setup iteration using the final epoch's mean reverse KL.
+
+Do not repeat the report's `299 passed` wording without qualification. The verified
+shared-suite result is `298 passed, 1 skipped`; resolve the MPS-only skip on the actual
+training device if setup sampling will use MPS, or bind setup sampling to CPU and
+record why the test is not applicable.
+
+## 2. Frozen setup recipe
+
+Consume the complete recipe in decision D9-B section 3. In particular:
+
+- equation `phase17_setup_update_v2` with bonus `0.9 * alpha * (I / 10)`;
+- conditional-entropy head/loss retained, but `h` absent from the advantage;
+- five setup epochs, constant setup LR `5e-5`, EMA `0.999`, pool `512` per side;
+- reverse `D_KL(current || behavior)`, target `0.0018`, beta `0.1`, bounds
+  `[0.001, 1.0]`, hard limit `0.08`; and
+- controller update once per iteration from final-epoch KL.
+
+Do not silently fall back to an Agent 1 provisional formula or an earlier Agent 3
+recipe when an old artifact conflicts with the accepted D7-B/D5 decisions.
+
+## 3. Iteration order
 
 Implement one explicit bulk-synchronous iteration:
 
@@ -57,7 +87,7 @@ A setup update may be explicitly skipped for insufficient eligible episodes. Do 
 reuse episodes, shrink an update silently, or block the move iteration indefinitely.
 Warm-up and starvation status are telemetry fields.
 
-## 3. Sustainable fixed setup budget
+## 4. Sustainable fixed setup budget
 
 Use Agent 3's throughput and a bounded local rehearsal to select a fixed number of
 setup side-episodes per setup update. The budget must:
@@ -73,7 +103,7 @@ in the production config. Overflow or age rejection is an explicit counted event
 must never prefer short games invisibly. If no unbiased bounded policy is possible,
 stop for operator review.
 
-## 4. Schedule-horizon rehearsal
+## 5. Schedule-horizon rehearsal
 
 Run only the minimum bounded rehearsal needed to measure steady-state tandem
 iteration time. It must include actual move forward passes, boundary target creation,
@@ -90,7 +120,7 @@ Estimate the expected number of iterations `N` in 12 active training hours and f
 Do not tune strength from the rehearsal. If observed production speed differs, retain
 the frozen schedule horizon; telemetry records the difference.
 
-## 5. Exact joint persistence
+## 6. Exact joint persistence
 
 Implement an atomic paired checkpoint. It must either load completely and verify or
 refuse completely. Include every field in common-contract section 10 plus:
@@ -114,7 +144,7 @@ inherit Phase 16's behavior of dropping in-flight games on resume.
 Use write-to-temporary, fsync where appropriate, digest verification, and atomic rename.
 Never overwrite an accepted checkpoint or expose a partial file under its final name.
 
-## 6. Paired evaluation exports
+## 7. Paired evaluation exports
 
 Export immutable candidates containing:
 
@@ -134,7 +164,7 @@ must not mutate training RNG, raw weights, EMA state, or timing counters.
 Agent 5 may wrap this portable bundle for the chosen transport but may not change its
 semantic identities.
 
-## 7. Telemetry
+## 8. Telemetry
 
 Append durable JSONL rows with a schema frozen by Agent 1. Per iteration include:
 
@@ -163,18 +193,21 @@ Append durable JSONL rows with a schema frozen by Agent 1. Per iteration include
 - joint checkpoint/export identities;
 - warnings, stop predicates, and external-result status known to the supervisor.
 
-## 8. Collapse supervisor
+## 9. Collapse supervisor
 
 Implement every immediate and persistent rule from common-contract section 13 using
-Agent 1/3 frozen thresholds. Each predicate has a stable code, evidence payload,
-consecutive-count state, severity, and reset rule.
+Agent 1/3 frozen thresholds. Decision D9-B changes only how the relative 60% setup
+entropy predicate is handled during the bounded Agent 4 rehearsal: record it as a
+diagnostic and unresolved production decision. Absolute setup floors and every other
+hard predicate remain stopping conditions. Each predicate has a stable code, evidence
+payload, consecutive-count state, severity, and reset rule.
 
 The supervisor may safely checkpoint and stop. It may not change LR, KL targets,
 entropy coefficients, population size, epoch counts, setup batch, or benchmark cases.
 One injected-event test must prove the stop record and safe exit path. Unit tests cover
 predicate arithmetic; no broad failure-injection campaign is required.
 
-## 9. Integration verification
+## 10. Integration verification
 
 Keep the integration rehearsal bounded:
 
@@ -188,9 +221,15 @@ Keep the integration rehearsal bounded:
 - one injected supervisor stop;
 - telemetry schema and append-resume continuity.
 
+The rehearsal must also produce the `setup_tandem_concentration_reading` required by
+decision D9-B. Use the real current Phase 9-derived move signal, report draw/outcome
+mix and setup-update identity, and compare the entropy/diversity trajectory directly
+with Agent 3's standalone fixture. Crossing only the relative 60% threshold is not an
+Agent 4 integration failure; any correctness or absolute-floor failure is.
+
 Do not run a strength comparison or start the 12-hour job.
 
-## 10. Handoff and report
+## 11. Handoff and report
 
 Deliver:
 
@@ -203,4 +242,7 @@ reports/phase17/agent_04_resume_rehearsal.json
 
 Bind all input handoffs, source/config/schedule/checkpoint/export schema digests,
 measured iteration time, expected `N`, setup budget, persistence evidence, and guard
-evidence. Set `ready_for_external_handshake` and `ready_for_preflight` separately.
+evidence. Include `setup_tandem_concentration_reading`. Set
+`ready_for_external_handshake`, `ready_for_preflight`, and
+`production_setup_entropy_rule_unresolved` separately. Do not claim the historical
+Agent 3 setup gate passed.

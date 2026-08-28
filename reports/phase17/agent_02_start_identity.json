@@ -1,0 +1,86 @@
+{
+ "artifact": "phase17_agent02_start_identity_v1",
+ "work_package": "phase17",
+ "computed_utc": "2026-08-27T21:03:56Z",
+ "evidence_classification": "ENGINEERING",
+ "scientific_validation_status": "not performed",
+ "loader": "read_phase9_payload -> validate_phase9_payload -> model_from_payload",
+ "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+ "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+ "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+ "container_state_digest_not_used": "f0994cf0eb985848016b79c7db376f7d9499a7f7352b430b5ac2d39aece9869e",
+ "parameter_count": 863959,
+ "candidate_id": "C1",
+ "behavior_snapshot_identity": "B041",
+ "trainable": true,
+ "logit_identity_against_accepted_phase9_behavior_loader": {
+  "accepted_entry_point": "stratego.training.phase9_checkpoint.bind_behavior_snapshot",
+  "observations": [
+   8,
+   127,
+   10,
+   10
+  ],
+  "max_absolute_difference": {
+   "policy_logits": 0.0,
+   "value_logits": 0.0,
+   "belief_logits": 0.0
+  },
+  "identical": true
+ },
+ "on_disk_state_that_is_discarded": {
+  "kl_beta": 0.2,
+  "rl_iteration": 41,
+  "global_optimizer_step": 47086,
+  "entropy_schedule_position": {
+   "iteration": 40,
+   "total_iterations": 60,
+   "coefficient": 0.0023559322033898304
+  },
+  "discarded_keys": [
+   "optimizer_state",
+   "scheduler_state",
+   "kl_controller_state",
+   "minibatch_cursor",
+   "rng",
+   "validation_history",
+   "global_optimizer_step",
+   "rl_iteration",
+   "examples_consumed",
+   "entropy_schedule_position",
+   "best_validation_score",
+   "best_checkpoint_identity"
+  ]
+ },
+ "phase17_start_state": {
+  "iteration": 0,
+  "next_iteration": 1,
+  "optimizer_moment_entries": 0,
+  "optimizer_learning_rate": 0.00015,
+  "kl_beta": 0.005,
+  "kl_beta_expected": 0.005,
+  "kl_controller_updates": 0,
+  "ema_updates": 0,
+  "ema_equals_raw_at_start": true,
+  "belief_head_parameters": [
+   "belief_output.weight",
+   "belief_output.bias"
+  ],
+  "belief_loss_weight": 0.0
+ },
+ "schedule_at_N_626": {
+  "reference_iteration": 79,
+  "lr_first": 0.00015,
+  "lr_last": 1.5390378225425954e-05,
+  "entropy_first": 0.005,
+  "entropy_last": 0.001,
+  "note": "N is Agent 4's to measure and freeze; 626 is illustrative"
+ },
+ "runtime_seconds": 0.6202346250647679,
+ "runtime_versions": {
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "numpy": "2.5.1",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O"
+ }
+}

@@ -1,0 +1,112 @@
+{
+ "artifact": "agent_03_setup_throughput.json",
+ "budget_projection": {
+  "cpu": {
+   "assumed_iterations": 626,
+   "five_epoch_update_seconds_per_iteration": 0.8151693193552395,
+   "generation_seconds_per_iteration": 3.176589749986306,
+   "one_epoch_alternative_fraction_of_run": 0.048570366705635595,
+   "pool_size_per_side": 512,
+   "projected_fraction_of_run": 0.05784354577332888,
+   "projected_setup_hours_over_run": 0.6941225492799465,
+   "projected_setup_seconds_over_run": 2498.8411774078077,
+   "run_budget_hours": 12.0,
+   "setup_seconds_per_iteration": 3.9917590693415455
+  },
+  "mps": {
+   "assumed_iterations": 626,
+   "five_epoch_update_seconds_per_iteration": 0.5286334723156566,
+   "generation_seconds_per_iteration": 2.7488470000680536,
+   "one_epoch_alternative_fraction_of_run": 0.04283904125489098,
+   "pool_size_per_side": 512,
+   "projected_fraction_of_run": 0.04749311980815283,
+   "projected_setup_hours_over_run": 0.569917437697834,
+   "projected_setup_seconds_over_run": 2051.7027757122023,
+   "run_budget_hours": 12.0,
+   "setup_seconds_per_iteration": 3.27748047238371
+  }
+ },
+ "epochs_per_iteration": 5,
+ "epochs_reduction_rule": "five epochs is the paper default; fewer only with a measured case and the operator's decision. Silent reduction is prohibited.",
+ "host": {
+  "device": "cpu",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "torch": "2.13.0"
+ },
+ "measurements": {
+  "cpu": {
+   "five_epoch_overhead_seconds": 0.6399382359813899,
+   "pool_generation": {
+    "1000": {
+     "samples_per_second": 327.93384787421365,
+     "seconds": 3.0493954999838024,
+     "seconds_for_both_sides": 6.098790999967605,
+     "seconds_per_side_pool": 3.0493954999838024
+    },
+    "512": {
+     "samples_per_second": 322.3582774591571,
+     "seconds": 1.588294874993153,
+     "seconds_for_both_sides": 3.176589749986306,
+     "seconds_per_side_pool": 1.588294874993153
+    }
+   },
+   "update": {
+    "1_epoch": {
+     "episodes": 320,
+     "repeats": 3,
+     "seconds_mean": 0.1752310833738496,
+     "seconds_min": 0.17363966710399836
+    },
+    "5_epoch": {
+     "episodes": 320,
+     "repeats": 3,
+     "seconds_mean": 0.8151693193552395,
+     "seconds_min": 0.8134302919497713
+    }
+   }
+  },
+  "mps": {
+   "five_epoch_overhead_seconds": 0.32117602795672906,
+   "pool_generation": {
+    "1000": {
+     "samples_per_second": 736.78088461198,
+     "seconds": 1.3572556249564514,
+     "seconds_for_both_sides": 2.7145112499129027,
+     "seconds_per_side_pool": 1.3572556249564514
+    },
+    "512": {
+     "samples_per_second": 372.51982375688743,
+     "seconds": 1.3744235000340268,
+     "seconds_for_both_sides": 2.7488470000680536,
+     "seconds_per_side_pool": 1.3744235000340268
+    }
+   },
+   "update": {
+    "1_epoch": {
+     "episodes": 320,
+     "repeats": 3,
+     "seconds_mean": 0.20745744435892752,
+     "seconds_min": 0.13586550008039922
+    },
+    "5_epoch": {
+     "episodes": 320,
+     "repeats": 3,
+     "seconds_mean": 0.5286334723156566,
+     "seconds_min": 0.4915476250462234
+    }
+   }
+  }
+ },
+ "peak_memory_mib": 2771.0,
+ "recorded_utc": "2026-08-28T01:34:50Z",
+ "run_id": "RUN-2026-A",
+ "soak_cost": {
+  "generation_seconds": 718.5744924461469,
+  "iterations": 626,
+  "play_seconds": 1797.2472592496779,
+  "update_seconds": 523.4533299780451
+ },
+ "work_package": "phase17"
+}

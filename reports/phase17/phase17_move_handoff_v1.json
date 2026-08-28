@@ -1,0 +1,430 @@
+{
+ "artifact": "phase17_move_handoff_v1",
+ "schema_version": "phase17_move_handoff_v1",
+ "work_package": "phase17",
+ "author": "Phase 17 Agent 2",
+ "provisional_run_id": "RUN-2026-A",
+ "bound_utc": "2026-08-27T21:18:49Z",
+ "evidence_classification": "ENGINEERING",
+ "scientific_validation_status": "not performed",
+ "consumes": {
+  "handoff": "reports/phase17/phase17_contract_handoff_v1.json",
+  "ready_for_agents_2_3": true
+ },
+ "ready_for_tandem_integration": true,
+ "start_identity": {
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "digest_function": "stratego.training.phase9_behavior.state_dict_digest",
+  "parameter_count": 863959,
+  "logit_identity_against_accepted_loader": true,
+  "semantics": "weights-only warm start; fresh optimizer, schedule, KL and EMA"
+ },
+ "transition_schema": {
+  "schema_version": "phase17_move_transition_v1",
+  "one_row_is": "one learner decision by one seat at one ply",
+  "both_seats_are_learners": true,
+  "fields": [
+   "action_encoding_version",
+   "action_seed",
+   "advantage_target",
+   "behavior_action_logprob",
+   "behavior_action_probability",
+   "behavior_model_state_digest",
+   "behavior_probabilities",
+   "behavior_snapshot_iteration",
+   "behavior_temperature",
+   "bootstrap_age_windows",
+   "boundary_status",
+   "boundary_target_divergence",
+   "boundary_wdl_divergence",
+   "color",
+   "game_id",
+   "iteration",
+   "legal_actions",
+   "legal_mask",
+   "observation",
+   "observation_version",
+   "perspective_player",
+   "ply",
+   "policy_age_iterations",
+   "ppo_eligible",
+   "rules_version",
+   "run_id",
+   "sampled_action",
+   "sampled_action_index",
+   "sampled_action_model",
+   "schema_version",
+   "standardized_advantage",
+   "stored_value_scalar",
+   "stored_wdl",
+   "target_provenance",
+   "value_row_weight",
+   "wdl_target",
+   "window_index",
+   "work_package"
+  ],
+  "unique_under": [
+   "game_id",
+   "color",
+   "ply"
+  ],
+  "behavior_probabilities": "stored, never recomputed; the PPO denominator",
+  "legal_actions": "ASCENDING absolute engine action ids",
+  "current_policy_proof": "behavior_model_state_digest",
+  "telemetry_never_a_gate": [
+   "boundary_target_divergence",
+   "boundary_wdl_divergence",
+   "bootstrap_age_windows"
+  ]
+ },
+ "contract": {
+  "move_contract_version": "phase17_move_contract_v1",
+  "move_contract_digest": "d007139b11568c08ca6bfcc085bff00d08b852085d7f7975191d43fa3759e134",
+  "window_transitions_default": 65536,
+  "transition_schema_version": "phase17_move_transition_v1"
+ },
+ "target_equivalence_evidence": {
+  "governing": "G-M4a",
+  "retired": "G-M4b (operator decision D2)",
+  "reduction": {
+   "statement": "when the supplied boundary tail is the true terminal continuation, the Phase 17 recursion reproduces the accepted whole-game recursion entry for entry",
+   "cases": 18,
+   "lengths": [
+    1,
+    2,
+    3,
+    12,
+    47,
+    200
+   ],
+   "outcomes": [
+    "win",
+    "draw",
+    "loss"
+   ],
+   "max_delta_difference": 0.0,
+   "max_advantage_difference": 0.0,
+   "max_wdl_difference": 0.0,
+   "tolerance": 1e-06,
+   "result": "pass"
+  },
+  "measured_divergence": {
+   "construction": "12 decisions, boundaries at 4 and 8, red_win",
+   "matches_agent_01_probe_construction": true,
+   "entries": 12,
+   "bootstrapped_rows": 8,
+   "max_advantage_divergence": 0.3005294298802119,
+   "mean_advantage_divergence": 0.09055743429510432,
+   "max_wdl_divergence": 0.33704323851797946,
+   "final_window_rows_are_exact": true,
+   "is_a_gate": false
+  }
+ },
+ "forced_rebind_evidence": {
+  "snapshot_a_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "snapshot_b_digest": "a0519d9937ec30c684b3ad87d12b3333a2ec6a3cb07677d218ead3e1b0202918",
+  "games_in_flight_across_the_rebind": 6,
+  "post_rebind_rows_in_the_same_games": 120,
+  "all_post_rebind_rows_match_b": true,
+  "no_post_rebind_row_matches_a": true,
+  "pre_rebind_rows_still_bound_to_a": true
+ },
+ "participant_ledger": {
+  "collector_version": "phase17_move_collector_v1",
+  "policy_token": "phase17_current_raw_move_v1|P17RAW",
+  "seats": {
+   "red": "phase17_current_raw_move_v1|P17RAW",
+   "blue": "phase17_current_raw_move_v1|P17RAW"
+  },
+  "distinct_acting_model_states": 4,
+  "transitions_by_model_state": {
+   "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd": 192,
+   "12914d8dde9b0703d8bc164f9b01a2b9e6017e6c5d58554c38eaeb3214634a26": 192,
+   "2e9be52dd906545fb0562f558d0868ccc35eaca41910f0204ac601e5b5cde4ee": 192,
+   "6d693f8e9f05645caa7462adb4d94404fa5b3f83c39da09b9c5f55dca1683204": 192
+  },
+  "cell_digest_history": [
+   {
+    "iteration": 1,
+    "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+   },
+   {
+    "iteration": 2,
+    "model_state_digest": "12914d8dde9b0703d8bc164f9b01a2b9e6017e6c5d58554c38eaeb3214634a26"
+   },
+   {
+    "iteration": 3,
+    "model_state_digest": "2e9be52dd906545fb0562f558d0868ccc35eaca41910f0204ac601e5b5cde4ee"
+   },
+   {
+    "iteration": 4,
+    "model_state_digest": "6d693f8e9f05645caa7462adb4d94404fa5b3f83c39da09b9c5f55dca1683204"
+   },
+   {
+    "iteration": 5,
+    "model_state_digest": "868fe50ddf81002a4b935eef9151fe0e28fad104a5353aee0c126327eb753a34"
+   }
+  ],
+  "unknown_model_states": {},
+  "rule_or_stress_decisions": 0,
+  "historical_participants": 0,
+  "search_participants": 0,
+  "holds": true
+ },
+ "gates": {
+  "G-M4a": {
+   "name": "reduction invariant (governing)",
+   "result": "pass",
+   "evidence": "agent_02_target_invariants.json",
+   "max_advantage_difference": 0.0,
+   "max_wdl_difference": 0.0,
+   "tolerance": 1e-06
+  },
+  "G-M4b": {
+   "name": "whole-game equality",
+   "result": "retired",
+   "by": "operator decision D2"
+  },
+  "C2": {
+   "name": "exact Phase 9 start digest",
+   "result": "pass",
+   "evidence": "agent_02_start_identity.json"
+  },
+  "C3": {
+   "name": "sampled, not argmax; replays from (game_id, ply)",
+   "result": "pass",
+   "evidence": "agent_02_window_verification.json"
+  },
+  "C4": {
+   "name": "both seats resolve through the current raw snapshot",
+   "result": "pass",
+   "evidence": "agent_02_window_verification.json"
+  },
+  "C5": {
+   "name": "forced rebind on an already-running game",
+   "result": "pass",
+   "evidence": "agent_02_forced_rebind.json"
+  },
+  "C6": {
+   "name": "true fixed transition count",
+   "result": "pass",
+   "evidence": "agent_02_window_verification.json"
+  },
+  "C9": {
+   "name": "structural no-search and no-training-opponent assertions",
+   "result": "pass",
+   "evidence": "tests/training/phase17/test_move_no_search.py"
+  }
+ },
+ "api_for_agent_4": {
+  "start": {
+   "module": "stratego.training.phase17.move_start",
+   "build_move_start": "build_move_start(*, total_iterations, path=None, device='cpu', root='.', horizon=None) -> Phase17MoveStart(model, optimizer, controller, ema, horizon, identity, device, iteration)"
+  },
+  "snapshot": {
+   "module": "stratego.training.phase17.move_snapshot",
+   "cell": "CurrentMovePolicy(snapshot_from_model(model, device=...), iteration=n); rebind_from_model(model, iteration=n+1) after every update, BEFORE the next window",
+   "rule": "RAW weights only; the EMA never enters this cell"
+  },
+  "collector": {
+   "module": "stratego.training.phase17.transition_collector",
+   "construct": "FixedTransitionCollector(run_id=..., cell=..., setup_provider=<Agent 3's generator>, population=..., budget=65536)",
+   "setup_provider_protocol": "assign(*, root_seed, environment_id, generation, game_id) -> SetupAssignment(red_setup, blue_setup, provenance) with ENGINE-oriented setups and a non-None provenance; plus a `setup_family` attribute. There is NO default: a missing provider is refused.",
+   "collect": "collect_window(budget=None, should_continue=None) -> WindowResult",
+   "state": "state() / restore_counters() / restore_seating() / restore_traces()",
+   "not_owned": "engine-state persistence for active games is Agent 4's paired-checkpoint responsibility; this module carries the target-side state and the seated identities only"
+  },
+  "trainer": {
+   "module": "stratego.training.phase17.move_trainer",
+   "construct": "MoveWindowTrainer(run_id=..., model=..., optimizer=..., controller=..., ema=..., horizon=..., device=..., minibatch_size=512)",
+   "train": "train_window(rows, *, iteration, cell=None, may_start_step=None) -> MoveUpdate",
+   "state": "trainer_state() / restore_state()",
+   "order_of_operations": "collect_window -> train_window -> cell.rebind_from_model(model, iteration=n+1)"
+  },
+  "loss": {
+   "module": "stratego.training.phase17.move_loss",
+   "entry": "phase17_batch_loss(...) with an optional value_row_weight"
+  }
+ },
+ "source_identity": {
+  "sources": {
+   "files": [
+    {
+     "path": "stratego/training/phase17/__init__.py",
+     "file_sha256": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+     "bytes": 2071
+    },
+    {
+     "path": "stratego/training/phase17/move_contract.py",
+     "file_sha256": "160e9c940de1047a85cd0a211f8fb35f530d93bc1569c833c9c5d5a02971bcab",
+     "bytes": 24453
+    },
+    {
+     "path": "stratego/training/phase17/move_loss.py",
+     "file_sha256": "82e9b9b4fa7611c6d1d95b8c52519c0075f18b4c2072881050b8197e9db7efb7",
+     "bytes": 15760
+    },
+    {
+     "path": "stratego/training/phase17/move_snapshot.py",
+     "file_sha256": "bcc07cf422b93311ae780753312f6d7f77584db828d6c78ac1f46e4e15d8b70c",
+     "bytes": 15382
+    },
+    {
+     "path": "stratego/training/phase17/move_start.py",
+     "file_sha256": "e47b0b083e2ff5ef8737b95c9779e53d84f981f2ada73d2fe25657c3018fadc1",
+     "bytes": 12089
+    },
+    {
+     "path": "stratego/training/phase17/move_trainer.py",
+     "file_sha256": "e82d7e08aac58f04bd48ac1fc5a3f6293ead80b44aba330858afaaa32d14a7bf",
+     "bytes": 23611
+    },
+    {
+     "path": "stratego/training/phase17/transition_collector.py",
+     "file_sha256": "482a57d615652a31e16a3192503defa38262ef163669ba8a361150ef368c7215",
+     "bytes": 38581
+    },
+    {
+     "path": "stratego/training/phase17/transition_schema.py",
+     "file_sha256": "63b8c49fb883ba7be62a1811d224ac8ed9a7ed9467c91745c037896f31a53e12",
+     "bytes": 13248
+    },
+    {
+     "path": "stratego/training/phase17/transition_targets.py",
+     "file_sha256": "fabd635ff285e34ef31ad388daed0ec31cbde9b626433ec92d3a0961bd3bb687",
+     "bytes": 25187
+    }
+   ],
+   "source_digest": "58f766691386e87e0f2a14aecef6615015adfe7469ab62065b8e2d172afdf5d0"
+  },
+  "tests": {
+   "files": [
+    {
+     "path": "tests/training/phase17/__init__.py",
+     "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+     "bytes": 0
+    },
+    {
+     "path": "tests/training/phase17/test_move_loss_and_trainer.py",
+     "file_sha256": "d2138e6d2dfd3d6c31eda9d339b9cef29780d1ba49b3f74c87bc652e0d31fca1",
+     "bytes": 18539
+    },
+    {
+     "path": "tests/training/phase17/test_move_no_search.py",
+     "file_sha256": "f9d8cea8f44d3fe2294ba140b0d86c191f227e68204ce907ae0ca235580af8ca",
+     "bytes": 7158
+    },
+    {
+     "path": "tests/training/phase17/test_move_sampling.py",
+     "file_sha256": "3872e81b0e977bd33c293723698a146ee7f2aacca3cca624de6c63a7933366e2",
+     "bytes": 4127
+    },
+    {
+     "path": "tests/training/phase17/test_move_seating.py",
+     "file_sha256": "3b1a4fc422aef5cff048c57e6114139cacb14b0fccb0241f920a676e82ee9223",
+     "bytes": 5112
+    },
+    {
+     "path": "tests/training/phase17/test_move_start.py",
+     "file_sha256": "9aed9971143311127f5493253b7da74205ac5f37568c06184a5945e14f9e9225",
+     "bytes": 6023
+    },
+    {
+     "path": "tests/training/phase17/test_move_support.py",
+     "file_sha256": "29e93752fe653844d9f0a9b68cc9dab19923c9a1e11423f5371ed7682cdeec6a",
+     "bytes": 3385
+    },
+    {
+     "path": "tests/training/phase17/test_transition_collector.py",
+     "file_sha256": "377161a2f15c3d3641d3e4bcb5056ded18c632a4c6d52105aa3e43ea8a983190",
+     "bytes": 16879
+    },
+    {
+     "path": "tests/training/phase17/test_transition_schema.py",
+     "file_sha256": "02d013fddd395b9137bed8923690768cdf87f091e7eb7f028cb6f01d1e14ff37",
+     "bytes": 8293
+    },
+    {
+     "path": "tests/training/phase17/test_transition_targets.py",
+     "file_sha256": "8b96c881036f9b3e224c60c8cd12296a22d9f7cac7cd665be29fb2cf251be6b9",
+     "bytes": 13870
+    }
+   ],
+   "source_digest": "abaa75ccf44495aaa1a93ae766a32cbada6f2d372e0398ab83ab0622b60e8f3b"
+  }
+ },
+ "tests": {
+  "command": "pytest <the 8 Agent 2 test modules> -q",
+  "modules": [
+   "tests/training/phase17/test_move_loss_and_trainer.py",
+   "tests/training/phase17/test_move_no_search.py",
+   "tests/training/phase17/test_move_sampling.py",
+   "tests/training/phase17/test_move_seating.py",
+   "tests/training/phase17/test_move_start.py",
+   "tests/training/phase17/test_transition_collector.py",
+   "tests/training/phase17/test_transition_schema.py",
+   "tests/training/phase17/test_transition_targets.py"
+  ],
+  "scope": "Agent 2's own test modules only; the Phase 17 test package is shared with Agent 3 and a directory-wide count would attribute the setup half's tests to this agent",
+  "summary_line": "174 passed in 28.39s",
+  "returncode": 0,
+  "regression": {
+   "command": "pytest tests --ignore=tests/training/phase17 -q",
+   "summary_line": "7028 passed, 3 skipped in 600.89s",
+   "collected_before_this_work": 7031,
+   "accepted_suite_unchanged": true
+  }
+ },
+ "bound_artifacts": {
+  "agent_02_start_identity.json": {
+   "sha256": "5178e696d7abcef8d4bfb6f67acdae0feac045eae56f3450497e5d4ab046d78f",
+   "bytes": 2436
+  },
+  "agent_02_target_invariants.json": {
+   "sha256": "eb4f266daf344e0dde005400d19a606f942fa522d4099fa23c99c3858e517b41",
+   "bytes": 1276
+  },
+  "agent_02_forced_rebind.json": {
+   "sha256": "b57e0080cd74f96ff58718e48583d1bf709b8f4e2d091811b336436d86e62df2",
+   "bytes": 5000
+  },
+  "agent_02_window_verification.json": {
+   "sha256": "5a38124cc5196df5f129e917ca2ae088c0901a1a57d571447f63cdc34e021355",
+   "bytes": 19013
+  }
+ },
+ "what_agent_2_did_not_establish": [
+  "No setup network exists: every game in every verification run used an explicit Agent 2 test double, not Agent 3's autoregressive generator. Nothing here measures setup quality.",
+  "No paired checkpoint: engine-state persistence for in-flight games is Agent 4's, and this agent stopped at the target-side carry.",
+  "N, n_ref and the frozen schedule curve are NOT established; only the formulas and the horizon object are.",
+  "No strength claim. No arm, no LR comparison, no opponent mixture, and no evaluation was run.",
+  "The verification games are short and unrepresentative: the test double draws uniform-random setups, which put flags on the front row often. Game lengths here mean nothing.",
+  "Throughput here is CPU and single-process; it is not a preflight measurement and must not be used to estimate N."
+ ],
+ "carry_forward_for_agent_4": [
+  {
+   "id": "A2-CF1",
+   "title": "Exact active-game persistence is still open",
+   "detail": "collector.state() carries the seat traces and the seated game identities, and restore_seating/restore_traces re-attach them. The engine states themselves are not serialized here. Common contract section 10 says Agent 4 stops for operator review if exact active-game persistence proves impossible."
+  },
+  {
+   "id": "A2-CF2",
+   "title": "The value row mask is built but every row is trained",
+   "detail": "phase17_batch_loss takes a per-row value weight and MoveTransition carries value_row_weight, defaulted to 1.0 for every row -- section 6 requires training on exactly the configured budget. The mask exists so a later decision to down-weight bootstrapped rows does not need a new objective; it is not exercised in production."
+  },
+  {
+   "id": "A2-CF3",
+   "title": "Boundary predictions cost one extra forward pass",
+   "detail": "At each window close the collector evaluates one observation per open seat trace. With a population of P that is up to 2P forward rows per window on top of the budget. Agent 4's throughput rehearsal should count them."
+  }
+ ],
+ "closure": {
+  "agent": 2,
+  "status": "CLOSED",
+  "authorizes": "Agent 4 to consume the move half through this handoff",
+  "still_true": "no production run, no evaluation, no setup network, and no strength claim"
+ },
+ "handoff_digest": "6198bd6f32122976329d9ac4fd65c1ac696182236a7c94d764d35cb41a0df464"
+}

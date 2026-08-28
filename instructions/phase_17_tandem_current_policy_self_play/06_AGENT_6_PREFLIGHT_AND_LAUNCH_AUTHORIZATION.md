@@ -9,7 +9,8 @@ verify one external round trip, and emit a digest-bound GO or NO-GO record.
 
 You do not redesign the models, tune the schedules, repair large unrelated defects,
 or start the production run. Read `00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md`
-completely and require all five upstream handoffs.
+and `08_OPERATOR_DECISION_D9_AND_AGENT_4_RELEASE.md` completely and require all five
+upstream handoffs.
 
 ## 1. Process and artifact boundary
 
@@ -45,6 +46,12 @@ Audit Agent 3's full 5,000-sample and short-soak artifacts against the exact set
 model/config now integrated. Recompute a small spot sample for identity. Do not repeat
 the extended experiment unless evidence is missing, mismatched, or invalid.
 
+Agent 3's S6 result is a recorded failure, not a missing test: the standalone policy
+concentrated below the relative 60% entropy threshold. Decision D9-B allowed Agent 4
+to proceed only so a real current-policy tandem signal could replace the
+noise-dominated fixture. Audit Agent 4's `setup_tandem_concentration_reading` beside
+the standalone trajectory; do not silently relabel Agent 3's gate as passed.
+
 Require:
 
 - 4×128, 4-head, FF512 architecture and accepted parameter count;
@@ -54,6 +61,18 @@ Require:
 - five setup epochs were retained, or the operator approved the measured alternative;
 - calibrated diversity/entropy thresholds are present and supervisor-readable;
 - setup raw/EMA/optimizer/KL/RNG/queue round trip passed.
+
+Before GO, make one explicit, versioned decision for the production relative-entropy
+predicate:
+
+1. retain the 60%/three-check production stop rule; or
+2. issue NO-GO pending a separately authorized recipe change; or
+3. replace the rule only through a new digest-bound operator amendment supported by
+   the tandem evidence.
+
+There is no silent threshold movement. Legality, inventory, orientation, masking,
+setup-update activity, KL `0.08` hard limit, flag effective support `4`, and severe
+near-duplicate/reflection-class collapse remain non-negotiable.
 
 ## 4. External gate
 
@@ -103,6 +122,8 @@ Create an immutable launch manifest binding:
 - raw/EMA/checkpoint/export schemas;
 - composite benchmark and external environment;
 - guard thresholds and exact production command;
+- the Agent 3 standalone S6 failure, Agent 4 tandem concentration reading, and the
+  explicit production setup-entropy decision;
 - expected h0 through h12 candidate schedule;
 - all gate evidence and any accepted operator deviation.
 

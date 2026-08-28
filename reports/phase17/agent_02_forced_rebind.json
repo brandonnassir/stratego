@@ -1,0 +1,160 @@
+{
+ "artifact": "phase17_agent02_forced_rebind_v1",
+ "work_package": "phase17",
+ "computed_utc": "2026-08-27T21:03:58Z",
+ "evidence_classification": "ENGINEERING",
+ "scientific_validation_status": "not performed",
+ "defect_corrected": "phase16 WindowCollector.rebind swapped the collector's participants while each in-flight GameRunner kept the object it was constructed with",
+ "mechanism": "one shared seating object whose `behavior` is a property over a single mutable cell; no runner holds a snapshot of its own",
+ "snapshot_a_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+ "snapshot_b_digest": "a0519d9937ec30c684b3ad87d12b3333a2ec6a3cb07677d218ead3e1b0202918",
+ "digests_differ": true,
+ "policy_token_unchanged": true,
+ "games_in_flight_across_the_rebind": 6,
+ "pre_rebind_rows": 120,
+ "post_rebind_rows_in_the_same_games": 120,
+ "colors_after_rebind": [
+  0,
+  1
+ ],
+ "pre_rebind_digests": [
+  "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd"
+ ],
+ "post_rebind_digests": [
+  "a0519d9937ec30c684b3ad87d12b3333a2ec6a3cb07677d218ead3e1b0202918"
+ ],
+ "distribution_checks": [
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 22,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 2.8559270948136373e-08,
+   "max_difference_from_a": 0.9886200685105313
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 24,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 2.189497327886869e-08,
+   "max_difference_from_a": 0.7960473876318866
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 26,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.3075564408993046e-08,
+   "max_difference_from_a": 0.8612470806425383
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 28,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.6829454940747723e-08,
+   "max_difference_from_a": 0.5071641965773686
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 30,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 2.2949810385419767e-08,
+   "max_difference_from_a": 0.9311685319262101
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 32,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.006327299268861e-08,
+   "max_difference_from_a": 0.985676436606194
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 34,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 4.98043017937988e-09,
+   "max_difference_from_a": 0.9731869375458922
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 36,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 2.873658933033596e-08,
+   "max_difference_from_a": 0.9790556567533127
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 38,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.5741815739822584e-08,
+   "max_difference_from_a": 0.9532996251247275
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 40,
+   "color": 0,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.0351325241408915e-08,
+   "max_difference_from_a": 0.9306273378122211
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 21,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 9.727133931658472e-09,
+   "max_difference_from_a": 0.9456089291716284
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 23,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 7.321946049465566e-09,
+   "max_difference_from_a": 0.9932686640854612
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 25,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.770228474917701e-08,
+   "max_difference_from_a": 0.9982007457969478
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 27,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 6.628630200289365e-09,
+   "max_difference_from_a": 0.7627854564926446
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 29,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 1.7764190118896295e-09,
+   "max_difference_from_a": 0.9988478015651253
+  },
+  {
+   "game_id": "phase17_game_v1|run=RUN-VERIFY-A2|slot=0000|draw=000000",
+   "ply": 31,
+   "color": 1,
+   "digest_is_b": true,
+   "max_difference_from_b": 2.4083159910759377e-08,
+   "max_difference_from_a": 0.9911781504046501
+  }
+ ],
+ "all_post_rebind_rows_match_b": true,
+ "no_post_rebind_row_matches_a": true,
+ "result": "pass",
+ "runtime_seconds": 2.02016195806209
+}

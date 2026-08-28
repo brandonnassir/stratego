@@ -1,0 +1,47 @@
+{
+ "artifact": "phase17_agent02_target_invariants_v1",
+ "work_package": "phase17",
+ "computed_utc": "2026-08-27T21:03:56Z",
+ "evidence_classification": "ENGINEERING",
+ "scientific_validation_status": "not performed",
+ "gate_G_M4a": {
+  "statement": "when the supplied boundary tail is the true terminal continuation, the Phase 17 recursion reproduces the accepted whole-game recursion entry for entry",
+  "cases": 18,
+  "lengths": [
+   1,
+   2,
+   3,
+   12,
+   47,
+   200
+  ],
+  "outcomes": [
+   "win",
+   "draw",
+   "loss"
+  ],
+  "max_delta_difference": 0.0,
+  "max_advantage_difference": 0.0,
+  "max_wdl_difference": 0.0,
+  "tolerance": 1e-06,
+  "result": "pass"
+ },
+ "gate_G_M4b": {
+  "status": "retired",
+  "retired_by": "operator decision D2, 2026-08-27",
+  "not_reinstated": true,
+  "tolerance_not_weakened": true
+ },
+ "measured_partial_emission_divergence": {
+  "construction": "12 decisions, boundaries at 4 and 8, red_win",
+  "matches_agent_01_probe_construction": true,
+  "entries": 12,
+  "bootstrapped_rows": 8,
+  "max_advantage_divergence": 0.3005294298802119,
+  "mean_advantage_divergence": 0.09055743429510432,
+  "max_wdl_divergence": 0.33704323851797946,
+  "final_window_rows_are_exact": true,
+  "is_a_gate": false
+ },
+ "runtime_seconds": 0.01164629205595702
+}

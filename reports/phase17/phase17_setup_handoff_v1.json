@@ -1,0 +1,1341 @@
+{
+ "agent": 3,
+ "alpha_schedule": {
+  "floor": 0.004091325305007767,
+  "formula": "max(0.1 * n**-p, 0.1 * N_paper**-0.3)",
+  "n_paper": 42376,
+  "note": "N is Agent 4's to freeze at preflight; only the formula is frozen here",
+  "p": "0.3 * ln(42376) / ln(N)"
+ },
+ "architecture": {
+  "blocks": 4,
+  "feed_forward_width": 512,
+  "heads": 4,
+  "normalization": "pre_layernorm",
+  "parameter_count": 802320,
+  "parameter_count_verified": 802320,
+  "parameter_target": 802320,
+  "prefixes": 40,
+  "sequence_length": 41,
+  "setup_model_version": "phase17_setup_model_v1",
+  "tolerance": 0,
+  "tolerance_rationale": "the count is fully determined by 4/128/4/512 plus the three heads",
+  "vocabulary": 13,
+  "width": 128
+ },
+ "artifact": "phase17_setup_handoff_v1",
+ "author": "Agent 3",
+ "bound_artifacts": {
+  "reports/phase17/agent_03_setup_gate.json": "c77d87304c1de69b0b4b03af88ff8f1d09096f707b649f8c40c04f7e0bc933f1",
+  "reports/phase17/agent_03_setup_throughput.json": "876b99e2584bc94a0eb79f5afa23677dc0b33e02fd111f10b2f0001cb27a969c"
+ },
+ "bound_commit": "2403fb40d44c269f341fd081341644db90d0fd4a",
+ "bound_utc": "2026-08-28T01:37:08Z",
+ "carry_forward": [
+  {
+   "detail": "A setup and its token trace replay exactly from (run, game, side) at any batch shape, because each draw is an inverse-CDF lookup keyed by its own seed. The recorded float32 behavior probabilities are bitwise identical only at the SAME batch shape: a batched GEMM is not shape-invariant. Measured delta at 200 vs 1: <= 1e-6. No training consequence -- the ratio denominator is always the recorded probability -- but a verifier that re-derives a setup at a different pool size must expect it.",
+   "id": "A3-CF1",
+   "owner": "Agent 4 / Agent 6",
+   "title": "Cross-batch-shape replay is exact in tokens, not in recorded floats"
+  },
+  {
+   "detail": "-min(r*delta, clip(r)*delta) is asymmetric in the sign of delta. On-policy (r = 1) a reward flip negates the policy gradient exactly. Off-policy it changes which rows are gradient-active instead: measured at a 0.2 clip on a deliberately far-off-policy model, 72.5% of rows clipped and the flipped gradient had cosine +0.46 with the original. Anyone re-running the flip test must isolate it as the gate does.",
+   "id": "A3-CF2",
+   "owner": "Agent 6",
+   "title": "The reward-flip property holds on the surrogate, not on the clipped loss"
+  },
+  {
+   "detail": "The conditional-entropy head starts near zero and must predict I/10, which is about 2.7 on the initial masked model, so L_h starts around 12 while L_pi is order 0.3. The pre-clip gradient norm is therefore far above the 0.5 clip for the first iterations and effectively every early step is clipped. Not a defect -- it is the head converging -- but Agent 4's telemetry should expect it rather than read it as instability.",
+   "id": "A3-CF3",
+   "owner": "Agent 4",
+   "title": "L_h dominates the setup loss at hour 0"
+  }
+ ],
+ "checkpoint_schema": {
+  "keys": [
+   "setup_contract_version",
+   "setup_equation_version",
+   "run_id",
+   "setup_iteration",
+   "setup_optimizer_step_count",
+   "setup_raw_state",
+   "setup_raw_model_state_digest",
+   "setup_ema_state",
+   "setup_ema_model_state_digest",
+   "setup_ema_updates",
+   "setup_optimizer_state",
+   "setup_kl_controller_state",
+   "setup_scheduler_position",
+   "completed_setup_queue",
+   "config_digest"
+  ],
+  "note": "the optimizer state is deep-copied on capture; Optimizer.state_dict returns live tensors and a later step would otherwise rewrite a captured checkpoint",
+  "produced_by": "SetupTrainer.state_document()",
+  "refusals": [
+   "a foreign run_id",
+   "a foreign config digest",
+   "a missing required key",
+   "a foreign episode or queue schema version"
+  ],
+  "restored_by": "SetupTrainer.load_state_document()",
+  "round_trip_verified": {
+   "refusals": {
+    "foreign_config": true,
+    "foreign_run": true,
+    "partial": true
+   },
+   "round_trip": {
+    "ema": true,
+    "queue": true,
+    "raw": true
+   }
+  }
+ },
+ "config": {
+  "alpha_schedule": {
+   "alpha_first": 0.1,
+   "alpha_last": 0.004091325305007768,
+   "floor": 0.004091325305007767,
+   "formula": "max(0.1 * n**-p, 0.1 * N_paper**-0.3)",
+   "n_paper": 42376,
+   "operator_decision": "D3 ACCEPTED",
+   "p": 0.49637013809845737,
+   "total_iterations": 626
+  },
+  "architecture": {
+   "blocks": 4,
+   "feed_forward_width": 512,
+   "heads": 4,
+   "normalization": "pre_layernorm",
+   "parameter_target": 802320,
+   "sequence_length": 41,
+   "vocabulary": 13,
+   "width": 128
+  },
+  "kl_controller": {
+   "beta_bounds": [
+    0.001,
+    1.0
+   ],
+   "beta_initial": 0.1,
+   "direction": "reverse_current_given_behavior",
+   "hard_limit": 0.08,
+   "status": "RESOLVED by operator decision D5, 2026-08-27",
+   "target": 0.0018,
+   "version": "phase17_setup_behavior_kl_controller_v1"
+  },
+  "optimisation": {
+   "adam_betas": [
+    0.9,
+    0.999
+   ],
+   "adam_epsilon": 1e-08,
+   "conditional_entropy_loss_weight": 1.0,
+   "conditional_entropy_normalizer": 0.1,
+   "ema_decay": 0.999,
+   "epochs_per_iteration": 5,
+   "gradient_clip_norm": 0.5,
+   "learning_rate": 5e-05,
+   "minibatch_episodes": 64,
+   "optimizer": "Adam",
+   "ppo_clip_epsilon": 0.2,
+   "value_loss_weight": 0.5
+  },
+  "orientation_rule_version": "phase15_orientation_rule_v1",
+  "pool": {
+   "band": [
+    512,
+    1000
+   ],
+   "fallback": "none -- generation or orientation failure is fatal",
+   "size_per_side": 512
+  },
+  "provisional_fields": [
+   "setup_queue_capacity",
+   "setup_queue_max_age_iterations"
+  ],
+  "queue": {
+   "capacity": 4096,
+   "max_age_iterations": 8,
+   "status": "PROVISIONAL pending operator decision D5",
+   "version": "phase17_setup_episode_queue_v1"
+  },
+  "run_id": "RUN-2026-A",
+  "setup_contract_version": "phase17_setup_contract_v1",
+  "setup_episode_schema_version": "phase17_setup_episode_v1",
+  "setup_equation_version": "phase17_setup_update_v2",
+  "setup_kl_controller_version": "phase17_setup_behavior_kl_controller_v1",
+  "setup_model_version": "phase17_setup_model_v1",
+  "setup_queue_version": "phase17_setup_episode_queue_v1",
+  "work_package": "phase17"
+ },
+ "config_digest": "91ebf20447d07895f2d1a37caa3318ff2ad0072a666d722b56a0183c4be480de",
+ "consumes": {
+  "handoff": "phase17_contract_handoff_v1",
+  "handoff_digest": "75568fc8812d578157da7e314cea40c89222a1a9d7720dac371e9d10e19e18cb",
+  "verified": [
+   "ready_for_agents_2_3 is true",
+   "blocking_operator_decisions is empty",
+   "D1/D2/D3/D4/D6 resolved; D5 deferred to this agent's soak"
+  ]
+ },
+ "d5_resolution": {
+  "controller_defects_found_and_fixed": [
+   "stepped once per setup EPOCH; epoch 0's KL is near zero by construction, not by evidence (measured 0.000187 / 0.000151 / 0.000081 on the first three iterations against a decrease threshold of 0.00185), so every iteration handed the controller two tautological below-threshold readings and one above",
+   "read the mean KL across epochs rather than the final epoch; the quantity a behavior-KL regulariser limits is where the policy ENDS UP relative to the snapshot, not the average of the path it took"
+  ],
+  "controller_update_cadence": "once per setup EPOCH, following the accepted Phase 9 controller shape. Note this means five beta adjustments per setup iteration against the move side's one or two, so the setup controller traverses its bounds far faster relative to the run. Agent 1's handoff did not specify a cadence; this is Agent 3's choice and is recorded as a factor in any pinning result.",
+  "direction_note": "the paper's direction; the accepted move controller measures the FORWARD KL, so the two must never be reported as one another",
+  "frozen": {
+   "beta_bounds": [
+    0.001,
+    1.0
+   ],
+   "beta_initial": 0.1,
+   "direction": "reverse_current_given_behavior",
+   "hard_limit": 0.08,
+   "target": 0.0018
+  },
+  "measured_this_run": {
+   "beta_final": 0.017085937499999995,
+   "beta_max": 0.3375,
+   "beta_min": 0.001,
+   "fraction_at_lower_bound": 0.14536741214057508,
+   "fraction_at_upper_bound": 0.0,
+   "iterations_over_hard_limit": [],
+   "kl_hard_limit": 0.08,
+   "kl_max": 0.01040328312665224,
+   "kl_mean": 0.0017207217879389553,
+   "kl_p95": 0.0033976402366533874,
+   "note": "a controller living at a bound is not regulating anything",
+   "pinned_fraction_limit": 0.5
+  },
+  "status": "RESOLVED by the operator, 2026-08-27, from Agent 3's measured v1 soak",
+  "superseded": [
+   {
+    "beta_bounds": [
+     0.01,
+     1.0
+    ],
+    "target": 0.015,
+    "why": "borrowed from the move controller; measurement put it ~4x above the observed p95, so beta pinned at its lower bound for 100% of v1 iterations"
+   },
+   {
+    "target": 0.0037,
+    "why": "the p95 Agent 3's v1 report highlighted. Two defects in Agent 3's own controller were found and fixed before this target could be judged: it stepped once per EPOCH, so epoch 0's tautologically near-zero KL (the policy has not yet left the behavior snapshot) ratcheted beta down every iteration; and it read the epoch mean rather than the final epoch, understating the iteration's true drift by roughly 2.5x. With both fixed, 0.0037 still sat above the observed median (0.00176), giving 55% of iterations below the decrease threshold against 2.5% above, so beta still walked to its floor by iteration 30"
+   }
+  ]
+ },
+ "diversity_baselines": {
+  "alarms": {
+   "baseline_flag_effective_support": 20.47161303163155,
+   "baseline_label": "soak_iteration_1",
+   "baseline_mean_class_distance": 31.501743730407522,
+   "baseline_mean_prefix_entropy_nats": 1.542894478885798,
+   "baseline_reflection_class_unique_fraction": 1.0,
+   "calibration_source": "initial masked model and the Agent 3 soak",
+   "consecutive_checks": 3,
+   "hard_flag_effective_support": 4.0,
+   "hard_mean_prefix_entropy_nats": 0.9257366873314787,
+   "must_not_borrow": "frozen-library family thresholds",
+   "warn_flag_effective_support": 6.0,
+   "warn_mean_prefix_entropy_nats": 1.2343155831086383
+  },
+  "calibration_source": "the initial masked model and this agent's soak; frozen-library family thresholds were NOT borrowed",
+  "initial_masked_model": {
+   "bomb_effective_support": 37.17959711212723,
+   "bomb_folded_support": 20,
+   "bomb_pattern_top": [
+    30,
+    34,
+    36,
+    37,
+    38,
+    39
+   ],
+   "bomb_pattern_top_count": 2,
+   "bomb_pattern_unique": 5971,
+   "bomb_square_support": 40,
+   "class_distance_quantiles": {
+    "0.01": 26.0,
+    "0.05": 28.0,
+    "0.25": 30.0,
+    "0.5": 32.0,
+    "0.75": 33.0,
+    "0.95": 35.0
+   },
+   "distance_pairs": 179700,
+   "distance_sample_cap": 600,
+   "exact_collision_rate": 0.0,
+   "exact_unique": 6000,
+   "exact_unique_fraction": 1.0,
+   "first_prefix_entropy_nats": 2.385789205943077,
+   "flag_effective_support": 21.869622402504373,
+   "flag_folded_support": 20,
+   "flag_square_distribution": [
+    0.058166666666666665,
+    0.08766666666666667,
+    0.07983333333333334,
+    0.07866666666666666,
+    0.08083333333333333,
+    0.07066666666666667,
+    0.060833333333333336,
+    0.059666666666666666,
+    0.051,
+    0.04416666666666667,
+    0.042,
+    0.036166666666666666,
+    0.03,
+    0.027333333333333334,
+    0.029833333333333333,
+    0.0205,
+    0.020666666666666667,
+    0.021833333333333333,
+    0.016833333333333332,
+    0.015666666666666666,
+    0.011666666666666667,
+    0.010833333333333334,
+    0.007666666666666666,
+    0.007166666666666667,
+    0.005,
+    0.0045,
+    0.006333333333333333,
+    0.004,
+    0.0026666666666666666,
+    0.0025,
+    0.0018333333333333333,
+    0.0011666666666666668,
+    0.0005,
+    0.0006666666666666666,
+    0.0003333333333333333,
+    0.0003333333333333333,
+    0.0003333333333333333,
+    0.0,
+    0.00016666666666666666,
+    0.0
+   ],
+   "flag_square_support": 38,
+   "flag_top_square_share": 0.08766666666666667,
+   "hamming_quantiles": {
+    "0.01": 26.0,
+    "0.05": 28.0,
+    "0.25": 31.0,
+    "0.5": 32.0,
+    "0.75": 34.0,
+    "0.95": 36.0
+   },
+   "label": "initial_masked_model",
+   "max_per_square_entropy_bits": 3.536622,
+   "max_top_token_concentration": 0.865,
+   "mean_class_distance": 31.612042292710072,
+   "mean_hamming": 32.22972732331664,
+   "mean_per_square_entropy_bits": 2.9210819999999997,
+   "mean_prefix_entropy_nats": 1.5465241144674788,
+   "mean_sequence_entropy_nats": 61.86096457869915,
+   "mean_top_token_concentration": 0.26384583333333333,
+   "min_class_distance": 19,
+   "min_hamming": 19,
+   "min_per_square_entropy_bits": 0.757413,
+   "mirrored_pairs_present": 0,
+   "most_frequent_reflection_class": "155fadb1d333b8ab0d3cb82b7e44108fab0c7203d6c5aeba3974c39c44017258",
+   "most_frequent_reflection_class_count": 1,
+   "near_duplicate_pair_fraction": 0.0,
+   "per_prefix_entropy_nats": [
+    2.385789205943351,
+    2.3091891549407464,
+    2.285289924596484,
+    2.253048644409435,
+    2.22900592110495,
+    2.2003171747463073,
+    2.1738138642394014,
+    2.1475689804398885,
+    2.131864549138444,
+    2.0917008394900525,
+    2.0701551579872652,
+    2.0422089308207223,
+    2.025417677423251,
+    1.9855796055686272,
+    1.9657592080788386,
+    1.9276804843232664,
+    1.901144807042477,
+    1.8689085778344239,
+    1.8226166376661022,
+    1.7782738384175787,
+    1.7481592400706796,
+    1.70550783238265,
+    1.6453377332385724,
+    1.5997470118062125,
+    1.5460979683820706,
+    1.48593312929297,
+    1.4164050944878146,
+    1.3459057281712188,
+    1.2677954976692358,
+    1.1911731318562968,
+    1.1020494475442615,
+    1.0051234356393604,
+    0.8777154760498368,
+    0.7331903308728049,
+    0.5810899629065597,
+    0.4313376054219294,
+    0.3022923039355063,
+    0.189570568889932,
+    0.09119989586982248,
+    0.0
+   ],
+   "per_square_entropy_bits": [
+    3.438133,
+    3.521913,
+    3.525283,
+    3.52102,
+    3.536622,
+    3.511691,
+    3.485263,
+    3.474819,
+    3.463841,
+    3.420389,
+    3.407495,
+    3.38237,
+    3.380229,
+    3.343696,
+    3.336215,
+    3.294586,
+    3.277332,
+    3.270508,
+    3.244721,
+    3.21721,
+    3.176429,
+    3.153206,
+    3.124332,
+    3.121733,
+    3.097265,
+    3.031474,
+    3.012431,
+    3.009447,
+    2.924121,
+    2.86312,
+    2.798562,
+    2.680249,
+    2.600878,
+    2.39865,
+    2.074358,
+    1.730911,
+    1.363671,
+    1.070322,
+    0.801372,
+    0.757413
+   ],
+   "reflection_class_collision_rate": 0.0,
+   "reflection_class_unique": 6000,
+   "reflection_class_unique_fraction": 1.0,
+   "sample_count": 6000,
+   "sequence_information_max_nats": 81.21141052246094,
+   "sequence_information_mean_nats": 61.941819361368815,
+   "sequence_information_min_nats": 46.36927795410156,
+   "sequence_information_quantiles_nats": {
+    "0.05": 53.77202224731445,
+    "0.25": 58.28954601287842,
+    "0.5": 61.70482635498047,
+    "0.75": 65.42461204528809,
+    "0.95": 70.7772274017334
+   },
+   "sequence_information_std_nats": 5.171099326103274
+  },
+  "soak_baseline": {
+   "bomb_effective_support": 37.41765278384296,
+   "bomb_folded_support": 20,
+   "bomb_pattern_top": [
+    2,
+    18,
+    22,
+    27,
+    36,
+    39
+   ],
+   "bomb_pattern_top_count": 1,
+   "bomb_pattern_unique": 320,
+   "bomb_square_support": 40,
+   "class_distance_quantiles": {
+    "0.01": 26.0,
+    "0.05": 28.0,
+    "0.25": 30.0,
+    "0.5": 32.0,
+    "0.75": 33.0,
+    "0.95": 35.0
+   },
+   "distance_pairs": 51040,
+   "distance_sample_cap": 600,
+   "exact_collision_rate": 0.0,
+   "exact_unique": 320,
+   "exact_unique_fraction": 1.0,
+   "first_prefix_entropy_nats": 2.3857892062489046,
+   "flag_effective_support": 20.47161303163155,
+   "flag_folded_support": 17,
+   "flag_square_distribution": [
+    0.059375,
+    0.08125,
+    0.078125,
+    0.071875,
+    0.096875,
+    0.05625,
+    0.05625,
+    0.071875,
+    0.034375,
+    0.05625,
+    0.05,
+    0.025,
+    0.034375,
+    0.015625,
+    0.04375,
+    0.0375,
+    0.009375,
+    0.028125,
+    0.021875,
+    0.00625,
+    0.009375,
+    0.021875,
+    0.0125,
+    0.00625,
+    0.0,
+    0.003125,
+    0.00625,
+    0.0,
+    0.0,
+    0.0,
+    0.003125,
+    0.003125,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "flag_square_support": 28,
+   "flag_top_square_share": 0.096875,
+   "hamming_quantiles": {
+    "0.01": 26.0,
+    "0.05": 28.0,
+    "0.25": 30.0,
+    "0.5": 32.0,
+    "0.75": 34.0,
+    "0.95": 36.0
+   },
+   "label": "soak_iteration_1",
+   "max_per_square_entropy_bits": 3.511043,
+   "max_top_token_concentration": 0.86875,
+   "mean_class_distance": 31.501743730407522,
+   "mean_hamming": 32.130172413793105,
+   "mean_per_square_entropy_bits": 2.8841311750000003,
+   "mean_prefix_entropy_nats": 1.542894478885798,
+   "mean_sequence_entropy_nats": 61.71577915543192,
+   "mean_top_token_concentration": 0.27804687499999997,
+   "min_class_distance": 20,
+   "min_hamming": 20,
+   "min_per_square_entropy_bits": 0.738616,
+   "mirrored_pairs_present": 0,
+   "most_frequent_reflection_class": "8403157489fa5f56ff412cec315ad56d031b759dab591ae951c05c898380fee7",
+   "most_frequent_reflection_class_count": 1,
+   "near_duplicate_pair_fraction": 0.0,
+   "per_prefix_entropy_nats": [
+    2.385789206248895,
+    2.310438517972808,
+    2.2819742414556297,
+    2.250852548385898,
+    2.2307559168881155,
+    2.2045778756109553,
+    2.1757355087880526,
+    2.1505498153452183,
+    2.1459621973524676,
+    2.0957199615633755,
+    2.0743718399521427,
+    2.045377520328354,
+    2.0241787116597916,
+    1.986785677247815,
+    1.9654787954342787,
+    1.925403398482627,
+    1.90252565048791,
+    1.8791971002326293,
+    1.831219307260578,
+    1.7794004655666822,
+    1.7527652449332376,
+    1.7041636742030355,
+    1.638842145463555,
+    1.5888222893189532,
+    1.5396933156383967,
+    1.4864201497407181,
+    1.4167361073837856,
+    1.3411179478070467,
+    1.2576653490848437,
+    1.1769869955954628,
+    1.0900631523660302,
+    0.9821457742767906,
+    0.8506788951844138,
+    0.7096550947355795,
+    0.5610531829544818,
+    0.4044721175149162,
+    0.2924464065494753,
+    0.17946437476483415,
+    0.09629268165213854,
+    0.0
+   ],
+   "per_square_entropy_bits": [
+    3.468147,
+    3.474208,
+    3.511043,
+    3.467863,
+    3.506545,
+    3.488929,
+    3.424328,
+    3.362821,
+    3.446439,
+    3.435332,
+    3.429945,
+    3.356565,
+    3.284975,
+    3.302853,
+    3.272263,
+    3.286541,
+    3.204968,
+    3.273777,
+    3.318895,
+    3.190134,
+    3.189823,
+    3.176864,
+    3.164673,
+    3.109619,
+    2.920963,
+    2.921238,
+    2.981586,
+    2.909924,
+    2.800577,
+    2.84633,
+    2.903373,
+    2.655481,
+    2.493136,
+    2.304065,
+    2.177793,
+    1.533575,
+    1.310551,
+    0.905826,
+    0.738616,
+    0.814663
+   ],
+   "reflection_class_collision_rate": 0.0,
+   "reflection_class_unique": 320,
+   "reflection_class_unique_fraction": 1.0,
+   "sample_count": 320,
+   "sequence_information_max_nats": 80.19811248779297,
+   "sequence_information_mean_nats": 61.54550204277039,
+   "sequence_information_min_nats": 45.98064041137695,
+   "sequence_information_quantiles_nats": {
+    "0.05": 53.018324089050296,
+    "0.25": 57.616092681884766,
+    "0.5": 61.5191535949707,
+    "0.75": 64.99450492858887,
+    "0.95": 70.48510513305665
+   },
+   "sequence_information_std_nats": 5.357349546556292
+  },
+  "soak_final": {
+   "bomb_effective_support": 17.061076149652866,
+   "bomb_folded_support": 15,
+   "bomb_pattern_top": [
+    27,
+    29,
+    31,
+    33,
+    35,
+    37
+   ],
+   "bomb_pattern_top_count": 15,
+   "bomb_pattern_unique": 167,
+   "bomb_square_support": 26,
+   "class_distance_quantiles": {
+    "0.01": 16.0,
+    "0.05": 19.0,
+    "0.25": 23.0,
+    "0.5": 25.0,
+    "0.75": 28.0,
+    "0.95": 30.0
+   },
+   "distance_pairs": 51040,
+   "distance_sample_cap": 600,
+   "exact_collision_rate": 0.0,
+   "exact_unique": 320,
+   "exact_unique_fraction": 1.0,
+   "first_prefix_entropy_nats": 0.860631764594477,
+   "flag_effective_support": 7.632145213804653,
+   "flag_folded_support": 8,
+   "flag_square_distribution": [
+    0.0,
+    0.003125,
+    0.0125,
+    0.034375,
+    0.090625,
+    0.1125,
+    0.2375,
+    0.228125,
+    0.125,
+    0.09375,
+    0.04375,
+    0.015625,
+    0.0,
+    0.003125,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "flag_square_support": 12,
+   "flag_top_square_share": 0.2375,
+   "hamming_quantiles": {
+    "0.01": 16.0,
+    "0.05": 19.0,
+    "0.25": 23.0,
+    "0.5": 26.0,
+    "0.75": 29.0,
+    "0.95": 32.0
+   },
+   "label": "soak_iteration_626",
+   "max_per_square_entropy_bits": 2.837743,
+   "max_top_token_concentration": 0.8125,
+   "mean_class_distance": 25.094729623824453,
+   "mean_hamming": 26.064204545454544,
+   "mean_per_square_entropy_bits": 1.952204575,
+   "mean_prefix_entropy_nats": 0.8090620730139062,
+   "mean_sequence_entropy_nats": 32.36248292055625,
+   "mean_top_token_concentration": 0.47632812500000005,
+   "min_class_distance": 8,
+   "min_hamming": 8,
+   "min_per_square_entropy_bits": 1.119154,
+   "mirrored_pairs_present": 0,
+   "most_frequent_reflection_class": "f7d7382dbe8855a6ab50d80971663884bd0e200ec48b1ecd8e83548614c8b242",
+   "most_frequent_reflection_class_count": 1,
+   "near_duplicate_pair_fraction": 5.877742946708464e-05,
+   "per_prefix_entropy_nats": [
+    0.860631764594474,
+    0.6018772354447772,
+    0.792243359129287,
+    0.8646683019957454,
+    0.9202847570090118,
+    0.9906734488984746,
+    1.092327617716964,
+    1.015142166103807,
+    0.9863971278478294,
+    1.0020197614528585,
+    1.0532931258845806,
+    1.1258056351250727,
+    1.1481428754370262,
+    1.1934858372052957,
+    1.1884255848990755,
+    1.173314683238099,
+    1.1696093744226257,
+    1.1264454967880377,
+    1.1469449441506379,
+    1.1941844632293794,
+    1.176315155755018,
+    1.1405839674234408,
+    1.0379806766098567,
+    0.9576084831010986,
+    0.9438304353361493,
+    0.9106199950953743,
+    0.7780148110015827,
+    0.7206175978909176,
+    0.6553062419444791,
+    0.6357234919630492,
+    0.592335785946652,
+    0.5055533289853338,
+    0.439891367356967,
+    0.3621090099885919,
+    0.2598165609843902,
+    0.21395865031348987,
+    0.17010320016237837,
+    0.13663065381249445,
+    0.07956594631192582,
+    0.0
+   ],
+   "per_square_entropy_bits": [
+    1.119154,
+    1.126567,
+    1.133792,
+    1.404075,
+    1.53836,
+    1.650301,
+    1.819678,
+    1.790991,
+    1.708518,
+    1.89163,
+    2.139459,
+    2.104263,
+    2.209815,
+    2.3075,
+    2.186907,
+    2.178621,
+    2.276843,
+    2.290644,
+    2.35973,
+    2.611261,
+    2.702911,
+    2.777092,
+    2.830896,
+    2.743389,
+    2.837743,
+    2.646617,
+    2.486877,
+    2.343578,
+    2.036964,
+    1.902858,
+    1.78046,
+    1.68152,
+    1.821517,
+    1.680715,
+    1.605986,
+    1.528376,
+    1.290381,
+    1.244788,
+    1.170748,
+    1.126658
+   ],
+   "reflection_class_collision_rate": 0.0,
+   "reflection_class_unique": 320,
+   "reflection_class_unique_fraction": 1.0,
+   "sample_count": 320,
+   "sequence_information_max_nats": 54.99750900268555,
+   "sequence_information_mean_nats": 32.49407431483269,
+   "sequence_information_min_nats": 18.718183517456055,
+   "sequence_information_quantiles_nats": {
+    "0.05": 23.360226249694826,
+    "0.25": 28.30444097518921,
+    "0.5": 32.008989334106445,
+    "0.75": 36.09902477264404,
+    "0.95": 42.88781471252442
+   },
+   "sequence_information_std_nats": 6.024653047838332
+  }
+ },
+ "entropy_trajectory": {
+  "first_iteration_nats": 1.5393180847167969,
+  "hard_floor_nats": 0.9257366873314787,
+  "hard_trips": 7,
+  "last_iteration_nats": 0.8102578163146973,
+  "min_nats": 0.7945470094680787,
+  "warning_trips": 10
+ },
+ "epochs": {
+  "decision": "RETAINED at five",
+  "epochs_per_iteration": 5,
+  "evidence": "reports/phase17/agent_03_setup_throughput.json",
+  "measured_cpu": {
+   "1_epoch": {
+    "episodes": 320,
+    "repeats": 3,
+    "seconds_mean": 0.1752310833738496,
+    "seconds_min": 0.17363966710399836
+   },
+   "5_epoch": {
+    "episodes": 320,
+    "repeats": 3,
+    "seconds_mean": 0.8151693193552395,
+    "seconds_min": 0.8134302919497713
+   }
+  },
+  "projection_cpu": {
+   "assumed_iterations": 626,
+   "five_epoch_update_seconds_per_iteration": 0.8151693193552395,
+   "generation_seconds_per_iteration": 3.176589749986306,
+   "one_epoch_alternative_fraction_of_run": 0.048570366705635595,
+   "pool_size_per_side": 512,
+   "projected_fraction_of_run": 0.05784354577332888,
+   "projected_setup_hours_over_run": 0.6941225492799465,
+   "projected_setup_seconds_over_run": 2498.8411774078077,
+   "run_budget_hours": 12.0,
+   "setup_seconds_per_iteration": 3.9917590693415455
+  }
+ },
+ "gate": {
+  "artifact": "reports/phase17/agent_03_setup_gate.json",
+  "checks": [
+   {
+    "id": "S0",
+    "name": "parameter count is the frozen 802,320 (observed 802320)",
+    "passed": true
+   },
+   {
+    "id": "S1",
+    "name": "at least 5,000 samples split across colours (3000 red / 3000 blue)",
+    "passed": true
+   },
+   {
+    "id": "S2",
+    "name": "zero inventory, legality, placement, lake or orientation failures",
+    "passed": true
+   },
+   {
+    "id": "S2b",
+    "name": "every generated board round-trips through create_game (3000 boards)",
+    "passed": true
+   },
+   {
+    "id": "S2c",
+    "name": "Blue flag-row distribution is not the mis-oriented one",
+    "passed": true
+   },
+   {
+    "id": "S3",
+    "name": "adversarial logits cannot sample an exhausted type at any later prefix",
+    "passed": true
+   },
+   {
+    "id": "S4",
+    "name": "prefix k's outputs do not depend on tokens > k (and the probe is not vacuous)",
+    "passed": true
+   },
+   {
+    "id": "S5",
+    "name": "identical snapshot and seeds replay the setup and trace exactly; a changed seed domain redraws",
+    "passed": true
+   },
+   {
+    "id": "S5b",
+    "name": "a same-batch-shape replay is bitwise identical in every recorded field",
+    "passed": true
+   },
+   {
+    "id": "S5c",
+    "name": "a cross-batch-shape replay agrees on tokens and matches probabilities to float32 ulp",
+    "passed": true
+   },
+   {
+    "id": "S2d",
+    "name": "an illegal setup is refused, never repaired or replaced from a library",
+    "passed": true
+   },
+   {
+    "id": "S6a",
+    "name": "the initial distribution is diverse by reflection class, not only exactly",
+    "passed": true
+   },
+   {
+    "id": "S7",
+    "name": "Red win, Blue win and draw signs bind independently",
+    "passed": true
+   },
+   {
+    "id": "S7b",
+    "name": "an outcome cannot be rebound to a different result",
+    "passed": true
+   },
+   {
+    "id": "S8",
+    "name": "reversing only the outcomes negates the policy gradient on the surrogate",
+    "passed": true
+   },
+   {
+    "id": "S9",
+    "name": "completed outcomes produce optimizer steps, gradients and a changed raw digest",
+    "passed": true
+   },
+   {
+    "id": "S6",
+    "name": "entropy and diversity do not collapse over the soak (floor held for 3 consecutive checks is a stop)",
+    "passed": false
+   },
+   {
+    "id": "S6b",
+    "name": "flag effective support stays at or above 4.0",
+    "passed": true
+   },
+   {
+    "id": "S6c",
+    "name": "reflection-class diversity stays healthy across the soak",
+    "passed": true
+   },
+   {
+    "id": "S12",
+    "name": "setup KL stays below its hard limit (0.08) and the controller is not effectively pinned",
+    "passed": true
+   },
+   {
+    "id": "S10",
+    "name": "raw, EMA, optimizer, setup KL, queue and episode data round-trip",
+    "passed": true
+   },
+   {
+    "id": "S10b",
+    "name": "a foreign run, a foreign config digest and a partial state are all refused",
+    "passed": true
+   },
+   {
+    "id": "S11",
+    "name": "five-epoch setup throughput measured (generation, forward/backward, total)",
+    "passed": true
+   },
+   {
+    "id": "S11b",
+    "name": "five setup epochs remain affordable (5.8% of a 12-hour run)",
+    "passed": true
+   }
+  ],
+  "elapsed_minutes": 51.276309852082825,
+  "id": "G-S",
+  "result": "FAIL"
+ },
+ "handoff_digest": "7d77cf2d47a7c0bb076ddd1ffdeb73f8bcb16297a58902819500b4de0cf84f00",
+ "integration_api": {
+  "complete": "GameSetupEpisodes.complete(terminal_result) -> both episodes, own perspectives",
+  "consume_fixed": "SetupEpisodeQueue.consume_exact(count, setup_iteration) -> [] means an explicit SKIP",
+  "create_and_attach": "setup_episode.attach_setup_episodes(red_sample, blue_sample, run_id, game_id) -> GameSetupEpisodes",
+  "engine_setups": "GameSetupEpisodes.engine_setups() -> (red_setup, blue_setup) ready for create_game",
+  "enqueue": "SetupEpisodeQueue.enqueue(episode) -> bool; a refusal is recorded with a reason",
+  "generate": "setup_sampling.generate_setups(model, run_id, game_ids, color, model_state_digest, snapshot_iteration)",
+  "impossible_or_fatal": {
+   "behavior_identity_mismatch": "the ratio denominator is the recorded probability; compatible_with reports identity, and build_batch re-derives every inventory mask from the tokens and refuses a disagreement",
+   "double_consumption": "state advances one way; consume refuses an already-consumed episode",
+   "outcome_rebinding": "complete refuses a second, different result",
+   "silent_dropping": "every departure increments a named counter; capacity overflow raises"
+  },
+  "policy_age": "SetupEpisode.policy_age(iteration); SetupEpisode.compatible_with(digest)",
+  "pool": "setup_sampling.SetupPool(...).prefetch/take/rebind/telemetry",
+  "serialize": "SetupEpisode.to_document()/from_document(); SetupEpisodeQueue.state_document()",
+  "telemetry": "SetupEpisodeQueue.telemetry(setup_iteration) -> QueueTelemetry",
+  "update": "setup_learning.SetupTrainer.update(batch_episodes) -> SetupUpdateResult"
+ },
+ "integration_machinery_status": "PROVEN. The API, schemas, masking, orientation, queue discipline, outcome binding and checkpoint identity all passed. Agent 4 can integrate against this handoff. What is unresolved is the RECIPE (the advantage's entropy term), which is a launch question for Agent 6 and the operator, not an integration blocker.",
+ "modules": {
+  "module_split_note": "the Agent 3 charter names setup_sampling/setup_learning; Agent 1's recommended split names setup_episode/setup_trainer. Both are honoured: setup_episode.py exists under Agent 1's name, the trainer lives in setup_learning.py under the charter's name, and setup_contract.py is setup-scoped so it cannot collide with Agent 2's contract.py.",
+  "scripts/run_phase17_setup_gate.py": "the extended setup gate (G-S)",
+  "stratego/training/phase17/setup_contract.py": "constants, identities, seeds, refusals",
+  "stratego/training/phase17/setup_episode.py": "episode schema, FIFO queue, Agent 4 API",
+  "stratego/training/phase17/setup_learning.py": "advantage, losses, KL controller, EMA, trainer",
+  "stratego/training/phase17/setup_metrics.py": "diversity and entropy measurement",
+  "stratego/training/phase17/setup_model.py": "the causal decoder",
+  "stratego/training/phase17/setup_sampling.py": "masking, orientation, generation, pools"
+ },
+ "operator_decisions_requested": [
+  {
+   "agent_3_position": "D9-B. The concentration is real and measured, so it should not be waved through; but three recipe variants failed to move it while the one factor common to all three -- a noise-dominated outcome signal -- is exactly what the tandem runner replaces. Establishing whether it persists against a real move policy costs nothing extra and is the only clean discriminator available.",
+   "blocking": true,
+   "id": "D9",
+   "measured": {
+    "baseline_mean_prefix_entropy_nats": 1.542894478885798,
+    "consecutive_required_to_stop": 3,
+    "final_mean_prefix_entropy_nats": 0.8090620730139062,
+    "hard_floor": 0.9257366873314787,
+    "hard_readings_on_cadence": [
+     475,
+     500,
+     525,
+     550,
+     600,
+     625
+    ],
+    "hard_readings_total": 7,
+    "longest_consecutive_hard_run_on_cadence": 4,
+    "off_cadence_checks_excluded": [
+     626
+    ],
+    "rule": "common contract section 13 -- one reading is a warning, not a stop"
+   },
+   "options": [
+    {
+     "detail": "At iteration 626 the entropy bonus is 26x weaker than the outcome term. Making them comparable needs alpha ~26x its floor, i.e. about 0.106 -- essentially no anneal at all over 626 iterations. That is a large change to an accepted decision and would need its own arm, which this phase's rules discourage.",
+     "id": "D9-A",
+     "label": "Treat D3's anneal as the remaining lever"
+    },
+    {
+     "agent_3_recommendation": true,
+     "detail": "The fixture confound is the largest single unknown and Agent 4's tandem runner produces exactly the soak that resolves it, at no extra cost. Keep the absolute floors (flag effective support >= 4, class uniqueness, near-duplicate rate) as production stop conditions in the meantime.",
+     "id": "D9-B",
+     "label": "Defer S6 to a tandem soak with the real move policy"
+    },
+    {
+     "detail": "Replace the 60%-of-baseline entropy rule with absolute diversity floors, all of which pass. TENSION, stated plainly: this is moving a floor after three runs tripped it, which is the move Agent 3's own v1 report warned against. It should not be chosen because it produces a pass.",
+     "id": "D9-C",
+     "label": "Re-anchor S6 to absolute floors now"
+    }
+   ],
+   "the_concentration_is_real": {
+    "bomb_effective_support": "37.42 -> 17.06  (-54%)",
+    "bomb_pattern_uniqueness": "320/320 -> 167/320  (-48%)",
+    "flag_effective_support": "20.47 -> 7.63  (-63%)",
+    "flag_square_support": "28 squares -> 12  (-57%)",
+    "mean_class_distance": "31.50 -> 25.09  (-20%)",
+    "mean_per_square_entropy_bits": "2.8841 -> 1.9522  (-32%)",
+    "mean_prefix_entropy_nats": "1.5429 -> 0.8091  (-48%)",
+    "mean_top_token_concentration": "0.2780 -> 0.4763  (+71%)",
+    "min_class_distance": "20 -> 8  (-60%)",
+    "note": "matched 320-sample comparison, soak iteration 1 -> 626, so this is not an artifact of comparing a trained policy against a random baseline",
+    "reflection_class_uniqueness": "1.0000 -> 1.0000 (unchanged, but a weak test at 320 samples)",
+    "sequence_information_nats": "61.55 -> 32.49  (-47%)"
+   },
+   "the_confound_agent_3_cannot_remove": "the gate's move policy is a uniform-random legal fixture, so 83% of its games draw and the outcome term is largely noise. A PPO policy fitting noise concentrates. Whether a real move signal counteracts this is not measurable inside this agent's remit -- it needs the tandem runner.",
+   "title": "Setup-distribution concentration is not fixed by the entropy term or the KL controller",
+   "what_three_runs_show": {
+    "reading": "all three end below the 0.9257 floor (0.895 / 0.900 / 0.809). v2's S6 pass was not a better outcome -- it ended at the same entropy as v1 and passed only because its two hard readings happened to land non-consecutively. Neither the entropy-term form nor the KL controller is the lever.",
+    "v1  centered alpha*(I/10 - h), KL target 0.015": "final H 0.8948, hard run 3 -> FAIL",
+    "v2  D7-B bonus, KL target 0.0037, per-epoch controller": "final H 0.9003, hard run 1 -> pass",
+    "v3  D7-B bonus, KL target 0.0018, per-iteration controller": "final H 0.8091, hard run 4 -> FAIL"
+   }
+  }
+ ],
+ "operator_decisions_resolved": [
+  {
+   "equation_version": "phase17_setup_update_v2",
+   "id": "D7-B",
+   "implemented_in": "stratego/training/phase17/setup_learning.py::setup_advantage",
+   "resolution": "ACCEPTED and implemented: 0.9 * alpha * (I/10)",
+   "resolved_utc": "2026-08-27",
+   "title": "Uncentered entropy bonus at the normalized scale"
+  },
+  {
+   "id": "D5",
+   "resolution": "RESOLVED: reverse KL, target 0.0037, beta0 0.1, bounds [0.001, 1.0], hard limit 0.08",
+   "resolved_utc": "2026-08-27",
+   "title": "Setup KL controller constants"
+  }
+ ],
+ "orientation_path": {
+  "generation_frame": "canonical own-side; the engine frame is entered only at create_game",
+  "helper": "stratego.setups.identity.orient_setup, checked by stratego.belief.phase15.orientation.assert_engine_orientation",
+  "measured": {
+   "blue_flag_engine_row_histogram": {
+    "6": 16,
+    "7": 178,
+    "8": 769,
+    "9": 2037
+   },
+   "orientation_failures": 0,
+   "red_flag_engine_row_histogram": {
+    "0": 1992,
+    "1": 796,
+    "2": 196,
+    "3": 16
+   }
+  },
+  "rule": "red engine row == canonical rank; blue engine row == 9 - canonical rank",
+  "rule_version": "phase15_orientation_rule_v1"
+ },
+ "pool": {
+  "band_considered": [
+   512,
+   1000
+  ],
+  "fallback": "none -- a generation or orientation failure is fatal",
+  "rationale": "the smallest size in the contract's band that keeps the game creator supplied; see agent_03_setup_throughput.json for the measured cost of both",
+  "selected_size_per_side": 512
+ },
+ "principal_finding_resolved": {
+  "id": "A3-F1",
+  "status": "RESOLVED by operator decision D7-B and re-measured in this gate",
+  "title": "The D4-normalized entropy term was a centered residual; D7-B replaces it",
+  "v1_evidence": {
+   "artifact": "the v1 gate result, superseded by this one",
+   "conditional_entropy_loss": "3.33 -> 0.10 within ten iterations",
+   "consequence": "mean prefix entropy 1.543 -> 0.895, below the 0.926 floor at iterations 575, 600 and 625",
+   "entropy_term_vs_outcome_term": "1.2x at iteration 1 -> 107x weaker by iteration 626",
+   "residual_collapse": "|I/10 - h| fell 2.81 -> 0.28 within ten iterations, then flat"
+  },
+  "v2_outcome": "see entropy_trajectory and diversity_baselines below"
+ },
+ "ready_for_tandem_integration": false,
+ "ready_for_tandem_integration_reason": "FALSE because gate G-S did not pass. The failure is NOT in correctness: every hard-correctness check (S1-S5), every outcome-binding check (S7-S9), the checkpoint round trip (S10) and the throughput measurement (S11) passed. S6 failed -- the setup policy's mean prefix entropy held below 60% of its baseline for three consecutive on-cadence checks, which is the common contract section 13 stop condition. The instruction's enumerated criteria for this flag (hard correctness + outcome binding + five epochs accepted) are therefore all met, and the flag is still false because the agent's own gate did not pass. Operator decision D7 below is what flips it.",
+ "run_id": "RUN-2026-A",
+ "schema_version": "phase17_setup_handoff_v1",
+ "setup_equation": {
+  "advantage": "delta_k = (o - E[v_theta_t(sigma_k)]) + 0.9*alpha*(I_k/10)",
+  "conditional_entropy_loss": "(I_k/10 - h_theta(sigma_k))^2, weight 1.0",
+  "entropy_bonus": {
+   "centered": false,
+   "coefficient": 0.9,
+   "form": "0.9 * alpha * (I/10)",
+   "head_retained": "the conditional-entropy head and L_h (weight 1.0) are retained for telemetry and paper alignment; nothing in the advantage reads h any more",
+   "operator_decision": "D7-B, 2026-08-27",
+   "retired_form": "alpha*(I/10 - h)  [D4, retired by D7-B]",
+   "why": "the retired form was the residual of a prediction L_h actively makes accurate, so it converged to zero by construction; measured in the v1 soak falling to roughly a hundredth of the outcome term within ten iterations, after which the setup policy's prefix entropy fell through its floor"
+  },
+  "expected_value": "E[v] = p_win - p_loss under the recorded behavior W/D/L prediction",
+  "information": "I_k = -sum_{j>=k} log pi_theta_t(t_j | sigma_j), in nats",
+  "kl": "beta * D_KL(pi_current || pi_behavior), REVERSE, logged by name",
+  "operator_decisions": [
+   "D3 ACCEPTED (alpha re-horizon)",
+   "D4 RETIRED by D7-B (the normalized-but-centered entropy term)",
+   "D7-B ACCEPTED (uncentered entropy bonus at normalized scale)"
+  ],
+  "policy_loss": "-mean_k min(r_k*delta_k, clip(r_k, 0.8, 1.2)*delta_k)",
+  "prefixes": "all 40, no advantage filter",
+  "ratio": "r_k = pi_theta(t_k|sigma_k) / recorded behavior probability -- never a re-run",
+  "total": "L_pi + 0.5*L_v + 1.0*L_h + beta*KL",
+  "value_loss": "W/D/L cross-entropy at all 40 prefixes, weight 0.5",
+  "version": "phase17_setup_update_v2"
+ },
+ "source_digest": "c0282a869a4634afb741b6b50b5827b744947ade35ad109932abc36094ce1438",
+ "source_digests": {
+  "scripts/run_phase17_setup_gate.py": "6d5aa549c6ab7d14593960d6e4908013f3129030d9249be21ca92e5507bdd90e",
+  "stratego/training/phase17/__init__.py": "55d017f9836b6e5cd6f1809d20ca2c8ea5cb1dbf519040ae7c7ed2dc57cb14bc",
+  "stratego/training/phase17/setup_contract.py": "4018f460313e09bbe3aca216048ce03af9e8997a8cd5feb55ec6a4cf859225e0",
+  "stratego/training/phase17/setup_episode.py": "6c00b0da083afe8f134a66ad5e4e0c5d80cf7d7d6e85e3654312a179474e4876",
+  "stratego/training/phase17/setup_learning.py": "dad441013c2672283ae7a4723e6cc636629c44b68520a162298b40fda9b7a299",
+  "stratego/training/phase17/setup_metrics.py": "5168423cb03f9a59911ce2258b918c1354fe387823164733580822581cafafec",
+  "stratego/training/phase17/setup_model.py": "f588e78a8dd8c5c352bafc830c0378e6ab8077faeeaec23c4e7f7db5e9a1b534",
+  "stratego/training/phase17/setup_sampling.py": "1cde06bdcb73c0684f892fc64581e17f6485978d2f6f5363fb51c80232c22bca",
+  "tests/training/phase17/conftest.py": "2febd2e2e8483935aefa628545b91d7a01be2694dbc1eb9f6016f8b746cb47d3",
+  "tests/training/phase17/test_setup_episode.py": "62cf113fc89cf960180c33649cfbe00d75aa729d03a2220d0497c841273fca26",
+  "tests/training/phase17/test_setup_learning.py": "99d83149989e2b72ca310188ce810d59cb127057c2955621f116fee967aa4b84",
+  "tests/training/phase17/test_setup_metrics.py": "89675ec31e2d99f18d09b56eb4d1e03ff631b02e2d2d073df256e10cbfa4a4c9",
+  "tests/training/phase17/test_setup_model.py": "81a5cb3a77703dc8673f20a329e01d59a4827d15cc4f2a7256b8c5dd02bafdd6",
+  "tests/training/phase17/test_setup_sampling.py": "d03a8f97cf2bf62f3f66d041468d04b94b84d0210a77bc2f1e9278c20a6e7228",
+  "tests/training/phase17/test_setup_structure.py": "998dddbf17d616195f3639e047129c7a0f47403da9dab11b7d73143c81f23767"
+ },
+ "superseded_finding": {
+  "id": "A3-F1",
+  "measured_consequences": "see entropy_trajectory and diversity_baselines",
+  "mechanism": "The setup advantage's entropy term is alpha*(I/10 - h), and L_h explicitly trains h toward I/10. The term is therefore the residual of a prediction that another loss term is actively making accurate, so it converges to zero by construction rather than by accident. Measured: the conditional-entropy head converges within roughly ten iterations (L_h 3.33 -> 0.10), the residual |I/10 - h| collapses from 2.81 to about 0.28 and then stays flat for the rest of the run, and the entropy term goes from being commensurate with the outcome term at iteration 1 (1.2x) to roughly 100x weaker for the remaining 98% of the run.",
+  "not_established": "This agent did NOT test the alternative form. That the normalized term provides no sustained pressure is measured; that an uncentered term would hold entropy up without destabilising training is NOT, and would need its own soak.",
+  "severity": "blocks the gate; requires an operator decision before launch",
+  "soak_caveat": "The soak's move policy is a uniform-random legal fixture and 83% of its games were draws, so the magnitude of the entropy decline is not a production forecast. The structural point -- that the entropy term self-cancels once its baseline is learned -- is independent of the outcome distribution and does carry over.",
+  "the_papers_asymmetry_may_be_load_bearing": "The paper regresses h to H/10 while its delta uses (H - h). Agent 1 read the mismatch as a units error and normalized both sides (D4). But that asymmetry is exactly what makes the paper's bonus UNCENTERED: (H - h) ~ (H - H/10) = 0.9*H, which scales with entropy instead of vanishing. Under D4's consistent-units reading the term is centered and regularizes nothing. Agent 1's objection to the literal form -- that 0.9*alpha*H is about 5.6 at alpha=0.1 against an outcome term bounded by 2 -- is correct in RAW NATS. Expressed in the normalized I/10 units the same uncentered form is 0.9*alpha*(I/10), about 0.56 at alpha=0.1, which is commensurate with the outcome term. A form satisfying both of D4's stated constraints therefore exists and was not considered when D4 was resolved.",
+  "title": "The D4-normalized entropy term is a centered residual and provides no sustained entropy pressure",
+  "why_the_alpha_anneal_is_not_the_cause": "D3's compressed anneal was the recorded risk, and it is real but second-order here. The entropy term was already about 25x subordinate to the outcome term at iteration 10, when alpha was still 0.032 -- a third of its starting value and eight times its floor. The residual collapse, not the anneal, is what removed the pressure."
+ },
+ "throughput": {
+  "budget_projection": {
+   "cpu": {
+    "assumed_iterations": 626,
+    "five_epoch_update_seconds_per_iteration": 0.8151693193552395,
+    "generation_seconds_per_iteration": 3.176589749986306,
+    "one_epoch_alternative_fraction_of_run": 0.048570366705635595,
+    "pool_size_per_side": 512,
+    "projected_fraction_of_run": 0.05784354577332888,
+    "projected_setup_hours_over_run": 0.6941225492799465,
+    "projected_setup_seconds_over_run": 2498.8411774078077,
+    "run_budget_hours": 12.0,
+    "setup_seconds_per_iteration": 3.9917590693415455
+   },
+   "mps": {
+    "assumed_iterations": 626,
+    "five_epoch_update_seconds_per_iteration": 0.5286334723156566,
+    "generation_seconds_per_iteration": 2.7488470000680536,
+    "one_epoch_alternative_fraction_of_run": 0.04283904125489098,
+    "pool_size_per_side": 512,
+    "projected_fraction_of_run": 0.04749311980815283,
+    "projected_setup_hours_over_run": 0.569917437697834,
+    "projected_setup_seconds_over_run": 2051.7027757122023,
+    "run_budget_hours": 12.0,
+    "setup_seconds_per_iteration": 3.27748047238371
+   }
+  },
+  "measurements": {
+   "cpu": {
+    "five_epoch_overhead_seconds": 0.6399382359813899,
+    "pool_generation": {
+     "1000": {
+      "samples_per_second": 327.93384787421365,
+      "seconds": 3.0493954999838024,
+      "seconds_for_both_sides": 6.098790999967605,
+      "seconds_per_side_pool": 3.0493954999838024
+     },
+     "512": {
+      "samples_per_second": 322.3582774591571,
+      "seconds": 1.588294874993153,
+      "seconds_for_both_sides": 3.176589749986306,
+      "seconds_per_side_pool": 1.588294874993153
+     }
+    },
+    "update": {
+     "1_epoch": {
+      "episodes": 320,
+      "repeats": 3,
+      "seconds_mean": 0.1752310833738496,
+      "seconds_min": 0.17363966710399836
+     },
+     "5_epoch": {
+      "episodes": 320,
+      "repeats": 3,
+      "seconds_mean": 0.8151693193552395,
+      "seconds_min": 0.8134302919497713
+     }
+    }
+   },
+   "mps": {
+    "five_epoch_overhead_seconds": 0.32117602795672906,
+    "pool_generation": {
+     "1000": {
+      "samples_per_second": 736.78088461198,
+      "seconds": 1.3572556249564514,
+      "seconds_for_both_sides": 2.7145112499129027,
+      "seconds_per_side_pool": 1.3572556249564514
+     },
+     "512": {
+      "samples_per_second": 372.51982375688743,
+      "seconds": 1.3744235000340268,
+      "seconds_for_both_sides": 2.7488470000680536,
+      "seconds_per_side_pool": 1.3744235000340268
+     }
+    },
+    "update": {
+     "1_epoch": {
+      "episodes": 320,
+      "repeats": 3,
+      "seconds_mean": 0.20745744435892752,
+      "seconds_min": 0.13586550008039922
+     },
+     "5_epoch": {
+      "episodes": 320,
+      "repeats": 3,
+      "seconds_mean": 0.5286334723156566,
+      "seconds_min": 0.4915476250462234
+     }
+    }
+   }
+  },
+  "peak_memory_mib": 2771.0,
+  "soak_cost": {
+   "generation_seconds": 718.5744924461469,
+   "iterations": 626,
+   "play_seconds": 1797.2472592496779,
+   "update_seconds": 523.4533299780451
+  }
+ },
+ "versions": {
+  "orientation_rule_version": "phase15_orientation_rule_v1",
+  "setup_contract_version": "phase17_setup_contract_v1",
+  "setup_episode_schema_version": "phase17_setup_episode_v1",
+  "setup_equation_version": "phase17_setup_update_v2",
+  "setup_kl_controller_version": "phase17_setup_behavior_kl_controller_v1",
+  "setup_model_version": "phase17_setup_model_v1",
+  "setup_queue_version": "phase17_setup_episode_queue_v1"
+ },
+ "what_agent_3_did_not_establish": [
+  "setup STRENGTH. The soak's move policy is a uniform-random legal fixture, so a better setup distribution has nothing to be better against. The soak establishes legality, diversity and a working outcome-to-update path, and nothing more.",
+  "any EWR. No benchmark, no opponent and no evaluation lane was run.",
+  "the production value of N. Agent 4 freezes it at preflight; only the alpha formula is frozen here.",
+  "that D7-B is the BEST entropy form. It is the one the operator selected and it is measured here; no alternative coefficient or shape was swept, and this phase is explicitly not a recipe search.",
+  "the tandem schedule. This agent owns neither the move learner nor the runner.",
+  "that the soak's game-outcome distribution resembles production. Random-policy games draw far more often than a trained policy's would."
+ ],
+ "work_package": "phase17"
+}
