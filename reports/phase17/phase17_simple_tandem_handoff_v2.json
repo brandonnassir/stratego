@@ -1,0 +1,390 @@
+{
+ "artifact": "phase17_simple_tandem_handoff_v2",
+ "supersedes": "phase17_simple_tandem_handoff_v1",
+ "written_utc": "2026-08-29T03:55:56Z",
+ "written_by": "Agent 4C, narrow attribution and resume correction",
+ "work_package": "phase17",
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "production_run_id": "RUN-2026-B",
+ "provenance": {
+  "note": "v1 recorded ONE commit and called it both the base and the implementation. These are four different things and Agent 6 binds the last two.",
+  "evidence_parent_commit": {
+   "sha": "eab8a3347a3955c8f1b1001f2729172b20abadb3",
+   "short": "eab8a33",
+   "subject": "Simplify Phase 17 to paper-shaped tandem self-play",
+   "role": "the commit the D10 conversion started FROM. v1's identities.commit and integration_base both named this, which attributed the whole 4B implementation to its parent."
+  },
+  "implementation_commit": {
+   "sha": "3be8bba7f544a948a37f06b5ff5941b265ad7f55",
+   "short": "3be8bba",
+   "subject": "Convert Phase 17 to the D10 simplified paper-shaped tandem recipe",
+   "role": "Agent 4B's D10 conversion, and the commit the 9/9 smoke in reports/phase17/phase17_simple_tandem_preflight.json ran at."
+  },
+  "correction_commit": {
+   "sha": "67b186af8f6e42f35f7a636d31ffd4d7fb308668",
+   "short": "67b186a",
+   "subject": "Correct Phase 17 source provenance and resume defects (Agent 4C)",
+   "role": "the six corrections in this handoff. This is the commit the source closure below describes and the one Agent 6 binds."
+  },
+  "deliverables_commit": {
+   "sha": null,
+   "sha_is_null_because": "a file cannot name the commit that contains it -- writing the hash in would change the content and therefore the hash. Find it by subject.",
+   "subject": "Deliver the Agent 4C report and the amended Phase 17 handoff",
+   "find_it_with": "git log --grep='Deliver the Agent 4C report'",
+   "role": "reports/phase17/agent_04c_report.md and this file. Neither is inside the production source closure, so this commit does not move source_closure_digest -- verified after the fact by re-running verify_source_digest against the committed tree."
+  }
+ },
+ "identities": {
+  "source_closure_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+  "source_closure_version": "phase17_production_source_closure_v1",
+  "production_config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+  "production_config_digest_note": "PRODUCTION's config, run_id RUN-2026-B. v1 recorded ee19d62789634c079ca1d4164ee7dc721def1f94b0b30b252fa08092807a79de, which is the SMOKE session's config digest (run_id RUN-SMOKE-D10, setup seed +1000). Freezing that value would have bound the launch manifest to a config the production run never uses.",
+  "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+  "joint_checkpoint_schema": "phase17_joint_checkpoint_v2",
+  "export_schema": "phase17_paired_export_v1",
+  "telemetry_schema": "phase17_simple_tandem_telemetry_v1",
+  "supervisor_version": "phase17_run_supervisor_v3",
+  "supervisor_version_note": "v2 -> v3. The state document gained the first-hour move-entropy sample set and I7 widened to cover a lost or duplicated setup outcome. A v2 state document is refused, not defaulted.",
+  "runner_version": "phase17_tandem_runner_v2",
+  "setup_equation_version": "phase17_setup_update_paper_v1",
+  "completed_setup_buffer_version": "phase17_completed_setup_buffer_v1"
+ },
+ "source_closure": {
+  "roots": [
+   "stratego/training/phase17",
+   "scripts/run_phase17_training.py"
+  ],
+  "rule": "directories expand to their sorted *.py, __pycache__ excluded; files are taken as they are",
+  "closure_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+  "file_count": 22,
+  "files": [
+   {
+    "path": "scripts/run_phase17_training.py",
+    "sha256": "14e15d5bea78b6bc0bcb2ca909fc1d9518e31a8019a8a03ff6f04d4326001310"
+   },
+   {
+    "path": "stratego/training/phase17/__init__.py",
+    "sha256": "a9cffdb8cb247f6cb6c85bc869335e9d4a851179afdad8cb48e2c88bcc926473"
+   },
+   {
+    "path": "stratego/training/phase17/checkpoint.py",
+    "sha256": "951e15b2fb1d0ed005f6ea97d375f374ce8c6e12a829d25887bd506bc44496ec"
+   },
+   {
+    "path": "stratego/training/phase17/export.py",
+    "sha256": "66161130cbc579a2d3a0799e12c1d293ddb065afd503f6a4109f1cd4547511f0"
+   },
+   {
+    "path": "stratego/training/phase17/move_contract.py",
+    "sha256": "160e9c940de1047a85cd0a211f8fb35f530d93bc1569c833c9c5d5a02971bcab"
+   },
+   {
+    "path": "stratego/training/phase17/move_loss.py",
+    "sha256": "82e9b9b4fa7611c6d1d95b8c52519c0075f18b4c2072881050b8197e9db7efb7"
+   },
+   {
+    "path": "stratego/training/phase17/move_snapshot.py",
+    "sha256": "bcc07cf422b93311ae780753312f6d7f77584db828d6c78ac1f46e4e15d8b70c"
+   },
+   {
+    "path": "stratego/training/phase17/move_start.py",
+    "sha256": "e47b0b083e2ff5ef8737b95c9779e53d84f981f2ada73d2fe25657c3018fadc1"
+   },
+   {
+    "path": "stratego/training/phase17/move_trainer.py",
+    "sha256": "e82d7e08aac58f04bd48ac1fc5a3f6293ead80b44aba330858afaaa32d14a7bf"
+   },
+   {
+    "path": "stratego/training/phase17/runner.py",
+    "sha256": "7a677cb2775de418296f8a6de8c5264c516d1bea4bd42779c7b97b966d1dc60c"
+   },
+   {
+    "path": "stratego/training/phase17/setup_contract.py",
+    "sha256": "8e24301b60a7a4290ec1c92266c1774b2df445e8b1de673f491e2e9ea5c62899"
+   },
+   {
+    "path": "stratego/training/phase17/setup_episode.py",
+    "sha256": "b0dbc0debf49ebd717e00f644a7727c359550845825687ff3b11a5321e6f3325"
+   },
+   {
+    "path": "stratego/training/phase17/setup_learning.py",
+    "sha256": "ed76bf175c2c00b5d1ed6253dbacc44da7b8d4dc2137386e0805d0f00d75a6cc"
+   },
+   {
+    "path": "stratego/training/phase17/setup_metrics.py",
+    "sha256": "386314e8d9d11e71da7d73b2b0a01a0aab7789b11f4213cbdefb201b8da86893"
+   },
+   {
+    "path": "stratego/training/phase17/setup_model.py",
+    "sha256": "f588e78a8dd8c5c352bafc830c0378e6ab8077faeeaec23c4e7f7db5e9a1b534"
+   },
+   {
+    "path": "stratego/training/phase17/setup_sampling.py",
+    "sha256": "1cde06bdcb73c0684f892fc64581e17f6485978d2f6f5363fb51c80232c22bca"
+   },
+   {
+    "path": "stratego/training/phase17/source_identity.py",
+    "sha256": "14289f9de0bfbc266e0983e0a2f7e91cee4cd2dd610791b5f0da8ee33ce12983"
+   },
+   {
+    "path": "stratego/training/phase17/supervisor.py",
+    "sha256": "4152b50b54cbb1616fe6e3ac3b4435eaac56c21c8fb54f763975347e8ac67011"
+   },
+   {
+    "path": "stratego/training/phase17/telemetry.py",
+    "sha256": "8b77653430741aa292a32ddaf82430a3211e7e03d696f81288f194a274f08024"
+   },
+   {
+    "path": "stratego/training/phase17/transition_collector.py",
+    "sha256": "482a57d615652a31e16a3192503defa38262ef163669ba8a361150ef368c7215"
+   },
+   {
+    "path": "stratego/training/phase17/transition_schema.py",
+    "sha256": "63b8c49fb883ba7be62a1811d224ac8ed9a7ed9467c91745c037896f31a53e12"
+   },
+   {
+    "path": "stratego/training/phase17/transition_targets.py",
+    "sha256": "fabd635ff285e34ef31ad388daed0ec31cbde9b626433ec92d3a0961bd3bb687"
+   }
+  ],
+  "recomputed_from": "the working tree at the correction commit; no closure member is uncommitted",
+  "what_changed_from_v1": "v1's closure was a hand-written tuple of 11 paths in the smoke script. It OMITTED move_trainer.py, move_loss.py, move_start.py, move_snapshot.py, transition_collector.py, transition_targets.py, transition_schema.py, setup_model.py, setup_sampling.py and __init__.py -- so a change to the move learner did not move the source identity -- and INCLUDED run_phase17_d10_smoke.py, which production never loads, so editing a smoke did move it. The closure is now the package plus the entry script, enumerated, and the smoke is deliberately outside it.",
+  "not_hard_coded": "source_identity.py contains no digest literal. Agent 6 freezes the value printed by --describe and Agent 7 passes it back on --source-digest, so the check is 'these bytes are the bytes the operator authorized'."
+ },
+ "production_command": "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py --run-id RUN-2026-B --start --i-am-agent-7 --source-digest 4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5 > <log> 2>&1 &",
+ "production_command_shape": {
+  "dry_run": ".venv/bin/python scripts/run_phase17_training.py --describe",
+  "dry_run_prints": [
+   "source_closure",
+   "source_digest",
+   "production_command",
+   "would_run",
+   "schedule_digest",
+   "telemetry_schema"
+  ],
+  "start_requires": [
+   "--start",
+   "--i-am-agent-7",
+   "--source-digest <frozen>"
+  ],
+  "refusals": {
+   "no --i-am-agent-7": "exit 2, before anything is read",
+   "no --source-digest": "exit 3, 'has no production source digest'",
+   "--source-digest that does not match the working tree": "exit 3, naming both digests and the file count"
+  },
+  "resume": "--resume <checkpoint>; the same --source-digest is required and re-checked on load"
+ },
+ "corrected_invariants": [
+  {
+   "id": "4C-1",
+   "title": "the production source identity is exact and cannot be empty",
+   "holds": "TrainingSession refuses an empty, blank or malformed source digest at construction. The digest joins run_digest, every paired checkpoint, every paired export manifest, and is re-checked on resume. --start recomputes the 22-file closure and refuses anything but the authorized value.",
+   "defect_before": "source_digest defaulted to \"\" and main() never passed one, so production would have written every checkpoint and all 25 candidates under an empty source identity -- which compares equal to every other empty one, so every identity check would have passed.",
+   "pinned_by": [
+    "test_an_empty_or_malformed_production_source_digest_is_refused",
+    "test_a_session_cannot_be_constructed_without_a_source_digest",
+    "test_the_production_closure_covers_the_move_half_it_used_to_omit",
+    "test_editing_any_closure_member_moves_the_digest",
+    "test_the_working_tree_must_match_the_authorized_digest",
+    "test_no_frozen_digest_is_hard_coded_in_the_source_identity_module",
+    "test_source_identity_changes_the_run_identity",
+    "test_source_identity_survives_checkpoint_export_and_resume"
+   ]
+  },
+  {
+   "id": "4C-2",
+   "title": "a resume keeps every checkpointed iteration's telemetry row, exactly once",
+   "holds": "the checkpoint/append ORDER is unchanged -- the row carries the written checkpoint's verified identity -- but telemetry_position now carries pending_row_iteration, and TelemetryWriter.resume adopts exactly that one row past the checkpointed offset. Adoption requires a complete line, the run id, record_index == records, and the named iteration. Everything else past the offset is truncated as before.",
+   "defect_before": "the checkpoint recorded the PRE-append position, so the resumed writer truncated the row of the iteration it was resuming from. The 4B smoke's log held iterations 1, 2, 4 at record indices 0, 1, 2.",
+   "pinned_by": [
+    "test_the_pending_row_is_adopted_once_and_later_rows_are_truncated",
+    "test_a_pending_row_that_never_landed_is_not_invented",
+    "test_a_tail_that_is_not_a_complete_pending_row_is_discarded",
+    "test_a_row_from_a_different_iteration_is_not_adopted",
+    "test_a_live_resume_keeps_every_checkpointed_iteration_row_exactly_once"
+   ]
+  },
+  {
+   "id": "4C-3",
+   "title": "the next checkpoint after a resume names the checkpoint it loaded",
+   "holds": "resume() rebuilds the loaded checkpoint's full CheckpointIdentity -- path, generation, iteration, file_sha256, payload_digest -- and adopts it as the parent, so generation g+1 links to g. Paired exports written after a resume bind the same parent.",
+   "defect_before": "it copied payload['parent_checkpoint_identity'], the loaded checkpoint's OWN parent, so generation g+1 linked to g-1 and the chain skipped a generation at every resume.",
+   "pinned_by": [
+    "test_the_checkpoint_after_a_resume_links_to_the_one_it_loaded",
+    "test_an_export_after_a_resume_binds_the_loaded_checkpoint"
+   ]
+  },
+  {
+   "id": "4C-4",
+   "title": "cadence warnings reach their own row, and P6's baseline survives a resume",
+   "holds": "P4-P7 verdicts are carried out of _cadence_guards and merged into the iteration's telemetry row. The row partitions by CONSEQUENCE (stops_the_run), not by `fired`: P5 and P7 fire on one observation, so the old `fired` test filed a tripped warning under stop_predicates, which D10 section 7 says it can never be. The first-hour move-entropy samples and median live in the supervisor's persisted state.",
+   "defect_before": "the cadence verdicts were produced after run_iteration returned, so they were not in result.verdicts and reached no row at all -- P4-P7 could trip on every iteration of the 12-hour run and the telemetry would never say so. The first-hour samples lived on the session object, which a resume rebuilds from nothing, so a resume inside the first hour would fix P6's floor from the post-resume readings alone.",
+   "pinned_by": [
+    "test_a_cadence_warning_appears_in_the_row_of_the_iteration_that_tripped_it",
+    "test_every_cadence_predicate_is_carried_into_the_row",
+    "test_the_first_hour_entropy_baseline_survives_a_resume",
+    "test_a_fixed_first_hour_median_is_never_recomputed",
+    "test_a_supervisor_state_without_the_first_hour_samples_is_refused"
+   ]
+  },
+  {
+   "id": "4C-5",
+   "title": "a rejected completed setup episode stops the run",
+   "holds": "TandemRunner._enqueue arms I7 on any refusal -- incomplete, duplicate, already consumed. The episode is still recorded in enqueue_rejections for diagnosis. The verdict is held on the runner and drained by _supervise at the iteration boundary, so the row shows which iteration armed the stop, and the session stops after its safe checkpoint.",
+   "defect_before": "a refusal appended to a list and the window carried on, so the setup half could silently train on a different set of games than its telemetry described.",
+   "stop_code": "I7, widened per D10 section 7's 'loss/duplication of setup outcomes'",
+   "pinned_by": [
+    "test_a_duplicate_completed_episode_arms_the_integrity_stop",
+    "test_an_incomplete_episode_also_arms_it",
+    "test_the_rejection_verdict_reaches_the_iterations_telemetry"
+   ]
+  }
+ ],
+ "exports": {
+  "cadence_seconds": 1800,
+  "expected_candidates": 25,
+  "immutability": "write_paired_export refuses an existing candidate name; no name is reused",
+  "binds": [
+   "run",
+   "ordinal",
+   "active time",
+   "move/setup EMA state digests",
+   "start identity",
+   "parent checkpoint identity",
+   "config_digest",
+   "source_digest"
+  ],
+  "h0": "written before the first optimizer update; export_hour_zero refuses after iteration 1"
+ },
+ "telemetry_schema": {
+  "schema_version": "phase17_simple_tandem_telemetry_v1",
+  "format": "JSONL, one row per tandem iteration, fsynced before return",
+  "blocks": [
+   "move",
+   "setup",
+   "system"
+  ],
+  "move": [
+   "transitions_harvested",
+   "transitions_trained",
+   "boundary_rows",
+   "terminal_rows",
+   "active_games",
+   "games_completed",
+   "game_lengths",
+   "terminal_results",
+   "terminal_reasons",
+   "plies_advanced",
+   "loss_components",
+   "entropy",
+   "mean_kl",
+   "kl_beta",
+   "clip_fraction",
+   "grad_norm",
+   "learning_rate",
+   "entropy_coefficient",
+   "raw_model_state_digest",
+   "ema_model_state_digest",
+   "optimizer_steps",
+   "participant_ledger",
+   "boundary_target_divergence",
+   "bootstrap_age_windows",
+   "collection_seconds",
+   "target_seconds",
+   "optimization_seconds"
+  ],
+  "setup": [
+   "generated",
+   "refills",
+   "unused",
+   "discarded_on_rebind",
+   "snapshot_iteration",
+   "raw_model_state_digest",
+   "ema_model_state_digest",
+   "legality_failures",
+   "orientation_failures",
+   "fallback_attempts",
+   "completed_episode_buffer",
+   "activity",
+   "updated",
+   "skip_reason",
+   "episodes_consumed",
+   "loss_components",
+   "advantage_components",
+   "empirical_entropy",
+   "predicted_entropy",
+   "mean_kl",
+   "final_epoch_kl",
+   "kl_coefficient",
+   "kl_direction",
+   "grad_norm",
+   "learning_rate",
+   "alpha",
+   "optimizer_steps",
+   "concentration",
+   "generation_seconds",
+   "optimization_seconds"
+  ],
+  "system": [
+   "run_id",
+   "work_package",
+   "iteration",
+   "elapsed_active_training_seconds",
+   "cadence_index",
+   "memory_high_water_mib",
+   "checkpoint",
+   "export",
+   "warnings",
+   "stop_predicates",
+   "external_result_status",
+   "checkpoint_seconds",
+   "total_seconds"
+  ],
+  "append_position": [
+   "records",
+   "offset",
+   "last_record_digest",
+   "pending_row_iteration"
+  ],
+  "resume_rule": "a resumed log must reproduce last_record_digest at the recorded offset; past that offset the single row named by pending_row_iteration is adopted if it is complete and matches run, record index and iteration, and everything else is truncated back. A shorter log is refused."
+ },
+ "tests": {
+  "policy": "targeted only; no D10 smoke, no setup soak, no strength evaluation, no repository suite",
+  "new_module": "tests/training/phase17/test_agent_4c_corrections.py",
+  "new_tests_passed": 29,
+  "phase17_training_package": {
+   "passed": 451,
+   "before_4c": 422,
+   "note": "ran wider than the instruction's 'directly affected modules' economy asked for; reported as run"
+  },
+  "not_run": [
+   "scripts/run_phase17_d10_smoke.py (either role)",
+   "the repository suite",
+   "any setup soak",
+   "any strength evaluation"
+  ]
+ },
+ "not_established": [
+  "any strength claim: no benchmark lane was evaluated",
+  "the D10 smoke was not rerun at production shape after these corrections",
+  "the corrected resume was not exercised on MPS; MPS is not bitwise reproducible run to run, so the resume proofs are CPU",
+  "setup diversity or concentration behavior over 12 hours"
+ ],
+ "retained_known_issue": {
+  "id": "D10-ADV-SCALE",
+  "status": "SHIPPED BY INSTRUCTION, not a 4C defect",
+  "summary": "D10's printed advantage puts the entropy term alpha*(I - h) in nats against an outcome term bounded by 2, and L_h targets I/10. The component magnitudes are recorded per iteration in setup.advantage_components. D10 section 4 forbids a compensating scale, floor, centering rule, horizon map or controller, so it is shipped uncompensated and the ratio is part of the experiment's reading."
+ },
+ "ready_for_launch_freeze": true,
+ "ready_for_launch_freeze_because": [
+  "production cannot start without an exact, non-empty source identity, and the working tree is re-hashed and compared to the authorized value before anything is written under the run's name",
+  "that identity is bound into the run digest, every paired checkpoint, every paired export manifest, and re-checked on every resume",
+  "paired cadence exports remain immutable: no candidate name is reused and an existing name is refused",
+  "a resume can no longer silently alter the learning curve -- the checkpointed row survives, the parent link is exact, P6's baseline is carried, and a lost or duplicated setup outcome stops the run instead of being counted"
+ ],
+ "agent_6_must": [
+  "run --describe, freeze the printed source_digest into the launch manifest, and bind the production command shape above",
+  "freeze production_config_digest 4e7abad8... (NOT v1's ee19d627..., which is the smoke's)",
+  "bind correction commit 67b186a, not eab8a33 and not 3be8bba"
+ ]
+}
