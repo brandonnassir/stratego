@@ -158,7 +158,7 @@ one the tree does not reproduce, exits 3 naming both digests.
 
 ## 3. Verification
 
-Targeted only, as instructed. **29 new tests** in
+Targeted only, as instructed. **30 new tests** in
 `tests/training/phase17/test_agent_4c_corrections.py`, one per required proof
 plus the edge cases each correction opens:
 
@@ -168,11 +168,11 @@ plus the edge cases each correction opens:
 | source identity changes the run identity and survives checkpoint/export/resume | 2 |
 | checkpoint → append → resume retains every checkpointed row exactly once | 5 |
 | the next checkpoint after resume links to the loaded checkpoint | 2 |
-| a cadence warning appears in the corresponding telemetry row | 2 |
+| a cadence warning appears in the corresponding telemetry row | 3 |
 | the first-hour entropy baseline survives resume | 3 |
 | a rejected completed setup episode arms the integrity stop | 3 |
 
-The Phase 17 training package is **451 pass** (422 before). I ran the whole
+The Phase 17 training package is **452 pass** (422 before). I ran the whole
 package rather than only the individual affected tests — wider than the
 instruction's economy asked for, and reported here as run. Not run, as
 instructed: the production-shaped D10 smoke (either role), the repository

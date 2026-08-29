@@ -221,7 +221,8 @@
    "defect_before": "the cadence verdicts were produced after run_iteration returned, so they were not in result.verdicts and reached no row at all -- P4-P7 could trip on every iteration of the 12-hour run and the telemetry would never say so. The first-hour samples lived on the session object, which a resume rebuilds from nothing, so a resume inside the first hour would fix P6's floor from the post-resume readings alone.",
    "pinned_by": [
     "test_a_cadence_warning_appears_in_the_row_of_the_iteration_that_tripped_it",
-    "test_every_cadence_predicate_is_carried_into_the_row",
+    "test_every_tripping_cadence_predicate_is_carried_into_the_row",
+    "test_the_row_carries_verdicts_the_iteration_itself_did_not_produce",
     "test_the_first_hour_entropy_baseline_survives_a_resume",
     "test_a_fixed_first_hour_median_is_never_recomputed",
     "test_a_supervisor_state_without_the_first_hour_samples_is_refused"
@@ -351,9 +352,9 @@
  "tests": {
   "policy": "targeted only; no D10 smoke, no setup soak, no strength evaluation, no repository suite",
   "new_module": "tests/training/phase17/test_agent_4c_corrections.py",
-  "new_tests_passed": 29,
+  "new_tests_passed": 30,
   "phase17_training_package": {
-   "passed": 451,
+   "passed": 452,
    "before_4c": 422,
    "note": "ran wider than the instruction's 'directly affected modules' economy asked for; reported as run"
   },

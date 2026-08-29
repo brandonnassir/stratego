@@ -484,22 +484,48 @@ def test_a_cadence_warning_appears_in_the_row_of_the_iteration_that_tripped_it(t
     assert row["system"]["stop_predicates"] == []
 
 
-def test_every_cadence_predicate_is_carried_into_the_row(tmp_path):
+def test_every_tripping_cadence_predicate_is_carried_into_the_row(tmp_path):
+    """P4, P5 and P6 forced to trip together; all three must reach one row.
+
+    Each is generated at a different point of `_cadence_guards` -- P6 before
+    the reading, P4 and P5 inside it -- so carrying one out is not evidence
+    that the others are carried. The thresholds are moved, never the recipe:
+    what changes is whether a warning is generated, not what happens next.
+    """
     session = session_at(tmp_path, reading_every=1, reading_samples=8)
     session.export_hour_zero()
+    supervisor = session.runner.supervisor
+    supervisor.setup_entropy_floor = 1e9  # P4
+    supervisor.flag_support_floor = 1e9  # P5
+    supervisor.move_entropy_first_hour_closed = True  # P6, against a fixed median
+    supervisor.move_entropy_first_hour_median = 1e9
+    row = session.step(checkpoint=False)["row"]
+    session.close()
+
+    carried = {verdict["code"] for verdict in row["system"]["warnings"]}
+    assert {"P4", "P5", "P6"} <= carried, (
+        f"a cadence predicate tripped but never reached its row: {carried}"
+    )
+    assert row["system"]["stop_predicates"] == [], "D10 section 7: these never stop"
+    # P7 cannot be forced here -- D10 drains the buffer every iteration, so
+    # "episodes available and no update" does not arise -- but it must still be
+    # observed on every iteration, which is what makes its silence readable.
+    assert "P7" in {verdict["code"] for verdict in supervisor.verdicts}
+
+
+def test_the_row_carries_verdicts_the_iteration_itself_did_not_produce(tmp_path):
+    """The merge, stated directly: cadence verdicts are additional, not a copy."""
+    session = session_at(tmp_path, reading_every=1, reading_samples=8)
+    session.export_hour_zero()
+    session.runner.supervisor.flag_support_floor = 1e9
     step = session.step(checkpoint=False)
     session.close()
-    carried = {verdict["code"] for verdict in step["row"]["system"]["warnings"]}
-    observed = {verdict["code"] for verdict in step["result"].verdicts}
-    cadence = {verdict["code"] for verdict in step["row"]["system"]["warnings"]} | {
-        verdict["code"] for verdict in step["row"]["system"]["stop_predicates"]
-    }
-    # Whether they trip depends on the run; that they are *observed* on the
-    # cadence and carried out of it is what the wiring has to guarantee.
-    assert {"P4", "P5", "P6", "P7"} <= {
-        v["code"] for v in session.runner.supervisor.verdicts
-    }
-    assert carried <= cadence | observed
+    from_iteration = {verdict["code"] for verdict in step["result"].verdicts}
+    in_row = {verdict["code"] for verdict in step["row"]["system"]["warnings"]}
+    assert "P5" not in from_iteration, (
+        "P5 is read on the reading cadence, after run_iteration returned"
+    )
+    assert "P5" in in_row
 
 
 def test_the_first_hour_entropy_baseline_survives_a_resume(tmp_path):
