@@ -57,6 +57,11 @@ REPORT_DIRECTORY = REPOSITORY_ROOT / "reports" / "phase17"
 
 #: The source closure this smoke's verdict is bound to. A later edit to any of
 #: these invalidates the smoke, which is what the digest is for.
+#: Agent 4B's hand-written list, kept because the 4B preflight report is bound
+#: to it. It is NOT the production source closure: it omitted the entire move
+#: half and included this smoke, so it moved when the smoke was edited and did
+#: not move when the move trainer was. `source_identity.PRODUCTION_SOURCE_ROOTS`
+#: is what production binds; this tuple is only reported alongside it.
 AGENT_4B_SOURCES = (
     "stratego/training/phase17/setup_contract.py",
     "stratego/training/phase17/setup_episode.py",
@@ -191,6 +196,7 @@ def smoke(arguments) -> dict:
     )
     from stratego.training.phase17.setup_model import build_setup_model
     from stratego.training.phase17.setup_sampling import to_engine_setup
+    from stratego.training.phase17.source_identity import production_source_closure
     from stratego.training.phase17.supervisor import MODE_PRODUCTION
     from stratego.training.phase17.telemetry import read_rows, telemetry_schema
 
@@ -198,6 +204,7 @@ def smoke(arguments) -> dict:
         TrainingSession,
         build_production_config,
         load_frozen,
+        production_command,
     )
 
     if arguments.run_id == PRODUCTION_RUN_ID:
@@ -231,7 +238,11 @@ def smoke(arguments) -> dict:
 
         shutil.rmtree(directory)
 
-    sources = source_closure(AGENT_4B_SOURCES)
+    # The digest the session binds is the PRODUCTION closure, computed by the
+    # module production itself uses -- not this script's own file list. A smoke
+    # that bound a different source identity than production would be proving
+    # the round trip of a program nobody is going to run.
+    sources = production_source_closure(root=REPOSITORY_ROOT)
     session = TrainingSession(
         config,
         directory=directory,
@@ -548,10 +559,12 @@ def smoke(arguments) -> dict:
 
     # -- 8. a paired checkpoint round trip ----------------------------------
     #
-    # Read the log before the resume: `TrainingSession.step` checkpoints before
-    # it appends, so a resumed writer truncates the row of the iteration it
-    # resumed from and re-emits from there. That is the accepted Agent 4
-    # behavior and is recorded, not changed.
+    # Read the log before the resume so the row counts either side of it can be
+    # compared. `TrainingSession.step` still checkpoints before it appends --
+    # the row carries the checkpoint's verified identity -- but since Agent 4C
+    # the checkpoint names the row it is about to write and the resumed writer
+    # adopts exactly that one row instead of truncating it. The log therefore
+    # keeps the checkpointed iteration and loses nothing across the resume.
     rows = read_rows(session.telemetry.path)
     checkpoint_path = steps[-1]["checkpoint"]["path"]
     reread = read_joint_checkpoint(
@@ -827,8 +840,13 @@ def handoff(arguments) -> dict:
         SETUP_RECIPE_VERSION,
         setup_alpha,
     )
+    from stratego.training.phase17.source_identity import production_source_closure
     from stratego.training.phase17.supervisor import SUPERVISOR_VERSION
     from stratego.training.phase17.telemetry import telemetry_schema
+
+    from run_phase17_training import production_command
+
+    sources = production_source_closure(root=REPOSITORY_ROOT)
 
     preflight_path = REPORT_DIRECTORY / "phase17_simple_tandem_preflight.json"
     if not preflight_path.is_file():
@@ -840,6 +858,11 @@ def handoff(arguments) -> dict:
 
     return {
         "artifact": "phase17_simple_tandem_handoff_v1",
+        "superseded_by": (
+            "reports/phase17/phase17_simple_tandem_handoff_v2.json, written by "
+            "Agent 4C. This role regenerates the 4B artifact; v2 is the one "
+            "Agent 6 binds."
+        ),
         "written_utc": utc_now(),
         "work_package": "phase17",
         "recipe": SETUP_RECIPE_VERSION,
@@ -1023,41 +1046,43 @@ def handoff(arguments) -> dict:
             },
             {
                 "id": "A4B-2",
-                "status": "REPORTED, NOT CHANGED",
+                "status": "FIXED by Agent 4C",
                 "severity": "telemetry only; training and checkpoints unaffected",
                 "summary": (
-                    "one telemetry row is lost per resume. TrainingSession.step "
+                    "one telemetry row was lost per resume. TrainingSession.step "
                     "writes the checkpoint BEFORE it appends the row, so the "
-                    "checkpoint's telemetry_position excludes the row of the "
-                    "iteration it was taken at. TelemetryWriter.resume then "
-                    "truncates that row back and the next iteration writes into "
-                    "its record slot."
+                    "checkpoint's telemetry_position excluded the row of the "
+                    "iteration it was taken at, and TelemetryWriter.resume "
+                    "truncated that row back as excess."
                 ),
-                "measured": (
-                    "the smoke's log holds iterations 1, 2, 4 at record indices "
-                    "0, 1, 2; iteration 3's row is gone although its weights "
-                    "were checkpointed and restored"
+                "measured_before_the_fix": (
+                    "the 4B smoke's log held iterations 1, 2, 4 at record "
+                    "indices 0, 1, 2; iteration 3's row was gone although its "
+                    "weights were checkpointed and restored"
                 ),
-                "consequence": (
-                    "the hour 6-12 learning curve loses one row per resume and "
-                    "record_index no longer tracks the iteration number. Every "
-                    "row carries system.iteration, so a reader realigns by that "
-                    "field rather than by position."
+                "fix": (
+                    "the ordering is unchanged -- the row still carries the "
+                    "written checkpoint's verified identity -- but the "
+                    "checkpointed position now NAMES the row it is about to "
+                    "write (pending_row_iteration) and the resume adopts "
+                    "exactly that one row. Later rows are still truncated."
                 ),
-                "not_changed_because": (
-                    "this is Agent 4's accepted checkpoint/append ordering and "
-                    "the row's own content includes the checkpoint identity, so "
-                    "reversing the order is a restructure of machinery the 4B "
-                    "brief says to reuse rather than rebuild. Operator call."
-                ),
+                "pinned_by": [
+                    "tests/training/phase17/test_agent_4c_corrections.py::"
+                    "test_the_pending_row_is_adopted_once_and_later_rows_are_truncated",
+                    "tests/training/phase17/test_agent_4c_corrections.py::"
+                    "test_a_live_resume_keeps_every_checkpointed_iteration_row_exactly_once",
+                ],
             },
         ],
         "tests": source_closure(AGENT_4B_TESTS),
-        "sources": source_closure(AGENT_4B_SOURCES),
-        "production_command": (
-            "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py "
-            f"--run-id {PRODUCTION_RUN_ID} --start --i-am-agent-7 "
-            "> <log> 2>&1 &"
+        # What the run binds is the PRODUCTION closure. Agent 4B's hand-written
+        # list is reported beside it for provenance only; it is not a source
+        # identity anything checks against.
+        "sources": sources,
+        "agent_4b_reported_source_list": source_closure(AGENT_4B_SOURCES),
+        "production_command": production_command(
+            run_id=PRODUCTION_RUN_ID, source_digest=sources["closure_digest"]
         ),
         "not_established": [
             "any strength claim: no benchmark lane was evaluated",

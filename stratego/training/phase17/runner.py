@@ -605,6 +605,11 @@ class TandemRunner:
         self.iteration = 0
         self.elapsed_active_training_seconds = 0.0
         self.enqueue_rejections: list = []
+        #: Verdicts raised mid-window, drained into the iteration's verdict
+        #: list by `_supervise`. Without this they would reach the supervisor
+        #: but never the telemetry row, and a stop would appear in the run with
+        #: no row saying which iteration armed it.
+        self._mid_window_verdicts: list = []
         self.setup_updates = 0
         self.setup_skips = 0
 
@@ -625,15 +630,38 @@ class TandemRunner:
     # -- the completed-episode sink ---------------------------------------
 
     def _enqueue(self, episode) -> None:
-        """Every completed setup episode, with refusals counted, never dropped."""
-        if not self.setup_trainer.queue.enqueue(episode):
-            self.enqueue_rejections.append(
-                {
-                    "identity": episode.identity(),
-                    "state": episode.state,
-                    "reason": episode.rejected_reason,
-                }
+        """Every completed setup episode, counted, and never silently dropped.
+
+        Agent 4C correction 5. A refusal used to be appended to a list and the
+        window carried on. But every refusal reason -- incomplete, duplicate,
+        already consumed -- means a finished game's outcome will not reach the
+        setup learner, so continuing produces a setup half that trained on a
+        different set of games than its telemetry describes. The rejection is
+        still recorded for diagnosis; what it now also does is arm `I7`, and
+        the run stops at the end of this iteration after its safe checkpoint.
+        """
+        if self.setup_trainer.queue.enqueue(episode):
+            return
+        rejection = {
+            "identity": episode.identity(),
+            "state": episode.state,
+            "reason": episode.rejected_reason,
+            "iteration": int(self.iteration),
+        }
+        self.enqueue_rejections.append(rejection)
+        self._mid_window_verdicts.append(
+            self.supervisor.check_setup_outcome_accounting(
+                rejected=True,
+                evidence={
+                    "rejected_episode": rejection,
+                    "rejections_this_run": len(self.enqueue_rejections),
+                    "rule": (
+                        "D10 section 7: loss or duplication of a setup outcome "
+                        "is an integrity stop, not a counted warning"
+                    ),
+                },
             )
+        )
 
     # -- one iteration -----------------------------------------------------
 
@@ -766,7 +794,10 @@ class TandemRunner:
         decline, low diversity and setup concentration telemetry, because the
         12-hour learning curve is the experiment.
         """
-        verdicts = []
+        # Anything raised inside the window (a refused completed setup episode)
+        # is carried out here, so the iteration's row shows what armed a stop.
+        verdicts = list(self._mid_window_verdicts)
+        self._mid_window_verdicts = []
         ledger = self.collector.participant_ledger()
         verdicts.extend(self.supervisor.check_participant_ledger(ledger))
         verdicts.append(
@@ -1112,6 +1143,7 @@ class TandemRunner:
         self.setup_updates = int(counters["setup_updates"])
         self.setup_skips = int(counters["setup_skips"])
         self.enqueue_rejections = list(counters["enqueue_rejections"])
+        self._mid_window_verdicts = []
         self.supervisor.load_state_document(payload["supervisor_state"])
 
         # The cell must hold the RESTORED raw weights before any game is

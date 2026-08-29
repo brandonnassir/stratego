@@ -39,7 +39,11 @@ from dataclasses import dataclass, field
 
 from .move_contract import Phase17MoveError
 
-SUPERVISOR_VERSION = "phase17_run_supervisor_v2"
+#: v3 adds the first-hour move-entropy sample set to the persisted state and
+#: widens `I7` to cover a lost or duplicated setup outcome. A v2 state document
+#: cannot supply the samples, so it is refused rather than resumed against a
+#: baseline this build would then rebuild from a post-resume sample.
+SUPERVISOR_VERSION = "phase17_run_supervisor_v3"
 
 #: Contract section 13 thresholds. Frozen here; the supervisor reads them and
 #: never writes them.
@@ -149,6 +153,12 @@ class CollapseSupervisor:
         self.setup_kl_hard_limit = float(setup_kl_hard_limit)
         self.move_kl_hard_limit = float(move_kl_hard_limit)
         self.move_entropy_first_hour_median: "float | None" = None
+        #: P6's baseline is built from the first hour's readings and then fixed
+        #: forever. Both the samples and the "it is fixed" flag are persisted,
+        #: because a resume that rebuilt them from post-resume readings would
+        #: move the floor P6 is measured against without saying so.
+        self.move_entropy_first_hour_samples: list = []
+        self.move_entropy_first_hour_closed = False
         self.hour0_ewr: "float | None" = None
         self.stopped: "dict | None" = None
         self.warnings: list = []
@@ -169,7 +179,16 @@ class CollapseSupervisor:
             "I4": _immediate("I4", "setup generation/masking failure or silent fallback attempt"),
             "I5": _immediate("I5", "search or a non-current training opponent entered collection"),
             "I6": _immediate("I6", "evaluation result bound to the wrong candidate or benchmark"),
-            "I7": _immediate("I7", "unrecoverable checkpoint/resume identity failure"),
+            # D10 section 7 pairs these in one bullet: "checkpoint corruption
+            # or loss/duplication of setup outcomes across resume". A rejected
+            # completed episode IS a lost outcome -- the game was played, the
+            # result exists, and the setup learner will never see it -- so it
+            # arms the same stop rather than a warning nobody has to act on.
+            "I7": _immediate(
+                "I7",
+                "unrecoverable checkpoint/resume identity failure, or a "
+                "completed setup outcome lost or duplicated",
+            ),
             "I8": _immediate("I8", "fixed-transition count violation"),
             "P1": warning("P1", f"fixed-pack EWR at least {EWR_COLLAPSE_DROP} below hour 0", 3),
             "P2": warning("P2", f"move mean KL above {move_kl_hard_limit}", 3),
@@ -296,6 +315,19 @@ class CollapseSupervisor:
     def check_checkpoint_identity(self, ok: bool, evidence: dict) -> dict:
         return self.observe("I7", not ok, evidence)
 
+    def check_setup_outcome_accounting(self, *, rejected: bool, evidence: dict) -> dict:
+        """`I7` on a completed setup episode the pending buffer refused.
+
+        Every rejection reason -- incomplete, duplicate, already consumed --
+        means the same thing for the experiment: a finished game's outcome
+        exists and the setup learner will not train on it. Recording it and
+        continuing would leave a run whose setup half silently learned from a
+        different set of games than its telemetry claims, which is exactly the
+        integrity failure D10 section 7 names. The episode is still recorded
+        for diagnosis; what stops is the training.
+        """
+        return self.observe("I7", bool(rejected), evidence)
+
     # -- the persistent family --------------------------------------------
 
     def observe_ewr(self, ewr: float, *, hour0: "float | None" = None) -> dict:
@@ -358,6 +390,33 @@ class CollapseSupervisor:
             value < self.flag_support_floor,
             {"flag_effective_support": value, "floor": self.flag_support_floor},
         )
+
+    def note_first_hour_move_entropy(
+        self, entropy: float, *, first_hour_complete: bool
+    ) -> "float | None":
+        """Fold one first-hour reading in; fix P6's median once, when the hour ends.
+
+        Returns the median at the moment it is fixed and `None` otherwise, so
+        the caller passes it straight to :meth:`observe_move_entropy` and there
+        is one place that can set the baseline. Readings after the hour closes
+        are ignored here -- the baseline is a property of the run's first hour,
+        not a rolling window.
+        """
+        if self.move_entropy_first_hour_closed:
+            return None
+        self.move_entropy_first_hour_samples.append(float(entropy))
+        if not first_hour_complete:
+            return None
+        ordered = sorted(self.move_entropy_first_hour_samples)
+        middle = len(ordered) // 2
+        median = (
+            ordered[middle]
+            if len(ordered) % 2
+            else 0.5 * (ordered[middle - 1] + ordered[middle])
+        )
+        self.move_entropy_first_hour_closed = True
+        self.move_entropy_first_hour_median = float(median)
+        return float(median)
 
     def observe_move_entropy(self, entropy: float, *, first_hour_median: "float | None" = None) -> dict:
         if first_hour_median is not None:
@@ -463,6 +522,10 @@ class CollapseSupervisor:
             "mode": self.mode,
             "hour0_ewr": self.hour0_ewr,
             "move_entropy_first_hour_median": self.move_entropy_first_hour_median,
+            "move_entropy_first_hour_samples": [
+                float(value) for value in self.move_entropy_first_hour_samples
+            ],
+            "move_entropy_first_hour_closed": bool(self.move_entropy_first_hour_closed),
             "predicates": {
                 code: {"consecutive": p.consecutive, "trips": p.trips}
                 for code, p in self.predicates.items()
@@ -477,6 +540,22 @@ class CollapseSupervisor:
             )
         self.hour0_ewr = payload.get("hour0_ewr")
         self.move_entropy_first_hour_median = payload.get("move_entropy_first_hour_median")
+        # Required, not `.get()`-defaulted: a state document that cannot say
+        # whether the first hour closed would resume as "not closed" and let
+        # the next hour of readings rebuild a different baseline.
+        for name in ("move_entropy_first_hour_samples", "move_entropy_first_hour_closed"):
+            if name not in payload:
+                raise Phase17SupervisorError(
+                    f"supervisor state is missing {name!r}; refusing to resume "
+                    "against a P6 baseline this process would rebuild from a "
+                    "post-resume sample"
+                )
+        self.move_entropy_first_hour_samples = [
+            float(value) for value in payload["move_entropy_first_hour_samples"]
+        ]
+        self.move_entropy_first_hour_closed = bool(
+            payload["move_entropy_first_hour_closed"]
+        )
         for code, state in (payload.get("predicates") or {}).items():
             predicate = self.predicates.get(code)
             if predicate is None:

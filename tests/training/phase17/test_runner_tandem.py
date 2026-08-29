@@ -694,6 +694,7 @@ def _session(tmp_path, **overrides):
     from run_phase17_training import TrainingSession
 
     config = tiny_config("RUN-TEST-A")
+    overrides.setdefault("source_digest", "a" * 64)
     return TrainingSession(
         config,
         directory=tmp_path,

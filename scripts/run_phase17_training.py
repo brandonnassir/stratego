@@ -35,6 +35,7 @@ if str(REPOSITORY_ROOT) not in sys.path:
 
 from stratego.training.phase17.checkpoint import (  # noqa: E402
     CheckpointIdentity,
+    file_sha256,
     json_digest,
     read_joint_checkpoint,
     write_joint_checkpoint,
@@ -53,6 +54,12 @@ from stratego.training.phase17.runner import (  # noqa: E402
 from stratego.training.phase17.setup_contract import (  # noqa: E402
     PRODUCTION_RUN_ID,
     SETUP_RECIPE_VERSION,
+)
+from stratego.training.phase17.source_identity import (  # noqa: E402
+    Phase17SourceError,
+    production_source_closure,
+    require_source_digest,
+    verify_source_digest,
 )
 from stratego.training.phase17.supervisor import MODE_PRODUCTION  # noqa: E402
 from stratego.training.phase17.telemetry import (  # noqa: E402
@@ -73,7 +80,7 @@ class TrainingSession:
         *,
         directory: "str | Path",
         supervisor_mode: str = MODE_PRODUCTION,
-        source_digest: str = "",
+        source_digest: str,
         schedule_digest: str = "",
         runner: "TandemRunner | None" = None,
         reading_every: int = 25,
@@ -93,13 +100,25 @@ class TrainingSession:
             path=self.directory / "telemetry.jsonl", run_id=config.run_id
         ).open()
         self.config_digest = json_digest(config.document())
-        self.source_digest = source_digest
+        # Agent 4C correction 1. Refused here rather than at the first
+        # checkpoint: an empty digest is written into every checkpoint, export
+        # and resume check, where it compares equal to every other empty
+        # digest, so a run that never bound its source passes every identity
+        # check it has and nobody finds out until the candidates are compared.
+        self.source_digest = require_source_digest(
+            source_digest, context=f"run {config.run_id!r}"
+        )
         self.schedule_digest = schedule_digest
         self.run_digest = json_digest(
             {
                 "run_id": config.run_id,
                 "config_digest": self.config_digest,
                 "schedule_digest": schedule_digest,
+                # The source closure is part of the run's identity, not a note
+                # about it: the same config under different code is a different
+                # run, and two candidate sets that disagree here are not
+                # comparable.
+                "source_digest": self.source_digest,
             }
         )
         self.checkpoint_generation = 0
@@ -119,11 +138,21 @@ class TrainingSession:
         self.reading_every = int(reading_every)
         self.reading_samples = int(reading_samples)
         self.readings: list = []
-        # P6 needs a first-hour median before it can mean anything.
-        self.first_hour_move_entropies: list = []
-        self.first_hour_median_set = False
+        # P6 needs a first-hour median before it can mean anything. The samples
+        # and the median live in the supervisor, whose state document the
+        # checkpoint carries: held here they would be rebuilt from a
+        # post-resume sample and silently move P6's floor (Agent 4C
+        # correction 4).
         # P7 needs to know when a whole export interval passed with no update.
         self.last_setup_update_seconds = 0.0
+
+    @property
+    def first_hour_move_entropies(self) -> list:
+        return self.runner.supervisor.move_entropy_first_hour_samples
+
+    @property
+    def first_hour_median_set(self) -> bool:
+        return self.runner.supervisor.move_entropy_first_hour_closed
 
     # -- exports -----------------------------------------------------------
 
@@ -180,7 +209,13 @@ class TrainingSession:
             config_digest=self.config_digest,
             source_digest=self.source_digest,
             run_digest=self.run_digest,
-            telemetry_position=self.telemetry.position(),
+            # Agent 4C correction 2: the row for THIS iteration is appended
+            # after the checkpoint lands, because it carries the checkpoint's
+            # verified identity. Naming it here is what stops a resume from
+            # truncating it as excess.
+            telemetry_position=self.telemetry.position(
+                pending_row_iteration=self.runner.iteration
+            ),
             next_export_boundary_seconds=(
                 (
                     int(
@@ -208,7 +243,19 @@ class TrainingSession:
         )
         report = self.runner.restore(payload)
         self.checkpoint_generation = int(payload["checkpoint_generation"])
-        self.parent_checkpoint = dict(payload["parent_checkpoint_identity"])
+        # Agent 4C correction 3. The parent of the NEXT checkpoint is the one
+        # this resume loaded, not that checkpoint's own parent. Copying the
+        # loaded checkpoint's parent linked generation g+1 straight back to
+        # g-1, so the chain skipped a generation at every resume and a reader
+        # walking the parent links could not tell a resumed run from one that
+        # never wrote generation g at all.
+        self.parent_checkpoint = CheckpointIdentity(
+            path=str(path),
+            generation=int(payload["checkpoint_generation"]),
+            iteration=int(payload["iteration"]),
+            file_sha256=file_sha256(path),
+            payload_digest=payload["payload_digest"],
+        ).document()
         self.telemetry.close()
         self.telemetry = TelemetryWriter.resume(
             payload["telemetry_position"], run_id=self.config.run_id
@@ -234,31 +281,27 @@ class TrainingSession:
         # to mention it an hour in. Before the median exists the supervisor
         # returns a non-tripped verdict by construction -- there is nothing yet
         # to be 25% of.
+        verdicts = []
         entropy = move_means(result.move_update.means or {}, "policy_entropy")
-        median = None
-        if not self.first_hour_median_set:
-            self.first_hour_move_entropies.append(entropy)
-            if elapsed >= 3600.0:
-                ordered = sorted(self.first_hour_move_entropies)
-                middle = len(ordered) // 2
-                median = (
-                    ordered[middle]
-                    if len(ordered) % 2
-                    else 0.5 * (ordered[middle - 1] + ordered[middle])
-                )
-                self.first_hour_median_set = True
-        supervisor.observe_move_entropy(entropy, first_hour_median=median)
+        median = supervisor.note_first_hour_move_entropy(
+            entropy, first_hour_complete=elapsed >= 3600.0
+        )
+        verdicts.append(
+            supervisor.observe_move_entropy(entropy, first_hour_median=median)
+        )
 
         # P7: silence for a whole export interval while work was available.
         updated = result.setup_update is not None and not result.setup_update.skipped
         if updated:
             self.last_setup_update_seconds = elapsed
-        supervisor.observe_setup_update_activity(
-            updated=updated,
-            interval_complete=(
-                elapsed - self.last_setup_update_seconds >= EXPORT_INTERVAL_SECONDS
-            ),
-            episodes_available=bool(result.buffer_telemetry.get("depth", 0)),
+        verdicts.append(
+            supervisor.observe_setup_update_activity(
+                updated=updated,
+                interval_complete=(
+                    elapsed - self.last_setup_update_seconds >= EXPORT_INTERVAL_SECONDS
+                ),
+                episodes_available=bool(result.buffer_telemetry.get("depth", 0)),
+            )
         )
 
         # P4 and P5: on the reading cadence, from a fresh sample.
@@ -272,11 +315,21 @@ class TrainingSession:
                 label=f"iteration_{self.runner.iteration}",
             )
             self.readings.append(reading)
-            supervisor.observe_setup_entropy(reading["mean_prefix_entropy_nats"])
-            supervisor.observe_flag_support(reading["flag_effective_support"])
+            verdicts.append(
+                supervisor.observe_setup_entropy(reading["mean_prefix_entropy_nats"])
+            )
+            verdicts.append(
+                supervisor.observe_flag_support(reading["flag_effective_support"])
+            )
+        # Agent 4C correction 4. These verdicts are produced AFTER
+        # `run_iteration` returned, so they are not in `result.verdicts` and
+        # used to reach no telemetry row at all: P4-P7 could trip on every
+        # iteration of the run and the log would never say so. They are carried
+        # out here and merged into the row's warning list.
         return {
             "reading": reading,
             "first_hour_median_set": self.first_hour_median_set,
+            "verdicts": verdicts,
         }
 
     def step(self, *, checkpoint: bool = True) -> dict:
@@ -324,6 +377,7 @@ class TrainingSession:
         provider = result.provider_telemetry
         means = move.means or {}
         divergence = window.divergence_summary()
+        verdicts = list(result.verdicts) + list((cadence or {}).get("verdicts") or [])
         setup_means = {}
         if setup is not None and not setup.skipped:
             setup_means = (setup.epochs[-1] if setup.epochs else {}) or {}
@@ -493,13 +547,20 @@ class TrainingSession:
                 "memory_high_water_mib": _peak_memory_mib(),
                 "checkpoint": checkpoint,
                 "export": exports,
+                # Partitioned by CONSEQUENCE, not by `fired`. P5 and P7 need
+                # one observation to fire, so a tripped warning is a fired
+                # verdict and the old `fired` test filed it under
+                # `stop_predicates` -- a row claiming the run was stopping when
+                # D10 section 7 says these can never stop it. `stops_the_run`
+                # is already computed per verdict as "fired AND severity is
+                # stop", which is exactly the question each list is asking.
                 "warnings": [
                     verdict
-                    for verdict in result.verdicts
-                    if verdict["tripped"] and not verdict["fired"]
+                    for verdict in verdicts
+                    if verdict["tripped"] and not verdict["stops_the_run"]
                 ],
                 "stop_predicates": [
-                    verdict for verdict in result.verdicts if verdict["fired"]
+                    verdict for verdict in verdicts if verdict["stops_the_run"]
                 ],
                 "external_result_status": "not_connected_in_this_session",
                 "checkpoint_seconds": float(checkpoint_seconds),
@@ -545,6 +606,19 @@ def build_production_config(frozen: dict, *, run_id: str) -> TandemConfig:
     )
 
 
+def production_command(*, run_id: str, source_digest: str) -> str:
+    """The exact shape Agent 6 binds and Agent 7 runs.
+
+    Emitted from one place so the launch manifest, the handoff and the dry run
+    cannot drift into three slightly different commands.
+    """
+    return (
+        "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py "
+        f"--run-id {run_id} --start --i-am-agent-7 "
+        f"--source-digest {source_digest} > <log> 2>&1 &"
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", default=PRODUCTION_RUN_ID)
@@ -557,12 +631,25 @@ def main() -> int:
     parser.add_argument("--start", action="store_true")
     parser.add_argument("--i-am-agent-7", action="store_true")
     parser.add_argument("--describe", action="store_true")
+    parser.add_argument(
+        "--source-digest",
+        default=None,
+        help=(
+            "the production source-closure digest Agent 6 froze in the launch "
+            "manifest. Required by --start: the working tree's closure is "
+            "recomputed and must match it exactly."
+        ),
+    )
     arguments = parser.parse_args()
 
     frozen = load_frozen(
         REPOSITORY_ROOT / arguments.schedule, REPOSITORY_ROOT / arguments.throughput
     )
     config = build_production_config(frozen, run_id=arguments.run_id)
+    # Recomputed on every invocation, describe included: --describe is how
+    # Agent 6 reads the value it is about to freeze, so it must be the value
+    # this program would bind, never a constant compiled in beside it.
+    closure = production_source_closure(root=REPOSITORY_ROOT)
 
     if arguments.describe or not arguments.start:
         print(
@@ -574,10 +661,18 @@ def main() -> int:
                     "telemetry_schema": telemetry_schema()["schema_version"],
                     "expected_candidates": 25,
                     "started": False,
+                    "source_closure": closure,
+                    "source_digest": closure["closure_digest"],
+                    "production_command": production_command(
+                        run_id=arguments.run_id,
+                        source_digest=closure["closure_digest"],
+                    ),
                     "note": (
-                        "Agent 4B does not start the 12-hour run. Agent 6 binds "
-                        "this command in the launch manifest and Agent 7 runs it "
-                        "with --start --i-am-agent-7 after operator approval."
+                        "Agent 4C does not start the 12-hour run. Agent 6 binds "
+                        "this command in the launch manifest, freezing the "
+                        "source_digest printed above, and Agent 7 runs it with "
+                        "--start --i-am-agent-7 --source-digest after operator "
+                        "approval."
                     ),
                 },
                 indent=1,
@@ -594,10 +689,24 @@ def main() -> int:
         )
         return 2
 
+    # The authorized closure, recomputed from the bytes on disk. A mismatch is
+    # a working tree that is not what the operator approved, and it is refused
+    # before anything is written under the run's name.
+    try:
+        closure = verify_source_digest(
+            arguments.source_digest,
+            root=REPOSITORY_ROOT,
+            context=f"run {arguments.run_id!r}",
+        )
+    except Phase17SourceError as error:
+        print(f"refusing to start: {error}", file=sys.stderr)
+        return 3
+
     session = TrainingSession(
         config,
         directory=REPOSITORY_ROOT / arguments.directory,
         supervisor_mode=MODE_PRODUCTION,
+        source_digest=closure["closure_digest"],
         schedule_digest=frozen["schedule"]["schedule_digest"],
     )
     if arguments.resume:
