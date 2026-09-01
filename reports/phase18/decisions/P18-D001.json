@@ -1,0 +1,214 @@
+{
+ "decision_id": "P18-D001",
+ "timestamp_utc": "2026-09-01T03:54:07Z",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_1",
+ "instruction": "instructions/phase_18_setup_integrated_warmstart/01_AGENT_1_REPRODUCTION_AND_SETUP_METHOD_CONTRACT.md",
+ "authorizing_decision": "the operator request that created the Phase 18 instruction package (the sole exception under 02_PHASE_18_DECISION_PACKET_AND_NEXT_AGENT_PROTOCOL.md section 6)",
+ "identity": {
+  "source_closure_digest": "c6be99b5e49313ea40dd5f2a40cf4ebbfef3c53971bc0ccfe8bc3fa84cd5b0dc",
+  "git_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "published_source_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "paper": "arXiv:2511.07312v1",
+  "configuration_digest": "not applicable - no run was configured or executed",
+  "model_checkpoint_digests": "not applicable - no model was trained",
+  "evaluator_version": "not applicable - no evaluation was run",
+  "deliverable_digests": {
+   "phase18_process_boundary_v1.json": "b80e717d158177dc79c939b20bd37019dbfa0cfd078a64d00a33127489cc77fb",
+   "phase18_phase8_reproduction_contract_v1.json": "82097836f63fcf3483dd7bd0e7ed125caba0f67ad0c99b2c1b57632ba65a4175",
+   "ataraxos_setup_method_map_v2.md": "87a1b36ca2a928ccd2773c1fd091d33c601002dfdffefc970ebfadfb6e512666",
+   "ataraxos_setup_method_map_v2.json": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+   "phase18_evaluation_contract_v1.json": "6878bab622c47bbbc21f0d18f88844a5e5a1c2f298acfd3b1e9560705d0ecce9",
+   "agent_01_report.md": "17dc18638886ae80f1528ad115b5870187d196106ebf8edaf4e17c464f2fbdb2",
+   "phase18_agent1_handoff_v1.json": "cb64a91e7e43feb6ca87e6bf0114158dc569d03c57df5b466960e8600f0d47ed"
+  }
+ },
+ "question": {
+  "bounded_question": "Is Phase 18 safe to begin - is the research boundary immutable and recorded, is the accepted Phase 8 control exactly reconstructible, does a paper-plus-published-code method map resolve the Phase 17 interpretation, and are the evaluation questions frozen before any learner exists?",
+  "hypothesis_type": "establishment, not measurement - no null/alternative applies because no experiment was run",
+  "primary_metric": "gate G0 sub-gate status",
+  "predeclared_failure_interpretation": "any unrecomputable Phase 8 identity, or an unavailable published source, stops Phase 18 and is reported as BLOCKED rather than worked around with the stale paper-only map"
+ },
+ "execution_integrity": {
+  "optimizer_steps": 0,
+  "runs_started": 0,
+  "commits": 0,
+  "files_deleted": 0,
+  "accepted_artifacts_edited": 0,
+  "processes_stopped": 0,
+  "test_suite_before_edits": "7480 passed, 3 skipped, 653.46s",
+  "deviations": [
+   "The published source was cloned read-only into the session scratchpad, outside the project tree. It was never executed, never imported and never added to the repository. Agent 1 instruction section 1 requires reading it and section 1 requires stopping if it is unavailable; it was available at exactly the pinned commit."
+  ],
+  "missing_or_failed_cases": "none"
+ },
+ "results": {
+  "phase8_identities": {
+   "recomputed": 12,
+   "matching": 12
+  },
+  "canonical_fresh_c1_init": {
+   "reproduces_bit_exactly": true,
+   "checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+   "parameters": 863959
+  },
+  "corpus_integrity": {
+   "games_rehashed": 28000,
+   "payload_mismatches": 0,
+   "metadata_mismatches": 0
+  },
+  "published_source": {
+   "remote_head_equals_pin": true
+  },
+  "method_map": {
+   "rows": 35,
+   "exact": 22,
+   "corrected": 6,
+   "scaled": 2,
+   "intentional_integration_divergence": 4,
+   "not_used": 1
+  },
+  "parameter_scaling": {
+   "paper_setup_counted_from_code": 12647954,
+   "paper_table_23": "12.6 million",
+   "project_c1": 863959,
+   "proportional_target": 740500,
+   "phase18_setup": 802320,
+   "excess_percent": 8.35
+  },
+  "power": {
+   "own_setup_paired_sd": 0.5391,
+   "lane_correlation": 0.2383,
+   "mde_at_120": 0.1379,
+   "margin": 0.05,
+   "games_per_contrast": 913
+  },
+  "negative_and_contradictory_evidence": [
+   "The 120-board pack used for the entire Phase 17 conclusion has a minimum detectable effect of 0.1379 EWR. Phase 17's flat and non-improving readings cannot be distinguished from a real effect inside roughly +/- 0.13. This weakens the Phase 17 negative result rather than supporting the Phase 18 hypothesis, and it is reported as such.",
+   "The unusual_procedural pack cannot be built from any existing asset, because the accepted Phase 8 corpus consumes the entire setup library. Phase 18's Claim B currently has no instrument.",
+   "One original Phase 8 gate (random EWR >= 0.950) is cleared by the accepted result by only 1.511 SE, so a faithful reproduction fails it about 6.5% of the time by luck alone.",
+   "The Phase 18 non-inferiority margins are predeclared judgments; no replicate Phase 8 run exists, so there is no measured run-to-run distribution to anchor them."
+  ]
+ },
+ "interpretation": {
+  "observed_fact": [
+   "All 12 frozen Phase 8 identities recompute; the fresh C1 initialization rebuilds bit-exactly from seed 2026081302; all 28,000 corpus games re-hash clean at payload level.",
+   "The published source is available at exactly the pinned commit and its arrangement transformer at default config counts to 12,647,954 parameters, matching Table 23's 12.6 million.",
+   "The published code multiplies the stored entropy prediction by reg_norm = 10 before forming the residual; the paper's Table 19 and Eq. (1) are mutually inconsistent about the same symbol.",
+   "force_handedness defaults to True and post-generation reflection is applied; neither appears in the paper.",
+   "The published buffer aggregates repeated outcomes per setup by a running mean and zeroes its counters at each pool refresh.",
+   "The Phase 17 evaluator retry defect reproduces on execution.",
+   "The within-candidate correlation between the two Phase 17 evaluation lanes is 0.238, giving a paired difference sd of 0.5391 and an MDE of 0.1379 at n = 120.",
+   "The neutral_v1 profile samples uniformly over all 16 library families and the Phase 8 corpus draws all three library splits."
+  ],
+  "supported_inference": [
+   "Gate G1 is reachable: the control's inputs and start point are exactly reconstructible.",
+   "Phase 17's setup implementation differed from the authors' in at least five material ways, so Phase 17 does not establish that the paper's setup method fails locally.",
+   "Phase 17's evaluation was underpowered for the effect sizes at issue, independently of the implementation differences.",
+   "No existing setup asset can serve as an unfamiliar-opponent stratum."
+  ],
+  "plausible_but_untested": [
+   "That the entropy-unit defect is the dominant cause of the Phase 17 setup result. The uncentered term is real and large, but nothing here measures its contribution against the m=1 outcome variance or the 32-episode batch.",
+   "That correcting all five items produces a setup policy that beats the fixed library. That is Gate G3's question and is not answered."
+  ],
+  "claim_not_supported": [
+   "That Phase 18's corrections will work. Nothing was trained.",
+   "That Phase 17's negative result was caused by any specific one of the five differences.",
+   "That the Phase 8 control will reproduce. It was not run."
+  ]
+ },
+ "decision": "PROCEED",
+ "gate": "G0 - research boundary",
+ "sub_gates": [
+  {
+   "name": "source and evidence identities recorded",
+   "status": "pass",
+   "evidence": "phase18_process_boundary_v1.json; every cited artifact hashed; working tree classified without modification"
+  },
+  {
+   "name": "Phase 17 closeout documented",
+   "status": "pass",
+   "evidence": "STATUS.md sec 13, EVIDENCE_INDEX.md sec 7, PHASE_HISTORY.md sec 13; complete, negative, no checkpoint promoted"
+  },
+  {
+   "name": "official method map complete",
+   "status": "pass",
+   "evidence": "ataraxos_setup_method_map_v2 - 35 rows against paper AND published code at 92db29e8; 0 material unresolved fields"
+  },
+  {
+   "name": "evaluator failure/retry behavior tested",
+   "status": "pass",
+   "evidence": "the Phase 17 retry defect was REPRODUCED BY EXECUTION in a scratch directory, not merely read; recorded as required regression case R9"
+  },
+  {
+   "name": "evaluation packs and leakage rules frozen",
+   "status": "pass",
+   "evidence": "phase18_evaluation_contract_v1.json; all rules frozen. Two packs are unpopulated and recorded as blocking G4/G6 only - see U1, U2"
+  },
+  {
+   "name": "no material method question left as an unresolved placeholder",
+   "status": "pass",
+   "evidence": "entropy units, symmetry, pool reuse and outcome averaging all explicit; the AdamW-vs-Adam question is RESOLVED (identical at zero decay), not deferred"
+  }
+ ],
+ "agent1_completion_gates_section_11": [
+  {
+   "name": "repository/source boundary immutable and non-destructive",
+   "status": "partial",
+   "note": "non-destructive: yes, nothing committed/reset/cleaned/deleted. Immutable: NO - identified and hashed but the tree is dirty. Recorded as U3; blocks a run binding a closure, not Agent 1."
+  },
+  {
+   "name": "Phase 17 documented as closed with no promotion",
+   "status": "pass",
+   "note": ""
+  },
+  {
+   "name": "every Phase 8 identity recomputes",
+   "status": "pass",
+   "note": "12 of 12"
+  },
+  {
+   "name": "exact control command/config constructible without a new choice",
+   "status": "pass",
+   "note": "WarmstartTrainConfig.from_pilot_candidate('ws_pilot_lr1e-3_balanced', device='mps', validation_batches=64)"
+  },
+  {
+   "name": "method map has no material unresolved field",
+   "status": "pass",
+   "note": ""
+  },
+  {
+   "name": "I - 10h, symmetry, pool reuse and outcome averaging explicit",
+   "status": "pass",
+   "note": "rows S13, S04/S05/S06, S20/S21/S22, S09/S10/S23"
+  },
+  {
+   "name": "evaluation packs and anti-leak rules frozen",
+   "status": "partial",
+   "note": "rules frozen; unusual_procedural and operator_sealed not populated (U1, U2)"
+  },
+  {
+   "name": "practical margins and required sample sizes predeclared",
+   "status": "pass",
+   "note": "0.05 EWR, 913 games per contrast, fixed before any Phase 18 result exists"
+  },
+  {
+   "name": "next bounded question identifiable",
+   "status": "pass",
+   "note": "the Phase 8 control, G1"
+  }
+ ],
+ "proposed_next_question": {
+  "question": "Can the accepted Phase 8 warmstart be reproduced from a fresh C1 initialization under the frozen contract, passing all 42 original gates and the predeclared paired non-inferiority comparison?",
+  "gate": "G1",
+  "estimated_cost_wall_hours": 1.08,
+  "why_it_discriminates": "it separates 'the baseline is broken' from 'the setup integration did not help' before any setup code exists - the exact ambiguity Phase 17 could not resolve about itself",
+  "alternative": "the setup parity build (G2) is independent and also unblocked; contract section 12 makes a failed G1 stop setup work, so G1 first is the cheaper ordering",
+  "implementation_instruction_included": false
+ },
+ "notes_for_the_reviewing_chat": [
+  "Two sub-gates of Agent 1 section 11 are marked partial, both for the same two data dependencies (U1, U2) and for the dirty tree (U3). None blocks G1 or G2. If the reviewer disagrees that a dirty-but-hashed tree satisfies 'non-destructive and identified', the correct downgrade is to require the operator commit before G1 rather than to fail G0.",
+  "The reviewer should independently re-derive the entropy-unit claim from arrangement/buffer.py lines 303-305 and 341-359, since it is the single change most likely to alter later interpretation.",
+  "The power finding is the item most likely to change the shape of later work: at a 0.05 margin every G3/G4 contrast needs about 1,000 paired games, roughly 8x a Phase 17 lane."
+ ]
+}

@@ -1,0 +1,184 @@
+{
+ "artifact": "phase18_agent1_handoff_v1",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_1",
+ "timestamp_utc": "2026-09-01T03:53:05Z",
+ "decision_packet": "P18-D001",
+ "recommendation": "PROCEED",
+ "gate": "G0 - research boundary",
+ "source_identity": {
+  "git_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "branch": "main",
+  "working_tree_dirty": true,
+  "modified_or_deleted_tracked": 8,
+  "untracked_paths": 29,
+  "nothing_committed_reset_cleaned_or_deleted": true
+ },
+ "published_source": {
+  "repository": "https://github.com/AtaraxosAI/stratego",
+  "pinned_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "remote_head_at_read_equals_pin": true,
+  "closure_digest": "c6be99b5e49313ea40dd5f2a40cf4ebbfef3c53971bc0ccfe8bc3fa84cd5b0dc",
+  "availability": "available",
+  "handling": "read-only clone outside the project tree; never executed, never imported, not added to the repository"
+ },
+ "deliverable_digests": {
+  "phase18_process_boundary_v1.json": {
+   "path": "reports/phase18/phase18_process_boundary_v1.json",
+   "sha256": "b80e717d158177dc79c939b20bd37019dbfa0cfd078a64d00a33127489cc77fb"
+  },
+  "phase18_phase8_reproduction_contract_v1.json": {
+   "path": "reports/phase18/phase18_phase8_reproduction_contract_v1.json",
+   "sha256": "82097836f63fcf3483dd7bd0e7ed125caba0f67ad0c99b2c1b57632ba65a4175"
+  },
+  "ataraxos_setup_method_map_v2.md": {
+   "path": "reports/phase18/ataraxos_setup_method_map_v2.md",
+   "sha256": "87a1b36ca2a928ccd2773c1fd091d33c601002dfdffefc970ebfadfb6e512666"
+  },
+  "ataraxos_setup_method_map_v2.json": {
+   "path": "reports/phase18/ataraxos_setup_method_map_v2.json",
+   "sha256": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6"
+  },
+  "phase18_evaluation_contract_v1.json": {
+   "path": "reports/phase18/phase18_evaluation_contract_v1.json",
+   "sha256": "6878bab622c47bbbc21f0d18f88844a5e5a1c2f298acfd3b1e9560705d0ecce9"
+  },
+  "agent_01_report.md": {
+   "path": "reports/phase18/agent_01_report.md",
+   "sha256": "17dc18638886ae80f1528ad115b5870187d196106ebf8edaf4e17c464f2fbdb2"
+  }
+ },
+ "independently_verified_facts": {
+  "phase8_identities_recomputed": 12,
+  "phase8_identities_matching": 12,
+  "canonical_fresh_c1_init_reproduces_bit_exactly": true,
+  "canonical_fresh_c1_state_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+  "c1_trainable_parameters": 863959,
+  "corpus_games_rehashed_at_payload_level": 28000,
+  "corpus_payload_mismatches": 0,
+  "corpus_metadata_mismatches": 0,
+  "paper_setup_model_parameters_counted_from_published_defaults": 12647954,
+  "paper_table_23_claim": "12.6 million",
+  "phase18_setup_model_parameters": 802320,
+  "proportional_target_parameters": 740500,
+  "excess_over_target_percent": 8.35,
+  "test_suite_baseline": "7480 passed, 3 skipped, 653.46s",
+  "evaluator_retry_defect_reproduced_by_execution": true
+ },
+ "method_map_summary": {
+  "rows": 35,
+  "exact": 22,
+  "corrected": 6,
+  "scaled": 2,
+  "intentional_integration_divergence": 4,
+  "not_used": 1,
+  "material_unresolved_fields": 0
+ },
+ "power_plan_summary": {
+  "own_setup_instrument_sd": 0.5391,
+  "move_instrument_sd": 0.5112,
+  "within_candidate_lane_correlation": 0.2383,
+  "mde_at_n_120": 0.1379,
+  "predeclared_practical_margin": 0.05,
+  "games_required_per_contrast": 913,
+  "operational_figure": 1000,
+  "phase17_lane_size": 120,
+  "reframing": "Phase 17's 120-board lane had a minimum detectable effect of 0.1379 EWR; its flat and non-improving readings are consistent with any true effect inside roughly +/- 0.13"
+ },
+ "readiness": {
+  "source_boundary_ready": true,
+  "phase17_documentation_closed": true,
+  "phase8_control_contract_frozen": true,
+  "official_setup_method_map_complete": true,
+  "entropy_units_resolved": true,
+  "symmetry_contract_resolved": true,
+  "pool_and_outcome_aggregation_resolved": true,
+  "evaluation_contract_frozen": true,
+  "power_plan_frozen": true,
+  "evaluator_requirements_frozen": true,
+  "ready_for_phase8_control": true,
+  "ready_for_setup_parity_build": true
+ },
+ "readiness_evidence": {
+  "source_boundary_ready": "reports/phase18/phase18_process_boundary_v1.json",
+  "phase17_documentation_closed": "stratego_project_docs/STATUS.md sec 13-14; EVIDENCE_INDEX.md sec 7; PHASE_HISTORY.md sec 13-14",
+  "phase8_control_contract_frozen": "reports/phase18/phase18_phase8_reproduction_contract_v1.json",
+  "official_setup_method_map_complete": "reports/phase18/ataraxos_setup_method_map_v2.json",
+  "entropy_units_resolved": "reports/phase18/ataraxos_setup_method_map_v2.md row S13 and the required derivation section",
+  "symmetry_contract_resolved": "reports/phase18/ataraxos_setup_method_map_v2.md rows S04, S05, S06",
+  "pool_and_outcome_aggregation_resolved": "reports/phase18/ataraxos_setup_method_map_v2.md rows S09, S10, S20, S21, S22, S23",
+  "evaluation_contract_frozen": "reports/phase18/phase18_evaluation_contract_v1.json",
+  "power_plan_frozen": "reports/phase18/phase18_evaluation_contract_v1.json power_and_precision_plan",
+  "evaluator_requirements_frozen": "reports/phase18/phase18_evaluation_contract_v1.json evaluator_credibility_requirements",
+  "ready_for_phase8_control": "reports/phase18/phase18_phase8_reproduction_contract_v1.json",
+  "ready_for_setup_parity_build": "reports/phase18/ataraxos_setup_method_map_v2.json (every row carries a required test and owning agent)"
+ },
+ "additional_flags_not_requested_but_material": {
+  "evaluation_packs_populated": false,
+  "unusual_procedural_pack_exists": false,
+  "operator_sealed_pack_exists": false,
+  "source_closure_immutable": false,
+  "note": "evaluation_contract_frozen is true because every RULE, margin, sample size and evaluator requirement is fixed. Two of the four PACKS are data that Agent 1 cannot create. These flags exist so that a true 'contract frozen' can never be mistaken for 'packs ready'."
+ },
+ "blocking_dependencies": [
+  {
+   "id": "U1",
+   "item": "unusual_procedural pack cannot be built from existing assets: the entire 8,000-board setup library is consumed by the accepted Phase 8 corpus (neutral_v1 samples uniformly over all 16 families; the corpus draws the library train/validation/test split for its own train/validation/test split), and Phase 16's targeted_family source is also inside those 16 families",
+   "blocks": [
+    "G4",
+    "Claim B"
+   ],
+   "does_not_block": [
+    "G1",
+    "G2",
+    "G3"
+   ],
+   "required_action": "authorize a bounded generator work package for procedurally distinct families with a family-level disjointness proof"
+  },
+  {
+   "id": "U2",
+   "item": "operator_sealed pack requires operator-supplied setups",
+   "blocks": [
+    "G6"
+   ],
+   "does_not_block": [
+    "G1",
+    "G2",
+    "G3",
+    "G4"
+   ],
+   "required_action": "operator supplies setups or families; the opaque-manifest form is already specified so no agent needs to read them"
+  },
+  {
+   "id": "U3",
+   "item": "source closure is identified but not immutable",
+   "blocks": [
+    "any run binding a source closure"
+   ],
+   "does_not_block": [
+    "Agent 1"
+   ],
+   "required_action": "commit the Phase 17 evidence and Phase 18 package on a branch, or record an operator-signed dirty-list manifest binding every path and digest in phase18_process_boundary_v1.json"
+  }
+ ],
+ "recommended_next_experiment": {
+  "question": "Can the accepted Phase 8 warmstart be reproduced from a fresh C1 initialization under the frozen contract?",
+  "gate": "G1",
+  "estimated_cost_wall_hours": 1.08,
+  "why_it_discriminates": "if the control reproduces, every later Phase 18 negative result is attributable to the setup integration rather than to a broken baseline - the exact ambiguity Phase 17 could not resolve about itself",
+  "alternative_also_unblocked": "the setup parity build (G2) is independent of G1 and may be authorized in either order; G1 is recommended first because contract section 12 makes a failed G1 stop setup work outright, and because it costs one hour",
+  "instruction_written": false,
+  "reason_not_written": "Agent 1 instruction section 11 forbids authoring the next agent instruction inside this task"
+ },
+ "scope_compliance": {
+  "optimizer_steps_taken": 0,
+  "training_or_control_runs_started": 0,
+  "repository_commits": 0,
+  "files_reset_cleaned_or_deleted": 0,
+  "accepted_phase8_artifacts_edited": 0,
+  "phase17_evidence_artifacts_edited": 0,
+  "historical_phase17_instruction_amendments_preserved": true,
+  "processes_stopped": 0,
+  "files_written": "reports/phase18/* only, plus documentation updates to stratego_project_docs/ made after verifying the underlying artifacts"
+ }
+}

@@ -1,0 +1,309 @@
+{
+ "accepted_reference_results": {
+  "full_validation_confirmation": {
+   "belief_ce_ratio": 0.919865242801829,
+   "policy_ce_ratio": 0.41456520259312346,
+   "selection_score": 0.6042759651326188,
+   "value_ce_ratio": 0.478397450002904
+  },
+  "gates": {
+   "source": "reports/phase_8_data/agent_07_final_acceptance.json completion_gates",
+   "total": 42,
+   "true": 42
+  },
+  "play": {
+   "random_ci_lower": 0.948486328125,
+   "random_effective_win_rate": 0.956787109375,
+   "vs_init_ci_lower": 0.904296875,
+   "vs_init_effective_win_rate": 0.9169921875
+  },
+  "run": {
+   "examples_consumed": 6399705,
+   "mean_examples_per_second": 1803.1,
+   "peak_rss_bytes": 1805582336,
+   "restart_at": 12500,
+   "segments": 2,
+   "selected_global_step": 24000,
+   "updates_completed": 25000,
+   "validation_passes": 50,
+   "wall_hours": 1.0842
+  },
+  "sealed_test": {
+   "belief_ce_ratio": 0.9204747046629422,
+   "belief_top1": 0.27628644310879014,
+   "policy_ce_ratio": 0.4156596620090182,
+   "policy_top1": 0.5145466300307096,
+   "value_brier": 0.3068488180596921,
+   "value_ce_ratio": 0.47373289047520506
+  },
+  "selected_validation_64_batch": {
+   "belief_ce_ratio": 0.9173768404690529,
+   "belief_top1": 0.2812806553707643,
+   "policy_ce_ratio": 0.4132432515348487,
+   "policy_top1": 0.5209945452238995,
+   "selection_score": 0.5923130349469591,
+   "value_accuracy": 0.78057861328125,
+   "value_brier": 0.2964318238029345,
+   "value_ce_ratio": 0.4463190128369755
+  }
+ },
+ "agent": "phase_18_agent_1",
+ "artifact": "phase18_phase8_reproduction_contract_v1",
+ "corpus_payload_verification": {
+  "action_taken": "every committed game was re-read and re-hashed against its commit record",
+  "games_rehashed": 28000,
+  "metadata_record_mismatches": 0,
+  "trajectory_payload_mismatches": 0,
+  "verdict": "the corpus is verified at payload level, not merely at index level",
+  "why": "corpus_content_digest hashes the commit journal's recorded per-game digests, not the stored payload bytes, so on its own it cannot detect payload corruption"
+ },
+ "estimated_cost": {
+  "basis": "the accepted run's own telemetry",
+  "device": "mps",
+  "note": "the control is cheap; there is no reason to shorten it",
+  "wall_hours": 1.08
+ },
+ "frozen_configuration": {
+  "canonical_seeds": {
+   "canonical_c1_init_seed": 2026081302,
+   "corpus_master_seed": 2026081301,
+   "final_run_namespace_seed": 2026081305,
+   "pilot_namespace_seed": 2026081304,
+   "test_bootstrap_seed": 2026081307,
+   "train_order_seed": 2026081303,
+   "validation_bootstrap_seed": 2026081306
+  },
+  "entry_point": "stratego.training.warmstart_trainer.WarmstartTrainConfig.from_pilot_candidate('ws_pilot_lr1e-3_balanced', device='mps', validation_batches=64)",
+  "fields_the_common_contract_section_7_1_does_not_name_but_the_control_needs": {
+   "adam_betas": [
+    0.9,
+    0.999
+   ],
+   "adam_epsilon": 1e-08,
+   "best_checkpoint_metric": "validation selection_score = mean(r_policy, r_value, r_belief) under warmstart_eval_v1; strictly lower wins; validation split only",
+   "device": "mps",
+   "early_stop_rule": "none",
+   "loader_topology": {
+    "prefetch": 2,
+    "record_cache_size": 512,
+    "workers": 12
+   },
+   "loss_profile": "balanced",
+   "note": "selection reads 64 evenly-spread validation batches, NOT the full validation split; the full-validation pass is confirmation only and may never change a selection",
+   "optimizer": "AdamW",
+   "precision": "float32",
+   "train_order": "shuffle",
+   "validation_batches": 64,
+   "validation_selection": "evenly_spread_v1",
+   "versions": {
+    "checkpoint": "warmstart_checkpoint_v1",
+    "eval": "warmstart_eval_v1",
+    "example": "warmstart_example_v1",
+    "loss": "warmstart_loss_v1",
+    "metrics": "warmstart_metrics_v1",
+    "sampler": "warmstart_decision_sampler_v1",
+    "train_order": "warmstart_train_order_v1",
+    "trainer": "warmstart_trainer_v1"
+   }
+  },
+  "rule": "do not retype; construct from the artifact",
+  "setup_source_per_split": "train corpus draws the setup library TRAIN split; validation corpus draws the library VALIDATION split; test corpus draws the library TEST split; profile neutral_v1 in all three",
+  "source_of_truth": "reports/phase_8_data/agent_05_frozen_train_config.json ['config'], 41 fields, digest 3cab772b...19ae7"
+ },
+ "frozen_identities_independently_verified": {
+  "accepted_checkpoint_sha256": {
+   "match": true,
+   "path": "checkpoints/phase8/warmstart_c1_v1.pt",
+   "value": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "verified": "shasum -a 256"
+  },
+  "all_identities_recompute": true,
+  "c1_config_digest": {
+   "match": true,
+   "value": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+   "verified": "live warmstart_contract.EXPECTED_C1_CONFIG_DIGEST"
+  },
+  "c1_trainable_parameters": {
+   "match": true,
+   "value": 863959,
+   "verified": "counted on the rebuilt model"
+  },
+  "canonical_fresh_c1_state_checksum": {
+   "match": true,
+   "significance": "the control's start point is reconstructible; this is the precondition for G1",
+   "value": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+   "verified": "rebuilt in-process via build_candidate_model('C1', seed=2026081302) and hashed with warmstart_pilot.model_state_checksum; reproduced bit-exactly, twice"
+  },
+  "canonical_initialisation_file_sha256": {
+   "match": true,
+   "path": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+   "value": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "verified": "shasum -a 256"
+  },
+  "commit_index_digest": {
+   "match": true,
+   "value": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "verified": "synthetic_corpus._commit_index_digest recomputed"
+  },
+  "corpus_content_digest": {
+   "match": true,
+   "value": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "verified": "corpus_commit.corpus_content_digest recomputed at the resolved root"
+  },
+  "corpus_metadata_digest": {
+   "match": true,
+   "value": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb",
+   "verified": "synthetic_corpus._metadata_digest recomputed; reads and re-digests every metadata payload"
+  },
+  "corpus_version": {
+   "match": true,
+   "value": "synthetic_warmstart_corpus_v1"
+  },
+  "historical_source_revision": {
+   "committed": "2026-08-15T21:46:48-04:00",
+   "match": true,
+   "short": "53050b9",
+   "subject": "Reconcile Phase 8 Agent 6 train-config digest namespaces.",
+   "value": "53050b9d02cdc69b4ff086973571c5e4451f814f",
+   "verified": "git cat-file"
+  },
+  "method": "each value below was recomputed from bytes or live source in this task, not copied from the instruction",
+  "phase4_bank_digest": {
+   "match": true,
+   "path": "reports/phase_4_data/agent_01_setup_bank_v1.json",
+   "value": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266",
+   "verified": "file sha256"
+  },
+  "setup_library_digest": {
+   "match": true,
+   "value": "7b8a66601ce5874a95e81233e4924db186839402093936baafc7776e61b02777",
+   "verified": "setup library index content_digest recomputed"
+  },
+  "train_config_digest": {
+   "match": true,
+   "value": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+   "verified": "sha256 of json.dumps(agent_05_frozen_train_config['config'], sort_keys=True, separators=(',',':')); 41 fields"
+  },
+  "trainer_runtime_identity": {
+   "match": true,
+   "value": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+   "verified": "WarmstartTrainConfig.from_pilot_candidate('ws_pilot_lr1e-3_balanced', device='mps', validation_batches=64).identity() rebuilt live and hashed; 31 fields"
+  }
+ },
+ "leakage_rules_for_the_control": {
+  "phase4_bank": "evaluation_setup_bank_v1 is a setup bank for play, not an example holdout; reuse is permitted and required for comparability",
+  "sealed_test_access": "the Phase 8 test split may be read ONLY to produce the final head metrics of a completed model, never for selection, never during training, and each model touches it exactly once",
+  "sealed_test_reuse_warning": "the Phase 8 test split is no longer a virgin holdout: Phase 8 Agent 7 already spent it once on the accepted checkpoint. Phase 18 reuses it by explicit authority of common contract section 10.3. Every additional model that reads it adds multiplicity, so the control and each later candidate must be counted and reported.",
+  "selection": "validation split only, 64 evenly-spread batches, strictly-lowest selection_score"
+ },
+ "new_control_comparison": {
+  "aggregation_units": {
+   "head_metrics": "per-example loss, aggregated to the same CE-ratio / top-1 / Brier statistics the accepted artifact reports",
+   "play_metrics": "per-game effective score, draw = 0.5"
+  },
+  "bootstrap": {
+   "confidence": 0.95,
+   "head_metrics": "CLUSTER bootstrap resampling GAMES, not examples: examples inside one game are correlated, and an example-level bootstrap would understate the interval",
+   "play_metrics": "paired bootstrap over setup pairs, matching the accepted Phase 8 protocol",
+   "replicates": 10000,
+   "seeds": "validation_bootstrap_seed 2026081306 for validation, test_bootstrap_seed 2026081307 for the sealed test",
+   "two_sided": true
+  },
+  "design": "paired non-inferiority of the NEW control against the ACCEPTED checkpoint, predeclared before the new control result is opened",
+  "known_fragility_flagged_before_the_run": {
+   "counterpart": "the vs-init gate is robust: the accepted 0.9170 clears its 0.70 gate by 25.2 SE",
+   "fact": "the accepted result 0.956787 clears its own 0.95 gate by 0.006787 EWR, which is 1.511 binomial SE at n=2048",
+   "gate": "random_effective_win_rate_at_least_0_950",
+   "implication": "a faithful reproduction that is genuinely equal in strength still fails this point-estimate gate about 6.5% of the time",
+   "predeclared_interpretation": "if the control fails ONLY this gate while (a) its paired bootstrap lower bound still exceeds 0.90, and (b) its paired delta against the accepted checkpoint satisfies vs_random_ewr_delta_min, the packet records a REPRODUCTION TOLERANCE EVENT, sets G1 to REVISE, and escalates to the operator. It is NOT recorded as a pass. This interpretation is fixed here, before any control result exists, and may not be widened afterwards."
+  },
+  "mps_nondeterminism_handling": {
+   "fact": "MPS is not bitwise reproducible run to run; Phase 17 measured a 9.83e-07 spread between two identical runs, and 25,000 updates amplify it",
+   "if_the_control_lands_outside_margin": "run ONE replicate control under the same frozen config to estimate run-to-run spread before concluding the reproduction failed; a single out-of-margin control with no replicate does not distinguish an implementation defect from MPS variance",
+   "logical_resume_rule": "resume identity is checked by config and data identity, never by comparing weight digests across a resume; no stop or acceptance predicate may compare weight digests produced on either side of a restart",
+   "rule": "the control's weight bytes need not match the accepted checkpoint and a byte comparison is not a gate",
+   "what_must_still_match_exactly": [
+    "train_config_digest",
+    "trainer_runtime_identity",
+    "c1_config_digest",
+    "corpus content/metadata/commit-index digests",
+    "canonical fresh init state checksum before the first update",
+    "the example order produced by train_shuffle_seed 2026081303",
+    "the update count and the validation cadence",
+    "the set of checkpoint steps offered to selection"
+   ]
+  },
+  "paired_cases_and_seeds": {
+   "head_metrics": "the 4,000-game sealed Phase 8 test split, every selected decision; both models score the SAME example ids in the SAME order; pairing is per example",
+   "seed_rule": "every seed derives from the frozen Phase 8 seed functions; no new seed namespace is introduced by the control",
+   "vs_init": ">=512 paired setup cases, >=1,024 games against the canonical untrained C1 built from seed 2026081302; identical cases and seeds for both models",
+   "vs_random": "evaluation_setup_bank_v1, 1,024 setup pairs x 2 colors = 2,048 games, digest 5fe5f987...674266; identical pair ids and identical per-game seeds for both models"
+  },
+  "practical_non_inferiority_margins_selected_before_the_result": {
+   "basis": "no replicate Phase 8 run exists, so these are predeclared judgments, not estimates from a measured run-to-run distribution; each is stated as an absolute allowance on the paired delta and each is small relative to the original gate headroom",
+   "belief_ce_ratio_delta_max": 0.01,
+   "belief_top1_delta_min": -0.01,
+   "decision_rule": "non-inferiority holds when the 95% bootstrap bound on the paired delta lies on the non-inferior side of the margin; a point estimate alone never decides",
+   "headroom_note": "belief_ce_ratio has the least headroom of the three head gates (accepted 0.9205 against a 0.98 maximum), which is why its margin is half the others'",
+   "policy_ce_ratio_delta_max": 0.02,
+   "policy_top1_delta_min": -0.02,
+   "value_brier_delta_max": 0.02,
+   "value_ce_ratio_delta_max": 0.02,
+   "vs_init_ewr_delta_min": -0.03,
+   "vs_random_ewr_delta_min": -0.01
+  }
+ },
+ "original_42_gates_applicability_to_the_control": {
+  "gate_names": [
+   "checkpoint_identity_verified",
+   "corpus_digests_match_accepted",
+   "corpus_resolved_through_resolver",
+   "discipline_agent_6_used_train_validation_only",
+   "discipline_candidate_count_at_most_6",
+   "discipline_final_checkpoint_selected_by_validation_only",
+   "discipline_final_run_from_canonical_fresh_initialization",
+   "discipline_frozen_sealing_gates_still_refuse_pre_agent_7_access",
+   "discipline_phase4_neural_games_before_agent_7_zero",
+   "discipline_pilot_used_train_validation_only",
+   "discipline_test_model_inference_before_agent_7_zero",
+   "evaluation_export_bitwise_faithful",
+   "heldout_belief_ce_ratio_at_most_0_98",
+   "heldout_belief_top1_beats_remaining_count_prior",
+   "heldout_collapse_fraction_below_0_95",
+   "heldout_non_finite_logits_zero",
+   "heldout_policy_ce_ratio_at_most_0_90",
+   "heldout_policy_top1_beats_uniform_expected",
+   "heldout_value_brier_beats_train_prior",
+   "heldout_value_ce_ratio_at_most_0_98",
+   "no_decision_time_search",
+   "no_learned_setup_selection",
+   "no_phase9_selfplay_or_rl",
+   "prerequisites_agents_1_to_6_pass",
+   "random_all_setup_pairs_played",
+   "random_blue_effective_win_rate_at_least_0_900",
+   "random_effective_win_rate_at_least_0_950",
+   "random_games_played",
+   "random_illegal_actions_zero",
+   "random_model_failures_zero",
+   "random_no_worker_imported_torch",
+   "random_no_worker_loaded_a_checkpoint",
+   "random_non_finite_outputs_zero",
+   "random_paired_bootstrap_lower_bound_above_0_900",
+   "random_red_effective_win_rate_at_least_0_900",
+   "upstream_identities_unchanged",
+   "vs_init_at_least_1024_games",
+   "vs_init_at_least_512_paired_cases",
+   "vs_init_effective_win_rate_at_least_0_700",
+   "vs_init_model_failures_zero",
+   "vs_init_non_finite_outputs_zero",
+   "vs_init_paired_bootstrap_lower_bound_above_0_550"
+  ],
+  "rule": "all 42 apply unchanged to the reproduction control; the common contract's replacement of `no_learned_setup_selection` applies ONLY to the later setup-integrated model, never to this control"
+ },
+ "problems": [],
+ "purpose": "Everything an independent agent needs to launch and judge the Phase 8 control without choosing a new field.",
+ "ready_for_phase8_control": true,
+ "ready_for_phase8_control_basis": "every frozen identity recomputes, the fresh initialization reconstructs bit-exactly from its seed, the corpus verifies at payload level, the exact constructor call is recorded, and the comparison design, bootstrap, margins and failure interpretations are fixed above before any control result exists.",
+ "timestamp_utc": "2026-09-01T03:40:30Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

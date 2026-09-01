@@ -1,0 +1,255 @@
+{
+ "artifact": "phase18_evaluation_contract_v1",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_1",
+ "timestamp_utc": "2026-09-01T03:47:59Z",
+ "status": "RULES FROZEN; TWO PACKS NOT YET POPULATED - see unresolved_blocking_items",
+ "factorial_lanes": {
+  "C0-F": {
+   "move_weights": "reproduced Phase 8 control",
+   "own_setup": "fixed library",
+   "reads": "baseline"
+  },
+  "C0-L": {
+   "move_weights": "reproduced Phase 8 control",
+   "own_setup": "learned setup policy (EMA)",
+   "reads": "pure own-setup effect"
+  },
+  "T-F": {
+   "move_weights": "setup-integrated tandem C1",
+   "own_setup": "fixed library",
+   "reads": "move/value/belief generalization effect"
+  },
+  "T-L": {
+   "move_weights": "setup-integrated tandem C1",
+   "own_setup": "learned setup policy (EMA)",
+   "reads": "combined effect and interaction"
+  },
+  "contrasts": {
+   "own_setup_effect_under_control": "C0-L - C0-F   (Claim A)",
+   "own_setup_effect_under_tandem": "T-L - T-F",
+   "move_generalization_effect": "T-F - C0-F      (Claim B)",
+   "combined_effect": "T-L - C0-F",
+   "interaction": "(T-L - T-F) - (C0-L - C0-F)"
+  },
+  "pairing_rule": "opponent, opponent setup, own colour, game seed and rule version are held identical across every lane of a contrast; only the named factor changes",
+  "isolation_rule": "changing own setup must not change move weights or the opponent case, and vice versa; this is an evaluator gate, not a convention"
+ },
+ "setup_strata": {
+  "familiar": {
+   "provenance": "the accepted setup library setup_library_v1 (digest 7b8a6660...02777), profile neutral_v1, as consumed by the accepted Phase 8 corpus",
+   "status": "AVAILABLE",
+   "inclusion": "library families F00-F15",
+   "role": "the fixed-library arm of every F lane and the familiar opponent-setup stratum"
+  },
+  "unusual_procedural": {
+   "provenance": "MUST BE NEWLY GENERATED. Procedural setup families structurally outside the 16 accepted library families.",
+   "status": "NOT POPULATED - BLOCKING for Gate G4, not for G1/G2",
+   "why_nothing_existing_qualifies": [
+    "setup_library_v1 has exactly 16 primary families F00-F15 with 500 bases each, split 400 train / 50 validation / 50 test",
+    "the neutral_v1 sampler profile selects UNIFORMLY over all 16 families",
+    "the accepted Phase 8 corpus draws the library TRAIN split for its train corpus, the VALIDATION split for its validation corpus and the TEST split for its test corpus",
+    "therefore the ENTIRE 8,000-board library is consumed by the accepted Phase 8 corpus and no library family is unseen",
+    "the Phase 16 'targeted_family' source is documented as 'accepted library bases, family-targeted', so it is inside the same 16 families and also does not qualify",
+    "the strongest held-out condition constructible from existing assets is 'familiar family, unseen base', which is weaker than what Claim B requires"
+   ],
+   "requirement": "a new generator producing families with structurally distinct trait vectors, with a family-level (not base-level) disjointness proof against F00-F15",
+   "role": "the unfamiliar opponent-setup stratum for Claim B"
+  },
+  "operator_sealed": {
+   "provenance": "the operator's own novel setups or families",
+   "status": "NOT POPULATED - BLOCKING for Gate G6, not for G1/G2/G3",
+   "opacity_rule": "Agent 1 does not need to read it and has not. The pack ships as an OPAQUE manifest: a per-entry salted fingerprint list plus a pack digest. Identity and non-overlap are verifiable from fingerprints alone, with no setup content exposed to training or selection code.",
+   "non_overlap_verification": "compare canonical fingerprints AND reflection-class fingerprints against every other pack; a match in either space is an overlap",
+   "access_rule": "readable only by the final acceptance evaluator, exactly once, after every other gate has passed"
+  },
+  "setup_learning_development": {
+   "provenance": "a separate non-sealed pack for setup-only iteration",
+   "status": "CONSTRUCTIBLE from existing assets",
+   "construction": "disjoint library bases plus, once available, disjoint unusual_procedural families; never any operator_sealed entry",
+   "role": "the only pack a setup-only assay may iterate against"
+  }
+ },
+ "anti_leakage_rules": {
+  "reflection_class_deduplication": "a setup and its horizontal mirror are ONE class. Packs are de-duplicated and separated by reflection-class fingerprint, never by canonical fingerprint alone. This rule is newly load-bearing because Phase 18 introduces forced handedness plus post-generation reflection (map rows S04, S05), which makes mirror pairs systematically reachable in a way Phase 17 never made them.",
+  "family_level_separation": "train / development / sealed boundaries are drawn at FAMILY level for unusual_procedural, not at base level; a held-out base of a trained family does not establish unfamiliarity",
+  "checks_required_before_any_pack_is_opened": [
+   "pairwise canonical-fingerprint intersection is empty across all four packs",
+   "pairwise reflection-class-fingerprint intersection is empty across all four packs",
+   "no unusual_procedural family id appears in the setup library family list",
+   "no operator_sealed fingerprint appears in any training, development or selection artifact",
+   "the live setup stream cannot emit a setup whose reflection class lies in operator_sealed; if it does, the case is recorded and excluded, never silently kept"
+  ],
+  "selection_vs_final_test": {
+   "selection_may_read": [
+    "validation split",
+    "setup_learning_development"
+   ],
+   "final_test_only": [
+    "operator_sealed",
+    "the sealed Phase 8 test split"
+   ],
+   "phase8_test_multiplicity_warning": "the Phase 8 sealed test split was already spent once by Phase 8 Agent 7. Every Phase 18 model that reads it adds multiplicity. Count and report the number of models that have read it."
+  }
+ },
+ "cases_seeds_opponents": {
+  "opponents": "the accepted Phase 16/17 opponent roster: p18, p24, phase9_anchor, strategic_rule_based, tactical_rule_based, and the five stress policies; frozen by digest",
+  "colours": "both, balanced",
+  "rule_version": "the accepted training rules: battleless_move_limit 100, absolute_move_limit 4000, first_player 0",
+  "seed_derivation": "every game seed derives deterministically from (pack_id, case_id, lane, colour, opponent, replicate index) through one recorded seed function; the SAME case id yields the SAME seed in every lane, which is what makes the contrast paired",
+  "scoring": "effective win rate, draw = 0.5"
+ },
+ "required_metrics": {
+  "per_lane": [
+   "effective win rate with paired bootstrap CI",
+   "by colour",
+   "by opponent",
+   "by opponent class",
+   "by setup family",
+   "worst stratum with its own n"
+  ],
+  "heads_on_sealed_phase8_test": [
+   "policy CE ratio and top-1",
+   "value CE ratio, Brier and accuracy",
+   "belief CE ratio and top-1"
+  ],
+  "belief_on_unusual_setups": "calibration and accuracy by ply bucket and by reveal bucket",
+  "setup_diagnostics": [
+   "legality failures (must be 0)",
+   "orientation failures (must be 0)",
+   "reflection-class diversity",
+   "flag and bomb concentration",
+   "front-row concentration",
+   "distinct canonical fingerprints",
+   "completed-outcome count and variance per sampled setup"
+  ],
+  "identities": [
+   "raw and behavior setup digests",
+   "EMA setup digest",
+   "move checkpoint digest",
+   "pack digest",
+   "evaluator source digest"
+  ]
+ },
+ "paired_bootstrap_semantics": {
+  "unit": "the paired per-case difference, resampled with replacement over CASES",
+  "replicates": 10000,
+  "confidence": 0.95,
+  "clustering": "when several games share a case id, resample the CASE and carry all its games together",
+  "head_metrics": "cluster bootstrap over GAMES, because examples within a game are correlated",
+  "seed": "recorded per pack; identical across lanes of one contrast"
+ },
+ "retry_and_failure_semantics": {
+  "missing_result": "recorded as `missing`, never as a draw and never as a pass",
+  "failed_result": "recorded as `failed` with its reason; the lane is incomplete until it is repaired",
+  "incomplete_lane": "an incomplete lane may not be reported as a headline number",
+  "retry": "a transient failure must be retryable without deleting a file by hand (see evaluator_credibility_requirements.R9)"
+ },
+ "power_and_precision_plan": {
+  "basis": "Phase 17's own 25 candidates x 120 boards x 2 lanes of per-case paired outcomes, reports/phase17/local_eval/rows/",
+  "method": "analytic paired two-sided z at alpha 0.05 and power 0.80, cross-checked by a deterministic bootstrap that resamples the empirical paired-difference pool (type-I measured at 0.048)",
+  "measured_inputs": {
+   "own_setup_instrument": {
+    "definition": "joint_move_setup minus move_only at the same candidate and board: same move weights, only the player's own setup differs - the exact shape of C0-L minus C0-F and T-L minus T-F",
+    "sd_of_paired_per_board_difference": 0.5391,
+    "n_observations": 3000,
+    "tie_fraction": 0.594
+   },
+   "move_instrument": {
+    "definition": "candidate_k minus candidate_0 in the move_only lane: same own-setup source, only move weights differ - the shape of T-F minus C0-F",
+    "sd_of_paired_per_board_difference": 0.5112,
+    "n_observations": 2880
+   },
+   "single_lane_sd": 0.4236,
+   "within_candidate_lane_correlation": 0.2383
+  },
+  "critical_finding": {
+   "statement": "pairing across lanes buys far less than it appears to. The within-candidate correlation between the two lanes on the same board is only 0.238, so the paired difference sd (0.5391) is LARGER than either lane's own sd (0.4236). Pairing reduces variance by about 24% against fully unpaired, not by the order of magnitude that near-perfect pairing would give.",
+   "consequence": "a 120-game lane has a minimum detectable effect of 0.1379 EWR at 80% power. Phase 17's evaluation could not have resolved anything smaller. Its 'flat' joint lane and its '0 of 24 candidates beat hour 0' reading are both consistent with any true effect inside roughly plus or minus 0.13 EWR.",
+   "cross_check": "this reproduces Agent 1's independently measured 0.1435 EWR pure-noise spread for 25 candidates on a 120-game lane."
+  },
+  "minimum_detectable_effect_at_80_percent_power": {
+   "120": 0.1379,
+   "240": 0.0975,
+   "480": 0.0689,
+   "900": 0.0503,
+   "1500": 0.039,
+   "2500": 0.0302,
+   "5700": 0.02
+  },
+  "games_required_per_contrast": {
+   "own_setup_effect_C0L_minus_C0F": {
+    "margin_0.02": 5703,
+    "margin_0.03": 2535,
+    "margin_0.05": 913,
+    "margin_0.1": 229
+   },
+   "trained_setup_vs_fresh_setup_init": {
+    "margin_0.02": 5703,
+    "margin_0.03": 2535,
+    "margin_0.05": 913,
+    "margin_0.1": 229
+   },
+   "move_generalization_TF_minus_C0F": {
+    "margin_0.02": 5128,
+    "margin_0.03": 2279,
+    "margin_0.05": 821,
+    "margin_0.1": 206
+   },
+   "combined_TL_minus_C0F": {
+    "margin_0.02": 5703,
+    "margin_0.03": 2535,
+    "margin_0.05": 913,
+    "margin_0.1": 229
+   }
+  },
+  "predeclared_practical_margins": {
+   "value": 0.05,
+   "scope": "every Gate G3 and G4 effective-win-rate contrast",
+   "required_games_per_contrast": 913,
+   "rounded_operational_figure": 1000,
+   "basis": "0.05 EWR is the smallest margin that (a) is resolvable at a per-contrast cost of about 1,000 paired games, which is roughly 8x a Phase 17 lane and affordable at the measured throughput, and (b) exceeds the 0.0503 MDE at that size. A 0.03 margin would need about 2535 games per contrast and a 0.02 margin about 5703.",
+   "selected_before_any_phase18_candidate_result": true
+  },
+  "worst_stratum_power": {
+   "phase17_per_opponent_n": 12,
+   "phase17_per_opponent_mde": 0.436,
+   "finding": "at 12 games a per-opponent stratum has a minimum detectable effect of about 0.436 EWR, which is not a measurement. Phase 17's reported worst-stratum figures (for example 0.125 on phase9_anchor over 12 games) carry no information.",
+   "requirement": "a stratum may only be reported as a worst-stratum REGRESSION if it carries at least 200 paired games; below that it is reported as descriptive with its n and explicitly labelled underpowered"
+  },
+  "note_on_scope": "these sizes are for effective-win-rate contrasts. Head-metric contrasts on the 4,000-game sealed Phase 8 test are far better powered and are not the binding constraint."
+ },
+ "evaluator_credibility_requirements": {
+  "R1": "identical deterministic results across every supported worker count, proved by an identical result digest",
+  "R2": "a forced worker failure is retried without duplicating or substituting any outcome",
+  "R3": "a missing result is recorded `missing` and a failed result `failed`; neither is ever scored as a draw",
+  "R4": "exact case, seed, colour, opponent and setup accounting: planned equals completed plus missing plus failed, with no unexplained rows",
+  "R5": "no setup or opponent orientation drift: every setup is orientation-gated at every use and a failure is fatal",
+  "R6": "lane isolation: changing own setup cannot change move weights or the opponent case, proved by a fixture that varies one factor and asserts the other's inputs are bit-identical",
+  "R7": "model and setup digest refusal on any mismatch",
+  "R8": "a sealed pack cannot be opened by any training or pilot path, proved by an attempted access that is refused and recorded",
+  "R9": "REQUIRED REGRESSION CASE - the Phase 17 retry defect. In stratego/evaluation/phase17/evaluator.py, role_evaluate writes a refusal receipt to <candidate_id>.result.json; existing_result() (line 174) then finds that file on any later attempt, reads bundle_digest as None, and the identity check at line 221-230 refuses the candidate as duplicate-conflicting - permanently. A candidate that failed for a transient reason can never be re-evaluated without deleting the file by hand. The Phase 18 evaluator must pass a test that evaluates a candidate, forces a transient failure, and then successfully re-evaluates it with no manual file removal.",
+  "R10": "full result recomputation from immutable per-row receipts, reproducing the headline number exactly",
+  "R11": "reported before any sealed pack may be opened; a passing test list is not a substitute for the digests"
+ },
+ "unresolved_blocking_items": [
+  {
+   "id": "E1",
+   "item": "unusual_procedural pack does not exist and cannot be built from existing assets",
+   "blocks": "Gate G4 and Claim B",
+   "does_not_block": "G1 Phase 8 control, G2 setup parity, G3 setup-only assay against the library",
+   "required_action": "authorize a bounded generator work package for procedurally distinct setup families with a family-level disjointness proof"
+  },
+  {
+   "id": "E2",
+   "item": "operator_sealed pack requires operator-supplied setups",
+   "blocks": "Gate G6 final acceptance",
+   "does_not_block": "G1-G4",
+   "required_action": "operator supplies setups or families; the contract already specifies the opaque-manifest form so that Agent 1 never needs to read them"
+  }
+ ],
+ "evaluation_contract_frozen": true,
+ "evaluation_contract_frozen_basis": "every rule, lane, contrast, pairing, metric, bootstrap, retry semantic, anti-leakage check, evaluator requirement, practical margin and sample size is fixed here before any Phase 18 candidate result exists. Two of the four PACKS are not yet populated; that is recorded as a blocking dependency for the gates that need them (G4, G6) and explicitly not for G1-G3.",
+ "power_plan_frozen": true,
+ "evaluator_requirements_frozen": true
+}

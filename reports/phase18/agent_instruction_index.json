@@ -1,0 +1,50 @@
+{
+ "artifact": "phase18_agent_instruction_index",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "updated_utc": "2026-09-01T15:01:46Z",
+ "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
+ "instructions": [
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/00_PHASE_18_ADAPTIVE_SEQUENCE_AND_COMMON_CONTRACT.md",
+   "role": "governing",
+   "authorizing_decision": "operator request 2026-08-31",
+   "status": "in force",
+   "sha256": "0cb92d6401eda182b708e5202141b8954fb5e1676cbeb87a5e73e1efe6620e19"
+  },
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/01_AGENT_1_REPRODUCTION_AND_SETUP_METHOD_CONTRACT.md",
+   "role": "work package",
+   "authorizing_decision": "operator request 2026-08-31 (sole exception, protocol section 6)",
+   "status": "EXECUTED 2026-08-31, delivered P18-D001",
+   "sha256": "b52ad5c8092a4452315a47097e5e7cddc24670cee827dc0cf8b9d89355f900d2"
+  },
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/02_PHASE_18_DECISION_PACKET_AND_NEXT_AGENT_PROTOCOL.md",
+   "role": "governing",
+   "authorizing_decision": "operator request 2026-08-31",
+   "status": "in force",
+   "sha256": "586fd06ef3ebf0b1cf7e1705d72c5c59d6d08449d37ab477c3d73121f7585775"
+  },
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/03_SETUP_MODEL_INTEGRATION_REFERENCE.md",
+   "role": "reference only",
+   "authorizing_decision": "operator request 2026-08-31",
+   "status": "reference; superseded on the entropy-residual and pool rows by reports/phase18/ataraxos_setup_method_map_v2.md, which is checked against the published implementation",
+   "sha256": "ef9410a763d1be5a7b341cc635a58f501896b3a04770b247675e1e5f0d4047df"
+  },
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
+   "role": "work package",
+   "authorizing_decision": "accepted P18-D001 (JSON SHA-256 499b7d9acc7eeafee3aae0f0e150c0128a7b92a81e7f0846e4fd8162496e8cad) and operator request 2026-09-01",
+   "status": "AUTHORIZED - not yet executed",
+   "sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925"
+  }
+ ],
+ "not_yet_authorized": [
+  "setup parity build (G2)",
+  "setup-only assay (G3)",
+  "tandem pilot (G4)",
+  "production rehearsal (G5)",
+  "full run (G6)"
+ ]
+}

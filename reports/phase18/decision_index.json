@@ -1,0 +1,24 @@
+{
+ "artifact": "phase18_decision_index",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "updated_utc": "2026-09-01T15:01:46Z",
+ "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
+ "decisions": [
+  {
+   "decision_id": "P18-D001",
+   "timestamp_utc": "2026-09-01T03:55:02Z",
+   "agent": "phase_18_agent_1",
+   "gate": "G0",
+   "question": "Is Phase 18 safe to begin?",
+   "decision": "PROCEED",
+   "status": "accepted by reviewing chat and operator on 2026-09-01; G1 authorized",
+   "markdown": "reports/phase18/decisions/P18-D001.md",
+   "json": "reports/phase18/decisions/P18-D001.json",
+   "markdown_sha256": "bf4b13b8e96e0a00fb04b0f8b6c458ba9da412642a945fb2cd01d58410502a7f",
+   "json_sha256": "499b7d9acc7eeafee3aae0f0e150c0128a7b92a81e7f0846e4fd8162496e8cad",
+   "authorized_instruction": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
+   "authorized_instruction_sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925",
+   "authorized_instruction_note": "operator explicitly requested the next-agent instruction on 2026-09-01, including branch creation, Phase 17/18 evidence and documentation commits, process-boundary v2 generation, and binding G1 to the resulting clean source commit"
+  }
+ ]
+}

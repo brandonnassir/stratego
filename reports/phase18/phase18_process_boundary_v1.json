@@ -1,0 +1,306 @@
+{
+ "active_process_observations": {
+  "dashboard_processes": [],
+  "evaluator_processes": [],
+  "learner_processes": [],
+  "method": "ps -eo pid,ppid,etime,pcpu,pmem,command filtered for python/caffeinate/phase/dashboard/uvicorn; lsof -nP -iTCP -sTCP:LISTEN",
+  "note": "no Python, training, evaluation, supervisor or dashboard process of this project was running. No process was stopped by this agent.",
+  "phase14_dashboard_port_8714_listening": false,
+  "supervisor_processes": []
+ },
+ "agent": "phase_18_agent_1",
+ "artifact": "phase18_process_boundary_v1",
+ "environment": {
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2"
+ },
+ "external_data_paths": {
+  "accepted_phase8_checkpoint": "checkpoints/phase8/warmstart_c1_v1.pt",
+  "accepted_phase8_initialisation": "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+  "manifest_recorded_root_at_freeze": "/Users/brandonwashington/Dev/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "phase8_corpus_resolver": "stratego.training.synthetic_corpus.default_corpus_root()",
+  "relocation_note": "the corpus was relocated after the manifest was written; the accepted identity rule binds corpus by version and digests, never by path, and all four digests recompute at the current location",
+  "resolution_order": [
+   "STRATEGO_WARMSTART_CORPUS_ROOT (unset)",
+   "data/warmstart_corpus_root.txt (used)",
+   "data/warmstart/synthetic_warmstart_corpus_v1 (unused default)"
+  ],
+  "resolved_corpus_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "setup_library": "data/setups/setup_library_v1.jsonl"
+ },
+ "material_artifact_hashes": {
+  "2511.07312v1.pdf": {
+   "bytes": 1642853,
+   "sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04"
+  },
+  "checkpoints/phase8/warmstart_c1_v1.pt": {
+   "bytes": 10459563,
+   "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+  },
+  "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": {
+   "bytes": 3486807,
+   "sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c"
+  },
+  "checkpoints/phase8/warmstart_c1_v1_manifest.json": {
+   "bytes": 20297,
+   "sha256": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10"
+  },
+  "data/phase17/phase17_composite_benchmark_v1.json": {
+   "bytes": 453237,
+   "sha256": "e1accf3b90a15ab527d44acb41374aabfdab40d69b2932e2f2ca3e29a5a3cd0a"
+  },
+  "data/setups/setup_library_v1.jsonl": {
+   "bytes": 14110382,
+   "sha256": "cd8c3921b9a93035d9007631767d234f095af8abf38df7ad50dda6e93bd7b7d0"
+  },
+  "data/setups/setup_library_v1_manifest.json": {
+   "bytes": 4716,
+   "sha256": "249c0f794bff02fd22284faeeace4cbfaa6d06c4b259b1f0fb2bda044389703a"
+  },
+  "data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1/manifest.json": {
+   "bytes": 4073,
+   "sha256": "bbc7875a45f1607eeb7ad147f1983b8d182cfb03a83149a3a57073634e2dd9fc"
+  },
+  "instructions/phase_18_setup_integrated_warmstart/00_PHASE_18_ADAPTIVE_SEQUENCE_AND_COMMON_CONTRACT.md": {
+   "bytes": 20334,
+   "sha256": "0cb92d6401eda182b708e5202141b8954fb5e1676cbeb87a5e73e1efe6620e19"
+  },
+  "instructions/phase_18_setup_integrated_warmstart/01_AGENT_1_REPRODUCTION_AND_SETUP_METHOD_CONTRACT.md": {
+   "bytes": 12780,
+   "sha256": "b52ad5c8092a4452315a47097e5e7cddc24670cee827dc0cf8b9d89355f900d2"
+  },
+  "instructions/phase_18_setup_integrated_warmstart/03_SETUP_MODEL_INTEGRATION_REFERENCE.md": {
+   "bytes": 12245,
+   "sha256": "ef9410a763d1be5a7b341cc635a58f501896b3a04770b247675e1e5f0d4047df"
+  },
+  "reports/phase17/agent_05_candidate_receipts.jsonl": {
+   "bytes": 44623,
+   "sha256": "330d60c413a45391dcad488ac47082ef8285f9fcea1cc8a3ec42680fee732f75"
+  },
+  "reports/phase17/agent_05_checkpoint_shortlist.json": {
+   "bytes": 23657,
+   "sha256": "7f5c3cf2a9c73472e8e776d2688a6bfa01065fcd9105fec08a890cdddad60171"
+  },
+  "reports/phase17/agent_05_report.md": {
+   "bytes": 17294,
+   "sha256": "0ca8016655558105a85093016db8629b6aaf4e6cb379b011d155b9acac2bcd84"
+  },
+  "reports/phase17/agent_06_report.md": {
+   "bytes": 12605,
+   "sha256": "5dafa8d6bdff27f97a93fc5c6d2d214de791bafc46fc318e4a0a392d223a43b1"
+  },
+  "reports/phase17/agent_07_candidate_ledger.json": {
+   "bytes": 25244,
+   "sha256": "bb30b6afe569883e9b9b03affdd9ce002579be6c08771386dcbde3b10287c6bc"
+  },
+  "reports/phase17/agent_07_report.md": {
+   "bytes": 14636,
+   "sha256": "1c8273cb4662245579512417f76e1aa6aa9cd53704a2e04807bb27e00ae246db"
+  },
+  "reports/phase17/ataraxos_method_map_v1.md": {
+   "bytes": 34702,
+   "sha256": "456a649629e2dc14291b2a0273c4da74ed9ca7e268b59c616e225a593980582c"
+  },
+  "reports/phase17/local_eval/analysis.json": {
+   "bytes": 12410,
+   "sha256": "785a6466aa72089338290eaa47630623b45a68dd8d514b24aa0374864cba9c53"
+  },
+  "reports/phase17/phase17_launch_decision_v2.json": {
+   "bytes": 4735,
+   "sha256": "6e6ab8f1c3dc07100a2910ca2d7bec378faf62e54fdad9f91de52f8abc1256b2"
+  },
+  "reports/phase17/phase17_launch_manifest_v2.json": {
+   "bytes": 13914,
+   "sha256": "3f20bf558930acec5df10287e3897e19973d3a46b313b1d03ff3d3aaf0350bc1"
+  },
+  "reports/phase17/phase17_run_closeout_v1.json": {
+   "bytes": 15297,
+   "sha256": "ca670291aee77ca1c151a8c37d8808933a90ffd0246fe2845af5dc900507e703"
+  },
+  "reports/phase_8_data/agent_05_frozen_train_config.json": {
+   "bytes": 5288,
+   "sha256": "abb1f5eea1093d441a9529078194a4cd9e2b11c8a70de83f1420a6546858484e"
+  },
+  "reports/phase_8_data/agent_06_checkpoint_manifest.json": {
+   "bytes": 20297,
+   "sha256": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10"
+  },
+  "reports/phase_8_data/agent_07_final_acceptance.json": {
+   "bytes": 9969,
+   "sha256": "7d7e8be12227f1c1332f3b33dab7e8b1cca3960e6750597ed158f586e2071fe8"
+  },
+  "reports/phase_8_data/agent_07_heldout_metrics.json": {
+   "bytes": 25637,
+   "sha256": "7d31f05c3bb1f1bde4608e581f0c84c8680791ccae58b1c4687a95ae9a0a6dd4"
+  }
+ },
+ "paper_reference": {
+  "file": "2511.07312v1.pdf",
+  "sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04",
+  "version": "arXiv:2511.07312v1"
+ },
+ "problems": [
+  "The working tree carries 8 modified/deleted tracked files and 29 untracked paths, all Phase 17 evidence or the Phase 18 instruction package. None was altered. The source closure is identified by commit 90278aa plus this recorded working-tree classification and the per-file digests above, which is sufficient for read-only Agent 1 work but is NOT an immutable closure for a training run.",
+  "checkpoints/phase17 holds 33.0 GB of unpruned RUN-2026-B checkpoints. This is not a Phase 18 blocker at 162 GiB free but is the largest single reclaimable item if Phase 18 needs space."
+ ],
+ "published_source_reference": {
+  "availability": "available",
+  "file_digests": {
+   "pyengine/arrangement/buffer.py": {
+    "bytes": 21282,
+    "sha256": "1c2f2c9bab151651a3e5e857db1ac0732df007773f7696362e30b5497b029a1e"
+   },
+   "pyengine/arrangement/sampling.py": {
+    "bytes": 7051,
+    "sha256": "0c38f3b39484d899a8e7f802af2573fd85939550025220d051fbd5c349d45fc7"
+   },
+   "pyengine/arrangement/utils.py": {
+    "bytes": 2109,
+    "sha256": "f8739338eb85b501a167dc54731302198a888243fd849b9f07d9512bb427af5f"
+   },
+   "pyengine/core/rl.py": {
+    "bytes": 30995,
+    "sha256": "be05f5fb806b1843156df6c9c330d27c17cff2453965cc4a73ce62e59b015599"
+   },
+   "pyengine/core/train_container.py": {
+    "bytes": 1185,
+    "sha256": "152e361eb7e99bf7caf438ed7f5042809569f2c0f68335c1fa6840196d7723ac"
+   },
+   "pyengine/networks/arrangement_transformer.py": {
+    "bytes": 6737,
+    "sha256": "abba962015e9d3c17660a0947c91f16a0d5b402cee6d262b82441e510b5f261c"
+   },
+   "pyengine/networks/exponential_weighted_average.py": {
+    "bytes": 1069,
+    "sha256": "0f3198ba92a324fe40bf14f38f7043cda7d8ffa07a9b3ce8514e65e235a85291"
+   },
+   "pyengine/networks/transformer_basics.py": {
+    "bytes": 4478,
+    "sha256": "97d0ae30a8ce785d988c6ac96854400ea84855dc92dc319f4cfa57d21e178e0e"
+   },
+   "pyengine/utils/constants.py": {
+    "bytes": 2859,
+    "sha256": "a655aa1ef8dc595803cdb958860b9370e982bd03e026d081b9a85b5ed89c6230"
+   },
+   "src/env/stratego_board.h": {
+    "bytes": 11748,
+    "sha256": "beb389f1716b0e7da4883b617c27b224f55491bafa987a71e75872e3b23bfabc"
+   }
+  },
+  "five_file_plus_dependency_closure_digest": "c6be99b5e49313ea40dd5f2a40cf4ebbfef3c53971bc0ccfe8bc3fa84cd5b0dc",
+  "local_read_only_clone": "<scratchpad>/ataraxos_stratego (outside the project tree; never executed, never imported, not added to the repository)",
+  "pinned_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "remote_head_at_read": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "remote_head_equals_pin": true,
+  "repository": "https://github.com/AtaraxosAI/stratego"
+ },
+ "repository_run_freeze_state": {
+  "compute_lock_held_by_this_agent": false,
+  "open_training_run": null,
+  "phase13_launch_manifest_note": "reports/phase13/phase14_launch_manifest_v1.json is modified in the working tree and is named in its own dirty list; left untouched",
+  "phase14_run": "stopped by operator 2026-08-24; closed:false; immutable resume deadline 2026-08-28T16:15:34Z has passed",
+  "phase17_run": "RUN-2026-B complete and frozen 2026-08-30; ready_for_post_training_evaluation true; post-training evaluation complete 2026-08-30"
+ },
+ "smallest_operator_action_for_immutable_closure": "Before any Phase 18 run that must bind a source closure (G1 onward), commit the Phase 17 evidence and the Phase 18 instruction package on a branch, or record an explicit operator-signed dirty-list manifest binding every path and digest listed in working_tree_classification. Agent 1 performed no commit because the common contract forbids an unapproved commit.",
+ "source_boundary_ready": true,
+ "source_boundary_ready_basis": "Read-only boundary established: HEAD recorded, every working-tree entry classified without modification, no active project process, all cited Phase 17 and Phase 8 artifacts hashed, the published source available at exactly the pinned commit, and the external corpus resolved and digest-verified. This boolean covers Agent 1 scope only; a training run additionally requires the operator action named above.",
+ "source_identity": {
+  "branch": "main",
+  "git_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "head_committed_utc": "2026-08-29T00:01:00-04:00",
+  "head_subject": "Strengthen the Agent 4C cadence-merge test and sync the counts",
+  "tree_is_clean": false,
+  "working_tree_entry_count": 37
+ },
+ "storage": {
+  "checkpoints_phase17_bytes": 35922339983,
+  "checkpoints_phase8_bytes": 232629970,
+  "external_free_bytes": 967374417920,
+  "external_total_bytes": 999960829952,
+  "external_volume": "/Volumes/Brandon_Washington",
+  "internal_free_bytes": 173998342144,
+  "internal_total_bytes": 494384795648,
+  "phase8_corpus_bytes": 352985675
+ },
+ "timestamp_utc": "2026-09-01T03:37:13Z",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "working_tree_classification": {
+  "deleted_tracked": [
+   "instructions/phase_17_tandem_current_policy_self_play/05_AGENT_5_EXTERNAL_EVALUATION_CONVERSATIONAL_SETUP.md"
+  ],
+  "modified_tracked": [
+   "nstructions/phase_17_tandem_current_policy_self_play/00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md",
+   "instructions/phase_17_tandem_current_policy_self_play/06_AGENT_6_PREFLIGHT_AND_LAUNCH_AUTHORIZATION.md",
+   "instructions/phase_17_tandem_current_policy_self_play/07_AGENT_7_12_HOUR_RUN_AND_CLOSEOUT.md",
+   "instructions/phase_17_tandem_current_policy_self_play/09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md",
+   "reports/phase13/phase14_launch_manifest_v1.json",
+   "stratego_project_docs/05_project_plan.md",
+   "stratego_project_docs/README.md"
+  ],
+  "phase_17_evidence_untracked": [
+   "data/phase17/",
+   "instructions/phase_17_tandem_current_policy_self_play/05_AGENT_5_LOCAL_EVALUATION_ON_MAC_MINI.md",
+   "instructions/phase_17_tandem_current_policy_self_play/11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md",
+   "instructions/phase_17_tandem_current_policy_self_play/12_AGENT_4C_ATTRIBUTION_AND_RESUME_CORRECTION.md",
+   "reports/phase17/RUN-2026-B_training.log",
+   "reports/phase17/agent_05_candidate_receipts.jsonl",
+   "reports/phase17/agent_05_checkpoint_shortlist.json",
+   "reports/phase17/agent_05_learning_curve.csv",
+   "reports/phase17/agent_05_local_environment.json",
+   "reports/phase17/agent_05_remote_discovery.json",
+   "reports/phase17/agent_05_report.md",
+   "reports/phase17/agent_06_report.md",
+   "reports/phase17/agent_07_candidate_ledger.json",
+   "reports/phase17/agent_07_report.md",
+   "reports/phase17/agent_07_training_telemetry_summary.csv",
+   "reports/phase17/local_eval/",
+   "reports/phase17/phase17_launch_decision_v2.json",
+   "reports/phase17/phase17_launch_manifest_v2.json",
+   "reports/phase17/phase17_local_eval_handoff_v1.json",
+   "reports/phase17/phase17_run_closeout_v1.json",
+   "scripts/phase17_local_eval_analysis.py",
+   "scripts/phase17_local_eval_capture.py",
+   "scripts/phase17_transport_endpoint.py",
+   "scripts/run_phase17_eval.py",
+   "scripts/run_phase17_eval_worker.py",
+   "scripts/run_phase17_publish.py",
+   "stratego/evaluation/phase17/",
+   "tests/evaluation/phase17/"
+  ],
+  "phase_18_instruction_package_untracked": [
+   "instructions/phase_18_setup_integrated_warmstart/"
+  ],
+  "rule": "nothing was committed, stashed, reset, cleaned or deleted; the tree is recorded as found",
+  "untracked": [
+   "data/phase17/",
+   "instructions/phase_17_tandem_current_policy_self_play/05_AGENT_5_LOCAL_EVALUATION_ON_MAC_MINI.md",
+   "instructions/phase_17_tandem_current_policy_self_play/11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md",
+   "instructions/phase_17_tandem_current_policy_self_play/12_AGENT_4C_ATTRIBUTION_AND_RESUME_CORRECTION.md",
+   "instructions/phase_18_setup_integrated_warmstart/",
+   "reports/phase17/RUN-2026-B_training.log",
+   "reports/phase17/agent_05_candidate_receipts.jsonl",
+   "reports/phase17/agent_05_checkpoint_shortlist.json",
+   "reports/phase17/agent_05_learning_curve.csv",
+   "reports/phase17/agent_05_local_environment.json",
+   "reports/phase17/agent_05_remote_discovery.json",
+   "reports/phase17/agent_05_report.md",
+   "reports/phase17/agent_06_report.md",
+   "reports/phase17/agent_07_candidate_ledger.json",
+   "reports/phase17/agent_07_report.md",
+   "reports/phase17/agent_07_training_telemetry_summary.csv",
+   "reports/phase17/local_eval/",
+   "reports/phase17/phase17_launch_decision_v2.json",
+   "reports/phase17/phase17_launch_manifest_v2.json",
+   "reports/phase17/phase17_local_eval_handoff_v1.json",
+   "reports/phase17/phase17_run_closeout_v1.json",
+   "scripts/phase17_local_eval_analysis.py",
+   "scripts/phase17_local_eval_capture.py",
+   "scripts/phase17_transport_endpoint.py",
+   "scripts/run_phase17_eval.py",
+   "scripts/run_phase17_eval_worker.py",
+   "scripts/run_phase17_publish.py",
+   "stratego/evaluation/phase17/",
+   "tests/evaluation/phase17/"
+  ]
+ }
+}
