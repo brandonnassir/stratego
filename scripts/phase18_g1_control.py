@@ -55,6 +55,13 @@ import run_phase8_agent06 as a6  # noqa: E402
 RUN_ID = "G1-CONTROL-2026-A"
 WORK_PACKAGE = "phase18_setup_integrated_warmstart"
 
+#: Where the accepted Phase 8 artifacts actually live. The checkpoints are
+#: excluded by `.gitignore`, so an execution worktree does not contain them and
+#: cannot be asked whether they changed. The one path Phase 8 pins absolutely is
+#: the accepted corpus root, so the installation root is derived from that
+#: rather than typed again here.
+ACCEPTED_INSTALL_ROOT = Path(a6.REQUIRED_CORPUS_ROOT).parents[3]
+
 #: Never written, only re-hashed. A change in any of these is a stop condition.
 PROTECTED = (
     "checkpoints/phase8/warmstart_c1_v1.pt",
@@ -85,7 +92,16 @@ def sha256(path: Path) -> str:
 
 
 def protected_digests(root: Path) -> dict:
-    return {name: sha256(root / name) for name in PROTECTED}
+    digests = {}
+    for name in PROTECTED:
+        path = root / name
+        if not path.exists():
+            raise SystemExit(
+                f"BLOCKED: accepted Phase 8 artifact {path} is missing; the control "
+                "cannot prove it left the accepted artifacts alone"
+            )
+        digests[name] = sha256(path)
+    return digests
 
 
 def apply_location_override() -> dict:
@@ -134,6 +150,7 @@ def main() -> int:
     parser.add_argument("--verify-only", action="store_true")
     parser.add_argument("--prove-location-assertion", action="store_true")
     parser.add_argument("--skip-payload-bytes", action="store_true")
+    parser.add_argument("--accepted-root", default=str(ACCEPTED_INSTALL_ROOT))
     arguments = parser.parse_args()
 
     if arguments.prove_location_assertion:
@@ -143,6 +160,7 @@ def main() -> int:
         parser.error("--work-dir is required for every mode except the proof")
 
     work = Path(arguments.work_dir).expanduser().resolve()
+    accepted_root = Path(arguments.accepted_root).expanduser().resolve()
     work.mkdir(parents=True, exist_ok=True)
 
     # Output isolation first, so nothing downstream can address an accepted path.
@@ -151,7 +169,7 @@ def main() -> int:
     log(f"outputs isolated under {work}")
     log("location override applied; corpus assertions otherwise untouched")
 
-    before = protected_digests(a6.REPOSITORY_ROOT)
+    before = protected_digests(accepted_root)
     started = time.perf_counter()
 
     log("verifying prerequisites, identities and all 28,000 corpus payloads")
@@ -177,7 +195,7 @@ def main() -> int:
                 "location_assertion_proof": prove_location_assertion(),
                 "verification": verification,
                 "protected_before": before,
-                "protected_after": protected_digests(a6.REPOSITORY_ROOT),
+                "protected_after": protected_digests(accepted_root),
                 "seconds": round(time.perf_counter() - started, 3),
             },
         )
@@ -245,7 +263,7 @@ def main() -> int:
     a6.write_json(a6.artifact_path("agent_06_warmstart_run.json"), artifact)
     a6.write_json(a6.artifact_path("agent_06_checkpoint_manifest.json"), manifest)
 
-    after = protected_digests(a6.REPOSITORY_ROOT)
+    after = protected_digests(accepted_root)
     unchanged = before == after
 
     summary = {
@@ -266,6 +284,7 @@ def main() -> int:
         "location_override": override,
         "location_assertion_proof": prove_location_assertion(),
         "accepted_artifacts": {
+            "root": str(accepted_root),
             "before": before,
             "after": after,
             "unchanged": unchanged,

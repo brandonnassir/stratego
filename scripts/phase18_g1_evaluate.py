@@ -76,6 +76,18 @@ RUN_ID = "G1-CONTROL-2026-A"
 WORK_PACKAGE = "phase18_setup_integrated_warmstart"
 
 ACCEPTED_DATA = REPOSITORY_ROOT / "reports" / "phase_8_data"
+
+#: The accepted checkpoints are excluded by `.gitignore` and therefore live only
+#: in the installation whose corpus root Phase 8 pins. Derived, not typed.
+ACCEPTED_INSTALL_ROOT = Path(a7.EXPECTED_CORPUS_ROOT).parents[3]
+
+#: Re-hashed before and after the evaluation; a change is a stop condition.
+PROTECTED = (
+    "checkpoints/phase8/warmstart_c1_v1.pt",
+    "checkpoints/phase8/warmstart_c1_v1_manifest.json",
+    "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+    "reports/phase_8_implementation_report.md",
+)
 CONTRACT_PATH = (
     REPOSITORY_ROOT / "reports" / "phase18" / "phase18_phase8_reproduction_contract_v1.json"
 )
@@ -128,6 +140,16 @@ def sha256(path: Path) -> str:
 
 def contract() -> dict:
     return json.loads(CONTRACT_PATH.read_text())
+
+
+def protected_digests(root: Path) -> dict:
+    digests = {}
+    for name in PROTECTED:
+        path = root / name
+        if not path.exists():
+            raise G1EvaluationError(f"accepted Phase 8 artifact {path} is missing")
+        digests[name] = sha256(path)
+    return digests
 
 
 # ---------------------------------------------------------------------------
@@ -560,12 +582,15 @@ def main() -> int:
     parser.add_argument("--device", default="mps")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--chunk-units", type=int, default=64)
+    parser.add_argument("--accepted-root", default=str(ACCEPTED_INSTALL_ROOT))
     arguments = parser.parse_args()
 
     started = time.perf_counter()
     control_directory = Path(arguments.control_dir).expanduser().resolve()
     output = Path(arguments.output_dir).expanduser().resolve()
     output.mkdir(parents=True, exist_ok=True)
+    accepted_root = Path(arguments.accepted_root).expanduser().resolve()
+    protected_before = protected_digests(accepted_root)
 
     frozen = contract()
     from stratego.training import warmstart_contract as wc
@@ -641,6 +666,7 @@ def main() -> int:
     gates = completion_gates(arms["candidate"])
     reference_gates = completion_gates(arms["reference"])
     reproduction = reference_reproduction(arms["reference"])
+    protected_after = protected_digests(accepted_root)
 
     payload = {
         "artifact": "phase18_g1_noninferiority_v1",
@@ -663,6 +689,12 @@ def main() -> int:
                 "Agent 7; these two accesses are additional multiplicity and are "
                 "counted here"
             ),
+        },
+        "accepted_artifacts": {
+            "root": str(accepted_root),
+            "before": protected_before,
+            "after": protected_after,
+            "unchanged": protected_before == protected_after,
         },
         "staged_checkpoints": staged,
         "pairing_proof": pairing,
@@ -695,6 +727,9 @@ def main() -> int:
     if failing:
         log(f"failing: {failing}")
     log(f"paired non-inferiority: {'PASS' if comparison['all_non_inferior'] else 'FAIL'}")
+    if protected_before != protected_after:
+        log("BLOCKED: an accepted Phase 8 artifact changed during the evaluation")
+        return 1
     return 0 if (not failing and comparison["all_non_inferior"] and not pairing["problems"]) else 1
 
 

@@ -284,6 +284,31 @@ class TestTheFortyTwoGates:
         assert gates["evaluation_export_bitwise_faithful"] is False
 
 
+class TestAcceptedArtifactProtection:
+    """The accepted checkpoints are gitignored, so they exist only in the
+    installation Phase 8 pins - never in an execution worktree."""
+
+    def test_the_accepted_root_is_derived_from_the_pinned_corpus_root(self):
+        assert g1.ACCEPTED_INSTALL_ROOT == Path(g1.a7.EXPECTED_CORPUS_ROOT).parents[3]
+        assert (g1.ACCEPTED_INSTALL_ROOT / "checkpoints" / "phase8").is_dir()
+
+    def test_the_protected_digests_match_the_accepted_record(self):
+        accepted = json.loads(ACCEPTED_ACCEPTANCE.read_text())["prerequisite_digests"]
+        digests = g1.protected_digests(g1.ACCEPTED_INSTALL_ROOT)
+        assert (
+            digests["checkpoints/phase8/warmstart_c1_v1.pt"]
+            == accepted["checkpoint_sha256"]
+        )
+        assert (
+            digests["checkpoints/phase8/warmstart_c1_v1_initialisation.pt"]
+            == accepted["canonical_untrained_sha256"]
+        )
+
+    def test_a_missing_accepted_artifact_refuses(self, tmp_path):
+        with pytest.raises(g1.G1EvaluationError, match="is missing"):
+            g1.protected_digests(tmp_path)
+
+
 class TestPairedUnitLoading:
     def test_missing_results_are_refused(self, tmp_path):
         with pytest.raises(g1.G1EvaluationError, match="no persisted results"):
