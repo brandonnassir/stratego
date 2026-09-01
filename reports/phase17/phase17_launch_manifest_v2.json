@@ -1,0 +1,247 @@
+{
+ "artifact": "phase17_launch_manifest_v2",
+ "supersedes": "phase17_simple_tandem_handoff_v2 (input, not superseded evidence)",
+ "written_utc": "2026-08-29T13:04:41Z",
+ "written_by": "Agent 6, short launch freeze",
+ "work_package": "phase17",
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "run_id": "RUN-2026-B",
+ "governing_decisions": [
+  "00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md",
+  "09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md",
+  "11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md"
+ ],
+ "provenance": {
+  "evidence_parent_commit": "eab8a3347a3955c8f1b1001f2729172b20abadb3",
+  "implementation_commit_agent_4b": "3be8bba7f544a948a37f06b5ff5941b265ad7f55",
+  "correction_commit_agent_4c": "67b186af8f6e42f35f7a636d31ffd4d7fb308668",
+  "freeze_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "freeze_head_note": "HEAD carries two commits after 67b186a (the 4C deliverables and a test strengthening). Neither touches a source-closure member, so the authorized source digest is unchanged from the correction commit; verified by diffing the closure roots."
+ },
+ "authorized_identities": {
+  "source_closure_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+  "source_closure_version": "phase17_production_source_closure_v1",
+  "source_closure_file_count": 22,
+  "source_closure_roots": [
+   "stratego/training/phase17",
+   "scripts/run_phase17_training.py"
+  ],
+  "production_config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+  "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+  "run_digest": "c385ffeae635386add2df64ddbf259bdd8de7cf42535d1cd9eafe5ed3759779c",
+  "telemetry_schema": "phase17_simple_tandem_telemetry_v1",
+  "joint_checkpoint_schema": "phase17_joint_checkpoint_v2",
+  "export_schema": "phase17_paired_export_v1",
+  "runner_version": "phase17_tandem_runner_v2",
+  "supervisor_version": "phase17_run_supervisor_v3",
+  "setup_equation_version": "phase17_setup_update_paper_v1"
+ },
+ "phase9_move_start": {
+  "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+  "expected_file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "observed_file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+  "file_matches": true,
+  "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+  "candidate_id": "C1",
+  "parameter_count": 863959,
+  "lineage": "behavior_B041.pt, post-iteration 40",
+  "enforcement": "load_phase17_move_weights refuses on either digest before returning a model; a convenience copy with different bytes is rejected",
+  "belief_loss_weight": 0.0,
+  "h0_expectation": {
+   "move_ema_model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "why": "the move EMA is initialized from the loaded raw Phase 9 weights and h0 precedes the first optimizer update, so h0's move EMA digest must equal the accepted Phase 9 model-state digest. Agent 4B's smoke h0 recorded exactly this value."
+  }
+ },
+ "fresh_setup_start": {
+  "initialization": "from scratch, no Agent 3/4 rehearsal state",
+  "model_seed": 17,
+  "parameter_count": 802320,
+  "raw_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+  "h0_expectation": {
+   "setup_ema_model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "why": "a fresh SetupEMA at 0 updates equals the raw weights, so h0's setup EMA digest must equal the seed-17 build. Verified reproducible and identical on cpu and mps."
+  },
+  "enforcement": "TandemRunner refuses an injected setup model under the production run ID; it builds its own from the recorded seed",
+  "smoke_used_a_different_seed": {
+   "smoke_seed": 1017,
+   "smoke_h0_setup_ema_digest": "9568aaa529d877b4f9f21ddfb4faa2b159c5c43e40e88384c23086e139dd4d48",
+   "reproduced_by_agent_6": true,
+   "why_it_matters": "D10 section 3 requires the smoke to use a different run ID and seed. Agent 6 rebuilt the smoke's seed from current source and reproduced its recorded h0 setup digest exactly, which proves the smoke's h0 came from the same from-scratch path production will use."
+  }
+ },
+ "production_command": "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py --run-id RUN-2026-B --start --i-am-agent-7 --source-digest 4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5 > <log> 2>&1 &",
+ "production_command_notes": {
+  "log_destination": "operator supplies <log>; nothing in the closure writes it",
+  "refusals": {
+   "missing --i-am-agent-7": "exit 2, before anything is read",
+   "missing --source-digest": "exit 3, refuses a run with no source identity",
+   "--source-digest not matching the working tree": "exit 3, names both digests"
+  },
+  "resume": "--resume <checkpoint>; the same --source-digest is required and re-checked",
+  "dry_run": ".venv/bin/python scripts/run_phase17_training.py --describe"
+ },
+ "output_destinations": {
+  "run_directory": "checkpoints/phase17/RUN-2026-B",
+  "checkpoints": "checkpoints/phase17/RUN-2026-B/checkpoints",
+  "exports": "checkpoints/phase17/RUN-2026-B/exports",
+  "telemetry": "checkpoints/phase17/RUN-2026-B/telemetry.jsonl",
+  "directory_is_new": true,
+  "free_space_gib_at_freeze": 198,
+  "measured_export_bytes_each": 6709159,
+  "projected_candidate_bytes": 167728975,
+  "space_verdict": "ample: 25 candidates are ~0.16 GiB against 198 GiB free"
+ },
+ "export_cadence": {
+  "h0": "written before either optimizer update; export_hour_zero refuses at iteration >= 1",
+  "interval_seconds": 1800,
+  "horizon_seconds": 43200,
+  "driver": "elapsed_active_training_seconds, never wall clock",
+  "expected_candidate_ordinals": 25,
+  "ordinal_range": "0 through 24",
+  "immutability": "write_paired_export refuses an existing candidate name; no 'latest'",
+  "spanning_iteration_rule": "an iteration crossing two boundaries yields both; no boundary is silently dropped"
+ },
+ "accepted_evidence": {
+  "agent_4b_smoke": {
+   "artifact": "reports/phase17/phase17_simple_tandem_preflight.json",
+   "checks_passed": 9,
+   "checks_total": 9,
+   "all_passed": true,
+   "seconds": 291.23757445800584,
+   "stop_predicates_fired": [],
+   "warnings": [],
+   "recorded_commit_field": "eab8a3347a3955c8f1b1001f2729172b20abadb3",
+   "recorded_commit_field_is_wrong": true,
+   "actual_tree_the_smoke_ran": "3be8bba7f544a948a37f06b5ff5941b265ad7f55",
+   "how_agent_6_established_that": "each of the smoke's 11 recorded source hashes reproduces the blob at 3be8bba, and none reproduces the blob at eab8a33. This is the mis-attribution Agent 4C correction 6 fixed; the smoke evidence itself is intact.",
+   "recipe_still_governs": true,
+   "recipe_proof": "the production config document built from current source is byte-identical to the production_configuration the smoke recorded"
+  },
+  "post_smoke_source_delta": {
+   "changed_closure_members": [
+    "stratego/training/phase17/runner.py",
+    "stratego/training/phase17/supervisor.py",
+    "stratego/training/phase17/telemetry.py",
+    "scripts/run_phase17_training.py",
+    "stratego/training/phase17/source_identity.py (new)"
+   ],
+   "unchanged_closure_members_from_the_smoke_tree": [
+    "setup_contract.py",
+    "setup_episode.py",
+    "setup_learning.py",
+    "setup_metrics.py",
+    "checkpoint.py",
+    "export.py",
+    "move_trainer.py",
+    "move_loss.py",
+    "transition_collector.py",
+    "transition_targets.py",
+    "transition_schema.py",
+    "and the remaining closure members"
+   ],
+   "verdict": "the delta is confined to the six Agent 4C corrections. A scan of the delta for recipe-bearing constants (budget, epochs, clip, alpha, learning rate, EMA, coefficients, argmax, search, belief) returned only a median helper and comments."
+  },
+  "agent_4c_focused_tests": {
+   "module": "tests/training/phase17/test_agent_4c_corrections.py",
+   "rerun_by_agent_6": true,
+   "passed": 30,
+   "failed": 0,
+   "seconds": 27.36
+  }
+ },
+ "out_of_closure_dependencies": {
+  "why_recorded": "the frozen closure covers Phase 17's own modules and the entry script. The run also imports accepted Phase 9/15/16 helpers whose bytes do not move the source digest, so their hashes are frozen here as a secondary identity.",
+  "files": [
+   {
+    "path": "stratego/training/phase16/schedules.py",
+    "sha256": "fc5cbaf3320d1c622f0e37e4728a6c41f25ab27c4d7b0edb6c3c88516895b4a6",
+    "git_state": "clean"
+   },
+   {
+    "path": "stratego/training/phase16/trainer.py",
+    "sha256": "1af6a43f1bccbf5338a6ec0d797e250b2ccbb6497a8d7f883d8fb7376984c596",
+    "git_state": "clean"
+   },
+   {
+    "path": "stratego/belief/phase15/orientation.py",
+    "sha256": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+    "git_state": "clean"
+   },
+   {
+    "path": "stratego/training/phase9_behavior.py",
+    "sha256": "9ab51c9b25527dc77d3364796e0e6ad782be366794a32e3288f75b5bda0a045f",
+    "git_state": "clean"
+   },
+   {
+    "path": "stratego/training/phase9_checkpoint.py",
+    "sha256": "122fc110f8f402ac793af4f9d5b2a941c6b7e4435f745edf35b2f3c5afde29e3",
+    "git_state": "clean"
+   },
+   {
+    "path": "stratego/training/phase9_trainer.py",
+    "sha256": "5894231c8528adda62dfd37fbe0fcc643f50b1bfab4447ee1e76fecc4c34100e",
+    "git_state": "clean"
+   }
+  ],
+  "all_clean_at_head": true,
+  "orientation_helper_note": "stratego/belief/phase15/orientation.py is imported for assert_engine_orientation, a pure orientation assertion that re-derives placement from the engine's own SETUP_SQUARES. Contract section 7 mandates it. It is not a belief model, belief loss or belief-guided input, and does not breach the no-belief boundary."
+ },
+ "prohibited_paths_absent": {
+  "evaluator_in_command": false,
+  "transport_worker_in_command": false,
+  "search_in_training": false,
+  "belief_loss_or_belief_guided_input": false,
+  "historical_opponent_in_training": false,
+  "handcrafted_or_rule_opponent_in_training": false,
+  "evidence": [
+   "runner.py contains no reference to search, belief, historical, handcrafted, evaluator or transport",
+   "belief_loss_weight is 0.0",
+   "the participant ledger is a runtime proof: every acting behavior_model_state_digest must be one the live cell held; an unknown digest arms I2 and any rule/historical/search decision arms I5",
+   "both seats are bound to CURRENT_POLICY_TOKEN",
+   "Agent 5's evaluator, worker, publisher and retired transport endpoint are outside the frozen closure and are not imported by any closure member"
+  ]
+ },
+ "evaluation_boundary": {
+  "rule": "D11: no evaluator runs while RUN-2026-B is training",
+  "agent_5_starts": "only after Agent 7 freezes the run and its candidate ordinals",
+  "no_h0_evaluation_gate": true
+ },
+ "conditions_on_agent_7": [
+  {
+   "id": "A6-C1",
+   "severity": "material",
+   "title": "the 25th candidate is rate-dependent; 24 is an acceptable outcome",
+   "detail": "the loop terminates on iteration count (N=640), not on 12 active hours. At Agent 4's own measured 67.404 s/iteration, 640 iterations is 43139 s = 11.983 active hours, which is 61 s short of the h12 boundary at 43,200 s, yielding 24 candidates (ordinals 0-23, last at h11.5). Agent 4B's smoke averaged 67.995 s/iteration, which would reach 43517 s and produce all 25. The outcome turns on whether production averages above or below 67.5 s.",
+   "instruction": "Record the actual count under Agent 7 section 6's 'or account explicitly for each missing ordinal'. A 24-candidate run is NOT an integrity failure and must not be treated as a stop. Do NOT extend the run past N iterations to manufacture the 25th: the move LR and entropy schedules are horizoned to this N, and contract section 9 forbids recomputing the horizon from production speed."
+  },
+  {
+   "id": "A6-C2",
+   "severity": "minor",
+   "title": "--describe does not print the Phase 9 or fresh-setup identity",
+   "detail": "the dry run reports run ID, source, schedule, recipe, horizon and 25 candidates, but not the Phase 9 start digests or the fresh-setup digest. Both are enforced in the code path and Agent 6 verified them directly.",
+   "instruction": "use this manifest's phase9_move_start and fresh_setup_start blocks as the frozen values for the Agent 7 section 1 recompute, and compare h0's recorded move/setup EMA digests against the two h0_expectation values."
+  },
+  {
+   "id": "A6-C3",
+   "severity": "carried by instruction",
+   "title": "D10-ADV-SCALE remains uncompensated",
+   "detail": "the printed setup advantage puts alpha*(I - h) in nats against an outcome term bounded by 2. Agent 4B's smoke measured an entropy-to-outcome magnitude ratio of 2.84 at iteration 1 (2.70 vs 0.999). D10 section 4 ships this deliberately and forbids a compensating scale, floor, centering rule or controller.",
+   "instruction": "record the component magnitudes as telemetry. Do not tune. This is an experiment result, not a defect to repair mid-run."
+  },
+  {
+   "id": "A6-C4",
+   "severity": "minor",
+   "title": "the Agent 4 per-resume telemetry-row loss is closed, not carried",
+   "detail": "Agent 4C correction 2 fixed the checkpoint-before-append ordering; the checkpointed row is now retained exactly once and genuinely uncheckpointed later rows are still truncated. Agent 6 reran the focused proofs. Recorded so the earlier Agent 4 finding is not carried forward as still-open.",
+   "instruction": "none; the defect is closed."
+  }
+ ],
+ "not_established_by_agent_6": [
+  "any strength claim: no benchmark lane was evaluated, by instruction",
+  "the D10 smoke was not rerun at production shape, by instruction",
+  "resume was not exercised on MPS; MPS is not bitwise reproducible run to run, so Agent 4C's resume proofs are CPU",
+  "setup diversity or concentration behavior over 12 hours",
+  "whether the run will produce 24 or 25 candidates (see A6-C1)"
+ ],
+ "manifest_digest": "045e09b5ecf9dc1eb91889e5bb013e2b7a1542c65fc3020261049bf2e52e3467"
+}

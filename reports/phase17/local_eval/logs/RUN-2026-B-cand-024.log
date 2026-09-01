@@ -1,0 +1,314 @@
+{
+ "benchmark_pack_digest": "64450412dd8d03641ed667bc92e2112f7a6f4602047e1ebc8e2c35cc3d6de97f",
+ "benchmark_pack_id": "phase17_composite_benchmark_v1",
+ "bundle_digest": "f8728b6233f8961215eb16aec61bae60c30b10fd08f6bb6c59dcead9cab0423a",
+ "bundle_file_sha256": "93b588c8135b10522d427895ca9ec3f8423f29799fddcf72e1103f337d55da9e",
+ "bundle_id": "RUN-2026-B-cand-024",
+ "bundle_id_note": "Agent 1's schema sketched '<run_id>|h<HHMM>'; Agent 4's FROZEN export names candidates '<run_id>-cand-NNN'. The frozen export governs, and bundle_id echoes candidate_id so no reader has to guess.",
+ "candidate_id": "RUN-2026-B-cand-024",
+ "candidate_index": 24,
+ "config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+ "elapsed_active_training_seconds": 43250.42708513598,
+ "evaluator_source_digest": "0aa0b23ae60f6cc717637a851ee295d975915bf81108e4d29ef8b4d512dc3924",
+ "evaluator_version": "phase17_remote_evaluator_v1",
+ "finished_utc": "2026-08-30T03:30:13Z",
+ "host_identity": {
+  "cpu_count": 14,
+  "device": "cpu",
+  "hostname": "Mac.lan",
+  "machine": "arm64",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "processor": "arm",
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "torch_threads_per_worker": 1
+ },
+ "iteration": 510,
+ "lane_results": {
+  "joint_move_setup": {
+   "draw_score": 0.5,
+   "draws": 27,
+   "ewr": 0.6875,
+   "games": 120,
+   "lane": "joint_move_setup",
+   "losses": 24,
+   "se": 0.036506,
+   "setup_generation_seconds": 0.6125,
+   "setup_used": true,
+   "strata": {
+    "by_color": {
+     "blue": {
+      "draw": 18,
+      "ewr": 0.7,
+      "games": 60,
+      "loss": 9,
+      "win": 33
+     },
+     "red": {
+      "draw": 9,
+      "ewr": 0.675,
+      "games": 60,
+      "loss": 15,
+      "win": 36
+     }
+    },
+    "by_opponent": {
+     "p18": {
+      "draw": 3,
+      "ewr": 0.291667,
+      "games": 12,
+      "loss": 7,
+      "win": 2
+     },
+     "p24": {
+      "draw": 1,
+      "ewr": 0.708333,
+      "games": 12,
+      "loss": 3,
+      "win": 8
+     },
+     "phase9_anchor": {
+      "draw": 1,
+      "ewr": 0.375,
+      "games": 12,
+      "loss": 7,
+      "win": 4
+     },
+     "strategic_rule_based": {
+      "draw": 0,
+      "ewr": 0.666667,
+      "games": 12,
+      "loss": 4,
+      "win": 8
+     },
+     "stress_berserker": {
+      "draw": 0,
+      "ewr": 0.833333,
+      "games": 12,
+      "loss": 2,
+      "win": 10
+     },
+     "stress_chaos": {
+      "draw": 1,
+      "ewr": 0.958333,
+      "games": 12,
+      "loss": 0,
+      "win": 11
+     },
+     "stress_information_miser": {
+      "draw": 5,
+      "ewr": 0.791667,
+      "games": 12,
+      "loss": 0,
+      "win": 7
+     },
+     "stress_miner_rush": {
+      "draw": 6,
+      "ewr": 0.75,
+      "games": 12,
+      "loss": 0,
+      "win": 6
+     },
+     "stress_scout_rush": {
+      "draw": 9,
+      "ewr": 0.625,
+      "games": 12,
+      "loss": 0,
+      "win": 3
+     },
+     "tactical_rule_based": {
+      "draw": 1,
+      "ewr": 0.875,
+      "games": 12,
+      "loss": 1,
+      "win": 10
+     }
+    },
+    "by_setup_source": {
+     "neutral_v1": {
+      "draw": 8,
+      "ewr": 0.775,
+      "games": 40,
+      "loss": 5,
+      "win": 27
+     },
+     "phase14_learned": {
+      "draw": 9,
+      "ewr": 0.6625,
+      "games": 40,
+      "loss": 9,
+      "win": 22
+     },
+     "targeted_family": {
+      "draw": 10,
+      "ewr": 0.625,
+      "games": 40,
+      "loss": 10,
+      "win": 20
+     }
+    }
+   },
+   "wins": 69
+  },
+  "move_only": {
+   "draw_score": 0.5,
+   "draws": 27,
+   "ewr": 0.670833,
+   "games": 120,
+   "lane": "move_only",
+   "losses": 26,
+   "se": 0.037187,
+   "setup_generation_seconds": 0.0,
+   "setup_used": false,
+   "strata": {
+    "by_color": {
+     "blue": {
+      "draw": 14,
+      "ewr": 0.666667,
+      "games": 60,
+      "loss": 13,
+      "win": 33
+     },
+     "red": {
+      "draw": 13,
+      "ewr": 0.675,
+      "games": 60,
+      "loss": 13,
+      "win": 34
+     }
+    },
+    "by_opponent": {
+     "p18": {
+      "draw": 2,
+      "ewr": 0.5,
+      "games": 12,
+      "loss": 5,
+      "win": 5
+     },
+     "p24": {
+      "draw": 2,
+      "ewr": 0.666667,
+      "games": 12,
+      "loss": 3,
+      "win": 7
+     },
+     "phase9_anchor": {
+      "draw": 0,
+      "ewr": 0.416667,
+      "games": 12,
+      "loss": 7,
+      "win": 5
+     },
+     "strategic_rule_based": {
+      "draw": 0,
+      "ewr": 0.583333,
+      "games": 12,
+      "loss": 5,
+      "win": 7
+     },
+     "stress_berserker": {
+      "draw": 0,
+      "ewr": 0.583333,
+      "games": 12,
+      "loss": 5,
+      "win": 7
+     },
+     "stress_chaos": {
+      "draw": 0,
+      "ewr": 1.0,
+      "games": 12,
+      "loss": 0,
+      "win": 12
+     },
+     "stress_information_miser": {
+      "draw": 5,
+      "ewr": 0.791667,
+      "games": 12,
+      "loss": 0,
+      "win": 7
+     },
+     "stress_miner_rush": {
+      "draw": 8,
+      "ewr": 0.666667,
+      "games": 12,
+      "loss": 0,
+      "win": 4
+     },
+     "stress_scout_rush": {
+      "draw": 10,
+      "ewr": 0.583333,
+      "games": 12,
+      "loss": 0,
+      "win": 2
+     },
+     "tactical_rule_based": {
+      "draw": 0,
+      "ewr": 0.916667,
+      "games": 12,
+      "loss": 1,
+      "win": 11
+     }
+    },
+    "by_setup_source": {
+     "neutral_v1": {
+      "draw": 10,
+      "ewr": 0.675,
+      "games": 40,
+      "loss": 8,
+      "win": 22
+     },
+     "phase14_learned": {
+      "draw": 8,
+      "ewr": 0.775,
+      "games": 40,
+      "loss": 5,
+      "win": 27
+     },
+     "targeted_family": {
+      "draw": 9,
+      "ewr": 0.5625,
+      "games": 40,
+      "loss": 13,
+      "win": 18
+     }
+    }
+   },
+   "wins": 67
+  }
+ },
+ "lanes_run": [
+  "move_only",
+  "joint_move_setup"
+ ],
+ "move_ema_model_state_digest": "d245c704dfb735ea3fdbecbec4f1031a51c795e76e945802463c932ef64d25bb",
+ "opponents": {
+  "p18": {
+   "bytes": 3477949,
+   "file_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p18_source_readonly.pt"
+  },
+  "p24": {
+   "bytes": 3477949,
+   "file_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p24_source_readonly.pt"
+  },
+  "phase9_anchor": {
+   "bytes": 3479085,
+   "file_sha256": "ed0f5198b19f29331cd21fd2e422bd7d910b945a56b99678439e092f02950407",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/phase9_anchor_readonly.pt"
+  }
+ },
+ "payload_digest": null,
+ "receipt_digest": "bbf25bc786945f77f6385c4308090a81884633705e5cc331383572d714f0643f",
+ "result_digest": "f86a9147d005f10df3ad3b9cde4f272311ac96e87d97b7090d45891f6677a7d9",
+ "result_digest_covers": "lane_results with wall-clock fields removed; two machines that played the same games reproduce this digest exactly",
+ "run_id": "RUN-2026-B",
+ "runtime_seconds": 14.006,
+ "schema_version": "phase17_eval_receipt_v1",
+ "setup_ema_model_state_digest": "0142980d10669c6a8ae3a4fc2a014b548d3c6c9099f7896cd1cca0074afc35d8",
+ "source_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+ "started_utc": "2026-08-30T03:29:59Z",
+ "status": "ok",
+ "work_package": "phase17",
+ "workers": 8
+}

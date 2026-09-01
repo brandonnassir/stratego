@@ -1,6 +1,7 @@
 # Project status — canonical source of truth
 
-**Written 2026-08-27.** This file is the single place that answers "what is
+**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§13, §14, and the
+Phase 17 entries in §9 and §11). This file is the single place that answers "what is
 true right now". Where the repository does not support a definitive answer,
 this file says **unresolved** rather than guessing.
 
@@ -64,6 +65,8 @@ Phase 16 training arms) is engineering-grade or unfinished. In particular:
 - **Phase 10B** (optional setup-conditioned fine-tuning) is `INCOMPLETE`:
   paused by the operator after 5 of 30 iterations, no classification.
 - **Phase 14** never selected a final policy (§5).
+- **Phase 17 (tandem self-play)** ran to completion and **promoted nothing**:
+  all 24 trained candidates scored *below* the hour-0 start (§13).
 
 A read-only convenience copy exists at
 `checkpoints/phase12/phase9_c1_readonly_copy.pt` with **different bytes**
@@ -472,3 +475,93 @@ These are genuinely open; the repository does not answer them.
    predicted. Either the operator's setups are outside this library, or the
    mechanism is predictability across a series, which no single-game pack
    measures. **Unresolved.**
+
+---
+
+## 13. What happened in Phase 17 (tandem self-play)?
+
+**Note on the number.** "Phase 17" is ambiguous. The *planned* Phase 17 was
+casual human evaluation and is still `PENDING` (§10). The *executed* Phase 17 is
+tandem current-policy self-play, `RUN-2026-B`. This section is about the latter.
+See [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §12 and §13.
+
+**Status: `COMPLETE`. Result: negative. No checkpoint promoted.**
+
+```text
+run                RUN-2026-B, launched from 90278aa
+duration           12.658 active hours, 535 of a frozen 640 iterations
+termination        operator, after the twelfth hour
+candidates         25 paired (move + setup) EMA exports, all byte-verified
+integrity events   0 in all 535 telemetry rows
+evaluation         2026-08-30, 120-board phase17_composite_benchmark_v1,
+                   both lanes, 0 refusals, bit-deterministic across worker counts
+```
+
+The four headline readings:
+
+| Question | Result |
+|---|---|
+| Did move-only improve over hours 6–12? | **No — it degraded.** Slope −0.0115 EWR/h, t = −2.97 |
+| Did the joint lane improve? | **No — flat.** Slope +0.0003 EWR/h, t = 0.04 |
+| Did any trained candidate beat the hour-0 start? | **No — 0 of 24.** The move-only curve peaks at hour 0 |
+| Did the learned setup policy beat the fixed library? | **No — −0.0679 EWR, t = −2.91.** It also never beat its own random initialization (DiD +0.0237, t = +0.44) |
+
+**What this does and does not establish.** It is a valid negative result *for the
+exact implementation that was run*. It is **not** evidence that the paper's setup
+method fails on this project, for two independent reasons:
+
+1. **The implementation differed from the authors'.** Phase 17's method map was
+   built from the paper alone. The authors' code is now available and differs
+   materially — entropy units in the advantage, forced flag handedness plus
+   post-generation reflection, reusable setup pools with averaged outcomes, and a
+   1,024-episode effective batch against Phase 17's 32. Row-by-row in
+   [`../reports/phase18/ataraxos_setup_method_map_v2.md`](../reports/phase18/ataraxos_setup_method_map_v2.md).
+2. **The evaluation could not have resolved the effect.** The 120-board lane has a
+   **minimum detectable effect of 0.138 EWR** at 80% power, computed from Phase
+   17's own per-case paired outcomes. Every reading above except the setup-vs-library
+   comparison sits inside that band. This also reproduces the independently measured
+   0.1435 EWR pure-noise spread for 25 candidates on a 120-game lane.
+
+**Evidence.** `reports/phase17/agent_05_report.md`, `agent_07_report.md`,
+`phase17_run_closeout_v1.json`, `local_eval/`. All Phase 17 evidence is
+**untracked but intact** and is preserved unmodified;
+`checkpoints/phase17/` holds 33.5 GB of unpruned run checkpoints.
+
+**A known evaluator defect, found and deliberately not fixed.** In
+`stratego/evaluation/phase17/evaluator.py`, a refusal receipt is written to
+`<candidate_id>.result.json`; `existing_result()` then finds that file on every
+later attempt and refuses the candidate as duplicate-conflicting — permanently.
+A candidate that failed transiently cannot be re-evaluated without deleting the
+file by hand. It did not affect the Phase 17 batch. Any future evaluator must
+carry this as a regression case.
+
+---
+
+## 14. Is Phase 18 authorized?
+
+**Only its first work package.**
+
+Phase 18 — *setup-integrated Phase 8 warmstart* — was planned on 2026-08-31. Its
+goal is a fresh Phase 8 C1 warmstart whose policy/value/belief learner is
+integrated with a **beneficial** learned setup policy, correcting the Phase 17
+method defects and returning to the Phase 8 supervised experimental point instead
+of self-play.
+
+```text
+authorized      instructions/phase_18_setup_integrated_warmstart/
+                01_AGENT_1_REPRODUCTION_AND_SETUP_METHOD_CONTRACT.md   (executed 2026-08-31)
+NOT authorized  the Phase 8 control run, the setup implementation, the setup-only
+                assay, the tandem pilot, the production rehearsal, and the full run
+```
+
+Phase 18 is an **adaptive evidence ladder** (gates G0–G6), not a precommitted
+agent sequence. Every stage stops at a decision packet that the operator and the
+reviewing chat must accept before the next instruction may be written.
+
+Agent 1's outputs are in `reports/phase18/`. Two dependencies are recorded as
+blocking later gates and neither blocks the Phase 8 control:
+
+- the `unusual_procedural` setup pack **does not exist and cannot be built from
+  existing assets** — the entire 8,000-board setup library is already consumed by
+  the accepted Phase 8 corpus (blocks G4); and
+- the `operator_sealed` pack requires operator-supplied setups (blocks G6).

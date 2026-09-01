@@ -1,0 +1,332 @@
+{
+ "artifact": "phase17_run_closeout_v1",
+ "written_utc": "2026-08-30T03:11:36Z",
+ "written_by": "Agent 7, twelve-hour training operation and candidate freeze",
+ "work_package": "phase17",
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "run_id": "RUN-2026-B",
+ "governing_documents": [
+  "00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md",
+  "07_AGENT_7_12_HOUR_RUN_AND_CLOSEOUT.md",
+  "09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md",
+  "11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md"
+ ],
+ "launch_record": {
+  "launch_manifest": "reports/phase17/phase17_launch_manifest_v2.json",
+  "launch_manifest_digest": "045e09b5ecf9dc1eb91889e5bb013e2b7a1542c65fc3020261049bf2e52e3467",
+  "launch_decision": "reports/phase17/phase17_launch_decision_v2.json",
+  "launch_decision_digest": "2ecc95e09c98b35d325bd43f9b52d2999fb3cd54747a8598f645093dc88e947c",
+  "manifest_and_decision_digests_recomputed_by_agent_7": true,
+  "freeze_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "operator_approval": "granted for RUN-2026-B before launch",
+  "launched_utc": "2026-08-29T14:02:33Z",
+  "learner_pid": 2209,
+  "caffeinate_pid": 2211,
+  "command": "nohup caffeinate -dimsu .venv/bin/python scripts/run_phase17_training.py --run-id RUN-2026-B --start --i-am-agent-7 --source-digest 4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5 > reports/phase17/RUN-2026-B_training.log 2>&1 &",
+  "trainer_log": "reports/phase17/RUN-2026-B_training.log",
+  "trainer_log_bytes": 0,
+  "trainer_log_note": "the run wrote nothing to stdout or stderr for its entire life; all telemetry went to telemetry.jsonl"
+ },
+ "authorized_identities": {
+  "source_closure_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+  "source_closure_file_count": 22,
+  "source_closure_recomputed_after_termination": true,
+  "source_closure_unchanged_across_the_run": true,
+  "production_config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+  "schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+  "run_digest": "c385ffeae635386add2df64ddbf259bdd8de7cf42535d1cd9eafe5ed3759779c",
+  "run_digest_source": "read back from the terminal checkpoint and matched to the launch manifest",
+  "telemetry_schema": "phase17_simple_tandem_telemetry_v1",
+  "joint_checkpoint_schema": "phase17_joint_checkpoint_v2",
+  "export_schema": "phase17_paired_export_v1",
+  "runner_version": "phase17_tandem_runner_v2",
+  "supervisor_version": "phase17_run_supervisor_v3"
+ },
+ "start_identity": {
+  "move": {
+   "path": "checkpoints/phase9/selfplay_c1_v1.pt",
+   "file_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+   "model_state_digest": "f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd",
+   "candidate_id": "C1",
+   "produced_after_iteration": 40,
+   "parameter_count": 863959
+  },
+  "setup": {
+   "initialization": "from scratch, seed 17, no Agent 3/4 state",
+   "model_state_digest": "9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa",
+   "parameter_count": 802320
+  },
+  "h0_matched_launch_manifest_expectation": true,
+  "verified_before_launch_by_agent_7": "both identities recomputed directly, covering the two the dry run omits under A6-C2"
+ },
+ "termination": {
+  "termination_reason": "operator_terminated_after_h12_for_post_training_evaluation",
+  "operator_authorization": "explicit; supersedes the frozen 640-iteration horizon requirement",
+  "terminated_utc": "2026-08-30T03:11:16Z",
+  "signal": "SIGTERM",
+  "sigkill_required": false,
+  "signal_detail": "SIGTERM to learner 2209; caffeinate 2211 exited with its child and needed no separate signal",
+  "graceful_handler_present": false,
+  "graceful_handler_note": "no signal handling exists anywhere in the frozen closure, so SIGTERM ended the process immediately and session.close() did not run. The operator's instruction anticipated this: the terminal committed state is the newest fully written telemetry row and the checkpoint it names.",
+  "completed_12_active_hours": true,
+  "completed_frozen_640_iteration_horizon": false,
+  "integrity_failure": false,
+  "stopped_by_predicate": false,
+  "in_progress_iteration_discarded": true,
+  "in_progress_iteration_discarded_detail": {
+   "iteration": 536,
+   "evidence": "the loop condition was still true at signal time, so iteration 536 was mid-step. Telemetry was byte-identical before and after termination (29971749 bytes, 535 lines), the checkpoint count did not change (535), no joint_00536.pt exists, and no temporary or partial file was left behind. The discarded iteration produced no committed artifact of any kind.",
+   "left_any_artifact": false
+  },
+  "no_trainer_process_remains": true,
+  "resumed": false,
+  "will_not_resume": true
+ },
+ "run_totals": {
+  "iterations_completed": 535,
+  "iterations_frozen_horizon": 640,
+  "iterations_not_run": 105,
+  "iteration_numbering_contiguous": true,
+  "elapsed_active_training_seconds": 45569.596,
+  "elapsed_active_training_hours": 12.6582,
+  "mean_seconds_per_iteration": 85.177,
+  "iteration_seconds_min": 63.5,
+  "iteration_seconds_median": 85.0,
+  "iteration_seconds_max": 107.2,
+  "transitions_harvested": 35061760,
+  "games_completed": 233936,
+  "setup_episodes_consumed": 467872,
+  "move_optimizer_steps": 68480,
+  "setup_optimizer_steps": 37875,
+  "memory_high_water_mib": 20488.453125,
+  "terminal_reasons": {
+   "flag_capture": 214242,
+   "opponent_no_legal_move": 8677,
+   "battleless_move_limit_draw": 10965,
+   "both_no_legal_move_draw": 52
+  },
+  "terminal_results": {
+   "blue_win": 111099,
+   "red_win": 111820,
+   "draw": 11017
+  },
+  "draw_rate": 0.04709
+ },
+ "integrity_state": {
+  "stop_predicates_fired": [],
+  "warnings_fired": [],
+  "rows_audited": 535,
+  "fixed_transition_budget_held_every_iteration": true,
+  "fixed_transition_budget": 65536,
+  "participant_ledger_held_every_iteration": true,
+  "seats": {
+   "blue": "phase17_current_raw_move_v1|P17RAW",
+   "red": "phase17_current_raw_move_v1|P17RAW"
+  },
+  "historical_participants": 0,
+  "search_participants": 0,
+  "rule_or_stress_decisions": 0,
+  "unknown_model_states": 0,
+  "non_finite_gradients": 0,
+  "setup_legality_failures": 0,
+  "setup_orientation_failures": 0,
+  "setup_fallback_attempts": 0,
+  "setup_epochs_per_iteration": 5,
+  "setup_epochs_ever_varied": false,
+  "setup_reverse_kl_coefficient": 0.1,
+  "setup_kl_coefficient_ever_varied": false,
+  "setup_update_ever_skipped": false,
+  "setup_episode_buffer_max_depth": 0,
+  "setup_episodes_rejected": 0,
+  "setup_episodes_per_completed_game": 2.0,
+  "setup_consumption_rule": "every episode completed in an iteration consumed exactly once in that iteration; cumulative enqueued equals cumulative consumed at 467872",
+  "belief_loss_weight": 0.0,
+  "evaluator_or_transport_in_run": false
+ },
+ "terminal_committed_state": {
+  "last_fully_committed_iteration": 535,
+  "last_telemetry_row_index": 534,
+  "checkpoint_path": "checkpoints/phase17/RUN-2026-B/checkpoints/joint_00535.pt",
+  "checkpoint_iteration": 535,
+  "checkpoint_generation": 535,
+  "checkpoint_file_sha256": "362fd4a63f799795f2fc789bce0cbf3be0e8cd28c6462c0dc8ca256d758cdb4c",
+  "checkpoint_payload_digest": "b6957238340b4bac66d43e2314983bc1a6a48646e8f28e1b8df3f4ac5dd3492f",
+  "checkpoint_file_hash_matches_telemetry": true,
+  "checkpoint_payload_digest_matches_telemetry": true,
+  "checkpoint_accepted_under_authorized_identities": true,
+  "checkpoint_accepted_detail": "read_joint_checkpoint accepted it with run_id RUN-2026-B, the authorized config digest and the authorized source digest, so no identity check refused it",
+  "checkpoint_move_ema_model_state_digest": "6d52192fc6dad4aec401d8ff8d32cd0dbb239741bf417cb4983cfc097304ce89",
+  "checkpoint_setup_ema_model_state_digest": "8f3b1f1d575b6ed21778fed44d61e36f2545b544f7d49245743856f61ef91aa0",
+  "checkpoint_elapsed_active_training_seconds": 45569.59569018299,
+  "next_export_boundary_seconds": 46800.0,
+  "no_export_was_owed_at_termination": true,
+  "no_export_was_owed_detail": "the next boundary would have been 46800 s, past the 43200 s export horizon, so no candidate was pending and none was created at termination",
+  "highest_checkpoint_on_disk": "joint_00535.pt",
+  "no_higher_numbered_or_temporary_checkpoint": true,
+  "MUST_NOT_BE_EVALUATED": true,
+  "must_not_be_evaluated_detail": "this checkpoint is at iteration 535, past h12 at iteration 510, and its EMA states were never exported as a candidate. Per the operator instruction Agent 5 evaluates only the 25 frozen paired EMA candidates, never this checkpoint and never the current raw weights."
+ },
+ "candidates": {
+  "ledger": "reports/phase17/agent_07_candidate_ledger.json",
+  "ledger_digest": "3961a83eb9af82476ea819de25e057e0a8ae892ef8013fe804375407aacdd118",
+  "ledger_file_sha256": "bb30b6afe569883e9b9b03affdd9ce002579be6c08771386dcbde3b10287c6bc",
+  "count": 25,
+  "ordinals_present": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20,
+   21,
+   22,
+   23,
+   24
+  ],
+  "ordinals_missing": [],
+  "ordinals_contiguous_from_zero": true,
+  "last_ordinal": 24,
+  "last_ordinal_is": "h12",
+  "all_verified": true,
+  "all_move_ema_digests_distinct": true,
+  "each_verified_immediately_at_write_time": true,
+  "immutability_proof": "every candidate's file hash, manifest digest and both EMA digests were recorded when it was written and recomputed after termination; all 25 are byte-identical, so nothing was overwritten, renamed or silently replaced",
+  "candidate_24_elapsed_active_training_seconds": 43250.427,
+  "candidate_24_crossed_43200_active_seconds": true,
+  "candidate_24_iteration": 510,
+  "no_candidate_created_during_termination": true,
+  "a6_c1_resolution": {
+   "condition": "A6-C1 allowed 24 or 25 candidates depending on whether production averaged above or below 67.5 s per iteration",
+   "outcome": "25 candidates",
+   "why": "production averaged 85.177 s per iteration, well above the 67.5 s threshold and above both the 67.404 s Agent 4 estimate and the 67.995 s Agent 4B smoke rate, so the 43200 s export horizon was reached at iteration 510, with 130 iterations of the frozen horizon still unrun at termination",
+   "count_below_24_requiring_explanation": false
+  }
+ },
+ "telemetry": {
+  "path": "checkpoints/phase17/RUN-2026-B/telemetry.jsonl",
+  "file_sha256": "0061e75ccff1460101dba9cf3e35de04c5b5b4d13ed04af98e044fd2f9c5f5fc",
+  "rows": 535,
+  "bytes": 29971749,
+  "every_row_parses": true,
+  "no_partial_final_row": true,
+  "summary_csv": "reports/phase17/agent_07_training_telemetry_summary.csv",
+  "summary_csv_file_sha256": "821bbaa2f8bb9dcb992a518c1146cc329a39af76ac5a18c3a326e2ebb351b627",
+  "summary_csv_rows": 535
+ },
+ "late_telemetry_direction": {
+  "basis": "mean of the first ten iterations against the mean of the last ten; direction only, no strength claim",
+  "move_entropy": {
+   "first10": 1.670639,
+   "last10": 0.395805,
+   "direction": "down"
+  },
+  "move_mean_kl": {
+   "first10": 0.014324,
+   "last10": 0.003093,
+   "direction": "down"
+  },
+  "move_clip_fraction": {
+   "first10": 0.164251,
+   "last10": 0.037479,
+   "direction": "down"
+  },
+  "move_learning_rate": {
+   "first10": 0.00015,
+   "last10": 1.9e-05,
+   "direction": "down, by the frozen schedule"
+  },
+  "setup_empirical_entropy": {
+   "first10": 1.688789,
+   "last10": 1.373708,
+   "direction": "down"
+  },
+  "setup_final_epoch_kl": {
+   "first10": 0.006858,
+   "last10": 0.004704,
+   "direction": "down"
+  },
+  "setup_alpha": {
+   "first10": 0.065046,
+   "last10": 0.015226,
+   "direction": "down, by the frozen anneal"
+  },
+  "mean_game_length": {
+   "first10": 269.752898,
+   "last10": 145.137919,
+   "direction": "down"
+  }
+ },
+ "conditions_carried_from_agent_6": {
+  "A6-C1": {
+   "status": "resolved",
+   "outcome": "25 candidates, last ordinal h12; the run was terminated by the operator before N=640 rather than falling short of h12"
+  },
+  "A6-C2": {
+   "status": "discharged",
+   "outcome": "Agent 7 recomputed both identities the dry run omits before launch; h0 matched the manifest exactly for both move and setup"
+  },
+  "A6-C3": {
+   "status": "observed and recorded, not tuned",
+   "outcome": "the setup advantage entropy-to-outcome magnitude ratio ranged 0.491 to 4.596 over the run with median 1.073, first-ten mean 1.727 and last-ten mean 1.067. It is volatile rather than trending; no compensating scale, floor, centering rule or controller was applied",
+   "min": 0.4913,
+   "median": 1.0734,
+   "max": 4.5959
+  },
+  "A6-C4": {
+   "status": "no action required",
+   "outcome": "the per-resume telemetry row loss was already closed by Agent 4C; this run never resumed, so the path was not exercised"
+  }
+ },
+ "warning_predicates_observed": {
+  "P1_through_P7_fired": false,
+  "P6_detail": {
+   "first_hour_median_move_entropy": 1.3389,
+   "threshold_25_percent": 0.3347,
+   "minimum_move_entropy_over_run": 0.3777,
+   "final_move_entropy": 0.3981,
+   "closest_approach_ratio": 1.129,
+   "note": "move entropy declined steadily and came within about 13 percent of the P6 threshold without ever crossing it; no warning fired at any point in the run"
+  }
+ },
+ "observations_for_agent_5": [
+  "no strength claim and no checkpoint recommendation is made here; this closeout reports training facts only",
+  "move entropy fell from about 1.67 to about 0.40 while setup empirical entropy fell from about 1.69 to about 1.37, so concentration appeared on both halves, the move half more sharply",
+  "mean game length fell from about 270 plies to about 145, which raised setup episode arrivals and is the reason iteration cost rose from about 68 s to a median of 85 s",
+  "the seat results are close to balanced across 233936 games at 111099 blue wins to 111820 red wins with 11017 draws, a 4.7 percent draw rate",
+  "the last 130 iterations of the frozen horizon were not run, so the move learning rate and entropy schedules did not complete their anneal; candidates are unaffected because all 25 were published by iteration 510"
+ ],
+ "prohibited_work_not_performed": [
+  "no evaluation of any candidate, checkpoint or raw weight set",
+  "no Agent 5 evaluator, worker, publisher or transport process was started at any time",
+  "no smoke test or test campaign was run",
+  "no change to training source, configuration or schedules",
+  "no candidate was fabricated, overwritten, renamed or omitted",
+  "no resume was performed and none will be"
+ ],
+ "handoff": {
+  "ready_for_post_training_evaluation": true,
+  "basis": "the trainer is stopped and no Phase 17 process remains; all 25 candidate ordinals 0 through 24 are present, contiguous, individually verified and byte-identical to write time; the terminal checkpoint verifies against its telemetry-recorded file hash and payload digest and is accepted under the authorized run, config and source identities; the source closure still digests to the authorized value",
+  "agent_5_evaluates": "only the 25 frozen paired EMA candidates in checkpoints/phase17/RUN-2026-B/exports",
+  "agent_5_must_not_evaluate": [
+   "the terminal checkpoint joint_00535.pt",
+   "any raw move or setup weights",
+   "any post-h12 state that was never exported"
+  ]
+ },
+ "closeout_digest": "6a89dd06b58e6fcdac2649fd86fae67166dd303cc5337af7c057c36a376e1601"
+}

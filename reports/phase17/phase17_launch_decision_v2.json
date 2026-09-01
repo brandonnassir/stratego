@@ -1,0 +1,84 @@
+{
+ "artifact": "phase17_launch_decision_v2",
+ "written_utc": "2026-08-29T13:04:41Z",
+ "written_by": "Agent 6, short launch freeze",
+ "work_package": "phase17",
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "run_id": "RUN-2026-B",
+ "decision": "GO",
+ "decision_basis": "the accepted Agent 4B smoke, Agent 4C's corrections, the identities and the launch command all match. No identity, routing, legality, numerical, persistence or prohibited-path check failed.",
+ "authorized_source_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+ "authorized_config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+ "authorized_schedule_digest": "2607502309d51f2c6d7ecb9796d74d1f9fab5de43dd32bb590a2e5e9337787df",
+ "authorized_run_digest": "c385ffeae635386add2df64ddbf259bdd8de7cf42535d1cd9eafe5ed3759779c",
+ "launch_manifest": "reports/phase17/phase17_launch_manifest_v2.json",
+ "launch_manifest_digest": "045e09b5ecf9dc1eb91889e5bb013e2b7a1542c65fc3020261049bf2e52e3467",
+ "freeze_head": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+ "checks": [
+  {
+   "id": "A6-1",
+   "requirement": "Agent 4C handoff with non-empty source identity, lossless resume telemetry, valid checkpoint ancestry, ready_for_launch_freeze",
+   "result": "PASS",
+   "evidence": "phase17_simple_tandem_handoff_v2 present, ready_for_launch_freeze true, four distinct commits attributed, source closure non-empty at 22 files"
+  },
+  {
+   "id": "A6-2",
+   "requirement": "Agent 4B's nine smoke results and source hashes still match their accepted artifacts",
+   "result": "PASS",
+   "evidence": "9/9 passed, no stops, no warnings; all 11 recorded source hashes reproduce the blobs at 3be8bba; the artifact's commit field names eab8a33, which is the mis-attribution Agent 4C corrected, not a changed artifact"
+  },
+  {
+   "id": "A6-3",
+   "requirement": "Agent 4C's focused tests and correction identities match the current source",
+   "result": "PASS",
+   "evidence": "30/30 focused tests pass against the working tree in 27.36 s"
+  },
+  {
+   "id": "A6-4",
+   "requirement": "dry run reports RUN-2026-B, exact Phase 9 identity, fresh setup init, non-empty source/config/schedule digests, 25 candidate ordinals",
+   "result": "PASS WITH CONDITION",
+   "evidence": "run ID, source digest, schedule digest and 25 candidates are printed and non-empty; the config digest reproduces independently and is run-ID-bound. The dry run does not print the Phase 9 or fresh-setup identity; both were verified directly and are frozen in the manifest. See A6-C2."
+  },
+  {
+   "id": "A6-5",
+   "requirement": "production output directory is new, destinations have adequate space, no learner process is active",
+   "result": "PASS",
+   "evidence": "checkpoints/phase17/RUN-2026-B does not exist; 198 GiB free against ~0.16 GiB of candidates; no run_phase17 or phase14 process running"
+  },
+  {
+   "id": "A6-6",
+   "requirement": "h0 is written before either optimizer update and later exports are driven by active training time",
+   "result": "PASS",
+   "evidence": "export_hour_zero refuses at iteration >= 1 and is called before the step loop; the smoke's h0 move EMA digest is exactly the accepted Phase 9 model-state digest. Boundaries derive from elapsed_active_training_seconds at 1800 s, capped at 43,200 s, with no boundary dropped when an iteration spans two"
+  },
+  {
+   "id": "A6-7",
+   "requirement": "no evaluator, transport worker, search, belief, historical or handcrafted opponent in the production command or training participant configuration",
+   "result": "PASS",
+   "evidence": "the command is the training entry point with four flags; runner.py names none of them; belief loss weight 0.0; both seats bound to the current-policy token with a runtime digest ledger arming I2/I5; Agent 5's evaluator and the retired transport endpoint are outside the closure and imported by no closure member. The single belief-package import is the contract-mandated orientation assertion"
+  }
+ ],
+ "conditions": [
+  "A6-C1",
+  "A6-C2",
+  "A6-C3",
+  "A6-C4"
+ ],
+ "prohibited_work_not_performed": [
+  "no tandem smoke was rerun",
+  "no evaluator check",
+  "no standalone setup soak",
+  "no diversity gate",
+  "no EWR or strength test",
+  "no parameter sweep",
+  "no controller calibration",
+  "no queue or schedule study",
+  "no extended resume campaign",
+  "no failure-injection matrix",
+  "no training of any kind"
+ ],
+ "operator_approval_still_required": true,
+ "agent_5_starts_after": "Agent 7 freezes the run",
+ "next_step": "operator approves the launch, then Agent 7 runs the production command in this manifest with the frozen source digest",
+ "decision_digest": "2ecc95e09c98b35d325bd43f9b52d2999fb3cd54747a8598f645093dc88e947c"
+}

@@ -39,7 +39,7 @@ Retain and reuse:
 - paired raw/EMA checkpointing, exact active-game persistence, exports, telemetry,
   and integrity-oriented safety stops;
 - no-search/no-belief/no-training-opponent boundaries; and
-- the external 30-minute evaluation interface.
+- the immutable paired 30-minute evaluation interface, now consumed locally under D11.
 
 Agent 4 also established that the tandem signal is usable: its 200-iteration soak
 completed 32,043 games with 1.87% draws, compared with 83.3% draws in Agent 3's
@@ -185,12 +185,11 @@ change, and setup concentration are telemetry and warnings, not automatic stops.
 12-hour learning curve is the experiment. Do not tune or restart mid-run because the
 curve looks bad.
 
-## 8. External evaluation and closeout
+## 8. Evaluation and closeout
 
-Preserve paired EMA evaluation every 30 active minutes using immutable candidate
-digests and the fixed benchmark pack. Perform one h0 external identity round trip so
-results cannot be silently attached to the wrong model or pack; do not turn this into
-a broader model-quality gate.
+Preserve paired EMA candidate exports every 30 active minutes using immutable digests.
+Under D11, evaluate the frozen candidates with the fixed benchmark pack locally only
+after training ends. There is no evaluator or h0 evaluation gate before launch.
 
 After 12 active hours, select from hour 6–12 using learning-curve direction, mean EWR,
 and robustness across the fixed strata. Setup entropy/diversity informs interpretation

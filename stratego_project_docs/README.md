@@ -1,6 +1,37 @@
 # Stratego Artificial Intelligence Project Documentation
 
-This folder contains the current planning and specification documents for the reduced-scale Stratego artificial intelligence project inspired by *Superhuman AI for Stratego Using Self-Play Reinforcement Learning and Test-Time Search* (Sokota et al., 2025).
+This folder contains the **frozen behavioural specifications** for the reduced-scale Stratego artificial intelligence project inspired by *Superhuman AI for Stratego Using Self-Play Reinforcement Learning and Test-Time Search* (Sokota et al., 2025).
+
+> **These specification files describe contracts, not current state.** For what
+> is true right now, read the canonical documents below. The status sections
+> further down this file were written at Phase 4 and are preserved as a
+> historical planning snapshot.
+
+## Canonical current documentation (read these first)
+
+| Document | Function |
+|---|---|
+| [`../README.md`](../README.md) | Root project overview and orientation. |
+| [`STATUS.md`](STATUS.md) | **Canonical current status — the single source of truth.** |
+| [`PHASE_HISTORY.md`](PHASE_HISTORY.md) | Actual chronology of Phases 1–18 vs. the original plan's numbering. |
+| [`EVIDENCE_INDEX.md`](EVIDENCE_INDEX.md) | Artifact-by-artifact status classification. |
+| [`EXPERIMENT_FRAMEWORK.md`](EXPERIMENT_FRAMEWORK.md) | Rules for future experiments and the run-naming decision. |
+
+Three layers, kept separate on purpose:
+
+1. **Specifications** (`01_`–`12_` here) — frozen contracts; authoritative for
+   *how the system is defined*.
+2. **Current source of truth** (the table above) — authoritative for *what is
+   true now*.
+3. **Historical evidence** (`../reports/`, `../instructions/`, and the external
+   Phase 14 run state) — read-only records; authoritative for *what was
+   measured*, and never edited.
+
+> **2026-08-31.** Phase 17 (tandem self-play, `RUN-2026-B`) is **complete with a
+> negative result and no checkpoint promoted**; Phase 18 (setup-integrated
+> warmstart) is **planned, with only Agent 1 authorized**. Note that the number
+> 17 was reused: the *planned* Phase 17 was casual human evaluation and is still
+> `PENDING`. See [`STATUS.md`](STATUS.md) §13–§14.
 
 ## Documents
 
@@ -45,7 +76,15 @@ There is no `10_`. The former `10_phase_3_architecture.md` was folded into `03_g
 
 ## Project objective
 
-Build a local Stratego system on an Apple M4 Pro Mac mini that uses a compact Transformer, a shared belief head, a diverse setup generator, population self-play, dynamically damped policy improvement, and decision-time search. The final target is at least an 85 percent effective win rate against casual human Stratego players, with a draw counted as one-half of a win.
+Build a local Stratego system on an Apple M4 Pro Mac mini that uses a compact Transformer, a shared belief head, a diverse setup generator, population self-play, dynamically damped policy improvement, and decision-time search.
+
+> **The original target — at least an 85 percent effective win rate against
+> casual human Stratego players, draws counted as one-half — was formally
+> retired on 2026-08-25** for lack of a measurable human pool. It was **retired,
+> not achieved**: the project has never played a human under any protocol. Its
+> replacement, `phase16_goal_v1` (effective win rate ≥ 0.50 over a predeclared
+> 20-game operator exam under rematch conditions), has also never been run. See
+> [`STATUS.md`](STATUS.md) §10.
 
 ## Source hierarchy
 
@@ -76,9 +115,16 @@ No Phase 4 result changed `stratego_project_v1`, `observation_v2_1_127ch`, the 1
 
 ## Status
 
+> **Historical snapshot — do not read as current.** Everything from here to the
+> end of this file was written during the Phase 4 documentation update and
+> describes the project as it stood then. It is preserved because it records
+> the accepted Phase 1–4 contracts exactly as frozen. For current status see
+> [`STATUS.md`](STATUS.md); for what happened afterwards see
+> [`PHASE_HISTORY.md`](PHASE_HISTORY.md).
+
 Planning baseline: **version 0.6**
 
-### Completed
+### Completed as of the Phase 4 update
 
 - **Phase 1:** rules, observation, internal-state, replay, and validation contracts.
 - **Phase 2:** Python reference engine.
@@ -140,10 +186,21 @@ Evaluation guidance:
 
 The fixed evaluation bank is not the later training setup generator.
 
-### Next
+### What this snapshot called "Next" — superseded
 
-**Phase 5 — integration confirmation of the frozen state/action representation.**
+This section previously read **"Next: Phase 5 — integration confirmation of the
+frozen state/action representation."** That is no longer true and has not been
+true for a long time.
 
-Phase 5 should plug the future model/training interfaces into the already frozen observation/action/evaluation contracts without redefining them. It is an integration confirmation, not a new representation-design phase.
+**Phase 5 completed** (`PASS`, 22/22 hard gates) and the project ran through
+**Phase 16**. Phases 5–10 are accepted, Phase 11 **failed** its primary belief
+gate, Phases 11B and 12 are **contaminated** by a setup-orientation defect, the
+168-hour final run (**Phase 14**) was **interrupted at 59.97 hours** and never
+selected a checkpoint, and Phases 15–16 are **engineering-only** corrective
+work. Human evaluation has **never been run**.
+
+The full chronology, including how the executed phase numbers diverged from the
+numbering in [`05_project_plan.md`](05_project_plan.md), is in
+[`PHASE_HISTORY.md`](PHASE_HISTORY.md).
 
 The Markdown files in this folder are project specifications/documentation. Implementations, tests, reports, and raw Phase 3/4 measurement artifacts live elsewhere in the repository.

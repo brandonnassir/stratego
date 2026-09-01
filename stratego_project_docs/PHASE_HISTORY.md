@@ -1,4 +1,4 @@
-# Phase chronology — what actually happened, Phases 1–16
+# Phase chronology — what actually happened, Phases 1–18
 
 **Written 2026-08-27.** This replaces the "Phase 5 — Next" presentation that
 [`README.md`](README.md) and [`05_project_plan.md`](05_project_plan.md) carried
@@ -22,7 +22,8 @@ work. They are not being retroactively renamed.**
 | 14 | Configuration freeze | **The attempted final 168-hour run** (the planned Phase 15's job) | The freeze happened in Phase 13; the run was `INTERRUPTED` at 59.97 h |
 | 15 | Final 168-hour run | **Corrective belief/search engineering** (unplanned; a response to the orientation defect and to Phase 11's failure) | No — the final run was Phase 14 and it did not complete |
 | 16 | Automated final evaluation | **Robustness and distribution engineering** (unplanned) | Partly — `phase16_benchmark_v1` is a canonical automated instrument, but it is an engineering pack, not the planned post-run final evaluation |
-| 17 | Casual human evaluation | **Never reached.** Superseded by the `phase16_goal_v1` operator exam | No — `PENDING`, never run |
+| 17 | Casual human evaluation | **Two different things.** The planned human evaluation was never reached; the number was then reused for **tandem current-policy self-play** (`RUN-2026-B`), which ran and produced a negative result | No — the human evaluation is still `PENDING`, never run |
+| 18 | *(not in the original plan)* | **Setup-integrated Phase 8 warmstart** — planned 2026-08-31, only Agent 1 authorized | Not started beyond Agent 1 |
 
 Consequences a reader must hold onto:
 
@@ -31,6 +32,9 @@ Consequences a reader must hold onto:
   [`EXPERIMENT_FRAMEWORK.md`](EXPERIMENT_FRAMEWORK.md) §6.
 - **There was never a completed "final 168-hour run"** under any number.
 - **There was never a human-evaluation phase.**
+- **"Phase 17" is ambiguous and must always be qualified.** Written unqualified
+  it is read as the planned human evaluation (never run). The executed work under
+  that number is the **tandem self-play** phase, §13 below.
 
 ---
 
@@ -419,3 +423,58 @@ was formally retired here** and replaced by `phase16_goal_v1` (EWR ≥ 0.50 over
 - **Therefore:** the project has **not** demonstrated its stated 85% effective
   win rate against casual humans, and has no human-strength evidence of any
   kind.
+
+---
+
+## 13. Phase 17 (tandem self-play) — `RUN-2026-B`  ·  COMPLETE, NEGATIVE
+
+Distinct from §12. This is the work actually executed under the number 17.
+
+- **Purpose:** train a move policy and an autoregressive setup policy together
+  by current-policy self-play, following the paper's setup-learning recipe as
+  read **from the paper alone** — the authors' implementation was not available
+  when the method map was written.
+- **Run:** `RUN-2026-B`, launched from `90278aa`, **12.658 active hours, 535 of
+  a frozen 640 iterations**, terminated by the operator after the twelfth hour.
+  25 paired candidates exported, all verified byte-identical between write time
+  and post-termination. Zero integrity events in all 535 rows.
+- **Post-training evaluation (2026-08-30):** every candidate evaluated locally
+  on the 120-board `phase17_composite_benchmark_v1` pack, both lanes, zero
+  refusals, bit-deterministic including across worker counts.
+- **Result — negative:**
+  - move-only **degraded** over hours 6–12 (slope −0.0115/h, t = −2.97);
+  - the joint lane was **flat** (t = 0.04);
+  - **0 of 24 trained candidates beat the hour-0 Phase 9 C1 start**; the
+    move-only curve peaks at hour 0;
+  - the trained setup policy stayed **−0.0679 EWR below the fixed setup
+    library** (t = −2.91) and never beat its own random initialization
+    (difference-in-differences +0.0237, t = +0.44).
+- **Status:** `COMPLETE`. **No checkpoint was promoted.** The accepted direct
+  policy is unchanged — it is still Phase 9 `selfplay_c1_v1.pt`.
+- **What it does and does not establish.** It is a valid negative result *for
+  its exact implementation*. It does **not** establish that the paper's setup
+  method fails here, for two reasons now documented in
+  [`../reports/phase18/ataraxos_setup_method_map_v2.md`](../reports/phase18/ataraxos_setup_method_map_v2.md):
+  the authors' published code differs materially from the paper-only reading
+  Phase 17 implemented (entropy units, forced handedness, reusable setup pools,
+  effective batch size); and the 120-board evaluation lane has a **minimum
+  detectable effect of 0.138 EWR**, so it could not have resolved the effect
+  sizes at issue.
+- **Preserved, not promoted.** All Phase 17 evidence remains untracked-but-intact
+  in `reports/phase17/`, `data/phase17/` and `checkpoints/phase17/` (33.5 GB).
+
+---
+
+## 14. Phase 18 — Setup-integrated Phase 8 warmstart  ·  PLANNED
+
+- **Purpose:** produce a fresh Phase 8 C1 warmstart whose policy/value/belief
+  learner is integrated with a *beneficial* learned setup policy, correcting the
+  five Phase 17 method defects and returning to the Phase 8 supervised
+  experimental point rather than self-play.
+- **Structure:** an adaptive evidence ladder (gates G0–G6), not a precommitted
+  agent sequence. Each stage requires an accepted decision packet before the
+  next instruction may be written.
+- **Status as of 2026-08-31:** **only Agent 1 authorized and executed.** No
+  control run, setup implementation, assay, pilot, rehearsal or production run
+  is authorized. See `../instructions/phase_18_setup_integrated_warmstart/` and
+  `../reports/phase18/`.

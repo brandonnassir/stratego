@@ -1,0 +1,27 @@
+OK  RUN-2026-B-cand-000 it=  0 digest=6d4dd4ebfd0d9125
+OK  RUN-2026-B-cand-001 it= 26 digest=4fe5dfe5049bbec3
+OK  RUN-2026-B-cand-002 it= 46 digest=85b6bf0c4f81e716
+OK  RUN-2026-B-cand-003 it= 66 digest=62489cacaccfc458
+OK  RUN-2026-B-cand-004 it= 85 digest=edf419f1b0045fd3
+OK  RUN-2026-B-cand-005 it=106 digest=e52faf027f463873
+OK  RUN-2026-B-cand-006 it=126 digest=e2f89f8805a66490
+OK  RUN-2026-B-cand-007 it=148 digest=9d7674a43219d219
+OK  RUN-2026-B-cand-008 it=173 digest=ff3e8432c94ad915
+OK  RUN-2026-B-cand-009 it=195 digest=874bccaceb765853
+OK  RUN-2026-B-cand-010 it=217 digest=7384d03ef4369a5f
+OK  RUN-2026-B-cand-011 it=239 digest=5c1bac85b9246018
+OK  RUN-2026-B-cand-012 it=261 digest=d963062bbe295323
+OK  RUN-2026-B-cand-013 it=281 digest=5be8cae0d04d1714
+OK  RUN-2026-B-cand-014 it=302 digest=35ea3d7397585dee
+OK  RUN-2026-B-cand-015 it=323 digest=dcf02a59edefd2ef
+OK  RUN-2026-B-cand-016 it=344 digest=04853adb2b1caad6
+OK  RUN-2026-B-cand-017 it=363 digest=5c82298f372f5d8f
+OK  RUN-2026-B-cand-018 it=382 digest=ef5d61d41c40fdaf
+OK  RUN-2026-B-cand-019 it=403 digest=f3993e89049af8d0
+OK  RUN-2026-B-cand-020 it=425 digest=6b3554e0a1b928e4
+OK  RUN-2026-B-cand-021 it=447 digest=aa0c96244f70a6e5
+OK  RUN-2026-B-cand-022 it=468 digest=04ca998495253847
+OK  RUN-2026-B-cand-023 it=490 digest=df8512de465359ff
+OK  RUN-2026-B-cand-024 it=510 digest=f86a9147d005f10d
+
+failures: none

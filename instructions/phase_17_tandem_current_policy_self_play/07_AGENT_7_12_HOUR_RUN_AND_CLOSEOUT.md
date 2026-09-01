@@ -1,191 +1,152 @@
 # Phase 17 — Agent 7
-## Twelve-hour operation, external-result reconciliation, and checkpoint shortlist
+## Twelve-hour training operation and candidate freeze
 
 ## Mission
 
-Operate exactly one authorized 12-active-hour Phase 17 tandem run, preserve the full
-learning curve, enforce integrity stops without mid-run tuning, reconcile all external
-evaluations, and recommend a robust paired checkpoint.
+Operate exactly one authorized `N=640` Phase 17 tandem run (approximately 12 active
+hours), preserve its training telemetry and 24 or 25 immutable paired EMA candidates,
+and freeze the completed run for Agent 5. Do not evaluate candidates while training is
+active.
 
-You may start only with a digest-valid Agent 6 GO record and explicit operator approval
-of the launch time. You do not redesign code, change hyperparameters, add belief/search,
-or substitute a new benchmark during the run. Read
-`00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md` and
-`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` completely before validating GO.
+Start only with a digest-valid Agent 6 GO record and explicit operator approval. Do not
+redesign code, change hyperparameters, add belief/search, or substitute participants.
+Read `00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md`,
+`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md`, and
+`11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md` before validating GO. Treat
+`reports/phase17/phase17_launch_manifest_v2.json` as the controlling launch record,
+including conditions A6-C1 through A6-C4.
 
 ## 1. Immediate prelaunch verification
 
 Before creating h0:
 
-- verify no learner/heavy evaluator already owns the training machine;
-- recompute the launch/source/config/Phase 9/benchmark/environment identities;
-- confirm the remote worker is awake, reachable, empty of conflicting candidate work,
-  and using the accepted evaluator environment;
-- confirm checkpoint, telemetry, export, result, and backup destinations have adequate
-  free space;
-- confirm power/awake safeguards on both computers;
-- run the production command in validation/dry-run mode if provided;
-- verify the supervisor is armed with D10 integrity stops and statistical warnings.
+- verify no learner or evaluator process already owns the Mac Mini;
+- recompute launch/source/config/Phase 9/environment identities;
+- confirm checkpoint, telemetry, export, and backup destinations have adequate space;
+- confirm power and awake safeguards;
+- run the frozen production command in dry-run mode;
+- use the manifest's `phase9_move_start` and `fresh_setup_start` blocks to verify the
+  two identities omitted by `--describe`;
+- verify the supervisor's integrity stops and statistical warnings; and
+- verify evaluation and transport processes are absent from the launch command.
 
-Any mismatch invalidates GO. Stop and return to Agent 6; do not patch the manifest.
+Any mismatch invalidates GO. Return to Agent 6; do not patch the manifest in place.
 
 ## 2. Start and h0
 
-Create the run only through the frozen Phase 17 start loader. Verify the exact Phase 9
-raw move state, fresh optimizer/controller/schedule, newly random setup model, fresh
-setup optimizer, both initial EMAs, recipe `phase17_simple_paper_tandem_v1`, and run ID
-`RUN-2026-B`. Verify no Agent 3/4 setup state was loaded.
+Create the run only through the frozen Phase 17 start loader. Verify exact Phase 9 raw
+move weights; fresh move optimizer, controller, schedule and EMA; newly random setup
+model; fresh setup optimizer and EMA; recipe `phase17_simple_paper_tandem_v1`; and run
+ID `RUN-2026-B`. Load no Agent 3/4 setup training state.
 
 Before the first optimizer update:
 
-1. write and verify the initial joint checkpoint;
-2. export the paired h0 EMA candidate;
-3. enqueue it to external evaluation;
-4. record every file/model/config digest in the run ledger.
+1. write and verify the initial joint checkpoint if the frozen launch path requires it;
+2. export and verify the immutable paired h0 EMA candidate; and
+3. record all file/model/source/config digests in the run and candidate ledgers.
 
-If h0 identity does not match the launch manifest, stop immediately.
+Do not score h0. If its identity does not match the launch manifest, stop immediately.
+The required h0 EMA state digests are `f1df694d59e3435994be06f2537d9c603749bc072fc39bf021aac79f2dffcefd`
+for the move model and `9dc73986f4e31f0654c8432ecf49eea001d75c34aa58975ea63dfb7c1e5207aa`
+for the setup model.
 
 ## 3. Twelve active hours
 
-Run until active-training elapsed time reaches 12 hours. Planned downtime for a safe
-exact resume does not count toward active time. Candidate nominal times derive from
-active elapsed time, not wall-clock relabeling.
+Run the frozen `N=640` iterations. This was sized for approximately 12 active hours;
+depending on production throughput it may finish about 61 seconds short of the exact
+h12 boundary and produce 24 candidates instead of 25. A 24-candidate result is valid,
+not an integrity failure. Do not extend past `N=640` to manufacture h12 because the
+move LR and entropy schedules are frozen to this horizon. Planned downtime for an exact
+resume does not count toward active time. Candidate nominal times derive from active
+elapsed time, not wall-clock relabeling.
 
 At each iteration:
 
 - preserve the fixed move-transition budget, five setup epochs, fixed setup reverse-KL
   coefficient, shared-iteration alpha schedule, population, and fresh setup pools;
-- consume every setup episode completed in that iteration exactly once, with no fixed
-  setup quota or cross-iteration balancing queue;
+- consume every setup episode completed in that iteration exactly once;
 - inspect supervisor status and high-level move/setup/system telemetry;
-- never tune based on interim EWR;
-- never replace a failed external case or benchmark stratum;
-- allow observable non-silent engineering failures to be recorded and handled by the
-  frozen policy.
+- never tune or restart because interim training telemetry looks poor; and
+- allow visible non-silent engineering failures to be handled by the frozen policy.
 
-At h0 and each 30-minute boundary through h12, create one immutable paired EMA export.
-There should be 25 nominal candidates. If a boundary is delayed, record actual active
-time and retain its original ordinal; do not fabricate or rename a candidate.
+At h0 and every 30-active-minute boundary reached through h12, create one immutable
+paired EMA export. The frozen run should yield 24 or 25 candidate ordinals under
+A6-C1. For each export immediately verify its file hash, manifest digest, move/setup
+EMA digests, source/config identity, ordinal, and active time. Do not invoke Agent 5 or
+any evaluator.
 
-## 4. External-evaluation operation
+If a boundary is delayed, retain its original ordinal and record actual active time.
+Never fabricate, overwrite, rename, or silently omit a candidate.
 
-Follow Agent 5's exact start/monitor/retry procedure. For every candidate ledger:
-
-- bundle publication time and hashes;
-- remote acceptance/refusal status;
-- move-only and joint-lane completion times;
-- returned receipt and verification;
-- mean EWR and all frozen strata;
-- backlog, retry, failure, or missing-result reason.
-
-The trainer should normally continue while remote evaluation is healthy. The
-training-side supervisor records fixed-pack learning warnings from verified receipts;
-finite EWR decline does not stop D10 production.
-Never enter an EWR manually or use a result lacking the candidate/pack receipt.
-
-## 5. Stop and failure behavior
+## 4. Stop and failure behavior
 
 Apply D10 section 7 exactly. Stop for identity/routing/legality/numerical/persistence,
-prohibited-participant, fixed-transition, or unrecoverable-resource failures. Treat
-finite EWR, KL, entropy, diversity, concentration, and game-length behavior as warnings
-and experiment results. Do not stop or tune merely because the model learns badly.
+prohibited-participant, fixed-transition, export-integrity, or unrecoverable-resource
+failures. Treat finite KL, entropy, diversity, concentration, and game-length behavior
+as warnings and experiment results.
 
 On a stop:
 
 1. cease new collection safely;
-2. write the terminal checkpoint/telemetry/stop record if integrity permits;
-3. preserve partial external work under its true status;
-4. record the exact predicate, evidence rows, active time, and last valid identities;
-5. do not restart under changed settings or attempt to finish 12 hours as the same run.
+2. write the terminal checkpoint, telemetry, and stop record if integrity permits;
+3. preserve all candidates already published under their true identities;
+4. record the predicate, evidence rows, active time, and last valid identities; and
+5. do not restart under changed settings as the same run.
 
-For an ordinary crash, resume only from an exactly verified Phase 17 joint checkpoint.
-Confirm the next action/setup/update continuity evidence. If exact resume fails, stop;
-do not reseat games or drop setup episodes invisibly.
+For an ordinary crash, resume only from an exactly verified joint checkpoint. Confirm
+next-action/setup/update continuity. If exact resume fails, stop; do not reseat games,
+drop setup episodes, or repair telemetry invisibly.
 
-## 6. Monitoring emphasis
+## 5. Monitoring emphasis
 
-The operator wants failures observed in production unless they could falsify results.
-Keep monitoring compact and evidence-bearing:
+Keep monitoring compact:
 
 - fixed transition counts and iteration time;
 - current raw move digest on both seats;
 - move LR, KL, entropy, clip fraction, and EMA identity;
 - setup optimizer activity, five epoch count, fixed reverse KL, alpha,
-  empirical/predicted entropy, and completed-episode count;
-- reflection diversity and flag/bomb support as descriptive telemetry;
-- game-length/terminal-reason distribution;
-- remote cadence latency, receipt integrity, mean EWR, and worst stratum.
+  empirical/predicted entropy, and completed episodes;
+- setup diversity and flag/bomb support as descriptive telemetry;
+- game lengths and terminal reasons;
+- checkpoint/resume identity; and
+- candidate export count, ordinal, active time, and digests.
 
-Do not add ad hoc probes that consume training RNG or alter machine contention.
+There is no live EWR, evaluator latency, receipt, or evaluation backlog during training.
+Do not add probes that consume training RNG or machine resources.
 
-## 7. Twelve-hour closure
+## 6. Twelve-hour closure
 
-At 12 active hours:
+At the frozen `N=640` terminal boundary:
 
-- stop only at the runner's defined safe boundary;
-- write and verify the terminal hot checkpoint and h12 EMA export;
-- wait for or explicitly account for every external candidate receipt;
-- freeze the run ledger, telemetry, exports, results, stop state, and source/config
+- stop only at the runner's safe boundary;
+- write and verify the terminal checkpoint and the h12 EMA export if the active-time
+  boundary was reached;
+- verify 24 or 25 candidate ordinals and record whether the last ordinal is h11.5 or
+  h12; account explicitly for any count below 24;
+- freeze the run ledger, telemetry, checkpoints, exports, stop state, and source/config
   identities;
-- verify 25 candidate ordinals or explain each missing/failed ordinal;
-- do not promote the h12 checkpoint automatically.
+- confirm no trainer process remains active; and
+- hand the frozen candidate ledger to Agent 5 without promoting h12 automatically.
 
-## 8. Learning-curve and robustness report
+Report training facts only: whether 12 active hours completed, integrity/warning state,
+iteration and game throughput, optimizer activity, late move/setup telemetry direction,
+and candidate completeness. Make no strength claim and no checkpoint recommendation.
 
-For every eligible candidate report:
-
-- active hour and checkpoint/model identities;
-- move-only and joint mean EWR;
-- worst opponent/setup stratum EWR and its identity;
-- opponent, setup, and color strata;
-- three-point rolling medians;
-- move/setup KL and entropy context;
-- setup diversity/effective-support context;
-- integrity or guard eligibility flags.
-
-Answer directly:
-
-1. Did the system reproduce useful early learning?
-2. Did the hour 6–12 rolling curve continue upward, remain flat, or degrade?
-3. Did mean improvement hide a worst-stratum regression?
-4. Did the setup network remain legal, train continuously, and retain meaningful
-   diversity?
-5. Was external cadence complete and identity-clean enough to support selection?
-
-No significance claim is required. Use honest engineering uncertainty and do not
-compare EWR values from different pack versions.
-
-## 9. Shortlist and recommendation
-
-Exclude any candidate with an integrity failure or unresolved receipt mismatch. From
-hour 6–12 eligible candidates, construct a Pareto shortlist emphasizing:
-
-1. mean EWR;
-2. worst-stratum EWR;
-3. late rolling-curve direction;
-4. move-only non-regression;
-5. setup diversity and stability.
-
-Recommend one paired checkpoint and up to two alternatives. Explain every tradeoff.
-A single noisy peak or final timestamp cannot by itself win. Setup concentration may
-make a checkpoint less attractive but does not automatically make its evidence
-ineligible under D10. The operator makes the promotion decision; do not copy the
-recommendation into an accepted/promoted path.
-
-## 10. Handoff and report
+## 7. Handoff and report
 
 Deliver:
 
 ```text
 reports/phase17/phase17_run_closeout_v1.json
 reports/phase17/agent_07_report.md
-reports/phase17/agent_07_learning_curve.csv
-reports/phase17/agent_07_checkpoint_shortlist.json
+reports/phase17/agent_07_training_telemetry_summary.csv
+reports/phase17/agent_07_candidate_ledger.json
 ```
 
-Bind the full run, candidate, receipt, pack, source, config, guard, and shortlist
-identities. State whether the run completed 12 active hours, why it stopped if not,
-what was established, and what remains unknown.
+Bind the full run, source/config/start, checkpoint, telemetry, candidate and guard
+identities. Set `ready_for_post_training_evaluation: true` only when the trainer is
+stopped and every candidate ordinal is frozen or explicitly accounted for.
 
-Phase 17 ends here. Belief training, belief-guided search, and stochastic human-facing
-selection require a separately authorized later-phase instruction package.
+Agent 5 then performs local evaluation, learning-curve analysis, and checkpoint
+shortlisting. Belief training, belief-guided search, and stochastic human-facing move
+selection remain separate later work.

@@ -14,7 +14,8 @@ It does not continue Phase 14 or Phase 16 weights. It combines:
 2. a true fixed-transition training loop with boundary bootstrapping;
 3. a new autoregressive setup policy trained continuously from game outcomes;
 4. paper-shaped LR, KL, entropy, epoch, and EMA behavior;
-5. paired external evaluation every 30 minutes during one 12-hour production run.
+5. paired EMA exports every 30 active minutes, followed by local evaluation on the Mac
+   Mini after the 12-active-hour production run ends.
 
 The engineering question is:
 
@@ -36,10 +37,13 @@ paper and this contract differ, this contract wins and the deviation is recorded
 Numbered operator-decision files in this directory are additive amendments. When a
 later decision explicitly supersedes an earlier provisional formula, threshold, or
 readiness field, the later decision governs and the historical artifact remains
-unchanged. The current governing amendment is
-`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md`. D10 replaces the active setup
-recipe and gate-heavy launch workflow while preserving Agent 4's completed
-fixed-transition, persistence, export, telemetry, and integrity-safety foundation.
+unchanged. The current governing amendments are
+`09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md` and
+`11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md`. D10 replaces the active setup recipe
+and gate-heavy launch workflow while preserving Agent 4's completed fixed-transition,
+persistence, export, telemetry, and integrity-safety foundation. D11 removes evaluation
+from the launch/runtime path: candidates are exported during training and scored on the
+same Mac Mini only after training ends.
 
 Accepted earlier phase files and experimental results are historical evidence:
 
@@ -299,11 +303,13 @@ repeatedly discarding in-flight games would bias setup outcomes toward short gam
 Evaluation exports contain paired EMA weights and a manifest. A move-only evaluator
 still records the paired setup digest and marks setup use as `false`.
 
-## 11. External evaluation contract
+## 11. Post-training local evaluation contract
 
-External evaluation runs on the operator's separate MacBook every 30 minutes. Agent 5
-works with the operator conversationally and must not assume SSH, shared storage,
-network direction, software installation permission, or machine capacity.
+No evaluator runs while `RUN-2026-B` is training. The trainer only exports immutable
+paired EMA candidates at h0 and every 30 active minutes through h12. After Agent 7
+freezes the completed run and all candidate ordinals, Agent 5 evaluates them on the
+same Mac Mini. No MacBook, SSH, network transfer, shared cross-computer storage, or
+remote worker is part of the run.
 
 One immutable composite benchmark manifest contains two named lanes:
 
@@ -321,24 +327,21 @@ The new composite pack receives a new digest. Both lanes report overall EWR and
 opponent/setup/color strata. Historical, Phase 9, rule-based, and stress opponents
 are evaluation instruments only.
 
-Candidate times are hour 0 and every 30 minutes through hour 12: 25 candidates. Each
-candidate is immutable and transferred as a partial bundle before atomic publication.
-The remote side recomputes candidate, model-state, pack, config, and evaluator-source
-identities. A returned receipt binds every identity, result digest, host identity, and
-runtime. Never evaluate or transfer a mutable `latest` filename.
-
-Measure transfer + verification + both evaluation lanes + receipt return on the single
-D10 h0 round trip. It should fit comfortably inside 30 minutes; if it does not, report
-the measured latency and obtain an explicit operator decision rather than extending the
-gate. Backlog, retry, or skipped cadence is explicit; never attribute an old result to
-a newer timestamp.
+Candidate times are hour 0 and every 30 active minutes through hour 12: 25 candidates.
+Each candidate is immutable and atomically published. After training, the evaluator
+recomputes candidate, model-state, pack, config, source, and evaluator identities. A
+local receipt binds every identity, result digest, host/environment identity, and
+runtime. Never evaluate a mutable `latest` filename. Validate one frozen candidate,
+then score the full frozen set sequentially. Failures and retries remain explicit and
+can be repaired without changing the preserved training run.
 
 ## 12. Gates and time budgets
 
-The standalone setup-network gate is retired by D10. The only remaining prelaunch
-checks are the short tandem integrity smoke and one external identity round trip.
+The standalone setup-network gate and every evaluator gate are retired. Prelaunch uses
+Agent 4B's accepted tandem smoke plus Agent 4C's focused attribution/resume checks; do
+not run another production-shaped smoke merely to authorize launch.
 
-### Correctness gate — at most 30 minutes
+### Accepted correctness evidence — do not repeat
 
 - rules, counters, orientation, legal actions, and observation/action identities;
 - exact Phase 9 start digest;
@@ -350,7 +353,7 @@ checks are the short tandem integrity smoke and one external identity round trip
 - checkpoint/save/load/export identity;
 - structural no-search and no-training-opponent assertions.
 
-### Tandem integrity smoke — at most 30 minutes
+### Accepted Agent 4B tandem integrity smoke — do not repeat
 
 - exact Phase 9 move identity and fresh setup initialization;
 - both move seats use the current raw policy and sample legal actions;
@@ -367,17 +370,10 @@ checks are the short tandem integrity smoke and one external identity round trip
 Do not run another standalone diversity soak, setup entropy gate, controller
 calibration, queue-arrival study, strength test, or broad failure-injection campaign.
 
-### External gate — conversational duration
+### Safety wiring
 
-Send one early paired candidate to the MacBook. The returned candidate identity,
-model identities, pack identity, evaluator identity, and result receipt must all match.
-Measure the full cadence latency before unattended operation is authorized.
-
-### Safety wiring — bounded smoke only
-
-Preserve relevant accepted safety features. Inject one representative stop event and
-prove the supervisor records the reason and exits safely. Do not spend the phase
-exhaustively testing every previously accepted safety branch.
+Preserve the accepted safety features and Agent 4C's focused integrity-stop test. Do
+not run another general safety smoke or failure-injection campaign before launch.
 
 ## 13. Production stop policy
 
@@ -427,15 +423,17 @@ the final promotion decision.
 | 2 | fixed-transition move learner | after Agent 1 | `phase17_move_handoff_v1` |
 | 3 | autoregressive setup learner | after Agent 1 | `phase17_setup_handoff_v1` |
 | 4 | tandem runner, persistence, schedules | complete at `c2c0365` | `phase17_tandem_handoff_v1` |
-| 4B | simplified paper-shaped recipe conversion | now, from `c2c0365` under D10 | `phase17_simple_tandem_handoff_v1` |
-| 5 | conversational external evaluation | now; Agent 4 export schema is frozen | `phase17_external_eval_handoff_v1` |
-| 6 | short launch-integrity check | after Agent 4B and the h0 external handshake | `phase17_launch_decision_v2` |
-| 7 | 12-hour run and closeout | after Agent 6 GO and operator launch approval | `phase17_run_closeout_v1` |
+| 4B | simplified paper-shaped recipe conversion | complete at `3be8bba` | `phase17_simple_tandem_handoff_v1` |
+| 4C | attribution and resume correction | now, from `3be8bba` | `phase17_simple_tandem_handoff_v2` |
+| 5 | post-training local evaluation and shortlist | after Agent 7 freezes the run | `phase17_local_eval_handoff_v1` |
+| 6 | short launch freeze | after Agent 4C | `phase17_launch_decision_v2` |
+| 7 | 12-hour training and candidate freeze | after Agent 6 GO and operator launch approval | `phase17_run_closeout_v1` |
 
 Agents 2 and 3 may work in parallel only after Agent 1 freezes their shared schemas.
-Agent 5 may conduct remote discovery concurrently, but must not freeze bundle details
-until Agent 4's export schema lands. Consume other agents only through verified handoff
-artifacts, never their work-in-progress state.
+The execution order is Agent 4C -> Agent 6 -> Agent 7 -> Agent 5. Agent 5 does not
+perform remote discovery, configure another computer, or run concurrently with
+training. It consumes Agent 7's frozen candidate ledger. Consume other agents only
+through verified handoff artifacts, never their work-in-progress state.
 
 Agent 3's historical `ready_for_tandem_integration: false` and Agent 4's D9 results
 remain evidence, but neither is a launch gate under D10.

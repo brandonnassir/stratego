@@ -1,5 +1,35 @@
 # Stratego Artificial Intelligence Project Plan
 
+> ## ⚠ HISTORICAL PLANNING DOCUMENT — PARTLY SUPERSEDED
+>
+> This is the **original plan**, preserved for the record. It is **not** a
+> description of what happened, and its Phase 13–17 numbering **does not match
+> execution**. Do not read any status, ordering or "next step" from this file.
+>
+> | For | Read |
+> |---|---|
+> | Current status | [`STATUS.md`](STATUS.md) |
+> | What actually happened, Phases 1–18 | [`PHASE_HISTORY.md`](PHASE_HISTORY.md) |
+> | Artifact status | [`EVIDENCE_INDEX.md`](EVIDENCE_INDEX.md) |
+> | Rules for future work | [`EXPERIMENT_FRAMEWORK.md`](EXPERIMENT_FRAMEWORK.md) |
+>
+> Two corrections a reader must carry into every section below:
+>
+> 1. **The 85 percent target in §1 was formally retired on 2026-08-25** for lack
+>    of a measurable human pool. It was **retired, not achieved**.
+> 0. **"Phase 17" below means the planned casual human evaluation, which was
+>    never reached. A *different* Phase 17 — tandem current-policy self-play —
+>    was executed under the same number and completed with a negative result.
+>    See [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §12 and §13.
+>
+> 2. **The 168-hour final run was attempted once and interrupted** after
+>    approximately 60 hours. It ran as *Phase 14*, not as the *Phase 15* this
+>    document plans, and it selected no checkpoint. See §2A.
+>
+> Sections 1–12 remain accurate as the *record of what was planned*, and the
+> frozen contracts they cite (rules, observation, action encoding, backend
+> decision, evaluation stack) are still authoritative.
+
 ## 1. Goal
 
 Build a local Stratego artificial intelligence system on an Apple M4 Pro Mac mini that can achieve **at least an 85 percent effective win rate against casual human Stratego players**.
@@ -39,17 +69,35 @@ This is a practical reduced-scale system inspired by Ataraxos, not an attempt to
 - browser-based interface;
 - browser training controls are allowed through a training-control service.
 
-## 2A. Current project status
+## 2A. Project status — superseded, see STATUS.md
 
-| Phase | Status |
+This section formerly read "Phase 5 — **Next**". That has been untrue since
+2026; the project ran through Phase 16. The authoritative status document is
+[`STATUS.md`](STATUS.md) and the authoritative chronology is
+[`PHASE_HISTORY.md`](PHASE_HISTORY.md). A summary, as of 2026-08-27:
+
+| Phase | Actual outcome |
 |---|---|
-| Phase 1 — rules/specification | **Complete** |
-| Phase 2 — Python reference engine | **Complete** |
-| Phase 2.1 — symmetry + terminal-precedence correction | **Complete** |
-| Phase 3 — high-throughput training architecture | **Complete** |
-| Phase 4 — baseline opponents and evaluation harness | **Complete** |
-| Phase 5 — integration confirmation of frozen state/action representation | **Next** |
-| Later phases | Planned |
+| Phases 1–4 | **`ACCEPTED`** — contracts, engine, throughput decision, evaluation harness |
+| Phase 5 | **`ACCEPTED`** — model contract and end-to-end integration, `PASS` 22/22 |
+| Phase 6 / 6B | **`ACCEPTED`** — C1 selected (863,959 params); engine advanced to `phase2_1_reference_1.2.0` |
+| Phase 7 | **`ACCEPTED`** — `setup_library_v1`, 8,000 boards |
+| Phase 8 | **`ACCEPTED`** — synthetic warm start, `PASS` 42/42 |
+| Phase 9 | **`ACCEPTED`** — population self-play; **`checkpoints/phase9/selfplay_c1_v1.pt` is still the latest accepted direct policy** |
+| Phase 10 | **`ACCEPTED`** — learned setup selection, `PASS-NONINFERIOR` |
+| Phase 10B | **`INCOMPLETE`** — optional fine-tuning paused at 5 of 30 iterations, no classification |
+| Phase 11 | **`FAILED GATE`** — sealed belief test `R_CE 0.9746` vs a `<= 0.97` ceiling; test bank permanently spent |
+| Phase 11B | **`CONTAMINATED`** — belief sprint on a corpus carrying a Blue setup-orientation defect |
+| Phase 12 | search **engine accepted and still in use**; its **match evidence is `CONTAMINATED`** by the same defect |
+| Phase 13 | **`ACCEPTED`** — integrated rehearsal **plus** the configuration freeze this document assigns to Phase 14 |
+| Phase 14 | **`INTERRUPTED`** — the attempted 168-hour final run, stopped at **59.97 h / step 202,504**; **no checkpoint selected**, not resumed |
+| Phase 15 | **`ENGINEERING`** — unplanned corrective belief/search work (orientation fix, B18/B24, `p24_b24` search) |
+| Phase 16 | **`ENGINEERING`** — unplanned robustness/distribution work; 3 of 5 agents ran; recipe shootout verdict **STOP** |
+| Phase 17 (human evaluation) | **`PENDING`** — never reached; **zero human or operator games have been played** |
+| Phase 17 (tandem self-play, `RUN-2026-B`) | **`COMPLETE`, result negative** — the number was reused for different work; 12.66 h, 535/640 iterations, **no checkpoint promoted**; move-only degraded, joint flat, learned setups worse than the fixed library |
+| Phase 18 (setup-integrated warmstart) | **`PLANNED`** — only Agent 1 is authorized and has run; no control, pilot, rehearsal or production run is authorized |
+
+**No new long training run is currently authorized.**
 
 Frozen behavioral contracts:
 
@@ -565,7 +613,9 @@ The paired unit is the resampling unit. Confidence intervals condition on the re
 
 **Gate:** passed. The evaluation harness is ready to serve as the permanent ruler for future checkpoints.
 
-## Phase 5 — Integration confirmation of frozen state/action representation — NEXT
+## Phase 5 — Integration confirmation of frozen state/action representation
+
+_Executed and accepted: `PASS`, 22/22 hard gates. The "NEXT" marker that stood here is removed; see [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §2._
 
 The semantic freeze was completed early in Phase 2.1:
 
@@ -628,6 +678,26 @@ Benchmark rollout count, depth, and regularization.
 
 **Gate:** search provides statistically credible performance gain over direct policy under a practical human-play time budget.
 
+> ### ⚠ From here on, the numbering below is NOT what was executed
+>
+> Phases 13–17 as planned in this document do not correspond to the phases that
+> ran under those numbers. The mapping is recorded in
+> [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §1 and is **not** being retroactively
+> rewritten here:
+>
+> | Number | Planned below | Actually used for |
+> |---|---|---|
+> | 13 | Integrated rehearsal | Integrated rehearsal **plus** the configuration freeze planned as Phase 14 |
+> | 14 | Configuration freeze | **The attempted final 168-hour run** — interrupted at 59.97 h |
+> | 15 | Final 168-hour run | Corrective belief/search engineering (unplanned) |
+> | 16 | Automated final evaluation | Robustness and distribution engineering (unplanned) |
+> | 17 | Casual human evaluation | **Never reached** — `PENDING` |
+>
+> Read the four sections below as *the plan that was written*, not as a record
+> of work. In particular, **the "Phase 15 — Final 168-hour run" section below
+> describes a run that was executed under the name Phase 14 and did not
+> complete**, and **"Phase 17 — Casual human evaluation" never happened**.
+
 ## Phase 13 — Integrated rehearsal
 
 Run the entire stack continuously for several hours.
@@ -644,6 +714,8 @@ Validate:
 **Gate:** no critical failure in rehearsal.
 
 ## Phase 14 — Configuration freeze
+
+_**Number reused.** This freeze was actually performed in Phase 13. The name "Phase 14" now permanently denotes the interrupted 168-hour run. See [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §§8–9._
 
 Record:
 
@@ -662,6 +734,8 @@ Record:
 
 ## Phase 15 — Final 168-hour run
 
+_**Number reused, and the plan below was not fulfilled.** This run was executed as **Phase 14** and was **interrupted after 59.97 hours**, producing 10 of 29 candidates and selecting no checkpoint. The number 15 was later used for corrective belief/search engineering. See [`STATUS.md`](STATUS.md) §5._
+
 Exactly 168 continuous hours.
 
 Suggested conceptual allocation, adjustable before configuration freeze:
@@ -674,6 +748,8 @@ Periodic lightweight evaluations are permitted during the run because they are p
 
 ## Phase 16 — Automated final evaluation
 
+_**Number reused.** The planned post-run final evaluation never happened, because the run it would have evaluated did not complete. The number 16 was used for robustness and distribution engineering. See [`PHASE_HISTORY.md`](PHASE_HISTORY.md) §11._
+
 Run balanced machine matches against:
 
 - all baselines;
@@ -682,6 +758,8 @@ Run balanced machine matches against:
 - diverse setup families.
 
 ## Phase 17 — Casual human evaluation
+
+_**Never reached.** No human or operator game has ever been played. The 85 percent target below was formally retired on 2026-08-25 — **retired, not achieved** — and its replacement (a 20-game operator exam at effective win rate ≥ 0.50) has also never been run. See [`STATUS.md`](STATUS.md) §10._
 
 Primary target:
 
@@ -706,6 +784,14 @@ Human games occur after training is frozen.
 ---
 
 ## 14. Success criteria
+
+> **Planned criteria, not achieved criteria.** As of 2026-08-27: the engine
+> criteria were met; "belief head beats uninformed count-constrained baseline"
+> **failed its formal gate** in Phase 11 and the learned belief never separated
+> from the count control in Phase 15 match play; "search improves direct-policy
+> performance" held on the Phase 15 pack and **did not reproduce** on the
+> Phase 16 pack; and the **primary project target was formally retired on
+> 2026-08-25 without ever being measured**. See [`STATUS.md`](STATUS.md).
 
 ### Engine success
 
@@ -734,6 +820,12 @@ Human games occur after training is frozen.
 - at least 85 percent effective win rate against casual human players.
 
 The target is an empirical goal, not guaranteed by the architecture or training schedule.
+
+_**Retired 2026-08-25 — retired, not achieved.** No pool of casual human players
+was available to measure it against. Its replacement, `phase16_goal_v1` (an
+effective win rate ≥ 0.50 over a predeclared 20-game operator exam under rematch
+conditions), has also never been run: **zero human or operator games exist**.
+See [`STATUS.md`](STATUS.md) §10._
 
 ---
 

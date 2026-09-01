@@ -1,0 +1,79 @@
+{
+ "artifact": "agent_05_local_environment",
+ "benchmark_pack": {
+  "cases_per_lane": 120,
+  "games_per_candidate": 240,
+  "move_only_base": "phase16_benchmark_v1",
+  "move_only_base_digest": "ebd130198ea500248b32df990bee876583a10d53546f38a6346ec522407320c2",
+  "pack_digest": "64450412dd8d03641ed667bc92e2112f7a6f4602047e1ebc8e2c35cc3d6de97f",
+  "pack_digest_identical_across_all_25": true,
+  "pack_id": "phase17_composite_benchmark_v1",
+  "path": "data/phase17/phase17_composite_benchmark_v1.json"
+ },
+ "decision": "D11: evaluation runs locally on the same Mac Mini after training ends. No MacBook, SSH, transport, remote worker or cross-machine step was used, attempted, or required.",
+ "determinism_evidence": {
+  "per_board_replay": "all 25 candidates replayed through the evaluator's own _worker_init/_play and every replay reproduced its receipt's result_digest",
+  "rerun_different_worker_count": "8 workers and 3 workers reproduced the same result_digest, so the worker count is not part of the measurement",
+  "rerun_same_worker_count": "result_digest reproduced exactly"
+ },
+ "evaluation_settings": {
+  "candidate_decision_mode": "greedy",
+  "device": "cpu",
+  "draw_score": 0.5,
+  "dtype": "float32",
+  "torch_threads_per_worker": 1,
+  "workers": 8,
+  "workers_identical_across_all_25": true
+ },
+ "evaluator": {
+  "entry_point": "scripts/run_phase17_eval.py evaluate",
+  "source_digest": "0aa0b23ae60f6cc717637a851ee295d975915bf81108e4d29ef8b4d512dc3924",
+  "source_digest_identical_across_all_25": true,
+  "source_unmodified_during_the_batch": true,
+  "version": "phase17_remote_evaluator_v1"
+ },
+ "host_identity": {
+  "cpu_count": 14,
+  "device": "cpu",
+  "hostname": "Mac.lan",
+  "machine": "arm64",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "processor": "arm",
+  "python": "3.13.2",
+  "torch": "2.13.0",
+  "torch_threads_per_worker": 1
+ },
+ "host_identity_identical_across_all_25": true,
+ "opponents": {
+  "p18": {
+   "bytes": 3477949,
+   "file_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p18_source_readonly.pt"
+  },
+  "p24": {
+   "bytes": 3477949,
+   "file_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/p24_source_readonly.pt"
+  },
+  "phase9_anchor": {
+   "bytes": 3479085,
+   "file_sha256": "ed0f5198b19f29331cd21fd2e422bd7d910b945a56b99678439e092f02950407",
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase15/phase9_anchor_readonly.pt"
+  }
+ },
+ "opponents_identical_across_all_25": true,
+ "results_directory": "reports/phase17/local_eval/results",
+ "results_directory_note": "outside every training checkpoint and telemetry directory, as the evaluator contract requires",
+ "run_id": "RUN-2026-B",
+ "source_run_freeze_respected": {
+  "candidate_bytes_unmodified": true,
+  "closeout_digest": "6a89dd06b58e6fcdac2649fd86fae67166dd303cc5337af7c057c36a376e1601",
+  "ledger_digest": "3961a83eb9af82476ea819de25e057e0a8ae892ef8013fe804375407aacdd118",
+  "telemetry_unmodified": true
+ },
+ "total_runtime_seconds": 315.213,
+ "trainer_running_during_evaluation": false,
+ "training_artifacts_written_to": "none",
+ "work_package": "phase17",
+ "written_by": "Agent 5, post-training local evaluation"
+}

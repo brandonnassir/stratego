@@ -1,0 +1,148 @@
+{
+ "artifact": "phase17_local_eval_handoff_v1",
+ "established": [
+  "all 25 frozen paired EMA candidates were evaluated locally on both lanes with zero refusals and zero retries",
+  "every candidate's bytes, both EMA state digests, config, source, pack and evaluator identities reproduced before any weight was loaded",
+  "the evaluation is bit-deterministic: identical result digests on re-run, under a different worker count, and on a full per-board replay",
+  "hour 6 to hour 12 shows a degrading move-only lane and a flat joint lane; no lane improved",
+  "the setup network's boards remain measurably worse than the fixed accepted library and did not measurably improve on their own random initialization"
+ ],
+ "evaluation": {
+  "benchmark_pack_digest": "64450412dd8d03641ed667bc92e2112f7a6f4602047e1ebc8e2c35cc3d6de97f",
+  "benchmark_pack_id": "phase17_composite_benchmark_v1",
+  "candidates_evaluated": 25,
+  "candidates_refused": 0,
+  "cases_per_lane": 120,
+  "ema_weights_only": true,
+  "environment": "reports/phase17/agent_05_local_environment.json",
+  "evaluator_source_digest": "0aa0b23ae60f6cc717637a851ee295d975915bf81108e4d29ef8b4d512dc3924",
+  "evaluator_version": "phase17_remote_evaluator_v1",
+  "failures": [],
+  "games_per_candidate": 240,
+  "joint_00535_evaluated": false,
+  "joint_00535_refusal_proof": "structurally impossible: the terminal checkpoint carries schema 'phase17_joint_checkpoint_v2' and the evaluator reads only 'phase17_paired_export_v1'. Attempted and refused as evidence.",
+  "lanes": [
+   "move_only",
+   "joint_move_setup"
+  ],
+  "learning_curve": "reports/phase17/agent_05_learning_curve.csv",
+  "per_board_rows": "reports/phase17/local_eval/rows/",
+  "post_h12_state_evaluated": false,
+  "raw_weights_evaluated": false,
+  "receipts": "reports/phase17/agent_05_candidate_receipts.jsonl",
+  "results": "reports/phase17/local_eval/results/",
+  "retries": [],
+  "shortlist": "reports/phase17/agent_05_checkpoint_shortlist.json"
+ },
+ "findings": {
+  "candidates_beating_h0_joint": [
+   8,
+   14,
+   24
+  ],
+  "candidates_beating_h0_move_only": [],
+  "did_mean_improvement_hide_a_worst_stratum_regression": false,
+  "did_mean_improvement_hide_a_worst_stratum_regression_detail": "there was no mean improvement to hide anything: mean EWR moved +0.0046 from the h0-h5.5 block to the h6-h12 block. The worst stratum moved +0.0430 and the robust 36-game neural block +0.0101, both upward. What the flat mean DOES hide is a redistribution: on the move-only lane the neural-opponent block rose +0.0554 (t=1.92) while the non-neural block fell -0.0312 (t=-1.68).",
+  "hour_6_to_12_direction": {
+   "joint_move_setup": "flat",
+   "joint_slope_per_hour": 0.000279,
+   "joint_slope_t": 0.038,
+   "mean": "flat to slightly down",
+   "mean_slope_per_hour": -0.005589,
+   "mean_slope_t": -1.296,
+   "move_only": "degraded",
+   "move_only_slope_per_hour": -0.011457,
+   "move_only_slope_t": -2.969
+  },
+  "integrity": {
+   "evaluation_refusals": 0,
+   "move_non_finite_gradients": 0,
+   "setup_fallback_attempts": 0,
+   "setup_legality_failures": 0,
+   "setup_orientation_failures": 0,
+   "training_stop_predicates_at_any_candidate_iteration": 0,
+   "training_warnings_at_any_candidate_iteration": 0
+  },
+  "nothing_beat_the_start_checkpoint": true,
+  "setup_diversity_collapse_in_the_evaluation_lane": false,
+  "setup_diversity_detail": "every candidate, h0 through h12, produced 120 distinct canonical setup fingerprints for the 120 joint cases. Training-side setup empirical entropy fell monotonically 1.769 -> 1.382 nats and flag effective support bounced 12.99-31.82 with no trend, so concentration is real but has not collapsed the sampled distribution.",
+  "setup_network_improvement_over_its_own_init": {
+   "delta": 0.023718,
+   "n": 120,
+   "paired_se": 0.054504,
+   "t": 0.435
+  },
+  "setup_network_vs_fixed_library_h6_12": {
+   "delta": -0.067949,
+   "n": 120,
+   "paired_se": 0.023342,
+   "t": -2.911
+  }
+ },
+ "governing_documents": [
+  "00_PHASE_17_SEQUENCE_AND_COMMON_CONTRACT.md",
+  "05_AGENT_5_LOCAL_EVALUATION_ON_MAC_MINI.md",
+  "09_OPERATOR_DECISION_D10_SIMPLIFIED_PAPER_TANDEM.md",
+  "11_OPERATOR_DECISION_D11_LOCAL_EVALUATION.md"
+ ],
+ "handoff_digest": "244d80791c5d4d3f055d2947707e1ecbb9b1c433dfc8cc2ac3a86686e110260d",
+ "preserved_run": {
+  "all_25_candidate_file_hashes_reverified_by_agent_5": true,
+  "closeout": "reports/phase17/phase17_run_closeout_v1.json",
+  "closeout_digest": "6a89dd06b58e6fcdac2649fd86fae67166dd303cc5337af7c057c36a376e1601",
+  "ledger": "reports/phase17/agent_07_candidate_ledger.json",
+  "ledger_digest": "3961a83eb9af82476ea819de25e057e0a8ae892ef8013fe804375407aacdd118",
+  "ledger_file_sha256_recomputed": "bb30b6afe569883e9b9b03affdd9ce002579be6c08771386dcbde3b10287c6bc",
+  "production_config_digest": "4e7abad83dab4a9bec1cf82f4b238059eb9de0c344bf0025f91aa0a703b2d1b7",
+  "run_digest": "c385ffeae635386add2df64ddbf259bdd8de7cf42535d1cd9eafe5ed3759779c",
+  "source_closure_digest": "4aa5c3504f775f6b6963888ea74adb6e56c4d6a2cc5da6700955cbd79c349cc5",
+  "telemetry_file_sha256": "0061e75ccff1460101dba9cf3e35de04c5b5b4d13ed04af98e044fd2f9c5f5fc",
+  "training_artifacts_modified_by_agent_5": "none"
+ },
+ "recipe": "phase17_simple_paper_tandem_v1",
+ "recommendation": {
+  "accepted_checkpoint_overwritten": false,
+  "alternative_hours": [
+   9.0,
+   11.0
+  ],
+  "alternatives": [
+   "RUN-2026-B-cand-018",
+   "RUN-2026-B-cand-022"
+  ],
+  "conditional_on": "the operator wanting the best paired checkpoint from the hour 6-12 window. This evaluation does not support promoting any Phase 17 candidate over the accepted Phase 9 C1 move weights, which the h0 candidate carries unchanged and which outscored every trained candidate on the move-only lane.",
+  "promotion_performed": false,
+  "recommended": "RUN-2026-B-cand-014",
+  "recommended_hour": 7.0,
+  "recommended_rationale": "top of the Pareto front: leads the hour 6-12 window simultaneously on mean EWR (0.722916), worst stratum (0.416667) and the 36-game neural block (0.5). CAVEAT: its joint EWR (0.708333) is the global maximum of the joint lane across all 25 candidates, its immediate neighbours score 0.6333 and 0.5333, and 3-point centered smoothing pulls its mean back to 0.679167. This is the single-peak shape the selection rule warns about, and its paired margin over h0 is inside noise.",
+  "separation_between_the_three": "none of the three is distinguishable from the others, or from the window as a whole, at this sample size. A 120-game lane carries a binomial SE near 0.04 EWR and Agent 1 measured 0.1435 EWR of pure-noise spread across 25 such candidates. Treat the ordering as a ranking under a declared rule, not as a measured difference."
+ },
+ "run_id": "RUN-2026-B",
+ "unknown": [
+  "whether the move-only decline is the KL/entropy anneal, the shortened games, or genuine overfitting to the self-play distribution -- this evaluation measures outcome, not cause",
+  "whether the last 130 unrun iterations of the frozen 640-iteration horizon would have changed the direction; the move LR and entropy schedules never completed their anneal",
+  "whether a longer or differently-shaped setup schedule would close the gap to the fixed library; 12 hours did not",
+  "how these EWRs relate to human play -- the benchmark's ten opponents are evaluation instruments, not a human distribution"
+ ],
+ "validation_candidate": {
+  "candidate_id": "RUN-2026-B-cand-000",
+  "checks_passed": [
+   "candidate, source, config, pack and evaluator identities recomputed from bytes and matched to the ledger",
+   "both lanes completed at 120 cases each",
+   "deterministic case/seed accounting: identical result_digest on re-run and under a different worker count",
+   "atomic result and receipt writing with no .partial residue",
+   "receipt re-verification eligible against ledger-bound identities"
+  ],
+  "refusals_exercised": [
+   "stale or mis-attributed candidate id",
+   "duplicate-conflicting result for one identity",
+   "wrong published file sha256",
+   "unbound benchmark pack digest",
+   "the forbidden terminal checkpoint joint_00535.pt"
+  ],
+  "replayed_for_the_batch": false,
+  "retained": true
+ },
+ "work_package": "phase17",
+ "written_by": "Agent 5, post-training local evaluation and checkpoint shortlist"
+}

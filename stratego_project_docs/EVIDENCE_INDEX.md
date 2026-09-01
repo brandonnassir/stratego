@@ -1,6 +1,7 @@
 # Evidence and artifact-status index
 
-**Written 2026-08-27.** A compact classification of every major artifact.
+**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended).
+A compact classification of every major artifact.
 This index deliberately does **not** repeat all metrics — it links. Values live
 in the reports; the reports were not edited.
 
@@ -100,6 +101,17 @@ may be presented as a human win rate.
 
 ### 6.1 Untracked Phase 15–16 work — the largest current risk
 
+> **Amended 2026-08-31.** The same risk now extends to **Phase 17 and the Phase 18
+> instruction package**, which are also entirely untracked: `reports/phase17/`,
+> `data/phase17/`, `checkpoints/phase17/` (33.5 GB), `stratego/evaluation/phase17/`,
+> `tests/evaluation/phase17/`, six `scripts/*phase17*` runners, and
+> `instructions/phase_18_setup_integrated_warmstart/`. Phase 18 Agent 1 recorded
+> and hashed every artifact it cites in
+> [`../reports/phase18/phase18_process_boundary_v1.json`](../reports/phase18/phase18_process_boundary_v1.json)
+> and changed nothing. **A Phase 18 training run cannot bind an immutable source
+> closure until the operator either commits this work on a branch or signs an
+> explicit dirty-list manifest.**
+
 The entire Phase 15 and Phase 16 implementation and evidence base is
 **untracked**: `stratego/belief/phase15/`, `stratego/search/phase15/`,
 `stratego/search/phase16/`, `stratego/evaluation/phase16/`,
@@ -198,3 +210,54 @@ audited. Two earlier siblings (`../webapp/`, `../webapp2/`) also exist.
 | Human-play CLI draws setups through the mis-orienting Phase 11B glue | `scripts/play_phase12.py` (~209–250) | Repository freeze. `play_phase15.py` / `play_phase16.py` are unaffected. |
 | Dashboard wedges permanently on a pooled keep-alive socket; PID discovery window scrolls the `launch` event out after ~66 h | `monitoring/phase14_dashboard/server.py` | Unfixable in-tree while a run is open; the fix patch must stay out of the repo. |
 | `phase11_records.manifest_digest` embeds per-game wall-clock | `stratego/evaluation/phase11_records.py` | Deliberately not repaired inside a validation phase; no hard gate reads it. |
+
+---
+
+## 7. Phase 17 (tandem self-play) and Phase 18 artifacts
+
+Added 2026-08-31. Everything in this section is **untracked but intact**; nothing
+was edited, moved or deleted.
+
+### 7.1 Phase 17 — `RUN-2026-B`
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `checkpoints/phase17/RUN-2026-B/` | **`COMPLETE` — nothing promoted** | 25 paired candidates, all byte-verified between write time and post-termination. 33.5 GB unpruned. `joint_00535.pt` is **past the h12 boundary, was never exported, and must not be evaluated.** |
+| `reports/phase17/agent_07_report.md`, `phase17_run_closeout_v1.json` | **`ACCEPTED` (as a run record)** | 12.658 active hours, 535/640 iterations, operator-terminated. Zero integrity events in all 535 rows. |
+| `reports/phase17/agent_05_report.md`, `local_eval/` | **`ENGINEERING`** | Post-training evaluation, 2026-08-30. Bit-deterministic including across worker counts. |
+| The Phase 17 *result* | **negative — see [`STATUS.md`](STATUS.md) §13** | Move-only degraded (t = −2.97); joint flat; 0 of 24 candidates beat hour 0; setup policy −0.0679 EWR below the fixed library. |
+| `data/phase17/phase17_composite_benchmark_v1.json` | **`ENGINEERING` pack** | 120 boards = 10 opponents × 2 colours × 6 games. **Minimum detectable effect 0.138 EWR at 80% power** — see §7.3. |
+| `reports/phase17/ataraxos_method_map_v1.md` | **`SUPERSEDED`** | Paper-only. Replaced by `reports/phase18/ataraxos_setup_method_map_v2.md`, which is checked against the authors' published implementation. Preserved unedited. |
+| `stratego/evaluation/phase17/evaluator.py` | `ENGINEERING` — **carries a known defect** | A refusal receipt permanently blocks re-evaluating that candidate (`existing_result`, line 174). Deliberately not fixed, to keep one evaluator source digest across all 25 receipts. Required regression case for any future evaluator. |
+
+### 7.2 Phase 18 — Agent 1 outputs
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `reports/phase18/phase18_process_boundary_v1.json` | `ACCEPTED` (as a record) | Working-tree classification, active-process state, storage, and digests of every cited artifact. Nothing modified. |
+| `reports/phase18/phase18_phase8_reproduction_contract_v1.json` | `ACCEPTED` | All 12 frozen Phase 8 identities **independently recomputed**; the canonical fresh C1 initialization **reproduces bit-exactly from seed 2026081302**; all 28,000 corpus games re-hashed at payload level with zero mismatches. |
+| `reports/phase18/ataraxos_setup_method_map_v2.md` / `.json` | `ACCEPTED` | 35 method elements against paper **and** the authors' published code at commit `92db29e8`. 22 `exact`, 6 `corrected`, 2 `scaled`, 4 `intentional integration divergence`, 1 `not used`. |
+| `reports/phase18/phase18_evaluation_contract_v1.json` | `ACCEPTED` — **two packs unpopulated** | Lanes, pairing, metrics, bootstrap, anti-leakage rules, evaluator requirements, practical margin (0.05 EWR) and sample sizes, all frozen before any Phase 18 result. |
+| `reports/phase18/agent_01_report.md`, `phase18_agent1_handoff_v1.json` | `ACCEPTED` | Findings and readiness booleans. |
+| `reports/phase18/decisions/P18-D001.*` | `ACCEPTED` | The gate-G0 decision packet. |
+
+### 7.3 Two cross-cutting facts that change how earlier evidence reads
+
+1. **The 120-board pack is underpowered for the questions it was used on.**
+   Measured from Phase 17's own per-case paired outcomes: the within-candidate
+   correlation between the two lanes on the same board is only **0.238**, so the
+   paired difference SD (0.539) is *larger* than either lane's own SD (0.42–0.45).
+   Pairing buys about a 24% variance reduction, not an order of magnitude. The
+   minimum detectable effect is **0.138 EWR at n = 120**, and about **913 games**
+   are needed for a 0.05 EWR margin. Per-opponent strata at n = 12 have an MDE near
+   **0.44 EWR** and carry no information — Phase 17's reported worst-stratum
+   figures should be read as descriptive only.
+
+2. **The setup library is fully consumed by the accepted Phase 8 corpus.**
+   `setup_library_v1` has 16 families × 500 bases split 400/50/50, the `neutral_v1`
+   profile samples uniformly over all 16, and the Phase 8 corpus draws the library
+   train/validation/test split for its own train/validation/test split respectively.
+   **No library family is unseen**, and the Phase 16 `targeted_family` source is
+   documented as *accepted library bases, family-targeted*, so it does not qualify
+   either. Any future "unfamiliar opponent setup" claim needs **newly generated
+   families**, not a held-out slice of the existing library.
