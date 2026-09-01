@@ -524,8 +524,11 @@ method fails on this project, for two independent reasons:
 
 **Evidence.** `reports/phase17/agent_05_report.md`, `agent_07_report.md`,
 `phase17_run_closeout_v1.json`, `local_eval/`. All Phase 17 evidence is
-**untracked but intact** and is preserved unmodified;
-`checkpoints/phase17/` holds 33.5 GB of unpruned run checkpoints.
+preserved unmodified. **Committed 2026-09-01** by Phase 18 Agent 2 on
+`phase18/setup-integrated-warmstart-g1`, byte-for-byte as its producing agents
+wrote it, because Gate G1 must bind an immutable source closure.
+`checkpoints/phase17/` holds 33.5 GB of unpruned run checkpoints and remains
+untracked by `.gitignore`, as intended.
 
 **A known evaluator defect, found and deliberately not fixed.** In
 `stratego/evaluation/phase17/evaluator.py`, a refusal receipt is written to

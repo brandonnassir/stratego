@@ -460,8 +460,10 @@ Distinct from §12. This is the work actually executed under the number 17.
   effective batch size); and the 120-board evaluation lane has a **minimum
   detectable effect of 0.138 EWR**, so it could not have resolved the effect
   sizes at issue.
-- **Preserved, not promoted.** All Phase 17 evidence remains untracked-but-intact
-  in `reports/phase17/`, `data/phase17/` and `checkpoints/phase17/` (33.5 GB).
+- **Preserved, not promoted.** All Phase 17 evidence is intact and unedited in
+  `reports/phase17/` and `data/phase17/`, committed 2026-09-01 on
+  `phase18/setup-integrated-warmstart-g1`; `checkpoints/phase17/` (33.5 GB)
+  remains untracked by `.gitignore`, as intended.
 
 ---
 

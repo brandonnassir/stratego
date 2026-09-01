@@ -111,6 +111,12 @@ may be presented as a human win rate.
 > and changed nothing. **A Phase 18 training run cannot bind an immutable source
 > closure until the operator either commits this work on a branch or signs an
 > explicit dirty-list manifest.**
+>
+> **Resolved 2026-09-01 for Phase 17/18 only.** Phase 18 Agent 2 committed every
+> path named above, except `checkpoints/phase17/`, on
+> `phase18/setup-integrated-warmstart-g1` under P18-D001, and Gate G1 runs from a
+> clean detached worktree at that closure. **Phase 15-16 is untouched and the risk
+> below still stands in full.**
 
 The entire Phase 15 and Phase 16 implementation and evidence base is
 **untracked**: `stratego/belief/phase15/`, `stratego/search/phase15/`,
@@ -215,8 +221,10 @@ audited. Two earlier siblings (`../webapp/`, `../webapp2/`) also exist.
 
 ## 7. Phase 17 (tandem self-play) and Phase 18 artifacts
 
-Added 2026-08-31. Everything in this section is **untracked but intact**; nothing
-was edited, moved or deleted.
+Added 2026-08-31. Nothing in this section was edited, moved or deleted.
+**Updated 2026-09-01:** every path below except `checkpoints/phase17/` is now
+committed on `phase18/setup-integrated-warmstart-g1`; the checkpoints remain
+untracked by `.gitignore`, as intended.
 
 ### 7.1 Phase 17 — `RUN-2026-B`
 
