@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-01T15:01:46Z",
+ "updated_utc": "2026-09-01T19:17:35Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -19,6 +19,22 @@
    "authorized_instruction": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
    "authorized_instruction_sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925",
    "authorized_instruction_note": "operator explicitly requested the next-agent instruction on 2026-09-01, including branch creation, Phase 17/18 evidence and documentation commits, process-boundary v2 generation, and binding G1 to the resulting clean source commit"
+  },
+  {
+   "decision_id": "P18-D002",
+   "timestamp_utc": "2026-09-01T19:17:35Z",
+   "agent": "phase_18_agent_2",
+   "gate": "G1",
+   "question": "Can the accepted Phase 8 warmstart be reproduced from a fresh canonical C1 initialization?",
+   "decision": "REVISE",
+   "status": "delivered by Agent 2; awaiting reviewing-chat verification and operator acceptance",
+   "markdown": "reports/phase18/decisions/P18-D002.md",
+   "json": "reports/phase18/decisions/P18-D002.json",
+   "markdown_sha256": "9300c308895d7fc2cfe0f3bd5899955b7fa36ed6266f31e8ae6db585c1d66f1d",
+   "json_sha256": "ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927",
+   "authorized_instruction": null,
+   "authorized_instruction_note": "no next instruction is authorized by this packet; Agent 2 is forbidden to write Agent 3 or G2 instructions and stopped at the packet",
+   "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
   }
  ]
 }

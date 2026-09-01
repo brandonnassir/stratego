@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_agent_instruction_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-01T15:01:46Z",
+ "updated_utc": "2026-09-01T19:17:35Z",
  "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
  "instructions": [
   {
@@ -36,7 +36,7 @@
    "file": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
    "role": "work package",
    "authorizing_decision": "accepted P18-D001 (JSON SHA-256 499b7d9acc7eeafee3aae0f0e150c0128a7b92a81e7f0846e4fd8162496e8cad) and operator request 2026-09-01",
-   "status": "AUTHORIZED - not yet executed",
+   "status": "EXECUTED 2026-09-01, delivered P18-D002 (REVISE) at G1_SOURCE_COMMIT 66b733ad9232",
    "sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925"
   }
  ],

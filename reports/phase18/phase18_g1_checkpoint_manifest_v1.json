@@ -1,0 +1,211 @@
+{
+ "agent": 6,
+ "artifact": "agent_06_checkpoint_manifest",
+ "authorizing_decision": "P18-D001",
+ "candidate_checkpoint_path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+ "checkpoint_bytes": 10459947,
+ "checkpoint_path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+ "checkpoint_repository_relative": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+ "checkpoint_sha256": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+ "differs_from_initialisation": {
+  "l2_norm_of_parameter_delta": 117.87377166748047,
+  "largest_deltas": [
+   {
+    "max_abs_delta": 1.3867889642715454,
+    "mean_abs_delta": 0.0902244970202446,
+    "parameter": "input_projection.weight"
+   },
+   {
+    "max_abs_delta": 1.083041787147522,
+    "mean_abs_delta": 0.09166407585144043,
+    "parameter": "blocks.3.feedforward.2.weight"
+   },
+   {
+    "max_abs_delta": 1.003401517868042,
+    "mean_abs_delta": 0.2272757887840271,
+    "parameter": "blocks.2.feedforward_norm.weight"
+   },
+   {
+    "max_abs_delta": 0.991039514541626,
+    "mean_abs_delta": 0.2364325225353241,
+    "parameter": "blocks.1.feedforward_norm.weight"
+   },
+   {
+    "max_abs_delta": 0.9905439019203186,
+    "mean_abs_delta": 0.1734275221824646,
+    "parameter": "blocks.3.feedforward_norm.weight"
+   },
+   {
+    "max_abs_delta": 0.9819035530090332,
+    "mean_abs_delta": 0.10307212918996811,
+    "parameter": "blocks.2.feedforward.2.weight"
+   },
+   {
+    "max_abs_delta": 0.9697580337524414,
+    "mean_abs_delta": 0.1456863135099411,
+    "parameter": "belief_output.weight"
+   },
+   {
+    "max_abs_delta": 0.9256877303123474,
+    "mean_abs_delta": 0.467928409576416,
+    "parameter": "blocks.1.attention_norm.weight"
+   }
+  ],
+  "material": true,
+  "parameters_compared": 66,
+  "parameters_unchanged": []
+ },
+ "environment": {
+  "cpu_count": 14,
+  "mps_available": true,
+  "mps_built": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python_version": "3.13.2",
+  "source_revision": "66b733a",
+  "torch_version": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "expected_initial_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+ "full_validation_confirmation": {
+  "batches": 977,
+  "belief": {
+   "baseline_ce": 2.2083970232401047,
+   "baseline_top1": 0.20460381680259548,
+   "ce_ratio": 0.9193919749857925,
+   "model_ce": 2.030382500749465,
+   "model_top1": 0.2782627517844767,
+   "pieces": 6842062,
+   "population": "supervised hidden opponent pieces"
+  },
+  "eval_version": "warmstart_eval_v1",
+  "examples": 249963,
+  "games": 4000,
+  "metrics_version": "warmstart_metrics_v1",
+  "policy": {
+   "baseline_ce": 3.1586107029286707,
+   "baseline_expected_top1": 0.04650130092274475,
+   "ce_ratio": 0.413793285520262,
+   "examples": 74287,
+   "model_ce": 1.307011900444319,
+   "model_top1": 0.5196866292452449,
+   "population": "policy-supervised examples (weight > 0)",
+   "weight_sum": 61907.5
+  },
+  "role": "confirmation and reporting only; the checkpoint was already selected by the frozen 64-spread-batch cadence protocol and no full-validation measurement may retroactively change that selection",
+  "seconds": 100.83710320905084,
+  "selection_score": 0.6031184426189823,
+  "split": "validation",
+  "value": {
+   "baseline_accuracy": 0.349747762668875,
+   "baseline_brier": 0.666267583027226,
+   "baseline_ce": 1.098018239040615,
+   "ce_ratio": 0.47617006735089257,
+   "examples": 249963,
+   "model_accuracy": 0.7747146577693499,
+   "model_brier": 0.3105409612729618,
+   "model_ce": 0.5228434188364781,
+   "population": "every selected decision"
+  }
+ },
+ "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+ "gate": "G1",
+ "identities": {
+  "checkpoint_version": "warmstart_checkpoint_v1",
+  "corpus_digests": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "corpus_identity_rule": "checkpoints identify the corpus by version and digests, never by path; a pure relocation with identical digests stays compatible",
+  "corpus_root_at_freeze": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "corpus_version": "synthetic_warmstart_corpus_v1",
+  "eval_version": "warmstart_eval_v1",
+  "example_version": "warmstart_example_v1",
+  "model_candidate": "C1",
+  "model_config_digest": "31ca84ab140c523e65567787b0289fe0dbdf5ab0344667410a5fda7060cfe07d",
+  "model_init_seed": 2026081302,
+  "train_config_digest": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+  "train_config_version": "warmstart_train_config_v1",
+  "trainer_config_digest": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+  "trainer_version": "warmstart_trainer_v1"
+ },
+ "independent_reload": {
+  "corpus_identity_checked": true,
+  "examples_consumed": 6399705,
+  "global_step": 25000,
+  "loader": "stratego.training.warmstart_checkpoint.load_warmstart_checkpoint",
+  "process": "fresh, no trainer state carried over from the run",
+  "train_config_digest_checked": true
+ },
+ "initial_checkpoint_path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1_initialisation.pt",
+ "initial_checkpoint_sha256": "e1d40670722c9dbe82a03015c28dbebb23851e18dc74b593287b4058997d61e3",
+ "initial_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+ "launch_manifest_sha256": "e86e23133082564af7d6d81ef80176af2c42f273f13545b3d85ce3025cbed2c2",
+ "note": "the frozen G1 candidate. Written under a Phase 18-only path; the accepted Phase 8 checkpoint was never addressed by this run.",
+ "phase": 8,
+ "process_boundary_sha256": "6805254ac49755e83c5c5a2bf54251c0ab609eb6b3ceb235e7ab66f1ecd8e339",
+ "reproduced_selection_score": 0.5936567774804811,
+ "reproduced_validation": {
+  "batches": 64,
+  "belief": {
+   "baseline_ce": 2.207962914022692,
+   "baseline_top1": 0.20342139424874092,
+   "ce_ratio": 0.9166176203637924,
+   "model_ce": 2.0238577121029846,
+   "model_top1": 0.2827849632645294,
+   "pieces": 441399,
+   "population": "supervised hidden opponent pieces"
+  },
+  "eval_version": "warmstart_eval_v1",
+  "examples": 16384,
+  "games": 323,
+  "metrics_version": "warmstart_metrics_v1",
+  "policy": {
+   "baseline_ce": 3.177210447893338,
+   "baseline_expected_top1": 0.0456353756232397,
+   "ce_ratio": 0.41527551497186205,
+   "examples": 4709,
+   "model_ce": 1.3194177049228863,
+   "model_top1": 0.5130026639604212,
+   "population": "policy-supervised examples (weight > 0)",
+   "weight_sum": 3941.5
+  },
+  "seconds": 7.611789916991256,
+  "selection_score": 0.5936567774804811,
+  "split": "validation",
+  "value": {
+   "baseline_accuracy": 0.32855224609375,
+   "baseline_brier": 0.6671754265886064,
+   "baseline_ce": 1.0993654668597883,
+   "ce_ratio": 0.4490771971057887,
+   "examples": 16384,
+   "model_accuracy": 0.77520751953125,
+   "model_brier": 0.3001999653580621,
+   "model_ce": 0.4936999624522906,
+   "population": "every selected decision"
+  }
+ },
+ "reproduced_validation_seconds": 7.612088957976084,
+ "reproduces": true,
+ "reproduction_tolerance": 1e-09,
+ "run_id": "G1-CONTROL-2026-A",
+ "run_source_checkpoint": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/best.pt",
+ "selected_examples_consumed": 6399705,
+ "selected_global_step": 25000,
+ "selection_metric": "validation selection_score = mean(r_policy, r_value, r_belief) under warmstart_eval_v1; strictly lower wins; validation split only",
+ "selection_protocol": {
+  "batch_size": 256,
+  "phase4_strength_used": false,
+  "rule": "strictly lowest validation selection_score wins",
+  "split": "validation",
+  "test_split_used": false,
+  "validation_batches": 64,
+  "validation_selection": "evenly_spread_v1"
+ },
+ "selection_score_absolute_delta": 0.0,
+ "selection_score_at_selection": 0.5936567774804811,
+ "status": "PASS",
+ "timestamp": "2026-09-01T13:13:47-0400",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

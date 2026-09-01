@@ -1,0 +1,111 @@
+{
+ "agent": "phase_18_agent_2",
+ "artifact": "phase18_g1_launch_manifest_v1",
+ "authorized_to_launch": true,
+ "authorizing_decision": "P18-D001",
+ "binding_rule": "every checkpoint, row receipt, comparison result and decision packet produced by this run repeats g1_source_commit; any mismatch is fatal",
+ "boundary": {
+  "artifact": "reports/phase18/phase18_process_boundary_v2.json",
+  "sha256": "6805254ac49755e83c5c5a2bf54251c0ab609eb6b3ceb235e7ab66f1ecd8e339"
+ },
+ "commands": [
+  "cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+  "<original>/.venv/bin/python scripts/phase18_g1_control.py --run-pytest --work-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1",
+  "<original>/.venv/bin/python scripts/phase18_g1_evaluate.py --control-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1 --output-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/evaluation --accepted-checkpoint <original>/checkpoints/phase8/warmstart_c1_v1.pt --accepted-initialisation <original>/checkpoints/phase8/warmstart_c1_v1_initialisation.pt"
+ ],
+ "declared_deviation": {
+  "after": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "assertions_left_untouched": [
+   "str(default_corpus_root()) == REQUIRED_CORPUS_ROOT",
+   "describe_corpus_root()['pointer_value'] == REQUIRED_CORPUS_ROOT",
+   "run_segment's own REQUIRED_CORPUS_ROOT check",
+   "verify_corpus_identity over all 28,000 payloads"
+  ],
+  "before": "data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "constant": "run_phase8_agent06.REQUIRED_CORPUS_ROOT_RELATIVE",
+  "declared_deviation": "run_phase8_agent06.verify_prerequisites asserts the resolved corpus root equals REPOSITORY_ROOT / REQUIRED_CORPUS_ROOT_RELATIVE, which no execution worktree can satisfy; REQUIRED_CORPUS_ROOT_RELATIVE is rebound to the accepted absolute REQUIRED_CORPUS_ROOT so the assertion collapses onto the resolver check that is the actual Phase 8 gate",
+  "phase8_semantics_changed": "none"
+ },
+ "frozen_training_identity": {
+  "batch_size": 256,
+  "canonical_seeds": {
+   "canonical_c1_init_seed": 2026081302,
+   "corpus_master_seed": 2026081301,
+   "final_run_namespace_seed": 2026081305,
+   "pilot_namespace_seed": 2026081304,
+   "test_bootstrap_seed": 2026081307,
+   "train_order_seed": 2026081303,
+   "validation_bootstrap_seed": 2026081306
+  },
+  "device": "mps",
+  "entry_point": "stratego.training.warmstart_trainer.WarmstartTrainConfig.from_pilot_candidate('ws_pilot_lr1e-3_balanced', device='mps', validation_batches=64)",
+  "gradient_clip_norm": 1.0,
+  "lambda_policy_value_belief": [
+   1.0,
+   1.0,
+   1.0
+  ],
+  "learning_rate": 0.001,
+  "loader_topology": {
+   "prefetch": 2,
+   "record_cache_size": 512,
+   "workers": 12
+  },
+  "max_final_updates": 25000,
+  "optimizer": "AdamW",
+  "precision": "float32",
+  "restart_at": 12500,
+  "selection": "strictly lowest validation selection_score, validation split only",
+  "validation_batches": 64,
+  "validation_cadence_updates": 500,
+  "warmup_steps": 500,
+  "weight_decay": 0.01
+ },
+ "gate": "G1",
+ "identities": {
+  "accepted_phase8_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+  "canonical_fresh_c1_state_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+  "canonical_initialisation_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+  "corpus_digests": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "corpus_version": "synthetic_warmstart_corpus_v1",
+  "train_config_document_digest": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+  "trainer_runtime_identity_digest": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+ },
+ "output_isolation": {
+  "accepted_paths_that_must_not_be_written": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "mode": "run_phase8_agent06 --dry-run (output isolation only; the run is full length)",
+  "run_output_root": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1"
+ },
+ "preconditions": {
+  "accepted_artifact_digests_match": true,
+  "canonical_fresh_init_checksum_matches": true,
+  "corpus_payloads_verify": true,
+  "execution_worktree_clean": true,
+  "g1_source_commit_resolves": true,
+  "no_process_or_lock_conflicts": true,
+  "phase8_identities_recompute": true,
+  "protected_phase14_manifest_intact": true,
+  "staged_data_artifacts_identical": true,
+  "suite_green": true
+ },
+ "run_id": "G1-CONTROL-2026-A",
+ "source": {
+  "branch": "phase18/setup-integrated-warmstart-g1",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+  "execution_worktree_clean": true,
+  "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+  "g1_source_tree": "2d1dcda2a05edf1121875709d4728a9b14ecc7a8"
+ },
+ "timestamp_utc": "2026-09-01T16:06:09Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

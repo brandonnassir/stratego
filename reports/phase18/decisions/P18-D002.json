@@ -1,0 +1,804 @@
+{
+ "agent": "phase_18_agent_2",
+ "authorizing_decision": "P18-D001",
+ "decision": "REVISE",
+ "decision_id": "P18-D002",
+ "execution_integrity": {
+  "accepted_artifacts_before_after": {
+   "control": {
+    "after": {
+     "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+     "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+     "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+     "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "before": {
+     "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+     "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+     "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+     "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+    "unchanged": true
+   },
+   "evaluation": {
+    "after": {
+     "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+     "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+     "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+     "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "before": {
+     "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+     "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+     "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+     "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+    "unchanged": true
+   }
+  },
+  "counts": {
+   "illegal_actions": 0,
+   "missing_cases": 0,
+   "model_failures": 0,
+   "non_finite_outputs": 0,
+   "note": "zero counts are the gate values themselves: random_illegal_actions_zero, random_model_failures_zero, random_non_finite_outputs_zero, vs_init_model_failures_zero, vs_init_non_finite_outputs_zero and heldout_non_finite_logits_zero all pass",
+   "observed_random_games": 2048,
+   "observed_vs_init_games": 1024,
+   "planned_random_games": 2048,
+   "planned_vs_init_games": 1024,
+   "sealed_test_examples_per_arm": 249924
+  },
+  "deviations": [
+   "run_phase8_agent06.verify_prerequisites asserts the resolved corpus root equals REPOSITORY_ROOT / REQUIRED_CORPUS_ROOT_RELATIVE, which no execution worktree can satisfy; REQUIRED_CORPUS_ROOT_RELATIVE is rebound to the accepted absolute REQUIRED_CORPUS_ROOT so the assertion collapses onto the resolver check that is the actual Phase 8 gate",
+   "18 gitignored data artifacts were staged read-only into the execution worktree; without them 54 tests fail and 378 error for missing files. Every digest was verified against the original checkout.",
+   "the paired evaluation's arm work directory had to sit inside the execution worktree because the accepted Agent 7 stage_export reports its destination relative to the repository root. Invocation only; no source change, so the control and the evaluation bind to one commit.",
+   "tier and stress diagnostics were not run: no Phase 8 completion gate covers them and the paired contract does not name them",
+   "the instruction's required-reading list names 07_AGENT_7_HELDOUT_EVALUATION_AND_HANDOFF.md, which does not exist; the file is 07_AGENT_7_FINAL_ACCEPTANCE.md and that was read instead"
+  ],
+  "held_out_discipline": {
+   "checkpoint_selected_by": "validation split only",
+   "measurement": "warmstart_pilot.record_model_input_access instruments WarmstartBatch.model_input \u2014 the one boundary where an example becomes model input \u2014 and record_phase4_access wraps the Phase 4 evaluation entry points, for the whole canonical run in every segment process. These are observed counts, not assertions.",
+   "measurement_scope": "the training run itself, in every segment process. The freeze step ran two further passes on the selected checkpoint \u2014 the 64-batch cadence revalidation and the full-validation confirmation \u2014 both requested on the validation split explicitly; run_validation routes any test-split request through check_test_corpus_access, which raises before Agent 7",
+   "model_input_examples_by_split": {
+    "test": 0,
+    "train": 6399705,
+    "validation": 819200
+   },
+   "phase4_bank_state": "sealed until Agent 7",
+   "phase4_neural_checkpoint_loads": 0,
+   "phase4_neural_evaluation_games": 0,
+   "test_examples_evaluated_by_model": 0,
+   "test_split_state": "sealed until Agent 7",
+   "weights_updated_by": "train split only"
+  },
+  "missing_retried_failed": {
+   "evaluation_attempts_that_produced_no_measurement": 1,
+   "what": "the first evaluation invocation raised in stage_export before any model touched the sealed split; it cost zero test access and is preserved as evaluation_failed_attempt_1_relative_to/"
+  },
+  "observed_examples": 6399705,
+  "observed_updates": 25000,
+  "pairing_proof": {
+   "identical_game_sets": true,
+   "model_independent_fields_checked": [
+    "policy_weighted_baseline_ce",
+    "policy_weight_sum",
+    "policy_weighted_expected_top1",
+    "policy_examples",
+    "value_baseline_ce",
+    "value_baseline_brier",
+    "value_examples",
+    "belief_baseline_ce",
+    "belief_baseline_top1",
+    "belief_pieces"
+   ],
+   "model_independent_mismatches": {},
+   "paired_units": {
+    "random_units": {
+     "candidate_units": 1024,
+     "identical_pair_ids": true,
+     "reference_units": 1024
+    },
+    "vs_init_units": {
+     "candidate_units": 512,
+     "identical_pair_ids": true,
+     "reference_units": 512
+    }
+   },
+   "problems": [],
+   "schedule_digests": {
+    "random_gate": {
+     "candidate": "798cdc3cf39626dede46d4cbbd4822991909f5f9902b22bab9a7c279250a3e78",
+     "identical": true,
+     "reference": "798cdc3cf39626dede46d4cbbd4822991909f5f9902b22bab9a7c279250a3e78"
+    },
+    "vs_init": {
+     "candidate": "de99dc3fbb0349b2507e05b70eff0f702d105e4d1d1c1e45d81c7acd73351951",
+     "identical": true,
+     "reference": "de99dc3fbb0349b2507e05b70eff0f702d105e4d1d1c1e45d81c7acd73351951"
+    }
+   },
+   "sealed_test_games": 4000
+  },
+  "planned_examples": 6399705,
+  "planned_updates": 25000,
+  "restart": {
+   "all_checks_pass": true,
+   "checks": {
+    "best_validation": true,
+    "counters": true,
+    "cursor": true,
+    "examples_consumed": true,
+    "global_step": true,
+    "learning_rate": true,
+    "optimizer_state_structure": true,
+    "scheduler_last_epoch": true,
+    "validation_best_flags": true,
+    "validation_steps": true
+   },
+   "cursor_at_boundary": {
+    "batch_size": 256,
+    "cursor_version": "warmstart_data_cursor_v1",
+    "epoch": 2,
+    "example_version": "warmstart_example_v1",
+    "order": "shuffle",
+    "order_version": "warmstart_train_order_v1",
+    "position": 705536,
+    "sampler_version": "warmstart_decision_sampler_v1",
+    "split": "train"
+   },
+   "interpretation": "backend_aware_resume_equivalence_v1",
+   "note": "plan_batch is a pure function of (universe, cursor), so an identical restored cursor is an identical next batch by construction",
+   "processes": 2,
+   "rationale": "MPS is not run-to-run bit-deterministic on this backend, so resume is judged on exact logical state continuity \u2014 cursor, counters, optimizer/scheduler state and validation cadence \u2014 which is what a correct production resume must preserve. The superseded independent-run bit-equality requirement is not resurrected.",
+   "restart_step": 12500,
+   "validation_cadence_continuous": true,
+   "validation_steps": [
+    500,
+    1000,
+    1500,
+    2000,
+    2500,
+    3000,
+    3500,
+    4000,
+    4500,
+    5000,
+    5500,
+    6000,
+    6500,
+    7000,
+    7500,
+    8000,
+    8500,
+    9000,
+    9500,
+    10000,
+    10500,
+    11000,
+    11500,
+    12000,
+    12500,
+    13000,
+    13500,
+    14000,
+    14500,
+    15000,
+    15500,
+    16000,
+    16500,
+    17000,
+    17500,
+    18000,
+    18500,
+    19000,
+    19500,
+    20000,
+    20500,
+    21000,
+    21500,
+    22000,
+    22500,
+    23000,
+    23500,
+    24000,
+    24500,
+    25000
+   ]
+  },
+  "sealed_test_access": {
+   "consumers": [
+    "accepted checkpoint (re-measured)",
+    "phase18 G1 candidate"
+   ],
+   "control_phase4_neural_evaluation_games": 0,
+   "control_test_examples_evaluated_by_model": 0,
+   "note": "the Phase 8 sealed test split was already spent once by Phase 8 Agent 7; these two accesses are additional multiplicity and are counted here",
+   "selected_global_step": 25000,
+   "selection_finalized": true,
+   "selection_protocol": {
+    "batch_size": 256,
+    "phase4_strength_used": false,
+    "rule": "strictly lowest validation selection_score wins",
+    "split": "validation",
+    "test_split_used": false,
+    "validation_batches": 64,
+    "validation_selection": "evenly_spread_v1"
+   },
+   "test_split_consumers_this_run": 2
+  },
+  "selected_global_step": 25000,
+  "suite": {
+   "after": {
+    "failed": 0,
+    "passed": 7477,
+    "returncode": 0,
+    "seconds": 641.737118916004,
+    "skipped": 46,
+    "summary": "7477 passed, 46 skipped in 640.37s (0:10:40)"
+   },
+   "before": {
+    "command": "<original>/.venv/bin/python -m pytest tests -q  (cwd = execution worktree)",
+    "failed": 0,
+    "log": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/suite_before.log",
+    "measured_at_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+    "measured_by": "phase_18_agent_2, directly, before the control launched",
+    "passed": 7477,
+    "returncode": 0,
+    "seconds": 645.67,
+    "skipped": 46,
+    "summary": "7477 passed, 46 skipped in 645.67s (0:10:45)"
+   }
+  },
+  "validation_passes": 50,
+  "wall_hours": 1.0704990667130592
+ },
+ "gate": "G1 - Phase 8 reproduction",
+ "identity": {
+  "accepted_checkpoint_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+  "binding_ledger": "reports/phase18/phase18_g1_binding_v1.json - names every G1 artifact, its digest and how it records the source commit; referenced by name, not by digest, because the ledger hashes this packet",
+  "branch": "phase18/setup-integrated-warmstart-g1",
+  "candidate_checkpoint_sha256": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+  "canonical_initialisation_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+  "commands": [
+   "cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+   "<original>/.venv/bin/python scripts/phase18_g1_control.py --run-pytest --work-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1",
+   "<original>/.venv/bin/python scripts/phase18_g1_evaluate.py --control-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1 --output-dir /Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/evaluation --accepted-checkpoint <original>/checkpoints/phase8/warmstart_c1_v1.pt --accepted-initialisation <original>/checkpoints/phase8/warmstart_c1_v1_initialisation.pt"
+  ],
+  "configuration_digest": {
+   "train_config_document": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7",
+   "trainer_runtime_identity": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+  },
+  "corpus": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "evaluator": "phase18_evaluation_v1",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+  "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+  "g1_source_tree": "2d1dcda2a05edf1121875709d4728a9b14ecc7a8",
+  "launch_manifest_sha256": "e86e23133082564af7d6d81ef80176af2c42f273f13545b3d85ce3025cbed2c2",
+  "process_boundary_v2_sha256": "6805254ac49755e83c5c5a2bf54251c0ab609eb6b3ceb235e7ab66f1ecd8e339",
+  "run_id": "G1-CONTROL-2026-A"
+ },
+ "instruction": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
+ "interpretation": {
+  "claim_not_supported": [
+   "That the reproduction is inferior to the accepted checkpoint. Nothing here shows that; the point estimate is one paired unit in 1,024 and seven of eight margins clear.",
+   "That the reproduction is non-inferior on vs-random EWR under the frozen rule. It is not certified, and the rule reads the bound, not the point estimate. This packet does not lower the margin.",
+   "That G1 passes. Under the frozen decision rule it does not, and the gate is recorded as failed rather than converted into telemetry."
+  ],
+  "observed_fact": [
+   "The control ran the full 25,000 updates from the exact canonical fresh C1 initialization (checksum cfe60bb0...), consumed 6,399,705 examples - the same count as the accepted run - and exercised a real stop/restart at 12,500 through the accepted resume path.",
+   "All 42 original Phase 8 gates pass for the reproduction, and all 26 Agent 6 completion gates pass.",
+   "Re-measuring the accepted checkpoint through this wrapper reproduced its recorded results exactly: all ten headline metrics at delta 0.0, including the sealed-test head metrics to ten decimal places and both play EWRs and their bootstrap lower bounds.",
+   "Seven of the eight frozen paired margins are cleared on the deciding bound.",
+   "The eighth, vs-random EWR, has a point estimate of -0.000244 and a 95% interval of [-0.011963, +0.011230]; its lower bound misses the -0.01 margin.",
+   "The vs-random paired instrument's own resolution at its frozen 1,024 setup pairs is +/-0.011599, wider than the 0.010 margin it was asked to certify. The two arms disagree on 171 of 1,024 paired units.",
+   "The random-EWR point gate that P18-D001 flagged as fragile - cleared by the accepted result by only 1.511 SE - passed: 0.956543 against a 0.950 floor.",
+   "Zero non-finite outputs, zero illegal actions, zero model failures, zero missing cases, and no accepted artifact changed."
+  ],
+  "plausible_but_untested": [
+   "That a replicate control would land on the other side of zero and clear the margin. Its interval would be about as wide, so the outcome would turn on the sign of a near-zero delta - which is why sampling until one passes would be illegitimate rather than informative.",
+   "That the 0.189 paired-difference standard deviation is characteristic of any two faithful Phase 8 reproductions. Only one reproduction exists, so this is one draw, not a distribution."
+  ],
+  "supported_inference": [
+   "The accepted Phase 8 warmstart reproduces from a fresh canonical initialization. Every original gate passes and every head and play metric sits within a few thousandths of the accepted result.",
+   "The wrapper is a faithful instrument, not merely an asserted one: it reproduced the accepted checkpoint's published numbers exactly before the candidate was scored.",
+   "The single failing margin is a measurement-design deficit, not a strength deficit. Certifying a 0.010 margin at this delta needs 1,448 paired setups; the frozen bank holds 1,024. No amount of model quality closes that gap, because the width comes from game-level noise between two independently trained networks.",
+   "The margin set was not anchored on power. vs-init carries a looser margin (0.03) on half the pairs and clears comfortably, while vs-random carries a tighter margin (0.01) on twice the pairs and cannot be certified. The tightening was justified in the contract by gate headroom, which is a different quantity from the paired instrument's resolution."
+  ]
+ },
+ "notes_for_the_reviewing_chat": [
+  "The margin that failed is the only one in the contract that was tightened relative to its sibling on headroom reasoning. Re-deriving 0.011599 from the arm artifacts is the single check most worth repeating independently: it is the difference between 'the reproduction is weaker' and 'the ruler is too short'.",
+  "This is the third time the project has set a margin without checking the instrument's resolution - after the Phase 16 shootout's 0.03 margin at 0.53 SE and Phase 17's 120-board lane at 0.1379 MDE. A standing rule that every predeclared margin ships with the n needed to certify it would have caught all three before the run rather than after.",
+  "The reference arm reproducing all ten accepted metrics at exactly 0.0 also says something the contract did not assume: the greedy evaluation path is bitwise reproducible on MPS. Only the 25,000-step training run carries the nondeterminism the contract warns about."
+ ],
+ "proposed_next_question": {
+  "gate": "G1",
+  "implementation_instruction_included": false,
+  "note_on_scope": "Setup work remains unauthorized either way. Nothing in this packet bears on G2, and no setup code was written or run.",
+  "question": "Is the vs-random non-inferiority margin certifiable at all with the frozen 1,024-pair evaluation bank, and if not, what margin should G1 be judged against - a power-anchored one, or one measured from a replicate pair of reproductions?",
+  "why_it_discriminates": "It separates the two readings this packet cannot separate on its own. Either the reproduction is fine and the margin was mis-specified - in which case G1 closes once the margin is re-anchored on the instrument's measured resolution, before any new result is opened - or the operator wants a measured run-to-run distribution, in which case the authorized replicate supplies one point of it and the margin is set from evidence rather than judgement. Both routes are decided before a result is seen, which is what keeps the re-anchoring from being a threshold lowered after the fact."
+ },
+ "question": {
+  "alternative_hypothesis": "all original Phase 8 gates pass and every required paired non-inferiority bound is on the accepted side of its frozen margin",
+  "bounded_question": "Can the accepted Phase 8 warmstart be reproduced from a fresh canonical C1 initialization under the frozen Phase 8 contract, passing all 42 original gates and the predeclared paired non-inferiority comparison?",
+  "confidence_rule": "95% two-sided bootstrap, 10,000 replicates; the deciding bound, never the point estimate",
+  "hypothesis_frozen_before_the_result": true,
+  "null_hypothesis": "the fresh Phase 8 reproduction is inferior to the accepted checkpoint on one or more frozen paired margins, or fails an original Phase 8 gate",
+  "practical_margins": {
+   "basis": "no replicate Phase 8 run exists, so these are predeclared judgments, not estimates from a measured run-to-run distribution; each is stated as an absolute allowance on the paired delta and each is small relative to the original gate headroom",
+   "belief_ce_ratio_delta_max": 0.01,
+   "belief_top1_delta_min": -0.01,
+   "decision_rule": "non-inferiority holds when the 95% bootstrap bound on the paired delta lies on the non-inferior side of the margin; a point estimate alone never decides",
+   "headroom_note": "belief_ce_ratio has the least headroom of the three head gates (accepted 0.9205 against a 0.98 maximum), which is why its margin is half the others'",
+   "policy_ce_ratio_delta_max": 0.02,
+   "policy_top1_delta_min": -0.02,
+   "value_brier_delta_max": 0.02,
+   "value_ce_ratio_delta_max": 0.02,
+   "vs_init_ewr_delta_min": -0.03,
+   "vs_random_ewr_delta_min": -0.01
+  },
+  "predeclared_failure_interpretations": {
+   "one_replicate": "run ONE replicate control under the same frozen config to estimate run-to-run spread before concluding the reproduction failed; a single out-of-margin control with no replicate does not distinguish an implementation defect from MPS variance",
+   "random_ewr_only": "if the control fails ONLY this gate while (a) its paired bootstrap lower bound still exceeds 0.90, and (b) its paired delta against the accepted checkpoint satisfies vs_random_ewr_delta_min, the packet records a REPRODUCTION TOLERANCE EVENT, sets G1 to REVISE, and escalates to the operator. It is NOT recorded as a pass. This interpretation is fixed here, before any control result exists, and may not be widened afterwards."
+  },
+  "primary_metric": "the 42 original gates plus 8 paired non-inferiority bounds"
+ },
+ "replicate_authorization": {
+  "authorized_by": "instruction section C4, conditionally, to estimate MPS run-to-run variation",
+  "used": false,
+  "why_not": "C4 authorizes the replicate to decide whether an out-of-margin delta is explained by run-to-run variation. The delta here is -0.000244, so there is no excursion for run-to-run variation to explain. The bound misses because the paired interval at 1,024 pairs is +/-0.011599 against a 0.010 margin, which is within-run game-level noise and is unchanged by running the training again. A replicate would cost a further sealed-test access on a split the contract asks to count and minimise, and would decide the gate on the sign of a near-zero delta. It remains available to the operator; it is declined here because it does not discriminate, not because it is unauthorized."
+ },
+ "results": {
+  "agent6_completion_gates": {
+   "agents_1_to_5_pass": true,
+   "best_checkpoint_reload_reproduces": true,
+   "budget_respected": true,
+   "canonical_untrained_checkpoint_recorded": true,
+   "checkpoint_differs_from_initialisation": true,
+   "checkpoint_digest_and_manifest_written": true,
+   "corpus_digests_match_accepted": true,
+   "corpus_resolved_through_resolver": true,
+   "exact_frozen_config_used": true,
+   "fresh_c1_init_matches_expected": true,
+   "full_suite_green": true,
+   "no_phase4_neural_evaluation": true,
+   "no_phase9_selfplay_or_rl": true,
+   "no_pilot_checkpoint_loaded": true,
+   "no_test_model_inference": true,
+   "restart_path_exercised": true,
+   "train_config_identity_reconciled": true,
+   "train_split_only_updated_weights": true,
+   "validation_cadence_continuous": true,
+   "validation_only_selected_checkpoint": true,
+   "zero_checkpoint_errors": true,
+   "zero_data_mismatches": true,
+   "zero_illegal_targets": true,
+   "zero_non_finite_gradients": true,
+   "zero_non_finite_losses": true,
+   "zero_non_finite_parameters": true
+  },
+  "original_42_gates": {
+   "candidate": {
+    "checkpoint_identity_verified": true,
+    "corpus_digests_match_accepted": true,
+    "corpus_resolved_through_resolver": true,
+    "discipline_agent_6_used_train_validation_only": true,
+    "discipline_candidate_count_at_most_6": true,
+    "discipline_final_checkpoint_selected_by_validation_only": true,
+    "discipline_final_run_from_canonical_fresh_initialization": true,
+    "discipline_frozen_sealing_gates_still_refuse_pre_agent_7_access": true,
+    "discipline_phase4_neural_games_before_agent_7_zero": true,
+    "discipline_pilot_used_train_validation_only": true,
+    "discipline_test_model_inference_before_agent_7_zero": true,
+    "evaluation_export_bitwise_faithful": true,
+    "heldout_belief_ce_ratio_at_most_0_98": true,
+    "heldout_belief_top1_beats_remaining_count_prior": true,
+    "heldout_collapse_fraction_below_0_95": true,
+    "heldout_non_finite_logits_zero": true,
+    "heldout_policy_ce_ratio_at_most_0_90": true,
+    "heldout_policy_top1_beats_uniform_expected": true,
+    "heldout_value_brier_beats_train_prior": true,
+    "heldout_value_ce_ratio_at_most_0_98": true,
+    "no_decision_time_search": true,
+    "no_learned_setup_selection": true,
+    "no_phase9_selfplay_or_rl": true,
+    "prerequisites_agents_1_to_6_pass": true,
+    "random_all_setup_pairs_played": true,
+    "random_blue_effective_win_rate_at_least_0_900": true,
+    "random_effective_win_rate_at_least_0_950": true,
+    "random_games_played": true,
+    "random_illegal_actions_zero": true,
+    "random_model_failures_zero": true,
+    "random_no_worker_imported_torch": true,
+    "random_no_worker_loaded_a_checkpoint": true,
+    "random_non_finite_outputs_zero": true,
+    "random_paired_bootstrap_lower_bound_above_0_900": true,
+    "random_red_effective_win_rate_at_least_0_900": true,
+    "upstream_identities_unchanged": true,
+    "vs_init_at_least_1024_games": true,
+    "vs_init_at_least_512_paired_cases": true,
+    "vs_init_effective_win_rate_at_least_0_700": true,
+    "vs_init_model_failures_zero": true,
+    "vs_init_non_finite_outputs_zero": true,
+    "vs_init_paired_bootstrap_lower_bound_above_0_550": true
+   },
+   "candidate_total": 42,
+   "candidate_true": 42,
+   "failing": [],
+   "reference_true": 42
+  },
+  "paired_non_inferiority": {
+   "all_non_inferior": false,
+   "comparisons": {
+    "belief_ce_ratio": {
+     "candidate": 0.9198201894718799,
+     "confidence": 0.95,
+     "delta": -0.0006545151910546387,
+     "denominator_field": "belief_baseline_ce",
+     "lower": -0.0009292572427553824,
+     "margin_field": "belief_ce_ratio_delta_max",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "belief_ce",
+     "reference": 0.9204747046629346,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": -0.0003806041640898678
+    },
+    "belief_top1": {
+     "candidate": 0.27765172996427306,
+     "confidence": 0.95,
+     "delta": 0.0013652868554829278,
+     "denominator_field": "belief_pieces",
+     "lower": 0.0007574900011681999,
+     "margin_field": "belief_top1_delta_min",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "belief_top1",
+     "reference": 0.27628644310879014,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": 0.001969052887961155
+    },
+    "policy_ce_ratio": {
+     "candidate": 0.41306023215782195,
+     "confidence": 0.95,
+     "delta": -0.002599429851195878,
+     "denominator_field": "policy_weighted_baseline_ce",
+     "lower": -0.004371196182261556,
+     "margin_field": "policy_ce_ratio_delta_max",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "policy_weighted_ce",
+     "reference": 0.4156596620090178,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": -0.0007895678540072426
+    },
+    "policy_top1": {
+     "candidate": 0.5203248747373526,
+     "confidence": 0.95,
+     "delta": 0.00577824470664301,
+     "denominator_field": "policy_weight_sum",
+     "lower": 0.0026556726922360285,
+     "margin_field": "policy_top1_delta_min",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "policy_weighted_top1",
+     "reference": 0.5145466300307096,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": 0.008934049881144084
+    },
+    "value_brier": {
+     "candidate": 0.3086447066066019,
+     "confidence": 0.95,
+     "delta": 0.0017958885469097075,
+     "denominator_field": "value_examples",
+     "lower": -0.0007911907432812493,
+     "margin_field": "value_brier_delta_max",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "value_brier",
+     "reference": 0.3068488180596922,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": 0.004363065846027538
+    },
+    "value_ce_ratio": {
+     "candidate": 0.4770729085375997,
+     "confidence": 0.95,
+     "delta": 0.0033400180623803233,
+     "denominator_field": "value_baseline_ce",
+     "lower": -0.0011180595440775571,
+     "margin_field": "value_ce_ratio_delta_max",
+     "method": "paired_game_cluster_ratio_bootstrap",
+     "numerator_field": "value_ce",
+     "reference": 0.4737328904752194,
+     "replicates": 10000,
+     "resampling_unit": "game",
+     "sample_size": 4000,
+     "seed": 2026081307,
+     "upper": 0.007927698150889029
+    },
+    "vs_init_ewr": {
+     "candidate": 0.9130859375,
+     "confidence": 0.95,
+     "delta": -0.00390625,
+     "lower": -0.0205078125,
+     "margin_field": "vs_init_ewr_delta_min",
+     "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs phase6_c1_untrained_init_greedy@0.2.0+float32",
+     "method": "paired_unit_difference_bootstrap",
+     "reference": 0.9169921875,
+     "replicates": 10000,
+     "resampling_unit": "paired_unit",
+     "sample_size": 512,
+     "seed": 1912853890671540910,
+     "seed_rule": "matchup_seed(DEFAULT_BOOTSTRAP_SEED, matchup), the accepted play-metric seed",
+     "upper": 0.01220703125
+    },
+    "vs_random_ewr": {
+     "candidate": 0.95654296875,
+     "confidence": 0.95,
+     "delta": -0.000244140625,
+     "lower": -0.011962890625,
+     "margin_field": "vs_random_ewr_delta_min",
+     "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs random_legal@1.0.0",
+     "method": "paired_unit_difference_bootstrap",
+     "reference": 0.956787109375,
+     "replicates": 10000,
+     "resampling_unit": "paired_unit",
+     "sample_size": 1024,
+     "seed": 5866836619823415452,
+     "seed_rule": "matchup_seed(DEFAULT_BOOTSTRAP_SEED, matchup), the accepted play-metric seed",
+     "upper": 0.01123046875
+    }
+   },
+   "failing_margins": [
+    "vs_random_ewr"
+   ],
+   "verdicts": {
+    "belief_ce_ratio": {
+     "deciding_bound": -0.0003806041640898678,
+     "deciding_bound_name": "upper",
+     "delta": -0.0006545151910546387,
+     "direction": "delta_max",
+     "margin": 0.01,
+     "metric": "belief_ce_ratio",
+     "non_inferior": true
+    },
+    "belief_top1": {
+     "deciding_bound": 0.0007574900011681999,
+     "deciding_bound_name": "lower",
+     "delta": 0.0013652868554829278,
+     "direction": "delta_min",
+     "margin": -0.01,
+     "metric": "belief_top1",
+     "non_inferior": true
+    },
+    "policy_ce_ratio": {
+     "deciding_bound": -0.0007895678540072426,
+     "deciding_bound_name": "upper",
+     "delta": -0.002599429851195878,
+     "direction": "delta_max",
+     "margin": 0.02,
+     "metric": "policy_ce_ratio",
+     "non_inferior": true
+    },
+    "policy_top1": {
+     "deciding_bound": 0.0026556726922360285,
+     "deciding_bound_name": "lower",
+     "delta": 0.00577824470664301,
+     "direction": "delta_min",
+     "margin": -0.02,
+     "metric": "policy_top1",
+     "non_inferior": true
+    },
+    "value_brier": {
+     "deciding_bound": 0.004363065846027538,
+     "deciding_bound_name": "upper",
+     "delta": 0.0017958885469097075,
+     "direction": "delta_max",
+     "margin": 0.02,
+     "metric": "value_brier",
+     "non_inferior": true
+    },
+    "value_ce_ratio": {
+     "deciding_bound": 0.007927698150889029,
+     "deciding_bound_name": "upper",
+     "delta": 0.0033400180623803233,
+     "direction": "delta_max",
+     "margin": 0.02,
+     "metric": "value_ce_ratio",
+     "non_inferior": true
+    },
+    "vs_init_ewr": {
+     "deciding_bound": -0.0205078125,
+     "deciding_bound_name": "lower",
+     "delta": -0.00390625,
+     "direction": "delta_min",
+     "margin": -0.03,
+     "metric": "vs_init_ewr",
+     "non_inferior": true
+    },
+    "vs_random_ewr": {
+     "deciding_bound": -0.011962890625,
+     "deciding_bound_name": "lower",
+     "delta": -0.000244140625,
+     "direction": "delta_min",
+     "margin": -0.01,
+     "metric": "vs_random_ewr",
+     "non_inferior": false
+    }
+   }
+  },
+  "paired_play_instrument_power": {
+   "random_units": {
+    "half_width_95": 0.0115991716191201,
+    "margin_is_inside_the_instruments_resolution": true,
+    "mean_paired_difference": -0.000244140625,
+    "paired_units": 1024,
+    "pairs_needed_to_certify_this_margin_at_this_delta": 1448,
+    "predeclared_margin": -0.01,
+    "sd_of_paired_differences": 0.18937423051624655,
+    "smallest_margin_certifiable_at_this_n": 0.0115991716191201,
+    "standard_error": 0.005917944703632705,
+    "units_that_differ_at_all": 171
+   },
+   "vs_init_units": {
+    "half_width_95": 0.016478010867355675,
+    "margin_is_inside_the_instruments_resolution": false,
+    "mean_paired_difference": -0.00390625,
+    "paired_units": 512,
+    "pairs_needed_to_certify_this_margin_at_this_delta": 205,
+    "predeclared_margin": -0.03,
+    "sd_of_paired_differences": 0.1902320526493522,
+    "smallest_margin_certifiable_at_this_n": 0.016478010867355675,
+    "standard_error": 0.008407148401712078,
+    "units_that_differ_at_all": 191
+   }
+  },
+  "reference_reproduction_of_accepted_metrics": {
+   "gate": false,
+   "largest_absolute_delta": 0.0,
+   "metrics": {
+    "random_ci_lower": {
+     "accepted": 0.948486328125,
+     "delta": 0.0,
+     "observed": 0.948486328125
+    },
+    "random_effective_win_rate": {
+     "accepted": 0.956787109375,
+     "delta": 0.0,
+     "observed": 0.956787109375
+    },
+    "test_belief_ce_ratio": {
+     "accepted": 0.9204747046629422,
+     "delta": 0.0,
+     "observed": 0.9204747046629422
+    },
+    "test_belief_top1": {
+     "accepted": 0.27628644310879014,
+     "delta": 0.0,
+     "observed": 0.27628644310879014
+    },
+    "test_policy_ce_ratio": {
+     "accepted": 0.4156596620090182,
+     "delta": 0.0,
+     "observed": 0.4156596620090182
+    },
+    "test_policy_top1": {
+     "accepted": 0.5145466300307096,
+     "delta": 0.0,
+     "observed": 0.5145466300307096
+    },
+    "test_value_brier": {
+     "accepted": 0.3068488180596921,
+     "delta": 0.0,
+     "observed": 0.3068488180596921
+    },
+    "test_value_ce_ratio": {
+     "accepted": 0.47373289047520506,
+     "delta": 0.0,
+     "observed": 0.47373289047520506
+    },
+    "vs_init_ci_lower": {
+     "accepted": 0.904296875,
+     "delta": 0.0,
+     "observed": 0.904296875
+    },
+    "vs_init_effective_win_rate": {
+     "accepted": 0.9169921875,
+     "delta": 0.0,
+     "observed": 0.9169921875
+    }
+   },
+   "note": "reported, not gated: MPS is not bitwise reproducible run to run, which is why the control's comparison is paired",
+   "source": "reports/phase_8_data/agent_07_final_acceptance.json headline_results"
+  },
+  "reproduction_tolerance_event": false,
+  "validation_trajectory": {
+   "accepted_full_validation": {
+    "belief_ce_ratio": 0.919865242801829,
+    "policy_ce_ratio": 0.41456520259312346,
+    "selection_score": 0.6042759651326188,
+    "value_ce_ratio": 0.478397450002904
+   },
+   "full_validation_confirmation": {
+    "batches": 977,
+    "belief": {
+     "baseline_ce": 2.2083970232401047,
+     "baseline_top1": 0.20460381680259548,
+     "ce_ratio": 0.9193919749857925,
+     "model_ce": 2.030382500749465,
+     "model_top1": 0.2782627517844767,
+     "pieces": 6842062,
+     "population": "supervised hidden opponent pieces"
+    },
+    "eval_version": "warmstart_eval_v1",
+    "examples": 249963,
+    "games": 4000,
+    "metrics_version": "warmstart_metrics_v1",
+    "policy": {
+     "baseline_ce": 3.1586107029286707,
+     "baseline_expected_top1": 0.04650130092274475,
+     "ce_ratio": 0.413793285520262,
+     "examples": 74287,
+     "model_ce": 1.307011900444319,
+     "model_top1": 0.5196866292452449,
+     "population": "policy-supervised examples (weight > 0)",
+     "weight_sum": 61907.5
+    },
+    "role": "confirmation and reporting only; the checkpoint was already selected by the frozen 64-spread-batch cadence protocol and no full-validation measurement may retroactively change that selection",
+    "seconds": 100.83710320905084,
+    "selection_score": 0.6031184426189823,
+    "split": "validation",
+    "value": {
+     "baseline_accuracy": 0.349747762668875,
+     "baseline_brier": 0.666267583027226,
+     "baseline_ce": 1.098018239040615,
+     "ce_ratio": 0.47617006735089257,
+     "examples": 249963,
+     "model_accuracy": 0.7747146577693499,
+     "model_brier": 0.3105409612729618,
+     "model_ce": 0.5228434188364781,
+     "population": "every selected decision"
+    }
+   },
+   "independent_reload_delta": 0.0,
+   "selected_step": 25000,
+   "selection_score_at_selection": 0.5936567774804811
+  },
+  "why_the_one_margin_failed": "the vs-random paired instrument resolves +/-0.011599 at its frozen 1,024 setup pairs, and the predeclared margin is 0.010. The point estimate is -0.000244, one paired unit in 1,024. The bound misses because the margin was set 16% tighter than the evaluation can certify, not because the reproduction is weaker: certifying 0.010 at this delta needs 1,448 pairs and the frozen bank holds 1,024. The vs-init contrast, whose margin is looser (0.03) on half the pairs, clears with room. P18-D001 recorded in advance that these margins were predeclared judgments with no measured run-to-run distribution behind them; this is that gap becoming visible."
+ },
+ "sub_gates": [
+  {
+   "evidence": "42/42",
+   "name": "all original Phase 8 gates pass",
+   "status": "pass"
+  },
+  {
+   "evidence": "7/8 margins cleared; failing: ['vs_random_ewr']",
+   "name": "paired non-inferiority to the accepted checkpoint passes",
+   "status": "fail"
+  },
+  {
+   "evidence": "the control evaluated 0 test examples and played 0 Phase 4 neural games; the sealed split opened once per arm, after selection was frozen",
+   "name": "no test or Phase 4 evaluation leakage occurred",
+   "status": "pass"
+  }
+ ],
+ "timestamp_utc": "2026-09-01T19:17:35Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

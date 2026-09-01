@@ -1,0 +1,483 @@
+{
+  "accepted_artifacts": {
+    "after": {
+      "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+      "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+      "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "before": {
+      "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+      "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+      "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+    },
+    "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+    "unchanged": true
+  },
+  "artifact": "phase18_g1_noninferiority_v1",
+  "candidate_completion_gates": {
+    "checkpoint_identity_verified": true,
+    "corpus_digests_match_accepted": true,
+    "corpus_resolved_through_resolver": true,
+    "discipline_agent_6_used_train_validation_only": true,
+    "discipline_candidate_count_at_most_6": true,
+    "discipline_final_checkpoint_selected_by_validation_only": true,
+    "discipline_final_run_from_canonical_fresh_initialization": true,
+    "discipline_frozen_sealing_gates_still_refuse_pre_agent_7_access": true,
+    "discipline_phase4_neural_games_before_agent_7_zero": true,
+    "discipline_pilot_used_train_validation_only": true,
+    "discipline_test_model_inference_before_agent_7_zero": true,
+    "evaluation_export_bitwise_faithful": true,
+    "heldout_belief_ce_ratio_at_most_0_98": true,
+    "heldout_belief_top1_beats_remaining_count_prior": true,
+    "heldout_collapse_fraction_below_0_95": true,
+    "heldout_non_finite_logits_zero": true,
+    "heldout_policy_ce_ratio_at_most_0_90": true,
+    "heldout_policy_top1_beats_uniform_expected": true,
+    "heldout_value_brier_beats_train_prior": true,
+    "heldout_value_ce_ratio_at_most_0_98": true,
+    "no_decision_time_search": true,
+    "no_learned_setup_selection": true,
+    "no_phase9_selfplay_or_rl": true,
+    "prerequisites_agents_1_to_6_pass": true,
+    "random_all_setup_pairs_played": true,
+    "random_blue_effective_win_rate_at_least_0_900": true,
+    "random_effective_win_rate_at_least_0_950": true,
+    "random_games_played": true,
+    "random_illegal_actions_zero": true,
+    "random_model_failures_zero": true,
+    "random_no_worker_imported_torch": true,
+    "random_no_worker_loaded_a_checkpoint": true,
+    "random_non_finite_outputs_zero": true,
+    "random_paired_bootstrap_lower_bound_above_0_900": true,
+    "random_red_effective_win_rate_at_least_0_900": true,
+    "upstream_identities_unchanged": true,
+    "vs_init_at_least_1024_games": true,
+    "vs_init_at_least_512_paired_cases": true,
+    "vs_init_effective_win_rate_at_least_0_700": true,
+    "vs_init_model_failures_zero": true,
+    "vs_init_non_finite_outputs_zero": true,
+    "vs_init_paired_bootstrap_lower_bound_above_0_550": true
+  },
+  "candidate_gates_total": 42,
+  "candidate_gates_true": 42,
+  "environment": {
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.2",
+    "source_revision": "66b733a",
+    "working_tree_state": "clean"
+  },
+  "gate": "G1",
+  "not_run": {
+    "tiers_and_stress": "no Phase 8 completion gate covers the basic/tactical/strategic/stress diagnostics and the paired contract does not name them"
+  },
+  "paired_non_inferiority": {
+    "all_non_inferior": false,
+    "bootstrap": {
+      "confidence": 0.95,
+      "head_metric_seed": 2026081307,
+      "head_metric_unit": "game (cluster)",
+      "play_metric_unit": "paired setup unit",
+      "replicates": 10000
+    },
+    "comparisons": {
+      "belief_ce_ratio": {
+        "candidate": 0.9198201894718799,
+        "confidence": 0.95,
+        "delta": -0.0006545151910546387,
+        "denominator_field": "belief_baseline_ce",
+        "lower": -0.0009292572427553824,
+        "margin_field": "belief_ce_ratio_delta_max",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "belief_ce",
+        "reference": 0.9204747046629346,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": -0.0003806041640898678
+      },
+      "belief_top1": {
+        "candidate": 0.27765172996427306,
+        "confidence": 0.95,
+        "delta": 0.0013652868554829278,
+        "denominator_field": "belief_pieces",
+        "lower": 0.0007574900011681999,
+        "margin_field": "belief_top1_delta_min",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "belief_top1",
+        "reference": 0.27628644310879014,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": 0.001969052887961155
+      },
+      "policy_ce_ratio": {
+        "candidate": 0.41306023215782195,
+        "confidence": 0.95,
+        "delta": -0.002599429851195878,
+        "denominator_field": "policy_weighted_baseline_ce",
+        "lower": -0.004371196182261556,
+        "margin_field": "policy_ce_ratio_delta_max",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "policy_weighted_ce",
+        "reference": 0.4156596620090178,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": -0.0007895678540072426
+      },
+      "policy_top1": {
+        "candidate": 0.5203248747373526,
+        "confidence": 0.95,
+        "delta": 0.00577824470664301,
+        "denominator_field": "policy_weight_sum",
+        "lower": 0.0026556726922360285,
+        "margin_field": "policy_top1_delta_min",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "policy_weighted_top1",
+        "reference": 0.5145466300307096,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": 0.008934049881144084
+      },
+      "value_brier": {
+        "candidate": 0.3086447066066019,
+        "confidence": 0.95,
+        "delta": 0.0017958885469097075,
+        "denominator_field": "value_examples",
+        "lower": -0.0007911907432812493,
+        "margin_field": "value_brier_delta_max",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "value_brier",
+        "reference": 0.3068488180596922,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": 0.004363065846027538
+      },
+      "value_ce_ratio": {
+        "candidate": 0.4770729085375997,
+        "confidence": 0.95,
+        "delta": 0.0033400180623803233,
+        "denominator_field": "value_baseline_ce",
+        "lower": -0.0011180595440775571,
+        "margin_field": "value_ce_ratio_delta_max",
+        "method": "paired_game_cluster_ratio_bootstrap",
+        "numerator_field": "value_ce",
+        "reference": 0.4737328904752194,
+        "replicates": 10000,
+        "resampling_unit": "game",
+        "sample_size": 4000,
+        "seed": 2026081307,
+        "upper": 0.007927698150889029
+      },
+      "vs_init_ewr": {
+        "candidate": 0.9130859375,
+        "confidence": 0.95,
+        "delta": -0.00390625,
+        "lower": -0.0205078125,
+        "margin_field": "vs_init_ewr_delta_min",
+        "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs phase6_c1_untrained_init_greedy@0.2.0+float32",
+        "method": "paired_unit_difference_bootstrap",
+        "reference": 0.9169921875,
+        "replicates": 10000,
+        "resampling_unit": "paired_unit",
+        "sample_size": 512,
+        "seed": 1912853890671540910,
+        "seed_rule": "matchup_seed(DEFAULT_BOOTSTRAP_SEED, matchup), the accepted play-metric seed",
+        "upper": 0.01220703125
+      },
+      "vs_random_ewr": {
+        "candidate": 0.95654296875,
+        "confidence": 0.95,
+        "delta": -0.000244140625,
+        "lower": -0.011962890625,
+        "margin_field": "vs_random_ewr_delta_min",
+        "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs random_legal@1.0.0",
+        "method": "paired_unit_difference_bootstrap",
+        "reference": 0.956787109375,
+        "replicates": 10000,
+        "resampling_unit": "paired_unit",
+        "sample_size": 1024,
+        "seed": 5866836619823415452,
+        "seed_rule": "matchup_seed(DEFAULT_BOOTSTRAP_SEED, matchup), the accepted play-metric seed",
+        "upper": 0.01123046875
+      }
+    },
+    "decision_rule": "non-inferiority holds when the 95% bootstrap bound on the paired delta lies on the non-inferior side of the margin; a point estimate alone never decides",
+    "design": "paired non-inferiority of the NEW control against the ACCEPTED checkpoint, predeclared before the new control result is opened",
+    "margins_source": "reports/phase18/phase18_phase8_reproduction_contract_v1.json",
+    "verdicts": {
+      "belief_ce_ratio": {
+        "deciding_bound": -0.0003806041640898678,
+        "deciding_bound_name": "upper",
+        "delta": -0.0006545151910546387,
+        "direction": "delta_max",
+        "margin": 0.01,
+        "metric": "belief_ce_ratio",
+        "non_inferior": true
+      },
+      "belief_top1": {
+        "deciding_bound": 0.0007574900011681999,
+        "deciding_bound_name": "lower",
+        "delta": 0.0013652868554829278,
+        "direction": "delta_min",
+        "margin": -0.01,
+        "metric": "belief_top1",
+        "non_inferior": true
+      },
+      "policy_ce_ratio": {
+        "deciding_bound": -0.0007895678540072426,
+        "deciding_bound_name": "upper",
+        "delta": -0.002599429851195878,
+        "direction": "delta_max",
+        "margin": 0.02,
+        "metric": "policy_ce_ratio",
+        "non_inferior": true
+      },
+      "policy_top1": {
+        "deciding_bound": 0.0026556726922360285,
+        "deciding_bound_name": "lower",
+        "delta": 0.00577824470664301,
+        "direction": "delta_min",
+        "margin": -0.02,
+        "metric": "policy_top1",
+        "non_inferior": true
+      },
+      "value_brier": {
+        "deciding_bound": 0.004363065846027538,
+        "deciding_bound_name": "upper",
+        "delta": 0.0017958885469097075,
+        "direction": "delta_max",
+        "margin": 0.02,
+        "metric": "value_brier",
+        "non_inferior": true
+      },
+      "value_ce_ratio": {
+        "deciding_bound": 0.007927698150889029,
+        "deciding_bound_name": "upper",
+        "delta": 0.0033400180623803233,
+        "direction": "delta_max",
+        "margin": 0.02,
+        "metric": "value_ce_ratio",
+        "non_inferior": true
+      },
+      "vs_init_ewr": {
+        "deciding_bound": -0.0205078125,
+        "deciding_bound_name": "lower",
+        "delta": -0.00390625,
+        "direction": "delta_min",
+        "margin": -0.03,
+        "metric": "vs_init_ewr",
+        "non_inferior": true
+      },
+      "vs_random_ewr": {
+        "deciding_bound": -0.011962890625,
+        "deciding_bound_name": "lower",
+        "delta": -0.000244140625,
+        "direction": "delta_min",
+        "margin": -0.01,
+        "metric": "vs_random_ewr",
+        "non_inferior": false
+      }
+    }
+  },
+  "pairing_proof": {
+    "identical_game_sets": true,
+    "model_independent_fields_checked": [
+      "policy_weighted_baseline_ce",
+      "policy_weight_sum",
+      "policy_weighted_expected_top1",
+      "policy_examples",
+      "value_baseline_ce",
+      "value_baseline_brier",
+      "value_examples",
+      "belief_baseline_ce",
+      "belief_baseline_top1",
+      "belief_pieces"
+    ],
+    "model_independent_mismatches": {},
+    "paired_units": {
+      "random_units": {
+        "candidate_units": 1024,
+        "identical_pair_ids": true,
+        "reference_units": 1024
+      },
+      "vs_init_units": {
+        "candidate_units": 512,
+        "identical_pair_ids": true,
+        "reference_units": 512
+      }
+    },
+    "problems": [],
+    "schedule_digests": {
+      "random_gate": {
+        "candidate": "798cdc3cf39626dede46d4cbbd4822991909f5f9902b22bab9a7c279250a3e78",
+        "identical": true,
+        "reference": "798cdc3cf39626dede46d4cbbd4822991909f5f9902b22bab9a7c279250a3e78"
+      },
+      "vs_init": {
+        "candidate": "de99dc3fbb0349b2507e05b70eff0f702d105e4d1d1c1e45d81c7acd73351951",
+        "identical": true,
+        "reference": "de99dc3fbb0349b2507e05b70eff0f702d105e4d1d1c1e45d81c7acd73351951"
+      }
+    },
+    "sealed_test_games": 4000
+  },
+  "phase18_evaluation_version": "phase18_evaluation_v1",
+  "reference_completion_gates": {
+    "checkpoint_identity_verified": true,
+    "corpus_digests_match_accepted": true,
+    "corpus_resolved_through_resolver": true,
+    "discipline_agent_6_used_train_validation_only": true,
+    "discipline_candidate_count_at_most_6": true,
+    "discipline_final_checkpoint_selected_by_validation_only": true,
+    "discipline_final_run_from_canonical_fresh_initialization": true,
+    "discipline_frozen_sealing_gates_still_refuse_pre_agent_7_access": true,
+    "discipline_phase4_neural_games_before_agent_7_zero": true,
+    "discipline_pilot_used_train_validation_only": true,
+    "discipline_test_model_inference_before_agent_7_zero": true,
+    "evaluation_export_bitwise_faithful": true,
+    "heldout_belief_ce_ratio_at_most_0_98": true,
+    "heldout_belief_top1_beats_remaining_count_prior": true,
+    "heldout_collapse_fraction_below_0_95": true,
+    "heldout_non_finite_logits_zero": true,
+    "heldout_policy_ce_ratio_at_most_0_90": true,
+    "heldout_policy_top1_beats_uniform_expected": true,
+    "heldout_value_brier_beats_train_prior": true,
+    "heldout_value_ce_ratio_at_most_0_98": true,
+    "no_decision_time_search": true,
+    "no_learned_setup_selection": true,
+    "no_phase9_selfplay_or_rl": true,
+    "prerequisites_agents_1_to_6_pass": true,
+    "random_all_setup_pairs_played": true,
+    "random_blue_effective_win_rate_at_least_0_900": true,
+    "random_effective_win_rate_at_least_0_950": true,
+    "random_games_played": true,
+    "random_illegal_actions_zero": true,
+    "random_model_failures_zero": true,
+    "random_no_worker_imported_torch": true,
+    "random_no_worker_loaded_a_checkpoint": true,
+    "random_non_finite_outputs_zero": true,
+    "random_paired_bootstrap_lower_bound_above_0_900": true,
+    "random_red_effective_win_rate_at_least_0_900": true,
+    "upstream_identities_unchanged": true,
+    "vs_init_at_least_1024_games": true,
+    "vs_init_at_least_512_paired_cases": true,
+    "vs_init_effective_win_rate_at_least_0_700": true,
+    "vs_init_model_failures_zero": true,
+    "vs_init_non_finite_outputs_zero": true,
+    "vs_init_paired_bootstrap_lower_bound_above_0_550": true
+  },
+  "reference_gates_true": 42,
+  "reference_reproduction_of_accepted_metrics": {
+    "gate": false,
+    "largest_absolute_delta": 0.0,
+    "metrics": {
+      "random_ci_lower": {
+        "accepted": 0.948486328125,
+        "delta": 0.0,
+        "observed": 0.948486328125
+      },
+      "random_effective_win_rate": {
+        "accepted": 0.956787109375,
+        "delta": 0.0,
+        "observed": 0.956787109375
+      },
+      "test_belief_ce_ratio": {
+        "accepted": 0.9204747046629422,
+        "delta": 0.0,
+        "observed": 0.9204747046629422
+      },
+      "test_belief_top1": {
+        "accepted": 0.27628644310879014,
+        "delta": 0.0,
+        "observed": 0.27628644310879014
+      },
+      "test_policy_ce_ratio": {
+        "accepted": 0.4156596620090182,
+        "delta": 0.0,
+        "observed": 0.4156596620090182
+      },
+      "test_policy_top1": {
+        "accepted": 0.5145466300307096,
+        "delta": 0.0,
+        "observed": 0.5145466300307096
+      },
+      "test_value_brier": {
+        "accepted": 0.3068488180596921,
+        "delta": 0.0,
+        "observed": 0.3068488180596921
+      },
+      "test_value_ce_ratio": {
+        "accepted": 0.47373289047520506,
+        "delta": 0.0,
+        "observed": 0.47373289047520506
+      },
+      "vs_init_ci_lower": {
+        "accepted": 0.904296875,
+        "delta": 0.0,
+        "observed": 0.904296875
+      },
+      "vs_init_effective_win_rate": {
+        "accepted": 0.9169921875,
+        "delta": 0.0,
+        "observed": 0.9169921875
+      }
+    },
+    "note": "reported, not gated: MPS is not bitwise reproducible run to run, which is why the control's comparison is paired",
+    "source": "reports/phase_8_data/agent_07_final_acceptance.json headline_results"
+  },
+  "run_id": "G1-CONTROL-2026-A",
+  "sealing": {
+    "consumers": [
+      "accepted checkpoint (re-measured)",
+      "phase18 G1 candidate"
+    ],
+    "control_phase4_neural_evaluation_games": 0,
+    "control_test_examples_evaluated_by_model": 0,
+    "note": "the Phase 8 sealed test split was already spent once by Phase 8 Agent 7; these two accesses are additional multiplicity and are counted here",
+    "selected_global_step": 25000,
+    "selection_finalized": true,
+    "selection_protocol": {
+      "batch_size": 256,
+      "phase4_strength_used": false,
+      "rule": "strictly lowest validation selection_score wins",
+      "split": "validation",
+      "test_split_used": false,
+      "validation_batches": 64,
+      "validation_selection": "evenly_spread_v1"
+    },
+    "test_split_consumers_this_run": 2
+  },
+  "seconds": 6182.327,
+  "staged_checkpoints": {
+    "accepted": {
+      "mode": "0444",
+      "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+      "source": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1.pt",
+      "staged": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec/checkpoints/phase8/warmstart_c1_v1.pt"
+    },
+    "candidate": {
+      "mode": "0444",
+      "sha256": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+      "source": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+      "staged": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec/checkpoints/phase8/phase18_g1_candidate_v1.pt"
+    },
+    "canonical_initialisation": {
+      "mode": "0444",
+      "sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+      "source": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+      "staged": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec/checkpoints/phase8/warmstart_c1_v1_initialisation.pt"
+    }
+  },
+  "timestamp_utc": "2026-09-01T19:10:37Z",
+  "work_package": "phase18_setup_integrated_warmstart"
+}

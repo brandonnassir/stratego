@@ -1,0 +1,423 @@
+{
+ "accepted_phase8_artifacts_before_launch": {
+  "digests": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "match_agent_1_record": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": true,
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": true,
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": true
+  },
+  "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent"
+ },
+ "active_process_and_compute_lock_audit": {
+  "compute_lock_files": [],
+  "method": "ps -eo pid,ppid,etime,pcpu,command filtered for project runners; lsof -nP -iTCP -sTCP:LISTEN",
+  "open_training_run": null,
+  "phase14_dashboard_port_8714_listening": false,
+  "processes_stopped_by_this_agent": 0,
+  "project_processes": [],
+  "python_tcp_listeners": []
+ },
+ "agent": "phase_18_agent_2",
+ "artifact": "phase18_process_boundary_v2",
+ "authorization": {
+  "accepted_decision": "P18-D001",
+  "decision_json_sha256": "499b7d9acc7eeafee3aae0f0e150c0128a7b92a81e7f0846e4fd8162496e8cad",
+  "decision_markdown_sha256": "bf4b13b8e96e0a00fb04b0f8b6c458ba9da412642a945fb2cd01d58410502a7f",
+  "instruction_path": "instructions/phase_18_setup_integrated_warmstart/04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md",
+  "instruction_sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925",
+  "operator_acceptance": "2026-09-01 request for the next-agent instruction"
+ },
+ "canonical_c1_initialisation_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+ "commits_created_by_this_agent": [
+  {
+   "commit": "121c7990316209b8910cef6cc9f8d1fc7fae0fd0",
+   "paths": 125,
+   "subject": "Phase 17 evidence closure and closeout documentation"
+  },
+  {
+   "commit": "1f1a5a90125a02f9a3af30034fc8b145c324fa93",
+   "paths": 17,
+   "subject": "Phase 18 G0 research boundary and decision trail"
+  },
+  {
+   "commit": "1bd674ff8206054da28ba6cf7063e93fc622e03d",
+   "paths": 3,
+   "subject": "Correct the four tracking statements the Phase 17 commit falsified"
+  },
+  {
+   "commit": "a7c389e3054a5db234d187f9b8a3089a4df4f11d",
+   "paths": 7,
+   "subject": "Gate G1 harness (SUPERSEDED before anything bound it)"
+  },
+  {
+   "commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+   "paths": 3,
+   "subject": "Hash the accepted Phase 8 artifacts where they actually live -- G1_SOURCE_COMMIT"
+  }
+ ],
+ "corpus": {
+  "accepted_digests": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "digests_match": true,
+  "games": 28000,
+  "observed_digests": {
+   "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+   "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+   "corpus_version": "synthetic_warmstart_corpus_v1",
+   "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+  },
+  "payload_bytes_checked": true,
+  "pointer_matches_required": true,
+  "resolver_matches_required": true,
+  "root_resolution": {
+   "environment_value": "",
+   "environment_variable": "STRATEGO_WARMSTART_CORPUS_ROOT",
+   "pointer_file": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec/data/warmstart_corpus_root.txt",
+   "pointer_value": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "repository_default": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec/data/warmstart/synthetic_warmstart_corpus_v1",
+   "root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+   "source": "pointer_file"
+  },
+  "verification_seconds": 76.90930754202418,
+  "version": "synthetic_warmstart_corpus_v1"
+ },
+ "declared_deviation": {
+  "after": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "assertions_left_untouched": [
+   "str(default_corpus_root()) == REQUIRED_CORPUS_ROOT",
+   "describe_corpus_root()['pointer_value'] == REQUIRED_CORPUS_ROOT",
+   "run_segment's own REQUIRED_CORPUS_ROOT check",
+   "verify_corpus_identity over all 28,000 payloads"
+  ],
+  "before": "data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "constant": "run_phase8_agent06.REQUIRED_CORPUS_ROOT_RELATIVE",
+  "declared_deviation": "run_phase8_agent06.verify_prerequisites asserts the resolved corpus root equals REPOSITORY_ROOT / REQUIRED_CORPUS_ROOT_RELATIVE, which no execution worktree can satisfy; REQUIRED_CORPUS_ROOT_RELATIVE is rebound to the accepted absolute REQUIRED_CORPUS_ROOT so the assertion collapses onto the resolver check that is the actual Phase 8 gate",
+  "phase8_semantics_changed": "none"
+ },
+ "dedicated_branch": "phase18/setup-integrated-warmstart-g1",
+ "environment": {
+  "cpu_count": 14,
+  "mps_available": true,
+  "mps_built": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "python_executable": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python",
+  "torch": "2.13.0"
+ },
+ "excluded_path_inventory": {
+  "excluded_by_gitignore_and_therefore_absent_from_the_worktree": [
+   "checkpoints/phase8/ (the accepted checkpoints; read from the original checkout)",
+   "data/stratego_phase8/ (the accepted corpus; resolved absolutely through the tracked pointer)",
+   "checkpoints/phase17/ (33.5 GB of RUN-2026-B checkpoints)",
+   "checkpoints/phase15/, checkpoints/phase16/arms/, data/phase15/ and the other phase caches",
+   ".venv/, __pycache__/"
+  ],
+  "phase_15_16_still_untracked": "unchanged by this agent and still the largest repository-health risk; see EVIDENCE_INDEX section 6.1",
+  "protected_historical": [
+   "reports/phase13/phase14_launch_manifest_v1.json"
+  ]
+ },
+ "execution_worktree": {
+  "detached": true,
+  "head": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+  "interpreter": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python",
+  "note": "the worktree carries no .venv; the original checkout's interpreter is used and `stratego` still resolves inside the worktree because the package is not installed into site-packages",
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+  "porcelain_is_empty": true,
+  "porcelain_output": "",
+  "tree": "2d1dcda2a05edf1121875709d4728a9b14ecc7a8"
+ },
+ "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+ "g1_source_commit_superseded": {
+  "bound_by_anything": false,
+  "commit": "a7c389e3054a5db234d187f9b8a3089a4df4f11d",
+  "history_rewritten": false,
+  "why": "its accepted-artifact protection looked for the Phase 8 checkpoints under the repository root, where .gitignore guarantees an execution worktree cannot have them"
+ },
+ "g1_source_tree": "2d1dcda2a05edf1121875709d4728a9b14ecc7a8",
+ "gate": "G1",
+ "included_path_inventory": {
+  "by_commit": {
+   "121c7990316209b8910cef6cc9f8d1fc7fae0fd0": {
+    "paths": 125,
+    "subject": "Phase 17 evidence closure and closeout documentation"
+   },
+   "1bd674ff8206054da28ba6cf7063e93fc622e03d": {
+    "paths": 3,
+    "subject": "Correct the four tracking statements the Phase 17 commit falsified"
+   },
+   "1f1a5a90125a02f9a3af30034fc8b145c324fa93": {
+    "paths": 17,
+    "subject": "Phase 18 G0 research boundary and decision trail"
+   },
+   "66b733ad92324751e30bd7e2a5e373129cbe87c3": {
+    "paths": 3,
+    "subject": "Hash the accepted Phase 8 artifacts where they actually live -- G1_SOURCE_COMMIT"
+   },
+   "a7c389e3054a5db234d187f9b8a3089a4df4f11d": {
+    "paths": 7,
+    "subject": "Gate G1 harness (SUPERSEDED before anything bound it)"
+   }
+  },
+  "commit_scope": "every path in the four substantive commits",
+  "paths_added_by_the_g1_source_commit": [
+   "scripts/phase18_g1_control.py",
+   "scripts/phase18_g1_evaluate.py",
+   "tests/evaluation/phase18/test_g1_harness.py"
+  ],
+  "tracked_files_at_g1_source_commit": 1364
+ },
+ "location_assertion_proof_from_the_execution_worktree": {
+  "pointer_assertion_holds": true,
+  "repository_relative_assertion_holds": true,
+  "repository_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_exec",
+  "required_corpus_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "required_via_repository": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "resolved": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/data/stratego_phase8/warmstart/synthetic_warmstart_corpus_v1",
+  "resolver_assertion_holds": true
+ },
+ "original_checkout": {
+  "branch_at_start": "main",
+  "branch_now": "phase18/setup-integrated-warmstart-g1",
+  "head_at_start": "90278aa4fe94b2b9a661fa3d27229e4d3c8393bc",
+  "head_now": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+  "remaining_dirty_paths": [
+   "reports/phase13/phase14_launch_manifest_v1.json",
+   "reports/phase18/phase18_process_boundary_v2.json"
+  ],
+  "status_digest_at_start": "be671837670deb43a605cd6e06deed3bfb91b44de80a3e5f46a0a416e4e6ac7f",
+  "status_digest_now": "40af6f12620b6c54aee27c7e97cedb5083691c133195b98654bbfe7b8ab93c6a",
+  "status_entries_at_start": 41,
+  "status_now": " M reports/phase13/phase14_launch_manifest_v1.json\n?? reports/phase18/phase18_process_boundary_v2.json\n"
+ },
+ "problems": [],
+ "protected_phase14_manifest": {
+  "appears_in_any_agent_2_commit": false,
+  "blob_at_original_head_90278aa": "dd22a07ce425e5f023a752d5a25ccac06aa9ab24",
+  "committed_blob_at_head": "dd22a07ce425e5f023a752d5a25ccac06aa9ab24",
+  "path": "reports/phase13/phase14_launch_manifest_v1.json",
+  "present_in_execution_worktree_as_committed_bytes_only": true,
+  "recorded_before_any_git_action": {
+   "file_sha256": "f300873ee189499c7f2d1a1f07407a1b93ab2e50f72a979839dcabcf583b1624",
+   "git_blob": "805f403a6b8607fad16fd6a9bc945b7de71af4ea",
+   "head_blob": "dd22a07ce425e5f023a752d5a25ccac06aa9ab24"
+  },
+  "state": "modified in the original checkout, never staged, never committed",
+  "unchanged": true,
+  "worktree_file_sha256": "f300873ee189499c7f2d1a1f07407a1b93ab2e50f72a979839dcabcf583b1624",
+  "worktree_git_blob": "805f403a6b8607fad16fd6a9bc945b7de71af4ea"
+ },
+ "purpose": "Evidence about G1_SOURCE_COMMIT. Source fields are measured from the clean detached execution worktree. This artifact is written after the commit it describes and is deliberately not part of it, so it cannot create a circular source identity.",
+ "readiness": {
+  "accepted_artifact_digests_match": true,
+  "canonical_fresh_init_checksum_matches": true,
+  "corpus_payloads_verify": true,
+  "execution_worktree_clean": true,
+  "g1_source_commit_resolves": true,
+  "no_process_or_lock_conflicts": true,
+  "phase8_identities_recompute": true,
+  "protected_phase14_manifest_intact": true,
+  "staged_data_artifacts_identical": true,
+  "suite_green": true
+ },
+ "ready_for_g1_launch": true,
+ "run_id": "G1-CONTROL-2026-A",
+ "run_output_root": {
+  "created_by": "phase_18_agent_2",
+  "path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1",
+  "pre_existing": false
+ },
+ "staged_data_artifacts": {
+  "all_identical_to_the_original": true,
+  "artifacts": {
+   "checkpoints/phase10/setup_utility_v1.json": {
+    "bytes": 18765,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d",
+    "staged_sha256": "50cb947dae633417858dc3352ee1e68e41c1c54845c5d3a261f735571983c25d"
+   },
+   "checkpoints/phase11b/agent01_1c_final_block_plus_mlp.pt": {
+    "bytes": 2142615,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad",
+    "staged_sha256": "a125208605f5e68c897214016e1803718439755e6286e5a185447636ffcd9fad"
+   },
+   "checkpoints/phase12/phase9_c1_readonly_copy.pt": {
+    "bytes": 3479157,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "81906f71b99dbcedffc23ff5c5a3af90a24d221a0ec3f9881dc4087dc274a880",
+    "staged_sha256": "81906f71b99dbcedffc23ff5c5a3af90a24d221a0ec3f9881dc4087dc274a880"
+   },
+   "checkpoints/phase15/b18_belief_v1.pt": {
+    "bytes": 2143878,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "2030be200426c931268d067ae8d4054fd967029f80c1cdcc3e5434e425d7f75d",
+    "staged_sha256": "2030be200426c931268d067ae8d4054fd967029f80c1cdcc3e5434e425d7f75d"
+   },
+   "checkpoints/phase15/b24_belief_v1.pt": {
+    "bytes": 2143878,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "b030b7184c3ce7265fb51eaef2a5add4f4eab05b355b8af60e2dc083770d2b14",
+    "staged_sha256": "b030b7184c3ce7265fb51eaef2a5add4f4eab05b355b8af60e2dc083770d2b14"
+   },
+   "checkpoints/phase15/p18_source_identity.json": {
+    "bytes": 1880,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "5370d66b6a9a5558c95adc46a11529044ebb1ae038846f853669752f4db2305d",
+    "staged_sha256": "5370d66b6a9a5558c95adc46a11529044ebb1ae038846f853669752f4db2305d"
+   },
+   "checkpoints/phase15/p18_source_readonly.pt": {
+    "bytes": 3477949,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412",
+    "staged_sha256": "aa2cc39b3867264e939c5361b32f5d10b8a3e5e268e2d99635f8d9bc00ec2412"
+   },
+   "checkpoints/phase15/p24_source_identity.json": {
+    "bytes": 1883,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "6572f425b9e82e63ec59c9fbcc2414695c27317fa8ff21496697e200b2d9a47b",
+    "staged_sha256": "6572f425b9e82e63ec59c9fbcc2414695c27317fa8ff21496697e200b2d9a47b"
+   },
+   "checkpoints/phase15/p24_source_readonly.pt": {
+    "bytes": 3477949,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1",
+    "staged_sha256": "9bf256a9b085176bf48c1eca424fa10cef109f09c90999b23be62e685e917fb1"
+   },
+   "checkpoints/phase15/phase15_search_candidate_v1.json": {
+    "bytes": 28858,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "f76e1f115166226b0994f92585eab4ba3e3f64254347d100586cd53b2b243a64",
+    "staged_sha256": "f76e1f115166226b0994f92585eab4ba3e3f64254347d100586cd53b2b243a64"
+   },
+   "checkpoints/phase15/phase9_anchor_readonly.pt": {
+    "bytes": 3479085,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "ed0f5198b19f29331cd21fd2e422bd7d910b945a56b99678439e092f02950407",
+    "staged_sha256": "ed0f5198b19f29331cd21fd2e422bd7d910b945a56b99678439e092f02950407"
+   },
+   "checkpoints/phase17/RUN-2026-B/telemetry.jsonl": {
+    "bytes": 29971749,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "0061e75ccff1460101dba9cf3e35de04c5b5b4d13ed04af98e044fd2f9c5f5fc",
+    "staged_sha256": "0061e75ccff1460101dba9cf3e35de04c5b5b4d13ed04af98e044fd2f9c5f5fc"
+   },
+   "checkpoints/phase8/warmstart_c1_v1.pt": {
+    "bytes": 10459563,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+    "staged_sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+   },
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": {
+    "bytes": 3486807,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+    "staged_sha256": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c"
+   },
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": {
+    "bytes": 20297,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+    "staged_sha256": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10"
+   },
+   "checkpoints/phase9/agent01/anchor_eval.pt": {
+    "bytes": 3478165,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda",
+    "staged_sha256": "cd0b22d24d36dbe01f88897c3e2bde325b7e141d07d092edc74918e6b0cd6dda"
+   },
+   "checkpoints/phase9/selfplay_c1_v1.pt": {
+    "bytes": 10464043,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea",
+    "staged_sha256": "dfd698e5b6cf536a523bdd35dd3a32a513c2d83fb7c3936524d59786179b10ea"
+   },
+   "data/phase15/phase15_belief_corpus_v1_manifest.json": {
+    "bytes": 16059,
+    "identical": true,
+    "mode": "0o444",
+    "original_sha256": "1476dea126eb31a42646063c1b643d4c8596f6fe7a7bd299ada205ad8e48e357",
+    "staged_sha256": "1476dea126eb31a42646063c1b643d4c8596f6fe7a7bd299ada205ad8e48e357"
+   }
+  },
+  "bytes": 78292580,
+  "count": 18,
+  "enumeration": "explicit list, each re-hashed against the original; git ls-files --others --ignored --exclude-standard is used separately to prove nothing else was copied in",
+  "leaves_worktree_porcelain_empty": true,
+  "mode": "0444 copies; every digest re-verified against the original",
+  "produced_by_running_the_suite_not_staged": {
+   "note": "git also ignores these, but they were written by the suite run inside the worktree rather than copied in; listed so build output is never mistaken for staged evidence",
+   "other": [
+    "checkpoints/phase11b/phase9_c1_readonly_copy.pt"
+   ],
+   "python_and_pytest_caches": 558
+  },
+  "why": "a git worktree is a source closure, not a data closure: .gitignore excludes these four artifacts, and without them 54 artifact-gated tests fail and 378 error out for missing files rather than for any defect. They are staged read-only from the original checkout so the suite measures the source at G1_SOURCE_COMMIT rather than the worktree's emptiness."
+ },
+ "test_suite_at_g1_source_commit": {
+  "command": ".venv/bin/python -m pytest tests -q (cwd = execution worktree)",
+  "log": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/suite_before.log",
+  "summary": "7477 passed, 46 skipped in 645.67s (0:10:45)"
+ },
+ "timestamp_utc": "2026-09-01T16:05:51Z",
+ "train_config_digests": {
+  "canonical_seeds": {
+   "canonical_c1_init_seed": 2026081302,
+   "corpus_master_seed": 2026081301,
+   "final_run_namespace_seed": 2026081305,
+   "pilot_namespace_seed": 2026081304,
+   "test_bootstrap_seed": 2026081307,
+   "train_order_seed": 2026081303,
+   "validation_bootstrap_seed": 2026081306
+  },
+  "max_final_updates": 25000,
+  "train_config_document": {
+   "label": "agent_05_frozen_train_config.config document",
+   "value": "3cab772bd8f74677efcdc1f90ec6f383490313f7652d82bd7fedf86153919ae7"
+  },
+  "trainer_runtime_identity": {
+   "label": "WarmstartTrainConfig.identity() runtime object",
+   "live": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879",
+   "match": true,
+   "recorded": "64db92539a7d6c06ac4d01e4e904857da5b95c3d86d1287e108ede19e4f03879"
+  },
+  "versions": {
+   "checkpoint_version": "warmstart_checkpoint_v1",
+   "loss_version": "warmstart_loss_v1",
+   "metrics_version": "warmstart_metrics_v1",
+   "train_config_version": "warmstart_train_config_v1",
+   "train_order_version": "warmstart_train_order_v1",
+   "trainer_version": "warmstart_trainer_v1"
+  },
+  "winning_candidate_id": "ws_pilot_lr1e-3_balanced"
+ },
+ "version": 2,
+ "work_package": "phase18_setup_integrated_warmstart"
+}

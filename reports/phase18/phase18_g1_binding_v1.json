@@ -1,0 +1,126 @@
+{
+ "agent": "phase_18_agent_2",
+ "all_artifacts_bind_one_source_commit": true,
+ "artifact": "phase18_g1_binding_v1",
+ "artifacts": {
+  "agent_02_report.md": {
+   "bytes": 10258,
+   "sha256": "70609ef1583c68a90ca61e113983755d5b160e60351118a793ebb085ac9e2506",
+   "source_binding": {
+    "agrees": null,
+    "field": null,
+    "form": "not applicable (csv/markdown; bound by this ledger's digest)",
+    "value": null
+   }
+  },
+  "decisions/P18-D002.json": {
+   "bytes": 37703,
+   "sha256": "ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927",
+   "source_binding": {
+    "agrees": true,
+    "field": "identity.g1_source_commit",
+    "form": "full",
+    "value": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   }
+  },
+  "decisions/P18-D002.md": {
+   "bytes": 10249,
+   "sha256": "9300c308895d7fc2cfe0f3bd5899955b7fa36ed6266f31e8ae6db585c1d66f1d",
+   "source_binding": {
+    "agrees": null,
+    "field": null,
+    "form": "not applicable (csv/markdown; bound by this ledger's digest)",
+    "value": null
+   }
+  },
+  "phase18_g1_arm_candidate_v1.json": {
+   "bytes": 86339,
+   "sha256": "a9b72687f9c63c07f28af128d8400c0df8641f93bf794d83d1308b7c7cf2f296",
+   "source_binding": {
+    "agrees": true,
+    "field": "verify.environment.source_revision",
+    "form": "abbreviated prefix",
+    "value": "66b733a"
+   }
+  },
+  "phase18_g1_arm_reference_v1.json": {
+   "bytes": 86132,
+   "sha256": "da005057903e9060e98d39abda131e981a9eb24468e8ab1025edbcadc58a4a74",
+   "source_binding": {
+    "agrees": true,
+    "field": "verify.environment.source_revision",
+    "form": "abbreviated prefix",
+    "value": "66b733a"
+   }
+  },
+  "phase18_g1_checkpoint_manifest_v1.json": {
+   "bytes": 8300,
+   "sha256": "befdb5285bf5065cb29fa6d0f849b4f9935ea64e811667ea87fffae0951a1156",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_source_commit",
+    "form": "full",
+    "value": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   }
+  },
+  "phase18_g1_control_run_v1.json": {
+   "bytes": 35339,
+   "sha256": "52c7315c03e88a32944d57f0b4acd896a942ba5f4f1867d6117bbad203655dc4",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_source_commit",
+    "form": "full",
+    "value": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   }
+  },
+  "phase18_g1_launch_manifest_v1.json": {
+   "bytes": 5688,
+   "sha256": "e86e23133082564af7d6d81ef80176af2c42f273f13545b3d85ce3025cbed2c2",
+   "source_binding": {
+    "agrees": true,
+    "field": "source.g1_source_commit",
+    "form": "full",
+    "value": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   }
+  },
+  "phase18_g1_noninferiority_v1.json": {
+   "bytes": 18995,
+   "sha256": "75668cba8481fcf12f5d1e6aa9f5527a47d4ec258fb285f2a62a61f91d2de9ae",
+   "source_binding": {
+    "agrees": true,
+    "field": "environment.source_revision",
+    "form": "abbreviated prefix",
+    "value": "66b733a"
+   }
+  },
+  "phase18_g1_training_curve_v1.csv": {
+   "bytes": 29750,
+   "sha256": "40c3e1f175a2132b14c05edcc79bc1030c31cd9f9873f7922c5b2318b98b90d3",
+   "source_binding": {
+    "agrees": null,
+    "field": null,
+    "form": "not applicable (csv/markdown; bound by this ledger's digest)",
+    "value": null
+   }
+  },
+  "phase18_process_boundary_v2.json": {
+   "bytes": 19963,
+   "sha256": "6805254ac49755e83c5c5a2bf54251c0ab609eb6b3ceb235e7ab66f1ecd8e339",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_source_commit",
+    "form": "full",
+    "value": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   }
+  }
+ },
+ "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+ "g1_source_tree": "2d1dcda2a05edf1121875709d4728a9b14ecc7a8",
+ "gate": "G1",
+ "mismatched_artifacts": [],
+ "note": "the comparison result and the two per-arm files record the commit through the accepted Agent 7 environment field, which stores git's abbreviated hash. An abbreviated hash counts only when it is a prefix of the full commit, and that is verified here rather than assumed. The CSV and the two Markdown files carry no internal field and are bound by their digests here. This ledger is referenced by name from P18-D002 and never by digest, so nothing is circular.",
+ "rule": "the launch manifest requires every G1 artifact to repeat one source commit; any mismatch is fatal. This ledger is where that is checked in one place.",
+ "run_id": "G1-CONTROL-2026-A",
+ "timestamp_utc": "2026-09-01T19:17:53Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
