@@ -1,0 +1,485 @@
+{
+ "assay_version": "phase18_g2_synthetic_assay_v1",
+ "checkpoint": {
+  "checkpoint_version": "phase18_setup_checkpoint_v1",
+  "config_digest": "f6a92f449423b46d12637168795263ab95bd576278c771c42d21cef8c16f5f62",
+  "ema": {
+   "file": "ema.pt",
+   "sha256": "a9e2656379b41ace9ef4a9cc2ab09ead492c225a356a1cc018780bf5995c7632",
+   "state_digest": "58948083fdd2d1c578fc0b4dfb2e1b04e2019ddb3dfa9c26589913307ee5cb13"
+  },
+  "ema_updates": 64,
+  "namespace": "phase18_g2_setup_parity_v1",
+  "optimizer": {
+   "class": "AdamW",
+   "file": "optimizer.pt",
+   "sha256": "8c15d3430cad9df4c7e5b270c3918d53b692b9041943d8f1aed4d3818ca2e48f"
+  },
+  "optimizer_step_count": 320,
+  "raw": {
+   "file": "raw.pt",
+   "sha256": "a6a73ef638e841ff930e056ce5f5c1ed3a186e7b5d13da03c2e81ee588583b1f",
+   "state_digest": "88448b78f2729cb0499136254cd551d98cedff5f324c38b8120cba5e65de9f5d"
+  },
+  "recipe": "phase18_published_setup_recipe_v1",
+  "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+  "seed_index": 1,
+  "setup_equation_version": "phase18_setup_update_i_minus_10h_v1",
+  "updates": 64
+ },
+ "contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+ "curve": [
+  {
+   "ema_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+   "mean_utility": -5.508198515625,
+   "mean_z": -0.7625933127642733,
+   "raw_mean_utility": -5.508198515625,
+   "raw_mean_z": -0.7625933127642733,
+   "update": 0
+  },
+  {
+   "ema_digest": "9570b6bc83aa334bb0231effa548cabaa298faee84e144635782864f425d0de4",
+   "mean_utility": -5.483368006835937,
+   "mean_z": -0.7585598629972747,
+   "raw_mean_utility": -4.18371194946289,
+   "raw_mean_z": -0.5474446794010859,
+   "update": 8
+  },
+  {
+   "ema_digest": "e7ab4cf0de4c731a9cd718864a310d0bd69cfb66f93c208628d96c3f936b1a54",
+   "mean_utility": -5.496991730712891,
+   "mean_z": -0.760772890783534,
+   "raw_mean_utility": -2.670453767333984,
+   "raw_mean_z": -0.3016321221970538,
+   "update": 16
+  },
+  {
+   "ema_digest": "dede08728ddc245a7b1add9c39cbd91f529565affb40388a702ba80c83fad8d5",
+   "mean_utility": -5.475785061279296,
+   "mean_z": -0.7573280948426863,
+   "raw_mean_utility": 0.6412598652343753,
+   "raw_mean_z": 0.23632022880483047,
+   "update": 24
+  },
+  {
+   "ema_digest": "a6b93242fb4a2aa4372022e1bc30a103f78d595aa971297f88ffa5e8b38e4eea",
+   "mean_utility": -5.456812419433593,
+   "mean_z": -0.7542461927164757,
+   "raw_mean_utility": 3.6335210678710936,
+   "raw_mean_z": 0.7223809597025591,
+   "update": 32
+  },
+  {
+   "ema_digest": "d8f16886b5a7cbb969e4b30fba34fd8919f37f96c3fff36be80958b4fe0163cb",
+   "mean_utility": -5.428291413574218,
+   "mean_z": -0.7496132612926647,
+   "raw_mean_utility": 5.28212098852539,
+   "raw_mean_z": 0.9901783303615972,
+   "update": 40
+  },
+  {
+   "ema_digest": "833a7adffcf192e6003c4b163fc6d1e6c0ed845c514a23bc98f4f48630f8bdde",
+   "mean_utility": -5.396464113037109,
+   "mean_z": -0.7444432577689292,
+   "raw_mean_utility": 6.556383311523438,
+   "raw_mean_z": 1.1971685742367288,
+   "update": 48
+  },
+  {
+   "ema_digest": "0c566cc7418fa60cc4ac35378bc9b4fef56d0cddd4de3848189cc5a859208bc2",
+   "mean_utility": -5.381496190917969,
+   "mean_z": -0.7420118793990065,
+   "raw_mean_utility": 7.167690285888672,
+   "raw_mean_z": 1.2964688340205397,
+   "update": 56
+  },
+  {
+   "ema_digest": "58948083fdd2d1c578fc0b4dfb2e1b04e2019ddb3dfa9c26589913307ee5cb13",
+   "mean_utility": -5.3384891286621095,
+   "mean_z": -0.7350258435223835,
+   "raw_mean_utility": 7.280516468994141,
+   "raw_mean_z": 1.3147962370481632,
+   "update": 64
+  }
+ ],
+ "device": "cpu",
+ "ema_updates": 64,
+ "environment": {
+  "dirty_paths": [],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "torch": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "final": {
+  "distinct_class_fingerprints": 4096,
+  "distinct_content_fingerprints": 4096,
+  "ema_digest": "58948083fdd2d1c578fc0b4dfb2e1b04e2019ddb3dfa9c26589913307ee5cb13",
+  "ema_updates": 64,
+  "generation_telemetry": {
+   "count": 4096,
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "flag_file_histogram_network": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1014,
+    960,
+    830,
+    682,
+    610
+   ],
+   "flag_file_histogram_played": [
+    283,
+    343,
+    415,
+    499,
+    514,
+    500,
+    461,
+    415,
+    339,
+    327
+   ],
+   "flag_in_permitted_half_fraction_network": 1.0,
+   "force_handedness": true,
+   "immediately_terminal_count": 0,
+   "lane_counts": {
+    "blue": 2048,
+    "red": 2048
+   },
+   "legality_failures": 0,
+   "mean_sequence_information_nats": 62.61736297607422,
+   "orientation_failures": 0,
+   "purpose": "eval",
+   "reflected_count": 2054,
+   "reflected_fraction": 0.50146484375,
+   "reflection_probability": 0.5,
+   "snapshot_digest": "58948083fdd2d1c578fc0b4dfb2e1b04e2019ddb3dfa9c26589913307ee5cb13",
+   "snapshot_iteration": 0
+  },
+  "label": "final",
+  "mean_expected_outcome": -0.43887066451501966,
+  "mean_utility": -5.3384891286621095,
+  "mean_z": -0.7350258435223835,
+  "samples": 4096,
+  "sd_utility": 5.921083504574255
+ },
+ "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+ "gap": {
+  "closed": 0.16970938696289029,
+  "ema_retained_initial_fraction": 0.9379749638258454,
+  "exact_optimum": 55.62337599999999,
+  "fraction_closed": 0.0027761330917382677,
+  "initial_to_optimum": 61.13157451562499
+ },
+ "initial": {
+  "distinct_class_fingerprints": 4096,
+  "distinct_content_fingerprints": 4096,
+  "ema_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+  "ema_updates": 0,
+  "generation_telemetry": {
+   "count": 4096,
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "flag_file_histogram_network": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    1006,
+    947,
+    834,
+    690,
+    619
+   ],
+   "flag_file_histogram_played": [
+    289,
+    338,
+    420,
+    486,
+    521,
+    485,
+    461,
+    414,
+    352,
+    330
+   ],
+   "flag_in_permitted_half_fraction_network": 1.0,
+   "force_handedness": true,
+   "immediately_terminal_count": 0,
+   "lane_counts": {
+    "blue": 2048,
+    "red": 2048
+   },
+   "legality_failures": 0,
+   "mean_sequence_information_nats": 62.30754852294922,
+   "orientation_failures": 0,
+   "purpose": "eval",
+   "reflected_count": 2054,
+   "reflected_fraction": 0.50146484375,
+   "reflection_probability": 0.5,
+   "snapshot_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+   "snapshot_iteration": 0
+  },
+  "label": "initial",
+  "mean_expected_outcome": -0.45466241256249157,
+  "mean_utility": -5.508198515625,
+  "mean_z": -0.7625933127642733,
+  "samples": 4096,
+  "sd_utility": 5.886061846752395
+ },
+ "initial_raw_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+ "integrity": {
+  "attribution_failures": 0,
+  "checkpoint_identity_failures": 0,
+  "duplicates_collapsed": 0,
+  "immediately_terminal_setups": 1,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0
+ },
+ "landscape_sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+ "model_seed": 4119286577850662291,
+ "namespace": "phase18_g2_setup_parity_v1",
+ "optimizer_steps": 320,
+ "outcome_receipts": {
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/outcome_receipts.jsonl",
+  "sha256": "c2a35bc6defb45f552e8325a0fef490ce27ea802103a2c067c100fee3997d3ba"
+ },
+ "paired": {
+  "fraction_improved": 0.238525390625,
+  "mean_difference": 0.16970938696289065,
+  "samples": 4096,
+  "sd_difference": 3.0031870723413494
+ },
+ "period_outcome_digests": [
+  "ba1a211b9f59332e17434c5546aa8e60b376d0803792a0970ebed1a8e32d10aa",
+  "33973fc25100464d4e79fcf86b7f6e21953e04ed2293acb6bc164d91bf8e47e8",
+  "7088a4b34b7629c62fcafce2b979f0f2f3f21ee008fbbc686889c5ad36717a96",
+  "049d517f3cecd475d895bb749dd2cb57684a58822cc2ee1ff7c898ae66fe5ab7",
+  "73bf33eb41d3b2d3ed2fbdca59dad461dd4a2f5569ea8e5bec9a6130bbd0f5dc",
+  "0dbc8b8e3fc1945abcb886b9686a728d6064d2d34f148c53f6e87f8e4d665710",
+  "99949b152ebadcade6dfb60e47872f8b48e4a3b9ef799382fb0421efe74a4daa",
+  "c8a9878ec6cab0b660a786d3c67d7b614707685d32a06ee031c3afd16d2d37da",
+  "b6cb4d782685390631497db7e06ba92db60076500bb96afc97e46c2f16bb0c71",
+  "3249062e2135e52295ab7b521f40bf0a94fdcaa18d88ceb40e6e88a5b36d88f7",
+  "8b7c46047bb5d0400bde7d4b8de5b2134351bd4db3e735c384d6cdaf842a545e",
+  "e19e2e583325384c73140224ca968dcca028b5773f13e1c90fb3de50d8c95498",
+  "dd451c3a7584c68de0ae5175cdb1e830afde53675bb2956e1bd41ac5b953f086",
+  "b017f612c98ad544ea9dce60c3591384f08db16e3d3fe2d9b01b7a9c826c4006",
+  "cfc105743bc13b8454855b8ab255f218fa4b53112b6fc567e0fb4f70649c1a34",
+  "82688f019b056cdaa7b4a01c8ed28f579a8d452684a96f107a8915c2e040e8dd",
+  "19df936fb41e2c3f8bfff6aed1302da4380067b968ee46bfbb953b76358ff42d",
+  "da451dde0e8d974dbcc64c945d41ed42f005b5149398b2e00856001ad4868781",
+  "444dd0fea8219622c092a491dd3e2f14681134442f742cc5cfb407f76df0c1b5",
+  "593abbaa6806d8bcbcf61838d7fbfbd7c4a1e28757ebab462744b9d59c89cc60",
+  "f4252b1e34699c247d28928921786602f217134ae1c3877926913446fa43436e",
+  "18cdd4b4972968c33ec93fb937c552c838879d9e88f86b555847bf9f095fced5",
+  "e129855f64364e5760918081a8de02c4ff8cb8bdac12e86bfcc9ea9bed44fd97",
+  "40899c04ecb6b6c32b672ce0408bc8bd1159c360588470fd6a6575e947e70f8e",
+  "8f2f143ee66284aca7086c775e6b6a413a5940d5a677e016174a030c313e55ed",
+  "2233d93a73a1d16e37ad48f32c07297b3ca22a5b00c7a7eeb4331c60f27f15e4",
+  "74b0846cbf90f456aee7534cce9393c7c467f4ce98d375ac95fcf436eb81ffa1",
+  "799b375dc21c6ce50e1951ba3ed1480b6a2ea93a5ce61a421326d458c1dbd921",
+  "5e0ca4aeb707155f7ef0abfb5f536c1e27406153e307ca888e9b17570d41713c",
+  "35032f768177b5ff9e463f3e97c426e20b26e0142cce79b895e777c976c09a67",
+  "472ed4d39dcf9b2ffa5d91d19bf25c0047b59e665d588d2ff13382b4bf4509c3",
+  "5c679368eda0e15c078258010b8aaebea4cb49717469c14266b2ca5bdada6eaa",
+  "032b48c0bfcedfb0876159e209547b5da461cb45c888a8d557640b305ed27672",
+  "c1be206b1b9585277ac2cc50de59f8bd88c20bc7096f15e7a9efbd7f9bce5d77",
+  "5f87d0754f9cba52fc456aad0f7e301eb7935e4c3939c78689a964fbe41dd050",
+  "49b3eab0be8468d9a725404433678cf94297b7fe828804fb9d85f26f2cef2cbb",
+  "fba2e1efdbdaafacf9bd7bb056c1846ba3a3e6bcad24296e43c15cfea7c64807",
+  "f4c1b616b1d8e79e662abb419fbfc6df6ca330002842dc313117f9ef04910dab",
+  "b3a1124bb5fa72a9ff1daf5488c479cda8b2120c6ff6e573c686d5dca8423bb5",
+  "9957a352f60efd4a7690567842046cc0b290fe4ae24d41d43ec9bc8e6274c9ec",
+  "7bc35b199b3075ce8e0701033c578269fe5d614c74f3054d134ffd705a442110",
+  "b030288f303cad831a57c8c097c337faee1a36e884ed0b78b2cc65169f112382",
+  "5a44f5dd83e0612fa5b6001db5c951957c33b1d40daf7acf66dadce6ed31efe9",
+  "174809587bd90f73b6d914383c1e13b64071b4a916beb5a4b4038de672d730a5",
+  "963ad91d08091c9aba3bcf27c7eba8c26e13c3ebad478fe62d2d55df4ed293af",
+  "c35badc0bb49bf4390819a2ae82b6857a2cdcc07d2e1bb29dd6aa11918cd7504",
+  "b7a6ee3b4c35683bf498604e78ef9fe8b63aec41738b0ec51985e982c29e5d1e",
+  "48ef55c2c88eb3ea4ce9733334ef959ed152e7c4776c28c94e772c8f56a5fda8",
+  "7c5bae681510c3cb7bde0d79708b1ac5a0bd38dec1547b653198f42bbab520be",
+  "76e3f4b3805db518954f806d05eae178e6c93da739218e680e39710a4eebadd0",
+  "60f5baa9c39a512c6fbee1127b39014a9fb3fe8d2428196fa258414b495d80ef",
+  "5ede797a23f526646392350fbdcb74ce6ad0fbe552ae671ba8999b7496ae06e9",
+  "63f8338468ac53fd05d0169d9ec8424ddf7381d5c7f627d8b6ce80638ed7f749",
+  "55e9375f8a1d2909ab7e7f1ab8aeec3da4edbf98a163b261d69d4f7e8e6f5513",
+  "6b5e0eebcb9edaed92bb38553de8c71e02e158f92b1394fe41db235964481daa",
+  "4f8623771e4703a932b595be19fa5846199b8d80a43dcc18ee4e9cbc869a475d",
+  "ac335843c077487c5339c7f171bd4799295ced621462b8c3ecf1df87eb414ae5",
+  "ec2cbd806fcf4ea9bbd8e7469fe26f0bbce6d822e227264770b7ef205a0e214d",
+  "15a3b7f919077f47979b0a3c297e8c9d246193d7362f049d5d607a9b55805525",
+  "b8687aae77b21cf8d8642d116636531dca6ed3615fc116813dbd519ce9297e1a",
+  "581e63ad5e1c42f7ddb218edca0d85e2b4b14eb864be9659b00f9b35b80d3725",
+  "e01f36ca5c96d11f8b90d3798f456f3e60006f82ed3427ea74ec539ce0aa20f4",
+  "a3fda7c786279e089c95f2acf7def015c0ca3f1e152ad9d5b7d99d26ffbf9457",
+  "3233e47b8bd6d518a01cc3fbbe6b0aab4d87a695dfe54609409a16dd6ec2c040"
+ ],
+ "raw_diagnostic": {
+  "final": {
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "ema_digest": "88448b78f2729cb0499136254cd551d98cedff5f324c38b8120cba5e65de9f5d",
+   "ema_updates": null,
+   "generation_telemetry": {
+    "count": 4096,
+    "distinct_class_fingerprints": 4096,
+    "distinct_content_fingerprints": 4096,
+    "flag_file_histogram_network": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     705,
+     750,
+     806,
+     827,
+     1008
+    ],
+    "flag_file_histogram_played": [
+     520,
+     422,
+     386,
+     383,
+     343,
+     362,
+     367,
+     420,
+     405,
+     488
+    ],
+    "flag_in_permitted_half_fraction_network": 1.0,
+    "force_handedness": true,
+    "immediately_terminal_count": 0,
+    "lane_counts": {
+     "blue": 2048,
+     "red": 2048
+    },
+    "legality_failures": 0,
+    "mean_sequence_information_nats": 65.06588745117188,
+    "orientation_failures": 0,
+    "purpose": "eval",
+    "reflected_count": 2054,
+    "reflected_fraction": 0.50146484375,
+    "reflection_probability": 0.5,
+    "snapshot_digest": "88448b78f2729cb0499136254cd551d98cedff5f324c38b8120cba5e65de9f5d",
+    "snapshot_iteration": 0
+   },
+   "label": "final_raw",
+   "mean_expected_outcome": 0.6781571010031834,
+   "mean_utility": 7.280516468994141,
+   "mean_z": 1.3147962370481632,
+   "samples": 4096,
+   "sd_utility": 5.9800338130382364
+  },
+  "gap": {
+   "closed": 12.78871498461914,
+   "fraction_closed": 0.20919982980890497,
+   "initial_to_optimum": 61.13157451562499
+  },
+  "initial": {
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "ema_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+   "ema_updates": null,
+   "generation_telemetry": {
+    "count": 4096,
+    "distinct_class_fingerprints": 4096,
+    "distinct_content_fingerprints": 4096,
+    "flag_file_histogram_network": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     1006,
+     947,
+     834,
+     690,
+     619
+    ],
+    "flag_file_histogram_played": [
+     289,
+     338,
+     420,
+     486,
+     521,
+     485,
+     461,
+     414,
+     352,
+     330
+    ],
+    "flag_in_permitted_half_fraction_network": 1.0,
+    "force_handedness": true,
+    "immediately_terminal_count": 0,
+    "lane_counts": {
+     "blue": 2048,
+     "red": 2048
+    },
+    "legality_failures": 0,
+    "mean_sequence_information_nats": 62.30754852294922,
+    "orientation_failures": 0,
+    "purpose": "eval",
+    "reflected_count": 2054,
+    "reflected_fraction": 0.50146484375,
+    "reflection_probability": 0.5,
+    "snapshot_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+    "snapshot_iteration": 0
+   },
+   "label": "initial_raw",
+   "mean_expected_outcome": -0.45466241256249157,
+   "mean_utility": -5.508198515625,
+   "mean_z": -0.7625933127642733,
+   "samples": 4096,
+   "sd_utility": 5.886061846752395
+  },
+  "paired": {
+   "fraction_improved": 0.9609375,
+   "mean_difference": 12.788714984619142,
+   "samples": 4096,
+   "sd_difference": 7.4619214436360375
+  },
+  "role": "DIAGNOSTIC ONLY - the raw generation actor's held-out utility on the same evaluation stream; it never decides the gate"
+ },
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "seed_index": 1,
+ "telemetry": {
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/telemetry.jsonl",
+  "sha256": "b2c483c696903279929718d4439fd808c06126a9c4c3b9fc1f060bb9c59a0f75"
+ },
+ "threads": 4,
+ "updates": 64,
+ "utilities": {
+  "final": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/utilities_final.npy",
+   "sha256": "1e6ced3335ee9ca216db3902208efc0d86fbc88bdefc299e10928b9fc8bbfc19"
+  },
+  "final_raw": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/utilities_final_raw.npy",
+   "sha256": "7edcc31fc43094dc07ea42c8e49ad7287f6545e4b1c6df8641af78100464b653"
+  },
+  "initial": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/utilities_initial.npy",
+   "sha256": "7221cf304c9a765e29e8b389716243887f1afa75372a6ae5f01c7aed81b6ab92"
+  },
+  "initial_raw": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_1/utilities_initial_raw.npy",
+   "sha256": "7221cf304c9a765e29e8b389716243887f1afa75372a6ae5f01c7aed81b6ab92"
+  }
+ },
+ "wall_seconds": 925.852
+}

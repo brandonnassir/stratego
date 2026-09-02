@@ -1,0 +1,128 @@
+{
+ "agent": "phase_18_agent_4",
+ "all_artifacts_bind_one_source_commit": true,
+ "artifact": "phase18_g2_binding_v1",
+ "artifact_root": {
+  "g1_artifacts": "untouched; they live outside the repository under /Users/brandonwashington/Dev/stratego_phase18",
+  "git_ignored": true,
+  "root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1",
+  "root_relative": "artifacts/phase18/g2_setup_parity_v1"
+ },
+ "artifacts": {
+  "g2/dev_smoke_v1.json": {
+   "bytes": 12796,
+   "sha256": "93f02b1b254f8ad4f9cfc965c88ec35ca427a26f97efcf9c7a132767753efdfb",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "g2/phase18_g2_parity_coverage_v1.json": {
+   "bytes": 33042,
+   "sha256": "008a1c678d4adbe60e8419486f4362560631170346b45729ca909e33a291636a",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "g2/phase18_g2_parity_oracle_v1.json": {
+   "bytes": 9560,
+   "sha256": "bd822941c9125e680cd13e8e0323aac5bbb5bb17e9f66825b522a578a870d394",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "g2/phase18_g2_replay_v1.json": {
+   "bytes": 4094,
+   "sha256": "98c22d4d011b27be560e4f5869a9a836c45d6c143e1718ac2df935e779892772",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "g2/phase18_g2_seed_1_result_v1.json": {
+   "bytes": 16806,
+   "sha256": "ed104aff8b8aa14f604ad8368488e48e7df06179a44f7c17185a83730ec39869",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "g2/phase18_g2_seed_2_result_v1.json": {
+   "bytes": 16834,
+   "sha256": "df89fa6474545eab3c23a7525695108723773442dfc5c7109ae2a8122cfcf081",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "g2/phase18_g2_seed_3_result_v1.json": {
+   "bytes": 16835,
+   "sha256": "47dfe0cb8504eeb47cbdf813dffdd7652e42861ad113dcffcb8e3d53a8038b32",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "g2/phase18_g2_verification_v1.json": {
+   "bytes": 2904,
+   "sha256": "c66030880f48b789e738244a70a12ba53bd005547794297f3714ab6ff32cc880",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g2_contract_v1.json": {
+   "bytes": 11330,
+   "sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g2_launch_manifest_v1.json": {
+   "bytes": 6085,
+   "sha256": "5cbb66cccb15d38844421b50c9d5af3bb86ae9aa154c40dd2850bbfed9dbbf45",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "phase18_g2_results_v1.json": {
+   "bytes": 22827,
+   "sha256": "2badf3545866f63163a359c3882be0cabd640ce3a27e8074bc45f7159fe2eca5",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "354a4cad55a88dca6dcb24a21cf79cecc130008f"
+   }
+  },
+  "phase18_g2_synthetic_landscape_v1.json": {
+   "bytes": 8768,
+   "sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  }
+ },
+ "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+ "g2_source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+ "gate": "G2",
+ "mismatched_artifacts": [],
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "timestamp_utc": "2026-09-02T13:46:30Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

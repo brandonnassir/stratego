@@ -1,0 +1,485 @@
+{
+ "assay_version": "phase18_g2_synthetic_assay_v1",
+ "checkpoint": {
+  "checkpoint_version": "phase18_setup_checkpoint_v1",
+  "config_digest": "f6a92f449423b46d12637168795263ab95bd576278c771c42d21cef8c16f5f62",
+  "ema": {
+   "file": "ema.pt",
+   "sha256": "cc0885011578e081f45b10511b31a1e8d40f9a2fc148c002828d7848604a4337",
+   "state_digest": "8b27a0c18dcd8e3f0a103deb56e63ed50a1e445675b28cdae6f3df865ce70ce3"
+  },
+  "ema_updates": 64,
+  "namespace": "phase18_g2_setup_parity_v1",
+  "optimizer": {
+   "class": "AdamW",
+   "file": "optimizer.pt",
+   "sha256": "b209bed1b65e5b93d75655e07ab3fd9243cd4fdb2c07462977dd1ae9854167f5"
+  },
+  "optimizer_step_count": 320,
+  "raw": {
+   "file": "raw.pt",
+   "sha256": "384503c0f554847014032f4bddd55a5ec5c91fbe4a47a35fc8dfc165278ea72c",
+   "state_digest": "5cecbbbade31a3c5ea78471b0b8a5649c80efdc15653ebbe8b0412eccb932197"
+  },
+  "recipe": "phase18_published_setup_recipe_v1",
+  "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+  "seed_index": 3,
+  "setup_equation_version": "phase18_setup_update_i_minus_10h_v1",
+  "updates": 64
+ },
+ "contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+ "curve": [
+  {
+   "ema_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+   "mean_utility": -1.9666971450195312,
+   "mean_z": -0.18731440891892953,
+   "raw_mean_utility": -1.9666971450195312,
+   "raw_mean_z": -0.18731440891892953,
+   "update": 0
+  },
+  {
+   "ema_digest": "1bba26c17bd27325d9130080b65b2be333c75589cb154979f28d130af82163c5",
+   "mean_utility": -1.962934495361328,
+   "mean_z": -0.18670320684827918,
+   "raw_mean_utility": -0.874302820800781,
+   "raw_mean_z": -0.009866670335674777,
+   "update": 8
+  },
+  {
+   "ema_digest": "2931a1a3e005df0233f57cfa0898b4fa5025e5c68635563556dcca990eb273ec",
+   "mean_utility": -1.9544257690429685,
+   "mean_z": -0.18532105554087788,
+   "raw_mean_utility": 1.3248842497558597,
+   "raw_mean_z": 0.3473676760354471,
+   "update": 16
+  },
+  {
+   "ema_digest": "c44b0171830f6d6866acd3fd607969e8c52f661aeaa57cfcf7ec810c936d56ab",
+   "mean_utility": -1.9044765080566404,
+   "mean_z": -0.17720733395754068,
+   "raw_mean_utility": 3.5039542836914066,
+   "raw_mean_z": 0.7013342256263517,
+   "update": 24
+  },
+  {
+   "ema_digest": "529d85de17d73d37608c2f3c6caa489c9ab9ab1e5fcc9d64cf4bf1fa0b163934",
+   "mean_utility": -1.903684115722656,
+   "mean_z": -0.17707861832380029,
+   "raw_mean_utility": 4.379746829589845,
+   "raw_mean_z": 0.8435973290609949,
+   "update": 32
+  },
+  {
+   "ema_digest": "0fcb6975955b34f3de1d1b1ec09961265738da56eea5baa5fad3300761275443",
+   "mean_utility": -1.8893671906738279,
+   "mean_z": -0.17475298744394613,
+   "raw_mean_utility": 5.382657694335938,
+   "raw_mean_z": 1.0065094396461958,
+   "update": 40
+  },
+  {
+   "ema_digest": "86388770a32d3408e91a2ffab2c5e2d99e2f304ed5e5547f2373ebcc055eb152",
+   "mean_utility": -1.8238617404785153,
+   "mean_z": -0.1641123298129673,
+   "raw_mean_utility": 5.872828893554688,
+   "raw_mean_z": 1.086132492321991,
+   "update": 48
+  },
+  {
+   "ema_digest": "a9cfb5a4cb5244df7da96aaae45fefda4106f8d249f609cf4353eab82fdf4d9f",
+   "mean_utility": -1.8020645588378903,
+   "mean_z": -0.1605716114991995,
+   "raw_mean_utility": 6.127106301757813,
+   "raw_mean_z": 1.1274371293547079,
+   "update": 56
+  },
+  {
+   "ema_digest": "8b27a0c18dcd8e3f0a103deb56e63ed50a1e445675b28cdae6f3df865ce70ce3",
+   "mean_utility": -1.765785962158203,
+   "mean_z": -0.15467854267133965,
+   "raw_mean_utility": 6.56729813671875,
+   "raw_mean_z": 1.1989415704936661,
+   "update": 64
+  }
+ ],
+ "device": "cpu",
+ "ema_updates": 64,
+ "environment": {
+  "dirty_paths": [],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "torch": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "final": {
+  "distinct_class_fingerprints": 4096,
+  "distinct_content_fingerprints": 4096,
+  "ema_digest": "8b27a0c18dcd8e3f0a103deb56e63ed50a1e445675b28cdae6f3df865ce70ce3",
+  "ema_updates": 64,
+  "generation_telemetry": {
+   "count": 4096,
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "flag_file_histogram_network": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    989,
+    959,
+    841,
+    697,
+    610
+   ],
+   "flag_file_histogram_played": [
+    291,
+    348,
+    423,
+    466,
+    495,
+    494,
+    493,
+    418,
+    349,
+    319
+   ],
+   "flag_in_permitted_half_fraction_network": 1.0,
+   "force_handedness": true,
+   "immediately_terminal_count": 0,
+   "lane_counts": {
+    "blue": 2048,
+    "red": 2048
+   },
+   "legality_failures": 0,
+   "mean_sequence_information_nats": 65.19898986816406,
+   "orientation_failures": 0,
+   "purpose": "eval",
+   "reflected_count": 2023,
+   "reflected_fraction": 0.493896484375,
+   "reflection_probability": 0.5,
+   "snapshot_digest": "8b27a0c18dcd8e3f0a103deb56e63ed50a1e445675b28cdae6f3df865ce70ce3",
+   "snapshot_iteration": 0
+  },
+  "label": "final",
+  "mean_expected_outcome": -0.08779496379782235,
+  "mean_utility": -1.765785962158203,
+  "mean_z": -0.15467854267133965,
+  "samples": 4096,
+  "sd_utility": 6.287838423140908
+ },
+ "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+ "gap": {
+  "closed": 0.20091118286132814,
+  "ema_retained_initial_fraction": 0.9379749638258454,
+  "exact_optimum": 55.62337599999999,
+  "fraction_closed": 0.0034886426060860673,
+  "initial_to_optimum": 57.590073145019524
+ },
+ "initial": {
+  "distinct_class_fingerprints": 4096,
+  "distinct_content_fingerprints": 4096,
+  "ema_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+  "ema_updates": 0,
+  "generation_telemetry": {
+   "count": 4096,
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "flag_file_histogram_network": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    994,
+    978,
+    832,
+    689,
+    603
+   ],
+   "flag_file_histogram_played": [
+    291,
+    343,
+    417,
+    475,
+    497,
+    497,
+    503,
+    415,
+    346,
+    312
+   ],
+   "flag_in_permitted_half_fraction_network": 1.0,
+   "force_handedness": true,
+   "immediately_terminal_count": 0,
+   "lane_counts": {
+    "blue": 2048,
+    "red": 2048
+   },
+   "legality_failures": 0,
+   "mean_sequence_information_nats": 64.91671752929688,
+   "orientation_failures": 0,
+   "purpose": "eval",
+   "reflected_count": 2023,
+   "reflected_fraction": 0.493896484375,
+   "reflection_probability": 0.5,
+   "snapshot_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+   "snapshot_iteration": 0
+  },
+  "label": "initial",
+  "mean_expected_outcome": -0.1101698761525384,
+  "mean_utility": -1.9666971450195312,
+  "mean_z": -0.18731440891892953,
+  "samples": 4096,
+  "sd_utility": 6.339848326591077
+ },
+ "initial_raw_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+ "integrity": {
+  "attribution_failures": 0,
+  "checkpoint_identity_failures": 0,
+  "duplicates_collapsed": 0,
+  "immediately_terminal_setups": 3,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0
+ },
+ "landscape_sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+ "model_seed": 7527090394275652774,
+ "namespace": "phase18_g2_setup_parity_v1",
+ "optimizer_steps": 320,
+ "outcome_receipts": {
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/outcome_receipts.jsonl",
+  "sha256": "dcfa541a7a9e6abfa47cc66c42bbc4e8b5fc12c55075e414e8e85190688d4b9d"
+ },
+ "paired": {
+  "fraction_improved": 0.29541015625,
+  "mean_difference": 0.20091118286132814,
+  "samples": 4096,
+  "sd_difference": 3.9609100316833943
+ },
+ "period_outcome_digests": [
+  "f46759576a3a39ae372fe081d25d13c0c36d358e53601fb1b0bd286dad677784",
+  "2be699162217f96f06c179f4581a8ddff7c8b2304148c735b79ab981b4098bfb",
+  "95084ec6732c79dd62c57235f7f665d2b6d804cf8f1960b704be057d46878f18",
+  "91e11cac620013e54de5367bcc91c454088730e2477221fbf46cac0c30a68553",
+  "1a38285eaee88757c83bade8f99c9c528b4aa05fdf6e6f9e39094e002e561d51",
+  "22e6e90cfddcb34781a7bd1d1c0f798e3bce189438361dff8701ece57170290c",
+  "5b02add2ed60bbab5422a4cdc70b3093c142ed4062630bf3ad5518c715949c2b",
+  "31b70a2a9a3db87497ab562743e7c84ec232997860951cd5a7b89d030b444442",
+  "2d783efc00f52eaaf5d4dae9a894200452b12fd7e5e686eb2df7d0479654b6b9",
+  "cba6d25d6cb373395a59ecd20843b93e62438792003d81f888015ba540dd1bb8",
+  "40d43942a3878e8a446d6cbd1ce750ee393c18f7faf5f82798ec1a65093d24f7",
+  "e6e9a88ff5fdcd4b4bff8d0643be3d679a05b21247af9e32a73269d3e0cd29d9",
+  "def59ac193e037b9b01b447f40990945af5e8d39be48c47a56d92575ca652127",
+  "3a9147ba2adae28a262d519709d6b4486057ea8d2ed067e5d327990d1b0e5b97",
+  "9ef8f3853ccbb0cd3d59a255bd5a8856f8cf8d5948fd2e1d0420f6fd5a39b11f",
+  "b7f9ecc0f199e7c024ccd6c2740cfb75109bc31a868052d2fd9a66a0ce918113",
+  "da5c28a71a940e9f284c566c61969520ed13daf49033490b5f25f6e6ddac70d8",
+  "942c8adafadace2e78d2b0c3f752260d758339f503a36de8984b94111f77fa18",
+  "716a342125cee2ce08b216782f495e48f6621ca713e6f53feabfd3e374e0df74",
+  "28032c8af642c5d47ad4679b1f7c98a7a339aa72f48add28864916ddeb2528ac",
+  "c3af6b8a2f37555b67c8088359af219e1413fe3fb6acc3dbeeec38528a04e2a8",
+  "0ca119c4e891d533ac77b795ec7e0a280c980ebbe4f9cab7ff8e4eb1b0e445d2",
+  "b6b54199ad53784b62520a1051555a1245270ab6d3577c06ecc3caa7764760ee",
+  "401152531ae9725210db8bd34161cc5eb144750fc75711b973121469b0a26fcb",
+  "216e0fc08172ee1f192c5042f4280a565c2a56c64ff0b74e22afb94bd23f912d",
+  "80117b7ba719937187b63df31ee4e2914b7600cf01bd0398b51db2baad45985c",
+  "0dc822a9fb9c8b5f97d954a0275906e1361cb6ebcb6b4ea75d5043ca1508b75d",
+  "6254f9321e66bf88dfc4726b371a80090af33315e8b05a348e4d8b8b0ff2ec85",
+  "b84755e1da9799b0ac4619343afc4b054845a54daf4e9a9301157b9dc056e250",
+  "65d391b1ba557681af858f0471984c9c61798879b2b07ef409dd4d9fb8a37ac6",
+  "dbfbd7591ded96fd4a6423c7dae436cee38584de84ccf52337ab2dbbece35329",
+  "fee69a7a861e3e67dd84ee9f498b560aae1968a3e1ca47bc08be988dfb2e5358",
+  "014e0bb5f5e7ebbf8cd19e07126b5271403b859cfbd63701a9c24e44cb102267",
+  "eaf223fbc50da352b0a4d607a48a3a7b6cd506aa7e9b05342c9ff6c34b1871cf",
+  "fce75e05f7aa67bba75fe2cb583b7e3ce306e66be3a282baf0e9f3fbd9f26e77",
+  "de2d877501d12601e18d9a522b118baa00813aeb56d3dbf4e942ac5d3f67207d",
+  "75d308566313303b4f75d9717bbd13ad7b87cf1619cdd4f347c57b72b96211b7",
+  "0158864eb5b3c04d6b225d9529d0ad82e6e9da7b942f8231194b265a64870ea4",
+  "d7dcf5bced3a17891a8d129b3f3bf5dc52e8079685ecb176ab10ddf4a80a7b20",
+  "9ef7c67dcd5fb8e40d4d0a8bd022d9707497db3e2a12d1a36c2a4df17b77ee22",
+  "a93b14871f0d60b4ce59e52efee0f784d7aa93b327e48d6099e9ae5ede35f750",
+  "6d0c0f581f1021d85eb7921e0a66a31dcc47b21a686eb03a9fce72c586b980e1",
+  "75f35edd86aaf981ca116cb4f3dc2bb3d652529e1afbd6a45587e219e57e0faa",
+  "9dbf2bdc216cf93955a1c5b30767db63d6c11ed5483df47d5c5776d5973bf6d0",
+  "a313b4ee26509b8bd6eade30f537ccecf780b4be8fef2fb4c6b6686b75205b32",
+  "d809b3f0eabbc0f5c9db8c3b000dc1ddf92c66a213bd3c0f051466e2308c60ea",
+  "6d91b14b3f3927a2569ffc1b8ac1af4e00d1678fac09174b786dc058b2545c75",
+  "813588157735a792feb8dc2ef6cd0271c2f4db7e5cd6a5eeb1454a318598baec",
+  "61eaeb01c54bbbdeb57d4f2d27134b0b65244b6e881ffa6d2adadde701026d1b",
+  "85b522eb307c2ef61134920246ec11f161268b716eacc0c73c22bc314a17b5ac",
+  "2b1332212a7c9a2962e6f2a5c104466cd1c39c9fc3edd60317bdd36b3dcb9337",
+  "2323500907705f632c73e8de16ca5f32c82106198d1d89dcbfa065c9d63c4551",
+  "bcd4139d92296dc6634841fbb5b96c96248418b5faa4e55f1ab84584ebd030ab",
+  "8f541498ff28fa485ac6a05192988e55e3c1ee1346abed4bf46476f7af449140",
+  "e0728d3672ba320311a545c2d450727951271cd9367d8a32cc75ef2ccf72b6f9",
+  "f546510be1c8b9ec2f79fd4b5e74c8cbba25b2a41f85fdfbb70b321ffdec0a94",
+  "169ca0056d4b44009597529cb1d1dbcc09196df35ff1117fd0673ab13aa95d4b",
+  "dc0e941229ddbdcc9c0c56063ce3a3066ef6e813507161c7751a5f81655039f6",
+  "643d65fbe3f0982f4e723cb7a2e3ba83444daea481bb0fd9ddc52af9c0517ba0",
+  "2701e0ef0dd38596de542e618fb384d39cfd7e7fe77557222f90bd42446007dd",
+  "5ce8fd83641bb7b880da3def7804b364ae34088ecb82d4e47f0be9058d5edab1",
+  "f3c9da581eb742281d1ffdf83ed8a087133fc050589282883c0854ace027e50f",
+  "b87f56932ae5e0c6803e3718f18796708670737bddc2f1d2f1fe491db41c8f70",
+  "223c2ec359458c831f26ab152617666b46ab24df9748a6376a2dc3035001c767"
+ ],
+ "raw_diagnostic": {
+  "final": {
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "ema_digest": "5cecbbbade31a3c5ea78471b0b8a5649c80efdc15653ebbe8b0412eccb932197",
+   "ema_updates": null,
+   "generation_telemetry": {
+    "count": 4096,
+    "distinct_class_fingerprints": 4096,
+    "distinct_content_fingerprints": 4096,
+    "flag_file_histogram_network": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     791,
+     866,
+     804,
+     753,
+     882
+    ],
+    "flag_file_histogram_played": [
+     443,
+     381,
+     390,
+     431,
+     378,
+     413,
+     435,
+     414,
+     372,
+     439
+    ],
+    "flag_in_permitted_half_fraction_network": 1.0,
+    "force_handedness": true,
+    "immediately_terminal_count": 0,
+    "lane_counts": {
+     "blue": 2048,
+     "red": 2048
+    },
+    "legality_failures": 0,
+    "mean_sequence_information_nats": 65.42922973632812,
+    "orientation_failures": 0,
+    "purpose": "eval",
+    "reflected_count": 2023,
+    "reflected_fraction": 0.493896484375,
+    "reflection_probability": 0.5,
+    "snapshot_digest": "5cecbbbade31a3c5ea78471b0b8a5649c80efdc15653ebbe8b0412eccb932197",
+    "snapshot_iteration": 0
+   },
+   "label": "final_raw",
+   "mean_expected_outcome": 0.6385398936946779,
+   "mean_utility": 6.56729813671875,
+   "mean_z": 1.1989415704936661,
+   "samples": 4096,
+   "sd_utility": 6.029604086559725
+  },
+  "gap": {
+   "closed": 8.533995281738282,
+   "fraction_closed": 0.1481851787242662,
+   "initial_to_optimum": 57.590073145019524
+  },
+  "initial": {
+   "distinct_class_fingerprints": 4096,
+   "distinct_content_fingerprints": 4096,
+   "ema_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+   "ema_updates": null,
+   "generation_telemetry": {
+    "count": 4096,
+    "distinct_class_fingerprints": 4096,
+    "distinct_content_fingerprints": 4096,
+    "flag_file_histogram_network": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     994,
+     978,
+     832,
+     689,
+     603
+    ],
+    "flag_file_histogram_played": [
+     291,
+     343,
+     417,
+     475,
+     497,
+     497,
+     503,
+     415,
+     346,
+     312
+    ],
+    "flag_in_permitted_half_fraction_network": 1.0,
+    "force_handedness": true,
+    "immediately_terminal_count": 0,
+    "lane_counts": {
+     "blue": 2048,
+     "red": 2048
+    },
+    "legality_failures": 0,
+    "mean_sequence_information_nats": 64.91671752929688,
+    "orientation_failures": 0,
+    "purpose": "eval",
+    "reflected_count": 2023,
+    "reflected_fraction": 0.493896484375,
+    "reflection_probability": 0.5,
+    "snapshot_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+    "snapshot_iteration": 0
+   },
+   "label": "initial_raw",
+   "mean_expected_outcome": -0.1101698761525384,
+   "mean_utility": -1.9666971450195312,
+   "mean_z": -0.18731440891892953,
+   "samples": 4096,
+   "sd_utility": 6.339848326591077
+  },
+  "paired": {
+   "fraction_improved": 0.868408203125,
+   "mean_difference": 8.533995281738282,
+   "samples": 4096,
+   "sd_difference": 7.452765679027001
+  },
+  "role": "DIAGNOSTIC ONLY - the raw generation actor's held-out utility on the same evaluation stream; it never decides the gate"
+ },
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "seed_index": 3,
+ "telemetry": {
+  "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/telemetry.jsonl",
+  "sha256": "3801b1bdede051b2422177b77e250a7937e12fe7c390ed15db3b6fbc86c63ff0"
+ },
+ "threads": 4,
+ "updates": 64,
+ "utilities": {
+  "final": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/utilities_final.npy",
+   "sha256": "98fdf7db37d54fcefaaa91e7fe698ab2fd29820430ad0c21c0468cda8899baf1"
+  },
+  "final_raw": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/utilities_final_raw.npy",
+   "sha256": "153db50dc9e035585939def0c725a2890c8f2bb40cdaae89e1c1066905cda44c"
+  },
+  "initial": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/utilities_initial.npy",
+   "sha256": "80026732b4187aa2e11f945ec8485061dd00c935d7b042a4b226fe9d68389166"
+  },
+  "initial_raw": {
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1/seed_3/utilities_initial_raw.npy",
+   "sha256": "80026732b4187aa2e11f945ec8485061dd00c935d7b042a4b226fe9d68389166"
+  }
+ },
+ "wall_seconds": 929.817
+}
