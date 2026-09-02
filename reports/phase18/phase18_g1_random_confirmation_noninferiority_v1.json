@@ -1,0 +1,266 @@
+{
+ "accounting": {
+  "candidate": {
+   "complete_for_primary": true,
+   "completed": 8192,
+   "duplicate_ids": [],
+   "duplicates": 0,
+   "failed": 0,
+   "failed_ids": [],
+   "missing": 0,
+   "missing_ids": [],
+   "planned": 8192,
+   "reconciles": true,
+   "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+   "unplanned": 0,
+   "unplanned_ids": []
+  },
+  "reference": {
+   "complete_for_primary": true,
+   "completed": 8192,
+   "duplicate_ids": [],
+   "duplicates": 0,
+   "failed": 0,
+   "failed_ids": [],
+   "missing": 0,
+   "missing_ids": [],
+   "planned": 8192,
+   "reconciles": true,
+   "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+   "unplanned": 0,
+   "unplanned_ids": []
+  }
+ },
+ "agent": "phase_18_agent_3",
+ "approved_agent2_commit": "18409f738613616e364f81ff14814d4648fc92d1",
+ "arm_identity_proof": {
+  "field_mismatches": {},
+  "fields_checked": [
+   "paired_unit_id",
+   "setup_pair_id",
+   "setup_bank_version",
+   "red_setup",
+   "blue_setup",
+   "candidate_color",
+   "first_player",
+   "root_seed",
+   "candidate_seed",
+   "opponent_seed",
+   "opponent_policy_id",
+   "opponent_policy_version",
+   "rules"
+  ],
+  "identical_match_ids": true,
+  "problems": [],
+  "rows_per_arm": 8192
+ },
+ "artifact": "phase18_g1_random_confirmation_noninferiority_v1",
+ "bank_digest": "24b263d2f6e2d3e4b118470861ce79e85331e51b68468a1ea9d3c87f59f4711e",
+ "checkpoints": {
+  "candidate": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+  "reference": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+ },
+ "contract_sha256": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+ "diagnostics": {
+  "arm_effective_win_rates": {
+   "candidate": 0.9622802734375,
+   "reference": 0.9559326171875
+  },
+  "color_split": {
+   "candidate": {
+    "blue": {
+     "draws": 44,
+     "effective_win_rate": 0.963623046875,
+     "errors": 0,
+     "games": 4096,
+     "losses": 127,
+     "moves_first": false,
+     "wins": 3925
+    },
+    "difference_red_minus_blue": -0.002685546875,
+    "red": {
+     "draws": 42,
+     "effective_win_rate": 0.9609375,
+     "errors": 0,
+     "games": 4096,
+     "losses": 139,
+     "moves_first": true,
+     "wins": 3915
+    }
+   },
+   "reference": {
+    "blue": {
+     "draws": 67,
+     "effective_win_rate": 0.9556884765625,
+     "errors": 0,
+     "games": 4096,
+     "losses": 148,
+     "moves_first": false,
+     "wins": 3881
+    },
+    "difference_red_minus_blue": 0.00048828125,
+    "red": {
+     "draws": 63,
+     "effective_win_rate": 0.9561767578125,
+     "errors": 0,
+     "games": 4096,
+     "losses": 148,
+     "moves_first": true,
+     "wins": 3885
+    }
+   }
+  },
+  "normal_approximation": {
+   "half_width": 0.005557025898535399,
+   "lower": 0.000790630351464601,
+   "role": "diagnostic only; it may not decide the gate",
+   "standard_error": 0.0028352693939115783,
+   "upper": 0.011904682148535399
+  },
+  "observed_paired_difference_sd": 0.181457241210341,
+  "paired_units": 4096,
+  "pairs_on_which_arms_differ": 670,
+  "planning_sd": 0.189374,
+  "receipts_recompute_headline_exactly": true,
+  "terminal_reasons": {
+   "candidate": {
+    "counts": {
+     "battleless_move_limit_draw": 84,
+     "both_no_legal_move_draw": 2,
+     "flag_capture": 7351,
+     "opponent_no_legal_move": 755
+    },
+    "games": 8192,
+    "shares": {
+     "battleless_move_limit_draw": 0.01025390625,
+     "both_no_legal_move_draw": 0.000244140625,
+     "flag_capture": 0.8973388671875,
+     "opponent_no_legal_move": 0.0921630859375
+    }
+   },
+   "reference": {
+    "counts": {
+     "battleless_move_limit_draw": 128,
+     "both_no_legal_move_draw": 2,
+     "flag_capture": 7106,
+     "opponent_no_legal_move": 956
+    },
+    "games": 8192,
+    "shares": {
+     "battleless_move_limit_draw": 0.015625,
+     "both_no_legal_move_draw": 0.000244140625,
+     "flag_capture": 0.867431640625,
+     "opponent_no_legal_move": 0.11669921875
+    }
+   }
+  }
+ },
+ "environment": {
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_confirm_exec",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+  "source_tree": "bf24f4c5c77ef1896d304788453dc9d7441c2e91",
+  "working_tree_state": "clean"
+ },
+ "evaluator": "phase18_evaluation_v1",
+ "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+ "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+ "gate": "G1",
+ "original_1024_pair_context": {
+  "delta": -0.000244140625,
+  "lower": -0.011962890625,
+  "role": "historical evidence only; never pooled into the primary statistic and never used to alter the gate",
+  "sample_size": 1024,
+  "upper": 0.01123046875
+ },
+ "power": {
+  "confidence": 0.95,
+  "formula": "n = ceil( ((z_(1-alpha/2) + z_power) * sd / (true_delta + margin))^2 ); power = Phi( (true_delta + margin)/(sd/sqrt(n)) - z_(1-alpha/2) )",
+  "frozen_n": 4096,
+  "half_width_at_frozen_n": 0.0057994721813795,
+  "margin": 0.01,
+  "minimum_n": 3769,
+  "planning_sd": 0.189374,
+  "power_at_frozen_n": 0.9221367251713777,
+  "standard_error_at_frozen_n": 0.00295896875,
+  "target_power": 0.9,
+  "true_delta": 0.0,
+  "z_confidence": 1.9599639845400532,
+  "z_power": 1.2815515655446004
+ },
+ "primary": {
+  "bootstrap_seed": 5234174007292860913,
+  "bootstrap_seed_rule": "derive_stream_seed('phase18_g1_random_confirmation_v1', 'paired_bootstrap')",
+  "hypothesis": {
+   "alternative": "Delta > -0.010",
+   "confidence": 0.95,
+   "decision_rule": "pass only if the lower endpoint of the two-sided 95% paired percentile-bootstrap interval is strictly greater than -0.010",
+   "delta": "EWR(G1 candidate vs random) - EWR(accepted checkpoint vs random)",
+   "margin": -0.01,
+   "normal_approximation": "diagnostic only; it may not decide the gate",
+   "null": "Delta <= -0.010",
+   "primary_sample": "the confirmation bank only; the original 1,024 pairs are context and are never pooled",
+   "replicates": 10000,
+   "resampling_unit": "paired setup case, both colours carried together",
+   "score": "effective win rate, draw = 0.5"
+  },
+  "interval": {
+   "candidate": 0.9622802734375,
+   "confidence": 0.95,
+   "delta": 0.00634765625,
+   "lower": 0.00079345703125,
+   "method": "paired_unit_difference_bootstrap",
+   "reference": 0.9559326171875,
+   "replicates": 10000,
+   "resampling_unit": "paired_unit",
+   "sample_size": 4096,
+   "seed": 5234174007292860913,
+   "upper": 0.01190185546875
+  },
+  "original_gate_dialect_cross_check": {
+   "deciding_bound": 0.00079345703125,
+   "deciding_bound_name": "lower",
+   "delta": 0.00634765625,
+   "direction": "delta_min",
+   "margin": -0.01,
+   "metric": "vs_random_ewr",
+   "non_inferior": true
+  },
+  "verdict": {
+   "deciding_bound": 0.00079345703125,
+   "deciding_bound_name": "lower",
+   "delta": 0.00634765625,
+   "margin": -0.01,
+   "metric": "vs_random_ewr",
+   "non_inferior": true,
+   "rule": "pass only if the lower endpoint of the two-sided 95% paired percentile-bootstrap interval is strictly greater than -0.010"
+  }
+ },
+ "protected_artifacts": {
+  "after": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "g1_candidate:warmstart_c1_v1.pt": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "before": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "g1_candidate:warmstart_c1_v1.pt": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "unchanged": true
+ },
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "schedule_digest": "2111848ba7c19ea08a70974bc082f56b3d8be195b7169cc6c1095c953cd285f7",
+ "sealed_test_access": {
+  "examples_opened": 0,
+  "multiplicity_increment": 0,
+  "rule": "this work package opens no Phase 8 sealed test data at all"
+ },
+ "timestamp_utc": "2026-09-02T04:37:10Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

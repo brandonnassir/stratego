@@ -1,0 +1,73 @@
+{
+ "arm_order": [
+  "reference",
+  "candidate"
+ ],
+ "arms": {
+  "candidate": {
+   "complete_for_primary": true,
+   "completed": 8192,
+   "duplicate_ids": [],
+   "duplicates": 0,
+   "failed": 0,
+   "failed_ids": [],
+   "missing": 0,
+   "missing_ids": [],
+   "planned": 8192,
+   "reconciles": true,
+   "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+   "unplanned": 0,
+   "unplanned_ids": []
+  },
+  "reference": {
+   "complete_for_primary": true,
+   "completed": 8192,
+   "duplicate_ids": [],
+   "duplicates": 0,
+   "failed": 0,
+   "failed_ids": [],
+   "missing": 0,
+   "missing_ids": [],
+   "planned": 8192,
+   "reconciles": true,
+   "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+   "unplanned": 0,
+   "unplanned_ids": []
+  }
+ },
+ "artifact": "phase18_g1_random_confirmation_run_v1",
+ "contract_sha256": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+ "environment": {
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_confirm_exec",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+  "source_tree": "bf24f4c5c77ef1896d304788453dc9d7441c2e91",
+  "working_tree_state": "clean"
+ },
+ "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+ "protected_artifacts": {
+  "after": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "g1_candidate:warmstart_c1_v1.pt": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "before": {
+   "checkpoints/phase8/warmstart_c1_v1.pt": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca",
+   "checkpoints/phase8/warmstart_c1_v1_initialisation.pt": "01c907eeef86ec04121db55ccffb9365e8df27fdf05921b921947d4af365754c",
+   "checkpoints/phase8/warmstart_c1_v1_manifest.json": "7e2af5dd2463d898af2c3b78eabf9deb4da9cf3e00e43400b70470e0e86faf10",
+   "g1_candidate:warmstart_c1_v1.pt": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+   "reports/phase_8_implementation_report.md": "a1f5fbfc10ec2464a6c5edd53d072ab241015239fd72cbe9bb7e679266966b4c"
+  },
+  "unchanged": true
+ },
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "sealed_test_access": {
+  "examples_opened": 0
+ },
+ "seconds": 10952.846,
+ "timestamp_utc": "2026-09-02T04:36:46Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

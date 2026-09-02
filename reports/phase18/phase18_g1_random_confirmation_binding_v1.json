@@ -1,0 +1,74 @@
+{
+ "agent": "phase_18_agent_3",
+ "all_artifacts_bind_one_source_commit": true,
+ "artifact": "phase18_g1_random_confirmation_binding_v1",
+ "artifacts": {
+  "phase18_g1_random_confirmation_bank_v1.json": {
+   "bytes": 1791717,
+   "sha256": "d25d78bd3b06622ae5a75910ba3d325664f92566d5d76aa2ce40885829cadc7c",
+   "source_binding": {
+    "agrees": null,
+    "field": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g1_random_confirmation_candidate_v1.json": {
+   "bytes": 4464,
+   "sha256": "30ccec46641ea4a81b1e7a77258d8aa512ab1964a4bbf9213445607cbc979421",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_confirm_source_commit",
+    "form": "full",
+    "value": "9392c6ec1c948a7c5c91278616f669340f4a6445"
+   }
+  },
+  "phase18_g1_random_confirmation_contract_v1.json": {
+   "bytes": 5293,
+   "sha256": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+   "source_binding": {
+    "agrees": null,
+    "field": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g1_random_confirmation_launch_v1.json": {
+   "bytes": 5241,
+   "sha256": "dd30e25b4daed3b418b4cb8b325ce622cec7c38bc672b6d3ee260a4a74672653",
+   "source_binding": {
+    "agrees": true,
+    "field": "source.g1_confirm_source_commit",
+    "form": "full",
+    "value": "9392c6ec1c948a7c5c91278616f669340f4a6445"
+   }
+  },
+  "phase18_g1_random_confirmation_noninferiority_v1.json": {
+   "bytes": 8786,
+   "sha256": "b6d26bbd44f1cd51e6d297dddb79069a4dd24ba712d650e545352e9bf415e92b",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_confirm_source_commit",
+    "form": "full",
+    "value": "9392c6ec1c948a7c5c91278616f669340f4a6445"
+   }
+  },
+  "phase18_g1_random_confirmation_reference_v1.json": {
+   "bytes": 4463,
+   "sha256": "d67f59c48eb7575ce6379610749f1a9b915b04df921807d7e67cbb115425fde9",
+   "source_binding": {
+    "agrees": true,
+    "field": "g1_confirm_source_commit",
+    "form": "full",
+    "value": "9392c6ec1c948a7c5c91278616f669340f4a6445"
+   }
+  }
+ },
+ "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+ "gate": "G1",
+ "mismatched_artifacts": [],
+ "rule": "every result artifact must repeat one source commit; any mismatch is fatal. The contract and bank predate that commit by construction and are bound through the launch manifest instead.",
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "timestamp_utc": "2026-09-02T04:37:49Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

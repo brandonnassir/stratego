@@ -1,0 +1,159 @@
+{
+ "accounting": {
+  "complete_for_primary": true,
+  "completed": 8192,
+  "duplicate_ids": [],
+  "duplicates": 0,
+  "failed": 0,
+  "failed_ids": [],
+  "missing": 0,
+  "missing_ids": [],
+  "planned": 8192,
+  "reconciles": true,
+  "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+  "unplanned": 0,
+  "unplanned_ids": []
+ },
+ "agent": "phase_18_agent_3",
+ "approved_agent2_commit": "18409f738613616e364f81ff14814d4648fc92d1",
+ "arm": "reference",
+ "artifact": "phase18_g1_random_confirmation_reference_v1",
+ "bank_digest": "24b263d2f6e2d3e4b118470861ce79e85331e51b68468a1ea9d3c87f59f4711e",
+ "checkpoints": {
+  "candidate": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c",
+  "reference": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+ },
+ "contract_sha256": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+ "environment": {
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_confirm_exec",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+  "source_tree": "bf24f4c5c77ef1896d304788453dc9d7441c2e91",
+  "working_tree_state": "clean"
+ },
+ "evaluator": "phase18_evaluation_v1",
+ "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+ "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+ "gate": "G1",
+ "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs random_legal@1.0.0",
+ "receipts_rows": 8192,
+ "receipts_sha256": "84b479b54b18bbb9bede77a5810bd9e3429107de196142e8b59c522d6ef0cb04",
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "schedule_digest": "2111848ba7c19ea08a70974bc082f56b3d8be195b7169cc6c1095c953cd285f7",
+ "summary": {
+  "candidate": "phase6_c1_warmstart_greedy@0.2.0+float32",
+  "color_split": {
+   "blue": {
+    "draws": 67,
+    "effective_win_rate": 0.9556884765625,
+    "errors": 0,
+    "games": 4096,
+    "losses": 148,
+    "moves_first": false,
+    "wins": 3881
+   },
+   "difference_red_minus_blue": 0.00048828125,
+   "red": {
+    "draws": 63,
+    "effective_win_rate": 0.9561767578125,
+    "errors": 0,
+    "games": 4096,
+    "losses": 148,
+    "moves_first": true,
+    "wins": 3885
+   }
+  },
+  "confidence_interval": {
+   "confidence": 0.95,
+   "engine": "numpy_pcg64",
+   "lower": 0.9517822265625,
+   "method": "paired_unit_percentile_bootstrap",
+   "resamples": 10000,
+   "resampling_unit": "paired_unit",
+   "sample_size": 4096,
+   "seed": 5866836619823415452,
+   "upper": 0.9599609375,
+   "width": 0.0081787109375
+  },
+  "draws": 130,
+  "effective_win_rate": 0.9559326171875,
+  "games": 8192,
+  "losses": 296,
+  "normal_interval": {
+   "confidence": 0.95,
+   "engine": null,
+   "lower": 0.9517903083495244,
+   "method": "normal_approximation",
+   "resamples": null,
+   "resampling_unit": "paired_unit",
+   "sample_size": 4096,
+   "seed": null,
+   "upper": 0.9600749260254756,
+   "width": 0.008284617675951234
+  },
+  "opponent": "random_legal@1.0.0",
+  "paired_unit_score_histogram": {
+   "0.0": 1,
+   "0.25": 0,
+   "0.5": 296,
+   "0.75": 126,
+   "1.0": 3673
+  },
+  "paired_units": 4096,
+  "plies": {
+   "games": 8192,
+   "maximum": 1336,
+   "mean": 318.90966796875,
+   "median": 303.0,
+   "minimum": 10,
+   "total": 2612508
+  },
+  "policy_errors": 0,
+  "separated_from_even": true,
+  "setup_pair_stratification": {
+   "best_pairs": [
+    4095,
+    4094,
+    4093,
+    4092,
+    4091
+   ],
+   "games_per_pair_maximum": 2,
+   "games_per_pair_minimum": 2,
+   "pair_effective_win_rate_maximum": 1.0,
+   "pair_effective_win_rate_mean": 0.9559326171875,
+   "pair_effective_win_rate_median": 1.0,
+   "pair_effective_win_rate_minimum": 0.0,
+   "pairs_candidate_lost_outright": 1,
+   "pairs_candidate_won_outright": 3673,
+   "setup_pairs": 4096,
+   "worst_pairs": [
+    3060,
+    0,
+    10,
+    20,
+    54
+   ]
+  },
+  "statistics_version": "evaluation_statistics_v1",
+  "terminal_reasons": {
+   "counts": {
+    "battleless_move_limit_draw": 128,
+    "both_no_legal_move_draw": 2,
+    "flag_capture": 7106,
+    "opponent_no_legal_move": 956
+   },
+   "games": 8192,
+   "shares": {
+    "battleless_move_limit_draw": 0.015625,
+    "both_no_legal_move_draw": 0.000244140625,
+    "flag_capture": 0.867431640625,
+    "opponent_no_legal_move": 0.11669921875
+   }
+  },
+  "wins": 7766
+ },
+ "timestamp_utc": "2026-09-02T04:37:10Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
