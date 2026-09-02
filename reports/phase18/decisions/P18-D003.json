@@ -1,0 +1,217 @@
+{
+ "decision_id": "P18-D003",
+ "timestamp_utc": "2026-09-02T04:45:00Z",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_3",
+ "gate": "G1",
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "decision": "PROCEED",
+ "headline": "The vs-random non-inferiority margin certifies on the independent 4,096-pair confirmation bank: paired delta +0.00634765625, two-sided 95% bootstrap interval [+0.00079345703125, +0.01190185546875], frozen margin -0.010, lower endpoint strictly greater. Combined with P18-D002's 42/42 original gates and 7/8 certified margins, Gate G1 closes.",
+ "identity": {
+  "branch": "phase18/g1-random-confirmation",
+  "branch_created_from": "18409f738613616e364f81ff14814d4648fc92d1",
+  "approved_agent2_remote_branch": "origin/phase18/setup-integrated-warmstart-g1",
+  "approved_agent2_remote_sha_verified": "18409f738613616e364f81ff14814d4648fc92d1",
+  "remote_url": "https://github.com/brandonnassir/stratego.git",
+  "operator_authorization_commit": "075600574649d1ea50135d015a2bd31724700aae",
+  "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+  "g1_confirm_source_tree": "bf24f4c5c77ef1896d304788453dc9d7441c2e91",
+  "launch_manifest_commit": "3a8b30d07eb7d093cfc60bb1abb8302fe788c920",
+  "result_evidence_commit": "c1833ad7a36fb0c98d6fada02326316d50d7f284",
+  "branch_head_note": "the commit introducing this packet is the reviewable branch HEAD; it cannot contain its own SHA. Every measurement binds g1_confirm_source_commit, and every result artifact was committed at result_evidence_commit.",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g1_confirm_exec",
+  "execution_worktree_porcelain_empty_at_launch": true,
+  "output_root": "/Users/brandonwashington/Dev/stratego_phase18/g1_random_confirmation_v1",
+  "g1_source_commit_of_candidate": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+  "checkpoints": {
+   "reference_accepted": {
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1.pt",
+    "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+   },
+   "candidate_g1": {
+    "path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+    "sha256": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c"
+   }
+  },
+  "bank_digest": "24b263d2f6e2d3e4b118470861ce79e85331e51b68468a1ea9d3c87f59f4711e",
+  "schedule_digest": "2111848ba7c19ea08a70974bc082f56b3d8be195b7169cc6c1095c953cd285f7",
+  "seed_namespace": "phase18_g1_random_confirmation_v1",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "bank_root_seed": 6318667561552392983,
+  "schedule_root_seed": 6846249549559311463,
+  "bootstrap_seed": 5234174007292860913,
+  "evaluator": "phase18_evaluation_v1",
+  "entry_point": "scripts/phase18_g1_random_confirmation.py --freeze | --launch-manifest | --run | --analyse | --bind",
+  "matchup": "phase6_c1_warmstart_greedy@0.2.0+float32 vs random_legal@1.0.0",
+  "inference": "greedy, float32, MPS owner, workers never import torch or load a checkpoint",
+  "rules": "accepted evaluation rules (battleless_move_limit 100, absolute_move_limit 4000, first_player 0)"
+ },
+ "authorization": {
+  "accepted_decision": "P18-D002 accepted as REVISE",
+  "p18_d002_json_sha256": "ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927",
+  "p18_d002_md_sha256": "9300c308895d7fc2cfe0f3bd5899955b7fa36ed6266f31e8ae6db585c1d66f1d",
+  "review_artifact": "reports/phase18/reviews/P18-D002_REVIEW.md",
+  "review_artifact_sha256": "471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811",
+  "instruction": "instructions/phase_18_setup_integrated_warmstart/05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md",
+  "instruction_sha256": "8ab5315430b84ec7921058848777e564e6aa94714f9aad0086c0d11f50b0b0d0"
+ },
+ "question": {
+  "text": "On a new independent 4,096-pair random-opponent confirmation bank frozen before either arm runs, does the G1 candidate's paired 95% lower bound relative to the accepted Phase 8 checkpoint exceed the original -0.01 EWR margin?",
+  "null_hypothesis": "Delta <= -0.010, where Delta = EWR(G1 candidate vs random) - EWR(accepted checkpoint vs random)",
+  "alternative_hypothesis": "Delta > -0.010",
+  "primary_metric": "effective win rate delta over paired setup cases, draw = 0.5, both colours carried as one unit",
+  "practical_margin": -0.010,
+  "decision_rule": "pass only if the lower endpoint of the two-sided 95% paired percentile-bootstrap interval (10,000 replicates, frozen seed) is strictly greater than -0.010",
+  "sample_size_basis": {
+   "planning_sd": 0.189374,
+   "n_for_80_percent_power_at_delta_0": 2815,
+   "n_for_90_percent_power_at_delta_0": 3769,
+   "frozen_n": 4096,
+   "power_at_frozen_n": 0.9221367251713777,
+   "formula": "n = ceil( ((z_(1-alpha/2) + z_power) * sd / (true_delta + margin))^2 )",
+   "frozen_before_outcomes": true
+  },
+  "predeclared_interpretations": {
+   "PROCEED": "all 4,096 paired cases complete and valid, every identity/pairing/sealing/accounting gate passes, no accepted artifact changed, sealed-test access zero, and the strict lower bound exceeds -0.010: G1 closes",
+   "STOP": "a complete valid confirmation whose lower endpoint is at or below -0.010: Phase 8 reproducibility remains the active problem",
+   "BLOCKED": "the independent bank cannot be built, a frozen checkpoint mismatches, complete paired evidence cannot be produced, or sealing integrity cannot be established",
+   "REVISE": "only for a concrete instrument defect discovered before valid outcomes are opened"
+  }
+ },
+ "execution_integrity": {
+  "planned_games_per_arm": 8192,
+  "completed_games_per_arm": {"reference": 8192, "candidate": 8192},
+  "failed": 0,
+  "missing": 0,
+  "unplanned": 0,
+  "duplicates": 0,
+  "retries": 0,
+  "chunk_reuse_during_run": 0,
+  "illegal_actions": 0,
+  "non_finite_outputs": 0,
+  "policy_errors": 0,
+  "worker_torch_imports": 0,
+  "worker_checkpoint_loads": 0,
+  "arm_order_executed": ["reference", "candidate"],
+  "arm_order_frozen_before_run": true,
+  "accounting_rule": "planned = completed + failed + missing; failures and retries are never draws",
+  "arm_identity_proof": "identical match ids across arms; setup, seeds, colour, first player, opponent and rules identical field-for-field on all 8,192 rows; zero mismatches",
+  "receipts": {
+   "reference": {"rows": 8192, "sha256": "84b479b54b18bbb9bede77a5810bd9e3429107de196142e8b59c522d6ef0cb04"},
+   "candidate": {"rows": 8192, "sha256": "6a77379259f3e181703c2db5d1e41dd33af62fb3e0cde777101188c81a987591"},
+   "recompute": "the paired unit scores and both arm EWRs were recomputed from the immutable per-row receipts and match the chunk-derived values exactly"
+  },
+  "sealing": {
+   "sealed_phase8_test_examples_opened": 0,
+   "sealed_test_multiplicity_increment": 0,
+   "phase4_neural_games": 0,
+   "enforcement": "the driver has no code path to the corpus or the sealed split; a source-scan test pins the absence"
+  },
+  "accepted_artifacts": {
+   "protected": [
+    "checkpoints/phase8/warmstart_c1_v1.pt",
+    "checkpoints/phase8/warmstart_c1_v1_manifest.json",
+    "checkpoints/phase8/warmstart_c1_v1_initialisation.pt",
+    "reports/phase_8_implementation_report.md",
+    "the G1 candidate checkpoint bytes"
+   ],
+   "unchanged": true,
+   "method": "hashed before and after the run and again around the analysis"
+  },
+  "wall_clock_seconds": {"reference_arm": 5600.4, "candidate_arm": 5351.1, "run_total": 10952.8},
+  "tests_before_launch": "86/86 Phase 18 evaluator tests pass (40 pre-existing + 46 new)",
+  "deviations": [
+   "The Agent 3 branch existed before this agent started: the operator had committed the P18-D002 review acceptance and this work package's authorization on it (075600574649), and earlier misdirected agents had left three uncommitted files. The operator directed this agent to pick up that work. The branch point was verified to be exactly the approved Agent 2 commit, the operator commit was left untouched, and the partial files were reviewed line-by-line before adoption: confirmation_bank.py and power.py were kept as written, the incomplete driver was completed, and all tests were written fresh.",
+   "The launch manifest is committed one commit after G1_CONFIRM_SOURCE_COMMIT (3a8b30d07eb7), still before any game: it binds that commit's SHA, tree, and the clean-worktree proof, so it cannot be inside the commit it binds. No frozen field changed after freezing.",
+   "The instruction's decision rule says 'strictly greater than -0.010' where the original G1 contract dialect reads the bound with >=. The confirmation implements the strict rule and reports the original dialect beside it; a dedicated test pins that they differ only at exact equality, which dyadic game scores cannot produce here. On this result both dialects agree.",
+   "The separation requirement was implemented stricter than worded: overlap is checked on per-side reflection-class fingerprints (cross_side_class_overlap), so a pair reusing one old board with one fresh board is also caught. All overlap counters are zero."
+  ]
+ },
+ "results": {
+  "primary": {
+   "reference_ewr": 0.9559326171875,
+   "candidate_ewr": 0.9622802734375,
+   "paired_delta": 0.00634765625,
+   "bootstrap_lower": 0.00079345703125,
+   "bootstrap_upper": 0.01190185546875,
+   "confidence": 0.95,
+   "replicates": 10000,
+   "bootstrap_seed": 5234174007292860913,
+   "margin": -0.010,
+   "lower_strictly_greater_than_margin": true,
+   "original_gate_dialect_agrees": true
+  },
+  "diagnostics": {
+   "observed_paired_difference_sd": 0.181457241210341,
+   "planning_sd": 0.189374,
+   "pairs_on_which_arms_differ": 670,
+   "paired_units": 4096,
+   "normal_approximation": {"lower": 0.000791, "upper": 0.011905, "standard_error": 0.002835, "role": "diagnostic only; agrees with the bootstrap to five decimals"},
+   "reference_outcomes": {"wins": 7766, "draws": 130, "losses": 296},
+   "candidate_outcomes": {"wins": 7840, "draws": 86, "losses": 266},
+   "reference_color_ewr": {"red": 0.9561767578125, "blue": 0.9556884765625},
+   "candidate_color_ewr": {"red": 0.9609375, "blue": 0.963623046875},
+   "terminal_reasons_reference": {"flag_capture": 7106, "opponent_no_legal_move": 956, "battleless_move_limit_draw": 128, "both_no_legal_move_draw": 2},
+   "terminal_reasons_candidate": {"flag_capture": 7351, "opponent_no_legal_move": 755, "battleless_move_limit_draw": 84, "both_no_legal_move_draw": 2}
+  },
+  "original_1024_pair_context": {
+   "role": "historical evidence only; never pooled into the primary statistic and not used to alter the gate",
+   "delta": -0.000244140625,
+   "interval": [-0.011962890625, 0.01123046875],
+   "sample_size": 1024
+  },
+  "bank_construction": {
+   "pairs": 4096,
+   "internal_content_duplicates": 0,
+   "internal_class_duplicates": 0,
+   "cross_content_overlap_with_evaluation_setup_bank_v1": 0,
+   "cross_class_overlap_with_evaluation_setup_bank_v1": 0,
+   "cross_side_class_overlap": 0,
+   "duplicate_pair_ids": 0,
+   "frozen_before_either_arm_ran": true
+  }
+ },
+ "interpretation": {
+  "observed_fact": "All 16,384 games completed with zero integrity events. The paired delta on 4,096 independent pairs is +0.006348 with a 95% interval of [+0.000793, +0.011902]; the lower endpoint exceeds the frozen -0.010 margin strictly. The instrument's half-width here is 0.0056, below the margin it had to certify, exactly as the power calculation predicted.",
+  "supported_inference": "The G1 reproduction is non-inferior to the accepted Phase 8 checkpoint against the random opponent under the original margin and rule. The P18-D002 failure was a measurement-design deficit, now repaired by sample size alone: nothing about the models, the margin, or the rule changed between the two measurements. Gate G1's remaining open sub-gate closes.",
+  "plausible_but_untested": "The confirmation delta (+0.006) and the original delta (-0.000244) differ by about one confirmation standard error; per-bank variation of a few thousandths in this matchup is the natural reading, but with two banks that distribution is not measured. The candidate's higher flag-capture share (89.7% vs 86.7%) and fewer draws suggest a marginally more decisive policy against random play.",
+  "claim_not_supported": "That the reproduction is SUPERIOR to the accepted checkpoint. The interval lies above zero on this bank, but superiority was not the frozen question, no superiority margin or multiplicity control was predeclared, and the original bank's near-zero delta sits against it. The result is used only for what it was designed to answer: non-inferiority."
+ },
+ "sub_gates": {
+  "all_4096_paired_cases_complete_and_valid": "pass",
+  "identity_pairing_sealing_accounting_gates": "pass",
+  "no_accepted_artifact_changed": "pass",
+  "sealed_test_access_zero": "pass",
+  "strict_bootstrap_lower_bound_above_margin": "pass"
+ },
+ "g1_closure": {
+  "all_original_phase8_gates_pass": "pass (42/42, established by P18-D002 and unchanged by this measurement-only revision)",
+  "paired_non_inferiority_to_accepted_checkpoint": "pass (7/8 margins certified in P18-D002; the eighth, vs_random_ewr, certified here on the powered independent bank)",
+  "no_test_or_phase4_evaluation_leakage": "pass (P18-D002 counted its two authorized sealed accesses; this revision added zero)",
+  "gate_g1": "CLOSED"
+ },
+ "proposed_next_question": {
+  "text": "Does the local setup implementation match the published method - the I - 10h entropy residual, forced flag handedness with seeded post-generation reflection, reusable pools with repeated-outcome aggregation, effective batch 1,024, raw/EMA separation - at canned loss/gradient parity, and does it learn a known synthetic reward landscape across at least three seeds?",
+  "gate": "G2",
+  "why_it_discriminates": "G2 is the first gate the evidence ladder now permits, and it separates 'the Phase 17 negative result came from the five identified method defects' from 'the method itself does not transfer at this scale' before any Stratego game is spent on setup learning. Its synthetic assay has a known answer, so a failure indicts the implementation, not the game.",
+  "explicitly_not_started": "No G2 instruction is written here and no setup-model code exists on this branch."
+ },
+ "artifacts": {
+  "reports/phase18/phase18_g1_random_confirmation_contract_v1.json": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+  "reports/phase18/phase18_g1_random_confirmation_bank_v1.json": "d25d78bd3b06622ae5a75910ba3d325664f92566d5d76aa2ce40885829cadc7c",
+  "reports/phase18/phase18_g1_random_confirmation_launch_v1.json": "dd30e25b4daed3b418b4cb8b325ce622cec7c38bc672b6d3ee260a4a74672653",
+  "reports/phase18/phase18_g1_random_confirmation_reference_v1.json": "d67f59c48eb7575ce6379610749f1a9b915b04df921807d7e67cbb115425fde9",
+  "reports/phase18/phase18_g1_random_confirmation_candidate_v1.json": "30ccec46641ea4a81b1e7a77258d8aa512ab1964a4bbf9213445607cbc979421",
+  "reports/phase18/phase18_g1_random_confirmation_noninferiority_v1.json": "b6d26bbd44f1cd51e6d297dddb79069a4dd24ba712d650e545352e9bf415e92b",
+  "reports/phase18/phase18_g1_random_confirmation_binding_v1.json": "ccb9d2a4b8b53a721686fefdbfcf24947d9a939ddc94f6626d6c3584a6e6d42d",
+  "reports/phase18/g1_random_confirmation/run_v1.json": "bf5fbed45cb83b0cb725235a60c9d16bd929f5fd4f485bef5f80c8d9a93b79ce",
+  "reports/phase18/g1_random_confirmation/arm_reference_v1.json": "37822133e9b229776c4e2416f64a32413ed4bd7f6df2ecff5af3d823783750ef",
+  "reports/phase18/g1_random_confirmation/arm_candidate_v1.json": "9daa5b0c4684e900878bb4e8e599eeeefd4878819e50611742adff4c80a87350",
+  "reports/phase18/g1_random_confirmation/reference_receipts.jsonl": "84b479b54b18bbb9bede77a5810bd9e3429107de196142e8b59c522d6ef0cb04",
+  "reports/phase18/g1_random_confirmation/candidate_receipts.jsonl": "6a77379259f3e181703c2db5d1e41dd33af62fb3e0cde777101188c81a987591"
+ },
+ "publication": {
+  "status": "NOT PUSHED - awaiting review",
+  "rule": "after the reviewing chat and operator accept P18-D003, the exact approved branch HEAD is published with a normal non-force push, the remote SHA is verified equal to the approved local SHA, and both are recorded with the remote URL and UTC time. No push to main, force push, merge, tag, release, or pull request."
+ }
+}

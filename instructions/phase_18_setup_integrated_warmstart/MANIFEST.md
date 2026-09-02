@@ -16,15 +16,18 @@ created 2026-08-31
 | `02_PHASE_18_DECISION_PACKET_AND_NEXT_AGENT_PROTOCOL.md` | Evidence review and future-agent authorization protocol | Governing |
 | `03_SETUP_MODEL_INTEGRATION_REFERENCE.md` | Math/method/hypothesis reference and PDF source | Reference only |
 | `04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md` | Clean source closure and faithful Phase 8 reproduction | Authorized by accepted `P18-D001` |
-| `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | Authorized by accepted `P18-D002` (`REVISE`) |
+| `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | **Executed 2026-09-02** — delivered `P18-D003` (`PROCEED`, awaiting review) |
 
 ## Current execution rule
 
-Agents 1 and 2 are complete. Agent 2's work is approved and published at
-`origin/phase18/setup-integrated-warmstart-g1` commit `18409f7`. Only Agent 3's
-measurement-only G1 confirmation is currently authorized. No training, setup
-implementation, G2 work, setup-only assay, tandem pilot, rehearsal, or production run
-is authorized.
+Agents 1, 2 and 3 are complete. Agent 2's work is approved and published at
+`origin/phase18/setup-integrated-warmstart-g1` commit `18409f7`. Agent 3's
+confirmation certified the vs-random margin (delta +0.006348, 95%
+[+0.000793, +0.011902] on 4,096 independent pairs against the frozen -0.010
+margin) and delivered `P18-D003` recommending G1 closure; its result commits are
+**local only on `phase18/g1-random-confirmation`, awaiting review** — do not push
+until the packet is accepted. No training, setup implementation, G2 work,
+setup-only assay, tandem pilot, rehearsal, or production run is authorized.
 
 Agent 3 must keep the original `-0.01` margin and two-sided 95% paired-bootstrap rule,
 use a new independent 4,096-pair confirmation bank, reuse the frozen accepted and G1

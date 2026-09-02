@@ -249,6 +249,15 @@ untracked by `.gitignore`, as intended.
 | `reports/phase18/agent_01_report.md`, `phase18_agent1_handoff_v1.json` | `ACCEPTED` | Findings and readiness booleans. |
 | `reports/phase18/decisions/P18-D001.*` | `ACCEPTED` | The gate-G0 decision packet. |
 
+### 7.2b Phase 18 — Gate G1 (Agents 2 and 3)
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `reports/phase18/phase18_g1_*` (control run, checkpoint manifest, noninferiority, arms, binding, launch) | `ACCEPTED` | Agent 2's G1 control at `G1_SOURCE_COMMIT 66b733ad`: 42/42 original gates, 7/8 paired margins; vs-random uncertifiable at 1,024 pairs (±0.0116 vs 0.010). |
+| `reports/phase18/decisions/P18-D002.*`, `reviews/P18-D002_REVIEW.md` | `ACCEPTED` as `REVISE` | Authorized exactly one measurement-only revision: 4,096 independent pairs, same margin and rule. |
+| `reports/phase18/phase18_g1_random_confirmation_*` (contract, bank, launch, reference, candidate, noninferiority, binding) + `g1_random_confirmation/` (receipts, run/arm records) | **`AWAITING REVIEW`** | Agent 3's powered confirmation at `G1_CONFIRM_SOURCE_COMMIT 9392c6ec`: delta **+0.006348**, 95% **[+0.000793, +0.011902]** on 4,096 independent pairs vs the −0.010 margin — certified; zero integrity events; sealed-test access zero. |
+| `reports/phase18/decisions/P18-D003.*`, `agent_03_report.md` | **`AWAITING REVIEW`** — `PROCEED` | Closes G1 if accepted; proposes G2 (setup implementation parity) as the next bounded question. Local branch `phase18/g1-random-confirmation`, **not pushed**. |
+
 ### 7.3 Two cross-cutting facts that change how earlier evidence reads
 
 1. **The 120-board pack is underpowered for the questions it was used on.**

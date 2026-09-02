@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T00:31:46Z",
+ "updated_utc": "2026-09-02T04:50:00Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -40,6 +40,26 @@
    "review_artifact_sha256": "471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811",
    "approved_remote_branch": "origin/phase18/setup-integrated-warmstart-g1",
    "approved_local_and_remote_sha": "18409f738613616e364f81ff14814d4648fc92d1"
+  },
+  {
+   "decision_id": "P18-D003",
+   "timestamp_utc": "2026-09-02T04:45:00Z",
+   "agent": "phase_18_agent_3",
+   "gate": "G1",
+   "question": "Does the G1 candidate's paired 95% lower bound vs the accepted checkpoint exceed the original -0.01 EWR margin on a new independent 4,096-pair random-opponent bank?",
+   "decision": "PROCEED",
+   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "markdown": "reports/phase18/decisions/P18-D003.md",
+   "json": "reports/phase18/decisions/P18-D003.json",
+   "markdown_sha256": "7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7",
+   "json_sha256": "57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb",
+   "headline": "delta +0.00634765625, 95% [+0.00079345703125, +0.01190185546875], margin -0.010: certified; Gate G1 closes",
+   "g1_confirm_source_commit": "9392c6ec1c948a7c5c91278616f669340f4a6445",
+   "launch_manifest_commit": "3a8b30d07eb7d093cfc60bb1abb8302fe788c920",
+   "result_evidence_commit": "c1833ad7a36fb0c98d6fada02326316d50d7f284",
+   "local_branch": "phase18/g1-random-confirmation",
+   "authorized_instruction": null,
+   "authorized_instruction_note": "no next instruction exists; P18-D003 proposes Gate G2 (setup implementation parity) as the next bounded question, to be written only after acceptance"
   }
  ]
 }

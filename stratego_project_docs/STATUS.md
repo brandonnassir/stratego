@@ -542,7 +542,8 @@ carry this as a regression case.
 
 ## 14. Is Phase 18 authorized?
 
-**Only its first work package.**
+**Gate G1 is complete pending review; nothing beyond it is authorized.**
+*(Updated 2026-09-02 by Phase 18 Agent 3.)*
 
 Phase 18 — *setup-integrated Phase 8 warmstart* — was planned on 2026-08-31. Its
 goal is a fresh Phase 8 C1 warmstart whose policy/value/belief learner is
@@ -551,10 +552,15 @@ method defects and returning to the Phase 8 supervised experimental point instea
 of self-play.
 
 ```text
-authorized      instructions/phase_18_setup_integrated_warmstart/
-                01_AGENT_1_REPRODUCTION_AND_SETUP_METHOD_CONTRACT.md   (executed 2026-08-31)
-NOT authorized  the Phase 8 control run, the setup implementation, the setup-only
-                assay, the tandem pilot, the production rehearsal, and the full run
+executed   01_AGENT_1 (G0, 2026-08-31)          -> P18-D001 PROCEED (accepted)
+executed   04_AGENT_2 (G1 control, 2026-09-01)  -> P18-D002 REVISE  (accepted; 42/42
+           gates, 7/8 margins; vs-random uncertifiable at 1,024 pairs)
+executed   05_AGENT_3 (G1 confirmation, 2026-09-02) -> P18-D003 PROCEED (AWAITING
+           REVIEW; delta +0.006348, 95% [+0.000793, +0.011902] on 4,096 independent
+           pairs vs the -0.010 margin -> G1 closes; local branch
+           phase18/g1-random-confirmation, NOT pushed)
+NOT authorized  the setup implementation (G2), the setup-only assay (G3), the
+                tandem pilot (G4), the production rehearsal (G5), and the full run (G6)
 ```
 
 Phase 18 is an **adaptive evidence ladder** (gates G0–G6), not a precommitted

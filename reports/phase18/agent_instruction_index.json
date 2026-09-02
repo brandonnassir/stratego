@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_agent_instruction_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T00:31:46Z",
+ "updated_utc": "2026-09-02T04:50:00Z",
  "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
  "instructions": [
   {
@@ -43,7 +43,7 @@
    "file": "instructions/phase_18_setup_integrated_warmstart/05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md",
    "role": "work package",
    "authorizing_decision": "accepted P18-D002 REVISE (JSON SHA-256 ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927), reviewing-chat audit 471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811, and operator request 2026-09-01",
-   "status": "AUTHORIZED - not yet executed; G1 remains open",
+   "status": "EXECUTED 2026-09-02, delivered P18-D003 (PROCEED, awaiting review) at G1_CONFIRM_SOURCE_COMMIT 9392c6ec1c94; the confirmation certifies the vs-random margin and closes G1 pending acceptance",
    "sha256": "8ab5315430b84ec7921058848777e564e6aa94714f9aad0086c0d11f50b0b0d0"
   }
  ],
