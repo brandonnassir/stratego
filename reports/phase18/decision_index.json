@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T14:34:22Z",
+ "updated_utc": "2026-09-02T17:48:10Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -85,7 +85,7 @@
    "gate": "G2",
    "question": "Does the local scaled setup-policy implementation match the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and can it reliably learn a known synthetic setup-reward landscape from outcome-only feedback across three fresh seeds?",
    "decision": "REVISE",
-   "status": "accepted as REVISE by the operator on 2026-09-02; branch phase18/g2-setup-parity published at 6afa13be (local == remote); interpretive wording corrected by Agent 5 on phase18/g2-raw-confirmation (see corrections_note); the bounded G2 raw-actor confirmation (instruction 07) authorized",
+   "status": "accepted as REVISE by the operator on 2026-09-02; branch phase18/g2-setup-parity published at 6afa13be (local == remote); interpretive wording corrected by Agent 5 on phase18/g2-raw-confirmation (see corrections_note); the bounded G2 raw-actor confirmation (instruction 07) executed -> P18-D005",
    "markdown": "reports/phase18/decisions/P18-D004.md",
    "json": "reports/phase18/decisions/P18-D004.json",
    "markdown_sha256": "295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f",
@@ -117,6 +117,30 @@
    },
    "approved_local_and_remote_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
    "authorized_instruction_sha256": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af"
+  },
+  {
+   "decision_id": "P18-D005",
+   "timestamp_utc": "2026-09-02T17:47:04Z",
+   "agent": "phase_18_agent_5",
+   "gate": "G2 (bounded raw-actor confirmation; synthetic trainability portion only)",
+   "question": "Using the parity-correct setup-learning method, does the raw generation actor reliably learn an independently generated synthetic setup landscape within 64 setup updates?",
+   "decision": "PROCEED",
+   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "markdown": "reports/phase18/decisions/P18-D005.md",
+   "json": "reports/phase18/decisions/P18-D005.json",
+   "markdown_sha256": "e34c84baaf8d68a5b41a69135753006e6e73c295c28490fb0680e8ca6745eab4",
+   "json_sha256": "38b0c0c06f453892142e539b24f8fbd7e0f98ed1d5069b18f7af446ddb72d795",
+   "headline": "fresh landscape (optimum 53.031081), fresh seeds, unchanged G2 method: the raw actor improved in every seed, pooled paired 95% [+5.2985, +5.5585] on 12,288 pairs, gap closure 10.648% / 10.007% / 9.599%, median 10.007% against the frozen 10% threshold (cleared by 0.0073 percentage points); parity, bitwise replay, binding and integrity all pass; EMA telemetry median 0.119%, decides nothing -> PROCEED for the synthetic trainability portion of G2 only",
+   "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+   "documentation_correction_commit": "59ddc75b63b2327627869962ac2c8faf7c0d2bf1",
+   "g2_raw_source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+   "verification_commit": "e980dc7b0eb68a4ae07a5c99d782cd322de91940",
+   "launch_manifest_commit": "77ce90b5ba9bd39baf1cf9a40623452445a3cf26",
+   "result_evidence_commit": "be4fc84faed3a29dcf1e4669733a81fe384e813f",
+   "local_branch": "phase18/g2-raw-confirmation",
+   "scope": "closes only the synthetic trainability portion of G2; authorizes designing the next gate, not launching G3, a Stratego game experiment or the full warmstart",
+   "authorized_instruction": null,
+   "authorized_instruction_note": "no next instruction exists; P18-D005 recommends a design question for Gate G3 (evaluation model and budget with power, margin sized from a known instrument resolution, evaluation-rule amendment O-P18-EVALRULES-1) to be written only after acceptance"
   }
  ]
 }

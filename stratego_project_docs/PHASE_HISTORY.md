@@ -482,8 +482,11 @@ Distinct from §12. This is the work actually executed under the number 17.
   published at `6afa13be`): implementation parity holds on all 30 method-map
   rows, the setup learner learns a frozen synthetic landscape on all three
   seeds, and the EMA evaluation model lagged severely behind the raw actor
-  within the 64-update budget — a predeclared instrument concern. A bounded
-  raw-actor confirmation on a fresh landscape (Agent 5, instruction 07) is in
-  progress. No setup-only Stratego assay, pilot, rehearsal or production run is
-  authorized. See `../instructions/phase_18_setup_integrated_warmstart/` and
+  within the 64-update budget — a predeclared instrument concern. The bounded
+  raw-actor confirmation on a fresh landscape (Agent 5, instruction 07)
+  delivered `P18-D005` PROCEED for the synthetic trainability portion of G2
+  (awaiting review): the raw learner learned in every seed and the median gap
+  closure met the frozen 10% threshold at its edge. No setup-only Stratego
+  assay, pilot, rehearsal or production run is authorized. See
+  `../instructions/phase_18_setup_integrated_warmstart/` and
   `../reports/phase18/`.

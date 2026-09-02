@@ -29,9 +29,11 @@ Three layers, kept separate on purpose:
 
 > **2026-08-31.** Phase 17 (tandem self-play, `RUN-2026-B`) is **complete with a
 > negative result and no checkpoint promoted**; Phase 18 (setup-integrated
-> warmstart) is **in progress: G0–G1 accepted, G2 parity passes and a bounded
-> raw-actor confirmation (Agent 5) is running; nothing beyond G2 is
-> authorized** (updated 2026-09-02). Note that the number
+> warmstart) is **in progress: G0–G1 accepted, G2 parity passes and the bounded
+> raw-actor confirmation (Agent 5, `P18-D005` PROCEED for the synthetic
+> trainability portion, awaiting review) passed at the threshold's edge;
+> nothing beyond designing the next gate is authorized** (updated 2026-09-02).
+> Note that the number
 > 17 was reused: the *planned* Phase 17 was casual human evaluation and is still
 > `PENDING`. See [`STATUS.md`](STATUS.md) §13–§14.
 

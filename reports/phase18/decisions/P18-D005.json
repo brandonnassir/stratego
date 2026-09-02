@@ -1,0 +1,1119 @@
+{
+ "decision_id": "P18-D005",
+ "timestamp_utc": "2026-09-02T17:47:04Z",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_5",
+ "gate": "G2 (bounded raw-actor confirmation; synthetic trainability portion only)",
+ "run_id": "G2-RAW-CONFIRMATION-2026-A",
+ "decision": "PROCEED",
+ "headline": "On an independently generated landscape (optimum 53.031081) with three fresh seeds and the unchanged G2 method, the raw generation actor improved its held-out expected utility in every seed (-1.1436 -> +4.6249, -0.5994 -> +4.7675, -0.6146 -> +4.5347); pooled paired 95% [+5.2985, +5.5585] on 12,288 pairs; gap closure 10.6479%, 10.0073%, 9.5987%, median 10.0073% against the frozen 10% threshold (cleared by 0.0073% of the gap). Parity, replay (bitwise), binding and integrity all pass. The EMA telemetry closed a median 0.1191% and decided nothing. PROCEED for the synthetic trainability portion of G2 only.",
+ "identity": {
+  "branch": "phase18/g2-raw-confirmation",
+  "branch_created_from": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "base_commit_role": "the reviewed and published G2 branch head (origin/phase18/g2-setup-parity); the branch point and one of the seed-derivation inputs",
+  "g2_publication": {
+   "remote_url": "https://github.com/brandonnassir/stratego.git",
+   "remote_branch": "origin/phase18/g2-setup-parity",
+   "local_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+   "remote_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+   "published_utc": "2026-09-02T14:28:00Z",
+   "push": "normal non-force; remote branch was absent; no publication commit"
+  },
+  "documentation_correction_commit": "59ddc75b63b2327627869962ac2c8faf7c0d2bf1",
+  "g2_raw_source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+  "g2_raw_source_tree": "dd9d305e7cbaed99f573c227dd9a1dc4dce1456d",
+  "verification_commit": "e980dc7b0eb68a4ae07a5c99d782cd322de91940",
+  "launch_manifest_commit": "77ce90b5ba9bd39baf1cf9a40623452445a3cf26",
+  "result_evidence_commit": "be4fc84faed3a29dcf1e4669733a81fe384e813f",
+  "branch_head_note": "the commit introducing this packet is the reviewable branch HEAD; it cannot contain its own SHA. Every measurement binds g2_raw_source_commit, and every result artifact was committed at result_evidence_commit.",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_raw_exec",
+  "execution_worktree_porcelain_empty_at_launch": true,
+  "artifact_root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_raw_confirmation_v1",
+  "artifact_root_relative": "artifacts/phase18/g2_raw_confirmation_v1",
+  "artifact_root_git_ignored": true,
+  "g2_artifacts": "untouched (artifacts/phase18/g2_setup_parity_v1)",
+  "g1_artifacts": "untouched (outside the repository)",
+  "contract_sha256": "9a33147090f035c840f2ebb59a78e73e212acc6b9db9f88a8b45035e1e57d012",
+  "landscape_sha256": "1202b9c7fb59f0f3ed0d4ff692a02f6000b9c0af13b62d11f2cb55ff7f945e60",
+  "launch_manifest_sha256": "a0413ea8a86ce34a513285387781b66c49c8b0662e32c0939cb87b32b356bfc5",
+  "results_sha256": "7856bf0e084aa637043924c204bb5c1d25e247156c78feb7fc62968456d0e1e4",
+  "binding_ledger_sha256": "9d318c4fba9e96042aac39067145d38438aeefde735dac197a4199e8e9c3d697",
+  "design_digest": "63ee8329b2f434a67650342285ee2fd5b6a9121ccc887f012cebe53cbe72d83f",
+  "landscape_table_digest": "210352efb55080744d39e68308b22e2d6c0e43793342a765dbf3217fe44b84a9",
+  "landscape_table_seed": 475578596360375388,
+  "artifact_namespace": "phase18_g2_raw_confirmation_v1",
+  "seed_namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "seed_rule": "seed = derive_stream_seed(seed_namespace, label, *parts) with seed_namespace = artifact_namespace + ':' + base_commit; every stream carries a distinct label",
+  "model_seeds": {
+   "1": 3224018716491833412,
+   "2": 3702536526967685428,
+   "3": 6940975017500961852
+  },
+  "bootstrap_seeds": {
+   "ema_per_seed": {
+    "1": 8410293391283972256,
+    "2": 6786101997847380218,
+    "3": 3337968471158029643
+   },
+   "ema_pooled": 4558637159686917408,
+   "raw_per_seed": {
+    "1": 663652414076120049,
+    "2": 4663267900988268591,
+    "3": 7198145288825722947
+   },
+   "raw_pooled": 2538560817612476064
+  },
+  "entry_point": "scripts/phase18_g2_raw_confirmation.py --freeze | --verify | --launch-manifest | --run --seed-index K | --replay | --analyse | --bind | --decide",
+  "device": "CPU float32, 4 pinned threads per seed; the S29 round trip is also proved on MPS by the setup suite",
+  "method_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "published_source_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "paper": "arXiv:2511.07312v1"
+ },
+ "authorization": {
+  "accepted_decision": "P18-D004 accepted as REVISE (operator, 2026-09-02); the reviewed branch published",
+  "p18_d004_json_sha256_as_reviewed": "36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679",
+  "p18_d004_md_sha256_as_reviewed": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
+  "p18_d004_json_sha256_corrected": "bf6744d546d5756a84bef396eef6e8bb8b330be55941999e0547983f0e9f2cb1",
+  "p18_d004_md_sha256_corrected": "295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f",
+  "review_artifact": "reports/phase18/reviews/P18-D004_REVIEW.md",
+  "review_artifact_sha256": "6f3b8547f9a637d8b9f16e5fd2565642e746deb4137b4cc889c3bbbef294d74b",
+  "instruction": "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md",
+  "instruction_sha256": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af",
+  "scope": "one bounded confirmation of the synthetic trainability portion of G2; no G3, no Stratego game experiment, no Phase 8 warmstart training, no tuning"
+ },
+ "question": {
+  "text": "Using the parity-correct setup-learning method, does the raw generation actor reliably learn an independently generated synthetic setup landscape within 64 setup updates?",
+  "primary_endpoint": "the RAW generation actor's held-out expected landscape utility at 0 updates and after update 64; this is the primary endpoint for this synthetic trainability assay only",
+  "ema_role": "secondary mechanism telemetry recorded at the same endpoints on the same evaluation stream with the same paired bootstrap; EMA results cannot change the confirmation decision. The EMA remains the required evaluation/deployment model for every later Stratego-facing stage (S28).",
+  "null_hypothesis": "the parity-correct raw learner does not reliably learn the landscape: for at least one seed U_final(raw) <= U_initial(raw), or the pooled paired 95% lower bound is <= 0, or the median seed closes less than 10% of its initial-to-optimum gap",
+  "alternative_hypothesis": "for every seed U_final(raw) > U_initial(raw), the pooled paired 95% lower bound is strictly above zero, and the median seed closes at least 10% of its gap",
+  "primary_metric": "expected landscape utility: the mean utility U(s) over the 4,096 held-out raw-actor samples per seed per endpoint, initial (0 updates) versus final (after update 64)",
+  "practical_margin": {
+   "definition": "(U_final - U_initial) / (U_optimum - U_initial) per seed on the raw actor, median over the three seeds, must be >= 0.10",
+   "median_gap_closure_fraction": 0.1
+  },
+  "uncertainty": {
+   "bootstrap_seeds": {
+    "ema_per_seed": {
+     "1": 8410293391283972256,
+     "2": 6786101997847380218,
+     "3": 3337968471158029643
+    },
+    "ema_pooled": 4558637159686917408,
+    "raw_per_seed": {
+     "1": 663652414076120049,
+     "2": 4663267900988268591,
+     "3": 7198145288825722947
+    },
+    "raw_pooled": 2538560817612476064
+   },
+   "implementation": "stratego.evaluation.phase18.noninferiority.paired_unit_delta (the accepted paired bootstrap; one shared index draw for both endpoints)",
+   "method": "two-sided 95% paired percentile bootstrap over the pooled paired differences, 10,000 replicates, frozen seed; the lower endpoint must be strictly greater than zero",
+   "per_seed_intervals": "reported as diagnostics with their own domain-separated seeds; they do not decide the confirmation",
+   "pooled_statistic": "mean paired difference over all seeds' samples (3 x 4,096 = 12,288 pairs)",
+   "unit": "one held-out evaluation sample: the initial and final raw samples share the same per-token uniforms (common random numbers), so the per-sample difference U_final[i] - U_initial[i] is paired"
+  },
+  "checkpoint_rule": "the raw actor after the final fixed update (update 64) decides; intermediate curve points are telemetry and never select a checkpoint",
+  "evaluation_rule": {
+   "common_random_numbers": "every endpoint (raw and EMA, initial and final) draws the same 4,096 per-token uniforms from the 'eval' stream at snapshot 0",
+   "immediately_terminal_setups": "excluded from play and training under the existing rule (S24: a setup without an opening move is never trained and never a draw); the held-out evaluation scores every generated sample exactly as in G2 (the landscape utility is defined for every legal setup) and records the immediately-terminal count among the evaluation samples at every endpoint",
+   "sample_count_integrity": "each of the four held-out utility arrays per seed (initial/final x raw/EMA) must hold exactly 4,096 finite values",
+   "samples_per_endpoint": 4096
+  },
+  "sample_size_basis": "the G2 instruction minimum, unchanged: 4,096 held-out samples per endpoint per seed, three seeds, 10,000 replicates",
+  "decision_rule": {
+   "BLOCKED": "required evidence cannot be produced because of an unresolved dependency",
+   "PROCEED": "all parity, replay, binding and integrity checks pass; final raw-actor mean utility > initial raw-actor mean utility in all three seeds; the lower bound of the pooled paired 95% bootstrap interval > 0; median raw-actor gap closure across the three seeds >= 0.10",
+   "REVISE": "only if a specific implementation or measurement defect invalidates the run; an unfavourable valid result is never reclassified as an instrument problem",
+   "STOP": "the parity-correct raw learner fails these criteria without a concrete defect",
+   "ema_results": "recorded as secondary mechanism telemetry; they cannot change the decision",
+   "scope_of_a_pass": "closes only the synthetic trainability portion of G2 and authorizes designing the next gate; it does not authorize launching G3 or the full warmstart"
+  },
+  "frozen_before_outcomes": true,
+  "frozen_fields_changed_after_first_outcome": "none"
+ },
+ "execution_integrity": {
+  "planned_seeds": 3,
+  "completed_seeds": 3,
+  "planned_updates_per_seed": 64,
+  "completed_updates_per_seed": {
+   "1": 64,
+   "2": 64,
+   "3": 64
+  },
+  "optimizer_steps_per_seed": {
+   "1": 320,
+   "2": 320,
+   "3": 320
+  },
+  "ema_updates_per_seed": {
+   "1": 64,
+   "2": 64,
+   "3": 64
+  },
+  "outcomes_per_ready_setup": 4,
+  "distinct_setups_per_pool": 1024,
+  "integrity_totals": {
+   "attribution_failures": 0,
+   "checkpoint_identity_failures": 0,
+   "duplicates_collapsed": 0,
+   "immediately_terminal_setups": 0,
+   "legality_failures": 0,
+   "non_finite_events": 0,
+   "orientation_failures": 0
+  },
+  "integrity_failures": {
+   "attribution_failures": 0,
+   "checkpoint_identity_failures": 0,
+   "legality_failures": 0,
+   "non_finite_events": 0,
+   "orientation_failures": 0
+  },
+  "zero_failures": true,
+  "sample_count_integrity": {
+   "1": {
+    "all_ok": true,
+    "arrays": {
+     "final": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "final_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     }
+    },
+    "evaluation_immediately_terminal_counts": {
+     "final": 0,
+     "final_raw": 0,
+     "initial": 0,
+     "initial_raw": 0
+    },
+    "expected_per_endpoint": 4096
+   },
+   "2": {
+    "all_ok": true,
+    "arrays": {
+     "final": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "final_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     }
+    },
+    "evaluation_immediately_terminal_counts": {
+     "final": 0,
+     "final_raw": 0,
+     "initial": 0,
+     "initial_raw": 0
+    },
+    "expected_per_endpoint": 4096
+   },
+   "3": {
+    "all_ok": true,
+    "arrays": {
+     "final": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "final_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     },
+     "initial_raw": {
+      "count": 4096,
+      "finite": true,
+      "ok": true
+     }
+    },
+    "evaluation_immediately_terminal_counts": {
+     "final": 0,
+     "final_raw": 0,
+     "initial": 0,
+     "initial_raw": 0
+    },
+    "expected_per_endpoint": 4096
+   }
+  },
+  "all_sample_counts_ok": true,
+  "immediately_terminal_rule": "S24 applied unchanged: a pooled setup without an opening move is never trained and never a draw; the held-out evaluation scores every generated sample as in G2. This run produced zero immediately terminal setups in any pool and zero among any endpoint's 4,096 evaluation samples, so the exclusion never fired.",
+  "sealed_phase8_test_examples_opened": 0,
+  "sealed_test_multiplicity_increment": 0,
+  "stratego_games_played": 0,
+  "tests": {
+   "evaluator_suite": "86 passed in 2.35s",
+   "setup_suite": "131 passed, 1 warning in 28.73s",
+   "oracle_passed": true,
+   "coverage_rows_complete": "30/30",
+   "method_files_identical_to_g2_launch_manifest": true,
+   "design_identical_on_every_method_field": true,
+   "method_config_identical_run_id_removed": true
+  },
+  "replay": {
+   "all_replays_exact": true,
+   "all_endpoints_bitwise": true,
+   "landscape": {
+    "document_digest_matches": true,
+    "independent_certificate_verifies": true,
+    "optimum_certified": true,
+    "optimum_matches": true,
+    "reflection_invariant": true,
+    "table_digest_matches": true,
+    "uniform_mean_matches": true,
+    "uniform_sd_matches": true
+   },
+   "design": {
+    "design_digest_matches_launch": true
+   },
+   "per_seed": {
+    "1": {
+     "all": true,
+     "all_endpoints_bitwise": true,
+     "all_period_digests_match": true,
+     "period_1_rows_replayed": 1024,
+     "period_1_outcome_mismatches": 0,
+     "initial_raw_evaluation_max_abs_diff": 0.0,
+     "final_raw_evaluation_max_abs_diff": 0.0,
+     "initial_ema_evaluation_max_abs_diff": 0.0,
+     "final_ema_evaluation_max_abs_diff": 0.0,
+     "final_raw_digest_matches": true,
+     "final_ema_digest_matches": true,
+     "checkpoint_optimizer_steps": 320,
+     "checkpoint_ema_updates": 64
+    },
+    "2": {
+     "all": true,
+     "all_endpoints_bitwise": true,
+     "all_period_digests_match": true,
+     "period_1_rows_replayed": 1024,
+     "period_1_outcome_mismatches": 0,
+     "initial_raw_evaluation_max_abs_diff": 0.0,
+     "final_raw_evaluation_max_abs_diff": 0.0,
+     "initial_ema_evaluation_max_abs_diff": 0.0,
+     "final_ema_evaluation_max_abs_diff": 0.0,
+     "final_raw_digest_matches": true,
+     "final_ema_digest_matches": true,
+     "checkpoint_optimizer_steps": 320,
+     "checkpoint_ema_updates": 64
+    },
+    "3": {
+     "all": true,
+     "all_endpoints_bitwise": true,
+     "all_period_digests_match": true,
+     "period_1_rows_replayed": 1024,
+     "period_1_outcome_mismatches": 0,
+     "initial_raw_evaluation_max_abs_diff": 0.0,
+     "final_raw_evaluation_max_abs_diff": 0.0,
+     "initial_ema_evaluation_max_abs_diff": 0.0,
+     "final_ema_evaluation_max_abs_diff": 0.0,
+     "final_raw_digest_matches": true,
+     "final_ema_digest_matches": true,
+     "checkpoint_optimizer_steps": 320,
+     "checkpoint_ema_updates": 64
+    }
+   }
+  },
+  "binding": {
+   "artifacts": 11,
+   "all_bind_one_source_commit": true,
+   "mismatched": [],
+   "source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18"
+  },
+  "wall_seconds_per_seed": {
+   "1": 913.336,
+   "2": 918.056,
+   "3": 911.935
+  },
+  "deviations": [
+   "The driver loads the verified G2 driver by path for its pytest runner, JUnit parser and canned parity oracle; those helpers are byte-identical to the G2 launch manifest's digest of scripts/phase18_g2_setup_parity.py, and the oracle ran on this run's own model seed.",
+   "The --verify stage ran in the canonical checkout at G2_RAW_SOURCE_COMMIT (dirty only by the protected Phase 14 manifest and its own outputs) because the evaluator suite reads git-ignored accepted checkpoints that live there; the launch manifest and all three seeds ran from the clean detached worktree.",
+   "The three seeds ran concurrently in separate processes (4 pinned threads each); the replay reproduces all four evaluation endpoints of every seed bitwise.",
+   "The --replay, --analyse, --bind and --decide stages ran in the canonical checkout at the launch-manifest commit; the driver and every learning-method file are unchanged since G2_RAW_SOURCE_COMMIT (git diff empty), so they execute through the digested sources.",
+   "The seed records keep the unchanged G2 runner's field names: raw_diagnostic holds this confirmation's PRIMARY endpoint and initial/final hold the EMA telemetry; each seed record says so in its primary_endpoint field.",
+   "No frozen field, source file, threshold, budget, seed or landscape changed after the first outcome; no namespace was abandoned."
+  ]
+ },
+ "results": {
+  "landscape": {
+   "exact_optimum": 53.03108099999999,
+   "table_digest": "210352efb55080744d39e68308b22e2d6c0e43793342a765dbf3217fe44b84a9",
+   "table_seed": 475578596360375388,
+   "uniform_mean": -0.34227474999999996,
+   "uniform_sd": 5.952866365383827,
+   "optimum_certified": true,
+   "independent_certificate_check": {
+    "certified": true,
+    "dual_feasibility_violations": 0,
+    "gap": 0.0,
+    "method": "recorded dual potentials: u_i + v_j <= cost_ij for all (slot, square); -(sum u + sum v) is an upper bound on every legal setup's utility; the recorded setup attains it",
+    "optimal_setup_inventory_ok": true,
+    "optimal_setup_legal": true,
+    "optimal_setup_utility_by_direct_summation": 53.03108099999999,
+    "utility_upper_bound_from_potentials": 53.03108099999999,
+    "worst_slack": -1.887379141862766e-15
+   },
+   "outcome_mapping": {
+    "draw_rule": "one uniform u per (period, setup fingerprint, replicate) seed: u < P(loss) -> -1; u < P(loss) + P(draw) -> 0; else +1",
+    "form": "P(win) = (1 - p_draw) * sigmoid(kappa * z), P(loss) = (1 - p_draw) * (1 - sigmoid(kappa * z)), P(draw) = p_draw; z = (U - mu_uniform) / sigma_uniform",
+    "kappa": 3.0,
+    "p_draw": 0.1
+   }
+  },
+  "design": {
+   "bootstrap_replicates": 10000,
+   "ema_retained_initial_fraction": 0.9379749638258454,
+   "ema_time_constant_updates": 999.9999999999991,
+   "ema_updates_per_seed": 64,
+   "evaluation_samples": 4096,
+   "gap_closure_threshold": 0.1,
+   "optimizer_steps_per_seed": 320,
+   "outcomes_per_setup": 4,
+   "pool_size": 1024,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "updates": 64
+  },
+  "parity": {
+   "all_rows_complete": true,
+   "coverage_rows_complete": 30,
+   "coverage_rows_total": 30,
+   "evaluator_suite": {
+    "error": 0,
+    "failed": 0,
+    "passed": 84,
+    "skipped": 0
+   },
+   "method_unchanged": true,
+   "oracle_passed": true,
+   "passed": true,
+   "setup_suite": {
+    "error": 0,
+    "failed": 0,
+    "passed": 119,
+    "skipped": 0
+   }
+  },
+  "oracle_summary": {
+   "loss_terms_max_abs_diff": 1.7763568394002505e-15,
+   "gradients_max_abs_diff": 6.680338227038618e-11,
+   "gradients_checked": 13,
+   "adamw_vs_adam_max_abs_diff": 0.0,
+   "clip_post_norm": 0.5000002635724046,
+   "ema_closed_form_max_abs_diff": 1.6689300537109375e-06,
+   "step_counts": {
+    "batch_size": 8,
+    "ema_updates": 1,
+    "epochs": 5,
+    "oracle_steps": 5,
+    "production_steps": 5,
+    "ready": 8
+   },
+   "checkpoint_round_trip_devices": [
+    "cpu",
+    "mps"
+   ],
+   "fixture_model_seed": 3224018716491833412
+  },
+  "fresh_policy_baseline": {
+   "1": {
+    "initial_raw_mean_utility": -1.143590061279297,
+    "initial_mean_z": -0.1346099949326899
+   },
+   "2": {
+    "initial_raw_mean_utility": -0.5994443776855469,
+    "initial_mean_z": -0.043200974438297415
+   },
+   "3": {
+    "initial_raw_mean_utility": -0.6146453142089845,
+    "initial_mean_z": -0.04575452353387792
+   },
+   "model_free_uniform_random_baseline": -0.34227474999999996
+  },
+  "raw_criteria": {
+   "all_seeds_improved": true,
+   "gap_closure_threshold": 0.1,
+   "gap_fractions_sorted": [
+    0.09598745523118779,
+    0.10007299279907324,
+    0.10647866406618584
+   ],
+   "median_gap_closure_meets_threshold": true,
+   "median_gap_fraction_closed": 0.10007299279907324,
+   "per_seed": {
+    "1": {
+     "final": 4.62485653955078,
+     "gap_fraction_closed": 0.10647866406618584,
+     "improved": true,
+     "initial": -1.143590061279297,
+     "interval": {
+      "candidate": 4.62485653955078,
+      "confidence": 0.95,
+      "delta": 5.768446600830078,
+      "lower": 5.545049778668212,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -1.143590061279297,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 663652414076120049,
+      "upper": 5.987664307122802
+     }
+    },
+    "2": {
+     "final": 4.767522802246093,
+     "gap_fraction_closed": 0.10007299279907324,
+     "improved": true,
+     "initial": -0.5994443776855469,
+     "interval": {
+      "candidate": 4.767522802246093,
+      "confidence": 0.95,
+      "delta": 5.366967179931641,
+      "lower": 5.140438596063232,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -0.5994443776855469,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 4663267900988268591,
+      "upper": 5.601142860998535
+     }
+    },
+    "3": {
+     "final": 4.534671438720703,
+     "gap_fraction_closed": 0.09598745523118779,
+     "improved": true,
+     "initial": -0.6146453142089845,
+     "interval": {
+      "candidate": 4.534671438720703,
+      "confidence": 0.95,
+      "delta": 5.149316752929687,
+      "lower": 4.926007833758545,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -0.6146453142089845,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 7198145288825722947,
+      "upper": 5.375018736376953
+     }
+    }
+   },
+   "pooled_lower_bound_strictly_above_zero": true,
+   "pooled_paired_interval": {
+    "candidate": 4.642350260172527,
+    "confidence": 0.95,
+    "delta": 5.42824351123047,
+    "lower": 5.298537681459554,
+    "method": "paired_unit_difference_bootstrap",
+    "reference": -0.7858932510579429,
+    "replicates": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 12288,
+    "seed": 2538560817612476064,
+    "upper": 5.558476800891113
+   },
+   "role": "PRIMARY - decides the confirmation"
+  },
+  "raw_z_scores": {
+   "1": {
+    "initial": -0.1346099949326899,
+    "final": 0.834410011021726
+   },
+   "2": {
+    "initial": -0.043200974438297415,
+    "final": 0.8583759887438066
+   },
+   "3": {
+    "initial": -0.04575452353387792,
+    "final": 0.8192601495441512
+   }
+  },
+  "raw_paired_per_seed": {
+   "1": {
+    "fraction_improved": 0.78662109375,
+    "mean_difference": 5.768446600830078,
+    "samples": 4096,
+    "sd_difference": 7.363334435908389
+   },
+   "2": {
+    "fraction_improved": 0.762451171875,
+    "mean_difference": 5.366967179931641,
+    "samples": 4096,
+    "sd_difference": 7.5545184776839145
+   },
+   "3": {
+    "fraction_improved": 0.758056640625,
+    "mean_difference": 5.149316752929687,
+    "samples": 4096,
+    "sd_difference": 7.410205551853646
+   }
+  },
+  "gap_closure_margin_over_threshold": {
+   "median_gap_fraction_closed": 0.10007299279907324,
+   "threshold": 0.1,
+   "margin_fraction_of_gap": 7.299279907323208e-05,
+   "margin_in_utility_units_seed_2": 0.003914642163085275,
+   "seeds_individually_at_or_above_threshold": [
+    "1",
+    "2"
+   ],
+   "note": "the frozen criterion is the median over the three seeds; it is met, and by a small margin"
+  },
+  "ema_telemetry": {
+   "all_seeds_improved": true,
+   "gap_closure_threshold": 0.1,
+   "gap_fractions_sorted": [
+    0.0009855337152551834,
+    0.0011906572566473261,
+    0.0019511451666495787
+   ],
+   "median_gap_closure_meets_threshold": false,
+   "median_gap_fraction_closed": 0.0011906572566473261,
+   "per_seed": {
+    "1": {
+     "final": -1.090199096435547,
+     "gap_fraction_closed": 0.0009855337152551834,
+     "improved": true,
+     "initial": -1.143590061279297,
+     "interval": {
+      "candidate": -1.090199096435547,
+      "confidence": 0.95,
+      "delta": 0.053390964843749986,
+      "lower": -0.055805107043456946,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -1.143590061279297,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 8410293391283972256,
+      "upper": 0.16132037776489255
+     }
+    },
+    "2": {
+     "final": -0.535588803466797,
+     "gap_fraction_closed": 0.0011906572566473261,
+     "improved": true,
+     "initial": -0.5994443776855469,
+     "interval": {
+      "candidate": -0.535588803466797,
+      "confidence": 0.95,
+      "delta": 0.06385557421874999,
+      "lower": -0.04647126284790036,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -0.5994443776855469,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 6786101997847380218,
+      "upper": 0.1713693095336913
+     }
+    },
+    "3": {
+     "final": -0.5099747145996095,
+     "gap_fraction_closed": 0.0019511451666495787,
+     "improved": true,
+     "initial": -0.6146453142089845,
+     "interval": {
+      "candidate": -0.5099747145996095,
+      "confidence": 0.95,
+      "delta": 0.10467059960937503,
+      "lower": -0.013470255975341749,
+      "method": "paired_unit_difference_bootstrap",
+      "reference": -0.6146453142089845,
+      "replicates": 10000,
+      "resampling_unit": "paired_unit",
+      "sample_size": 4096,
+      "seed": 3337968471158029643,
+      "upper": 0.22165765198364257
+     }
+    }
+   },
+   "pooled_lower_bound_strictly_above_zero": true,
+   "pooled_paired_interval": {
+    "candidate": -0.7119208715006513,
+    "confidence": 0.95,
+    "delta": 0.07397237955729168,
+    "lower": 0.011569438372802747,
+    "method": "paired_unit_difference_bootstrap",
+    "reference": -0.7858932510579429,
+    "replicates": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 12288,
+    "seed": 4558637159686917408,
+    "upper": 0.13859431497802735
+   },
+   "role": "SECONDARY TELEMETRY - cannot change the decision"
+  },
+  "ema_z_scores": {
+   "1": {
+    "initial": -0.1346099949326899,
+    "final": -0.12564104425134742
+   },
+   "2": {
+    "initial": -0.043200974438297415,
+    "final": -0.03247411273851647
+   },
+   "3": {
+    "initial": -0.04575452353387792,
+    "final": -0.028171296700828383
+   }
+  },
+  "ema_movement_as_fraction_of_raw_displacement": {
+   "1": 0.00925569196325179,
+   "2": 0.011897887965016998,
+   "3": 0.020327085054502224
+  },
+  "comparison_with_g2_raw_diagnostic": {
+   "g2_landscape_optimum": 55.62337599999999,
+   "g2_raw_gap_fraction_closed": {
+    "1": 0.20919982980890497,
+    "2": 0.18501584014088626,
+    "3": 0.1481851787242662
+   },
+   "g2_raw_pooled_delta": 10.771819023681642,
+   "this_run_raw_gap_fraction_closed": {
+    "1": 0.10647866406618584,
+    "2": 0.10007299279907324,
+    "3": 0.09598745523118779
+   },
+   "this_run_raw_pooled_delta": 5.42824351123047,
+   "this_run_raw_pooled_delta_in_uniform_sd": 0.9118705474048499,
+   "reading": "the direction and the reliability replicate on a fresh table and fresh seeds; the magnitude is landscape-dependent (about half the G2 utility gain in 64 updates, from a higher initial utility to a lower optimum), which is why the gap-closure fraction sits near the threshold here and well above it in G2"
+  },
+  "learning_curves": {
+   "1": [
+    {
+     "ema_digest": "9c8aedfc9cfcafa215d748c82d1f98daa2d57aaec22e56a9c3c1f8cd5ea50be9",
+     "mean_utility": -1.143590061279297,
+     "mean_z": -0.1346099949326899,
+     "raw_mean_utility": -1.143590061279297,
+     "raw_mean_z": -0.1346099949326899,
+     "update": 0
+    },
+    {
+     "ema_digest": "bf4896d01d096589661afacfc434487ed76f992ad7ef5d0f418751a564a98bbc",
+     "mean_utility": -1.1242639404296875,
+     "mean_z": -0.1313634713819528,
+     "raw_mean_utility": -0.15375044091796897,
+     "raw_mean_z": 0.0316695012974435,
+     "update": 8
+    },
+    {
+     "ema_digest": "7c2fd6c272d7408894759864f2b7134c4c3d74177297bae4d2fd85be4788dc98",
+     "mean_utility": -1.1368688710937502,
+     "mean_z": -0.13348092705630837,
+     "raw_mean_utility": 1.8591983317871092,
+     "raw_mean_z": 0.3698173193654689,
+     "update": 16
+    },
+    {
+     "ema_digest": "48fd9ab586f4c7bb1acf4600d8eb34116de46e041e8cf822dfa890bb96a9b333",
+     "mean_utility": -1.1606463811035157,
+     "mean_z": -0.13747522300557288,
+     "raw_mean_utility": 3.0999244409179685,
+     "raw_mean_z": 0.5782423087698565,
+     "update": 24
+    },
+    {
+     "ema_digest": "9ead5ceae917697d305376b3f62eb94777e326f5d0191bb218de29a84941e32b",
+     "mean_utility": -1.1418898513183595,
+     "mean_z": -0.13432438295073373,
+     "raw_mean_utility": 3.2666879736328127,
+     "raw_mean_z": 0.6062562977423926,
+     "update": 32
+    },
+    {
+     "ema_digest": "678e32f2f3687ac243d24c9817ca0b330bc01c0e76e9ff7482bf5a2551960964",
+     "mean_utility": -1.1610395087890626,
+     "mean_z": -0.13754126307121806,
+     "raw_mean_utility": 3.81989909375,
+     "raw_mean_z": 0.699188187383681,
+     "update": 40
+    },
+    {
+     "ema_digest": "19d39de75ce9f482df0282d48eab46468ab76db16afdd4aa389231063f8028b0",
+     "mean_utility": -1.1419275510253906,
+     "mean_z": -0.1343307159850599,
+     "raw_mean_utility": 4.327104790771484,
+     "raw_mean_z": 0.7843917961814372,
+     "update": 48
+    },
+    {
+     "ema_digest": "c25bd0c853fd913d6a309262f4ea86f7f3aadd5634244f3de62236e6dd8cbe9e",
+     "mean_utility": -1.1486078049316406,
+     "mean_z": -0.135452907127313,
+     "raw_mean_utility": 4.433569032958984,
+     "raw_mean_z": 0.8022763303961802,
+     "update": 56
+    },
+    {
+     "ema_digest": "7fa480fdba8cc61342498400a5158cb7939244f42c98e5b35fbab35ffa5dd1b1",
+     "mean_utility": -1.090199096435547,
+     "mean_z": -0.12564104425134742,
+     "raw_mean_utility": 4.62485653955078,
+     "raw_mean_z": 0.834410011021726,
+     "update": 64
+    }
+   ],
+   "2": [
+    {
+     "ema_digest": "9038ae18f498c97afe97665018ce8011f9e21e60171e546c2781b73c079f92fe",
+     "mean_utility": -0.5994443776855469,
+     "mean_z": -0.043200974438297415,
+     "raw_mean_utility": -0.5994443776855469,
+     "raw_mean_z": -0.043200974438297415,
+     "update": 0
+    },
+    {
+     "ema_digest": "14cfcae312daca7e98c08909024e6c8f6e4d472f875619f5a7c12838b4f12aad",
+     "mean_utility": -0.6049733295898438,
+     "mean_z": -0.04412976261611508,
+     "raw_mean_utility": -0.6679068786621094,
+     "raw_mean_z": -0.05470173672227457,
+     "update": 8
+    },
+    {
+     "ema_digest": "b70bce80e8a3dbd350925349637e03fe4ef51688536a315283d917af3ee008b2",
+     "mean_utility": -0.6138228571777344,
+     "mean_z": -0.04561636201961438,
+     "raw_mean_utility": 0.23367371655273422,
+     "raw_mean_z": 0.09675145235947158,
+     "update": 16
+    },
+    {
+     "ema_digest": "2b68e71a1814db973da33916279a95e9df36ef920283e62b76cbe93e71fbf109",
+     "mean_utility": -0.6144402348632814,
+     "mean_z": -0.045720073013218565,
+     "raw_mean_utility": 2.244134520507812,
+     "raw_mean_z": 0.43448132576062737,
+     "update": 24
+    },
+    {
+     "ema_digest": "00feec4265a952ab74fe9cb1934cc774d9ae90c5714caeae2194109c4c1a4bc0",
+     "mean_utility": -0.638153375732422,
+     "mean_z": -0.04970355582866248,
+     "raw_mean_utility": 3.018113689941406,
+     "raw_mean_z": 0.5644992233459512,
+     "update": 32
+    },
+    {
+     "ema_digest": "6d288a9a1167b57b4623a622fe1dd3afcdeaae3fea9fb420be6a5c02413cb41d",
+     "mean_utility": -0.619983339355469,
+     "mean_z": -0.046651238631923005,
+     "raw_mean_utility": 3.326853181396484,
+     "raw_mean_z": 0.6163632284327127,
+     "update": 40
+    },
+    {
+     "ema_digest": "49fbc9f5436a857a45ff16acec9035d040922cbc23d60d935adf873aab131968",
+     "mean_utility": -0.6143502175292971,
+     "mean_z": -0.045704951334272784,
+     "raw_mean_utility": 3.815449223632812,
+     "raw_mean_z": 0.6984406701635627,
+     "update": 48
+    },
+    {
+     "ema_digest": "8e200cb7a9ffc0a3ebe5b9359d928c58b76050b23a4f995c212ff8a4d4c578a9",
+     "mean_utility": -0.5596565585937501,
+     "mean_z": -0.036517165891348555,
+     "raw_mean_utility": 4.281847630126952,
+     "raw_mean_z": 0.7767892131791203,
+     "update": 56
+    },
+    {
+     "ema_digest": "b6af83c9ca67782a8caef3b20d60ba4594b68b83c6e3550c5be243f2ab8c6b9e",
+     "mean_utility": -0.535588803466797,
+     "mean_z": -0.03247411273851647,
+     "raw_mean_utility": 4.767522802246093,
+     "raw_mean_z": 0.8583759887438066,
+     "update": 64
+    }
+   ],
+   "3": [
+    {
+     "ema_digest": "d3f10dfafb14727efb6084cca2221dc21a92a1ab384bab8448204c4ee9f6802c",
+     "mean_utility": -0.6146453142089845,
+     "mean_z": -0.04575452353387792,
+     "raw_mean_utility": -0.6146453142089845,
+     "raw_mean_z": -0.04575452353387792,
+     "update": 0
+    },
+    {
+     "ema_digest": "506a92c65c67cd7da9312a695ddc46d65ba03b10635dfc1a7b11b80a3a6b6a74",
+     "mean_utility": -0.6184771560058595,
+     "mean_z": -0.04639822046266459,
+     "raw_mean_utility": 0.6516294775390623,
+     "raw_mean_z": 0.1669622945542097,
+     "update": 8
+    },
+    {
+     "ema_digest": "6b43b039b7bb0caf0a6e28bc49d93a5e60582bae3458d7e08e93c718ddefa921",
+     "mean_utility": -0.6100525163574221,
+     "mean_z": -0.044982996412377296,
+     "raw_mean_utility": 2.261038650878906,
+     "raw_mean_z": 0.4373209880902559,
+     "update": 16
+    },
+    {
+     "ema_digest": "04ce4b748f03429f3220de292cb18ca2c16e6801f2c0d31ae1e27561732fac73",
+     "mean_utility": -0.6180455075683595,
+     "mean_z": -0.04632570943839398,
+     "raw_mean_utility": 3.6216102607421874,
+     "raw_mean_z": 0.6658783798326715,
+     "update": 24
+    },
+    {
+     "ema_digest": "54764bbe369da7e6b48bb3c2256de1049bc7e2d00933ed630cdc1f0d3d1f61db",
+     "mean_utility": -0.6279266311035158,
+     "mean_z": -0.04798560282901592,
+     "raw_mean_utility": 4.106421962890625,
+     "raw_mean_z": 0.7473201042711098,
+     "update": 32
+    },
+    {
+     "ema_digest": "57cbcf4161762043d219fb5c1e579d5324dec3eb742063041af9f6b5c8a42d44",
+     "mean_utility": -0.5675995139160157,
+     "mean_z": -0.03785147357351898,
+     "raw_mean_utility": 4.391069459472656,
+     "raw_mean_z": 0.7951369842597601,
+     "update": 40
+    },
+    {
+     "ema_digest": "f9789049feed6e0b9b2907b534100ef23d86c60a1ebb893ce8661623ebbe72ed",
+     "mean_utility": -0.5253928466796877,
+     "mean_z": -0.030761331674523613,
+     "raw_mean_utility": 4.222641541503906,
+     "raw_mean_z": 0.7668434013652801,
+     "update": 48
+    },
+    {
+     "ema_digest": "3a6002569e09c8e820ece8a31329a5f0568464c3666d2064e6af10ab0412f425",
+     "mean_utility": -0.5330554794921876,
+     "mean_z": -0.032048549015241776,
+     "raw_mean_utility": 4.417425091796875,
+     "raw_mean_z": 0.7995643694396926,
+     "update": 56
+    },
+    {
+     "ema_digest": "f249b82b7088bcc8001d6ad73f1dd115dec3975dd1c871d64e4b8414276f1084",
+     "mean_utility": -0.5099747145996095,
+     "mean_z": -0.028171296700828383,
+     "raw_mean_utility": 4.534671438720703,
+     "raw_mean_z": 0.8192601495441512,
+     "update": 64
+    }
+   ]
+  },
+  "checkpoints": {
+   "1": {
+    "checkpoint_version": "phase18_setup_checkpoint_v1",
+    "config_digest": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5",
+    "ema": {
+     "file": "ema.pt",
+     "sha256": "bfc581520c84efeff1318c387e62182502cabf8d55046120c6e025318035afe9",
+     "state_digest": "7fa480fdba8cc61342498400a5158cb7939244f42c98e5b35fbab35ffa5dd1b1"
+    },
+    "ema_updates": 64,
+    "namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+    "optimizer": {
+     "class": "AdamW",
+     "file": "optimizer.pt",
+     "sha256": "10057a0c7c223a1830191be45903809c74d5a997aa03cccaa12f546a4856bbdf"
+    },
+    "optimizer_step_count": 320,
+    "raw": {
+     "file": "raw.pt",
+     "sha256": "3281ce632a3c9609d800fb1e6fd9ebca077c6037add3e85684dae95fadf7a8a5",
+     "state_digest": "a7e8ad097c0fe1777a45bb79ac73dfd73a1511b909ee6970d5bdfbee47d2079f"
+    },
+    "recipe": "phase18_published_setup_recipe_v1",
+    "run_id": "G2-RAW-CONFIRMATION-2026-A",
+    "seed_index": 1,
+    "setup_equation_version": "phase18_setup_update_i_minus_10h_v1",
+    "updates": 64
+   },
+   "2": {
+    "checkpoint_version": "phase18_setup_checkpoint_v1",
+    "config_digest": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5",
+    "ema": {
+     "file": "ema.pt",
+     "sha256": "ffac18cb527286ba524674293b5303b339ceae8c46c93f394578f2e39d2a5fa6",
+     "state_digest": "b6af83c9ca67782a8caef3b20d60ba4594b68b83c6e3550c5be243f2ab8c6b9e"
+    },
+    "ema_updates": 64,
+    "namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+    "optimizer": {
+     "class": "AdamW",
+     "file": "optimizer.pt",
+     "sha256": "8e8d41e53b15c3603b7646dd4f47c71bad4c0191c1ab8477e81ca6dad75e537b"
+    },
+    "optimizer_step_count": 320,
+    "raw": {
+     "file": "raw.pt",
+     "sha256": "14884757621eaf03dadbeec07826e9a026a926895e6a9d5575abf168283e5ee0",
+     "state_digest": "05b40db8e81098827dcc40a08482c4fee989cdb73bc33c2a7fede9d756a4dcc1"
+    },
+    "recipe": "phase18_published_setup_recipe_v1",
+    "run_id": "G2-RAW-CONFIRMATION-2026-A",
+    "seed_index": 2,
+    "setup_equation_version": "phase18_setup_update_i_minus_10h_v1",
+    "updates": 64
+   },
+   "3": {
+    "checkpoint_version": "phase18_setup_checkpoint_v1",
+    "config_digest": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5",
+    "ema": {
+     "file": "ema.pt",
+     "sha256": "18f9b96281ec6e352690966641321e38c131450bc7ce93d7a7279c702dc4812c",
+     "state_digest": "f249b82b7088bcc8001d6ad73f1dd115dec3975dd1c871d64e4b8414276f1084"
+    },
+    "ema_updates": 64,
+    "namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+    "optimizer": {
+     "class": "AdamW",
+     "file": "optimizer.pt",
+     "sha256": "21ea9a170818831b3e713b3fa7587d28dfdef36d41057d80d5bffcb568584eab"
+    },
+    "optimizer_step_count": 320,
+    "raw": {
+     "file": "raw.pt",
+     "sha256": "e22e4046ed846552a1fe788f982a339c512e141902746c60a80fe1265667fb5d",
+     "state_digest": "0ea2707aae1fe00fbbb6f05ba29f8f324fe94bd423bd94360e1fc8a76b6c28e5"
+    },
+    "recipe": "phase18_published_setup_recipe_v1",
+    "run_id": "G2-RAW-CONFIRMATION-2026-A",
+    "seed_index": 3,
+    "setup_equation_version": "phase18_setup_update_i_minus_10h_v1",
+    "updates": 64
+   }
+  },
+  "criteria_summary": {
+   "ema_all_seeds_improved": true,
+   "ema_median_gap_closure_meets_threshold": false,
+   "ema_pooled_lower_bound_above_zero": true,
+   "integrity": true,
+   "parity": true,
+   "raw_all_seeds_improved": true,
+   "raw_criteria_pass": true,
+   "raw_median_gap_closure_meets_threshold": true,
+   "raw_pooled_lower_bound_above_zero": true,
+   "replay": true
+  },
+  "decision_input": {
+   "basis": "all parity, replay, binding and integrity checks pass; the raw actor improved in every seed, the pooled paired 95% lower bound is above zero and the median gap closure meets the 10% threshold",
+   "decision": "PROCEED",
+   "ema_results_considered": false,
+   "prerequisites": {
+    "binding": true,
+    "integrity": true,
+    "parity": true,
+    "replay": true
+   },
+   "raw_criteria": {
+    "all_seeds_improved": true,
+    "median_gap_closure_meets_threshold": true,
+    "pooled_lower_bound_strictly_above_zero": true
+   },
+   "raw_criteria_pass": true
+  }
+ },
+ "interpretation": {
+  "observed_fact": "Every learning-method file is byte-identical to the G2 launch manifest; 86/86 evaluator and 131/131 setup tests pass; the oracle passes on this run's seed; 30/30 coverage rows are complete. Three seeds completed 64 updates (320 optimizer steps, 64 EMA updates each) with zero integrity events and twelve complete finite 4,096-sample arrays. The raw actor's held-out utility rose in every seed: -1.1436 -> +4.6249, -0.5994 -> +4.7675, -0.6146 -> +4.5347 (z -0.135 -> +0.834, -0.043 -> +0.858, -0.046 -> +0.819); per-seed paired intervals [+5.545, +5.988], [+5.140, +5.601], [+4.926, +5.375]; pooled paired delta +5.4282 with 95% [+5.2985, +5.5585] on 12,288 pairs. Gap closure 10.6479%, 10.0073%, 9.5987%; the median 10.0073% clears the frozen 10% threshold by 0.0073% of the gap, and seed 3 alone sits below it. The EMA telemetry closed 0.099%, 0.119%, 0.195% (pooled 95% [+0.0116, +0.1386]; every per-seed interval includes zero) and moved 0.9-2.0% of the raw displacement. The landscape, first-period outcomes and all four endpoints of every seed replay bitwise; eleven artifacts bind one source commit.",
+  "supported_inference": "Using the parity-correct setup-learning method, the raw generation actor reliably learns an independently generated synthetic setup landscape within 64 setup updates from outcome-only feedback: the improvement is present in every seed with paired intervals far from zero, and the frozen practical-margin criterion on the median gap closure is met. The G2 raw-actor finding therefore replicates on a fresh table with fresh seeds, and the frozen rule returns PROCEED for the synthetic trainability portion of G2. The EMA telemetry repeats the G2 pattern: at the paper's 0.999 decay updated once per setup update (0.999^64 = 0.937975 retained, ~1,000-update time constant) it lags severely behind the raw actor within this budget; this is recorded, not decided upon.",
+  "plausible_but_untested": "The gap-closure fraction is landscape-dependent: on this table the raw actor gained about half the utility it gained on the G2 table in the same 64 updates, from a higher initial utility toward a lower optimum, so the 10% fraction is met narrowly here and comfortably in G2. A fourth table from the same family could fall on either side of the threshold under the same strength of learning; the learning signal itself (pooled lower bound about 0.9 uniform SD above zero) is not in doubt. A longer budget would very likely close more of the gap (the raw curves are still rising at update 64) and would eventually carry the EMA.",
+  "claim_not_supported": "That the method learns Stratego setups (no game was played; the landscape is synthetic). That the EMA at this budget is a usable evaluation model (its pooled telemetry interval barely excludes zero and every per-seed interval includes it). That the 10% gap-closure threshold is cleared robustly: the median exceeds it by 0.007 percentage points of the gap. Any authorization of G3, a Stratego game experiment or Phase 8 warmstart training."
+ },
+ "sub_gates": {
+  "learning_method_files_byte_identical_to_g2_launch_manifest": "pass",
+  "s01_s30_parity_rows_complete_from_recorded_tests": "pass",
+  "canned_forward_loss_and_gradient_parity_on_this_seed": "pass",
+  "evaluator_and_setup_suites": "pass",
+  "zero_legality_orientation_attribution_nonfinite_checkpoint_failures": "pass",
+  "sample_count_integrity_4096_finite_per_endpoint": "pass",
+  "deterministic_replay_landscape_outcomes_all_endpoints_bitwise": "pass",
+  "binding_all_artifacts_one_source_commit": "pass",
+  "raw_final_utility_above_initial_all_three_seeds": "pass",
+  "raw_pooled_paired_95_lower_bound_strictly_above_zero": "pass",
+  "raw_median_gap_closure_at_least_10_percent": "pass (median 10.0073%; seeds 10.6479% / 10.0073% / 9.5987%; margin 0.0073% of the gap)",
+  "ema_telemetry_same_three_criteria": "recorded only - improved in all seeds, pooled lower bound +0.0116, median gap 0.1191% (below 10%); decides nothing"
+ },
+ "g2_gate": "PROCEED for the synthetic trainability portion of G2: the parity-correct raw learner reliably learns a fresh landscape within 64 updates under the frozen criteria; the practical-margin criterion is met at its edge",
+ "why_not_stop": "STOP is reserved for a parity-correct raw learner that fails the frozen criteria; every criterion is met.",
+ "why_not_revise": "no implementation or measurement defect exists: parity, replay, binding and integrity all pass, and an unfavourable result was not observed; the thin threshold margin is a property of the frozen criterion on this landscape draw, not a defect.",
+ "scope_of_this_decision": "closes only the synthetic trainability portion of G2 and authorizes designing the next gate; it does not authorize launching G3, any Stratego game experiment, or the full Phase 8 warmstart.",
+ "recommended_next_question": {
+  "text": "Before any Stratego-facing setup training: what evaluation model and update budget give Gate G3 an instrument with power? Specifically, does a design in which the setup learner trains on real outcomes against the frozen Phase 8 teacher schedule, is evaluated on a paired setup-development pack under the amended evaluation rule identity (O-P18-EVALRULES-1), and reads the EMA only after a budget commensurate with its ~1,000-update time constant (or a predeclared, reviewed alternative evaluation model for the pilot) improve over its fresh initialization by a predeclared margin whose sampling variability is known?",
+  "gate": "G3 design (setup-only Stratego benefit), first half: improvement over the fresh initialization",
+  "why_it_discriminates": "The two synthetic runs establish that the raw learner learns; what they do not establish is a Stratego-facing evaluation design that can see it. Two constraints are now measured: the EMA needs a budget on the scale of a thousand setup updates (or a different evaluation model for a pilot), and a practical margin defined as a fraction of a landscape-dependent gap can sit at its own edge; the next gate's margin should be sized from a known instrument resolution in the units the gate is scored in. The evaluation contract's rule identity must be amended before any real-game measurement.",
+  "explicitly_not_started": "No G3 run, no Stratego setup-learning game, no Phase 8 warmstart training, no tuning, no push."
+ },
+ "artifacts": {
+  "reports/phase18/phase18_g2_raw_confirmation_contract_v1.json": "9a33147090f035c840f2ebb59a78e73e212acc6b9db9f88a8b45035e1e57d012",
+  "reports/phase18/phase18_g2_raw_confirmation_landscape_v1.json": "1202b9c7fb59f0f3ed0d4ff692a02f6000b9c0af13b62d11f2cb55ff7f945e60",
+  "reports/phase18/phase18_g2_raw_confirmation_launch_manifest_v1.json": "a0413ea8a86ce34a513285387781b66c49c8b0662e32c0939cb87b32b356bfc5",
+  "reports/phase18/phase18_g2_raw_confirmation_results_v1.json": "7856bf0e084aa637043924c204bb5c1d25e247156c78feb7fc62968456d0e1e4",
+  "reports/phase18/phase18_g2_raw_confirmation_binding_v1.json": "9d318c4fba9e96042aac39067145d38438aeefde735dac197a4199e8e9c3d697",
+  "reports/phase18/phase18_g2_raw_confirmation_decision_input_v1.json": "51601c7a15069fb0477d672e8a805fdca85063eba418dc1ce59e6fe97948c3ea",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_verification_v1.json": "ebb2e5193f941f4f2980f7a08a05d50030d5453d5aac0075688867960ddd193c",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_parity_coverage_v1.json": "431f004b1be9c91c6050f05bf9fb0cb3115256ca663dbc80f54ec7a3857441ed",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_parity_oracle_v1.json": "e57667a93ddc5022c155f25c3b0342349ee52cf2e98326d53852e6fe247fc079",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_replay_v1.json": "f2abe70294622e5bc08f523a3a513e8dc7996394fb7037569c61491f26210452",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_seed_1_result_v1.json": "166912d1faaea93926636f08efc267fa4e1822957b0520d52f4c1395d1fbc7c6",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_seed_2_result_v1.json": "bb64e67f6d0d2f5e1ac19329ddd86dd76b0d6f8591f8ad2ac7e70a20763c8dac",
+  "reports/phase18/g2_raw_confirmation/phase18_g2_raw_confirmation_seed_3_result_v1.json": "202e536b6f7321f6d9347c367031f0ae52b7df9de72904ff91bfc1937da9b27f",
+  "reports/phase18/g2_raw_confirmation/junit_evaluator_suite.xml": "a0dd0ff48a39622c770903b131a2b00332d0acbe64f060c5ee2cc002fbcad0c2",
+  "reports/phase18/g2_raw_confirmation/junit_setup_suite.xml": "0171c2a904adaf98602f8e98e09650e1eed8b0404450ff1b1a5a82757a55c34f",
+  "scripts/phase18_g2_raw_confirmation.py": "a4169f2d7d790e296cdfa73377a67f861478e774e7ec703dce54774ffd638c9b",
+  "tests/training/phase18/test_g2_raw_confirmation_driver.py": "0506613d96637a7d226c9e103cceffe9d8e152bb001a03b7035f6394a60eb613",
+  "reports/phase18/decisions/P18-D005.md": "e34c84baaf8d68a5b41a69135753006e6e73c295c28490fb0680e8ca6745eab4",
+  "reports/phase18/agent_05_report.md": "2ba83c70ca550a844edf1ace8fe087f09fbe7e8ddf3fb1193c906998e3a21c24"
+ },
+ "binding_ledger": {
+  "artifacts": 11,
+  "all_bind_one_source_commit": true,
+  "mismatched": [],
+  "sha256": "9d318c4fba9e96042aac39067145d38438aeefde735dac197a4199e8e9c3d697"
+ },
+ "publication": {
+  "status": "NOT PUSHED - awaiting review",
+  "rule": "after the reviewing chat and operator accept P18-D005, the exact approved branch HEAD is published with a normal non-force push, the remote SHA is verified equal to the approved local SHA, and both are recorded. No push to main, force push, merge, tag, release, or pull request."
+ }
+}
