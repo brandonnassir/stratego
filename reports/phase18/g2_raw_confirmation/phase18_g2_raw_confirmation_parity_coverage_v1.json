@@ -1,0 +1,672 @@
+{
+ "all_g2_rows_complete": true,
+ "artifact": "phase18_g2_raw_confirmation_parity_coverage_v1",
+ "method_map": "reports/phase18/ataraxos_setup_method_map_v2.json",
+ "method_map_sha256": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+ "out_of_scope": {
+  "S31": {
+   "complete": false,
+   "element": "Move-policy training regime",
+   "note": "tandem pilot agent: move-policy training regime (no self-play in Phase 18)",
+   "owner": "tandem pilot agent"
+  },
+  "S32": {
+   "complete": false,
+   "element": "On-policy requirement for setup PPO data",
+   "note": "tandem pilot agent: on-policy requirement for setup PPO data (live stream only)",
+   "owner": "tandem pilot agent"
+  },
+  "S33": {
+   "complete": false,
+   "element": "Canonical/live mixture and setup-update cadence",
+   "note": "tandem pilot agent: canonical/live mixture and cadence (provisional)",
+   "owner": "tandem pilot agent"
+  },
+  "S34": {
+   "complete": false,
+   "element": "Belief and search separation",
+   "note": "tandem pilot agent: belief and search separation",
+   "owner": "tandem pilot agent"
+  },
+  "S35": {
+   "complete": false,
+   "element": "Signal handling and clean shutdown",
+   "note": "production rehearsal agent: signal handling and clean shutdown",
+   "owner": "production rehearsal agent"
+  }
+ },
+ "package": "stratego.training.phase18",
+ "problems": [],
+ "recorded_run": {
+  "counts": {
+   "error": 0,
+   "failed": 0,
+   "passed": 119,
+   "skipped": 0
+  },
+  "junit": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase18/g2_raw_confirmation/junit_setup_suite.xml",
+  "junit_sha256": "0171c2a904adaf98602f8e98e09650e1eed8b0404450ff1b1a5a82757a55c34f"
+ },
+ "rows": {
+  "S01": {
+   "complete": true,
+   "element": "Setup sequence and causal factorization",
+   "implementation": [
+    "setup_model:Phase18SetupModel.forward",
+    "setup_model:CausalSelfAttention.forward"
+   ],
+   "map_status": "exact",
+   "required_test": "Prefix-alignment test: for a known 40-token setup, assert output k is a function of tokens[0..k] only and is independent of tokens[k+1..]. Causality test: perturb token j>k and assert output k is bit-identical.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_masks_and_information_and_expected_values_and_aggregation_and_advantage_match": "passed",
+    "test_setup_model.py::test_every_head_reports_at_all_forty_prefixes": "passed",
+    "test_setup_model.py::test_prefix_k_has_seen_exactly_k_placements": "passed",
+    "test_setup_model.py::test_prefix_k_is_a_function_of_the_first_k_placements_only": "passed"
+   },
+   "tests": [
+    "test_setup_model.py::test_prefix_k_is_a_function_of_the_first_k_placements_only",
+    "test_setup_model.py::test_prefix_k_has_seen_exactly_k_placements",
+    "test_setup_model.py::test_every_head_reports_at_all_forty_prefixes",
+    "test_reference_oracle.py::test_masks_and_information_and_expected_values_and_aggregation_and_advantage_match"
+   ]
+  },
+  "S02": {
+   "complete": true,
+   "element": "Inventory masking",
+   "implementation": [
+    "setup_sampling:remaining_counts",
+    "setup_sampling:batched_remaining",
+    "setup_sampling:legal_masks",
+    "setup_sampling:masked_log_probabilities"
+   ],
+   "map_status": "exact",
+   "required_test": "Exhausted-type test: after all 8 scouts are placed, assert P(scout)=0 exactly at every later prefix. Sum test: assert the 40 sampled tokens reproduce CLASSIC piece counts exactly.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_after_all_eight_scouts_are_placed_the_scout_probability_is_exactly_zero": "passed",
+    "test_setup_sampling.py::test_an_over_used_type_raises_rather_than_being_repaired": "passed",
+    "test_setup_sampling.py::test_batched_remaining_reads_only_the_prefix_columns": "passed",
+    "test_setup_sampling.py::test_every_generated_setup_reproduces_the_classic_piece_counts": "passed",
+    "test_setup_sampling.py::test_exhausted_types_receive_probability_exactly_zero": "passed",
+    "test_setup_sampling.py::test_recorded_masks_are_inventory_and_handedness_and_nothing_is_passed_in": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_exhausted_types_receive_probability_exactly_zero",
+    "test_setup_sampling.py::test_after_all_eight_scouts_are_placed_the_scout_probability_is_exactly_zero",
+    "test_setup_sampling.py::test_every_generated_setup_reproduces_the_classic_piece_counts",
+    "test_setup_sampling.py::test_recorded_masks_are_inventory_and_handedness_and_nothing_is_passed_in",
+    "test_setup_sampling.py::test_batched_remaining_reads_only_the_prefix_columns",
+    "test_setup_sampling.py::test_an_over_used_type_raises_rather_than_being_repaired"
+   ]
+  },
+  "S03": {
+   "complete": true,
+   "element": "Piece-head width",
+   "implementation": [
+    "setup_model:Phase18SetupModel",
+    "setup_contract:SETUP_VOCABULARY"
+   ],
+   "map_status": "intentional integration divergence",
+   "required_test": "Assert the softmax over the 12-way head equals the published 14-way softmax restricted to the 12 live classes, on a canned prefix.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_model.py::test_twelve_way_softmax_equals_the_published_fourteen_way_softmax_restricted_to_live_classes": "passed"
+   },
+   "tests": [
+    "test_setup_model.py::test_twelve_way_softmax_equals_the_published_fourteen_way_softmax_restricted_to_live_classes"
+   ]
+  },
+  "S04": {
+   "complete": true,
+   "element": "Forced flag handedness during generation",
+   "implementation": [
+    "setup_sampling:handedness_mask",
+    "setup_sampling:legal_masks",
+    "setup_contract:FLAG_PERMITTED_FILES"
+   ],
+   "map_status": "corrected",
+   "required_test": "Generate N setups with the mask on and assert the flag lands in the permitted half in 100% of them. Reduction test: with force_handedness disabled the module must reproduce the Phase 17 unconstrained distribution.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_forced_generation_puts_the_flag_in_the_permitted_half_100_percent": "passed",
+    "test_setup_sampling.py::test_reduction_without_forced_handedness_reproduces_the_unconstrained_distribution": "passed",
+    "test_setup_sampling.py::test_the_handedness_mask_forbids_the_flag_on_the_left_five_files_only": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_the_handedness_mask_forbids_the_flag_on_the_left_five_files_only",
+    "test_setup_sampling.py::test_forced_generation_puts_the_flag_in_the_permitted_half_100_percent",
+    "test_setup_sampling.py::test_reduction_without_forced_handedness_reproduces_the_unconstrained_distribution"
+   ]
+  },
+  "S05": {
+   "complete": true,
+   "element": "Post-generation random reflection",
+   "implementation": [
+    "setup_sampling:reflect_tokens",
+    "setup_sampling:generate_pool",
+    "setup_contract:reflection_seed"
+   ],
+   "map_status": "corrected",
+   "required_test": "Reflection-parity test: assert reflect(reflect(x)) == x. Distribution test: over N draws assert the reflected fraction is 0.5 within binomial tolerance under a fixed seed. Play test: assert both flag halves occur in the setups actually handed to the engine.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_a_reflected_sample_plays_the_mirror_and_keeps_its_network_record": "passed",
+    "test_setup_sampling.py::test_reflected_fraction_is_one_half_within_binomial_tolerance": "passed",
+    "test_setup_sampling.py::test_reflection_is_an_involution_and_matches_the_accepted_helper": "passed",
+    "test_setup_sampling.py::test_the_reflection_stream_is_independent_of_the_token_stream": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_reflection_is_an_involution_and_matches_the_accepted_helper",
+    "test_setup_sampling.py::test_reflected_fraction_is_one_half_within_binomial_tolerance",
+    "test_setup_sampling.py::test_the_reflection_stream_is_independent_of_the_token_stream",
+    "test_setup_sampling.py::test_a_reflected_sample_plays_the_mirror_and_keeps_its_network_record"
+   ]
+  },
+  "S06": {
+   "complete": true,
+   "element": "Behavior log-probability bookkeeping under reflection",
+   "implementation": [
+    "setup_buffer:SetupBuffer._batch",
+    "setup_sampling:SampledSetup"
+   ],
+   "map_status": "exact",
+   "required_test": "Round-trip test: sample with reflection on, flip back, and assert the recovered token sequence equals the generated token sequence exactly, and that the recomputed suffix NLL equals the value recorded at generation to float tolerance.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_minibatches_flip_played_boards_back_and_refuse_a_corrupted_record": "passed",
+    "test_setup_sampling.py::test_flipping_a_played_board_back_recovers_the_network_tokens_and_the_recorded_nll": "passed",
+    "test_setup_sampling.py::test_gathering_against_the_played_orientation_would_be_wrong_for_reflected_samples": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_flipping_a_played_board_back_recovers_the_network_tokens_and_the_recorded_nll",
+    "test_setup_sampling.py::test_gathering_against_the_played_orientation_would_be_wrong_for_reflected_samples",
+    "test_setup_buffer.py::test_minibatches_flip_played_boards_back_and_refuse_a_corrupted_record"
+   ]
+  },
+  "S07": {
+   "complete": true,
+   "element": "Canonical-to-engine orientation",
+   "implementation": [
+    "setup_sampling:to_engine_setup"
+   ],
+   "map_status": "exact",
+   "required_test": "Orientation gate on every generated setup at every use; a failure is fatal, never a fallback. Assert blue and red conversions are mutual row reversals.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_an_illegal_inventory_or_unknown_player_never_reaches_the_engine": "passed",
+    "test_setup_sampling.py::test_blue_flags_land_on_blue_back_rows_not_front_rows": "passed",
+    "test_setup_sampling.py::test_canonical_blue_handed_straight_to_the_engine_is_rejected": "passed",
+    "test_setup_sampling.py::test_every_pooled_board_is_accepted_by_engine_game_creation_without_a_move_played": "passed",
+    "test_setup_sampling.py::test_red_is_the_identity_and_blue_reverses_the_ranks": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_red_is_the_identity_and_blue_reverses_the_ranks",
+    "test_setup_sampling.py::test_canonical_blue_handed_straight_to_the_engine_is_rejected",
+    "test_setup_sampling.py::test_blue_flags_land_on_blue_back_rows_not_front_rows",
+    "test_setup_sampling.py::test_an_illegal_inventory_or_unknown_player_never_reaches_the_engine",
+    "test_setup_sampling.py::test_every_pooled_board_is_accepted_by_engine_game_creation_without_a_move_played"
+   ]
+  },
+  "S08": {
+   "complete": true,
+   "element": "W/D/L category order and expected value",
+   "implementation": [
+    "setup_buffer:expected_value",
+    "setup_buffer:outcome_one_hot",
+    "setup_contract:CATEGORICAL_AGGREGATION"
+   ],
+   "map_status": "exact",
+   "required_test": "Canned test: a one-hot win must give E[v] = +1, a one-hot loss -1, a one-hot draw 0. Assert the aggregation vector is literally [-1,0,1] in that order.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_category_order_is_loss_draw_win_and_the_aggregation_vector_is_minus_one_zero_one": "passed",
+    "test_setup_buffer.py::test_value_logits_are_stored_and_softmaxed_when_they_enter_the_advantage": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_category_order_is_loss_draw_win_and_the_aggregation_vector_is_minus_one_zero_one",
+    "test_setup_buffer.py::test_value_logits_are_stored_and_softmaxed_when_they_enter_the_advantage"
+   ]
+  },
+  "S09": {
+   "complete": true,
+   "element": "Repeated-outcome aggregation per setup",
+   "implementation": [
+    "setup_buffer:SetupBuffer.add_outcome",
+    "setup_buffer:SetupBuffer.process"
+   ],
+   "map_status": "corrected",
+   "required_test": "Aggregation test: feed a known multiset of outcomes for one setup id and assert z_bar and the averaged one-hot match closed form. Ready-flag test: assert a setup with zero completed games is excluded from the batch entirely rather than contributing a draw.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_masks_and_information_and_expected_values_and_aggregation_and_advantage_match": "passed",
+    "test_setup_buffer.py::test_a_known_multiset_of_outcomes_aggregates_to_the_closed_form": "passed",
+    "test_setup_buffer.py::test_a_period_with_no_outcomes_at_all_refuses_rather_than_inventing_draws": "passed",
+    "test_setup_buffer.py::test_a_setup_with_zero_outcomes_is_excluded_not_trained_as_a_draw": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_a_known_multiset_of_outcomes_aggregates_to_the_closed_form",
+    "test_setup_buffer.py::test_a_setup_with_zero_outcomes_is_excluded_not_trained_as_a_draw",
+    "test_setup_buffer.py::test_a_period_with_no_outcomes_at_all_refuses_rather_than_inventing_draws",
+    "test_reference_oracle.py::test_masks_and_information_and_expected_values_and_aggregation_and_advantage_match"
+   ]
+  },
+  "S10": {
+   "complete": true,
+   "element": "Setup identity and de-duplication",
+   "implementation": [
+    "setup_buffer:mark_most_recent_appearance",
+    "setup_buffer:SetupBuffer.add_pool",
+    "setup_buffer:SetupBuffer.index_of"
+   ],
+   "map_status": "exact",
+   "required_test": "Duplicate test: add the same canonical setup under snapshots A then B and assert exactly one row survives, bound to B. Attribution test: a terminating game whose setup has been filtered must raise, not be discarded.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_an_outcome_for_an_unknown_setup_is_fatal_never_dropped": "passed",
+    "test_setup_buffer.py::test_identical_played_boards_collapse_to_one_row_bound_to_the_newer_snapshot": "passed",
+    "test_setup_buffer.py::test_mark_most_recent_appearance_matches_the_published_helper": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_identical_played_boards_collapse_to_one_row_bound_to_the_newer_snapshot",
+    "test_setup_buffer.py::test_mark_most_recent_appearance_matches_the_published_helper",
+    "test_setup_buffer.py::test_an_outcome_for_an_unknown_setup_is_fatal_never_dropped"
+   ]
+  },
+  "S11": {
+   "complete": true,
+   "element": "Realized suffix information I",
+   "implementation": [
+    "setup_sampling:suffix_information"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert I_39 == -log pi(t_39) and I_k == I_{k+1} - log pi(t_k), for a canned log-prob array.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_information_recursion_holds_on_recorded_samples": "passed",
+    "test_setup_sampling.py::test_suffix_information_is_the_reverse_cumulative_surprisal": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_suffix_information_is_the_reverse_cumulative_surprisal",
+    "test_setup_sampling.py::test_information_recursion_holds_on_recorded_samples"
+   ]
+  },
+  "S12": {
+   "complete": true,
+   "element": "Entropy-prediction normalization and target (Eq. 1)",
+   "implementation": [
+    "setup_buffer:SetupBuffer.process",
+    "setup_learning:setup_batch_loss"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert the fitted h converges to I/10 and not to I, on a canned constant-I fixture.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_learning.py::test_the_entropy_target_is_i_over_ten_and_the_head_converges_to_it_not_to_i": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_the_entropy_target_is_i_over_ten_and_the_head_converges_to_it_not_to_i"
+   ]
+  },
+  "S13": {
+   "complete": true,
+   "element": "Entropy residual inside the advantage - THE PHASE 18 CORRECTION",
+   "implementation": [
+    "setup_buffer:SetupBuffer.process",
+    "setup_contract:ENTROPY_NORMALIZER"
+   ],
+   "map_status": "corrected",
+   "required_test": "Centering test: with h fitted to I/10, assert mean(I - 10h) is approximately 0 while mean(I - h) is approximately 0.9*mean(I). Canned test: for h = I/10 exactly, assert the residual is exactly 0.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_i_minus_ten_h_in_the_oracle_is_the_published_denormalisation": "passed",
+    "test_setup_buffer.py::test_advantage_terms_are_reported_separately": "passed",
+    "test_setup_buffer.py::test_the_centered_form_averages_to_zero_where_phase17s_form_leaves_nine_tenths_of_i": "passed",
+    "test_setup_buffer.py::test_the_processed_advantage_uses_ten_times_h": "passed",
+    "test_setup_buffer.py::test_the_residual_is_exactly_zero_when_h_equals_i_over_ten": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_the_residual_is_exactly_zero_when_h_equals_i_over_ten",
+    "test_setup_buffer.py::test_the_centered_form_averages_to_zero_where_phase17s_form_leaves_nine_tenths_of_i",
+    "test_setup_buffer.py::test_the_processed_advantage_uses_ten_times_h",
+    "test_setup_buffer.py::test_advantage_terms_are_reported_separately",
+    "test_reference_oracle.py::test_i_minus_ten_h_in_the_oracle_is_the_published_denormalisation"
+   ]
+  },
+  "S14": {
+   "complete": true,
+   "element": "Regularization temperature alpha(n)",
+   "implementation": [
+    "setup_contract:setup_alpha"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert alpha(1) == 0.1 and alpha(n) == 0.1*n^-0.3 over the planned iteration range, and that neither clamp activates within the planned horizon.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_alpha_is_the_published_power_schedule_and_no_clamp_binds_within_the_horizon": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_alpha_is_the_published_power_schedule_and_no_clamp_binds_within_the_horizon"
+   ]
+  },
+  "S15": {
+   "complete": true,
+   "element": "TD(lambda)/GAE(lambda) recursion over the 40 placements",
+   "implementation": [
+    "setup_buffer:SetupBuffer.process",
+    "reference_oracle:oracle_published_recursion",
+    "setup_contract:SetupTrainingConfig"
+   ],
+   "map_status": "exact",
+   "required_test": "Equivalence test: implement the published recursion, run it at lambda=1, and assert it equals the flat form to float tolerance on random fixtures. Guard test: assert a lambda != 1 configuration is refused rather than silently computing the flat form.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_a_lambda_other_than_one_is_refused_rather_than_silently_computed": "passed",
+    "test_setup_buffer.py::test_the_published_recursion_at_lambda_one_equals_the_flat_form": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_the_published_recursion_at_lambda_one_equals_the_flat_form",
+    "test_setup_buffer.py::test_a_lambda_other_than_one_is_refused_rather_than_silently_computed"
+   ]
+  },
+  "S16": {
+   "complete": true,
+   "element": "PPO ratio and clipping",
+   "implementation": [
+    "setup_learning:setup_batch_loss",
+    "setup_contract:SETUP_PPO_CLIP_EPSILON"
+   ],
+   "map_status": "exact",
+   "required_test": "Canned test: r=1 must give L_PPO = -mean(delta); a delta>0 with r>1.2 must be clipped; a delta<0 with r<0.8 must be clipped.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_the_oracle_ppo_clips_in_both_directions_and_the_kl_direction_is_current_given_behavior": "passed",
+    "test_setup_learning.py::test_a_positive_advantage_with_ratio_above_1_2_is_clipped_and_a_negative_below_0_8_is_clipped": "passed",
+    "test_setup_learning.py::test_a_ratio_of_one_gives_minus_the_mean_advantage": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_a_ratio_of_one_gives_minus_the_mean_advantage",
+    "test_setup_learning.py::test_a_positive_advantage_with_ratio_above_1_2_is_clipped_and_a_negative_below_0_8_is_clipped",
+    "test_reference_oracle.py::test_the_oracle_ppo_clips_in_both_directions_and_the_kl_direction_is_current_given_behavior"
+   ]
+  },
+  "S17": {
+   "complete": true,
+   "element": "Reverse behavior KL direction and coefficient",
+   "implementation": [
+    "setup_learning:setup_batch_loss",
+    "setup_contract:SETUP_KL_DIRECTION"
+   ],
+   "map_status": "exact",
+   "required_test": "Direction test: assert KL(p||q) != KL(q||p) on an asymmetric fixture and that the implementation returns the former. Masking test: assert illegal actions contribute exactly 0 to the KL, not a small finite amount.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_the_oracle_ppo_clips_in_both_directions_and_the_kl_direction_is_current_given_behavior": "passed",
+    "test_setup_learning.py::test_the_kl_is_current_given_behavior_and_illegal_types_contribute_exactly_zero": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_the_kl_is_current_given_behavior_and_illegal_types_contribute_exactly_zero",
+    "test_reference_oracle.py::test_the_oracle_ppo_clips_in_both_directions_and_the_kl_direction_is_current_given_behavior"
+   ]
+  },
+  "S18": {
+   "complete": true,
+   "element": "Loss weights",
+   "implementation": [
+    "setup_contract:SETUP_VALUE_LOSS_WEIGHT",
+    "setup_contract:SETUP_ENTROPY_PREDICTION_LOSS_WEIGHT",
+    "setup_contract:SETUP_BEHAVIOR_KL_COEFFICIENT",
+    "setup_learning:setup_batch_loss"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert the four coefficients equal 1.0/0.5/1.0/0.1 in the frozen config identity.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_every_loss_term_and_the_total_match_the_oracle_in_double_precision": "passed",
+    "test_setup_learning.py::test_the_four_coefficients_are_frozen_and_the_total_is_their_weighted_sum": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_the_four_coefficients_are_frozen_and_the_total_is_their_weighted_sum",
+    "test_reference_oracle.py::test_every_loss_term_and_the_total_match_the_oracle_in_double_precision"
+   ]
+  },
+  "S19": {
+   "complete": true,
+   "element": "No advantage filtering for setups",
+   "implementation": [
+    "setup_buffer:SetupBuffer.minibatches"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert the setup batch row count equals 40 * (number of ready setups), with no mask applied.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_the_batch_carries_forty_prefix_rows_per_ready_setup_with_no_mask": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_the_batch_carries_forty_prefix_rows_per_ready_setup_with_no_mask"
+   ]
+  },
+  "S20": {
+   "complete": true,
+   "element": "Setup pool size and per-player split",
+   "implementation": [
+    "setup_sampling:generate_pool",
+    "setup_contract:SETUP_POOL_SIZE"
+   ],
+   "map_status": "scaled",
+   "required_test": "Assert the pool has exactly 1,024 distinct entries and that the red and blue lanes receive 512 each with no overlap in assignment.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_a_pool_of_1024_has_1024_distinct_entries_split_512_per_lane": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_a_pool_of_1024_has_1024_distinct_entries_split_512_per_lane"
+   ]
+  },
+  "S21": {
+   "complete": true,
+   "element": "Pool lifetime and buffer retention",
+   "implementation": [
+    "setup_buffer:SetupBuffer.filter"
+   ],
+   "map_status": "exact",
+   "required_test": "Retention test: start a game under pool A, refresh to pool B, finish the game, and assert the outcome is attributed to A's row. Under-sized-window test: assert a too-short storage_duration raises rather than dropping the outcome.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_an_outcome_finishing_under_the_next_pool_attributes_to_the_old_row": "passed",
+    "test_setup_buffer.py::test_an_undersized_window_raises_rather_than_dropping_the_outcome": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_an_outcome_finishing_under_the_next_pool_attributes_to_the_old_row",
+    "test_setup_buffer.py::test_an_undersized_window_raises_rather_than_dropping_the_outcome"
+   ]
+  },
+  "S22": {
+   "complete": true,
+   "element": "Behavior snapshot binding",
+   "implementation": [
+    "setup_buffer:SetupBuffer.process",
+    "setup_sampling:SampledSetup"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert the ratio denominator and the E[v]/h used in the advantage all come from the recorded snapshot, not from a re-forward of the current model.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_the_advantage_uses_recorded_behavior_quantities_not_a_reforward": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_the_advantage_uses_recorded_behavior_quantities_not_a_reforward"
+   ]
+  },
+  "S23": {
+   "complete": true,
+   "element": "Aggregation window resets each collection period",
+   "implementation": [
+    "setup_buffer:SetupBuffer.add_pool"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert counts and ready_flags are zeroed at each pool refresh and that a setup surviving two periods trains on the second period's outcomes only.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_buffer.py::test_counts_and_ready_flags_reset_when_a_new_pool_arrives": "passed"
+   },
+   "tests": [
+    "test_setup_buffer.py::test_counts_and_ready_flags_reset_when_a_new_pool_arrives"
+   ]
+  },
+  "S24": {
+   "complete": true,
+   "element": "Immediately terminal setups",
+   "implementation": [
+    "setup_sampling:has_opening_move",
+    "synthetic_assay:run_seed"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert a terminal setup is excluded from play and contributes no training row.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_sampling.py::test_a_terminal_setup_is_flagged_by_the_sample_and_counted_by_the_pool": "passed",
+    "test_setup_sampling.py::test_opening_move_predicate_matches_the_engine_at_ply_zero": "passed",
+    "test_synthetic_assay.py::test_the_reduced_run_writes_every_artifact_with_zero_integrity_events": "passed"
+   },
+   "tests": [
+    "test_setup_sampling.py::test_opening_move_predicate_matches_the_engine_at_ply_zero",
+    "test_setup_sampling.py::test_a_terminal_setup_is_flagged_by_the_sample_and_counted_by_the_pool",
+    "test_synthetic_assay.py::test_the_reduced_run_writes_every_artifact_with_zero_integrity_events"
+   ]
+  },
+  "S25": {
+   "complete": true,
+   "element": "Optimizer class and semantics",
+   "implementation": [
+    "setup_learning:SetupTrainer.__init__",
+    "setup_contract:SETUP_WEIGHT_DECAY"
+   ],
+   "map_status": "exact",
+   "required_test": "Parity test: run 100 steps of Adam(wd=0) and AdamW(wd=0) from the same init on the same batches and assert the parameters agree to float tolerance. Guard test: assert the frozen config refuses a nonzero setup weight decay.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_torch_adamw_at_zero_decay_matches_the_oracle_adam_update": "passed",
+    "test_setup_learning.py::test_adam_and_adamw_at_zero_weight_decay_take_identical_steps": "passed",
+    "test_setup_learning.py::test_the_trainer_uses_adamw_with_zero_decay_and_the_config_refuses_a_nonzero_decay": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_adam_and_adamw_at_zero_weight_decay_take_identical_steps",
+    "test_setup_learning.py::test_the_trainer_uses_adamw_with_zero_decay_and_the_config_refuses_a_nonzero_decay",
+    "test_reference_oracle.py::test_torch_adamw_at_zero_decay_matches_the_oracle_adam_update"
+   ]
+  },
+  "S26": {
+   "complete": true,
+   "element": "Batch size and epochs",
+   "implementation": [
+    "setup_learning:SetupTrainer.update",
+    "setup_contract:SETUP_BATCH_SIZE",
+    "setup_contract:SETUP_EPOCHS_PER_UPDATE"
+   ],
+   "map_status": "corrected",
+   "required_test": "Assert one optimizer step per 1,024 ready setups per epoch, and 5 epochs per setup update. If accumulation is used, assert the accumulated gradient equals the single-step gradient to float tolerance.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_step_counts_and_ema_cadence_follow_the_published_loop": "passed",
+    "test_setup_learning.py::test_one_optimizer_step_per_minibatch_per_epoch_and_one_ema_update": "passed",
+    "test_setup_learning.py::test_the_production_batch_is_1024_setups_which_is_one_step_per_epoch_at_1024_ready": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_one_optimizer_step_per_minibatch_per_epoch_and_one_ema_update",
+    "test_setup_learning.py::test_the_production_batch_is_1024_setups_which_is_one_step_per_epoch_at_1024_ready",
+    "test_reference_oracle.py::test_step_counts_and_ema_cadence_follow_the_published_loop"
+   ]
+  },
+  "S27": {
+   "complete": true,
+   "element": "Gradient clipping",
+   "implementation": [
+    "setup_learning:SetupTrainer.update",
+    "setup_contract:SETUP_GRADIENT_CLIP_NORM"
+   ],
+   "map_status": "exact",
+   "required_test": "Assert the post-clip global norm never exceeds 0.5 and that the clip is applied to setup parameters only.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_reference_oracle.py::test_clip_grad_norm_scale_matches_the_oracle": "passed",
+    "test_setup_learning.py::test_the_post_clip_norm_never_exceeds_0_5_and_only_setup_parameters_are_stepped": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_the_post_clip_norm_never_exceeds_0_5_and_only_setup_parameters_are_stepped",
+    "test_reference_oracle.py::test_clip_grad_norm_scale_matches_the_oracle"
+   ]
+  },
+  "S28": {
+   "complete": true,
+   "element": "EMA and the raw/EMA actor split",
+   "implementation": [
+    "setup_learning:SetupEMA",
+    "setup_learning:SetupTrainer.generation_actor",
+    "setup_learning:SetupTrainer.evaluation_model"
+   ],
+   "map_status": "exact",
+   "required_test": "Cadence test: assert exactly one EMA update per setup iteration regardless of minibatch count. Closed-form test: after k updates from a fixed raw model, assert the EMA equals the analytic geometric blend. Isolation test: assert the EMA model is never selected as the generation actor.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_learning.py::test_the_ema_follows_the_closed_form_and_is_updated_once_per_update": "passed",
+    "test_setup_learning.py::test_the_raw_model_generates_and_the_ema_only_evaluates": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_the_ema_follows_the_closed_form_and_is_updated_once_per_update",
+    "test_setup_learning.py::test_the_raw_model_generates_and_the_ema_only_evaluates"
+   ]
+  },
+  "S29": {
+   "complete": true,
+   "element": "Checkpoint, resume and file layout",
+   "implementation": [
+    "setup_learning:SetupTrainer.save_checkpoint",
+    "setup_learning:SetupTrainer.load_checkpoint",
+    "setup_learning:SetupEMA.load_state_dict"
+   ],
+   "map_status": "exact",
+   "required_test": "Round-trip test on the PRODUCTION device: save, reload, and assert raw, optimizer and EMA states all restore and that one further update runs without error.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_learning.py::test_a_tampered_checkpoint_file_is_refused": "passed",
+    "test_setup_learning.py::test_save_reload_and_one_more_update": "passed"
+   },
+   "tests": [
+    "test_setup_learning.py::test_save_reload_and_one_more_update",
+    "test_setup_learning.py::test_a_tampered_checkpoint_file_is_refused"
+   ]
+  },
+  "S30": {
+   "complete": true,
+   "element": "Model-size scaling arithmetic",
+   "implementation": [
+    "setup_model:assert_architecture",
+    "setup_contract:SETUP_PARAMETER_TARGET"
+   ],
+   "map_status": "scaled",
+   "required_test": "Assert the built model has exactly 802,320 trainable parameters (SETUP_PARAMETER_TOLERANCE is 0). Assert positional embeddings initialize at std 0.1.",
+   "status": "complete",
+   "test_outcomes": {
+    "test_setup_model.py::test_a_different_width_is_refused_rather_than_accepted_quietly": "passed",
+    "test_setup_model.py::test_architecture_is_4_128_4_512_pre_layernorm": "passed",
+    "test_setup_model.py::test_parameter_count_is_exactly_802320": "passed",
+    "test_setup_model.py::test_positional_embeddings_initialise_at_std_0_1": "passed",
+    "test_setup_model.py::test_state_dict_shapes_match_the_accepted_phase17_architecture": "passed"
+   },
+   "tests": [
+    "test_setup_model.py::test_parameter_count_is_exactly_802320",
+    "test_setup_model.py::test_architecture_is_4_128_4_512_pre_layernorm",
+    "test_setup_model.py::test_positional_embeddings_initialise_at_std_0_1",
+    "test_setup_model.py::test_a_different_width_is_refused_rather_than_accepted_quietly",
+    "test_setup_model.py::test_state_dict_shapes_match_the_accepted_phase17_architecture"
+   ]
+  }
+ },
+ "rows_complete": 30,
+ "rows_total": 30,
+ "rule": "a row is complete only when every cited test passed in the recorded run; documentation alone never completes a row",
+ "test_directory": "tests/training/phase18",
+ "timestamp_utc": "2026-09-02T17:21:00Z",
+ "verified": true
+}
