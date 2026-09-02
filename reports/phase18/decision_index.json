@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-01T19:17:35Z",
+ "updated_utc": "2026-09-02T00:31:46Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -27,14 +27,19 @@
    "gate": "G1",
    "question": "Can the accepted Phase 8 warmstart be reproduced from a fresh canonical C1 initialization?",
    "decision": "REVISE",
-   "status": "delivered by Agent 2; awaiting reviewing-chat verification and operator acceptance",
+   "status": "accepted as REVISE by reviewing chat and operator on 2026-09-01; Agent 2 branch published; G1 remains open",
    "markdown": "reports/phase18/decisions/P18-D002.md",
    "json": "reports/phase18/decisions/P18-D002.json",
    "markdown_sha256": "9300c308895d7fc2cfe0f3bd5899955b7fa36ed6266f31e8ae6db585c1d66f1d",
    "json_sha256": "ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927",
-   "authorized_instruction": null,
-   "authorized_instruction_note": "no next instruction is authorized by this packet; Agent 2 is forbidden to write Agent 3 or G2 instructions and stopped at the packet",
-   "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+   "authorized_instruction": "instructions/phase_18_setup_integrated_warmstart/05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md",
+   "authorized_instruction_sha256": "8ab5315430b84ec7921058848777e564e6aa94714f9aad0086c0d11f50b0b0d0",
+   "authorized_instruction_note": "measurement-only G1 revision: preserve the original -0.01 margin and two-sided 95% paired-bootstrap rule, use a new independent 4,096-pair bank, reuse both frozen checkpoints, and open no sealed test data",
+   "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3",
+   "review_artifact": "reports/phase18/reviews/P18-D002_REVIEW.md",
+   "review_artifact_sha256": "471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811",
+   "approved_remote_branch": "origin/phase18/setup-integrated-warmstart-g1",
+   "approved_local_and_remote_sha": "18409f738613616e364f81ff14814d4648fc92d1"
   }
  ]
 }

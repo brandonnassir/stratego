@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_agent_instruction_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-01T19:17:35Z",
+ "updated_utc": "2026-09-02T00:31:46Z",
  "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
  "instructions": [
   {
@@ -23,7 +23,7 @@
    "role": "governing",
    "authorizing_decision": "operator request 2026-08-31",
    "status": "in force",
-   "sha256": "586fd06ef3ebf0b1cf7e1705d72c5c59d6d08449d37ab477c3d73121f7585775"
+   "sha256": "270687143c6cfae02d3f13523adf8afa5bb44149dfb6c4f5c10fb9bae2384868"
   },
   {
    "file": "instructions/phase_18_setup_integrated_warmstart/03_SETUP_MODEL_INTEGRATION_REFERENCE.md",
@@ -38,6 +38,13 @@
    "authorizing_decision": "accepted P18-D001 (JSON SHA-256 499b7d9acc7eeafee3aae0f0e150c0128a7b92a81e7f0846e4fd8162496e8cad) and operator request 2026-09-01",
    "status": "EXECUTED 2026-09-01, delivered P18-D002 (REVISE) at G1_SOURCE_COMMIT 66b733ad9232",
    "sha256": "6729568ebd82c4f8f24b7c53ce63e8426a3d438af4bb7abac7729a57ca70b925"
+  },
+  {
+   "file": "instructions/phase_18_setup_integrated_warmstart/05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md",
+   "role": "work package",
+   "authorizing_decision": "accepted P18-D002 REVISE (JSON SHA-256 ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927), reviewing-chat audit 471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811, and operator request 2026-09-01",
+   "status": "AUTHORIZED - not yet executed; G1 remains open",
+   "sha256": "8ab5315430b84ec7921058848777e564e6aa94714f9aad0086c0d11f50b0b0d0"
   }
  ],
  "not_yet_authorized": [

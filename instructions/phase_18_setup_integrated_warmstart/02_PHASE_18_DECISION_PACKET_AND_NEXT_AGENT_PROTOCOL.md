@@ -217,3 +217,25 @@ created it. An instruction with no authorizing decision is draft-only.
 
 The original Agent 1 instruction is authorized by the operator request that created
 this Phase 18 package and is the sole exception.
+
+## 7. Commit and GitHub publication rule
+
+The operator added this governing rule on 2026-09-01:
+
+1. Every agent must commit its authorized source, tests, evidence, reports, and
+   decision packet locally on its named phase branch before review.
+2. Result commits remain local while the decision packet is unreviewed.
+3. After the reviewing chat and operator accept the packet, the exact approved branch
+   HEAD must be published to the configured GitHub `origin` with a normal non-force
+   push.
+4. The publication step must verify and record that the remote branch SHA equals the
+   approved local SHA.
+5. The publication step may not add a result-changing commit. A small publication
+   receipt may be committed only when the authorizing instruction explicitly permits
+   it and the resulting SHA is itself reviewed.
+6. No agent may force push, push directly to `main`, merge, rebase, tag, create a
+   release, or open a pull request without separate operator authorization.
+
+When an agent has already stopped, the reviewing chat or the next explicitly
+authorized agent may perform the non-force publication on its behalf. Publication is
+not authorization for the next scientific stage.
