@@ -1,0 +1,102 @@
+{
+ "agent": "phase_18_agent_4",
+ "artifact": "phase18_g2_launch_manifest_v1",
+ "artifacts": {
+  "g1_artifacts": "untouched; they live outside the repository under /Users/brandonwashington/Dev/stratego_phase18",
+  "git_ignored": true,
+  "root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1",
+  "root_relative": "artifacts/phase18/g2_setup_parity_v1"
+ },
+ "authorization": {
+  "instructions/phase_18_setup_integrated_warmstart/06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md": "dd390ba5387941ca9e678b3ed93969b228fc5e3acf5f77708158212e23d06b5f",
+  "reports/phase18/ataraxos_setup_method_map_v2.json": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+  "reports/phase18/decisions/P18-D003.json": "57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb",
+  "reports/phase18/decisions/P18-D003.md": "7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7",
+  "reports/phase18/reviews/P18-D003_REVIEW.md": "1c234900e3e6246184807e790be61810d786b66e034b055ebf28301786aac313"
+ },
+ "budget": {
+  "bootstrap_replicates": 10000,
+  "evaluation_samples": 4096,
+  "gap_closure_threshold": 0.1,
+  "outcomes_per_setup": 4,
+  "pool_size": 1024,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "updates": 64
+ },
+ "contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+ "design_digest": "6795a6eb03c339c55f6495e69ab88499d3bec11493bb63c26606d4ee7782c507",
+ "environment": {
+  "dirty_paths": [],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "torch": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "gate": "G2",
+ "landscape_sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+ "landscape_table_digest": "114af9d257ef7680135666e4501e13786ccb1ac70e2b985dc208a23c6f62659f",
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "sealed_test_access": {
+  "planned": 0
+ },
+ "seeds": {
+  "bootstrap_seed": 7211561062867873911,
+  "landscape_table_seed": 5039638015203860857,
+  "model_seeds": {
+   "1": 4119286577850662291,
+   "2": 2802590985072384342,
+   "3": 7527090394275652774
+  },
+  "namespace": "phase18_g2_setup_parity_v1",
+  "seed_function": "stratego.setups.identity.derive_stream_seed"
+ },
+ "source": {
+  "canonical_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "expected_execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "g2_source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "worktree_porcelain_empty": true
+ },
+ "source_digests": {
+  "scripts/phase18_g2_setup_parity.py": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+  "stratego/belief/phase15/orientation.py": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+  "stratego/engine/constants.py": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+  "stratego/engine/setup.py": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+  "stratego/evaluation/phase18/noninferiority.py": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+  "stratego/setups/identity.py": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+  "stratego/training/phase18/__init__.py": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+  "stratego/training/phase18/coverage.py": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+  "stratego/training/phase18/reference_oracle.py": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+  "stratego/training/phase18/setup_buffer.py": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+  "stratego/training/phase18/setup_contract.py": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+  "stratego/training/phase18/setup_learning.py": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+  "stratego/training/phase18/setup_model.py": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+  "stratego/training/phase18/setup_sampling.py": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+  "stratego/training/phase18/synthetic_assay.py": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+  "stratego/training/phase18/synthetic_landscape.py": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e"
+ },
+ "stratego_games_planned": 0,
+ "test_digests": {
+  "tests/training/phase18/conftest.py": "ee9214472508fd167c3e8353e323787aac304bc78c3e9c46e2b163acb3581989",
+  "tests/training/phase18/test_coverage.py": "eac591c923452a9b7cebbe3f89e51334fbd7f759562c811c9dc0e4b4a2ba4d63",
+  "tests/training/phase18/test_g2_driver.py": "09f82c3ac094b763d2a8c54639177aaa908c3a01a52e6b66dfaf042404a21be2",
+  "tests/training/phase18/test_reference_oracle.py": "78245f12ca26174c142e2c42fc16477e3fef4526c021ca98e372d99f33469452",
+  "tests/training/phase18/test_setup_buffer.py": "b6d7d0ddf3e7c142d97ef32bc4eecd8c263ee9b1ffb510710b3eb6bbe0ffdb53",
+  "tests/training/phase18/test_setup_learning.py": "fde0a458d0075254b6ed13246f2f903efa7f32c451aa9e2511d32fb7c1876380",
+  "tests/training/phase18/test_setup_model.py": "3566d2a9777db90eb833e0d8c9e371f39bdbb6ce0a7e735121b52dc0b2d8bf7b",
+  "tests/training/phase18/test_setup_sampling.py": "10c7df0f24574083f3f87e5f6ad47541f9f67764fe6b61080d28e3e5e393e2e9",
+  "tests/training/phase18/test_synthetic_assay.py": "50de6f5e3a9683d412b4296f1069c1c368fe3646c7335fb91cb6834883227c70",
+  "tests/training/phase18/test_synthetic_landscape.py": "ce57a2850ed1a6351436a308ee7451cf80472a6e404e80073d6138f0a6017607"
+ },
+ "timestamp_utc": "2026-09-02T13:24:24Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
