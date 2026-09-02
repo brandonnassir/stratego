@@ -1,6 +1,6 @@
 # Evidence and artifact-status index
 
-**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended).
+**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended); **updated 2026-09-02 by Phase 18 Agent 4** (§7.2b: G1 accepted, review and errata rows).
 A compact classification of every major artifact.
 This index deliberately does **not** repeat all metrics — it links. Values live
 in the reports; the reports were not edited.
@@ -255,8 +255,10 @@ untracked by `.gitignore`, as intended.
 |---|---|---|
 | `reports/phase18/phase18_g1_*` (control run, checkpoint manifest, noninferiority, arms, binding, launch) | `ACCEPTED` | Agent 2's G1 control at `G1_SOURCE_COMMIT 66b733ad`: 42/42 original gates, 7/8 paired margins; vs-random uncertifiable at 1,024 pairs (±0.0116 vs 0.010). |
 | `reports/phase18/decisions/P18-D002.*`, `reviews/P18-D002_REVIEW.md` | `ACCEPTED` as `REVISE` | Authorized exactly one measurement-only revision: 4,096 independent pairs, same margin and rule. |
-| `reports/phase18/phase18_g1_random_confirmation_*` (contract, bank, launch, reference, candidate, noninferiority, binding) + `g1_random_confirmation/` (receipts, run/arm records) | **`AWAITING REVIEW`** | Agent 3's powered confirmation at `G1_CONFIRM_SOURCE_COMMIT 9392c6ec`: delta **+0.006348**, 95% **[+0.000793, +0.011902]** on 4,096 independent pairs vs the −0.010 margin — certified; zero integrity events; sealed-test access zero. |
-| `reports/phase18/decisions/P18-D003.*`, `agent_03_report.md` | **`AWAITING REVIEW`** — `PROCEED` | Closes G1 if accepted; proposes G2 (setup implementation parity) as the next bounded question. Local branch `phase18/g1-random-confirmation`, **not pushed**. |
+| `reports/phase18/phase18_g1_random_confirmation_*` (contract, bank, launch, reference, candidate, noninferiority, binding) + `g1_random_confirmation/` (receipts, run/arm records) | `ACCEPTED` | Agent 3's powered confirmation at `G1_CONFIRM_SOURCE_COMMIT 9392c6ec`: delta **+0.006348**, 95% **[+0.000793, +0.011902]** on 4,096 independent pairs vs the −0.010 margin — certified; zero integrity events; sealed-test access zero. Independently reproduced from the receipts by the review. |
+| `reports/phase18/decisions/P18-D003.*`, `agent_03_report.md` | `ACCEPTED` as `PROCEED` — **G1 CLOSED** | Accepted 2026-09-02. Branch `phase18/g1-random-confirmation` published at `ef7523c1940650c0906d1927e64679e8328a663f` (local == remote, non-force). **Carries one narrative erratum**: `identity.rules` says battleless limit 100; the measurement used the evaluation value 200 (see the errata row). Packet not rewritten. |
+| `reports/phase18/reviews/P18-D003_REVIEW.md` | `ACCEPTED` | Reviewing-chat audit: identities, receipts and the 4,096-pair result reproduced; authorizes G2 only. |
+| `reports/phase18/phase18_rule_identity_errata_v1.json` | `ACCEPTED` (as a record) | E-P18-D003-RULES-1: the packet's 100 is a metadata error, the contract/engine/schedule/receipts carry 200, no rerun. O-P18-EVALRULES-1: `phase18_evaluation_contract_v1.json` names *training* rules (100) for future play lanes — **amendment required before any real-game G3/G4 evaluation**; does not affect G2. |
 
 ### 7.3 Two cross-cutting facts that change how earlier evidence reads
 

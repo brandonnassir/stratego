@@ -16,23 +16,31 @@ created 2026-08-31
 | `02_PHASE_18_DECISION_PACKET_AND_NEXT_AGENT_PROTOCOL.md` | Evidence review and future-agent authorization protocol | Governing |
 | `03_SETUP_MODEL_INTEGRATION_REFERENCE.md` | Math/method/hypothesis reference and PDF source | Reference only |
 | `04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md` | Clean source closure and faithful Phase 8 reproduction | Authorized by accepted `P18-D001` |
-| `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | **Executed 2026-09-02** — delivered `P18-D003` (`PROCEED`, awaiting review) |
+| `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | Executed 2026-09-02 — delivered `P18-D003` (`PROCEED`), **accepted 2026-09-02; G1 closed**; branch published at `ef7523c1` |
+| `06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` | Publish accepted G1; Gate G2 setup implementation parity and synthetic learning assay | **Authorized by accepted `P18-D003`; executing on `phase18/g2-setup-parity`** |
 
 ## Current execution rule
 
-Agents 1, 2 and 3 are complete. Agent 2's work is approved and published at
+Agents 1, 2 and 3 are complete and accepted. Agent 2's work is published at
 `origin/phase18/setup-integrated-warmstart-g1` commit `18409f7`. Agent 3's
 confirmation certified the vs-random margin (delta +0.006348, 95%
 [+0.000793, +0.011902] on 4,096 independent pairs against the frozen -0.010
-margin) and delivered `P18-D003` recommending G1 closure; its result commits are
-**local only on `phase18/g1-random-confirmation`, awaiting review** — do not push
-until the packet is accepted. No training, setup implementation, G2 work,
-setup-only assay, tandem pilot, rehearsal, or production run is authorized.
+margin); `P18-D003` was **accepted as `PROCEED` on 2026-09-02, Gate G1 is closed**,
+and the approved branch `phase18/g1-random-confirmation` is published at
+`origin` commit `ef7523c1940650c0906d1927e64679e8328a663f` (local == remote).
+The review and its erratum (the packet narrative's battleless move limit reads 100
+where the contract, engine constant, schedule and receipts carry the evaluation
+value 200) are recorded in `reports/phase18/reviews/P18-D003_REVIEW.md` and
+`reports/phase18/phase18_rule_identity_errata_v1.json`.
 
-Agent 3 must keep the original `-0.01` margin and two-sided 95% paired-bootstrap rule,
-use a new independent 4,096-pair confirmation bank, reuse the frozen accepted and G1
-candidate checkpoint bytes, and open no sealed test data. It must preserve the
-protected historical Phase 14 manifest change outside the Phase 18 commit.
+`06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` is the only newly executable
+work package. It authorizes **Gate G2 only**: the scaled setup-policy implementation
+with parity tests for every method-map row S01-S30, an independent canned parity
+oracle, and a frozen synthetic known-reward learning assay across three fresh seeds.
+No Stratego setup training, Phase 8 trainer integration, setup-only Stratego assay
+(G3), tandem pilot (G4), rehearsal (G5) or production run (G6) is authorized, and no
+Stratego game or sealed Phase 8 example may be opened by it. Its result commits stay
+local on `phase18/g2-setup-parity` until `P18-D004` is reviewed.
 
 Every agent commits locally before review. An approved branch is then published to
 GitHub by normal non-force push and the matching local/remote SHA is recorded. An

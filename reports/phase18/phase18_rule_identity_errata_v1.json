@@ -1,0 +1,49 @@
+{
+ "artifact": "phase18_rule_identity_errata_v1",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "recorded_by": "phase_18_agent_4",
+ "timestamp_utc": "2026-09-02T12:44:13Z",
+ "authorizing_review": "reports/phase18/reviews/P18-D003_REVIEW.md",
+ "rule": "frozen result packets are never rewritten; a narrative error in a packet is corrected through the review and this errata trail, and the packet's recorded digests stay valid",
+ "errata": [
+  {
+   "id": "E-P18-D003-RULES-1",
+   "kind": "narrative_metadata_error",
+   "affected_artifact": "reports/phase18/decisions/P18-D003.json",
+   "affected_artifact_sha256": "57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb",
+   "affected_field": "identity.rules",
+   "recorded_text": "accepted evaluation rules (battleless_move_limit 100, absolute_move_limit 4000, first_player 0)",
+   "correct_text": "accepted evaluation rules (battleless_move_limit 200, absolute_move_limit 4000, first_player 0, context evaluation)",
+   "what_is_wrong": "the battleless move limit is written as 100; the measurement used the accepted evaluation value 200",
+   "evidence_that_200_was_applied": {
+    "engine_constant": "stratego/engine/constants.py: EVALUATION_RULES = RulesConfig(battleless_move_limit=200, absolute_move_limit=4000, context='evaluation'); TRAINING_RULES (the Phase 8 corpus rules, CORPUS_RULES) carry 100",
+    "driver": "scripts/phase18_g1_random_confirmation.py imports EVALUATION_RULES from stratego.evaluation.match_spec (the engine constant re-exported) and builds the paired schedule with rules=EVALUATION_RULES",
+    "frozen_contract": "reports/phase18/phase18_g1_random_confirmation_contract_v1.json schedule.rules = stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+    "receipts": "all 16,384 rows across reports/phase18/g1_random_confirmation/reference_receipts.jsonl and candidate_receipts.jsonl carry that identical rules token (battleless_move_limit=200, context=evaluation); zero rows carry any other token",
+    "arm_identity": "the rules token is one of the thirteen case fields proved identical between arms on every match id"
+   },
+   "consequence": "none for the result: both arms played the same frozen rules, the frozen contract names the rule that was applied, and the accepted Phase 8 play gates use the same evaluation rules. G1 does not need to be rerun.",
+   "rerun_required": false,
+   "packet_rewritten": false,
+   "also_affected": [
+    {
+     "artifact": "reports/phase18/decisions/P18-D003.md",
+     "note": "the Markdown packet does not state a battleless move limit; no correction needed"
+    }
+   ]
+  }
+ ],
+ "open_items": [
+  {
+   "id": "O-P18-EVALRULES-1",
+   "kind": "training_versus_evaluation_rule_choice",
+   "artifact": "reports/phase18/phase18_evaluation_contract_v1.json",
+   "field": "cases_seeds_opponents.rule_version",
+   "recorded_text": "the accepted training rules: battleless_move_limit 100, absolute_move_limit 4000, first_player 0",
+   "observation": "the frozen evaluation contract names TRAINING rules (battleless limit 100) for the future factorial play lanes, while every G1 play measurement (P18-D002 and P18-D003) used the accepted EVALUATION rules (battleless limit 200)",
+   "status": "PRESERVED UNEDITED; AMENDMENT REQUIRED",
+   "requirement": "before any real-game Gate G3 or G4 evaluation, the rule version applied to play evaluation must be settled by an explicit, reviewed amendment to the evaluation contract, recorded in the decision trail",
+   "does_not_affect": "Gate G2, which plays no Stratego games and opens no sealed data"
+  }
+ ]
+}

@@ -542,8 +542,9 @@ carry this as a regression case.
 
 ## 14. Is Phase 18 authorized?
 
-**Gate G1 is complete pending review; nothing beyond it is authorized.**
-*(Updated 2026-09-02 by Phase 18 Agent 3.)*
+**Gate G1 is CLOSED (P18-D003 accepted 2026-09-02). Gate G2 — setup implementation
+parity and the synthetic learning assay — is authorized and executing; nothing beyond
+G2 is authorized.** *(Updated 2026-09-02 by Phase 18 Agent 4.)*
 
 Phase 18 — *setup-integrated Phase 8 warmstart* — was planned on 2026-08-31. Its
 goal is a fresh Phase 8 C1 warmstart whose policy/value/belief learner is
@@ -555,17 +556,29 @@ of self-play.
 executed   01_AGENT_1 (G0, 2026-08-31)          -> P18-D001 PROCEED (accepted)
 executed   04_AGENT_2 (G1 control, 2026-09-01)  -> P18-D002 REVISE  (accepted; 42/42
            gates, 7/8 margins; vs-random uncertifiable at 1,024 pairs)
-executed   05_AGENT_3 (G1 confirmation, 2026-09-02) -> P18-D003 PROCEED (AWAITING
-           REVIEW; delta +0.006348, 95% [+0.000793, +0.011902] on 4,096 independent
-           pairs vs the -0.010 margin -> G1 closes; local branch
-           phase18/g1-random-confirmation, NOT pushed)
-NOT authorized  the setup implementation (G2), the setup-only assay (G3), the
-                tandem pilot (G4), the production rehearsal (G5), and the full run (G6)
+executed   05_AGENT_3 (G1 confirmation, 2026-09-02) -> P18-D003 PROCEED (ACCEPTED
+           2026-09-02; delta +0.006348, 95% [+0.000793, +0.011902] on 4,096
+           independent pairs vs the -0.010 margin -> G1 CLOSED; branch
+           phase18/g1-random-confirmation published at ef7523c1, local == remote)
+executing  06_AGENT_4 (G2 setup parity + synthetic assay, from 2026-09-02) on
+           branch phase18/g2-setup-parity -> will deliver P18-D004
+NOT authorized  the setup-only Stratego assay (G3), the tandem pilot (G4), the
+                production rehearsal (G5), and the full run (G6); no Stratego setup
+                training and no sealed Phase 8 access inside G2
 ```
 
 Phase 18 is an **adaptive evidence ladder** (gates G0–G6), not a precommitted
 agent sequence. Every stage stops at a decision packet that the operator and the
 reviewing chat must accept before the next instruction may be written.
+
+Two rule-identity facts recorded on 2026-09-02 (see
+`reports/phase18/phase18_rule_identity_errata_v1.json`): the `P18-D003.json`
+narrative names a battleless move limit of 100 where the frozen contract, the engine
+constant, the schedule and all 16,384 receipts carry the accepted **evaluation** value
+200 — a metadata error, the packet is not rewritten and G1 is not rerun; and the
+frozen `phase18_evaluation_contract_v1.json` names *training* rules (100) for the
+future play lanes, so the training-versus-evaluation rule choice **must be amended
+explicitly before any real-game G3/G4 evaluation**.
 
 Agent 1's outputs are in `reports/phase18/`. Two dependencies are recorded as
 blocking later gates and neither blocks the Phase 8 control:

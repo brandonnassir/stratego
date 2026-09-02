@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T04:50:00Z",
+ "updated_utc": "2026-09-02T12:44:13Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -48,7 +48,7 @@
    "gate": "G1",
    "question": "Does the G1 candidate's paired 95% lower bound vs the accepted checkpoint exceed the original -0.01 EWR margin on a new independent 4,096-pair random-opponent bank?",
    "decision": "PROCEED",
-   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "status": "accepted by reviewing chat and operator on 2026-09-02; G1 CLOSED; branch published; G2 authorized",
    "markdown": "reports/phase18/decisions/P18-D003.md",
    "json": "reports/phase18/decisions/P18-D003.json",
    "markdown_sha256": "7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7",
@@ -58,8 +58,25 @@
    "launch_manifest_commit": "3a8b30d07eb7d093cfc60bb1abb8302fe788c920",
    "result_evidence_commit": "c1833ad7a36fb0c98d6fada02326316d50d7f284",
    "local_branch": "phase18/g1-random-confirmation",
-   "authorized_instruction": null,
-   "authorized_instruction_note": "no next instruction exists; P18-D003 proposes Gate G2 (setup implementation parity) as the next bounded question, to be written only after acceptance"
+   "authorized_instruction": "instructions/phase_18_setup_integrated_warmstart/06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md",
+   "authorized_instruction_note": "operator accepted P18-D003 as PROCEED on 2026-09-02 and issued the Agent 4 work package: publish the approved G1 head, record the review and erratum, then execute Gate G2 (setup implementation parity and the synthetic learning assay). G2 only; no Stratego setup training, G3, tandem pilot or production run.",
+   "review_artifact": "reports/phase18/reviews/P18-D003_REVIEW.md",
+   "review_artifact_sha256": "1c234900e3e6246184807e790be61810d786b66e034b055ebf28301786aac313",
+   "errata_artifact": "reports/phase18/phase18_rule_identity_errata_v1.json",
+   "errata_note": "identity.rules in P18-D003.json says battleless_move_limit 100; the contract, engine constant, schedule and all 16,384 receipts carry the accepted evaluation value 200. Narrative metadata error; packet not rewritten; no rerun.",
+   "authorized_instruction_sha256": "dd390ba5387941ca9e678b3ed93969b228fc5e3acf5f77708158212e23d06b5f",
+   "publication": {
+    "status": "PUBLISHED",
+    "remote_url": "https://github.com/brandonnassir/stratego.git",
+    "remote_branch": "origin/phase18/g1-random-confirmation",
+    "approved_local_sha": "ef7523c1940650c0906d1927e64679e8328a663f",
+    "remote_sha": "ef7523c1940650c0906d1927e64679e8328a663f",
+    "local_equals_remote": true,
+    "push_kind": "normal non-force push of the exact approved HEAD; the remote branch was absent beforehand; no publication commit was added",
+    "published_utc": "2026-09-02T12:44:13Z",
+    "published_by": "phase_18_agent_4"
+   },
+   "approved_local_and_remote_sha": "ef7523c1940650c0906d1927e64679e8328a663f"
   }
  ]
 }
