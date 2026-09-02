@@ -1,0 +1,69 @@
+{
+ "agent": "phase_18_agent_5",
+ "artifact": "phase18_g2_raw_confirmation_decision_input_v1",
+ "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+ "binding_ledger_sha256": "9d318c4fba9e96042aac39067145d38438aeefde735dac197a4199e8e9c3d697",
+ "decision": {
+  "basis": "all parity, replay, binding and integrity checks pass; the raw actor improved in every seed, the pooled paired 95% lower bound is above zero and the median gap closure meets the 10% threshold",
+  "decision": "PROCEED",
+  "ema_results_considered": false,
+  "prerequisites": {
+   "binding": true,
+   "integrity": true,
+   "parity": true,
+   "replay": true
+  },
+  "raw_criteria": {
+   "all_seeds_improved": true,
+   "median_gap_closure_meets_threshold": true,
+   "pooled_lower_bound_strictly_above_zero": true
+  },
+  "raw_criteria_pass": true
+ },
+ "ema_telemetry_summary": {
+  "all_seeds_improved": true,
+  "median_gap_closure_meets_threshold": false,
+  "median_gap_fraction_closed": 0.0011906572566473261,
+  "pooled_lower_bound_strictly_above_zero": true
+ },
+ "gate": "G2",
+ "question": "Using the parity-correct setup-learning method, does the raw generation actor reliably learn an independently generated synthetic setup landscape within 64 setup updates?",
+ "raw_criteria_summary": {
+  "all_seeds_improved": true,
+  "gap_fractions_sorted": [
+   0.09598745523118779,
+   0.10007299279907324,
+   0.10647866406618584
+  ],
+  "median_gap_closure_meets_threshold": true,
+  "median_gap_fraction_closed": 0.10007299279907324,
+  "pooled_lower_bound_strictly_above_zero": true
+ },
+ "raw_pooled_paired_interval": {
+  "candidate": 4.642350260172527,
+  "confidence": 0.95,
+  "delta": 5.42824351123047,
+  "lower": 5.298537681459554,
+  "method": "paired_unit_difference_bootstrap",
+  "reference": -0.7858932510579429,
+  "replicates": 10000,
+  "resampling_unit": "paired_unit",
+  "sample_size": 12288,
+  "seed": 2538560817612476064,
+  "upper": 5.558476800891113
+ },
+ "results_sha256": "7856bf0e084aa637043924c204bb5c1d25e247156c78feb7fc62968456d0e1e4",
+ "rule": {
+  "BLOCKED": "required evidence cannot be produced because of an unresolved dependency",
+  "PROCEED": "all parity, replay, binding and integrity checks pass; final raw-actor mean utility > initial raw-actor mean utility in all three seeds; the lower bound of the pooled paired 95% bootstrap interval > 0; median raw-actor gap closure across the three seeds >= 0.10",
+  "REVISE": "only if a specific implementation or measurement defect invalidates the run; an unfavourable valid result is never reclassified as an instrument problem",
+  "STOP": "the parity-correct raw learner fails these criteria without a concrete defect",
+  "ema_results": "recorded as secondary mechanism telemetry; they cannot change the decision",
+  "scope_of_a_pass": "closes only the synthetic trainability portion of G2 and authorizes designing the next gate; it does not authorize launching G3 or the full warmstart"
+ },
+ "run_id": "G2-RAW-CONFIRMATION-2026-A",
+ "scope": "a PROCEED closes only the synthetic trainability portion of G2 and authorizes designing the next gate; it does not authorize launching G3 or the full warmstart",
+ "source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+ "timestamp_utc": "2026-09-02T17:40:40Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

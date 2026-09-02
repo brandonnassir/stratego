@@ -1,0 +1,121 @@
+{
+ "agent": "phase_18_agent_5",
+ "all_artifacts_bind_one_source_commit": true,
+ "artifact": "phase18_g2_raw_confirmation_binding_v1",
+ "artifact_root": {
+  "g1_artifacts": "untouched; they live outside the repository under /Users/brandonwashington/Dev/stratego_phase18",
+  "g2_artifacts": "untouched under artifacts/phase18/g2_setup_parity_v1",
+  "git_ignored": true,
+  "root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_raw_confirmation_v1",
+  "root_relative": "artifacts/phase18/g2_raw_confirmation_v1"
+ },
+ "artifacts": {
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_parity_coverage_v1.json": {
+   "bytes": 33076,
+   "sha256": "431f004b1be9c91c6050f05bf9fb0cb3115256ca663dbc80f54ec7a3857441ed",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_parity_oracle_v1.json": {
+   "bytes": 9786,
+   "sha256": "e57667a93ddc5022c155f25c3b0342349ee52cf2e98326d53852e6fe247fc079",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_replay_v1.json": {
+   "bytes": 6447,
+   "sha256": "f2abe70294622e5bc08f523a3a513e8dc7996394fb7037569c61491f26210452",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_seed_1_result_v1.json": {
+   "bytes": 17722,
+   "sha256": "166912d1faaea93926636f08efc267fa4e1822957b0520d52f4c1395d1fbc7c6",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_seed_2_result_v1.json": {
+   "bytes": 17759,
+   "sha256": "bb64e67f6d0d2f5e1ac19329ddd86dd76b0d6f8591f8ad2ac7e70a20763c8dac",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_seed_3_result_v1.json": {
+   "bytes": 17710,
+   "sha256": "202e536b6f7321f6d9347c367031f0ae52b7df9de72904ff91bfc1937da9b27f",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  },
+  "g2_raw_confirmation/phase18_g2_raw_confirmation_verification_v1.json": {
+   "bytes": 8569,
+   "sha256": "ebb2e5193f941f4f2980f7a08a05d50030d5453d5aac0075688867960ddd193c",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g2_raw_confirmation_contract_v1.json": {
+   "bytes": 28034,
+   "sha256": "9a33147090f035c840f2ebb59a78e73e212acc6b9db9f88a8b45035e1e57d012",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g2_raw_confirmation_landscape_v1.json": {
+   "bytes": 8837,
+   "sha256": "1202b9c7fb59f0f3ed0d4ff692a02f6000b9c0af13b62d11f2cb55ff7f945e60",
+   "source_binding": {
+    "agrees": null,
+    "form": "pre-commit artifact; bound by this ledger's digest and the launch manifest",
+    "value": null
+   }
+  },
+  "phase18_g2_raw_confirmation_launch_manifest_v1.json": {
+   "bytes": 14685,
+   "sha256": "a0413ea8a86ce34a513285387781b66c49c8b0662e32c0939cb87b32b356bfc5",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  },
+  "phase18_g2_raw_confirmation_results_v1.json": {
+   "bytes": 29526,
+   "sha256": "7856bf0e084aa637043924c204bb5c1d25e247156c78feb7fc62968456d0e1e4",
+   "source_binding": {
+    "agrees": true,
+    "form": "full",
+    "value": "ccddceda27015f47d26879802b4b55653c8fdf18"
+   }
+  }
+ },
+ "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+ "gate": "G2",
+ "mismatched_artifacts": [],
+ "run_id": "G2-RAW-CONFIRMATION-2026-A",
+ "source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+ "source_tree": "dd9d305e7cbaed99f573c227dd9a1dc4dce1456d",
+ "timestamp_utc": "2026-09-02T17:40:40Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
