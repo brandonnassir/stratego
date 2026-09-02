@@ -542,16 +542,21 @@ carry this as a regression case.
 
 ## 14. Is Phase 18 authorized?
 
-**Gate G1 is CLOSED (P18-D003 accepted 2026-09-02). Gate G2: P18-D004 = `REVISE`,
-accepted 2026-09-02 and published at `6afa13be` — parity passes and the learner
-learns the synthetic landscape; the EMA-based criterion was not met within the
-64-update budget because the EMA (0.999^64 = 0.937975 of the initial parameter
-contribution retained, ~1,000-update time constant) lagged severely behind the raw
-actor. Agent 5's bounded raw-actor confirmation on a fresh landscape delivered
-P18-D005 = `PROCEED` (synthetic trainability portion of G2 only, awaiting review):
-the raw learner learned in every seed, the median gap closure 10.007% met the
-frozen 10% threshold at its edge. Nothing beyond designing the next gate is
-authorized.** *(Updated 2026-09-02 by Phase 18 Agent 5.)*
+**Gate G1 is CLOSED (P18-D003 accepted 2026-09-02). Gate G2 is CLOSED
+(2026-09-02).** Its two halves are both accepted: `P18-D004` = `REVISE`, accepted
+and published at `6afa13be`, established implementation parity (the EMA-based
+criterion was not met within the 64-update budget because the EMA — 0.999^64 =
+0.937975 of the initial parameter contribution retained, ~1,000-update time
+constant — lagged severely behind the raw actor); and Agent 5's bounded raw-actor
+confirmation on a fresh landscape delivered `P18-D005` = `PROCEED` (synthetic
+trainability portion of G2 only), **accepted 2026-09-02** and published at
+`d0fd36d9`, local == remote. The raw learner learned in every seed and the median
+gap closure 10.0073% met the frozen 10% threshold — but by only 0.0073 percentage
+points, which is **not robust evidence for a precise 10% practical effect**, even
+though the learning effect itself is strong and replicated in all three seeds.
+**Gate G3 is UNSTARTED.** Nothing beyond designing the next gate is authorized: no
+G3 run, no Stratego setup-learning game, no Phase 8 warmstart training.
+*(Updated 2026-09-02 by the Phase 18 Backend Steward.)*
 
 Phase 18 — *setup-integrated Phase 8 warmstart* — was planned on 2026-08-31. Its
 goal is a fresh Phase 8 C1 warmstart whose policy/value/belief learner is
@@ -574,12 +579,15 @@ executed   06_AGENT_4 (G2 setup parity + synthetic assay, 2026-09-02) -> P18-D00
            closes a median 0.35% vs 10% -> predeclared instrument concern; branch
            phase18/g2-setup-parity PUBLISHED at 6afa13be, local == remote)
 executed   07_AGENT_5 (G2 bounded raw-actor confirmation, 2026-09-02) -> P18-D005 PROCEED
-           (AWAITING REVIEW; synthetic trainability portion of G2 only; fresh landscape
+           (ACCEPTED 2026-09-02; synthetic trainability portion of G2 only; fresh landscape
            optimum 53.0311, fresh seeds, unchanged G2 method; raw actor improved in every
            seed, pooled paired 95% [+5.2985, +5.5585], gap closure 10.648/10.007/9.599%,
-           median 10.007% vs 10% -> met at its edge; parity, bitwise replay, binding and
+           median 10.0073% vs 10% -> met, but by only 0.0073 percentage points, so not
+           robust evidence for a precise 10% effect; the learning effect itself is strong
+           and replicated in all three seeds; parity, bitwise replay, binding and
            integrity pass; EMA telemetry median 0.119% decides nothing; branch
-           phase18/g2-raw-confirmation, NOT pushed)
+           phase18/g2-raw-confirmation PUBLISHED at d0fd36d9, local == remote
+           -> GATE G2 CLOSED, GATE G3 UNSTARTED)
 NOT authorized  the setup-only Stratego assay (G3), the tandem pilot (G4), the
                 production rehearsal (G5), and the full run (G6); no Stratego setup
                 training and no sealed Phase 8 access inside G2
@@ -606,10 +614,19 @@ the raw actor in the frozen assay (1.3–2.8% of the raw displacement). The acce
 bounded correction (Agent 5, instruction 07) is an independent confirmation on a
 fresh landscape with fresh seeds in which the synthetic assay's decision reads the
 raw generation actor; the EMA remains the required evaluation/deployment model for
-every later Stratego-facing stage. That confirmation (P18-D005) passed: the raw
-learner learned a fresh landscape in every seed and the median gap closure met the
-frozen 10% threshold by 0.0073 percentage points (seed 3 alone below it). It closes
-only the synthetic trainability portion of G2. The recommended next question is a
+every later Stratego-facing stage. That confirmation (P18-D005) passed and was
+**accepted on 2026-09-02**: the raw learner learned a fresh landscape in every seed
+and the median gap closure met the frozen 10% threshold by 0.0073 percentage points
+(seed 3 alone below it). The threshold comparison is therefore **not robust evidence
+for a precise 10% practical effect**, though the learning effect itself is strong and
+replicated in all three seeds. It closes only the synthetic trainability portion of
+G2 — which, with the parity evidence accepted under P18-D004, **closes Gate G2**;
+**Gate G3 is unstarted**. A further open item is recorded in the P18-D005 review: the
+frozen confirmation contract carries contradictory inherited metadata, in which
+`question.checkpoint_rule`, `question.primary_endpoint` and `decision_rules`
+(authoritative, raw-actor) govern the decision while `design.checkpoint_rule` and
+`design.evaluation_rule` retain the earlier EMA wording. The contract is frozen and
+stays unedited; the review is the authoritative record of which fields applied. The recommended next question is a
 G3 *design* question: an evaluation model and budget with power (the EMA's
 ~1,000-update time constant), a margin sized in the gate's own units from a known
 instrument resolution, and the evaluation-rule amendment O-P18-EVALRULES-1 before

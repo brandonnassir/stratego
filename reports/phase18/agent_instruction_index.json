@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_agent_instruction_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T17:48:10Z",
+ "updated_utc": "2026-09-02T18:35:00Z",
  "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
  "instructions": [
   {
@@ -57,12 +57,12 @@
    "file": "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md",
    "role": "work package",
    "authorizing_decision": "accepted P18-D004 REVISE (as-reviewed JSON SHA-256 36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679, Markdown SHA-256 d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc; corrected copies bf6744d546d5756a84bef396eef6e8bb8b330be55941999e0547983f0e9f2cb1 / 295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f), review record reports/phase18/reviews/P18-D004_REVIEW.md (6f3b8547f9a637d8b9f16e5fd2565642e746deb4137b4cc889c3bbbef294d74b), and operator request 2026-09-02",
-   "status": "EXECUTED 2026-09-02, delivered P18-D005 (PROCEED for the synthetic trainability portion of G2, awaiting review) at G2_RAW_SOURCE_COMMIT ccddceda2701; G2 branch published at 6afa13be and the P18-D004 wording corrected; fresh landscape (optimum 53.031081) and fresh seeds, unchanged G2 method; raw actor improved in every seed, pooled paired 95% [+5.2985, +5.5585], median gap closure 10.007% vs 10% (at the threshold's edge); parity, bitwise replay, binding and integrity pass; EMA telemetry decides nothing; no G3, no Stratego game, no Phase 8 warmstart training",
+   "status": "EXECUTED 2026-09-02, delivered P18-D005 (PROCEED for the synthetic trainability portion of G2) at G2_RAW_SOURCE_COMMIT ccddceda2701; ACCEPTED as PROCEED by the operator on 2026-09-02 (review record reports/phase18/reviews/P18-D005_REVIEW.md); branch phase18/g2-raw-confirmation published at d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d (local == remote); G2 branch published at 6afa13be and the P18-D004 wording corrected; fresh landscape (optimum 53.031081) and fresh seeds, unchanged G2 method; raw actor improved in every seed, pooled paired 95% [+5.2985, +5.5585], median gap closure 10.0073% vs 10% (cleared by 0.0073 percentage points, at the threshold's edge and not robust evidence for a precise 10% effect); parity, bitwise replay, binding and integrity pass; EMA telemetry decides nothing. Gate G2 is CLOSED with the parity evidence accepted under P18-D004; G3 is UNSTARTED - no G3 run, no Stratego game, no Phase 8 warmstart training authorized",
    "sha256": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af"
   }
  ],
  "not_yet_authorized": [
-  "Gate G3 design instruction (setup-only Stratego benefit) - to be written only after P18-D005 is accepted",
+  "Gate G3 design instruction (setup-only Stratego benefit) - P18-D005 accepted 2026-09-02, so the design instruction may now be written; it must resolve O-P18-EVALRULES-1 and size the margin from a known instrument resolution. Writing the instruction does not authorize a G3 run.",
   "setup-only assay (G3)",
   "tandem pilot (G4)",
   "production rehearsal (G5)",

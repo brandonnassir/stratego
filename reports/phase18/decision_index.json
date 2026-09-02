@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T17:48:10Z",
+ "updated_utc": "2026-09-02T18:35:00Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -125,7 +125,7 @@
    "gate": "G2 (bounded raw-actor confirmation; synthetic trainability portion only)",
    "question": "Using the parity-correct setup-learning method, does the raw generation actor reliably learn an independently generated synthetic setup landscape within 64 setup updates?",
    "decision": "PROCEED",
-   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "status": "accepted as PROCEED by the operator on 2026-09-02 (synthetic trainability portion of G2 only); branch phase18/g2-raw-confirmation published at d0fd36d9 (local == remote); Gate G2 is CLOSED together with the parity evidence accepted under P18-D004; G3 is UNSTARTED and not authorized by this packet",
    "markdown": "reports/phase18/decisions/P18-D005.md",
    "json": "reports/phase18/decisions/P18-D005.json",
    "markdown_sha256": "e34c84baaf8d68a5b41a69135753006e6e73c295c28490fb0680e8ca6745eab4",
@@ -140,7 +140,31 @@
    "local_branch": "phase18/g2-raw-confirmation",
    "scope": "closes only the synthetic trainability portion of G2; authorizes designing the next gate, not launching G3, a Stratego game experiment or the full warmstart",
    "authorized_instruction": null,
-   "authorized_instruction_note": "no next instruction exists; P18-D005 recommends a design question for Gate G3 (evaluation model and budget with power, margin sized from a known instrument resolution, evaluation-rule amendment O-P18-EVALRULES-1) to be written only after acceptance"
+   "authorized_instruction_note": "no next instruction exists. P18-D005 recommends a design question for Gate G3 (evaluation model and budget with power, margin sized from a known instrument resolution, evaluation-rule amendment O-P18-EVALRULES-1). Acceptance of P18-D005 authorizes designing the next gate only; G3 remains unstarted.",
+   "gate_closure": "G2 CLOSED on 2026-09-02: P18-D004 (accepted REVISE) established implementation parity and P18-D005 (accepted PROCEED) established synthetic trainability of the raw actor. No G3 run, Stratego setup-learning game, Phase 8 warmstart training or tuning is authorized.",
+   "margin_caveat": "the median gap closure 10.0073% clears the frozen 10% threshold by 0.0073 percentage points (about 0.004 utility units on the median seed; seed 3 alone is below at 9.5987%). Accepted as frozen, but recorded as NOT robust evidence for a precise 10% practical effect: the margin is a fraction of a landscape-dependent gap. The learning effect itself is strong and replicated in all three seeds (pooled paired 95% [+5.2985, +5.5585] on 12,288 pairs). The next gate's margin must be sized in the units the gate is scored in, from a known instrument resolution.",
+   "contract_metadata_note": "the frozen contract phase18_g2_raw_confirmation_contract_v1.json (sha256 9a33147090f035c840f2ebb59a78e73e212acc6b9db9f88a8b45035e1e57d012) carries contradictory inherited metadata. AUTHORITATIVE and applied: question.primary_endpoint, question.checkpoint_rule, question.evaluation_rule, question.ema_role and decision_rules (all raw-actor). SUPERSEDED and not applied: design.checkpoint_rule and design.evaluation_rule, which retain the earlier EMA wording. Every other design field is numeric or identity, was correct and governed the run. The contract is frozen and remains unedited; decision_input records ema_results_considered=false, so the contradiction is documentary, not executional. Recorded in the P18-D005 review.",
+   "result_evidence_commit_erratum": "E-P18-D005-CI-1: the commit message of be4fc84faed3a29dcf1e4669733a81fe384e813f states the pooled paired 95% upper endpoint as +5.6072; the authoritative committed evidence is upper = 5.558476800891113 (+5.5585) in results_v1 and decision_input_v1. The lower endpoint +5.2985 and the decision are unaffected (the criterion tests the lower bound against zero). The string 5.6072 appears in no file content at d0fd36d9. Narrative metadata error; commit not rewritten; no rerun.",
+   "review_artifact": "reports/phase18/reviews/P18-D005_REVIEW.md",
+   "review_artifact_sha256": "b0faac3c004dbc1b2c3c71559f8b5ec9a8d1933c2c0d33e27ff4807cdfb2cf8f",
+   "publication": {
+    "status": "PUBLISHED",
+    "remote_url": "https://github.com/brandonnassir/stratego.git",
+    "remote_branch": "origin/phase18/g2-raw-confirmation",
+    "approved_local_sha": "d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d",
+    "remote_sha": "d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d",
+    "local_equals_remote": true,
+    "push_kind": "normal non-force push of the exact approved HEAD; the remote branch was absent beforehand; no publication commit was added",
+    "published_utc": "2026-09-02T18:20:00Z",
+    "published_by": "phase_18_backend_steward"
+   },
+   "approved_local_and_remote_sha": "d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d",
+   "derived_branch": {
+    "name": "phase18/g3-backend-foundation",
+    "base_sha": "d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d",
+    "published": false,
+    "note": "backend foundation for the G3 design work; created as a ref pointer from the approved commit; no G3 run is authorized"
+   }
   }
  ]
 }

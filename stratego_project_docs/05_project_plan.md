@@ -95,7 +95,7 @@ This section formerly read "Phase 5 — **Next**". That has been untrue since
 | Phase 16 | **`ENGINEERING`** — unplanned robustness/distribution work; 3 of 5 agents ran; recipe shootout verdict **STOP** |
 | Phase 17 (human evaluation) | **`PENDING`** — never reached; **zero human or operator games have been played** |
 | Phase 17 (tandem self-play, `RUN-2026-B`) | **`COMPLETE`, result negative** — the number was reused for different work; 12.66 h, 535/640 iterations, **no checkpoint promoted**; move-only degraded, joint flat, learned setups worse than the fixed library |
-| Phase 18 (setup-integrated warmstart) | **`IN PROGRESS`** — G0 and G1 accepted (G1 closed 2026-09-02); G2 implementation parity passes and synthetic learning is shown on the raw actor (`P18-D004` REVISE, accepted); the bounded raw-actor confirmation on a fresh landscape (Agent 5, `P18-D005` PROCEED for the synthetic trainability portion, awaiting review) passed at the threshold's edge; no setup-only Stratego assay, pilot, rehearsal or production run is authorized |
+| Phase 18 (setup-integrated warmstart) | **`IN PROGRESS`** — G0 and G1 accepted (G1 closed 2026-09-02); **G2 closed 2026-09-02**: implementation parity passes (`P18-D004` REVISE, accepted) and the bounded raw-actor confirmation on a fresh landscape (Agent 5, `P18-D005` PROCEED for the synthetic trainability portion) was **accepted** and published at `d0fd36d9`; it passed at the threshold's edge (median 10.0073% vs 10%), so the margin is not robust evidence for a precise 10% effect even though the learning effect is strong in all three seeds; **G3 unstarted** — no setup-only Stratego assay, pilot, rehearsal or production run is authorized |
 
 **No new long training run is currently authorized.**
 

@@ -18,7 +18,7 @@ created 2026-08-31
 | `04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md` | Clean source closure and faithful Phase 8 reproduction | Authorized by accepted `P18-D001` |
 | `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | Executed 2026-09-02 — delivered `P18-D003` (`PROCEED`), **accepted 2026-09-02; G1 closed**; branch published at `ef7523c1` |
 | `06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` | Publish accepted G1; Gate G2 setup implementation parity and synthetic learning assay | **Executed 2026-09-02** — G1 published; delivered `P18-D004` (`REVISE`, **accepted 2026-09-02**; branch published at `6afa13be`; packet wording corrected by Agent 5, see `reports/phase18/reviews/P18-D004_REVIEW.md`) |
-| `07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md` | Publish accepted G2; correct the G2 packet wording; one bounded confirmation in which the raw generation actor is the primary endpoint of the synthetic trainability assay on a fresh landscape and fresh seeds | **Executed 2026-09-02** — authorized by accepted `P18-D004` and the operator request of 2026-09-02; delivered `P18-D005` (`PROCEED` for the synthetic trainability portion of G2, awaiting review) |
+| `07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md` | Publish accepted G2; correct the G2 packet wording; one bounded confirmation in which the raw generation actor is the primary endpoint of the synthetic trainability assay on a fresh landscape and fresh seeds | **Executed 2026-09-02** — authorized by accepted `P18-D004` and the operator request of 2026-09-02; delivered `P18-D005` (`PROCEED` for the synthetic trainability portion of G2), **accepted 2026-09-02; Gate G2 closed**; branch published at `d0fd36d9` (see `reports/phase18/reviews/P18-D005_REVIEW.md`) |
 
 ## Current execution rule
 
@@ -51,18 +51,27 @@ withdrawn and the wording corrected on `phase18/g2-raw-confirmation` (see
 `reports/phase18/reviews/P18-D004_REVIEW.md`).
 
 `07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md` was executed on 2026-09-02 and delivered
-`P18-D005` (`PROCEED` for the synthetic trainability portion of G2, **awaiting
-review**) at `G2_RAW_SOURCE_COMMIT ccddceda2701` on
-`phase18/g2-raw-confirmation` (local only, not pushed). On an independently
+`P18-D005` (`PROCEED` for the synthetic trainability portion of G2) at
+`G2_RAW_SOURCE_COMMIT ccddceda2701` on `phase18/g2-raw-confirmation`. It was
+**accepted by the operator on 2026-09-02** and the branch is **published** at
+`d0fd36d9469a048dbbc9aa1a233f6006d78b0e8d` (local == remote); the review record is
+`reports/phase18/reviews/P18-D005_REVIEW.md`. On an independently
 generated landscape (optimum 53.031081) with fresh seeds and the G2 learning method
 unchanged byte for byte, the raw generation actor improved in every seed (pooled
-paired 95% [+5.2985, +5.5585] on 12,288 pairs) and the median seed closed 10.007% of
-its gap against the frozen 10% threshold — met, at its edge; parity, bitwise replay,
-binding and integrity all pass; the EMA telemetry (median 0.119%) decided nothing.
-The EMA remains the evaluation/deployment model for every Stratego-facing stage. The
-packet authorizes designing the next gate only; no setup-only Stratego assay (G3),
-tandem pilot (G4), rehearsal (G5) or production run (G6) is authorized, and no next
-instruction exists until `P18-D005` is reviewed.
+paired 95% [+5.2985, +5.5585] on 12,288 pairs) and the median seed closed 10.0073% of
+its gap against the frozen 10% threshold — met, but by only 0.0073 percentage points
+and so not robust evidence for a precise 10% practical effect, while the learning
+effect itself is strong and replicated in all three seeds; parity, bitwise replay,
+binding and integrity all pass; the EMA telemetry (median 0.1191%) decided nothing.
+The EMA remains the evaluation/deployment model for every Stratego-facing stage.
+
+**Gate G2 is CLOSED** — implementation parity under accepted `P18-D004` and
+synthetic trainability under accepted `P18-D005`. **Gate G3 is UNSTARTED.** The
+acceptance authorizes designing the next gate only; no setup-only Stratego assay
+(G3), tandem pilot (G4), rehearsal (G5) or production run (G6) is authorized, no
+Stratego setup-learning game or Phase 8 warmstart training may be run, and the G3
+design instruction must resolve `O-P18-EVALRULES-1` and size its margin from a known
+instrument resolution before any run is proposed.
 
 Every agent commits locally before review. An approved branch is then published to
 GitHub by normal non-force push and the matching local/remote SHA is recorded. An

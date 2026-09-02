@@ -484,9 +484,13 @@ Distinct from §12. This is the work actually executed under the number 17.
   seeds, and the EMA evaluation model lagged severely behind the raw actor
   within the 64-update budget — a predeclared instrument concern. The bounded
   raw-actor confirmation on a fresh landscape (Agent 5, instruction 07)
-  delivered `P18-D005` PROCEED for the synthetic trainability portion of G2
-  (awaiting review): the raw learner learned in every seed and the median gap
-  closure met the frozen 10% threshold at its edge. No setup-only Stratego
-  assay, pilot, rehearsal or production run is authorized. See
+  delivered `P18-D005` PROCEED for the synthetic trainability portion of G2,
+  **accepted 2026-09-02** and published at `d0fd36d9` (local == remote): the raw
+  learner learned in every seed — a strong effect replicated across all three —
+  and the median gap closure 10.0073% met the frozen 10% threshold by only
+  0.0073 percentage points, which is not robust evidence for a precise 10%
+  practical effect. **Gate G2 is closed** by the two accepted halves; **Gate G3
+  is unstarted**. No setup-only Stratego assay, pilot, rehearsal or production
+  run is authorized. See
   `../instructions/phase_18_setup_integrated_warmstart/` and
   `../reports/phase18/`.
