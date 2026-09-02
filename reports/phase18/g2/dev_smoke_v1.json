@@ -1,0 +1,187 @@
+{
+ "agent": "phase_18_agent_4",
+ "artifact": "phase18_g2_dev_smoke_v1",
+ "consequence_for_the_frozen_design": "No frozen field was chosen from these results: the landscape mapping, the budget, the outcomes per setup, the threshold and the seeds are the instruction's minima and the published values. The smokes motivated two additions that decide nothing: the raw-policy held-out diagnostic on the same evaluation stream, and the pool-utility diagnostic in the telemetry. The EMA-horizon finding is predeclared in the contract with its interpretation before any frozen seed runs.",
+ "gate": "G2",
+ "role": "INSTRUMENT CHECK before the freeze. Both smokes ran on separate development namespaces (different model seeds, different landscape tables, different outcome seeds) with the same code, the same published hyperparameters and the same landscape mapping (kappa 3.0, p_draw 0.10). They decide nothing and none of their seeds is a frozen assay seed.",
+ "smokes": [
+  {
+   "curve": [
+    {
+     "ema_digest": "e1424ec22a7c446c4b9c5462688a82ffc0b602daa92b923ffa71639dfe40baed",
+     "mean_utility": 2.0062921845703126,
+     "mean_z": -0.5378683441660237,
+     "update": 0
+    },
+    {
+     "ema_digest": "d830b0e9d4de21ed1d497d8433cdf65f563e820033d8632bfcce9545fec071be",
+     "mean_utility": 1.9881786696777346,
+     "mean_z": -0.5410953726545862,
+     "update": 4
+    },
+    {
+     "ema_digest": "d329eb39c2db41189698f5988ff9d1d638e2457509098e4be99e176b449d715e",
+     "mean_utility": 1.987861055419922,
+     "mean_z": -0.5411519574899655,
+     "update": 8
+    },
+    {
+     "ema_digest": "be3c7ce2372037a30145f344041391a43ed5331cc3835c2ef25a1a17117879fc",
+     "mean_utility": 1.9880566528320314,
+     "mean_z": -0.5411171106684121,
+     "update": 12
+    },
+    {
+     "ema_digest": "d8d49eacef99102589ef034a017075045110fdd93573975cb0ff3f182fbf95f7",
+     "mean_utility": 1.9974147690429687,
+     "mean_z": -0.5394499075998156,
+     "update": 16
+    }
+   ],
+   "ema": {
+    "final": 1.9974147690429687,
+    "gap": {
+     "closed": -0.00887741552734389,
+     "exact_optimum": 58.47702100000001,
+     "fraction_closed": -0.00015720384194719801,
+     "initial_to_optimum": 56.470728815429695
+    },
+    "initial": 2.0062921845703126
+   },
+   "ema_updates": 16,
+   "integrity": {
+    "attribution_failures": 0,
+    "checkpoint_identity_failures": 0,
+    "duplicates_collapsed": 0,
+    "immediately_terminal_setups": 2,
+    "legality_failures": 0,
+    "non_finite_events": 0,
+    "orientation_failures": 0
+   },
+   "label": "dev_smoke",
+   "log_text": "landscape: uniform mean 5.0254 sd 5.6131 optimum 58.4770\n09:01:15 seed 1: initial EMA utility 2.0063 (z -0.538)\n09:01:52 seed 1: update 4/16 EMA utility 1.9882 (z -0.541)\n09:02:30 seed 1: update 8/16 EMA utility 1.9879 (z -0.541)\n09:03:08 seed 1: update 12/16 EMA utility 1.9881 (z -0.541)\n09:03:31 seed 1: update 16/16 done in 5.881 s\n09:03:45 seed 1: final EMA utility 1.9974 (z -0.539)\nDONE in 165.0 s\n{\n \"initial\": 2.0062921845703126,\n \"final\": 1.9974147690429687,\n \"gap\": {\n  \"exact_optimum\": 58.47702100000001,\n  \"initial_to_optimum\": 56.470728815429695,\n  \"closed\": -0.00887741552734389,\n  \"fraction_closed\": -0.00015720384194719801\n },\n \"curve\": [\n  {\n   \"update\": 0,\n   \"mean_utility\": 2.0062921845703126,\n   \"mean_z\": -0.5378683441660237,\n   \"ema_digest\": \"e1424ec22a7c446c4b9c5462688a82ffc0b602daa92b923ffa71639dfe40baed\"\n  },\n  {\n   \"update\": 4,\n   \"mean_utility\": 1.9881786696777346,\n   \"mean_z\": -0.5410953726545862,\n   \"ema_digest\": \"d830b0e9d4de21ed1d497d8433cdf65f563e820033d8632bfcce9545fec071be\"\n  },\n  {\n   \"update\": 8,\n   \"mean_utility\": 1.987861055419922,\n   \"mean_z\": -0.5411519574899655,\n   \"ema_digest\": \"d329eb39c2db41189698f5988ff9d1d638e2457509098e4be99e176b449d715e\"\n  },\n  {\n   \"update\": 12,\n   \"mean_utility\": 1.9880566528320314,\n   \"mean_z\": -0.5411171106684121,\n   \"ema_digest\": \"be3c7ce2372037a30145f344041391a43ed5331cc3835c2ef25a1a17117879fc\"\n  },\n  {\n   \"update\": 16,\n   \"mean_utility\": 1.9974147690429687,\n   \"mean_z\": -0.5394499075998156,\n   \"ema_digest\": \"d8d49eacef99102589ef034a017075045110fdd93573975cb0ff3f182fbf95f7\"\n  }\n ],\n \"integrity\": {\n  \"legality_failures\": 0,\n  \"orientation_failures\": 0,\n  \"attribution_failures\": 0,\n  \"non_finite_events\": 0,\n  \"checkpoint_identity_failures\": 0,\n  \"immediately_terminal_setups\": 2,\n  \"duplicates_collapsed\": 0\n }\n}\n",
+   "namespace": "phase18_g2_dev_smoke_v1",
+   "note": "first instrument check: 16 updates, EMA endpoints only (raw diagnostics did not exist yet)",
+   "optimizer_steps": 80,
+   "run_id": "G2-DEV-SMOKE",
+   "seed_index": 1,
+   "seed_result_sha256": "3dfed02b229ff253832dc3da64495a91fd449bb2469318cd64f8aacb4da1e782",
+   "updates": 16,
+   "wall_seconds": 165.011
+  },
+  {
+   "curve": [
+    {
+     "ema_digest": "a80942ee9762904e7895c32ec59fae74ec441386f02f3d45be7e0f4e62092c9c",
+     "mean_utility": 1.6147977775878908,
+     "mean_z": -0.12110430561295737,
+     "raw_mean_utility": 1.6147977775878908,
+     "raw_mean_z": -0.12110430561295737,
+     "update": 0
+    },
+    {
+     "ema_digest": "8b4bc237721e70b916ae3a7cb3fd2b4fb6f2ca485e4859881760bd6be04dc57a",
+     "mean_utility": 1.6185932604980469,
+     "mean_z": -0.12049321394873155,
+     "raw_mean_utility": 2.331428356933594,
+     "raw_mean_z": -0.005723210839578384,
+     "update": 4
+    },
+    {
+     "ema_digest": "cc26331eb6e46faa3f93e67fe2c5ade35f7347b7d1158a7def143e3688600060",
+     "mean_utility": 1.6219486799316405,
+     "mean_z": -0.11995297469739316,
+     "raw_mean_utility": 2.644398447509766,
+     "raw_mean_z": 0.04466653350397466,
+     "update": 8
+    },
+    {
+     "ema_digest": "5cc9caa78deb283f8b9a99b6e3324afb4476c0c401d14c87c7c467165ffeb43a",
+     "mean_utility": 1.6246601137695311,
+     "mean_z": -0.11951642033641818,
+     "raw_mean_utility": 2.945308758056641,
+     "raw_mean_z": 0.09311459316003247,
+     "update": 12
+    },
+    {
+     "ema_digest": "729ce1a18696420e0b8f236758c712b6782a08df160b48c05ca9c252901b4348",
+     "mean_utility": 1.6212640268554686,
+     "mean_z": -0.12006320725478808,
+     "raw_mean_utility": 3.3316799616699218,
+     "raw_mean_z": 0.15532228251444266,
+     "update": 16
+    },
+    {
+     "ema_digest": "47b01727252df84468c22a4c4a3d3825abf44c0d2221dc300401b45025c980f4",
+     "mean_utility": 1.626108390625,
+     "mean_z": -0.11928324054485598,
+     "raw_mean_utility": 4.433293866210938,
+     "raw_mean_z": 0.33268761130011715,
+     "update": 20
+    },
+    {
+     "ema_digest": "cafc4ea218b4b0d76f27231b43b04370054262a179ba82f3231d269d9f45f729",
+     "mean_utility": 1.6104043295898438,
+     "mean_z": -0.12181167263643465,
+     "raw_mean_utility": 5.297705637207031,
+     "raw_mean_z": 0.4718622144318816,
+     "update": 24
+    }
+   ],
+   "ema": {
+    "final": 1.6104043295898438,
+    "gap": {
+     "closed": -0.004393447998046973,
+     "ema_retained_initial_fraction": 0.9762739865836302,
+     "exact_optimum": 59.56174799999999,
+     "fraction_closed": -7.581845086210805e-05,
+     "initial_to_optimum": 57.9469502224121
+    },
+    "initial": 1.6147977775878908
+   },
+   "ema_updates": 24,
+   "integrity": {
+    "attribution_failures": 0,
+    "checkpoint_identity_failures": 0,
+    "duplicates_collapsed": 0,
+    "immediately_terminal_setups": 1,
+    "legality_failures": 0,
+    "non_finite_events": 0,
+    "orientation_failures": 0
+   },
+   "label": "dev_smoke2",
+   "log_text": "landscape: uniform mean 2.3670 sd 6.2110 optimum 59.5617\n09:12:18 seed 1: initial EMA utility 1.6148 (z -0.121)\n09:13:06 seed 1: update 4/24 EMA utility 1.6186 (z -0.120); raw 2.3314 (z -0.006)\n09:13:54 seed 1: update 8/24 EMA utility 1.6219 (z -0.120); raw 2.6444 (z +0.045)\n09:14:41 seed 1: update 12/24 EMA utility 1.6247 (z -0.120); raw 2.9453 (z +0.093)\n09:15:29 seed 1: update 16/24 EMA utility 1.6213 (z -0.120); raw 3.3317 (z +0.155)\n09:16:17 seed 1: update 20/24 EMA utility 1.6261 (z -0.119); raw 4.4333 (z +0.333)\n09:16:41 seed 1: update 24/24 done in 5.907 s\n09:17:09 seed 1: final EMA utility 1.6104 (z -0.122); raw 5.2977 (z +0.472)\nDONE in 317.2 s\n{\n \"ema_gap\": {\n  \"exact_optimum\": 59.56174799999999,\n  \"initial_to_optimum\": 57.9469502224121,\n  \"closed\": -0.004393447998046973,\n  \"fraction_closed\": -7.581845086210805e-05,\n  \"ema_retained_initial_fraction\": 0.9762739865836302\n },\n \"raw\": {\n  \"initial_to_optimum\": 57.9469502224121,\n  \"closed\": 3.68290785961914,\n  \"fraction_closed\": 0.06355654345023157\n },\n \"curve\": [\n  {\n   \"update\": 0,\n   \"mean_utility\": 1.6147977775878908,\n   \"mean_z\": -0.12110430561295737,\n   \"ema_digest\": \"a80942ee9762904e7895c32ec59fae74ec441386f02f3d45be7e0f4e62092c9c\",\n   \"raw_mean_utility\": 1.6147977775878908,\n   \"raw_mean_z\": -0.12110430561295737\n  },\n  {\n   \"update\": 4,\n   \"mean_utility\": 1.6185932604980469,\n   \"mean_z\": -0.12049321394873155,\n   \"ema_digest\": \"8b4bc237721e70b916ae3a7cb3fd2b4fb6f2ca485e4859881760bd6be04dc57a\",\n   \"raw_mean_utility\": 2.331428356933594,\n   \"raw_mean_z\": -0.005723210839578384\n  },\n  {\n   \"update\": 8,\n   \"mean_utility\": 1.6219486799316405,\n   \"mean_z\": -0.11995297469739316,\n   \"ema_digest\": \"cc26331eb6e46faa3f93e67fe2c5ade35f7347b7d1158a7def143e3688600060\",\n   \"raw_mean_utility\": 2.644398447509766,\n   \"raw_mean_z\": 0.04466653350397466\n  },\n  {\n   \"update\": 12,\n   \"mean_utility\": 1.6246601137695311,\n   \"mean_z\": -0.11951642033641818,\n   \"ema_digest\": \"5cc9caa78deb283f8b9a99b6e3324afb4476c0c401d14c87c7c467165ffeb43a\",\n   \"raw_mean_utility\": 2.945308758056641,\n   \"raw_mean_z\": 0.09311459316003247\n  },\n  {\n   \"update\": 16,\n   \"mean_utility\": 1.6212640268554686,\n   \"mean_z\": -0.12006320725478808,\n   \"ema_digest\": \"729ce1a18696420e0b8f236758c712b6782a08df160b48c05ca9c252901b4348\",\n   \"raw_mean_utility\": 3.3316799616699218,\n   \"raw_mean_z\": 0.15532228251444266\n  },\n  {\n   \"update\": 20,\n   \"mean_utility\": 1.626108390625,\n   \"mean_z\": -0.11928324054485598,\n   \"ema_digest\": \"47b01727252df84468c22a4c4a3d3825abf44c0d2221dc300401b45025c980f4\",\n   \"raw_mean_utility\": 4.433293866210938,\n   \"raw_mean_z\": 0.33268761130011715\n  },\n  {\n   \"update\": 24,\n   \"mean_utility\": 1.6104043295898438,\n   \"mean_z\": -0.12181167263643465,\n   \"ema_digest\": \"cafc4ea218b4b0d76f27231b43b04370054262a179ba82f3231d269d9f45f729\",\n   \"raw_mean_utility\": 5.297705637207031,\n   \"raw_mean_z\": 0.4718622144318816\n  }\n ],\n \"integrity\": {\n  \"legality_failures\": 0,\n  \"orientation_failures\": 0,\n  \"attribution_failures\": 0,\n  \"non_finite_events\": 0,\n  \"checkpoint_identity_failures\": 0,\n  \"immediately_terminal_setups\": 1,\n  \"duplicates_collapsed\": 0\n }\n}\n",
+   "namespace": "phase18_g2_dev_smoke_v2",
+   "note": "second instrument check after adding the raw-policy diagnostic: 24 updates, EMA and raw endpoints",
+   "optimizer_steps": 120,
+   "raw_diagnostic": {
+    "final": 5.297705637207031,
+    "gap": {
+     "closed": 3.68290785961914,
+     "fraction_closed": 0.06355654345023157,
+     "initial_to_optimum": 57.9469502224121
+    },
+    "initial": 1.6147977775878908,
+    "paired": {
+     "fraction_improved": 0.697509765625,
+     "mean_difference": 3.6829078596191405,
+     "samples": 4096,
+     "sd_difference": 7.152830215925122
+    }
+   },
+   "run_id": "G2-DEV-SMOKE-2",
+   "seed_index": 1,
+   "seed_result_sha256": "62ddf0c4f33f15682e2441fd34b0af98fb033a02c11b7467a29e0260b1cf3ac3",
+   "updates": 24,
+   "wall_seconds": 317.164
+  }
+ ],
+ "what_was_learned": [
+  "The pipeline runs end to end with zero legality, orientation, attribution, non-finite or checkpoint-identity events.",
+  "The EMA at decay 0.999, updated once per setup update, does not move within a 64-update budget: after 16 updates the EMA retains 0.999^16 = 0.984 of the initial parameters and its held-out utility changed by -0.009 (within paired noise); after 24 updates it retains 0.976 and changed by -0.004.",
+  "The RAW actor learns the landscape: in the 24-update smoke its held-out utility rose from 1.615 to 5.298 (z -0.121 -> +0.472), closing 6.4% of the initial-to-optimum gap, with the curve accelerating (+0.72, +0.31, +0.30, +0.39, +1.10, +0.86 utility per 4 updates).",
+  "The entropy head converges to I/10 quickly (entropy loss 10.1 -> 0.2 over 16 updates), after which the alpha*(I - 10h) term is a centered innovation; the entropy-to-outcome absolute-magnitude ratio falls from 3.5 to 0.23.",
+  "Throughput on CPU with pinned threads: about 6 s per 1,024-setup update including generation and five optimizer steps; about 14 s per 4,096-sample held-out evaluation."
+ ],
+ "work_package": "phase18_setup_integrated_warmstart"
+}

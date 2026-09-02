@@ -83,3 +83,11 @@ checkpoints/phase16/arms/
 # reports/phase17/agent_04_*.json. The production run writes under
 # checkpoints/phase17/<run-id>/ and is excluded for the same reason.
 checkpoints/phase17/
+
+# Phase 18 Gate G2 runtime artifacts (2026-09-02): the synthetic assay's
+# per-seed outcome receipts, telemetry, held-out utility arrays and the three
+# checkpoint objects, reproducible from the frozen contract by
+# `python scripts/phase18_g2_setup_parity.py --run --seed-index K`. The
+# results, binding ledger and per-seed summaries are tracked under
+# reports/phase18. The G1 artifacts live outside the repository and are untouched.
+artifacts/phase18/g2_setup_parity_v1/

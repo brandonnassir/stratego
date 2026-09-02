@@ -1,0 +1,158 @@
+{
+ "agent": "phase_18_agent_4",
+ "artifact": "phase18_g2_contract_v1",
+ "assay_version": "phase18_g2_synthetic_assay_v1",
+ "authorization": {
+  "instructions/phase_18_setup_integrated_warmstart/06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md": "dd390ba5387941ca9e678b3ed93969b228fc5e3acf5f77708158212e23d06b5f",
+  "reports/phase18/ataraxos_setup_method_map_v2.json": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+  "reports/phase18/decisions/P18-D003.json": "57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb",
+  "reports/phase18/decisions/P18-D003.md": "7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7",
+  "reports/phase18/reviews/P18-D003_REVIEW.md": "1c234900e3e6246184807e790be61810d786b66e034b055ebf28301786aac313"
+ },
+ "decision_rules": {
+  "BLOCKED": "required evidence cannot be produced because of an unresolved dependency",
+  "PROCEED": "every S01-S30 row complete; canned forward-loss and gradient parity pass; zero integrity failures; final EMA utility > initial EMA utility for all three seeds; pooled paired 95% lower bound strictly > 0; median seed gap closure >= 0.10",
+  "REVISE": "a concrete, isolated implementation or instrument defect prevents a valid result (see the predeclared instrument finding below)",
+  "STOP": "a valid parity-correct implementation fails the frozen synthetic learning criteria with no isolated defect: the learner itself does not improve"
+ },
+ "design": {
+  "assay_version": "phase18_g2_synthetic_assay_v1",
+  "batch_size": 1024,
+  "bootstrap_confidence": 0.95,
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 7211561062867873911,
+  "checkpoint_rule": "the decision reads the EMA after the final fixed update only; intermediate curve points are telemetry and never select a checkpoint",
+  "curve_every": 8,
+  "device": "cpu",
+  "epochs_per_update": 5,
+  "evaluation_rule": "expected utility = mean landscape utility over the held-out EMA samples; the same evaluation stream at every endpoint gives paired per-sample differences",
+  "evaluation_samples": 4096,
+  "gap_closure_threshold": 0.1,
+  "landscape_kappa": 3.0,
+  "landscape_p_draw": 0.1,
+  "landscape_table_seed": 5039638015203860857,
+  "model_seeds": {
+   "1": 4119286577850662291,
+   "2": 2802590985072384342,
+   "3": 7527090394275652774
+  },
+  "namespace": "phase18_g2_setup_parity_v1",
+  "outcomes_per_setup": 4,
+  "pool_size": 1024,
+  "reduced": false,
+  "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "seed_indices": [
+   1,
+   2,
+   3
+  ],
+  "seed_streams": {
+   "evaluation_reflection": "derive_stream_seed(namespace, 'eval_reflection', k, 0, index)",
+   "evaluation_tokens": "derive_stream_seed(namespace, 'eval', k, 0, index) -> per-prefix token seeds; snapshot fixed at 0 so every endpoint shares the same uniforms (common random numbers)",
+   "landscape_table": "derive_stream_seed(namespace, 'landscape_table')",
+   "model_init": "derive_stream_seed(namespace, 'model_init', k)",
+   "outcomes": "derive_stream_seed(namespace, 'outcome', k, period, content_fingerprint, replicate)",
+   "paired_bootstrap": "derive_stream_seed(namespace, 'paired_bootstrap')",
+   "pool_reflection": "derive_stream_seed(namespace, 'reflection', k, snapshot, index)   (independent of the token stream)",
+   "pool_tokens": "derive_stream_seed(namespace, 'pool', k, snapshot, index) -> per-prefix derive_stream_seed('phase18_setup_token', root, prefix)",
+   "shuffle": "derive_stream_seed(namespace, 'shuffle', k, update, epoch)"
+  },
+  "storage_duration": 1,
+  "threads": 4,
+  "training_config_digest": "f6a92f449423b46d12637168795263ab95bd576278c771c42d21cef8c16f5f62",
+  "updates": 64
+ },
+ "entropy_normalizer": 10.0,
+ "execution": {
+  "artifact_root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1",
+  "artifact_root_relative": "artifacts/phase18/g2_setup_parity_v1",
+  "device": "cpu",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "reproducibility": "CPU float32 with pinned threads; the S29 checkpoint round trip is additionally proved on MPS by tests/training/phase18/test_setup_learning.py::test_save_reload_and_one_more_update[mps]",
+  "sealed_phase8_test_access": {
+   "planned": 0,
+   "rule": "no Stratego game and no sealed Phase 8 example is opened by this work package"
+  },
+  "stratego_games_played": 0,
+  "threads": 4
+ },
+ "gate": "G2",
+ "landscape": {
+  "document": "phase18_g2_synthetic_landscape_v1.json",
+  "exact_optimum": 55.62337599999999,
+  "fresh_policy_baseline": "estimated separately by the assay from each seed's initial EMA sample (4,096 draws) and recorded per seed; the exact uniform-random baseline above is the model-free reference",
+  "learner_interface": "outcomes_for(canonical, seed_index, period, fingerprint, replicates) -> list of -1/0/+1; utility, table and optimum are evaluator-only",
+  "optimum_certified": true,
+  "outcome_mapping": {
+   "draw_rule": "one uniform u per (period, setup fingerprint, replicate) seed: u < P(loss) -> -1; u < P(loss) + P(draw) -> 0; else +1",
+   "form": "P(win) = (1 - p_draw) * sigmoid(kappa * z), P(loss) = (1 - p_draw) * (1 - sigmoid(kappa * z)), P(draw) = p_draw; z = (U - mu_uniform) / sigma_uniform",
+   "kappa": 3.0,
+   "p_draw": 0.1
+  },
+  "outcomes_per_eligible_setup": 4,
+  "reflection_invariant": true,
+  "table_digest": "114af9d257ef7680135666e4501e13786ccb1ac70e2b985dc208a23c6f62659f",
+  "table_seed": 5039638015203860857,
+  "uniform_baseline": {
+   "formula": "Hoeffding permutation statistic",
+   "mean": -0.8135621499999995,
+   "sd": 6.156146778428633,
+   "variance": 37.89814315755724
+  },
+  "version": "phase18_g2_synthetic_landscape_v1"
+ },
+ "package_version": "phase18_setup_v1",
+ "parity_requirements": {
+  "canned_oracle": "stratego/training/phase18/reference_oracle.py must agree with the production loss on every term and with production autograd on representative parameters (central finite differences in float64)",
+  "integrity": "zero legality, orientation, attribution, non-finite or checkpoint-identity failures across all three seeds",
+  "rows": "S01-S30 of the method map, each mapped to implementation symbols and tests in stratego/training/phase18/coverage.py; a row is complete only when every cited test passed in the recorded --verify run"
+ },
+ "predeclared_instrument_finding": {
+  "frozen_fields_unchanged": "no landscape, threshold, budget, seed or rule was altered after the smoke; the smoke used a different namespace and therefore different seeds and a different table",
+  "predeclared_interpretation": {
+   "any_integrity_failure_or_parity_failure": "REVISE (defect) or BLOCKED (dependency), never PROCEED",
+   "ema_criteria_fail_and_raw_diagnostic_also_fails": "STOP unless a concrete isolated implementation defect is found, in which case REVISE",
+   "ema_criteria_fail_and_raw_diagnostic_satisfies_the_same_three_criteria": "REVISE: instrument defect 'EMA horizon exceeds the update budget'; the learner demonstrably learns the landscape and the gate's evaluation model cannot reflect it within 64 updates",
+   "ema_criteria_pass": "PROCEED (the frozen criteria are what the instruction requires)"
+  },
+  "raw_diagnostic": "The assay additionally records the RAW actor's held-out utility on the same evaluation stream at every endpoint, with the same 4,096 paired samples per seed, the same pooled paired bootstrap and the same gap-closure fraction. It is a DIAGNOSTIC: it never decides the gate and the raw model is never the evaluation model in the implementation (S28).",
+  "statement": "The evaluation model is the EMA, updated once after each complete setup update with decay 0.999, and the budget is 64 updates. By arithmetic the final EMA retains 0.999^64 = 0.937975 of the initial parameters in its geometric weighting; the EMA can move only about 3% of the raw actor's total parameter displacement inside this budget. The EMA-based criteria therefore have very little power at this budget whatever the raw learner does. This was established before any frozen seed ran, from the decay arithmetic and from a development smoke on a separate namespace (phase18_g2_dev_smoke_v1/v2, recorded in reports/phase18/g2/dev_smoke_v1.json)."
+ },
+ "question": {
+  "alternative_hypothesis": "for every seed U_final(EMA) > U_initial(EMA), the pooled paired 95% lower bound is strictly above zero, and the median seed closes at least 10% of its gap",
+  "checkpoint_rule": "the EMA after the final fixed update (update 64) decides; intermediate curve points are telemetry and never select a checkpoint",
+  "null_hypothesis": "the setup learner does not improve the EMA model's expected landscape utility: for at least one seed U_final(EMA) <= U_initial(EMA), or the pooled paired lower bound is <= 0, or the median seed closes less than 10% of its initial-to-optimum gap",
+  "practical_margin": {
+   "definition": "(U_final - U_initial) / (U_optimum - U_initial) per seed, median over the three seeds, must be >= 0.10",
+   "median_gap_closure_fraction": 0.1
+  },
+  "primary_metric": "expected landscape utility: the mean utility U(s) over the held-out EMA samples (4,096 per seed per endpoint), initial (0 updates) versus final (after the last fixed update)",
+  "sample_size_basis": "instruction minimum: 4,096 held-out EMA setups per endpoint per seed, three seeds, 10,000 replicates",
+  "sub_gates": [
+   "method and implementation parity (S01-S30 + canned oracle)",
+   "synthetic learning with a known answer"
+  ],
+  "text": "Does the local scaled setup-policy implementation match the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and can it reliably learn a known synthetic setup-reward landscape from outcome-only feedback across three fresh seeds?",
+  "uncertainty": {
+   "bootstrap_seed": 7211561062867873911,
+   "implementation": "stratego.evaluation.phase18.noninferiority.paired_unit_delta (the accepted paired bootstrap; one shared index draw for both endpoints)",
+   "method": "two-sided 95% paired percentile bootstrap over the pooled paired differences, 10,000 replicates, frozen seed; the lower endpoint must be strictly greater than zero",
+   "per_seed_intervals": "reported as diagnostics with the same method and seed offsets; they do not decide the gate",
+   "pooled_statistic": "mean paired difference over all seeds' samples (3 x 4,096 = 12,288 pairs)",
+   "unit": "one held-out evaluation sample: initial and final EMA samples share the same per-token uniforms (common random numbers), so the per-sample difference U_final[i] - U_initial[i] is paired"
+  }
+ },
+ "references": {
+  "method_map": "reports/phase18/ataraxos_setup_method_map_v2.json",
+  "note": "the paper and the published source are technical references; the Phase 18 contracts and instruction 06 govern",
+  "paper": "arXiv:2511.07312v1",
+  "paper_sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04",
+  "published_source": "https://github.com/AtaraxosAI/stratego",
+  "published_source_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05"
+ },
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "seconds": 0.013,
+ "timestamp_utc": "2026-09-02T13:18:39Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
