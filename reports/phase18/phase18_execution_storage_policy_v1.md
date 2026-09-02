@@ -40,32 +40,42 @@ tracked evidence      unchanged, in its existing repository locations
 
 `.gitignore` carries exactly two narrowly scoped entries for this,
 `output/phase18/worktrees/` and `output/phase18/runtime/`. **The `output/`
-directory itself is deliberately not ignored**, so that `output/pdf/` and any
-future tracked deliverable placed under `output/` stay visible to git.
+directory itself is deliberately not ignored.** Other existing ignore rules
+still apply inside it: the repository-wide `*.pdf` rule means PDFs under
+`output/pdf/` remain ignored unless they are explicitly force-added or a narrow
+negation is adopted separately. Non-PDF deliverables remain visible unless
+another existing pattern matches them.
 
 ## Historical worktrees — inventory
 
 Four Phase 18 execution worktrees exist from Gates G1 and G2. All four are
-**registered, detached, and clean** (zero modified, staged or untracked entries)
-at their frozen source commits:
+**registered, detached, and Git-clean under ordinary `git status`**: they have
+zero modified, staged, or non-ignored untracked entries at their frozen source
+commits. Ignored content is not represented by that statement and must be
+inventoried separately before any archival action.
 
 | worktree (in `/Users/brandonwashington/Dev/Github/stratego/`) | frozen commit | size | state |
 |---|---|---|---|
-| `gpt_agent_phase18_g1_exec` | `66b733ad92324751e30bd7e2a5e373129cbe87c3` | 307 MiB | detached, clean |
-| `gpt_agent_phase18_g1_confirm_exec` | `9392c6ec1c948a7c5c91278616f669340f4a6445` | 169 MiB | detached, clean |
-| `gpt_agent_phase18_g2_exec` | `354a4cad55a88dca6dcb24a21cf79cecc130008f` | 194 MiB | detached, clean |
-| `gpt_agent_phase18_g2_raw_exec` | `ccddceda27015f47d26879802b4b55653c8fdf18` | 194 MiB | detached, clean |
+| `gpt_agent_phase18_g1_exec` | `66b733ad92324751e30bd7e2a5e373129cbe87c3` | 307 MiB | detached, Git-clean; ignored checkpoints/evaluation material present |
+| `gpt_agent_phase18_g1_confirm_exec` | `9392c6ec1c948a7c5c91278616f669340f4a6445` | 169 MiB | detached, Git-clean; ignored cache material present |
+| `gpt_agent_phase18_g2_exec` | `354a4cad55a88dca6dcb24a21cf79cecc130008f` | 194 MiB | detached, Git-clean; ignored cache material present |
+| `gpt_agent_phase18_g2_raw_exec` | `ccddceda27015f47d26879802b4b55653c8fdf18` | 194 MiB | detached, Git-clean; ignored cache material present |
 
 Total footprint **864 MiB** (884,588 KiB). These four sit beside the main
 repository, not beneath `output/phase18/worktrees/`, because they predate this
 policy.
 
+The ignored material in `gpt_agent_phase18_g1_exec` includes Phase 18 G1
+checkpoint and evaluation outputs that may be unique. The other three worktrees
+contain at least ignored cache material. Ordinary clean-status checks therefore
+do not authorize deletion or relocation.
+
 ## Why they stay where they are
 
 **They remain in place because accepted evidence records their absolute
 locations.** Those paths are not incidental: they are recorded facts inside
-accepted, digest-pinned artifacts. Across the tracked tree there are 53 recorded
-references to the four absolute worktree paths in 36 files, including:
+accepted, digest-pinned artifacts. Across the tracked tree there are dozens of
+references to the four absolute worktree paths, including:
 
 - all four launch manifests — `phase18_g1_launch_manifest_v1.json`,
   `phase18_g1_random_confirmation_launch_v1.json`,
