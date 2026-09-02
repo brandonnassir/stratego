@@ -1,0 +1,662 @@
+{
+ "agent": "phase_18_agent_5",
+ "artifact": "phase18_g2_raw_confirmation_contract_v1",
+ "assay_version": "phase18_g2_synthetic_assay_v1",
+ "authorization": {
+  "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af",
+  "reports/phase18/ataraxos_setup_method_map_v2.json": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+  "reports/phase18/decisions/P18-D004.json": "bf6744d546d5756a84bef396eef6e8bb8b330be55941999e0547983f0e9f2cb1",
+  "reports/phase18/decisions/P18-D004.md": "295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f",
+  "reports/phase18/reviews/P18-D004_REVIEW.md": "6f3b8547f9a637d8b9f16e5fd2565642e746deb4137b4cc889c3bbbef294d74b"
+ },
+ "authorizing_decision": "P18-D004 accepted as REVISE; operator work package 07 (2026-09-02)",
+ "decision_rules": {
+  "BLOCKED": "required evidence cannot be produced because of an unresolved dependency",
+  "PROCEED": "all parity, replay, binding and integrity checks pass; final raw-actor mean utility > initial raw-actor mean utility in all three seeds; the lower bound of the pooled paired 95% bootstrap interval > 0; median raw-actor gap closure across the three seeds >= 0.10",
+  "REVISE": "only if a specific implementation or measurement defect invalidates the run; an unfavourable valid result is never reclassified as an instrument problem",
+  "STOP": "the parity-correct raw learner fails these criteria without a concrete defect",
+  "ema_results": "recorded as secondary mechanism telemetry; they cannot change the decision",
+  "scope_of_a_pass": "closes only the synthetic trainability portion of G2 and authorizes designing the next gate; it does not authorize launching G3 or the full warmstart"
+ },
+ "design": {
+  "assay_version": "phase18_g2_synthetic_assay_v1",
+  "batch_size": 1024,
+  "bootstrap_confidence": 0.95,
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 2538560817612476064,
+  "checkpoint_rule": "the decision reads the EMA after the final fixed update only; intermediate curve points are telemetry and never select a checkpoint",
+  "curve_every": 8,
+  "device": "cpu",
+  "epochs_per_update": 5,
+  "evaluation_rule": "expected utility = mean landscape utility over the held-out EMA samples; the same evaluation stream at every endpoint gives paired per-sample differences",
+  "evaluation_samples": 4096,
+  "gap_closure_threshold": 0.1,
+  "landscape_kappa": 3.0,
+  "landscape_p_draw": 0.1,
+  "landscape_table_seed": 475578596360375388,
+  "model_seeds": {
+   "1": 3224018716491833412,
+   "2": 3702536526967685428,
+   "3": 6940975017500961852
+  },
+  "namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+  "outcomes_per_setup": 4,
+  "pool_size": 1024,
+  "reduced": false,
+  "run_id": "G2-RAW-CONFIRMATION-2026-A",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "seed_indices": [
+   1,
+   2,
+   3
+  ],
+  "seed_streams": {
+   "evaluation_reflection": "derive_stream_seed(namespace, 'eval_reflection', k, 0, index)",
+   "evaluation_tokens": "derive_stream_seed(namespace, 'eval', k, 0, index) -> per-prefix token seeds; snapshot fixed at 0 so every endpoint shares the same uniforms (common random numbers)",
+   "landscape_table": "derive_stream_seed(namespace, 'landscape_table')",
+   "model_init": "derive_stream_seed(namespace, 'model_init', k)",
+   "outcomes": "derive_stream_seed(namespace, 'outcome', k, period, content_fingerprint, replicate)",
+   "paired_bootstrap": "derive_stream_seed(namespace, 'paired_bootstrap')",
+   "pool_reflection": "derive_stream_seed(namespace, 'reflection', k, snapshot, index)   (independent of the token stream)",
+   "pool_tokens": "derive_stream_seed(namespace, 'pool', k, snapshot, index) -> per-prefix derive_stream_seed('phase18_setup_token', root, prefix)",
+   "shuffle": "derive_stream_seed(namespace, 'shuffle', k, update, epoch)"
+  },
+  "storage_duration": 1,
+  "threads": 4,
+  "training_config_digest": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5",
+  "updates": 64
+ },
+ "entropy_normalizer": 10.0,
+ "execution": {
+  "artifact_root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_raw_confirmation_v1",
+  "artifact_root_relative": "artifacts/phase18/g2_raw_confirmation_v1",
+  "device": "cpu",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_raw_exec",
+  "post_freeze_rule": "no frozen field changes after the first outcome is generated; a post-freeze implementation correction abandons this namespace and is documented, never silently amended",
+  "reproducibility": "CPU float32 with pinned threads, as G2; the S29 checkpoint round trip is additionally proved on MPS by the setup suite",
+  "sealed_phase8_test_access": {
+   "planned": 0,
+   "rule": "no Stratego game and no sealed Phase 8 example is opened by this work package"
+  },
+  "stratego_games_played": 0,
+  "threads": 4
+ },
+ "freshness_audit": {
+  "checks": {
+   "bootstrap_seed_new": true,
+   "bootstrap_seeds_pairwise_distinct": true,
+   "first_evaluation_root_seed_new": true,
+   "first_pool_root_seed_new": true,
+   "model_seeds_disjoint_from_previous": true,
+   "model_seeds_pairwise_distinct": true,
+   "seed_namespace_new": true,
+   "table_digest_new": true,
+   "table_seed_new": true
+  },
+  "fresh": true,
+  "previous_namespaces": {
+   "phase18_g2_dev_smoke_v1": {
+    "bootstrap_seed": 8665723105225748439,
+    "exact_optimum": 58.47702100000001,
+    "first_evaluation_root_seed_seed1_index0": 4583655497715866940,
+    "first_pool_root_seed_seed1_snapshot0_index0": 5047302604565593154,
+    "model_seeds": {
+     "1": 2285663762907563104,
+     "2": 731219562575290545,
+     "3": 1846458063544922555
+    },
+    "rebuild_matches_recorded_log": true,
+    "rebuilt_mean_sd_optimum": [
+     5.0254,
+     5.6131,
+     58.477
+    ],
+    "recorded_mean_sd_optimum_in_smoke_log": [
+     5.0254,
+     5.6131,
+     58.477
+    ],
+    "role": "development smoke dev_smoke (G2-DEV-SMOKE)",
+    "table_digest": "3760d3477649e7dffdedd6d8506ae58704661e93c2b4c96b68e069a5b09ed603",
+    "table_seed": 1841716410382963853,
+    "uniform_mean": 5.0253812
+   },
+   "phase18_g2_dev_smoke_v2": {
+    "bootstrap_seed": 6795659548151961686,
+    "exact_optimum": 59.56174799999999,
+    "first_evaluation_root_seed_seed1_index0": 5645242419523971338,
+    "first_pool_root_seed_seed1_snapshot0_index0": 7772163623929369822,
+    "model_seeds": {
+     "1": 6574329444583197257,
+     "2": 773137652572984042,
+     "3": 8412735342835501525
+    },
+    "rebuild_matches_recorded_log": true,
+    "rebuilt_mean_sd_optimum": [
+     2.367,
+     6.211,
+     59.5617
+    ],
+    "recorded_mean_sd_optimum_in_smoke_log": [
+     2.367,
+     6.211,
+     59.5617
+    ],
+    "role": "development smoke dev_smoke2 (G2-DEV-SMOKE-2)",
+    "table_digest": "575f59c169547c1641161a3fad7af9d95715655b7016561064426960c3bf2469",
+    "table_seed": 587941571043110451,
+    "uniform_mean": 2.3669751499999996
+   },
+   "phase18_g2_setup_parity_v1": {
+    "bootstrap_seed": 7211561062867873911,
+    "exact_optimum": 55.62337599999999,
+    "first_evaluation_root_seed_seed1_index0": 9018440256655980175,
+    "first_pool_root_seed_seed1_snapshot0_index0": 8481404846772772597,
+    "model_seeds": {
+     "1": 4119286577850662291,
+     "2": 2802590985072384342,
+     "3": 7527090394275652774
+    },
+    "role": "the G2 frozen assay (P18-D004)",
+    "table_digest": "114af9d257ef7680135666e4501e13786ccb1ac70e2b985dc208a23c6f62659f",
+    "table_seed": 5039638015203860857,
+    "uniform_mean": -0.8135621499999995
+   }
+  },
+  "rule": "no table, model seed, pool seed, outcome seed, evaluation seed or bootstrap seed may coincide with the G2 frozen assay's or either development smoke's; all derive from the new seed namespace, so freshness is by construction and is verified here explicitly",
+  "selection_rule": "the table and every seed are the first derivation from the fixed namespace and the reviewed base commit; nothing was drawn twice or chosen by inspection",
+  "this_run": {
+   "bootstrap_seeds": {
+    "ema_per_seed": {
+     "1": 8410293391283972256,
+     "2": 6786101997847380218,
+     "3": 3337968471158029643
+    },
+    "ema_pooled": 4558637159686917408,
+    "raw_per_seed": {
+     "1": 663652414076120049,
+     "2": 4663267900988268591,
+     "3": 7198145288825722947
+    },
+    "raw_pooled": 2538560817612476064
+   },
+   "exact_optimum": 53.03108099999999,
+   "model_seeds": {
+    "1": 3224018716491833412,
+    "2": 3702536526967685428,
+    "3": 6940975017500961852
+   },
+   "seed_namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b",
+   "table_digest": "210352efb55080744d39e68308b22e2d6c0e43793342a765dbf3217fe44b84a9",
+   "table_seed": 475578596360375388,
+   "uniform_mean": -0.34227474999999996
+  }
+ },
+ "gate": "G2",
+ "integrity_requirements": {
+  "attribution_failures": 0,
+  "binding": "every confirmation artifact binds one source commit",
+  "budget": "exactly 64 updates, 320 optimizer steps and 64 EMA updates per completed seed",
+  "checkpoint_identity_failures": 0,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0,
+  "replay": "landscape, initial models, first-period outcomes, every period digest and all four evaluation endpoints of every seed re-derive from the frozen seeds and the three-object checkpoints",
+  "sample_count": "exactly 4096 finite values in each of the four held-out utility arrays per seed"
+ },
+ "landscape": {
+  "certificate_potentials": {
+   "assignment": [
+    30,
+    21,
+    28,
+    34,
+    35,
+    6,
+    4,
+    5,
+    0,
+    31,
+    37,
+    1,
+    8,
+    16,
+    2,
+    7,
+    10,
+    9,
+    11,
+    18,
+    24,
+    25,
+    15,
+    14,
+    33,
+    36,
+    39,
+    29,
+    20,
+    19,
+    32,
+    38,
+    3,
+    13,
+    23,
+    26,
+    22,
+    17,
+    12,
+    27
+   ],
+   "u": [
+    -1.0991249999999988,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.02448699999999937,
+    -0.43461999999999945,
+    -0.43461999999999945,
+    -0.43461999999999945,
+    -0.43461999999999945,
+    -0.43461999999999945,
+    -0.5354909999999994,
+    -0.5354909999999994,
+    -0.5354909999999994,
+    -0.5354909999999994,
+    -1.028653,
+    -1.028653,
+    -1.0286530000000003,
+    -1.028653,
+    -1.512912,
+    -1.512912,
+    -1.512912,
+    -1.512912,
+    -1.5128119999999983,
+    -1.5128119999999974,
+    -1.5128119999999978,
+    -0.3242159999999995,
+    -0.3242159999999995,
+    -0.9355089999999996,
+    -1.2368209999999997,
+    -1.2266100000000002,
+    -0.847106,
+    -0.847106,
+    -0.847106,
+    -0.847106,
+    -0.847106,
+    -0.847106
+   ],
+   "v": [
+    -0.19955200000000062,
+    -0.8193350000000005,
+    -1.0881410000000005,
+    -0.528021,
+    -0.4818930000000007,
+    -0.4818930000000007,
+    -0.5280210000000006,
+    -1.0881410000000005,
+    -0.8193350000000005,
+    -0.19955200000000062,
+    -0.4924350000000005,
+    -1.2167169999999998,
+    -0.288288,
+    -0.8883260000000005,
+    0.0,
+    0.0,
+    -0.8883260000000005,
+    -0.288288,
+    -1.2167169999999998,
+    -0.4924350000000005,
+    -0.9706950000000019,
+    -1.1699070000000005,
+    0.0,
+    -0.7737439999999999,
+    0.0,
+    0.0,
+    -0.7737439999999999,
+    0.0,
+    -1.1699070000000005,
+    -0.9706950000000023,
+    -0.5721430000000006,
+    -0.6572200000000005,
+    -0.4386300000000005,
+    -0.1268069999999999,
+    -1.0812920000000006,
+    -1.0812920000000006,
+    -0.1268069999999999,
+    -0.4386300000000005,
+    -0.6572200000000005,
+    -0.5721430000000013
+   ]
+  },
+  "document": "phase18_g2_raw_confirmation_landscape_v1.json",
+  "exact_optimum": 53.03108099999999,
+  "family": "the G2 family and methodology: a reflection-symmetric additive piece-type-by-square table drawn from a seeded standard normal (left five files drawn, mirrored), exact uniform-random moments by Hoeffding, W/D/L outcomes by kappa-scaled sigmoid with a fixed draw share",
+  "fresh_policy_baseline": "estimated separately by the assay from each seed's initial raw sample (4,096 draws) and recorded per seed; the exact uniform-random baseline above is the model-free reference",
+  "independent_certificate_check": {
+   "certified": true,
+   "dual_feasibility_violations": 0,
+   "gap": 0.0,
+   "method": "recorded dual potentials: u_i + v_j <= cost_ij for all (slot, square); -(sum u + sum v) is an upper bound on every legal setup's utility; the recorded setup attains it",
+   "optimal_setup_inventory_ok": true,
+   "optimal_setup_legal": true,
+   "optimal_setup_utility_by_direct_summation": 53.03108099999999,
+   "utility_upper_bound_from_potentials": 53.03108099999999,
+   "worst_slack": -1.887379141862766e-15
+  },
+  "learner_interface": "outcomes_for(canonical, seed_index, period, fingerprint, replicates) -> list of -1/0/+1; utility, table and optimum are evaluator-only",
+  "optimal_setup": [
+   1,
+   2,
+   3,
+   9,
+   1,
+   1,
+   1,
+   3,
+   2,
+   3,
+   3,
+   4,
+   11,
+   10,
+   5,
+   5,
+   2,
+   11,
+   4,
+   7,
+   6,
+   1,
+   11,
+   11,
+   4,
+   4,
+   11,
+   11,
+   1,
+   6,
+   0,
+   2,
+   7,
+   5,
+   1,
+   1,
+   5,
+   2,
+   8,
+   6
+  ],
+  "optimum_certified": true,
+  "outcome_mapping": {
+   "draw_rule": "one uniform u per (period, setup fingerprint, replicate) seed: u < P(loss) -> -1; u < P(loss) + P(draw) -> 0; else +1",
+   "form": "P(win) = (1 - p_draw) * sigmoid(kappa * z), P(loss) = (1 - p_draw) * (1 - sigmoid(kappa * z)), P(draw) = p_draw; z = (U - mu_uniform) / sigma_uniform",
+   "kappa": 3.0,
+   "p_draw": 0.1
+  },
+  "outcomes_per_eligible_setup": 4,
+  "reflection_invariant": true,
+  "solver_certificate": {
+   "certified": true,
+   "dual_feasibility_violations": 0,
+   "dual_value": 53.031081,
+   "gap": 7.105427357601002e-15,
+   "method": "LP duality: u_i + v_j <= cost_ij for all (i, j) and sum(u) + sum(v) == assignment cost",
+   "primal_value": 53.03108099999999,
+   "worst_slack": -1.887379141862766e-15
+  },
+  "table_digest": "210352efb55080744d39e68308b22e2d6c0e43793342a765dbf3217fe44b84a9",
+  "table_seed": 475578596360375388,
+  "uniform_baseline": {
+   "formula": "Hoeffding permutation statistic",
+   "mean": -0.34227474999999996,
+   "sd": 5.952866365383827,
+   "variance": 35.436617964118064
+  },
+  "version": "phase18_g2_synthetic_landscape_v1"
+ },
+ "method_identity": {
+  "all_method_files_identical_to_g2": true,
+  "design_fields_compared": [
+   "assay_version",
+   "batch_size",
+   "bootstrap_confidence",
+   "bootstrap_replicates",
+   "checkpoint_rule",
+   "curve_every",
+   "device",
+   "epochs_per_update",
+   "evaluation_rule",
+   "evaluation_samples",
+   "gap_closure_threshold",
+   "landscape_kappa",
+   "landscape_p_draw",
+   "outcomes_per_setup",
+   "pool_size",
+   "reduced",
+   "seed_function",
+   "seed_indices",
+   "seed_streams",
+   "storage_duration",
+   "threads",
+   "updates"
+  ],
+  "design_fields_differing": [],
+  "design_fields_expected_to_differ": [
+   "bootstrap_seed",
+   "landscape_table_seed",
+   "model_seeds",
+   "namespace",
+   "run_id",
+   "training_config_digest"
+  ],
+  "design_identical_on_every_method_field": true,
+  "ema_decay": 0.999,
+  "ema_retained_initial_fraction_after_budget": 0.9379749638258454,
+  "ema_time_constant_updates": 999.9999999999991,
+  "files": {
+   "scripts/phase18_g2_setup_parity.py": {
+    "current_digest": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+    "g2_digest": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+    "identical": true
+   },
+   "stratego/belief/phase15/orientation.py": {
+    "current_digest": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+    "g2_digest": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+    "identical": true
+   },
+   "stratego/engine/constants.py": {
+    "current_digest": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+    "g2_digest": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+    "identical": true
+   },
+   "stratego/engine/setup.py": {
+    "current_digest": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+    "g2_digest": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+    "identical": true
+   },
+   "stratego/evaluation/phase18/noninferiority.py": {
+    "current_digest": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+    "g2_digest": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+    "identical": true
+   },
+   "stratego/setups/identity.py": {
+    "current_digest": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+    "g2_digest": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+    "identical": true
+   },
+   "stratego/training/phase18/__init__.py": {
+    "current_digest": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+    "g2_digest": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+    "identical": true
+   },
+   "stratego/training/phase18/coverage.py": {
+    "current_digest": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+    "g2_digest": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+    "identical": true
+   },
+   "stratego/training/phase18/reference_oracle.py": {
+    "current_digest": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+    "g2_digest": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_buffer.py": {
+    "current_digest": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+    "g2_digest": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_contract.py": {
+    "current_digest": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+    "g2_digest": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_learning.py": {
+    "current_digest": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+    "g2_digest": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_model.py": {
+    "current_digest": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+    "g2_digest": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_sampling.py": {
+    "current_digest": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+    "g2_digest": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+    "identical": true
+   },
+   "stratego/training/phase18/synthetic_assay.py": {
+    "current_digest": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+    "g2_digest": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+    "identical": true
+   },
+   "stratego/training/phase18/synthetic_landscape.py": {
+    "current_digest": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e",
+    "g2_digest": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e",
+    "identical": true
+   }
+  },
+  "g2_contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+  "g2_design_rederives_from_code": true,
+  "g2_launch_manifest_sha256": "5cbb66cccb15d38844421b50c9d5af3bb86ae9aa154c40dd2850bbfed9dbbf45",
+  "g2_method_config_digest_run_id_removed": "cb4e4297717de28baae02d3bd3abee64f9c3265a868232f7648fac0630e438b0",
+  "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "g2_training_config_digest": "f6a92f449423b46d12637168795263ab95bd576278c771c42d21cef8c16f5f62",
+  "method_config_digest_run_id_removed": "cb4e4297717de28baae02d3bd3abee64f9c3265a868232f7648fac0630e438b0",
+  "method_config_identical": true,
+  "training_config_digest_this_run": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5"
+ },
+ "package_version": "phase18_setup_v1",
+ "parity_requirements": {
+  "canned_oracle": "the G2 canned parity oracle (stratego/training/phase18/reference_oracle.py through the G2 driver's run_oracle) must pass on this run's seed",
+  "method_files": "every learning-method file byte-identical to the G2 launch manifest's digest (method_identity.files)",
+  "rows": "S01-S30 of the method map, each mapped to implementation symbols and tests in stratego/training/phase18/coverage.py; a row is complete only when every cited test passed in the recorded --verify run",
+  "suites": "the pre-existing Phase 18 evaluator suite and the Phase 18 setup suite pass with a JUnit record"
+ },
+ "question": {
+  "alternative_hypothesis": "for every seed U_final(raw) > U_initial(raw), the pooled paired 95% lower bound is strictly above zero, and the median seed closes at least 10% of its gap",
+  "checkpoint_rule": "the raw actor after the final fixed update (update 64) decides; intermediate curve points are telemetry and never select a checkpoint",
+  "ema_role": "secondary mechanism telemetry recorded at the same endpoints on the same evaluation stream with the same paired bootstrap; EMA results cannot change the confirmation decision. The EMA remains the required evaluation/deployment model for every later Stratego-facing stage (S28).",
+  "evaluation_rule": {
+   "common_random_numbers": "every endpoint (raw and EMA, initial and final) draws the same 4,096 per-token uniforms from the 'eval' stream at snapshot 0",
+   "immediately_terminal_setups": "excluded from play and training under the existing rule (S24: a setup without an opening move is never trained and never a draw); the held-out evaluation scores every generated sample exactly as in G2 (the landscape utility is defined for every legal setup) and records the immediately-terminal count among the evaluation samples at every endpoint",
+   "sample_count_integrity": "each of the four held-out utility arrays per seed (initial/final x raw/EMA) must hold exactly 4,096 finite values",
+   "samples_per_endpoint": 4096
+  },
+  "frozen_before_outcomes": true,
+  "null_hypothesis": "the parity-correct raw learner does not reliably learn the landscape: for at least one seed U_final(raw) <= U_initial(raw), or the pooled paired 95% lower bound is <= 0, or the median seed closes less than 10% of its initial-to-optimum gap",
+  "practical_margin": {
+   "definition": "(U_final - U_initial) / (U_optimum - U_initial) per seed on the raw actor, median over the three seeds, must be >= 0.10",
+   "median_gap_closure_fraction": 0.1
+  },
+  "primary_endpoint": "the RAW generation actor's held-out expected landscape utility at 0 updates and after update 64; this is the primary endpoint for this synthetic trainability assay only",
+  "primary_metric": "expected landscape utility: the mean utility U(s) over the 4,096 held-out raw-actor samples per seed per endpoint, initial (0 updates) versus final (after update 64)",
+  "sample_size_basis": "the G2 instruction minimum, unchanged: 4,096 held-out samples per endpoint per seed, three seeds, 10,000 replicates",
+  "text": "Using the parity-correct setup-learning method, does the raw generation actor reliably learn an independently generated synthetic setup landscape within 64 setup updates?",
+  "uncertainty": {
+   "bootstrap_seeds": {
+    "ema_per_seed": {
+     "1": 8410293391283972256,
+     "2": 6786101997847380218,
+     "3": 3337968471158029643
+    },
+    "ema_pooled": 4558637159686917408,
+    "raw_per_seed": {
+     "1": 663652414076120049,
+     "2": 4663267900988268591,
+     "3": 7198145288825722947
+    },
+    "raw_pooled": 2538560817612476064
+   },
+   "implementation": "stratego.evaluation.phase18.noninferiority.paired_unit_delta (the accepted paired bootstrap; one shared index draw for both endpoints)",
+   "method": "two-sided 95% paired percentile bootstrap over the pooled paired differences, 10,000 replicates, frozen seed; the lower endpoint must be strictly greater than zero",
+   "per_seed_intervals": "reported as diagnostics with their own domain-separated seeds; they do not decide the confirmation",
+   "pooled_statistic": "mean paired difference over all seeds' samples (3 x 4,096 = 12,288 pairs)",
+   "unit": "one held-out evaluation sample: the initial and final raw samples share the same per-token uniforms (common random numbers), so the per-sample difference U_final[i] - U_initial[i] is paired"
+  }
+ },
+ "references": {
+  "g2_contract": "phase18_g2_contract_v1.json",
+  "g2_landscape": "phase18_g2_synthetic_landscape_v1.json",
+  "g2_launch_manifest": "phase18_g2_launch_manifest_v1.json",
+  "method_map": "reports/phase18/ataraxos_setup_method_map_v2.json",
+  "note": "the paper and the published source are technical references; the Phase 18 contracts, the accepted P18-D004 and instruction 07 govern",
+  "paper": "arXiv:2511.07312v1",
+  "paper_sha256": "f5d2d7c77dedd0b48c7278f8890aad784c44375cb996a7dbf728dbfc2e2afd04",
+  "published_source": "https://github.com/AtaraxosAI/stratego",
+  "published_source_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05"
+ },
+ "run_id": "G2-RAW-CONFIRMATION-2026-A",
+ "seconds": 0.017,
+ "seed_derivation": {
+  "artifact_namespace": "phase18_g2_raw_confirmation_v1",
+  "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "base_commit_role": "the reviewed G2 branch head, published at origin/phase18/g2-setup-parity; the branch point of this work and the second seed-derivation input",
+  "bootstrap_seeds": {
+   "ema_per_seed": {
+    "1": 8410293391283972256,
+    "2": 6786101997847380218,
+    "3": 3337968471158029643
+   },
+   "ema_pooled": 4558637159686917408,
+   "raw_per_seed": {
+    "1": 663652414076120049,
+    "2": 4663267900988268591,
+    "3": 7198145288825722947
+   },
+   "raw_pooled": 2538560817612476064
+  },
+  "first_evaluation_reflection_seed_seed1_index0": 3714853232893170139,
+  "first_evaluation_root_seed_seed1_index0": 8727526202447531922,
+  "first_pool_root_seed_seed1_snapshot0_index0": 1683519284643901074,
+  "labels": {
+   "evaluation_reflection": "derive_stream_seed(seed_namespace, 'eval_reflection', k, 0, index)",
+   "evaluation_tokens": "derive_stream_seed(seed_namespace, 'eval', k, 0, index); snapshot fixed at 0 so every endpoint (raw and EMA, initial and final) shares the same uniforms",
+   "landscape_table": "derive_stream_seed(seed_namespace, 'landscape_table')",
+   "model_init": "derive_stream_seed(seed_namespace, 'model_init', k)",
+   "outcomes": "derive_stream_seed(seed_namespace, 'outcome', k, period, content_fingerprint, replicate)",
+   "paired_bootstrap_ema_per_seed": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'ema', 'seed', k)",
+   "paired_bootstrap_ema_pooled": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'ema', 'pooled')",
+   "paired_bootstrap_raw_per_seed": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'raw', 'seed', k)",
+   "paired_bootstrap_raw_pooled": "derive_stream_seed(seed_namespace, 'paired_bootstrap')",
+   "pool_reflection": "derive_stream_seed(seed_namespace, 'reflection', k, snapshot, index)",
+   "pool_tokens": "derive_stream_seed(seed_namespace, 'pool', k, snapshot, index) -> per-prefix derive_stream_seed('phase18_setup_token', root, prefix)",
+   "shuffle": "derive_stream_seed(seed_namespace, 'shuffle', k, update, epoch)"
+  },
+  "landscape_table_seed": 475578596360375388,
+  "model_seeds": {
+   "1": 3224018716491833412,
+   "2": 3702536526967685428,
+   "3": 6940975017500961852
+  },
+  "rule": "seed = derive_stream_seed(seed_namespace, label, *parts) with seed_namespace = artifact_namespace + ':' + base_commit; every stream carries a distinct label",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "seed_namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b"
+ },
+ "timestamp_utc": "2026-09-02T17:19:24Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
