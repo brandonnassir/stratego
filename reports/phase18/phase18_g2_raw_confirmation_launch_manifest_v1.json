@@ -1,0 +1,275 @@
+{
+ "agent": "phase_18_agent_5",
+ "artifact": "phase18_g2_raw_confirmation_launch_manifest_v1",
+ "artifacts": {
+  "g1_artifacts": "untouched; they live outside the repository under /Users/brandonwashington/Dev/stratego_phase18",
+  "g2_artifacts": "untouched under artifacts/phase18/g2_setup_parity_v1",
+  "git_ignored": true,
+  "root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_raw_confirmation_v1",
+  "root_relative": "artifacts/phase18/g2_raw_confirmation_v1"
+ },
+ "authorization": {
+  "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af",
+  "reports/phase18/ataraxos_setup_method_map_v2.json": "e17db7d9c6953008ad8944592a5634808510abb61a4b76b3e3c229d990c9afa6",
+  "reports/phase18/decisions/P18-D004.json": "bf6744d546d5756a84bef396eef6e8bb8b330be55941999e0547983f0e9f2cb1",
+  "reports/phase18/decisions/P18-D004.md": "295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f",
+  "reports/phase18/reviews/P18-D004_REVIEW.md": "6f3b8547f9a637d8b9f16e5fd2565642e746deb4137b4cc889c3bbbef294d74b"
+ },
+ "budget": {
+  "bootstrap_replicates": 10000,
+  "ema_updates_per_seed": 64,
+  "evaluation_samples": 4096,
+  "gap_closure_threshold": 0.1,
+  "optimizer_steps_per_seed": 320,
+  "outcomes_per_setup": 4,
+  "pool_size": 1024,
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "updates": 64
+ },
+ "contract_sha256": "9a33147090f035c840f2ebb59a78e73e212acc6b9db9f88a8b45035e1e57d012",
+ "design_digest": "63ee8329b2f434a67650342285ee2fd5b6a9121ccc887f012cebe53cbe72d83f",
+ "environment": {
+  "dirty_paths": [],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_raw_exec",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+  "source_tree": "dd9d305e7cbaed99f573c227dd9a1dc4dce1456d",
+  "torch": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "gate": "G2",
+ "landscape_sha256": "1202b9c7fb59f0f3ed0d4ff692a02f6000b9c0af13b62d11f2cb55ff7f945e60",
+ "landscape_table_digest": "210352efb55080744d39e68308b22e2d6c0e43793342a765dbf3217fe44b84a9",
+ "method_identity": {
+  "all_method_files_identical_to_g2": true,
+  "design_fields_compared": [
+   "assay_version",
+   "batch_size",
+   "bootstrap_confidence",
+   "bootstrap_replicates",
+   "checkpoint_rule",
+   "curve_every",
+   "device",
+   "epochs_per_update",
+   "evaluation_rule",
+   "evaluation_samples",
+   "gap_closure_threshold",
+   "landscape_kappa",
+   "landscape_p_draw",
+   "outcomes_per_setup",
+   "pool_size",
+   "reduced",
+   "seed_function",
+   "seed_indices",
+   "seed_streams",
+   "storage_duration",
+   "threads",
+   "updates"
+  ],
+  "design_fields_differing": [],
+  "design_fields_expected_to_differ": [
+   "bootstrap_seed",
+   "landscape_table_seed",
+   "model_seeds",
+   "namespace",
+   "run_id",
+   "training_config_digest"
+  ],
+  "design_identical_on_every_method_field": true,
+  "ema_decay": 0.999,
+  "ema_retained_initial_fraction_after_budget": 0.9379749638258454,
+  "ema_time_constant_updates": 999.9999999999991,
+  "files": {
+   "scripts/phase18_g2_setup_parity.py": {
+    "current_digest": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+    "g2_digest": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+    "identical": true
+   },
+   "stratego/belief/phase15/orientation.py": {
+    "current_digest": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+    "g2_digest": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+    "identical": true
+   },
+   "stratego/engine/constants.py": {
+    "current_digest": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+    "g2_digest": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+    "identical": true
+   },
+   "stratego/engine/setup.py": {
+    "current_digest": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+    "g2_digest": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+    "identical": true
+   },
+   "stratego/evaluation/phase18/noninferiority.py": {
+    "current_digest": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+    "g2_digest": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+    "identical": true
+   },
+   "stratego/setups/identity.py": {
+    "current_digest": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+    "g2_digest": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+    "identical": true
+   },
+   "stratego/training/phase18/__init__.py": {
+    "current_digest": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+    "g2_digest": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+    "identical": true
+   },
+   "stratego/training/phase18/coverage.py": {
+    "current_digest": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+    "g2_digest": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+    "identical": true
+   },
+   "stratego/training/phase18/reference_oracle.py": {
+    "current_digest": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+    "g2_digest": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_buffer.py": {
+    "current_digest": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+    "g2_digest": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_contract.py": {
+    "current_digest": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+    "g2_digest": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_learning.py": {
+    "current_digest": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+    "g2_digest": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_model.py": {
+    "current_digest": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+    "g2_digest": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+    "identical": true
+   },
+   "stratego/training/phase18/setup_sampling.py": {
+    "current_digest": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+    "g2_digest": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+    "identical": true
+   },
+   "stratego/training/phase18/synthetic_assay.py": {
+    "current_digest": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+    "g2_digest": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+    "identical": true
+   },
+   "stratego/training/phase18/synthetic_landscape.py": {
+    "current_digest": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e",
+    "g2_digest": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e",
+    "identical": true
+   }
+  },
+  "g2_contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+  "g2_design_rederives_from_code": true,
+  "g2_launch_manifest_sha256": "5cbb66cccb15d38844421b50c9d5af3bb86ae9aa154c40dd2850bbfed9dbbf45",
+  "g2_method_config_digest_run_id_removed": "cb4e4297717de28baae02d3bd3abee64f9c3265a868232f7648fac0630e438b0",
+  "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "g2_training_config_digest": "f6a92f449423b46d12637168795263ab95bd576278c771c42d21cef8c16f5f62",
+  "method_config_digest_run_id_removed": "cb4e4297717de28baae02d3bd3abee64f9c3265a868232f7648fac0630e438b0",
+  "method_config_identical": true,
+  "training_config_digest_this_run": "988da43c6d0b06d93800e0c1323a66d123ee2858c69119c8ee5692bfa9ac49d5"
+ },
+ "outcomes_generated_before_this_manifest": 0,
+ "run_id": "G2-RAW-CONFIRMATION-2026-A",
+ "sealed_test_access": {
+  "planned": 0
+ },
+ "seed_derivation": {
+  "artifact_namespace": "phase18_g2_raw_confirmation_v1",
+  "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "base_commit_role": "the reviewed G2 branch head, published at origin/phase18/g2-setup-parity; the branch point of this work and the second seed-derivation input",
+  "bootstrap_seeds": {
+   "ema_per_seed": {
+    "1": 8410293391283972256,
+    "2": 6786101997847380218,
+    "3": 3337968471158029643
+   },
+   "ema_pooled": 4558637159686917408,
+   "raw_per_seed": {
+    "1": 663652414076120049,
+    "2": 4663267900988268591,
+    "3": 7198145288825722947
+   },
+   "raw_pooled": 2538560817612476064
+  },
+  "first_evaluation_reflection_seed_seed1_index0": 3714853232893170139,
+  "first_evaluation_root_seed_seed1_index0": 8727526202447531922,
+  "first_pool_root_seed_seed1_snapshot0_index0": 1683519284643901074,
+  "labels": {
+   "evaluation_reflection": "derive_stream_seed(seed_namespace, 'eval_reflection', k, 0, index)",
+   "evaluation_tokens": "derive_stream_seed(seed_namespace, 'eval', k, 0, index); snapshot fixed at 0 so every endpoint (raw and EMA, initial and final) shares the same uniforms",
+   "landscape_table": "derive_stream_seed(seed_namespace, 'landscape_table')",
+   "model_init": "derive_stream_seed(seed_namespace, 'model_init', k)",
+   "outcomes": "derive_stream_seed(seed_namespace, 'outcome', k, period, content_fingerprint, replicate)",
+   "paired_bootstrap_ema_per_seed": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'ema', 'seed', k)",
+   "paired_bootstrap_ema_pooled": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'ema', 'pooled')",
+   "paired_bootstrap_raw_per_seed": "derive_stream_seed(seed_namespace, 'paired_bootstrap', 'raw', 'seed', k)",
+   "paired_bootstrap_raw_pooled": "derive_stream_seed(seed_namespace, 'paired_bootstrap')",
+   "pool_reflection": "derive_stream_seed(seed_namespace, 'reflection', k, snapshot, index)",
+   "pool_tokens": "derive_stream_seed(seed_namespace, 'pool', k, snapshot, index) -> per-prefix derive_stream_seed('phase18_setup_token', root, prefix)",
+   "shuffle": "derive_stream_seed(seed_namespace, 'shuffle', k, update, epoch)"
+  },
+  "landscape_table_seed": 475578596360375388,
+  "model_seeds": {
+   "1": 3224018716491833412,
+   "2": 3702536526967685428,
+   "3": 6940975017500961852
+  },
+  "rule": "seed = derive_stream_seed(seed_namespace, label, *parts) with seed_namespace = artifact_namespace + ':' + base_commit; every stream carries a distinct label",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "seed_namespace": "phase18_g2_raw_confirmation_v1:6afa13bed355884a3327d2661fd739784260dc2b"
+ },
+ "source": {
+  "base_commit": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "base_commit_is_ancestor": true,
+  "canonical_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_raw_exec",
+  "expected_execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_raw_exec",
+  "source_commit": "ccddceda27015f47d26879802b4b55653c8fdf18",
+  "source_tree": "dd9d305e7cbaed99f573c227dd9a1dc4dce1456d",
+  "worktree_porcelain_empty": true
+ },
+ "source_digests": {
+  "scripts/phase18_g2_raw_confirmation.py": "a4169f2d7d790e296cdfa73377a67f861478e774e7ec703dce54774ffd638c9b",
+  "scripts/phase18_g2_setup_parity.py": "5c8663f468de13b64255d7275600157961e84edc97251e557c1a5bcaae148d87",
+  "stratego/belief/phase15/orientation.py": "d47f4dffdf044cec2053468fd27b658e3edce47d446dc6dcc634af34f3664503",
+  "stratego/engine/constants.py": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
+  "stratego/engine/setup.py": "23ed98fcf939124eae5aa4b5ca016eff8b72d9cdb648f34c7dcd456f5edf8f2a",
+  "stratego/evaluation/phase18/noninferiority.py": "1d70be6f12f26c60f7ac3a2f99415444e8e844ebbd46c53f3a4a466a5e997103",
+  "stratego/setups/identity.py": "bc5c574e3ea5ab809a18f71deafef3c2f65f0ed6517854fd5457bad632e69afd",
+  "stratego/training/phase18/__init__.py": "bddb41d5dea6e2e91299854efca974f0a2af220fe86dc7ef976dc114d4af5e84",
+  "stratego/training/phase18/coverage.py": "4b73d3a0b8a5b5f2a652be8e86532bdeef13e1d2a632577299506313a266cbd7",
+  "stratego/training/phase18/reference_oracle.py": "a2ed9b783f649ba98c9ba123d6589b846dcb0ec8318b5d087b322d72ddc9daed",
+  "stratego/training/phase18/setup_buffer.py": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
+  "stratego/training/phase18/setup_contract.py": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
+  "stratego/training/phase18/setup_learning.py": "fe398eaa109249a549b7d132bd7ca0056b3b02a9f0dbbcde4d774230bf40d4f0",
+  "stratego/training/phase18/setup_model.py": "0f75624de715732a5622dcff78e634309389cfc9a70df18e7ee7afb738a6dd92",
+  "stratego/training/phase18/setup_sampling.py": "353d3216e40b549fba32414ec459a652b0da70294e04cca6894c019d8d42d128",
+  "stratego/training/phase18/synthetic_assay.py": "94675390e2c10709b372d7fea2d16d514fd5e69d55b67bce396e19bb24948d78",
+  "stratego/training/phase18/synthetic_landscape.py": "54177754f96faff8426813c35aa562749580fa47befa841a3121aad5e3bf1b8e"
+ },
+ "stratego_games_planned": 0,
+ "test_digests": {
+  "tests/training/phase18/conftest.py": "ee9214472508fd167c3e8353e323787aac304bc78c3e9c46e2b163acb3581989",
+  "tests/training/phase18/test_coverage.py": "eac591c923452a9b7cebbe3f89e51334fbd7f759562c811c9dc0e4b4a2ba4d63",
+  "tests/training/phase18/test_g2_driver.py": "09f82c3ac094b763d2a8c54639177aaa908c3a01a52e6b66dfaf042404a21be2",
+  "tests/training/phase18/test_g2_raw_confirmation_driver.py": "0506613d96637a7d226c9e103cceffe9d8e152bb001a03b7035f6394a60eb613",
+  "tests/training/phase18/test_reference_oracle.py": "78245f12ca26174c142e2c42fc16477e3fef4526c021ca98e372d99f33469452",
+  "tests/training/phase18/test_setup_buffer.py": "b6d7d0ddf3e7c142d97ef32bc4eecd8c263ee9b1ffb510710b3eb6bbe0ffdb53",
+  "tests/training/phase18/test_setup_learning.py": "fde0a458d0075254b6ed13246f2f903efa7f32c451aa9e2511d32fb7c1876380",
+  "tests/training/phase18/test_setup_model.py": "3566d2a9777db90eb833e0d8c9e371f39bdbb6ce0a7e735121b52dc0b2d8bf7b",
+  "tests/training/phase18/test_setup_sampling.py": "10c7df0f24574083f3f87e5f6ad47541f9f67764fe6b61080d28e3e5e393e2e9",
+  "tests/training/phase18/test_synthetic_assay.py": "50de6f5e3a9683d412b4296f1069c1c368fe3646c7335fb91cb6834883227c70",
+  "tests/training/phase18/test_synthetic_landscape.py": "ce57a2850ed1a6351436a308ee7451cf80472a6e404e80073d6138f0a6017607"
+ },
+ "timestamp_utc": "2026-09-02T17:21:33Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
