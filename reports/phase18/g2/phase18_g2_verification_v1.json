@@ -1,0 +1,64 @@
+{
+ "artifact": "phase18_g2_verification_v1",
+ "contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+ "coverage_all_rows_complete": true,
+ "coverage_problems": [],
+ "coverage_rows_complete": 30,
+ "environment": {
+  "dirty_paths": [
+   "M reports/phase13/phase14_launch_manifest_v1.json",
+   "?? reports/phase18/g2/junit_evaluator_suite.xml",
+   "?? reports/phase18/g2/junit_setup_suite.xml",
+   "?? reports/phase18/g2/phase18_g2_parity_coverage_v1.json",
+   "?? reports/phase18/g2/phase18_g2_parity_oracle_v1.json",
+   "?? reports/phase18/g2/phase18_g2_verification_v1.json"
+  ],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "torch": "2.13.0",
+  "working_tree_state": "dirty (6 paths)"
+ },
+ "evaluator_suite": {
+  "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/evaluation/phase18 -q --no-header -p no:cacheprovider --junitxml=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase18/g2/junit_evaluator_suite.xml",
+  "counts": {
+   "error": 0,
+   "failed": 0,
+   "passed": 84,
+   "skipped": 0
+  },
+  "counts_note": "outcomes are keyed by test function (a parametrised test contributes its worst case); testcases_total counts every JUnit case",
+  "junit": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase18/g2/junit_evaluator_suite.xml",
+  "junit_sha256": "040849367dcbaaa98efcf115adac95c4277206368141aa78fec39d7d758ca028",
+  "return_code": 0,
+  "seconds": 2.735,
+  "summary_line": "86 passed in 2.51s",
+  "target": "tests/evaluation/phase18",
+  "testcases_total": 86,
+  "total": 84
+ },
+ "landscape_sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+ "oracle_passed": true,
+ "setup_suite": {
+  "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/phase18 -q --no-header -p no:cacheprovider --junitxml=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase18/g2/junit_setup_suite.xml",
+  "counts": {
+   "error": 0,
+   "failed": 0,
+   "passed": 110,
+   "skipped": 0
+  },
+  "counts_note": "outcomes are keyed by test function (a parametrised test contributes its worst case); testcases_total counts every JUnit case",
+  "junit": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/reports/phase18/g2/junit_setup_suite.xml",
+  "junit_sha256": "776d30cbcd86dbefe5163cda93687f718fc27a636e1f7e6d7bbbd948fb8e8603",
+  "return_code": 0,
+  "seconds": 28.392,
+  "summary_line": "122 passed, 1 warning in 27.54s",
+  "target": "tests/training/phase18",
+  "testcases_total": 122,
+  "total": 110
+ },
+ "timestamp_utc": "2026-09-02T13:24:03Z"
+}
