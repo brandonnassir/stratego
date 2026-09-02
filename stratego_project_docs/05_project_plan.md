@@ -95,7 +95,7 @@ This section formerly read "Phase 5 — **Next**". That has been untrue since
 | Phase 16 | **`ENGINEERING`** — unplanned robustness/distribution work; 3 of 5 agents ran; recipe shootout verdict **STOP** |
 | Phase 17 (human evaluation) | **`PENDING`** — never reached; **zero human or operator games have been played** |
 | Phase 17 (tandem self-play, `RUN-2026-B`) | **`COMPLETE`, result negative** — the number was reused for different work; 12.66 h, 535/640 iterations, **no checkpoint promoted**; move-only degraded, joint flat, learned setups worse than the fixed library |
-| Phase 18 (setup-integrated warmstart) | **`PLANNED`** — only Agent 1 is authorized and has run; no control, pilot, rehearsal or production run is authorized |
+| Phase 18 (setup-integrated warmstart) | **`IN PROGRESS`** — G0 and G1 accepted (G1 closed 2026-09-02); G2 implementation parity passes and synthetic learning is shown on the raw actor (`P18-D004` REVISE, accepted); a bounded raw-actor confirmation on a fresh landscape (Agent 5) is running; no setup-only Stratego assay, pilot, rehearsal or production run is authorized |
 
 **No new long training run is currently authorized.**
 

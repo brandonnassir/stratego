@@ -467,7 +467,7 @@ Distinct from §12. This is the work actually executed under the number 17.
 
 ---
 
-## 14. Phase 18 — Setup-integrated Phase 8 warmstart  ·  PLANNED
+## 14. Phase 18 — Setup-integrated Phase 8 warmstart  ·  IN PROGRESS
 
 - **Purpose:** produce a fresh Phase 8 C1 warmstart whose policy/value/belief
   learner is integrated with a *beneficial* learned setup policy, correcting the
@@ -476,7 +476,14 @@ Distinct from §12. This is the work actually executed under the number 17.
 - **Structure:** an adaptive evidence ladder (gates G0–G6), not a precommitted
   agent sequence. Each stage requires an accepted decision packet before the
   next instruction may be written.
-- **Status as of 2026-08-31:** **only Agent 1 authorized and executed.** No
-  control run, setup implementation, assay, pilot, rehearsal or production run
-  is authorized. See `../instructions/phase_18_setup_integrated_warmstart/` and
+- **Status as of 2026-09-02:** G0 accepted (`P18-D001` PROCEED); G1 closed
+  (`P18-D002` REVISE, then `P18-D003` PROCEED: the vs-random margin certified on
+  4,096 independent pairs); G2 executed (`P18-D004` REVISE, accepted and
+  published at `6afa13be`): implementation parity holds on all 30 method-map
+  rows, the setup learner learns a frozen synthetic landscape on all three
+  seeds, and the EMA evaluation model lagged severely behind the raw actor
+  within the 64-update budget — a predeclared instrument concern. A bounded
+  raw-actor confirmation on a fresh landscape (Agent 5, instruction 07) is in
+  progress. No setup-only Stratego assay, pilot, rehearsal or production run is
+  authorized. See `../instructions/phase_18_setup_integrated_warmstart/` and
   `../reports/phase18/`.

@@ -1,6 +1,6 @@
 # Evidence and artifact-status index
 
-**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended); **updated 2026-09-02 by Phase 18 Agent 4** (§7.2b: G1 accepted, review and errata rows; §7.2c: Gate G2 added).
+**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended); **updated 2026-09-02 by Phase 18 Agent 4** (§7.2b: G1 accepted, review and errata rows; §7.2c: Gate G2 added); **updated 2026-09-02 by Phase 18 Agent 5** (§7.2c: G2 accepted and published, packet wording corrected; §7.2d: the G2 raw-actor confirmation).
 A compact classification of every major artifact.
 This index deliberately does **not** repeat all metrics — it links. Values live
 in the reports; the reports were not edited.
@@ -264,12 +264,20 @@ untracked by `.gitignore`, as intended.
 
 | Artifact | Status | Notes |
 |---|---|---|
-| `stratego/training/phase18/`, `tests/training/phase18/`, `scripts/phase18_g2_setup_parity.py` | **`AWAITING REVIEW`** | The setup learner rebuilt at published-method parity (S01–S30), the independent float64 oracle, the synthetic landscape and the assay runner, at `G2_SOURCE_COMMIT 354a4cad`. 122 tests. |
-| `reports/phase18/phase18_g2_contract_v1.json`, `phase18_g2_synthetic_landscape_v1.json`, `phase18_g2_launch_manifest_v1.json` | **`AWAITING REVIEW`** (frozen before any seed) | Three seeds from `phase18_g2_setup_parity_v1`, 64 updates, 1,024-setup pools, 4 outcomes per setup, 4,096 paired held-out samples per endpoint, 10,000-replicate bootstrap, 10% gap-closure threshold; exact optimum **55.6234** certified by LP duality; the EMA-horizon finding predeclared with its interpretation. |
-| `reports/phase18/g2/` (verification record, JUnit ×2, coverage, oracle, dev smokes, per-seed results, replay) | **`AWAITING REVIEW`** | 86/86 evaluator + 122/122 setup tests; oracle PASS (loss terms 1.8e-15, gradients 2e-10); coverage 30/30 from recorded outcomes; replay reproduces the landscape, first-period outcomes and both evaluation endpoints of every seed bitwise. |
-| `reports/phase18/phase18_g2_results_v1.json`, `phase18_g2_binding_v1.json` | **`AWAITING REVIEW`** | Zero integrity events. EMA: all seeds improved, pooled 95% [+0.159, +0.295], median gap closure **0.35%** (threshold 10%). Raw actor diagnostic: 20.9/18.5/14.8%, pooled 95% [+10.63, +10.91]. Twelve artifacts bind one source commit. |
-| `reports/phase18/decisions/P18-D004.*`, `agent_04_report.md` | **`AWAITING REVIEW`** — `REVISE` | Parity passes and synthetic learning is shown on the raw actor; the EMA at 0.999 updated 64 times retains 93.8% of its initial parameters, so the frozen EMA criterion is unreachable (predeclared). Proposes one bounded correction to the assay's evaluation rule. Local branch `phase18/g2-setup-parity`, **not pushed**. |
+| `stratego/training/phase18/`, `tests/training/phase18/`, `scripts/phase18_g2_setup_parity.py` | `ACCEPTED` | The setup learner rebuilt at published-method parity (S01–S30), the independent float64 oracle, the synthetic landscape and the assay runner, at `G2_SOURCE_COMMIT 354a4cad`. 122 tests. |
+| `reports/phase18/phase18_g2_contract_v1.json`, `phase18_g2_synthetic_landscape_v1.json`, `phase18_g2_launch_manifest_v1.json` | `ACCEPTED` (frozen before any seed) | Three seeds from `phase18_g2_setup_parity_v1`, 64 updates, 1,024-setup pools, 4 outcomes per setup, 4,096 paired held-out samples per endpoint, 10,000-replicate bootstrap, 10% gap-closure threshold; exact optimum **55.6234** certified by LP duality; the EMA-horizon finding predeclared with its interpretation. |
+| `reports/phase18/g2/` (verification record, JUnit ×2, coverage, oracle, dev smokes, per-seed results, replay) | `ACCEPTED` | 86/86 evaluator + 122/122 setup tests; oracle PASS (loss terms 1.8e-15, gradients 2e-10); coverage 30/30 from recorded outcomes; replay reproduces the landscape, first-period outcomes and both evaluation endpoints of every seed bitwise. |
+| `reports/phase18/phase18_g2_results_v1.json`, `phase18_g2_binding_v1.json` | `ACCEPTED` | Zero integrity events. EMA: all seeds improved, pooled 95% [+0.159, +0.295], median gap closure **0.35%** (threshold 10%). Raw actor diagnostic: 20.9/18.5/14.8%, pooled 95% [+10.63, +10.91]. Twelve artifacts bind one source commit. |
+| `reports/phase18/decisions/P18-D004.*`, `agent_04_report.md` | `ACCEPTED` as `REVISE` (2026-09-02) | Parity passes and synthetic learning is shown on the raw actor; the EMA at 0.999 updated 64 times retained 0.999^64 = 0.937975 of the initial parameter contribution (~1,000-update time constant) and lagged severely behind the raw actor (1.3–2.8% of the raw displacement), so the frozen EMA criterion was not met (predeclared instrument concern). Branch `phase18/g2-setup-parity` **published at `6afa13be`** (local == remote). **Wording corrected 2026-09-02** on `phase18/g2-raw-confirmation`: the as-reviewed claim that the criterion was unreachable by arithmetic is withdrawn; original wording preserved in the JSON `corrections.items`. |
+| `reports/phase18/reviews/P18-D004_REVIEW.md` | `ACCEPTED` (as a record) | Acceptance, the publication receipt (local == remote `6afa13be…`), the four wording corrections with as-reviewed and corrected digests, and the authorized next question (instruction 07). |
 | `artifacts/phase18/g2_setup_parity_v1/` | `ENGINEERING` (git-ignored, canonical tree) | Per-seed outcome receipts, telemetry, held-out utility arrays and the three-object checkpoints; reproducible from the frozen contract. The G1 artifacts outside the repository are untouched. |
+
+### 7.2d Phase 18 — Gate G2 bounded raw-actor confirmation (Agent 5)
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md` | `AUTHORIZED` (operator, 2026-09-02) | Publish the reviewed G2 branch, correct the packet wording, and run one bounded confirmation: an independently generated landscape and fresh seeds, the unchanged G2 learning method, the raw generation actor as the primary endpoint of the synthetic trainability assay only, the EMA as secondary telemetry. No G3, no Stratego game, no Phase 8 warmstart training. |
+| `reports/phase18/phase18_g2_raw_confirmation_*` (contract, landscape, launch manifest, results, replay, binding), `reports/phase18/g2_raw_confirmation/`, `decisions/P18-D005.*`, `agent_05_report.md` | **`IN PROGRESS`** | Rows completed when the confirmation is frozen and delivered. |
 
 ### 7.3 Two cross-cutting facts that change how earlier evidence reads
 

@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T13:51:25Z",
+ "updated_utc": "2026-09-02T14:34:22Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -85,20 +85,38 @@
    "gate": "G2",
    "question": "Does the local scaled setup-policy implementation match the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and can it reliably learn a known synthetic setup-reward landscape from outcome-only feedback across three fresh seeds?",
    "decision": "REVISE",
-   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "status": "accepted as REVISE by the operator on 2026-09-02; branch phase18/g2-setup-parity published at 6afa13be (local == remote); interpretive wording corrected by Agent 5 on phase18/g2-raw-confirmation (see corrections_note); the bounded G2 raw-actor confirmation (instruction 07) authorized",
    "markdown": "reports/phase18/decisions/P18-D004.md",
    "json": "reports/phase18/decisions/P18-D004.json",
-   "markdown_sha256": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
-   "json_sha256": "36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679",
-   "headline": "parity 30/30 rows and oracle PASS, zero integrity events; the raw actor closes 20.9%, 18.5%, 14.8% of the initial-to-optimum gap (pooled paired 95% [+10.63, +10.91]); the frozen EMA (0.999^64 = 0.938 of the initial parameters retained) closes a median 0.35% against the 10% threshold (pooled 95% [+0.159, +0.295]) -> predeclared instrument defect: the EMA horizon exceeds the update budget",
+   "markdown_sha256": "295cb9340c56802f2d61dc154cea1bbb6b00e86a98ea4a4a4d7a86bb838b9c0f",
+   "json_sha256": "bf6744d546d5756a84bef396eef6e8bb8b330be55941999e0547983f0e9f2cb1",
+   "headline": "parity 30/30 rows and oracle PASS, zero integrity events; the raw actor closes 20.9%, 18.5%, 14.8% of the initial-to-optimum gap (pooled paired 95% [+10.63, +10.91]); the frozen EMA (0.999^64 = 0.937975 of the initial parameter contribution retained, ~1,000-update time constant) closes a median 0.35% against the 10% threshold (pooled 95% [+0.159, +0.295]) -> severe EMA lag within the budget; predeclared instrument concern",
    "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
    "first_freeze_commit": "861fac89adf0dc65d9114ca285afba2e6a8983e9",
    "verification_commit": "11b55587d45a902f9c491c56fe68149e959306f9",
    "launch_manifest_commit": "6f5297e8df999a739902cc1a51226a59b2df5d7e",
    "result_evidence_commit": "662362149f68c0c3125e656b24ab5d87dd93d253",
    "local_branch": "phase18/g2-setup-parity",
-   "authorized_instruction": null,
-   "authorized_instruction_note": "no next instruction exists; P18-D004 proposes one bounded correction (the synthetic assay's decision reads the raw generation actor while the EMA remains the evaluation model for every Stratego-facing stage), to be written only after acceptance"
+   "authorized_instruction": "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md",
+   "authorized_instruction_note": "operator accepted P18-D004 as REVISE on 2026-09-02 and issued the Agent 5 work package: publish the reviewed G2 branch, correct the packet's wording, and execute one bounded confirmation in which the raw generation actor is the primary endpoint of the synthetic trainability assay on a fresh landscape and fresh seeds. The EMA remains the evaluation/deployment model for every Stratego-facing stage; no G3, Stratego game or Phase 8 warmstart training.",
+   "markdown_sha256_as_reviewed": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
+   "json_sha256_as_reviewed": "36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679",
+   "corrections_note": "the digests above are the corrected copies on phase18/g2-raw-confirmation; the as-reviewed copies are byte-identical at the published commit. Corrections: the claim that the EMA criterion was unreachable by arithmetic regardless of learner behaviour is withdrawn; the packet states the retained fraction 0.999^64 = 0.937975 and the ~1,000-update time constant, reports the observed severe EMA lag as an empirical finding, and states that the development smokes informed the raw diagnostic and the instrument-defect interpretation without changing the frozen landscape, budget, threshold or seeds. Original wording preserved in P18-D004.json corrections.items.",
+   "review_artifact": "reports/phase18/reviews/P18-D004_REVIEW.md",
+   "review_artifact_sha256": "6f3b8547f9a637d8b9f16e5fd2565642e746deb4137b4cc889c3bbbef294d74b",
+   "publication": {
+    "status": "PUBLISHED",
+    "remote_url": "https://github.com/brandonnassir/stratego.git",
+    "remote_branch": "origin/phase18/g2-setup-parity",
+    "approved_local_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+    "remote_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+    "local_equals_remote": true,
+    "push_kind": "normal non-force push of the exact reviewed HEAD; the remote branch was absent beforehand; no publication commit was added",
+    "published_utc": "2026-09-02T14:28:00Z",
+    "published_by": "phase_18_agent_5"
+   },
+   "approved_local_and_remote_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+   "authorized_instruction_sha256": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af"
   }
  ]
 }

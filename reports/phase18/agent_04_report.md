@@ -7,9 +7,12 @@ on all three seeds (raw actor: 20.9%, 18.5%, 14.8% of the initial-to-optimum
 gap closed), but the gate's frozen evaluation model — the EMA at decay 0.999
 updated once per setup update — retains 93.8% of its initial parameters after
 the 64-update budget and closes 0.28%, 0.52%, 0.35% of the gap. The EMA
-criterion cannot be met at this budget whatever the learner does. That was
-predeclared in the contract before any frozen seed ran, with the interpretation
-that decides this packet. Not pushed — awaiting review.
+retained `0.999^64 = 0.937975` of the initial parameter contribution, an
+approximately 1,000-update time constant, and the frozen assay showed severe EMA
+lag: the raw actor learned strongly while the EMA captured only a small portion
+of the observed change. The EMA-horizon concern was predeclared in the contract
+before any frozen seed ran, with the interpretation that decides this packet.
+Accepted and published 2026-09-02 at `6afa13be…` (see Corrections at the end).
 
 ## Part A — publication and the source boundary
 
@@ -109,14 +112,17 @@ final-update checkpoint; exact decision interpretations.
 **Predeclared instrument finding.** Two development smokes on separate
 namespaces (`reports/phase18/g2/dev_smoke_v1.json`) and the decay arithmetic
 established, before any frozen seed ran, that an EMA at 0.999 updated 64 times
-retains `0.999^64 = 0.9380` of its initial parameters and moves only about 3%
-of the raw actor's displacement, so the EMA-measured criteria have almost no
-power at this budget. The contract therefore records the raw actor's held-out
-utility on the same evaluation stream as a **diagnostic that decides nothing**,
-and predeclares: EMA criteria pass → PROCEED; EMA fails while the raw
-diagnostic satisfies the same three criteria → REVISE (instrument defect
-"EMA horizon exceeds the update budget"); both fail → STOP. No frozen field was
-chosen from the smokes.
+retains `0.999^64 = 0.937975` of the initial parameter contribution (an
+approximately 1,000-update time constant) and that in the smokes the EMA lagged
+far behind the raw actor, so the EMA-measured criteria were expected to have
+very little power at this budget. The smokes informed the raw-actor diagnostic
+and the instrument-defect interpretation; they did not change the frozen
+primary landscape, budget, threshold or run seeds. The contract therefore
+records the raw actor's held-out utility on the same evaluation stream as a
+**diagnostic that decides nothing**, and predeclares: EMA criteria pass →
+PROCEED; EMA fails while the raw diagnostic satisfies the same three criteria
+→ REVISE (instrument defect "EMA horizon exceeds the update budget"); both fail
+→ STOP. No frozen field was chosen from the smokes.
 
 ## Execution (Part H)
 
@@ -184,8 +190,10 @@ step (pre-clip norm 34–38 at the start, 2–3 at the end).
 - **Supported.** The scaled setup-policy implementation matches the published
   method at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA
   semantics, and learns a known landscape from outcome-only feedback. The gate's
-  frozen evaluation model cannot reflect that learning inside 64 updates, by
-  arithmetic and as observed.
+  frozen evaluation model lagged severely behind that learning inside 64
+  updates, as the decay arithmetic anticipated and as observed (the EMA captured
+  1.3–2.8% of the raw displacement); this is an empirical finding at this
+  budget, not a proof that the EMA endpoint was unreachable.
 - **Plausible, untested.** The raw curve is unconverged at 64 updates; a longer
   budget would eventually carry the EMA. The entropy bonus dominates the first
   ~8 updates and outcome-driven learning accelerates once `h` converges.
@@ -229,3 +237,35 @@ step (pre-clip norm 34–38 at the start, 2–3 at the end).
 
 Stopped after committing. No G3 work, no Stratego setup-learning game, no push.
 The unreviewed G2 result stays local until `P18-D004` is reviewed.
+
+**Update 2026-09-02 (Phase 18 Agent 5).** `P18-D004` was accepted as `REVISE`.
+The reviewed branch HEAD `6afa13bed355884a3327d2661fd739784260dc2b` was published to
+`origin/phase18/g2-setup-parity` at 2026-09-02T14:28:00Z with a normal non-force push
+(remote absent beforehand, local == remote, no publication commit). The
+corrections below were applied on `phase18/g2-raw-confirmation`, created from
+that exact commit.
+
+## Corrections (2026-09-02, Phase 18 Agent 5)
+
+Applied under operator instruction 07. Every number and identity above is
+unchanged; the report as reviewed (SHA-256 `305a2956ed9b213b…`) remains at the
+published commit. Three interpretive sentences were corrected:
+
+1. The status paragraph no longer says the EMA criterion "cannot be met at this
+   budget whatever the learner does". It states that decay 0.999 retained
+   `0.999^64 = 0.937975` of the initial parameter contribution (an approximately
+   1,000-update time constant) and that the frozen 64-update assay empirically
+   showed severe EMA lag: the raw actor learned strongly while the EMA captured
+   only a small portion of the observed change.
+2. The predeclared-instrument-finding paragraph no longer asserts that the EMA
+   "moves only about 3% of the raw actor's displacement" as a property of the
+   arithmetic; it records the retained fraction and time constant, and states
+   that the development smokes informed the raw diagnostic and the
+   instrument-defect interpretation without changing the frozen primary
+   landscape, budget, threshold or run seeds.
+3. The "Supported" reading no longer says the evaluation model "cannot reflect
+   that learning inside 64 updates, by arithmetic"; it reports the observed lag
+   as an empirical finding at this budget.
+
+The original wording of every corrected sentence in the decision packet is
+preserved in `reports/phase18/decisions/P18-D004.json` under `corrections.items`.

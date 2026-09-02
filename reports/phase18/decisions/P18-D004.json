@@ -200,7 +200,7 @@
    "3": 929.817
   },
   "deviations": [
-   "Raw-actor and pool-utility diagnostics were added to the runner before the freeze, after a development smoke on a separate namespace showed the EMA flat; they decide nothing and the contract predeclares their interpretation. Two development smokes on separate namespaces are recorded in reports/phase18/g2/dev_smoke_v1.json; no frozen field was chosen from them.",
+   "Two development smokes on separate namespaces (phase18_g2_dev_smoke_v1, phase18_g2_dev_smoke_v2; reports/phase18/g2/dev_smoke_v1.json) ran before the freeze. They informed the raw-actor and pool-utility diagnostics added to the runner and the predeclared instrument-defect interpretation of an EMA fail beside a raw pass; they did not change the frozen primary landscape, the budget, the threshold or the run seeds, which are the instruction's minima and the published values. The diagnostics decide nothing and the contract says so.",
    "Two driver-only corrections landed between the first freeze commit (861fac8) and G2_SOURCE_COMMIT (354a4cad): the oracle's EMA closed-form tolerance (1e-7 -> 1e-5; the shadow is float32) and an indexing slip in the oracle's I - 10h cross-check (minibatch row versus processed row). The frozen contract and landscape files are unchanged from 861fac8.",
    "The --verify stage ran in the canonical checkout (dirty only by the protected Phase 14 manifest and its own outputs) because the evaluator suite reads git-ignored accepted checkpoints that live there; the launch manifest and all three seeds ran from the clean detached worktree at G2_SOURCE_COMMIT.",
    "The three seeds ran concurrently in separate processes (4 pinned threads each); the replay reproduces both evaluation endpoints of every seed bitwise.",
@@ -640,7 +640,7 @@
  },
  "interpretation": {
   "observed_fact": "All 30 parity rows are complete from recorded tests and the independent oracle agrees with the production loss to 1.8e-15 and with autograd to 2.0e-10. Three seeds completed 64 updates with zero integrity events. On the frozen EMA the pooled paired delta is +0.2261 with 95% [+0.1588, +0.2949] and the median gap closure is 0.0035; on the raw actor the pooled delta is +10.7718 with 95% [+10.6338, +10.9089] and the median gap closure is 0.1850. The EMA moved 1.3%, 2.8% and 2.4% of the raw displacement. The landscape, first-period outcomes and both endpoints replay exactly.",
-  "supported_inference": "The scaled setup-policy implementation matches the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and it learns a known synthetic setup-reward landscape from outcome-only feedback reliably across three fresh seeds. The gate's frozen evaluation model - the EMA at the paper's 0.999 smoothing, updated once per setup update - cannot reflect that learning inside a 64-update budget: 0.999^64 = 0.938 of the initial parameters remain, and the observed EMA movement is the predicted few percent of the raw displacement. The failing criterion is therefore an instrument defect that was identified and predeclared before the run, not a learning failure.",
+  "supported_inference": "The scaled setup-policy implementation matches the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and it learns a known synthetic setup-reward landscape from outcome-only feedback reliably across three fresh seeds. The gate's frozen evaluation model - the EMA at the paper's 0.999 smoothing, updated once per setup update - retained 0.999^64 = 0.937975 of the initial parameter contribution after the 64-update budget (an approximately 1,000-update time constant) and lagged severely behind the raw actor within that budget: the observed EMA movement is 1.3%, 2.8% and 2.4% of the raw displacement. The frozen EMA criterion therefore had very little power at this budget; the failing criterion reads as an instrument-horizon defect rather than a learning failure, and that reading was predeclared before the run. This is an empirical finding about this budget and this learner, not a proof that the EMA endpoint was unreachable regardless of learner behaviour.",
   "plausible_but_untested": "With a budget on the scale of the EMA's ~1,000-update time constant the EMA would follow the raw actor. The entropy innovation dominates the advantage for the first ~8 updates (magnitude ratio ~4 falling to ~0.2 as h converges to I/10), after which outcome-driven learning accelerates; the raw curves are still rising at update 64.",
   "claim_not_supported": "That the method learns Stratego setups (no game was played, and the landscape is synthetic). That the raw diagnostic satisfies the frozen gate (it was never the decision model and is reported only because the contract predeclared it). Any statement about a different learning rate, budget, landscape or threshold."
  },
@@ -654,7 +654,7 @@
   "raw_actor_diagnostic_satisfies_the_same_three_criteria": "pass (diagnostic; decides nothing)",
   "deterministic_replay_landscape_outcomes_endpoints": "pass"
  },
- "g2_gate": "REVISE - parity passes and synthetic learning is shown on the raw actor; the frozen EMA-based criterion is unreachable at this budget by arithmetic (predeclared)",
+ "g2_gate": "REVISE - parity passes and synthetic learning is shown on the raw actor; the frozen EMA-based criterion was not met at this budget because the EMA (0.999^64 = 0.937975 retained, ~1,000-update time constant) lagged severely behind the raw actor in the frozen 64-update assay (predeclared instrument concern)",
  "why_not_stop": "STOP is reserved for a valid parity-correct implementation that fails to learn; the learner improved the landscape utility on all three seeds with disjoint paired intervals.",
  "why_not_proceed": "PROCEED requires the instruction's frozen criteria on the EMA, and the median EMA gap closure is 0.35% against 10%.",
  "proposed_next_question": {
@@ -687,7 +687,86 @@
   "mismatched": []
  },
  "publication": {
-  "status": "NOT PUSHED - awaiting review",
-  "rule": "after the reviewing chat and operator accept P18-D004, the exact approved branch HEAD is published with a normal non-force push, the remote SHA is verified equal to the approved local SHA, and both are recorded. No push to main, force push, merge, tag, release, or pull request."
+  "status": "PUBLISHED",
+  "remote_url": "https://github.com/brandonnassir/stratego.git",
+  "remote_branch": "origin/phase18/g2-setup-parity",
+  "approved_local_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "remote_sha": "6afa13bed355884a3327d2661fd739784260dc2b",
+  "local_equals_remote": true,
+  "push_kind": "normal non-force push of the exact reviewed HEAD; the remote branch was absent beforehand; no publication commit was added",
+  "published_utc": "2026-09-02T14:28:00Z",
+  "published_by": "phase_18_agent_5",
+  "as_reviewed": {
+   "status": "NOT PUSHED - awaiting review",
+   "rule": "after the reviewing chat and operator accept P18-D004, the exact approved branch HEAD is published with a normal non-force push, the remote SHA is verified equal to the approved local SHA, and both are recorded. No push to main, force push, merge, tag, release, or pull request."
+  }
+ },
+ "corrections": {
+  "applied_utc": "2026-09-02T14:34:22Z",
+  "applied_by": "phase_18_agent_5",
+  "authorized_by": "operator work package 07 (2026-09-02): 'Preserve P18-D004 = REVISE, but correct these statements'",
+  "instruction": "instructions/phase_18_setup_integrated_warmstart/07_AGENT_5_G2_RAW_ACTOR_CONFIRMATION.md",
+  "instruction_sha256": "afd411fa097528796d843055a02774f73acecab71d134c61e484ef9777f159af",
+  "rule": "the decision, every identity, every calculation and every result field are unchanged; only interpretive statements are corrected, and the original wording of each is preserved in items",
+  "as_reviewed": {
+   "json_sha256": "36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679",
+   "markdown_sha256": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
+   "published_at": "6afa13bed355884a3327d2661fd739784260dc2b",
+   "remote_branch": "origin/phase18/g2-setup-parity"
+  },
+  "withdrawn": "that the EMA criterion was mathematically unreachable inside the 64-update budget regardless of learner behaviour ('cannot be met ... by arithmetic', 'unreachable at this budget', 'cannot see' / 'cannot reflect' the learning)",
+  "ema_arithmetic": {
+   "decay": 0.999,
+   "updates": 64,
+   "retained_initial_fraction": 0.9379749638258454,
+   "retained_initial_fraction_rounded": 0.937975,
+   "time_constant_updates": 999.9999999999991,
+   "time_constant_formula": "1 / (1 - decay)",
+   "e_folding_updates": 999.4999166249727,
+   "e_folding_formula": "-1 / ln(decay)",
+   "what_the_arithmetic_gives": "the geometric weight the EMA still places on its initial parameters after 64 once-per-update blends, and the approximately 1,000-update time constant. It does not by itself bound the EMA's held-out utility, which is a nonlinear function of the parameters and depends on the raw actor's trajectory."
+  },
+  "empirical_lag": {
+   "reading": "severe EMA lag within the frozen 64-update assay: the raw actor learned strongly while the EMA captured only a small portion of the observed change",
+   "raw_gap_fraction_closed": {
+    "1": 0.20919982980890497,
+    "2": 0.18501584014088626,
+    "3": 0.1481851787242662
+   },
+   "ema_gap_fraction_closed": {
+    "1": 0.0027761330917382677,
+    "2": 0.0051776484840628054,
+    "3": 0.0034886426060860673
+   },
+   "ema_movement_as_fraction_of_raw_displacement": {
+    "1": 0.013270245459922914,
+    "2": 0.027984892969813387,
+    "3": 0.02354245300454452
+   }
+  },
+  "development_smokes": "two smokes on separate namespaces (phase18_g2_dev_smoke_v1, phase18_g2_dev_smoke_v2; reports/phase18/g2/dev_smoke_v1.json) informed the raw-actor diagnostic and the instrument-defect interpretation; they did not change the frozen primary landscape, the budget, the threshold or the run seeds",
+  "items": [
+   {
+    "field": "interpretation.supported_inference",
+    "original": "The scaled setup-policy implementation matches the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and it learns a known synthetic setup-reward landscape from outcome-only feedback reliably across three fresh seeds. The gate's frozen evaluation model - the EMA at the paper's 0.999 smoothing, updated once per setup update - cannot reflect that learning inside a 64-update budget: 0.999^64 = 0.938 of the initial parameters remain, and the observed EMA movement is the predicted few percent of the raw displacement. The failing criterion is therefore an instrument defect that was identified and predeclared before the run, not a learning failure.",
+    "corrected": "The scaled setup-policy implementation matches the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and it learns a known synthetic setup-reward landscape from outcome-only feedback reliably across three fresh seeds. The gate's frozen evaluation model - the EMA at the paper's 0.999 smoothing, updated once per setup update - retained 0.999^64 = 0.937975 of the initial parameter contribution after the 64-update budget (an approximately 1,000-update time constant) and lagged severely behind the raw actor within that budget: the observed EMA movement is 1.3%, 2.8% and 2.4% of the raw displacement. The frozen EMA criterion therefore had very little power at this budget; the failing criterion reads as an instrument-horizon defect rather than a learning failure, and that reading was predeclared before the run. This is an empirical finding about this budget and this learner, not a proof that the EMA endpoint was unreachable regardless of learner behaviour."
+   },
+   {
+    "field": "g2_gate",
+    "original": "REVISE - parity passes and synthetic learning is shown on the raw actor; the frozen EMA-based criterion is unreachable at this budget by arithmetic (predeclared)",
+    "corrected": "REVISE - parity passes and synthetic learning is shown on the raw actor; the frozen EMA-based criterion was not met at this budget because the EMA (0.999^64 = 0.937975 retained, ~1,000-update time constant) lagged severely behind the raw actor in the frozen 64-update assay (predeclared instrument concern)"
+   },
+   {
+    "field": "execution_integrity.deviations[0]",
+    "original": "Raw-actor and pool-utility diagnostics were added to the runner before the freeze, after a development smoke on a separate namespace showed the EMA flat; they decide nothing and the contract predeclares their interpretation. Two development smokes on separate namespaces are recorded in reports/phase18/g2/dev_smoke_v1.json; no frozen field was chosen from them.",
+    "corrected": "Two development smokes on separate namespaces (phase18_g2_dev_smoke_v1, phase18_g2_dev_smoke_v2; reports/phase18/g2/dev_smoke_v1.json) ran before the freeze. They informed the raw-actor and pool-utility diagnostics added to the runner and the predeclared instrument-defect interpretation of an EMA fail beside a raw pass; they did not change the frozen primary landscape, the budget, the threshold or the run seeds, which are the instruction's minima and the published values. The diagnostics decide nothing and the contract says so."
+   },
+   {
+    "field": "question.predeclared_instrument_finding.statement",
+    "original": "The evaluation model is the EMA, updated once after each complete setup update with decay 0.999, and the budget is 64 updates. By arithmetic the final EMA retains 0.999^64 = 0.937975 of the initial parameters in its geometric weighting; the EMA can move only about 3% of the raw actor's total parameter displacement inside this budget. The EMA-based criteria therefore have very little power at this budget whatever the raw learner does. This was established before any frozen seed ran, from the decay arithmetic and from a development smoke on a separate namespace (phase18_g2_dev_smoke_v1/v2, recorded in reports/phase18/g2/dev_smoke_v1.json).",
+    "corrected": null,
+    "note": "quoted verbatim from the frozen contract (reports/phase18/phase18_g2_contract_v1.json, sha256 a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5) and therefore left unedited; the phrase 'whatever the raw learner does' overstates what the decay arithmetic gives and is superseded by the corrected reading in interpretation.supported_inference and in corrections.ema_arithmetic"
+   }
+  ]
  }
 }

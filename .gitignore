@@ -91,3 +91,11 @@ checkpoints/phase17/
 # results, binding ledger and per-seed summaries are tracked under
 # reports/phase18. The G1 artifacts live outside the repository and are untouched.
 artifacts/phase18/g2_setup_parity_v1/
+
+# Phase 18 Gate G2 raw-actor confirmation runtime artifacts (2026-09-02): the
+# bounded confirmation's per-seed outcome receipts, telemetry, held-out utility
+# arrays (raw and EMA) and the three checkpoint objects, reproducible from the
+# frozen contract by `python scripts/phase18_g2_raw_confirmation.py --run
+# --seed-index K`. Results, replay, binding and per-seed summaries are tracked
+# under reports/phase18.
+artifacts/phase18/g2_raw_confirmation_v1/
