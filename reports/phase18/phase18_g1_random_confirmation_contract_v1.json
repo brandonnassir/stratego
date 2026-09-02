@@ -1,0 +1,127 @@
+{
+ "accounting_rule": "planned = completed + failed + missing; failures and retries are never draws",
+ "agent": "phase_18_agent_3",
+ "arm_order": [
+  "reference",
+  "candidate"
+ ],
+ "arm_order_rule": "frozen before either arm runs; the first arm's result may not alter or cancel the second",
+ "artifact": "phase18_g1_random_confirmation_contract_v1",
+ "authorization": {
+  "instructions/phase_18_setup_integrated_warmstart/05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md": "8ab5315430b84ec7921058848777e564e6aa94714f9aad0086c0d11f50b0b0d0",
+  "reports/phase18/decisions/P18-D002.json": "ba3c35eed15298a9e00cd5a218e812b3151ff821d3b072284d82cc37065f0927",
+  "reports/phase18/decisions/P18-D002.md": "9300c308895d7fc2cfe0f3bd5899955b7fa36ed6266f31e8ae6db585c1d66f1d",
+  "reports/phase18/reviews/P18-D002_REVIEW.md": "471b33b69bc0133b3d004387f8f28bf92cc34a6baa9aed3b7aaeec07c75ea811"
+ },
+ "authorizing_decision": "P18-D002 accepted as REVISE",
+ "bank": {
+  "bank_version": "phase18_g1_random_confirmation_bank_v1",
+  "digest": "24b263d2f6e2d3e4b118470861ce79e85331e51b68468a1ea9d3c87f59f4711e",
+  "namespace": "phase18_g1_random_confirmation_v1",
+  "pair_count": 4096,
+  "reference_bank": {
+   "artifact": "reports/phase_4_data/agent_01_setup_bank_v1.json",
+   "bank_version": "evaluation_setup_bank_v1",
+   "pair_count": 1024,
+   "sha256": "5fe5f98750ca2bd90ee75a74b3ba024bf753342872ae5472f13eb7afbb674266"
+  },
+  "root_seed": 6318667561552392983,
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "separation_audit": {
+   "confirmation_pairs": 4096,
+   "cross_class_overlap": 0,
+   "cross_content_overlap": 0,
+   "cross_side_class_overlap": 0,
+   "duplicate_pair_ids": 0,
+   "internal_class_duplicates": 0,
+   "internal_content_duplicates": 0,
+   "reference_bank_version": "evaluation_setup_bank_v1",
+   "reference_pairs": 1024,
+   "reflection_fingerprint_stable": true,
+   "separated": true,
+   "structural_problems": []
+  }
+ },
+ "bootstrap_seed": 5234174007292860913,
+ "checkpoints": {
+  "candidate": {
+   "bytes": 10459947,
+   "matches_frozen_identity": true,
+   "path": "/Users/brandonwashington/Dev/stratego_phase18/g1_control_v1/dry_run_artifacts/warmstart_c1_v1.pt",
+   "sha256": "460a246be32b821a6d6d7feb928b272a4be1014ff55053f329980e21e3be074c"
+  },
+  "reference": {
+   "bytes": 10459563,
+   "matches_frozen_identity": true,
+   "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/checkpoints/phase8/warmstart_c1_v1.pt",
+   "sha256": "f7e9c40d0f160da00176596755c20768ba32561a26f9178dbb4a95e889eec7ca"
+  }
+ },
+ "evaluator": "phase18_evaluation_v1",
+ "gate": "G1",
+ "power": {
+  "confidence": 0.95,
+  "formula": "n = ceil( ((z_(1-alpha/2) + z_power) * sd / (true_delta + margin))^2 ); power = Phi( (true_delta + margin)/(sd/sqrt(n)) - z_(1-alpha/2) )",
+  "frozen_n": 4096,
+  "half_width_at_frozen_n": 0.0057994721813795,
+  "margin": 0.01,
+  "minimum_n": 3769,
+  "planning_sd": 0.189374,
+  "power_at_frozen_n": 0.9221367251713777,
+  "standard_error_at_frozen_n": 0.00295896875,
+  "target_power": 0.9,
+  "true_delta": 0.0,
+  "z_confidence": 1.9599639845400532,
+  "z_power": 1.2815515655446004
+ },
+ "primary_hypothesis": {
+  "alternative": "Delta > -0.010",
+  "confidence": 0.95,
+  "decision_rule": "pass only if the lower endpoint of the two-sided 95% paired percentile-bootstrap interval is strictly greater than -0.010",
+  "delta": "EWR(G1 candidate vs random) - EWR(accepted checkpoint vs random)",
+  "margin": -0.01,
+  "normal_approximation": "diagnostic only; it may not decide the gate",
+  "null": "Delta <= -0.010",
+  "primary_sample": "the confirmation bank only; the original 1,024 pairs are context and are never pooled",
+  "replicates": 10000,
+  "resampling_unit": "paired setup case, both colours carried together",
+  "score": "effective win rate, draw = 0.5"
+ },
+ "run_id": "G1-RANDOM-CONFIRMATION-2026-A",
+ "schedule": {
+  "batch_policy": "single_request",
+  "candidate": {
+   "policy_id": "phase6_c1_warmstart_greedy",
+   "policy_version": "0.2.0+float32"
+  },
+  "candidate_token": "phase6_c1_warmstart_greedy@0.2.0+float32",
+  "decision_mode": "greedy",
+  "digest": "2111848ba7c19ea08a70974bc082f56b3d8be195b7169cc6c1095c953cd285f7",
+  "dtype": "float32",
+  "games_per_arm": 8192,
+  "matches": 8192,
+  "neural_worker_version": "neural_worker_v1",
+  "note": "both arms play this identical schedule; they share a policy token, so match ids, seeds, colours and boards are identical by construction",
+  "opponent": {
+   "policy_id": "random_legal",
+   "policy_version": "1.0.0"
+  },
+  "opponent_token": "random_legal@1.0.0",
+  "paired_units": 4096,
+  "pairing_mode": "color_swap_same_board",
+  "root_seed": 6846249549559311463,
+  "rules": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+  "total_games_both_arms": 16384
+ },
+ "sealed_test_access": {
+  "planned": 0,
+  "rule": "this work package opens no Phase 8 sealed test data at all"
+ },
+ "seconds": 1.87,
+ "source": {
+  "approved_agent2_commit": "18409f738613616e364f81ff14814d4648fc92d1",
+  "g1_source_commit": "66b733ad92324751e30bd7e2a5e373129cbe87c3"
+ },
+ "timestamp_utc": "2026-09-02T01:32:55Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}
