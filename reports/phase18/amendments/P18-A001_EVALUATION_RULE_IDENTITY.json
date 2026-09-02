@@ -1,0 +1,146 @@
+{
+ "artifact": "phase18_evaluation_rule_amendment_v1",
+ "amendment_id": "P18-A001",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "proposed_by": "phase_18_backend_steward",
+ "timestamp_utc": "2026-09-02T18:55:00Z",
+ "status": "PROPOSED - NOT OPERATIVE; becomes operative only after the reviewing chat and the operator accept it and the acceptance is recorded in the decision trail",
+ "markdown": "reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.md",
+ "resolves_open_item": {
+  "id": "O-P18-EVALRULES-1",
+  "recorded_in": "reports/phase18/phase18_rule_identity_errata_v1.json",
+  "recorded_in_sha256": "6cec5ee931c0c07ad27e7fe93a222e224af584329ff5fd87a724f4cbbb821ec7",
+  "path": "open_items[0]"
+ },
+ "supersedes": {
+  "file": "reports/phase18/phase18_evaluation_contract_v1.json",
+  "file_sha256": "6878bab622c47bbbc21f0d18f88844a5e5a1c2f298acfd3b1e9560705d0ecce9",
+  "field": "cases_seeds_opponents.rule_version",
+  "fields_superseded_count": 1,
+  "original_text": "the accepted training rules: battleless_move_limit 100, absolute_move_limit 4000, first_player 0",
+  "proposed_text": "the accepted play-evaluation rules (EVALUATION_RULES): battleless_move_limit 200, absolute_move_limit 4000, first_player 0, context evaluation; rules_version stratego_project_v1, geometry board_10x10_v1, two-square and continuous-chasing rules disabled. Training and corpus generation continue to use TRAINING_RULES / CORPUS_RULES with battleless_move_limit 100, unchanged.",
+  "original_file_edited": false,
+  "original_file_preservation": "the frozen evaluation contract is preserved byte-for-byte; the superseding text lives in this amendment and the decision trail, so the contract's recorded digests stay valid"
+ },
+ "rule_identities": {
+  "training": {
+   "name": "TRAINING_RULES (alias CORPUS_RULES)",
+   "battleless_move_limit": 100,
+   "absolute_move_limit": 4000,
+   "first_player": 0,
+   "context": "training",
+   "governs": "corpus generation and training play (rule_population.py, phase9_collector.py, synthetic_corpus.py, warmstart_contract.py:351)",
+   "changed_by_this_amendment": false
+  },
+  "play_evaluation_accepted_and_used_by_g1": {
+   "name": "EVALUATION_RULES",
+   "battleless_move_limit": 200,
+   "absolute_move_limit": 4000,
+   "first_player": 0,
+   "context": "evaluation",
+   "canonical_token": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+   "governs": "every G1 Stratego game played under P18-D002 and P18-D003, and the accepted play gates of Phases 9, 11B, 12 and 15"
+  },
+  "common_to_both": {
+   "absolute_move_limit": 4000,
+   "first_player": 0,
+   "rules_version": "stratego_project_v1",
+   "board_geometry_version": "board_10x10_v1",
+   "two_square_rule_enabled": false,
+   "continuous_chasing_rule_enabled": false,
+   "note": "the two presets differ in exactly two fields: battleless_move_limit and context"
+  }
+ },
+ "recommendation": {
+  "single_rule_identity_for_future_g3_g4_play_evaluation": "EVALUATION_RULES",
+  "canonical_token": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+  "reasons": [
+   "comparability: Gate G1 is closed and was measured under battleless 200; evaluating G3/G4 under 100 would make them non-comparable to the accepted baseline for no gain",
+   "precedent: every accepted play gate since Phase 4 uses EVALUATION_RULES and stratego/evaluation/match_spec.py defaults rules=EVALUATION_RULES at four sites; naming training rules for a play lane is the anomaly",
+   "measurement quality: the battleless limit binds hardest between comparable players (13.09% / 13.38% of vs_init games versus about 1% of random-opponent games at limit 200), which is the regime G3/G4 contrasts live in; a longer limit leaves more games decided and fewer signal-free draws",
+   "separation of concerns: training rules govern corpus generation and evaluation rules govern measurement; one identity each prevents a change on one side from silently altering the other"
+  ],
+  "alternative_rejected": {
+   "option": "adopt battleless_move_limit 100 for play evaluation to match the training corpus",
+   "why_not": "breaks comparability with the closed G1 result, departs from every accepted play gate in the project, and increases the draw share in exactly the lanes where a setup effect must be detected"
+  }
+ },
+ "evidence": {
+  "engine_constant": "stratego/engine/constants.py lines 273-306: TRAINING_RULES battleless 100 context training; EVALUATION_RULES battleless 200 context evaluation; RulesConfig.first_player defaults to RED and RED = 0 at line 48",
+  "accepted_match_machinery": "stratego/evaluation/match_spec.py defaults rules=EVALUATION_RULES at lines 146, 264, 313 and 398",
+  "frozen_g1_contract": {
+   "file": "reports/phase18/phase18_g1_random_confirmation_contract_v1.json",
+   "file_sha256": "5d6e616b6fa77136e6ec258c9d3bde86d171e086391e2e92b2bd2eb48648f91d",
+   "field": "schedule.rules",
+   "value": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation"
+  },
+  "driver": "scripts/phase18_g1_random_confirmation.py imports EVALUATION_RULES (line 53), builds the schedule with rules=EVALUATION_RULES (line 281) and stamps rules_token(EVALUATION_RULES) into every receipt (line 377)",
+  "receipts": {
+   "reference_rows": 8192,
+   "candidate_rows": 8192,
+   "total_rows": 16384,
+   "rows_carrying_the_evaluation_token": 16384,
+   "rows_carrying_any_other_token": 0,
+   "rows_with_first_player_0": 16384,
+   "competing_tokens_anywhere_in_reports_phase18": 0,
+   "verified_by": "direct count over reports/phase18/g1_random_confirmation/{reference,candidate}_receipts.jsonl"
+  },
+  "observed_terminations_at_limit_200": {
+   "g1_confirmation_reference": {
+    "n": 8192,
+    "battleless_move_limit_draw": 128,
+    "share": 0.015625
+   },
+   "g1_confirmation_candidate": {
+    "n": 8192,
+    "battleless_move_limit_draw": 84,
+    "share": 0.01025390625
+   },
+   "g1_control_random_gate_reference": {
+    "n": 2048,
+    "battleless_move_limit_draw": 23,
+    "share": 0.01123046875
+   },
+   "g1_control_random_gate_candidate": {
+    "n": 2048,
+    "battleless_move_limit_draw": 15,
+    "share": 0.00732421875
+   },
+   "g1_control_vs_init_reference": {
+    "n": 1024,
+    "battleless_move_limit_draw": 134,
+    "share": 0.130859375
+   },
+   "g1_control_vs_init_candidate": {
+    "n": 1024,
+    "battleless_move_limit_draw": 137,
+    "share": 0.1337890625
+   },
+   "absolute_move_limit_draws_all_lanes": 0,
+   "ply_length_all_16384_games": {
+    "min": 9,
+    "median": 300,
+    "p99": 812,
+    "max": 1336
+   },
+   "reading": "the 4000 absolute limit is a safety backstop that never fired; the battleless limit is the binding rule and binds about ten times harder between comparable players than against a random opponent"
+  },
+  "directional_claim_not_quantified": "moving 200 -> 100 can only convert games decided after the cap into draws, so it can only increase the draw share, most in the comparable-player lanes; the magnitude is NOT estimated here because quantifying it would require playing games, which is out of scope and unauthorized"
+ },
+ "scope_and_limits": {
+  "training_rules_unchanged": true,
+  "affects": "future play evaluation only (the G3 and G4 factorial play lanes, if and when either is authorized)",
+  "retroactive_effect": false,
+  "prior_g1_results_unchanged": true,
+  "prior_g2_results_unchanged": true,
+  "g1_rerun_required": false,
+  "g1_and_g2_remain_closed_on_existing_evidence": true,
+  "authorizes_g3_execution": false,
+  "designs_g3": false,
+  "designs_nothing": "no lanes, packs, opponents, seeds, sample sizes, margins, power plan or decision rule are proposed or implied",
+  "operative_only_after_review_and_approval": true,
+  "sealed_evidence_opened": false,
+  "unusual_procedural_pack": "remains unpopulated and still blocks G4 independently of this amendment",
+  "stratego_games_played_by_this_amendment": 0
+ }
+}

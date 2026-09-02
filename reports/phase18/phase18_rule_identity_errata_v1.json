@@ -41,9 +41,24 @@
    "field": "cases_seeds_opponents.rule_version",
    "recorded_text": "the accepted training rules: battleless_move_limit 100, absolute_move_limit 4000, first_player 0",
    "observation": "the frozen evaluation contract names TRAINING rules (battleless limit 100) for the future factorial play lanes, while every G1 play measurement (P18-D002 and P18-D003) used the accepted EVALUATION rules (battleless limit 200)",
-   "status": "PRESERVED UNEDITED; AMENDMENT REQUIRED",
+   "status": "PRESERVED UNEDITED; AMENDMENT PROPOSED 2026-09-02 (P18-A001), NOT YET OPERATIVE - the proposal is under review and the frozen contract's original wording stands until it is accepted",
    "requirement": "before any real-game Gate G3 or G4 evaluation, the rule version applied to play evaluation must be settled by an explicit, reviewed amendment to the evaluation contract, recorded in the decision trail",
-   "does_not_affect": "Gate G2, which plays no Stratego games and opens no sealed data"
+   "does_not_affect": "Gate G2, which plays no Stratego games and opens no sealed data",
+   "proposed_amendment": {
+    "amendment_id": "P18-A001",
+    "markdown": "reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.md",
+    "json": "reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.json",
+    "markdown_sha256": "92408ae7a1e9fdf7b4a2d0df2aff1418fa95d6cf0651a6e0f15a6dcb3d56fcb7",
+    "json_sha256": "67fdef0995a69dc95e25a5f1d4d226452cf47a670e73569041a62741b3c7d116",
+    "proposed_by": "phase_18_backend_steward",
+    "status": "PROPOSED - NOT OPERATIVE; operative only after review and approval recorded in the decision trail",
+    "recommends": "EVALUATION_RULES (battleless_move_limit 200, absolute_move_limit 4000, first_player 0, context evaluation) as the single rule identity for future G3/G4 play evaluation",
+    "supersedes_field": "cases_seeds_opponents.rule_version in reports/phase18/phase18_evaluation_contract_v1.json (one field; the frozen file is not edited and its digest, pinned in P18-D001.json and phase18_agent1_handoff_v1.json, stays valid)",
+    "training_rules_unchanged": true,
+    "prior_g1_and_g2_results_unchanged": true,
+    "authorizes_g3_execution": false
+   }
   }
- ]
+ ],
+ "updated_utc": "2026-09-02T18:55:00Z"
 }
