@@ -17,7 +17,7 @@ created 2026-08-31
 | `03_SETUP_MODEL_INTEGRATION_REFERENCE.md` | Math/method/hypothesis reference and PDF source | Reference only |
 | `04_AGENT_2_G1_SOURCE_CLOSURE_AND_PHASE8_REPRODUCTION_CONTROL.md` | Clean source closure and faithful Phase 8 reproduction | Authorized by accepted `P18-D001` |
 | `05_AGENT_3_G1_RANDOM_NONINFERIORITY_CONFIRMATION.md` | Powered independent vs-random confirmation | Executed 2026-09-02 — delivered `P18-D003` (`PROCEED`), **accepted 2026-09-02; G1 closed**; branch published at `ef7523c1` |
-| `06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` | Publish accepted G1; Gate G2 setup implementation parity and synthetic learning assay | **Authorized by accepted `P18-D003`; executing on `phase18/g2-setup-parity`** |
+| `06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` | Publish accepted G1; Gate G2 setup implementation parity and synthetic learning assay | **Executed 2026-09-02** — G1 published; delivered `P18-D004` (`REVISE`, awaiting review) |
 
 ## Current execution rule
 
@@ -33,14 +33,17 @@ where the contract, engine constant, schedule and receipts carry the evaluation
 value 200) are recorded in `reports/phase18/reviews/P18-D003_REVIEW.md` and
 `reports/phase18/phase18_rule_identity_errata_v1.json`.
 
-`06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` is the only newly executable
-work package. It authorizes **Gate G2 only**: the scaled setup-policy implementation
-with parity tests for every method-map row S01-S30, an independent canned parity
-oracle, and a frozen synthetic known-reward learning assay across three fresh seeds.
-No Stratego setup training, Phase 8 trainer integration, setup-only Stratego assay
-(G3), tandem pilot (G4), rehearsal (G5) or production run (G6) is authorized, and no
-Stratego game or sealed Phase 8 example may be opened by it. Its result commits stay
-local on `phase18/g2-setup-parity` until `P18-D004` is reviewed.
+`06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md` was executed on 2026-09-02 and
+delivered `P18-D004` (`REVISE`, **awaiting review**) at `G2_SOURCE_COMMIT 354a4cad`
+on `phase18/g2-setup-parity` (local only, not pushed). Parity holds on all 30
+method-map rows and in the independent oracle with zero integrity events, and the
+setup learner learns the frozen synthetic landscape on all three seeds (raw actor
+gap closure 20.9%, 18.5%, 14.8%); but the gate's frozen evaluation model, the EMA
+at 0.999 updated once per update, retains 0.999^64 = 93.8% of its initial
+parameters after the 64-update budget and closes a median 0.35% against the 10%
+threshold. The contract predeclared that reading before the run. No amended run,
+no setup-only Stratego assay (G3), tandem pilot (G4), rehearsal (G5) or production
+run (G6) is authorized; no next instruction exists until `P18-D004` is reviewed.
 
 Every agent commits locally before review. An approved branch is then published to
 GitHub by normal non-force push and the matching local/remote SHA is recorded. An

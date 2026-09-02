@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_decision_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T12:44:13Z",
+ "updated_utc": "2026-09-02T13:51:25Z",
  "rule": "one packet per completed question; a packet binds its status and the instruction it authorized. An instruction with no authorizing decision is draft-only.",
  "decisions": [
   {
@@ -77,6 +77,28 @@
     "published_by": "phase_18_agent_4"
    },
    "approved_local_and_remote_sha": "ef7523c1940650c0906d1927e64679e8328a663f"
+  },
+  {
+   "decision_id": "P18-D004",
+   "timestamp_utc": "2026-09-02T13:51:25Z",
+   "agent": "phase_18_agent_4",
+   "gate": "G2",
+   "question": "Does the local scaled setup-policy implementation match the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and can it reliably learn a known synthetic setup-reward landscape from outcome-only feedback across three fresh seeds?",
+   "decision": "REVISE",
+   "status": "AWAITING REVIEW - result commits are local only; do not push until the reviewing chat and operator accept this packet",
+   "markdown": "reports/phase18/decisions/P18-D004.md",
+   "json": "reports/phase18/decisions/P18-D004.json",
+   "markdown_sha256": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
+   "json_sha256": "36fb4a3d9b8afd4a087cf16dbcd6f834962cafffb8e1cf359c1acfeb102f6679",
+   "headline": "parity 30/30 rows and oracle PASS, zero integrity events; the raw actor closes 20.9%, 18.5%, 14.8% of the initial-to-optimum gap (pooled paired 95% [+10.63, +10.91]); the frozen EMA (0.999^64 = 0.938 of the initial parameters retained) closes a median 0.35% against the 10% threshold (pooled 95% [+0.159, +0.295]) -> predeclared instrument defect: the EMA horizon exceeds the update budget",
+   "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+   "first_freeze_commit": "861fac89adf0dc65d9114ca285afba2e6a8983e9",
+   "verification_commit": "11b55587d45a902f9c491c56fe68149e959306f9",
+   "launch_manifest_commit": "6f5297e8df999a739902cc1a51226a59b2df5d7e",
+   "result_evidence_commit": "662362149f68c0c3125e656b24ab5d87dd93d253",
+   "local_branch": "phase18/g2-setup-parity",
+   "authorized_instruction": null,
+   "authorized_instruction_note": "no next instruction exists; P18-D004 proposes one bounded correction (the synthetic assay's decision reads the raw generation actor while the EMA remains the evaluation model for every Stratego-facing stage), to be written only after acceptance"
   }
  ]
 }

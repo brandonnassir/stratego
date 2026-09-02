@@ -542,9 +542,10 @@ carry this as a regression case.
 
 ## 14. Is Phase 18 authorized?
 
-**Gate G1 is CLOSED (P18-D003 accepted 2026-09-02). Gate G2 — setup implementation
-parity and the synthetic learning assay — is authorized and executing; nothing beyond
-G2 is authorized.** *(Updated 2026-09-02 by Phase 18 Agent 4.)*
+**Gate G1 is CLOSED (P18-D003 accepted 2026-09-02). Gate G2 was executed:
+P18-D004 = `REVISE`, awaiting review — parity passes and the learner learns the
+synthetic landscape, but the EMA-based criterion cannot be met within the frozen
+budget. Nothing beyond G2 is authorized.** *(Updated 2026-09-02 by Phase 18 Agent 4.)*
 
 Phase 18 — *setup-integrated Phase 8 warmstart* — was planned on 2026-08-31. Its
 goal is a fresh Phase 8 C1 warmstart whose policy/value/belief learner is
@@ -560,8 +561,11 @@ executed   05_AGENT_3 (G1 confirmation, 2026-09-02) -> P18-D003 PROCEED (ACCEPTE
            2026-09-02; delta +0.006348, 95% [+0.000793, +0.011902] on 4,096
            independent pairs vs the -0.010 margin -> G1 CLOSED; branch
            phase18/g1-random-confirmation published at ef7523c1, local == remote)
-executing  06_AGENT_4 (G2 setup parity + synthetic assay, from 2026-09-02) on
-           branch phase18/g2-setup-parity -> will deliver P18-D004
+executed   06_AGENT_4 (G2 setup parity + synthetic assay, 2026-09-02) -> P18-D004 REVISE
+           (AWAITING REVIEW; parity 30/30 + oracle PASS, zero integrity events; raw
+           actor closes 20.9/18.5/14.8% of the gap, EMA 0.999^64 = 0.938 retained
+           closes a median 0.35% vs 10% -> predeclared instrument defect; local
+           branch phase18/g2-setup-parity, NOT pushed)
 NOT authorized  the setup-only Stratego assay (G3), the tandem pilot (G4), the
                 production rehearsal (G5), and the full run (G6); no Stratego setup
                 training and no sealed Phase 8 access inside G2
@@ -579,6 +583,13 @@ constant, the schedule and all 16,384 receipts carry the accepted **evaluation**
 frozen `phase18_evaluation_contract_v1.json` names *training* rules (100) for the
 future play lanes, so the training-versus-evaluation rule choice **must be amended
 explicitly before any real-game G3/G4 evaluation**.
+
+Gate G2's one open item (P18-D004): the synthetic assay's decision reads the EMA
+model, and an EMA at the paper's 0.999 smoothing updated once per setup update cannot
+move inside a 64-update budget (it retains 93.8% of its initial parameters). The
+proposed bounded correction is to let the synthetic assay's decision read the raw
+generation actor while the EMA stays the only evaluation model for every
+Stratego-facing stage; this run's raw diagnostics already satisfy the three criteria.
 
 Agent 1's outputs are in `reports/phase18/`. Two dependencies are recorded as
 blocking later gates and neither blocks the Phase 8 control:

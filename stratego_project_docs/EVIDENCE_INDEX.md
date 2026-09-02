@@ -1,6 +1,6 @@
 # Evidence and artifact-status index
 
-**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended); **updated 2026-09-02 by Phase 18 Agent 4** (§7.2b: G1 accepted, review and errata rows).
+**Written 2026-08-27. Updated 2026-08-31 by Phase 18 Agent 1** (§7 added; §6.1 amended); **updated 2026-09-02 by Phase 18 Agent 4** (§7.2b: G1 accepted, review and errata rows; §7.2c: Gate G2 added).
 A compact classification of every major artifact.
 This index deliberately does **not** repeat all metrics — it links. Values live
 in the reports; the reports were not edited.
@@ -259,6 +259,17 @@ untracked by `.gitignore`, as intended.
 | `reports/phase18/decisions/P18-D003.*`, `agent_03_report.md` | `ACCEPTED` as `PROCEED` — **G1 CLOSED** | Accepted 2026-09-02. Branch `phase18/g1-random-confirmation` published at `ef7523c1940650c0906d1927e64679e8328a663f` (local == remote, non-force). **Carries one narrative erratum**: `identity.rules` says battleless limit 100; the measurement used the evaluation value 200 (see the errata row). Packet not rewritten. |
 | `reports/phase18/reviews/P18-D003_REVIEW.md` | `ACCEPTED` | Reviewing-chat audit: identities, receipts and the 4,096-pair result reproduced; authorizes G2 only. |
 | `reports/phase18/phase18_rule_identity_errata_v1.json` | `ACCEPTED` (as a record) | E-P18-D003-RULES-1: the packet's 100 is a metadata error, the contract/engine/schedule/receipts carry 200, no rerun. O-P18-EVALRULES-1: `phase18_evaluation_contract_v1.json` names *training* rules (100) for future play lanes — **amendment required before any real-game G3/G4 evaluation**; does not affect G2. |
+
+### 7.2c Phase 18 — Gate G2 (Agent 4)
+
+| Artifact | Status | Notes |
+|---|---|---|
+| `stratego/training/phase18/`, `tests/training/phase18/`, `scripts/phase18_g2_setup_parity.py` | **`AWAITING REVIEW`** | The setup learner rebuilt at published-method parity (S01–S30), the independent float64 oracle, the synthetic landscape and the assay runner, at `G2_SOURCE_COMMIT 354a4cad`. 122 tests. |
+| `reports/phase18/phase18_g2_contract_v1.json`, `phase18_g2_synthetic_landscape_v1.json`, `phase18_g2_launch_manifest_v1.json` | **`AWAITING REVIEW`** (frozen before any seed) | Three seeds from `phase18_g2_setup_parity_v1`, 64 updates, 1,024-setup pools, 4 outcomes per setup, 4,096 paired held-out samples per endpoint, 10,000-replicate bootstrap, 10% gap-closure threshold; exact optimum **55.6234** certified by LP duality; the EMA-horizon finding predeclared with its interpretation. |
+| `reports/phase18/g2/` (verification record, JUnit ×2, coverage, oracle, dev smokes, per-seed results, replay) | **`AWAITING REVIEW`** | 86/86 evaluator + 122/122 setup tests; oracle PASS (loss terms 1.8e-15, gradients 2e-10); coverage 30/30 from recorded outcomes; replay reproduces the landscape, first-period outcomes and both evaluation endpoints of every seed bitwise. |
+| `reports/phase18/phase18_g2_results_v1.json`, `phase18_g2_binding_v1.json` | **`AWAITING REVIEW`** | Zero integrity events. EMA: all seeds improved, pooled 95% [+0.159, +0.295], median gap closure **0.35%** (threshold 10%). Raw actor diagnostic: 20.9/18.5/14.8%, pooled 95% [+10.63, +10.91]. Twelve artifacts bind one source commit. |
+| `reports/phase18/decisions/P18-D004.*`, `agent_04_report.md` | **`AWAITING REVIEW`** — `REVISE` | Parity passes and synthetic learning is shown on the raw actor; the EMA at 0.999 updated 64 times retains 93.8% of its initial parameters, so the frozen EMA criterion is unreachable (predeclared). Proposes one bounded correction to the assay's evaluation rule. Local branch `phase18/g2-setup-parity`, **not pushed**. |
+| `artifacts/phase18/g2_setup_parity_v1/` | `ENGINEERING` (git-ignored, canonical tree) | Per-seed outcome receipts, telemetry, held-out utility arrays and the three-object checkpoints; reproducible from the frozen contract. The G1 artifacts outside the repository are untouched. |
 
 ### 7.3 Two cross-cutting facts that change how earlier evidence reads
 

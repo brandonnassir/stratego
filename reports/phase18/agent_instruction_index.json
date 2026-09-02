@@ -1,7 +1,7 @@
 {
  "artifact": "phase18_agent_instruction_index",
  "work_package": "phase18_setup_integrated_warmstart",
- "updated_utc": "2026-09-02T12:44:13Z",
+ "updated_utc": "2026-09-02T13:51:25Z",
  "rule": "each numbered instruction binds to the accepted decision that created it; an instruction with no authorizing decision is draft-only.",
  "instructions": [
   {
@@ -50,7 +50,7 @@
    "file": "instructions/phase_18_setup_integrated_warmstart/06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md",
    "role": "work package",
    "authorizing_decision": "accepted P18-D003 PROCEED (JSON SHA-256 57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb, Markdown SHA-256 7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7), reviewing-chat audit reports/phase18/reviews/P18-D003_REVIEW.md (1c234900e3e6246184807e790be61810d786b66e034b055ebf28301786aac313), and operator request 2026-09-02",
-   "status": "AUTHORIZED 2026-09-02; executing on branch phase18/g2-setup-parity (created from ef7523c1940650c0906d1927e64679e8328a663f); scope Gate G2 only",
+   "status": "EXECUTED 2026-09-02, delivered P18-D004 (REVISE, awaiting review) at G2_SOURCE_COMMIT 354a4cad55a8; G1 published at ef7523c1; parity 30/30 rows and oracle pass; synthetic learning shown on the raw actor (median 18.5% gap closure); the EMA-based criterion is unreachable within the 64-update budget (predeclared instrument defect)",
    "sha256": "dd390ba5387941ca9e678b3ed93969b228fc5e3acf5f77708158212e23d06b5f"
   }
  ],

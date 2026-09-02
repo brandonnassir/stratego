@@ -1,0 +1,693 @@
+{
+ "decision_id": "P18-D004",
+ "timestamp_utc": "2026-09-02T13:51:25Z",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "agent": "phase_18_agent_4",
+ "gate": "G2",
+ "run_id": "G2-SYNTHETIC-ASSAY-2026-A",
+ "decision": "REVISE",
+ "headline": "Parity holds on all 30 method-map rows and in the independent oracle, and the setup learner learns the frozen synthetic landscape on all three seeds (raw actor gap closure 0.2092, 0.1850, 0.1482; pooled paired 95% [+10.6338, +10.9089]), but the frozen evaluation model - the EMA at 0.999 after 64 once-per-update blends, retaining 0.999^64 = 0.9380 of its initial parameters - closes a median 0.0035 of the gap against the 0.10 threshold (pooled paired 95% [+0.1588, +0.2949]). Predeclared instrument defect: the EMA horizon exceeds the update budget. REVISE.",
+ "identity": {
+  "branch": "phase18/g2-setup-parity",
+  "branch_created_from": "ef7523c1940650c0906d1927e64679e8328a663f",
+  "g1_publication": {
+   "remote_url": "https://github.com/brandonnassir/stratego.git",
+   "remote_branch": "origin/phase18/g1-random-confirmation",
+   "local_sha": "ef7523c1940650c0906d1927e64679e8328a663f",
+   "remote_sha": "ef7523c1940650c0906d1927e64679e8328a663f",
+   "push": "normal non-force; remote branch was absent; no publication commit"
+  },
+  "part_b_commit": "7460e3d",
+  "first_freeze_commit": "861fac89adf0dc65d9114ca285afba2e6a8983e9",
+  "g2_source_commit": "354a4cad55a88dca6dcb24a21cf79cecc130008f",
+  "g2_source_tree": "0bbccb82b21f5988020c620e51d6929274897f63",
+  "verification_commit": "11b5558",
+  "launch_manifest_commit": "6f5297e",
+  "result_evidence_commit": "662362149f68c0c3125e656b24ab5d87dd93d253",
+  "branch_head_note": "the commit introducing this packet is the reviewable branch HEAD; it cannot contain its own SHA. Every measurement binds g2_source_commit, and every result artifact was committed at result_evidence_commit.",
+  "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent_phase18_g2_exec",
+  "execution_worktree_porcelain_empty_at_launch": true,
+  "artifact_root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/artifacts/phase18/g2_setup_parity_v1",
+  "artifact_root_relative": "artifacts/phase18/g2_setup_parity_v1",
+  "artifact_root_git_ignored": true,
+  "g1_artifacts": "untouched (outside the repository)",
+  "contract_sha256": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+  "landscape_sha256": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+  "launch_manifest_sha256": "5cbb66cccb15d38844421b50c9d5af3bb86ae9aa154c40dd2850bbfed9dbbf45",
+  "design_digest": "6795a6eb03c339c55f6495e69ab88499d3bec11493bb63c26606d4ee7782c507",
+  "landscape_table_digest": "114af9d257ef7680135666e4501e13786ccb1ac70e2b985dc208a23c6f62659f",
+  "seed_namespace": "phase18_g2_setup_parity_v1",
+  "seed_function": "stratego.setups.identity.derive_stream_seed",
+  "model_seeds": {
+   "1": 4119286577850662291,
+   "2": 2802590985072384342,
+   "3": 7527090394275652774
+  },
+  "landscape_table_seed": 5039638015203860857,
+  "bootstrap_seed": 7211561062867873911,
+  "entry_point": "scripts/phase18_g2_setup_parity.py --freeze | --verify | --launch-manifest | --run --seed-index K | --analyse | --bind; scripts/phase18_g2_replay.py",
+  "device": "CPU float32, 4 pinned threads per seed; the S29 round trip is also proved on MPS",
+  "published_source_commit": "92db29e8ffc323b1b8a2804b5c3f84695d036b05",
+  "paper": "arXiv:2511.07312v1"
+ },
+ "authorization": {
+  "accepted_decision": "P18-D003 accepted as PROCEED",
+  "p18_d003_json_sha256": "57281f6a5c460a9a524bd0538ed44050e2949dd12873401cc0a3f8521d6d8fdb",
+  "p18_d003_md_sha256": "7d930357e2c324d7c9ff3e0622637e5014fdbdba0390e4c06156e95b24266ab7",
+  "review_artifact": "reports/phase18/reviews/P18-D003_REVIEW.md",
+  "review_artifact_sha256": "1c234900e3e6246184807e790be61810d786b66e034b055ebf28301786aac313",
+  "instruction": "instructions/phase_18_setup_integrated_warmstart/06_AGENT_4_G2_SETUP_PARITY_AND_SYNTHETIC_ASSAY.md",
+  "instruction_sha256": "dd390ba5387941ca9e678b3ed93969b228fc5e3acf5f77708158212e23d06b5f",
+  "scope": "Gate G2 only; no Stratego setup training, Phase 8 trainer integration, G3, tandem pilot or production run"
+ },
+ "question": {
+  "text": "Does the local scaled setup-policy implementation match the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and can it reliably learn a known synthetic setup-reward landscape from outcome-only feedback across three fresh seeds?",
+  "sub_gates": [
+   "method and implementation parity (S01-S30 + canned oracle)",
+   "synthetic learning with a known answer"
+  ],
+  "null_hypothesis": "the setup learner does not improve the EMA model's expected landscape utility: for at least one seed U_final(EMA) <= U_initial(EMA), or the pooled paired lower bound is <= 0, or the median seed closes less than 10% of its initial-to-optimum gap",
+  "alternative_hypothesis": "for every seed U_final(EMA) > U_initial(EMA), the pooled paired 95% lower bound is strictly above zero, and the median seed closes at least 10% of its gap",
+  "primary_metric": "expected landscape utility: the mean utility U(s) over the held-out EMA samples (4,096 per seed per endpoint), initial (0 updates) versus final (after the last fixed update)",
+  "practical_margin": {
+   "definition": "(U_final - U_initial) / (U_optimum - U_initial) per seed, median over the three seeds, must be >= 0.10",
+   "median_gap_closure_fraction": 0.1
+  },
+  "decision_rule": {
+   "BLOCKED": "required evidence cannot be produced because of an unresolved dependency",
+   "PROCEED": "every S01-S30 row complete; canned forward-loss and gradient parity pass; zero integrity failures; final EMA utility > initial EMA utility for all three seeds; pooled paired 95% lower bound strictly > 0; median seed gap closure >= 0.10",
+   "REVISE": "a concrete, isolated implementation or instrument defect prevents a valid result (see the predeclared instrument finding below)",
+   "STOP": "a valid parity-correct implementation fails the frozen synthetic learning criteria with no isolated defect: the learner itself does not improve"
+  },
+  "uncertainty": {
+   "bootstrap_seed": 7211561062867873911,
+   "implementation": "stratego.evaluation.phase18.noninferiority.paired_unit_delta (the accepted paired bootstrap; one shared index draw for both endpoints)",
+   "method": "two-sided 95% paired percentile bootstrap over the pooled paired differences, 10,000 replicates, frozen seed; the lower endpoint must be strictly greater than zero",
+   "per_seed_intervals": "reported as diagnostics with the same method and seed offsets; they do not decide the gate",
+   "pooled_statistic": "mean paired difference over all seeds' samples (3 x 4,096 = 12,288 pairs)",
+   "unit": "one held-out evaluation sample: initial and final EMA samples share the same per-token uniforms (common random numbers), so the per-sample difference U_final[i] - U_initial[i] is paired"
+  },
+  "checkpoint_rule": "the EMA after the final fixed update (update 64) decides; intermediate curve points are telemetry and never select a checkpoint",
+  "sample_size_basis": "instruction minimum: 4,096 held-out EMA setups per endpoint per seed, three seeds, 10,000 replicates",
+  "predeclared_instrument_finding": {
+   "frozen_fields_unchanged": "no landscape, threshold, budget, seed or rule was altered after the smoke; the smoke used a different namespace and therefore different seeds and a different table",
+   "predeclared_interpretation": {
+    "any_integrity_failure_or_parity_failure": "REVISE (defect) or BLOCKED (dependency), never PROCEED",
+    "ema_criteria_fail_and_raw_diagnostic_also_fails": "STOP unless a concrete isolated implementation defect is found, in which case REVISE",
+    "ema_criteria_fail_and_raw_diagnostic_satisfies_the_same_three_criteria": "REVISE: instrument defect 'EMA horizon exceeds the update budget'; the learner demonstrably learns the landscape and the gate's evaluation model cannot reflect it within 64 updates",
+    "ema_criteria_pass": "PROCEED (the frozen criteria are what the instruction requires)"
+   },
+   "raw_diagnostic": "The assay additionally records the RAW actor's held-out utility on the same evaluation stream at every endpoint, with the same 4,096 paired samples per seed, the same pooled paired bootstrap and the same gap-closure fraction. It is a DIAGNOSTIC: it never decides the gate and the raw model is never the evaluation model in the implementation (S28).",
+   "statement": "The evaluation model is the EMA, updated once after each complete setup update with decay 0.999, and the budget is 64 updates. By arithmetic the final EMA retains 0.999^64 = 0.937975 of the initial parameters in its geometric weighting; the EMA can move only about 3% of the raw actor's total parameter displacement inside this budget. The EMA-based criteria therefore have very little power at this budget whatever the raw learner does. This was established before any frozen seed ran, from the decay arithmetic and from a development smoke on a separate namespace (phase18_g2_dev_smoke_v1/v2, recorded in reports/phase18/g2/dev_smoke_v1.json)."
+  },
+  "frozen_before_outcomes": true
+ },
+ "execution_integrity": {
+  "planned_seeds": 3,
+  "completed_seeds": 3,
+  "planned_updates_per_seed": 64,
+  "completed_updates_per_seed": {
+   "1": 64,
+   "2": 64,
+   "3": 64
+  },
+  "optimizer_steps_per_seed": {
+   "1": 320,
+   "2": 320,
+   "3": 320
+  },
+  "ema_updates_per_seed": {
+   "1": 64,
+   "2": 64,
+   "3": 64
+  },
+  "ready_setups_per_update": "1,021-1,024 (immediately terminal setups excluded)",
+  "outcomes_per_ready_setup": 4,
+  "distinct_setups_per_pool": 1024,
+  "integrity_totals": {
+   "attribution_failures": 0,
+   "checkpoint_identity_failures": 0,
+   "duplicates_collapsed": 0,
+   "immediately_terminal_setups": 12,
+   "legality_failures": 0,
+   "non_finite_events": 0,
+   "orientation_failures": 0
+  },
+  "integrity_failures": {
+   "attribution_failures": 0,
+   "checkpoint_identity_failures": 0,
+   "legality_failures": 0,
+   "non_finite_events": 0,
+   "orientation_failures": 0
+  },
+  "zero_failures": true,
+  "sealed_phase8_test_examples_opened": 0,
+  "sealed_test_multiplicity_increment": 0,
+  "stratego_games_played": 0,
+  "tests": {
+   "evaluator_suite": "86 passed in 2.51s",
+   "setup_suite": "122 passed, 1 warning in 27.54s",
+   "oracle_passed": true,
+   "coverage_rows_complete": "30/30"
+  },
+  "replay": {
+   "all_replays_exact": true,
+   "landscape": {
+    "document_digest_matches": true,
+    "optimum_certified": true,
+    "optimum_matches": true,
+    "reflection_invariant": true,
+    "table_digest_matches": true,
+    "uniform_mean_matches": true,
+    "uniform_sd_matches": true
+   },
+   "design": {
+    "design_digest_matches_launch": true
+   },
+   "per_seed": {
+    "1": {
+     "all": true,
+     "all_period_digests_match": true,
+     "final_ema_digest_matches": true,
+     "final_evaluation_max_abs_diff": 0.0,
+     "initial_evaluation_max_abs_diff": 0.0,
+     "period_1_outcome_mismatches": 0,
+     "period_1_rows_replayed": 1024
+    },
+    "2": {
+     "all": true,
+     "all_period_digests_match": true,
+     "final_ema_digest_matches": true,
+     "final_evaluation_max_abs_diff": 0.0,
+     "initial_evaluation_max_abs_diff": 0.0,
+     "period_1_outcome_mismatches": 0,
+     "period_1_rows_replayed": 1024
+    },
+    "3": {
+     "all": true,
+     "all_period_digests_match": true,
+     "final_ema_digest_matches": true,
+     "final_evaluation_max_abs_diff": 0.0,
+     "initial_evaluation_max_abs_diff": 0.0,
+     "period_1_outcome_mismatches": 0,
+     "period_1_rows_replayed": 1024
+    }
+   }
+  },
+  "wall_seconds_per_seed": {
+   "1": 925.852,
+   "2": 924.802,
+   "3": 929.817
+  },
+  "deviations": [
+   "Raw-actor and pool-utility diagnostics were added to the runner before the freeze, after a development smoke on a separate namespace showed the EMA flat; they decide nothing and the contract predeclares their interpretation. Two development smokes on separate namespaces are recorded in reports/phase18/g2/dev_smoke_v1.json; no frozen field was chosen from them.",
+   "Two driver-only corrections landed between the first freeze commit (861fac8) and G2_SOURCE_COMMIT (354a4cad): the oracle's EMA closed-form tolerance (1e-7 -> 1e-5; the shadow is float32) and an indexing slip in the oracle's I - 10h cross-check (minibatch row versus processed row). The frozen contract and landscape files are unchanged from 861fac8.",
+   "The --verify stage ran in the canonical checkout (dirty only by the protected Phase 14 manifest and its own outputs) because the evaluator suite reads git-ignored accepted checkpoints that live there; the launch manifest and all three seeds ran from the clean detached worktree at G2_SOURCE_COMMIT.",
+   "The three seeds ran concurrently in separate processes (4 pinned threads each); the replay reproduces both evaluation endpoints of every seed bitwise.",
+   "scripts/phase18_g2_replay.py, agent_04_report.md and this packet are new files outside the launch manifest's digests; they change nothing the assay executed through.",
+   "The buffer retains one extra period (storage_duration 1), so from the third update each buffer holds three pools with the two older ones at zero outcomes and excluded (2,048-2,051 rows per update); this exercises S21 and S23 in the run itself."
+  ]
+ },
+ "results": {
+  "parity": {
+   "all_rows_complete": true,
+   "coverage_rows_complete": 30,
+   "coverage_rows_total": 30,
+   "evaluator_suite": {
+    "error": 0,
+    "failed": 0,
+    "passed": 84,
+    "skipped": 0
+   },
+   "oracle_passed": true,
+   "passed": true,
+   "setup_suite": {
+    "error": 0,
+    "failed": 0,
+    "passed": 110,
+    "skipped": 0
+   }
+  },
+  "oracle_summary": {
+   "loss_terms_max_abs_diff": 1.7763568394002505e-15,
+   "gradients_max_abs_diff": 2.0000110595441711e-10,
+   "gradients_checked": 13,
+   "adamw_vs_adam_max_abs_diff": 0.0,
+   "clip_post_norm": 0.500000150548749,
+   "ema_closed_form_max_abs_diff": 1.6689300537109375e-06,
+   "step_counts": {
+    "batch_size": 8,
+    "ema_updates": 1,
+    "epochs": 5,
+    "oracle_steps": 5,
+    "production_steps": 5,
+    "ready": 8
+   },
+   "checkpoint_round_trip_devices": [
+    "cpu",
+    "mps"
+   ]
+  },
+  "landscape": {
+   "exact_optimum": 55.62337599999999,
+   "table_digest": "114af9d257ef7680135666e4501e13786ccb1ac70e2b985dc208a23c6f62659f",
+   "uniform_mean": -0.8135621499999995,
+   "uniform_sd": 6.156146778428633,
+   "optimum_certified": true,
+   "outcome_mapping": {
+    "draw_rule": "one uniform u per (period, setup fingerprint, replicate) seed: u < P(loss) -> -1; u < P(loss) + P(draw) -> 0; else +1",
+    "form": "P(win) = (1 - p_draw) * sigmoid(kappa * z), P(loss) = (1 - p_draw) * (1 - sigmoid(kappa * z)), P(draw) = p_draw; z = (U - mu_uniform) / sigma_uniform",
+    "kappa": 3.0,
+    "p_draw": 0.1
+   }
+  },
+  "design": {
+   "bootstrap_replicates": 10000,
+   "ema_retained_initial_fraction": 0.9379749638258454,
+   "evaluation_samples": 4096,
+   "gap_closure_threshold": 0.1,
+   "outcomes_per_setup": 4,
+   "pool_size": 1024,
+   "seeds": [
+    1,
+    2,
+    3
+   ],
+   "updates": 64
+  },
+  "fresh_policy_baseline": {
+   "1": {
+    "initial_ema_mean_utility": -5.508198515625,
+    "initial_mean_z": -0.7625933127642733
+   },
+   "2": {
+    "initial_ema_mean_utility": -3.7917897302246093,
+    "initial_mean_z": -0.48378111949189223
+   },
+   "3": {
+    "initial_ema_mean_utility": -1.9666971450195312,
+    "initial_mean_z": -0.18731440891892953
+   },
+   "model_free_uniform_random_baseline": -0.8135621499999995
+  },
+  "ema_criteria": {
+   "all_seeds_improved": true,
+   "pooled_paired_interval": {
+    "candidate": -3.5294779927571613,
+    "confidence": 0.95,
+    "delta": 0.22608380419921878,
+    "lower": 0.15879502996419273,
+    "method": "paired_unit_difference_bootstrap",
+    "reference": -3.75556179695638,
+    "replicates": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 12288,
+    "seed": 7211561062867873911,
+    "upper": 0.2948920279703776
+   },
+   "pooled_lower_bound_strictly_above_zero": true,
+   "median_gap_fraction_closed": 0.0034886426060860673,
+   "median_gap_closure_meets_threshold": false,
+   "per_seed": {
+    "1": {
+     "initial": -5.508198515625,
+     "final": -5.3384891286621095,
+     "gap_fraction_closed": 0.0027761330917382677,
+     "improved": true,
+     "paired_interval": [
+      0.07874712768554692,
+      0.26264669381103517
+     ],
+     "paired_delta": 0.16970938696289065
+    },
+    "2": {
+     "initial": -3.7917897302246093,
+     "final": -3.4841588874511715,
+     "gap_fraction_closed": 0.0051776484840628054,
+     "improved": true,
+     "paired_interval": [
+      0.17589205889892578,
+      0.44000303894653325
+     ],
+     "paired_delta": 0.3076308427734375
+    },
+    "3": {
+     "initial": -1.9666971450195312,
+     "final": -1.765785962158203,
+     "gap_fraction_closed": 0.0034886426060860673,
+     "improved": true,
+     "paired_interval": [
+      0.07945888888549806,
+      0.3216425374450684
+     ],
+     "paired_delta": 0.20091118286132814
+    }
+   }
+  },
+  "raw_diagnostic": {
+   "role": "DIAGNOSTIC ONLY - never decides PROCEED",
+   "all_seeds_improved": true,
+   "pooled_paired_interval": {
+    "candidate": 7.016257226725261,
+    "confidence": 0.95,
+    "delta": 10.771819023681642,
+    "lower": 10.633803560518393,
+    "method": "paired_unit_difference_bootstrap",
+    "reference": -3.75556179695638,
+    "replicates": 10000,
+    "resampling_unit": "paired_unit",
+    "sample_size": 12288,
+    "seed": 7211561062867873918,
+    "upper": 10.908894675528972
+   },
+   "pooled_lower_bound_strictly_above_zero": true,
+   "median_gap_fraction_closed": 0.18501584014088626,
+   "median_gap_closure_meets_threshold": true,
+   "per_seed": {
+    "1": {
+     "initial": -5.508198515625,
+     "final": 7.280516468994141,
+     "gap_fraction_closed": 0.20919982980890497,
+     "improved": true,
+     "paired_interval": [
+      12.562429384722899,
+      13.012333023071289
+     ],
+     "paired_delta": 12.788714984619142
+    },
+    "2": {
+     "initial": -3.7917897302246093,
+     "final": 7.200957074462891,
+     "gap_fraction_closed": 0.18501584014088626,
+     "improved": true,
+     "paired_interval": [
+      10.754119745239256,
+      11.223792234265137
+     ],
+     "paired_delta": 10.9927468046875
+    },
+    "3": {
+     "initial": -1.9666971450195312,
+     "final": 6.56729813671875,
+     "gap_fraction_closed": 0.1481851787242662,
+     "improved": true,
+     "paired_interval": [
+      8.307928278485107,
+      8.758596090032958
+     ],
+     "paired_delta": 8.533995281738282
+    }
+   }
+  },
+  "ema_movement_as_fraction_of_raw_displacement": {
+   "1": 0.013270245459922914,
+   "2": 0.027984892969813387,
+   "3": 0.02354245300454452
+  },
+  "learning_curves": {
+   "1": [
+    {
+     "ema_digest": "7b0f9864bc9963c1e74bd746eb20459a3918a9809efa764a2a8a3fc1a38b7f1c",
+     "mean_utility": -5.508198515625,
+     "mean_z": -0.7625933127642733,
+     "raw_mean_utility": -5.508198515625,
+     "raw_mean_z": -0.7625933127642733,
+     "update": 0
+    },
+    {
+     "ema_digest": "9570b6bc83aa334bb0231effa548cabaa298faee84e144635782864f425d0de4",
+     "mean_utility": -5.483368006835937,
+     "mean_z": -0.7585598629972747,
+     "raw_mean_utility": -4.18371194946289,
+     "raw_mean_z": -0.5474446794010859,
+     "update": 8
+    },
+    {
+     "ema_digest": "e7ab4cf0de4c731a9cd718864a310d0bd69cfb66f93c208628d96c3f936b1a54",
+     "mean_utility": -5.496991730712891,
+     "mean_z": -0.760772890783534,
+     "raw_mean_utility": -2.670453767333984,
+     "raw_mean_z": -0.3016321221970538,
+     "update": 16
+    },
+    {
+     "ema_digest": "dede08728ddc245a7b1add9c39cbd91f529565affb40388a702ba80c83fad8d5",
+     "mean_utility": -5.475785061279296,
+     "mean_z": -0.7573280948426863,
+     "raw_mean_utility": 0.6412598652343753,
+     "raw_mean_z": 0.23632022880483047,
+     "update": 24
+    },
+    {
+     "ema_digest": "a6b93242fb4a2aa4372022e1bc30a103f78d595aa971297f88ffa5e8b38e4eea",
+     "mean_utility": -5.456812419433593,
+     "mean_z": -0.7542461927164757,
+     "raw_mean_utility": 3.6335210678710936,
+     "raw_mean_z": 0.7223809597025591,
+     "update": 32
+    },
+    {
+     "ema_digest": "d8f16886b5a7cbb969e4b30fba34fd8919f37f96c3fff36be80958b4fe0163cb",
+     "mean_utility": -5.428291413574218,
+     "mean_z": -0.7496132612926647,
+     "raw_mean_utility": 5.28212098852539,
+     "raw_mean_z": 0.9901783303615972,
+     "update": 40
+    },
+    {
+     "ema_digest": "833a7adffcf192e6003c4b163fc6d1e6c0ed845c514a23bc98f4f48630f8bdde",
+     "mean_utility": -5.396464113037109,
+     "mean_z": -0.7444432577689292,
+     "raw_mean_utility": 6.556383311523438,
+     "raw_mean_z": 1.1971685742367288,
+     "update": 48
+    },
+    {
+     "ema_digest": "0c566cc7418fa60cc4ac35378bc9b4fef56d0cddd4de3848189cc5a859208bc2",
+     "mean_utility": -5.381496190917969,
+     "mean_z": -0.7420118793990065,
+     "raw_mean_utility": 7.167690285888672,
+     "raw_mean_z": 1.2964688340205397,
+     "update": 56
+    },
+    {
+     "ema_digest": "58948083fdd2d1c578fc0b4dfb2e1b04e2019ddb3dfa9c26589913307ee5cb13",
+     "mean_utility": -5.3384891286621095,
+     "mean_z": -0.7350258435223835,
+     "raw_mean_utility": 7.280516468994141,
+     "raw_mean_z": 1.3147962370481632,
+     "update": 64
+    }
+   ],
+   "2": [
+    {
+     "ema_digest": "c3cc35da228a14577f43828cb7e85302f28b2e14acd65f763a6acb7c7e2331c1",
+     "mean_utility": -3.7917897302246093,
+     "mean_z": -0.48378111949189223,
+     "raw_mean_utility": -3.7917897302246093,
+     "raw_mean_z": -0.48378111949189223,
+     "update": 0
+    },
+    {
+     "ema_digest": "11a2d3b880f1c1aeb3efafdabc58ab546f70d39b720f6d34bfaec7ee53458851",
+     "mean_utility": -3.7655425747070312,
+     "mean_z": -0.4795175506618654,
+     "raw_mean_utility": -0.44452282812499977,
+     "raw_mean_z": 0.05994647872401728,
+     "update": 8
+    },
+    {
+     "ema_digest": "4a70db33dcbef45de318c604fc75c2b99978d364bd811a1da8b911f4930f2761",
+     "mean_utility": -3.7059862585449217,
+     "mean_z": -0.46984326603129145,
+     "raw_mean_utility": 1.9264609689941408,
+     "raw_mean_z": 0.44508736026166285,
+     "update": 16
+    },
+    {
+     "ema_digest": "bfd43e2ebf0dda09f9d415d9db569cde4f71824e08223fc3edee86a46a0a69f5",
+     "mean_utility": -3.702090355957031,
+     "mean_z": -0.4692104184517727,
+     "raw_mean_utility": 4.602621951171875,
+     "raw_mean_z": 0.8798010015210139,
+     "update": 24
+    },
+    {
+     "ema_digest": "94232c7eb62cc87a95d96853d6514f35e736523604b6bf4ca2c497b8103db92c",
+     "mean_utility": -3.6595681528320307,
+     "mean_z": -0.4623031427393093,
+     "raw_mean_utility": 5.336669590820312,
+     "raw_mean_z": 0.9990391655980251,
+     "update": 32
+    },
+    {
+     "ema_digest": "59c6222435d7acfe49574839113e66444a154584e0a3bc1ad18ec21c36f70090",
+     "mean_utility": -3.5944034533691407,
+     "mean_z": -0.4517178364091825,
+     "raw_mean_utility": 5.918129441894532,
+     "raw_mean_z": 1.093491080408061,
+     "update": 40
+    },
+    {
+     "ema_digest": "01b284c1c1e78142884c9d0412bcb22e32add752298e14e49f8208c07a413823",
+     "mean_utility": -3.5875657612304686,
+     "mean_z": -0.45060712667714176,
+     "raw_mean_utility": 6.4576006396484384,
+     "raw_mean_z": 1.1811223889473952,
+     "update": 48
+    },
+    {
+     "ema_digest": "c958e86100b3e04ed6c5a33764d808e8232e01ffd3af58ac12c29e12e543ae21",
+     "mean_utility": -3.533201768066406,
+     "mean_z": -0.44177627921350493,
+     "raw_mean_utility": 6.941714071777344,
+     "raw_mean_z": 1.2597614223481675,
+     "update": 56
+    },
+    {
+     "ema_digest": "480f000adb4eb22090aa1bbcdfc2fe37370899e5ab2ab3f48503f8bfe444cd52",
+     "mean_utility": -3.4841588874511715,
+     "mean_z": -0.43380978939765413,
+     "raw_mean_utility": 7.200957074462891,
+     "raw_mean_z": 1.301872666932839,
+     "update": 64
+    }
+   ],
+   "3": [
+    {
+     "ema_digest": "ae05f014418873c01219c6bee60121e91735ecb3f5b667f1aba3016e2547b85a",
+     "mean_utility": -1.9666971450195312,
+     "mean_z": -0.18731440891892953,
+     "raw_mean_utility": -1.9666971450195312,
+     "raw_mean_z": -0.18731440891892953,
+     "update": 0
+    },
+    {
+     "ema_digest": "1bba26c17bd27325d9130080b65b2be333c75589cb154979f28d130af82163c5",
+     "mean_utility": -1.962934495361328,
+     "mean_z": -0.18670320684827918,
+     "raw_mean_utility": -0.874302820800781,
+     "raw_mean_z": -0.009866670335674777,
+     "update": 8
+    },
+    {
+     "ema_digest": "2931a1a3e005df0233f57cfa0898b4fa5025e5c68635563556dcca990eb273ec",
+     "mean_utility": -1.9544257690429685,
+     "mean_z": -0.18532105554087788,
+     "raw_mean_utility": 1.3248842497558597,
+     "raw_mean_z": 0.3473676760354471,
+     "update": 16
+    },
+    {
+     "ema_digest": "c44b0171830f6d6866acd3fd607969e8c52f661aeaa57cfcf7ec810c936d56ab",
+     "mean_utility": -1.9044765080566404,
+     "mean_z": -0.17720733395754068,
+     "raw_mean_utility": 3.5039542836914066,
+     "raw_mean_z": 0.7013342256263517,
+     "update": 24
+    },
+    {
+     "ema_digest": "529d85de17d73d37608c2f3c6caa489c9ab9ab1e5fcc9d64cf4bf1fa0b163934",
+     "mean_utility": -1.903684115722656,
+     "mean_z": -0.17707861832380029,
+     "raw_mean_utility": 4.379746829589845,
+     "raw_mean_z": 0.8435973290609949,
+     "update": 32
+    },
+    {
+     "ema_digest": "0fcb6975955b34f3de1d1b1ec09961265738da56eea5baa5fad3300761275443",
+     "mean_utility": -1.8893671906738279,
+     "mean_z": -0.17475298744394613,
+     "raw_mean_utility": 5.382657694335938,
+     "raw_mean_z": 1.0065094396461958,
+     "update": 40
+    },
+    {
+     "ema_digest": "86388770a32d3408e91a2ffab2c5e2d99e2f304ed5e5547f2373ebcc055eb152",
+     "mean_utility": -1.8238617404785153,
+     "mean_z": -0.1641123298129673,
+     "raw_mean_utility": 5.872828893554688,
+     "raw_mean_z": 1.086132492321991,
+     "update": 48
+    },
+    {
+     "ema_digest": "a9cfb5a4cb5244df7da96aaae45fefda4106f8d249f609cf4353eab82fdf4d9f",
+     "mean_utility": -1.8020645588378903,
+     "mean_z": -0.1605716114991995,
+     "raw_mean_utility": 6.127106301757813,
+     "raw_mean_z": 1.1274371293547079,
+     "update": 56
+    },
+    {
+     "ema_digest": "8b27a0c18dcd8e3f0a103deb56e63ed50a1e445675b28cdae6f3df865ce70ce3",
+     "mean_utility": -1.765785962158203,
+     "mean_z": -0.15467854267133965,
+     "raw_mean_utility": 6.56729813671875,
+     "raw_mean_z": 1.1989415704936661,
+     "update": 64
+    }
+   ]
+  },
+  "criteria_summary": {
+   "ema_all_seeds_improved": true,
+   "ema_criteria_pass": false,
+   "ema_median_gap_closure_meets_threshold": false,
+   "ema_pooled_lower_bound_above_zero": true,
+   "parity": true,
+   "raw_diagnostic_criteria_pass": true,
+   "zero_integrity_failures": true
+  }
+ },
+ "interpretation": {
+  "observed_fact": "All 30 parity rows are complete from recorded tests and the independent oracle agrees with the production loss to 1.8e-15 and with autograd to 2.0e-10. Three seeds completed 64 updates with zero integrity events. On the frozen EMA the pooled paired delta is +0.2261 with 95% [+0.1588, +0.2949] and the median gap closure is 0.0035; on the raw actor the pooled delta is +10.7718 with 95% [+10.6338, +10.9089] and the median gap closure is 0.1850. The EMA moved 1.3%, 2.8% and 2.4% of the raw displacement. The landscape, first-period outcomes and both endpoints replay exactly.",
+  "supported_inference": "The scaled setup-policy implementation matches the paper and the pinned published implementation at loss, gradient, sampling, aggregation, optimizer, checkpoint and EMA semantics, and it learns a known synthetic setup-reward landscape from outcome-only feedback reliably across three fresh seeds. The gate's frozen evaluation model - the EMA at the paper's 0.999 smoothing, updated once per setup update - cannot reflect that learning inside a 64-update budget: 0.999^64 = 0.938 of the initial parameters remain, and the observed EMA movement is the predicted few percent of the raw displacement. The failing criterion is therefore an instrument defect that was identified and predeclared before the run, not a learning failure.",
+  "plausible_but_untested": "With a budget on the scale of the EMA's ~1,000-update time constant the EMA would follow the raw actor. The entropy innovation dominates the advantage for the first ~8 updates (magnitude ratio ~4 falling to ~0.2 as h converges to I/10), after which outcome-driven learning accelerates; the raw curves are still rising at update 64.",
+  "claim_not_supported": "That the method learns Stratego setups (no game was played, and the landscape is synthetic). That the raw diagnostic satisfies the frozen gate (it was never the decision model and is reported only because the contract predeclared it). Any statement about a different learning rate, budget, landscape or threshold."
+ },
+ "sub_gates": {
+  "s01_s30_parity_rows_complete": "pass",
+  "canned_forward_loss_and_gradient_parity": "pass",
+  "zero_legality_orientation_attribution_nonfinite_checkpoint_failures": "pass",
+  "final_ema_utility_above_initial_all_three_seeds": "pass",
+  "pooled_paired_95_lower_bound_strictly_above_zero_ema": "pass",
+  "median_seed_gap_closure_at_least_10_percent_ema": "fail",
+  "raw_actor_diagnostic_satisfies_the_same_three_criteria": "pass (diagnostic; decides nothing)",
+  "deterministic_replay_landscape_outcomes_endpoints": "pass"
+ },
+ "g2_gate": "REVISE - parity passes and synthetic learning is shown on the raw actor; the frozen EMA-based criterion is unreachable at this budget by arithmetic (predeclared)",
+ "why_not_stop": "STOP is reserved for a valid parity-correct implementation that fails to learn; the learner improved the landscape utility on all three seeds with disjoint paired intervals.",
+ "why_not_proceed": "PROCEED requires the instruction's frozen criteria on the EMA, and the median EMA gap closure is 0.35% against 10%.",
+ "proposed_next_question": {
+  "text": "Under an amended G2 evaluation rule in which the synthetic assay's decision reads the raw generation actor's held-out utility - the EMA remaining the only evaluation model for every Stratego-facing stage, per S28 - do three fresh seeds of the same frozen landscape, budget and criteria pass?",
+  "gate": "G2 (bounded correction)",
+  "why_it_discriminates": "It is the smallest change that gives the gate an instrument with power: landscape, budget, seed derivation, sample sizes, bootstrap and threshold stay frozen and only the model the criterion reads changes. This run's raw diagnostics already satisfy the criteria, so the reviewer may accept the amendment on this evidence or require a fresh three-seed confirmation.",
+  "alternative": "Keep the EMA as the assay's evaluation model and extend the budget to the EMA's ~1,000-update time constant (about 4 hours per seed at the measured throughput).",
+  "explicitly_not_started": "No amended run, no G3 work and no Stratego setup-learning game."
+ },
+ "artifacts": {
+  "reports/phase18/g2/dev_smoke_v1.json": "93f02b1b254f8ad4f9cfc965c88ec35ca427a26f97efcf9c7a132767753efdfb",
+  "reports/phase18/g2/phase18_g2_parity_coverage_v1.json": "008a1c678d4adbe60e8419486f4362560631170346b45729ca909e33a291636a",
+  "reports/phase18/g2/phase18_g2_parity_oracle_v1.json": "bd822941c9125e680cd13e8e0323aac5bbb5bb17e9f66825b522a578a870d394",
+  "reports/phase18/g2/phase18_g2_replay_v1.json": "98c22d4d011b27be560e4f5869a9a836c45d6c143e1718ac2df935e779892772",
+  "reports/phase18/g2/phase18_g2_seed_1_result_v1.json": "ed104aff8b8aa14f604ad8368488e48e7df06179a44f7c17185a83730ec39869",
+  "reports/phase18/g2/phase18_g2_seed_2_result_v1.json": "df89fa6474545eab3c23a7525695108723773442dfc5c7109ae2a8122cfcf081",
+  "reports/phase18/g2/phase18_g2_seed_3_result_v1.json": "47dfe0cb8504eeb47cbdf813dffdd7652e42861ad113dcffcb8e3d53a8038b32",
+  "reports/phase18/g2/phase18_g2_verification_v1.json": "c66030880f48b789e738244a70a12ba53bd005547794297f3714ab6ff32cc880",
+  "reports/phase18/phase18_g2_contract_v1.json": "a0e0206251c565c151dfd3d00e4fc4517b4b78843bd7816aaa0bc0eb5666c2f5",
+  "reports/phase18/phase18_g2_launch_manifest_v1.json": "5cbb66cccb15d38844421b50c9d5af3bb86ae9aa154c40dd2850bbfed9dbbf45",
+  "reports/phase18/phase18_g2_results_v1.json": "2badf3545866f63163a359c3882be0cabd640ce3a27e8074bc45f7159fe2eca5",
+  "reports/phase18/phase18_g2_synthetic_landscape_v1.json": "1d3102ec7729787683019e84fda2292dc756f0f2c69634e31547d19382a2082c",
+  "reports/phase18/agent_04_report.md": "305a2956ed9b213b77e8fc8dfd70d77156321e1c5ea9387b708519e5e2587fd2",
+  "reports/phase18/decisions/P18-D004.md": "d6e90e041e9f66bb3d79c74fb40541e6fa94d9a39f2ba064a217ec33aba86cfc",
+  "scripts/phase18_g2_replay.py": "7e54fd3816691ea46c645a3c753e8fe1568e1798994b262c2fb54669665bd7e0"
+ },
+ "binding_ledger": {
+  "artifacts": 12,
+  "all_bind_one_source_commit": true,
+  "mismatched": []
+ },
+ "publication": {
+  "status": "NOT PUSHED - awaiting review",
+  "rule": "after the reviewing chat and operator accept P18-D004, the exact approved branch HEAD is published with a normal non-force push, the remote SHA is verified equal to the approved local SHA, and both are recorded. No push to main, force push, merge, tag, release, or pull request."
+ }
+}
