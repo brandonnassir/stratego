@@ -99,3 +99,15 @@ artifacts/phase18/g2_setup_parity_v1/
 # --seed-index K`. Results, replay, binding and per-seed summaries are tracked
 # under reports/phase18.
 artifacts/phase18/g2_raw_confirmation_v1/
+
+# Phase 18 execution storage (policy: reports/phase18/phase18_execution_storage_policy_v1.md).
+# Two narrowly scoped paths only. The `output/` directory itself is deliberately
+# NOT ignored: `output/pdf/` holds a Phase 18 review document, and a blanket
+# `output/` rule would hide it and any future tracked deliverable placed there.
+#
+# Future detached execution worktrees (one directory per frozen source commit).
+output/phase18/worktrees/
+# Future untracked runtime artifacts: outcome receipts, telemetry, held-out
+# arrays and checkpoint objects, all reproducible from their frozen contracts.
+# The compact evidence that describes them stays tracked under reports/phase18.
+output/phase18/runtime/
