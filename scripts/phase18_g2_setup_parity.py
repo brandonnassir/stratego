@@ -429,9 +429,13 @@ def run_oracle(design: AssayDesign) -> dict:
     by_fingerprint = {s.content_fingerprint: s for s in pool.samples}
 
     # Forward quantities: masks, I, E[v], aggregation, advantage, recursion.
+    # `processed` rows are in ready-index order; the minibatch is shuffled, so
+    # the processed position is looked up by fingerprint.
+    processed_position = {buffer.samples[int(index)].content_fingerprint: position for position, index in enumerate(processed.indices)}
     quantity_checks = []
     for row, fingerprint in enumerate(batch.fingerprints):
         sample = by_fingerprint[fingerprint]
+        position = processed_position[fingerprint]
         information = oracle.oracle_suffix_information(sample.behavior_selected_log_prob)
         mean, count, z_bar = oracle.oracle_running_mean(outcomes[fingerprint])
         expected = oracle.oracle_expected_value(oracle.oracle_softmax(sample.wdl_logits))
@@ -446,7 +450,7 @@ def run_oracle(design: AssayDesign) -> dict:
             "aggregation": {"count": count, "z_bar_oracle": z_bar, "z_bar_production": buffer.outcome_record(fingerprint)["z_bar"], "mean_one_hot_max_abs_diff": float(np.abs(mean - fixture["value_target"][row]).max())},
             "advantage_max_abs_diff": float(np.abs(advantage - fixture["advantage"][row]).max()),
             "published_recursion_max_abs_diff": float(np.abs(recursion["advantage"] - fixture["advantage"][row]).max()),
-            "i_minus_10h_max_abs_diff": float(np.abs((information - ENTROPY_NORMALIZER * sample.entropy_prediction) - processed.entropy_residual[row]).max()),
+            "i_minus_10h_max_abs_diff": float(np.abs((information - ENTROPY_NORMALIZER * sample.entropy_prediction) - processed.entropy_residual[position]).max()),
         })
 
     # Loss terms in double precision.
