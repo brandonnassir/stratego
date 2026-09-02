@@ -9,7 +9,8 @@
  "resolves_open_item": {
   "id": "O-P18-EVALRULES-1",
   "recorded_in": "reports/phase18/phase18_rule_identity_errata_v1.json",
-  "recorded_in_sha256": "6cec5ee931c0c07ad27e7fe93a222e224af584329ff5fd87a724f4cbbb821ec7",
+  "recorded_in_sha256_before_proposal": "6cec5ee931c0c07ad27e7fe93a222e224af584329ff5fd87a724f4cbbb821ec7",
+  "recorded_in_sha256_before_proposal_note": "digest of reports/phase18/phase18_rule_identity_errata_v1.json as it stood BEFORE this proposal added its self-reference to open_items[0]. The registry's current digest is deliberately NOT stored here: the registry records this amendment's digests, so storing its post-edit digest inside the amendment would create a circular dependency. Verify in that direction only - the registry pins the amendment, not the reverse.",
   "path": "open_items[0]"
  },
  "supersedes": {
@@ -57,13 +58,14 @@
   "reasons": [
    "comparability: Gate G1 is closed and was measured under battleless 200; evaluating G3/G4 under 100 would make them non-comparable to the accepted baseline for no gain",
    "precedent: every accepted play gate since Phase 4 uses EVALUATION_RULES and stratego/evaluation/match_spec.py defaults rules=EVALUATION_RULES at four sites; naming training rules for a play lane is the anomaly",
-   "measurement quality: the battleless limit binds hardest between comparable players (13.09% / 13.38% of vs_init games versus about 1% of random-opponent games at limit 200), which is the regime G3/G4 contrasts live in; a longer limit leaves more games decided and fewer signal-free draws",
+   "avoids introducing additional early censoring: the battleless limit binds hardest between comparable players (13.09% / 13.38% of vs_init games versus about 1% of random-opponent games at limit 200), which is the regime G3/G4 contrasts live in. Keeping 200 changes nothing about how those games terminate; moving to 100 would censor continuations earlier and weakly increase the number of games terminated as battleless draws, with an effect on variance, effect size and power that is unknown. This is a reason to decline an unnecessary, uncharacterised change to the measurement - NOT a claim that 200 has a demonstrated power advantage over 100",
    "separation of concerns: training rules govern corpus generation and evaluation rules govern measurement; one identity each prevents a change on one side from silently altering the other"
   ],
   "alternative_rejected": {
    "option": "adopt battleless_move_limit 100 for play evaluation to match the training corpus",
-   "why_not": "breaks comparability with the closed G1 result, departs from every accepted play gate in the project, and increases the draw share in exactly the lanes where a setup effect must be detected"
-  }
+   "why_not": "breaks comparability with the closed G1 result, departs from every accepted play gate in the project, and introduces additional early censoring whose effect on the measurement has not been characterised. The last point is a reason for caution, not evidence that the alternative measures worse"
+  },
+  "recommendation_does_not_rest_on_a_power_argument": true
  },
  "evidence": {
   "engine_constant": "stratego/engine/constants.py lines 273-306: TRAINING_RULES battleless 100 context training; EVALUATION_RULES battleless 200 context evaluation; RulesConfig.first_player defaults to RED and RED = 0 at line 48",
@@ -123,9 +125,15 @@
     "p99": 812,
     "max": 1336
    },
-   "reading": "the 4000 absolute limit is a safety backstop that never fired; the battleless limit is the binding rule and binds about ten times harder between comparable players than against a random opponent"
+   "reading": "the 4000 absolute limit is a safety backstop that never fired; the battleless limit is the binding rule and is active in about ten times as many games between comparable players as against a random opponent. This locates where the rule is active; it does not indicate which limit measures better"
   },
-  "directional_claim_not_quantified": "moving 200 -> 100 can only convert games decided after the cap into draws, so it can only increase the draw share, most in the comparable-player lanes; the magnitude is NOT estimated here because quantifying it would require playing games, which is out of scope and unauthorized"
+  "effect_of_changing_the_battleless_limit": {
+   "defensible_conclusion": "reducing the battleless limit from 200 to 100 censors continuations earlier, so the number of games terminated as battleless draws weakly increases or is preserved; it cannot decrease",
+   "draws_are_not_signal_free": "the accepted effective win rate is EWR = (W + 0.5*D)/N (stratego/evaluation/statistics.py lines 11 and 98-107), so a draw scores 0.5 and contributes to a paired effective-win-rate difference like any other scored outcome; every draw=true row in the G1 receipts carries candidate_score 0.5",
+   "draw_share_and_power": "a higher draw share does NOT necessarily reduce statistical power; the effect runs through both the effect size and the variance of the paired differences and is not determined by the draw share alone",
+   "power_comparison_status": "UNKNOWN - the exact effect of the rule change on variance, effect size and power cannot be determined without a predeclared comparison, which would require playing games and is out of scope and unauthorized",
+   "power_advantage_demonstrated_for_200_over_100": false
+  }
  },
  "scope_and_limits": {
   "training_rules_unchanged": true,

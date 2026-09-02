@@ -119,16 +119,35 @@ Two facts follow, and only these two are claimed:
 - **The battleless limit is the binding rule, and it binds unevenly.** Against a
   random opponent it ends about 1% of games; between two comparable trained
   players (`vs_init`) it ends about **13%**. The lanes G3 and G4 would care about
-  are contrasts between comparable players, which is the regime where this rule
-  is roughly ten times more consequential than in the random lane.
+  are contrasts between comparable players, so that is the regime in which the
+  choice of battleless limit touches the most games. This states where the rule
+  is active; it says nothing about which limit measures better.
 
-*Directional, not quantified:* a shorter battleless limit can only convert games
-that would have been decided after the cap into draws, so moving 200 → 100 can
-only increase the draw share, and it would do so most in exactly the
-comparable-player lanes where a setup effect must be detected. Draws carry no
-signal for a win-rate contrast, so a higher draw share costs power. The size of
-that loss is **not** estimated here: quantifying it would require playing games,
-which is out of scope and not authorized.
+**What can and cannot be concluded about the limit change.** Reducing the
+battleless limit from 200 to 100 censors continuations earlier: a game that would
+have been decided between ply 100 and the battleless cap under the longer limit
+may instead terminate as a battleless draw. The count of games terminated as
+battleless draws therefore **weakly increases or is preserved** under the shorter
+limit; it cannot decrease.
+
+That is the whole of the defensible claim. In particular:
+
+- **Draws are not signal-free.** The accepted effective win rate is
+  `EWR = (W + 0.5·D) / N` (`stratego/evaluation/statistics.py:11`, `98-107`), so a
+  draw scores **0.5** and contributes to a paired effective-win-rate difference
+  exactly as any other scored outcome does. A pair in which one arm draws and the
+  other wins carries a per-pair difference of 0.5. The G1 receipts confirm the
+  scoring directly: every `draw = true` row carries `candidate_score = 0.5`.
+- **A higher draw share does not necessarily reduce statistical power.** Its
+  effect runs through both the effect size and the variance of the paired
+  differences, and those move in ways that are not determined by the draw share
+  alone.
+- **No power advantage for 200 over 100 has been demonstrated here, and none is
+  claimed.** The exact effect of the rule change on variance, effect size and
+  power is **unknown** without a predeclared comparison, which would require
+  playing games and is out of scope and unauthorized.
+
+The recommendation below therefore does not rest on any power argument.
 
 ## Recommendation — a single rule identity
 
@@ -150,17 +169,24 @@ Four reasons, in order of weight:
 2. **It is already the project-wide invariant.** Every accepted play gate since
    Phase 4 uses these rules, and the accepted `MatchSpec` defaults to them.
    Naming training rules for a play lane is the anomaly, not the rule.
-3. **Measurement quality.** The battleless limit binds hardest in the
-   comparable-player lanes that G3/G4 contrasts live in; the longer limit leaves
-   more games decided and fewer signal-free draws.
+3. **It avoids introducing additional early censoring.** The battleless limit
+   binds hardest in the comparable-player lanes that G3/G4 contrasts live in.
+   Keeping 200 changes nothing about how those games terminate; moving to 100
+   would censor continuations earlier and weakly increase the number of games
+   terminated as battleless draws, with an effect on variance, effect size and
+   power that is unknown. Declining an unnecessary and unquantified change to the
+   measurement is a reason to keep 200; it is **not** a claim that 200 has a
+   demonstrated power advantage.
 4. **Separation of concerns.** Training rules govern corpus generation;
    evaluation rules govern measurement. Keeping one identity for each prevents a
    change on one side from silently altering the other.
 
 The alternative — adopting battleless 100 for play evaluation to match the
 training corpus — is **not** recommended: it breaks comparability with the closed
-G1 result, departs from every accepted play gate in the project, and increases
-the draw share in precisely the lanes where a setup effect must be detected.
+G1 result, departs from every accepted play gate in the project, and introduces
+additional early censoring whose effect on the measurement has not been
+characterised. That last point is a reason for caution, not evidence that the
+alternative measures worse.
 
 ## Exactly what this amendment would supersede
 

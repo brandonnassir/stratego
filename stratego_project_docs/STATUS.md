@@ -613,7 +613,18 @@ superseding the single field `cases_seeds_opponents.rule_version`. The frozen
 contract is **not edited** (its digest is pinned in `P18-D001.json` and
 `phase18_agent1_handoff_v1.json`). Training rules keep battleless 100 unchanged,
 prior G1 and G2 results are unchanged, and the proposal **authorizes no G3 run**;
-it becomes operative only after review and approval.
+it becomes operative only after review and approval. Its statistical claims were
+corrected on 2026-09-02: **no power advantage for battleless 200 over 100 is
+claimed or demonstrated** — draws score 0.5 and do contribute to paired
+effective-win-rate differences, and a shorter limit only weakly increases or
+preserves battleless-draw terminations, with an effect on variance, effect size
+and power that is unknown without a predeclared comparison. The recommendation
+rests on comparability with G1, the established evaluation invariant, and
+avoiding additional early censoring. A process note,
+`reports/phase18/process_notes/P18-PN001_STAGE3_PREMATURE_PUBLICATION.md`,
+records that the Stage 3 commit `69c97db` was published before review; the
+proposal remained non-operative throughout, so nothing was authorized and no
+active rule changed, and that history is preserved rather than rewritten.
 
 Gate G2's open item (P18-D004): the synthetic assay's decision read the EMA model,
 which at the paper's 0.999 smoothing updated once per setup update retained

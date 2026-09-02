@@ -48,17 +48,24 @@
     "amendment_id": "P18-A001",
     "markdown": "reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.md",
     "json": "reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.json",
-    "markdown_sha256": "92408ae7a1e9fdf7b4a2d0df2aff1418fa95d6cf0651a6e0f15a6dcb3d56fcb7",
-    "json_sha256": "67fdef0995a69dc95e25a5f1d4d226452cf47a670e73569041a62741b3c7d116",
+    "markdown_sha256": "b32a13bec88b017d6903c8ee5f6f58a6642c7576854bd03e12d4a271e22fa7d6",
+    "json_sha256": "0787871b4a61e72bc44cd5b7d8914fe4a48440790ec295b6362a1a5fc7a1f633",
     "proposed_by": "phase_18_backend_steward",
     "status": "PROPOSED - NOT OPERATIVE; operative only after review and approval recorded in the decision trail",
     "recommends": "EVALUATION_RULES (battleless_move_limit 200, absolute_move_limit 4000, first_player 0, context evaluation) as the single rule identity for future G3/G4 play evaluation",
     "supersedes_field": "cases_seeds_opponents.rule_version in reports/phase18/phase18_evaluation_contract_v1.json (one field; the frozen file is not edited and its digest, pinned in P18-D001.json and phase18_agent1_handoff_v1.json, stays valid)",
     "training_rules_unchanged": true,
     "prior_g1_and_g2_results_unchanged": true,
-    "authorizes_g3_execution": false
+    "authorizes_g3_execution": false,
+    "corrected_2026_09_02": "statistical claims corrected: the withdrawn text asserted that draws carry no signal for an effective-win-rate contrast, that a higher draw share costs power, and that battleless 200 has a measurement-quality advantage. Defensible conclusion recorded instead - a shorter limit weakly increases or preserves battleless-draw terminations by censoring continuations earlier; draws score 0.5 and contribute to paired differences; the effect on variance, effect size and power is unknown without a predeclared comparison. 200 is recommended on comparability, the established evaluation invariant and the avoidance of additional early censoring, NOT on a demonstrated power advantage.",
+    "process_note": {
+     "id": "P18-PN001",
+     "markdown": "reports/phase18/process_notes/P18-PN001_STAGE3_PREMATURE_PUBLICATION.md",
+     "markdown_sha256": "9c4969e7b09b4efbc659e7e7a4c2495e3d81536341e09b051779ad38f371c23c",
+     "subject": "Stage 3 commit 69c97db was pushed before review, contrary to the required hard stop; Stage 2 cac7abf was correctly published after approval; the proposal remained PROPOSED - NOT OPERATIVE so nothing was authorized and no active rule changed; history is not rewritten; the corrective commit stays local until reviewed"
+    }
    }
   }
  ],
- "updated_utc": "2026-09-02T18:55:00Z"
+ "updated_utc": "2026-09-02T19:20:00Z"
 }
