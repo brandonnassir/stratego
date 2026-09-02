@@ -41,7 +41,7 @@
    "field": "cases_seeds_opponents.rule_version",
    "recorded_text": "the accepted training rules: battleless_move_limit 100, absolute_move_limit 4000, first_player 0",
    "observation": "the frozen evaluation contract names TRAINING rules (battleless limit 100) for the future factorial play lanes, while every G1 play measurement (P18-D002 and P18-D003) used the accepted EVALUATION rules (battleless limit 200)",
-   "status": "PRESERVED UNEDITED; AMENDMENT PROPOSED 2026-09-02 (P18-A001), NOT YET OPERATIVE - the proposal is under review and the frozen contract's original wording stands until it is accepted",
+   "status": "RESOLVED 2026-09-02 by the accepted amendment P18-A001; the frozen evaluation contract remains PRESERVED UNEDITED and the superseding text lives in the amendment and its review record",
    "requirement": "before any real-game Gate G3 or G4 evaluation, the rule version applied to play evaluation must be settled by an explicit, reviewed amendment to the evaluation contract, recorded in the decision trail",
    "does_not_affect": "Gate G2, which plays no Stratego games and opens no sealed data",
    "proposed_amendment": {
@@ -63,9 +63,32 @@
      "markdown": "reports/phase18/process_notes/P18-PN001_STAGE3_PREMATURE_PUBLICATION.md",
      "markdown_sha256": "9c4969e7b09b4efbc659e7e7a4c2495e3d81536341e09b051779ad38f371c23c",
      "subject": "Stage 3 commit 69c97db was pushed before review, contrary to the required hard stop; Stage 2 cac7abf was correctly published after approval; the proposal remained PROPOSED - NOT OPERATIVE so nothing was authorized and no active rule changed; history is not rewritten; the corrective commit stays local until reviewed"
-    }
+    },
+    "record_kind": "historical proposal record, preserved; superseded in status only by resolution above"
+   },
+   "resolution": {
+    "resolved_utc": "2026-09-02T19:57:00Z",
+    "resolved_by_amendment": "P18-A001",
+    "accepted_by": "operator",
+    "review_artifact": "reports/phase18/reviews/P18-A001_REVIEW.md",
+    "review_artifact_sha256": "17f1970c0e4b7e3724e80e26be8864862e8835b1d3aa960601548f6a68cfdf77",
+    "approved_commit": "959461fd3ed48cadbc1fb8531fa01a09a8c6c557",
+    "approved_local_and_remote_sha": "959461fd3ed48cadbc1fb8531fa01a09a8c6c557",
+    "operative_for": "future Gate G3 and Gate G4 play evaluation",
+    "rule_identity_adopted": "EVALUATION_RULES: battleless_move_limit 200, absolute_move_limit 4000, first_player 0, context evaluation",
+    "canonical_token": "stratego_project_v1|board_10x10_v1|first_player=0|battleless_move_limit=200|absolute_move_limit=4000|two_square_rule_enabled=0|continuous_chasing_rule_enabled=0|context=evaluation",
+    "supersedes_field": "cases_seeds_opponents.rule_version in reports/phase18/phase18_evaluation_contract_v1.json (one field only)",
+    "frozen_contract_edited": false,
+    "frozen_contract_sha256_unchanged": "6878bab622c47bbbc21f0d18f88844a5e5a1c2f298acfd3b1e9560705d0ecce9",
+    "training_and_corpus_rules_unchanged": "TRAINING_RULES / CORPUS_RULES keep battleless_move_limit 100",
+    "prior_g1_and_g2_results_unchanged": true,
+    "g1_rerun_required": false,
+    "authorizes_g3_execution": false,
+    "g3_status": "UNSTARTED - a G3 design instruction and its own decision packet are still required before any game is played",
+    "recommendation_does_not_rest_on_a_power_argument": true,
+    "historical_records_preserved": "the proposal record in this item's proposed_amendment block, the delivered P18-A001 files (whose own status line still reads PROPOSED - NOT OPERATIVE, recording their state at delivery), and the process note P18-PN001 are all preserved unchanged"
    }
   }
  ],
- "updated_utc": "2026-09-02T19:20:00Z"
+ "updated_utc": "2026-09-02T19:57:00Z"
 }

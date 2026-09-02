@@ -604,16 +604,20 @@ constant, the schedule and all 16,384 receipts carry the accepted **evaluation**
 200 — a metadata error, the packet is not rewritten and G1 is not rerun; and the
 frozen `phase18_evaluation_contract_v1.json` names *training* rules (100) for the
 future play lanes, so the training-versus-evaluation rule choice **must be amended
-explicitly before any real-game G3/G4 evaluation**. An amendment is now **proposed
-but not operative**: `P18-A001`
-(`reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.md`) recommends the
-accepted play-evaluation identity `EVALUATION_RULES` — battleless 200, absolute
-4000, first player 0, context evaluation — for future G3/G4 play evaluation,
-superseding the single field `cases_seeds_opponents.rule_version`. The frozen
+explicitly before any real-game G3/G4 evaluation**. That open item is now **RESOLVED**:
+amendment `P18-A001`
+(`reports/phase18/amendments/P18-A001_EVALUATION_RULE_IDENTITY.md`) was
+**accepted by the operator on 2026-09-02 and is OPERATIVE for future G3/G4 play
+evaluation** (review: `reports/phase18/reviews/P18-A001_REVIEW.md`; approved
+commit `959461f`, local == remote). It adopts the accepted play-evaluation
+identity `EVALUATION_RULES` — battleless 200, absolute 4000, first player 0,
+context evaluation — superseding the single field
+`cases_seeds_opponents.rule_version`. The frozen
 contract is **not edited** (its digest is pinned in `P18-D001.json` and
 `phase18_agent1_handoff_v1.json`). Training rules keep battleless 100 unchanged,
-prior G1 and G2 results are unchanged, and the proposal **authorizes no G3 run**;
-it becomes operative only after review and approval. Its statistical claims were
+prior G1 and G2 results are unchanged, and the amendment **authorizes no G3 run**
+— Gate G3 remains unstarted and still needs its own design instruction and
+decision packet. Its statistical claims were
 corrected on 2026-09-02: **no power advantage for battleless 200 over 100 is
 claimed or demonstrated** — draws score 0.5 and do contribute to paired
 effective-win-rate differences, and a shorter limit only weakly increases or
