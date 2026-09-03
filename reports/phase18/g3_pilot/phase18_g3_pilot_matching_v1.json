@@ -1,0 +1,133 @@
+{
+ "artifact": "phase18_g3_pilot_matching_v1",
+ "budget": {
+  "candidate": {
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "canonical_rows_served": 8192,
+   "live_rows_served": 8192,
+   "periods": 1,
+   "setup_ema_updates": 1,
+   "setup_updates": 1
+  },
+  "control": {
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "canonical_rows_served": 8192,
+   "live_rows_served": 8192,
+   "periods": 1,
+   "setup_ema_updates": 0,
+   "setup_updates": 0
+  }
+ },
+ "bundle_0": {
+  "c1": true,
+  "collector": true,
+  "lineage_differs": true,
+  "setup_ema": true,
+  "setup_manifest": true,
+  "setup_optimizer": true,
+  "setup_raw": true
+ },
+ "c1_device": "mps",
+ "c1_exact_required": false,
+ "candidate_setup_moved_on_every_applied_update": true,
+ "candidate_setup_skips": 0,
+ "candidate_setup_updates_applied": 1,
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "control_setup_digest_constant": true,
+ "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "gate_condition": "matched: init identity, bundle_0 components, every MATCHED_PERIOD_FIELDS entry, the semantic live-store identity (lineage-neutral), served == planned C1 rows, the equal budget; the raw live commit digests are audit information only and differ by the lineage stamp",
+ "init": {
+  "c1_init_checksum": true,
+  "c1_init_state_digest": true,
+  "corpus_identity": true,
+  "matched_digest": true,
+  "setup_ema_init_state_digest": true,
+  "setup_init_seed": true,
+  "setup_init_state_digest": true
+ },
+ "live_store": {
+  "file_integrity": {
+   "candidate": {
+    "period": 1,
+    "problems": [],
+    "verified": true
+   },
+   "control": {
+    "period": 1,
+    "problems": [],
+    "verified": true
+   }
+  },
+  "matched": true,
+  "period": 1,
+  "problems": [],
+  "raw_commit_digest": {
+   "candidate": "413606e45edbf8947e344df4582f30d7497783259e57fce37d47fee228ea3a80",
+   "control": "50d02c2a5e92fd6778a484c52770a05f0b31adce8405e3443edbfb1c665fe38d"
+  },
+  "raw_commit_digest_equal": false,
+  "raw_commit_digest_note": "audit only; unequal by construction when any game was committed, because the hashed metadata line carries the lineage stamp",
+  "semantic": {
+   "checks": {
+    "commit_count": true,
+    "game_ids_and_order": true,
+    "lineage_labels_differ": true,
+    "lineage_neutral_commit_digest": true,
+    "lineage_stamps": true,
+    "neutral_metadata": true,
+    "selected_decisions": true,
+    "trajectory_digests": true
+   },
+   "commits": {
+    "candidate": 1709,
+    "control": 1709
+   },
+   "lineage_neutral_commit_digest": {
+    "candidate": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a",
+    "control": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a"
+   },
+   "matched": true,
+   "metadata_field_differences": [],
+   "permitted_difference": "metadata field 'lineage' only: 'candidate' versus 'control'",
+   "problems": [],
+   "selected_examples": {
+    "candidate": 92360,
+    "control": 92360
+   }
+  }
+ },
+ "matched": true,
+ "period_1": {
+  "buffer/rows": true,
+  "c1/canonical_rows_planned": true,
+  "c1/canonical_rows_served": true,
+  "c1/keys_digests": true,
+  "c1/live_rows_planned": true,
+  "c1/live_rows_served": true,
+  "c1/live_seeds": true,
+  "c1/live_universe_digest": true,
+  "c1/served_rows_equal_planned": true,
+  "c1/updates_completed": true,
+  "c1/updates_planned": true,
+  "c1_state_digest": false,
+  "c1_state_digest_note": "reported only (MPS is not bitwise reproducible, P18-D002)",
+  "collection/completed": true,
+  "collection/completed_game_ids_digest": true,
+  "collection/in_flight_at_end": true,
+  "collection/live/games": true,
+  "collection/live/raw_commit_digest_recorded": true,
+  "collection/live/selected_examples": true,
+  "collection/live/semantic_identity": true,
+  "collection/outcome_records_digest": true,
+  "collection/plies_advanced": true,
+  "collection/started": true,
+  "pool/content_digest": true,
+  "pool/snapshot_digest": true
+ },
+ "problems": [],
+ "run_id": "G3-PILOT-2026-A",
+ "runtime_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2",
+ "timestamp_utc": "2026-09-03T17:30:51Z"
+}

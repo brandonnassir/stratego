@@ -1,0 +1,38 @@
+{
+ "artifact": "phase18_g3_pilot_run_candidate_v1",
+ "complete": false,
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "environment": {
+  "dirty_paths": [
+   "?? reports/phase18/g3_pilot/phase18_g3_pilot_launch_manifest_v1.json"
+  ],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3_pilot_exec",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "c12bed35b8cc0f5a92f87e26ad9af4f0ee7d18c7",
+  "source_tree": "73a499e4b8169005008d157134810ad96659525e",
+  "torch": "2.13.0",
+  "working_tree_state": "dirty (1 paths)"
+ },
+ "g3_source_commit": "c12bed35b8cc0f5a92f87e26ad9af4f0ee7d18c7",
+ "horizon": 256,
+ "integrity": {
+  "attribution_failures": 0,
+  "duplicates_collapsed": 0,
+  "immediately_terminal_setups": 1,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0
+ },
+ "last_bundle_id": "92fcf4d2ee8a0c5f7473b350bf65a00c8162a7cbae42d0850490dd4195a87e62",
+ "last_bundle_period": 1,
+ "lineage": "candidate",
+ "period_reached": 1,
+ "periods_run_this_process": 1,
+ "resume": null,
+ "run_id": "G3-PILOT-2026-A",
+ "setup_skips": 0,
+ "timestamp_utc": "2026-09-03T12:52:34Z",
+ "wall_seconds": 131.517
+}

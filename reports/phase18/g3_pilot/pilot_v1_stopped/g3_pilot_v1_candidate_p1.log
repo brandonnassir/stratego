@@ -1,0 +1,4 @@
+[g3 08:49:06] verifying the accepted corpus identity and every payload
+[g3 08:50:23] candidate: fresh lineage, bundle_0 written
+[g3 08:52:32] [candidate] period 1/256: games 1709 (in flight 2546), c1 step 64, setup update, 123.386 s, bundle 92fcf4d2ee8a
+[g3 08:52:34] candidate: period 1/256 in 132 s; nothing continues past the horizon

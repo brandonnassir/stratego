@@ -1,0 +1,212 @@
+{
+ "artifact": "phase18_g3_pilot_v2_period1_evidence_v1",
+ "bundles": {
+  "candidate": {
+   "bundle_0": "fa7a5faf4c5d42f3db9c869724fa19f8f8c87b5862632022e24082e3cb34922b",
+   "bundle_1": "3bcca8dc7a25be8d71b7d661af904a13452771bf01557ca5a015a39232722088"
+  },
+  "control": {
+   "bundle_0": "bb3b4bf1e2929e00aea335dfcc2036e2e18d6cb379d7a80df10555b08ce2eac7",
+   "bundle_1": "c43710d440f6e5278c3cc0062185df045743f089c7dbea7634b206985f895d59"
+  }
+ },
+ "c1_state_digest_across_lineages": "differs (MPS is not bitwise reproducible, P18-D002); reported only, as in the frozen check and as in g3_pilot_v1",
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "cross_run_note": "the same run id, namespace, seeds and configuration: v2 reproduced v1's period-1 games, outcomes, live stores (identical raw commit digests per lineage), C1 keys, live seeds, pool and setup digests exactly; only the C1 weights differ (MPS) with per-row losses within 1e-6, and the served-row telemetry now reads 8,192 + 8,192 instead of 0",
+ "cross_run_v1_v2": {
+  "candidate": {
+   "buffer/state_digest": true,
+   "bundle_1_id_v1_v2": [
+    "92fcf4d2ee8a",
+    "3bcca8dc7a25"
+   ],
+   "c1/cursor_after_planned": true,
+   "c1/keys_digests": true,
+   "c1/live_seeds": true,
+   "c1/live_universe_digest": true,
+   "c1_state_digest_equal_(MPS, expected not required)": false,
+   "collection/completed": true,
+   "collection/completed_game_ids_digest": true,
+   "collection/live/commit_digest": true,
+   "collection/live/games": true,
+   "collection/outcome_records_digest": true,
+   "init_c1_state_digest": true,
+   "init_setup_state_digest": true,
+   "integrity": true,
+   "live_rows_served_v1_v2": [
+    0,
+    8192
+   ],
+   "loss_total_max_abs_diff_v1_v2": 9.5367431640625e-07,
+   "pool/content_digest": true,
+   "pool/snapshot_digest": true,
+   "setup_ema_digest": true,
+   "setup_raw_digest": true
+  },
+  "control": {
+   "buffer/state_digest": true,
+   "bundle_1_id_v1_v2": [
+    "a4010818af53",
+    "c43710d440f6"
+   ],
+   "c1/cursor_after_planned": true,
+   "c1/keys_digests": true,
+   "c1/live_seeds": true,
+   "c1/live_universe_digest": true,
+   "c1_state_digest_equal_(MPS, expected not required)": false,
+   "collection/completed": true,
+   "collection/completed_game_ids_digest": true,
+   "collection/live/commit_digest": true,
+   "collection/live/games": true,
+   "collection/outcome_records_digest": true,
+   "init_c1_state_digest": true,
+   "init_setup_state_digest": true,
+   "integrity": true,
+   "live_rows_served_v1_v2": [
+    0,
+    8192
+   ],
+   "loss_total_max_abs_diff_v1_v2": 9.5367431640625e-07,
+   "pool/content_digest": true,
+   "pool/snapshot_digest": true,
+   "setup_ema_digest": true,
+   "setup_raw_digest": true
+  }
+ },
+ "execution_worktree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3_pilot_exec_v2",
+ "launch_manifest_sha256": "d6e698073f9ef78250ea7fc328e3b510d7467235a00f1414a56ecb0f93f39813",
+ "matching_report": {
+  "budget": {
+   "candidate": {
+    "c1_global_step": 64,
+    "c1_updates": 64,
+    "canonical_rows_served": 8192,
+    "live_rows_served": 8192,
+    "periods": 1,
+    "setup_ema_updates": 1,
+    "setup_updates": 1
+   },
+   "control": {
+    "c1_global_step": 64,
+    "c1_updates": 64,
+    "canonical_rows_served": 8192,
+    "live_rows_served": 8192,
+    "periods": 1,
+    "setup_ema_updates": 0,
+    "setup_updates": 0
+   }
+  },
+  "file": "phase18_g3_pilot_matching_v1.json",
+  "lineage_neutral_commit_digest": {
+   "candidate": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a",
+   "control": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a"
+  },
+  "live_store_raw_commit_digest": {
+   "candidate": "413606e45edbf8947e344df4582f30d7497783259e57fce37d47fee228ea3a80",
+   "control": "50d02c2a5e92fd6778a484c52770a05f0b31adce8405e3443edbfb1c665fe38d"
+  },
+  "live_store_raw_commit_digest_equal": false,
+  "live_store_semantic": {
+   "commit_count": true,
+   "game_ids_and_order": true,
+   "lineage_labels_differ": true,
+   "lineage_neutral_commit_digest": true,
+   "lineage_stamps": true,
+   "neutral_metadata": true,
+   "selected_decisions": true,
+   "trajectory_digests": true
+  },
+  "matched": true,
+  "period_1": {
+   "buffer/rows": true,
+   "c1/canonical_rows_planned": true,
+   "c1/canonical_rows_served": true,
+   "c1/keys_digests": true,
+   "c1/live_rows_planned": true,
+   "c1/live_rows_served": true,
+   "c1/live_seeds": true,
+   "c1/live_universe_digest": true,
+   "c1/served_rows_equal_planned": true,
+   "c1/updates_completed": true,
+   "c1/updates_planned": true,
+   "c1_state_digest": false,
+   "c1_state_digest_note": "reported only (MPS is not bitwise reproducible, P18-D002)",
+   "collection/completed": true,
+   "collection/completed_game_ids_digest": true,
+   "collection/in_flight_at_end": true,
+   "collection/live/games": true,
+   "collection/live/raw_commit_digest_recorded": true,
+   "collection/live/selected_examples": true,
+   "collection/live/semantic_identity": true,
+   "collection/outcome_records_digest": true,
+   "collection/plies_advanced": true,
+   "collection/started": true,
+   "pool/content_digest": true,
+   "pool/snapshot_digest": true
+  },
+  "problems": [],
+  "sha256": "748adcea89cc32f4e29450f917c666af58b7b5e2d6156392a54d02c228f1298e"
+ },
+ "period_2_or_evaluation_run": false,
+ "pilot_attempt": "g3_pilot_v2: the repeat of period 1 from the gate correction; candidate P1, control P1, --check-matching; NOTHING further ran",
+ "required_results": {
+  "c1_state_digest_equal_across_lineages_(MPS, reported only)": false,
+  "candidate_64_updates": true,
+  "candidate_8192_canonical_served": true,
+  "candidate_8192_live_served": true,
+  "candidate_bundle_1_consistent_with_record": true,
+  "candidate_c1_counters_zero": true,
+  "candidate_every_row_128_128_256": true,
+  "candidate_immediately_terminal_setups": 1,
+  "candidate_integrity_all_zero": true,
+  "candidate_live_period_1_verifies": true,
+  "candidate_losses_finite": true,
+  "candidate_setup_applied_once": true,
+  "candidate_setup_moved": true,
+  "candidate_setup_skips_zero": true,
+  "control_64_updates": true,
+  "control_8192_canonical_served": true,
+  "control_8192_live_served": true,
+  "control_bundle_1_consistent_with_record": true,
+  "control_c1_counters_zero": true,
+  "control_every_row_128_128_256": true,
+  "control_immediately_terminal_setups": 1,
+  "control_integrity_all_zero": true,
+  "control_live_period_1_verifies": true,
+  "control_losses_finite": true,
+  "control_setup_unchanged": true,
+  "control_zero_setup_updates": true,
+  "identical_buffer/outcomes_added": true,
+  "identical_buffer/rows": true,
+  "identical_buffer/state_digest": true,
+  "identical_c1/canonical_rows_served": true,
+  "identical_c1/cursor_after_planned": true,
+  "identical_c1/cursor_before": true,
+  "identical_c1/keys_digests": true,
+  "identical_c1/live_rows_served": true,
+  "identical_c1/live_seeds": true,
+  "identical_c1/live_universe_digest": true,
+  "identical_c1/updates_completed": true,
+  "identical_collection/completed": true,
+  "identical_collection/completed_game_ids_digest": true,
+  "identical_collection/in_flight_at_end": true,
+  "identical_collection/live/games": true,
+  "identical_collection/live/selected_examples": true,
+  "identical_collection/outcome_records_digest": true,
+  "identical_collection/plies_advanced": true,
+  "identical_collection/started": true,
+  "identical_collection/terminal_reasons": true,
+  "identical_collection/terminal_results": true,
+  "identical_pool/content_digest": true,
+  "identical_pool/snapshot_digest": true,
+  "init_identity_equal": true,
+  "raw_live_commit_digests_differ": true
+ },
+ "required_results_all_hold": true,
+ "run_id": "G3-PILOT-2026-A",
+ "runtime_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2",
+ "source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "source_tree": "5001cc1dec21d677039b591fef79e7e4cac57f9f",
+ "timestamp_utc": "2026-09-03T17:32:32Z",
+ "v1_preserved": "output/phase18/runtime/g3_pilot_v1 and output/phase18/worktrees/g3_pilot_exec untouched; copies of their launch manifest, failed matching report, run summaries and logs under pilot_v1_stopped/"
+}

@@ -1,0 +1,4 @@
+[g3 08:52:48] verifying the accepted corpus identity and every payload
+[g3 08:54:05] control: fresh lineage, bundle_0 written
+[g3 08:56:12] [control] period 1/256: games 1709 (in flight 2546), c1 step 64, setup frozen, 120.837 s, bundle a4010818af53
+[g3 08:56:13] control: period 1/256 in 129 s; nothing continues past the horizon

@@ -1,0 +1,68 @@
+{
+ "artifact": "phase18_g3_pilot_matching_v1",
+ "budget": {
+  "candidate": {
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "periods": 1,
+   "setup_ema_updates": 1,
+   "setup_updates": 1
+  },
+  "control": {
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "periods": 1,
+   "setup_ema_updates": 0,
+   "setup_updates": 0
+  }
+ },
+ "bundle_0": {
+  "c1": true,
+  "collector": true,
+  "lineage_differs": true,
+  "setup_ema": true,
+  "setup_manifest": true,
+  "setup_optimizer": true,
+  "setup_raw": true
+ },
+ "c1_device": "mps",
+ "c1_exact_required": false,
+ "candidate_setup_moved_on_every_applied_update": true,
+ "candidate_setup_skips": 0,
+ "candidate_setup_updates_applied": 1,
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "control_setup_digest_constant": true,
+ "init": {
+  "c1_init_checksum": true,
+  "c1_init_state_digest": true,
+  "corpus_identity": true,
+  "matched_digest": true,
+  "setup_ema_init_state_digest": true,
+  "setup_init_seed": true,
+  "setup_init_state_digest": true
+ },
+ "matched": false,
+ "period_1": {
+  "buffer/rows": true,
+  "c1/keys_digests": true,
+  "c1/live_seeds": true,
+  "c1/live_universe_digest": true,
+  "c1/updates_completed": true,
+  "c1_state_digest": false,
+  "c1_state_digest_note": "reported only (MPS is not bitwise reproducible, P18-D002)",
+  "collection/completed": true,
+  "collection/completed_game_ids_digest": true,
+  "collection/in_flight_at_end": true,
+  "collection/live/commit_digest": false,
+  "collection/outcome_records_digest": true,
+  "collection/plies_advanced": true,
+  "collection/started": true,
+  "pool/content_digest": true,
+  "pool/snapshot_digest": true
+ },
+ "problems": [
+  "period 1 collection/live/commit_digest differs between lineages"
+ ],
+ "run_id": "G3-PILOT-2026-A",
+ "timestamp_utc": "2026-09-03T12:57:02Z"
+}
