@@ -94,3 +94,89 @@ def test_the_driver_never_continues_past_the_horizon(driver, frozen):
     runner.period = 256
     with pytest.raises(Phase18G3Error, match="bounded horizon"):
         runner.run_period()
+
+
+# ---------------------------------------------------------------------------
+# Corrective commit: the launch binding
+# ---------------------------------------------------------------------------
+
+
+def _binding_root(tmp_path, driver):
+    root = tmp_path / "root"
+    for name in driver.HARNESS_SOURCES + driver.TEST_FILES:
+        path = root / name
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(f"content of {name}\n")
+    reports = root / "reports" / "phase18" / "g3_pilot"
+    reports.mkdir(parents=True)
+    contract = reports / driver.CONTRACT_NAME
+    contract.write_text("{}\n")
+    return root, reports, contract
+
+
+def test_stale_verification_evidence_is_refused_at_launch(driver, tmp_path):
+    root, reports, contract = _binding_root(tmp_path, driver)
+    sha = driver.file_sha256(contract)
+    verification = {
+        "contract_sha256": sha,
+        "source_digests": driver.digests_of(driver.HARNESS_SOURCES, root),
+        "test_digests": driver.digests_of(driver.TEST_FILES, root),
+    }
+    assert driver.verification_binding_problems(verification, root=root, contract_sha256=sha) == []
+    drifted = driver.HARNESS_SOURCES[3]
+    (root / drifted).write_text("drift\n")
+    problems = driver.verification_binding_problems(verification, root=root, contract_sha256=sha)
+    assert problems == [f"stale verification evidence: source file {drifted} changed since the record was written"]
+    (root / drifted).write_text(f"content of {drifted}\n")
+    (root / driver.TEST_FILES[0]).write_text("drift\n")
+    assert any("test file" in p for p in driver.verification_binding_problems(verification, root=root, contract_sha256=sha))
+    (root / driver.TEST_FILES[0]).write_text(f"content of {driver.TEST_FILES[0]}\n")
+    assert any("different contract" in p for p in driver.verification_binding_problems(verification, root=root, contract_sha256="0" * 64))
+    (root / driver.TEST_FILES[1]).unlink()
+    assert any("is missing" in p for p in driver.verification_binding_problems(verification, root=root, contract_sha256=sha))
+
+
+def test_source_drift_or_a_mismatched_commit_is_refused_before_every_stage(driver, tmp_path):
+    root, reports, contract = _binding_root(tmp_path, driver)
+    commit = "a" * 40
+    manifest = {
+        "source": {"g3_source_commit": commit},
+        "contract_sha256": driver.file_sha256(contract),
+        "source_digests": driver.digests_of(driver.HARNESS_SOURCES, root),
+        "test_digests": driver.digests_of(driver.TEST_FILES, root),
+    }
+    assert driver.launch_binding_problems(manifest, root=root, head=commit) == []
+    assert driver.launch_binding_problems(manifest, root=root, head="b" * 40) == [f"HEAD {'b' * 40} is not the launch manifest's source commit {commit}"]
+    (root / driver.HARNESS_SOURCES[0]).write_text("drift\n")
+    assert driver.launch_binding_problems(manifest, root=root, head=commit) == [f"tracked source file {driver.HARNESS_SOURCES[0]} differs from the launch manifest"]
+    (root / driver.HARNESS_SOURCES[0]).write_text(f"content of {driver.HARNESS_SOURCES[0]}\n")
+    (root / driver.TEST_FILES[2]).write_text("drift\n")
+    assert any("test file" in p and "differs" in p for p in driver.launch_binding_problems(manifest, root=root, head=commit))
+    (root / driver.TEST_FILES[2]).write_text(f"content of {driver.TEST_FILES[2]}\n")
+    # Generated reports and ignored runtime output are not source: they never trip the check.
+    (reports / driver.MATCHING_NAME).write_text("{}\n")
+    runtime = root / "output" / "phase18" / "runtime" / "g3_pilot_v1"
+    runtime.mkdir(parents=True)
+    (runtime / "candidate.log").write_text("log\n")
+    assert driver.launch_binding_problems(manifest, root=root, head=commit) == []
+    driver.write_json(reports / driver.LAUNCH_NAME, manifest)
+    bound = driver.require_launch_binding(reports, contract_sha256=manifest["contract_sha256"], root=root, head=commit)
+    assert bound["source"]["g3_source_commit"] == commit
+    with pytest.raises(driver.G3Error, match="not the launched source"):
+        driver.require_launch_binding(reports, root=root, head="b" * 40)
+    with pytest.raises(driver.G3Error, match="different contract"):
+        driver.require_launch_binding(reports, contract_sha256="0" * 64, root=root, head=commit)
+    (reports / driver.LAUNCH_NAME).unlink()
+    with pytest.raises(driver.G3Error, match="no launch manifest"):
+        driver.require_launch_binding(reports, root=root, head=commit)
+
+
+def test_every_post_launch_stage_refuses_without_the_launch_manifest(driver, frozen, tmp_path):
+    reports, _contract = frozen
+    for argv in (
+        ["--check-matching"],
+        ["--run", "--lineage", "candidate"],
+        ["--evaluate", "--arm", "control_final"],
+        ["--analyse"],
+    ):
+        assert driver.main(argv + ["--reports", str(reports), "--runtime", str(tmp_path)]) == 2

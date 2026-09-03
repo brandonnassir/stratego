@@ -1,37 +1,26 @@
 {
  "agent": "phase_18_agent_6",
  "artifact": "phase18_g3_stage6b_verification_v1",
- "contract_sha256": "c33c1aef64a7bf3eacf7a70a77a66cb51f9f8680d16fd40cb07b9c07d0553237",
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
  "environment": {
   "dirty_paths": [
-   "?? reports/phase18/g3_design/phase18_g3_stage6b_implementation_v1.md",
-   "?? reports/phase18/g3_pilot/",
-   "?? scripts/phase18_g3_pilot.py",
-   "?? stratego/training/phase18/g3_buffer_state.py",
-   "?? stratego/training/phase18/g3_bundle.py",
-   "?? stratego/training/phase18/g3_c1.py",
-   "?? stratego/training/phase18/g3_collector.py",
-   "?? stratego/training/phase18/g3_contract.py",
-   "?? stratego/training/phase18/g3_evaluation.py",
-   "?? stratego/training/phase18/g3_live_store.py",
-   "?? stratego/training/phase18/g3_pilot.py",
-   "?? stratego/training/phase18/g3_smoke.py",
-   "?? tests/evaluation/phase18/test_g3_evaluation.py",
-   "?? tests/training/phase18/test_g3_buffer_state.py",
-   "?? tests/training/phase18/test_g3_c1_mixture.py",
-   "?? tests/training/phase18/test_g3_collector.py",
-   "?? tests/training/phase18/test_g3_driver.py",
-   "?? tests/training/phase18/test_g3_live_store.py",
-   "?? tests/training/phase18/test_g3_pilot.py"
+   "M reports/phase18/g3_design/phase18_g3_stage6b_implementation_v1.md",
+   " M reports/phase18/g3_pilot/g3_pilot_verification/junit_stage6b.xml",
+   " M reports/phase18/g3_pilot/phase18_g3_pilot_contract_v1.json",
+   " M scripts/phase18_g3_pilot.py",
+   " M stratego/training/phase18/g3_live_store.py",
+   " M stratego/training/phase18/g3_pilot.py",
+   " M tests/training/phase18/test_g3_driver.py",
+   " M tests/training/phase18/test_g3_pilot.py"
   ],
   "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3-stage6b",
   "mps_available": true,
   "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
   "python": "3.13.2",
-  "source_commit": "7a37cde59f3d94dec3f2fbb66c47accc618f6001",
-  "source_tree": "8aa96d01b67fbc0abf2f80b0137941815e8a926b",
+  "source_commit": "8c4c863ad55afad91cae486176a881c0080cab8e",
+  "source_tree": "8d373b12778b84455b1f4aa3b19f2192265988bd",
   "torch": "2.13.0",
-  "working_tree_state": "dirty (19 paths)"
+  "working_tree_state": "dirty (8 paths)"
  },
  "gate": "G3",
  "restart_check": {
@@ -77,12 +66,12 @@
   "problems": [],
   "restart_after_period": 1,
   "restarted_process_returncode": 0,
-  "seconds": 2.615,
+  "seconds": 2.685,
   "threads": 1,
   "unfinished_games_at_save": 3
  },
  "source_digests": {
-  "scripts/phase18_g3_pilot.py": "fb4cc442577a5cc5c20cf21b5b3b3afab4adf5f96e8fe736f7d625af44db556a",
+  "scripts/phase18_g3_pilot.py": "d31f3ea418b59292b6a39a46e7b8c1ab63e07937bf50883972b6acb38ecba97e",
   "stratego/engine/constants.py": "7d0b7f4176b48c7d0d0336934f4119f95f6cd382fb3079a90ee5348ba29b0785",
   "stratego/evaluation/match_runner.py": "3afe09aefcd728c1aface8101b74175b7bd3e075b430a2724e0bf1909220ec8c",
   "stratego/evaluation/match_spec.py": "534f41399bc805a8e8a17e4497fdcd77aee8cda159f84eaba9980db413b77951",
@@ -97,8 +86,8 @@
   "stratego/training/phase18/g3_collector.py": "1bc7de30f7d99b538f65c3df6de984c0167cfd37a7d58baab2596972223716d5",
   "stratego/training/phase18/g3_contract.py": "2db5bcaf7a5fb0d9d0c76b25a4c23fb68d4422fa0ac7749030920e9311401806",
   "stratego/training/phase18/g3_evaluation.py": "a45bd255efb59dbdbb681be17636ed1561390db79c74519670f6b458fa4f2dc2",
-  "stratego/training/phase18/g3_live_store.py": "384cb2cc4ec76dd0569b2b0218eb0e071d2cf29659a9c1938ca15571f2e07721",
-  "stratego/training/phase18/g3_pilot.py": "3018b582b945f947a367f1f29de7982f588b43496730d22bcf9e3c8a44723bc9",
+  "stratego/training/phase18/g3_live_store.py": "ae24922c0779050cf7cf5a276b9434818369e32d358a40baf54f565f534059ef",
+  "stratego/training/phase18/g3_pilot.py": "56316ffd386878f2557c9c5e15c5f444be75f074afe61cca911888dc9ecf0952",
   "stratego/training/phase18/g3_smoke.py": "57034d96f416b5b102a332eed70c6e9a76a8ff9e1e9fa038a992e310feb26617",
   "stratego/training/phase18/setup_buffer.py": "60591895274500ed8301fe1506e6be705cfe6f1b94e3bdca598241c3edc9719a",
   "stratego/training/phase18/setup_contract.py": "eb98f60888de1f9c3589fb0d32f8442ef3a437a8b93606e50f5e46b0f03a0676",
@@ -117,23 +106,23 @@
   "tests/training/phase18/test_g3_buffer_state.py": "e6e644ed84febee00300fc97688d452b7b564b9b9520a4bdbf4a0a0bfdc5b127",
   "tests/training/phase18/test_g3_c1_mixture.py": "b765c7d3fd387b78b40d60d3832b83f2fa1789d58341e1fd5453abbebac81be6",
   "tests/training/phase18/test_g3_collector.py": "54ce8815465e04ec7f9f3bb94c1e66465dd14e6c113f6a20d504cc25c17dc3e9",
-  "tests/training/phase18/test_g3_driver.py": "9917bbd0fb383c3ee15283ccaa28e1fa570fb617a269954abb84bb3ebeb4a0cd",
+  "tests/training/phase18/test_g3_driver.py": "6798d370f22e5201d4e3a2c17f9e7da568e9814370ab013f7f09e987ddd94dff",
   "tests/training/phase18/test_g3_live_store.py": "ee37ddc66d09ef6addb280df2aabd7c8d7975d4e48fb3d73e404abd0d2dc6d36",
-  "tests/training/phase18/test_g3_pilot.py": "c3ad20295488a3dfd854446d3f61664bff8c04cb8db2fc24717d8d2fd3c87a11"
+  "tests/training/phase18/test_g3_pilot.py": "442437b9ca15f356c796fff4c707a9ad032d1c182d876d76f4b21f244ca165a5"
  },
  "tests": {
   "command": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python -m pytest tests/training/phase18/test_g3_buffer_state.py tests/training/phase18/test_g3_live_store.py tests/training/phase18/test_g3_collector.py tests/training/phase18/test_g3_c1_mixture.py tests/training/phase18/test_g3_pilot.py tests/training/phase18/test_g3_driver.py tests/evaluation/phase18/test_g3_evaluation.py tests/training/phase18/test_setup_learning.py tests/training/phase18/test_setup_buffer.py -q --no-header -p no:cacheprovider --junitxml=reports/phase18/g3_pilot/g3_pilot_verification/junit_stage6b.xml",
   "counts": {
    "error": 0,
    "failed": 0,
-   "passed": 77,
+   "passed": 84,
    "skipped": 0
   },
   "junit": "reports/phase18/g3_pilot/g3_pilot_verification/junit_stage6b.xml",
-  "junit_sha256": "7e73b3c8daa1ac08e0bfc3187fd49e2fe05dbf9f452779f57c37f07e596fc55e",
+  "junit_sha256": "0c3aab33833bd71b23a327daa8f012e90d149401e9d0a1ba5d594725c07c5bd1",
   "return_code": 0,
-  "seconds": 43.162,
-  "summary_line": "77 passed, 1 warning in 42.17s",
+  "seconds": 45.743,
+  "summary_line": "84 passed, 1 warning in 44.68s",
   "targets": [
    "tests/training/phase18/test_g3_buffer_state.py",
    "tests/training/phase18/test_g3_live_store.py",
@@ -146,6 +135,6 @@
    "tests/training/phase18/test_setup_buffer.py"
   ]
  },
- "timestamp_utc": "2026-09-03T04:31:22Z",
+ "timestamp_utc": "2026-09-03T11:42:37Z",
  "work_package": "phase18_setup_integrated_warmstart"
 }

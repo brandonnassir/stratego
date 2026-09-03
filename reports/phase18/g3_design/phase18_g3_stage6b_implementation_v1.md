@@ -19,6 +19,9 @@ reviewer decisions       fresh init both lineages; K = 64; canonical:live 1:1; l
 frozen contract          reports/phase18/g3_pilot/phase18_g3_pilot_contract_v1.json
 test evidence            reports/phase18/g3_pilot/phase18_g3_stage6b_verification_v1.json
                          (+ g3_pilot_verification/junit_stage6b.xml)
+corrective commit        review round 1 (2026-09-03), on top of 8c4c863a (never rewritten): consistent
+                         recovery, the launch binding, the fairness-gated decision and the period-1 gate
+                         bundle (section 1.4)
 runtime location         output/phase18/runtime/g3_pilot_v1/ (git-ignored, storage policy item 3)
 protected file           reports/phase13/phase14_launch_manifest_v1.json: never staged, never modified
 ```
@@ -62,8 +65,9 @@ g3_bundle.py             (G3-ENG-03)            the joint bundle: c1.pt (warmsta
 g3_pilot.py              (G3-ENG-02, loop)      LineageRunner: pool -> collect -> K C1 updates -> [candidate only:
                                                 setup update + EMA] -> filter -> bundle; period records with every digest
                                                 the gates read; `matching_check` (period-1 identity, equal budget,
-                                                frozen control, moving candidate); resume from a bundle with live
-                                                periods after the bundle discarded (renamed, never deleted)
+                                                frozen control, moving candidate); recovery from the latest complete
+                                                verified bundle with everything after it archived (section 1.4); the
+                                                fairness conditions and the decision input every result must pass
 g3_smoke.py              (design section 6)     the tiny CPU/one-thread/C0 smoke configuration and `restart_check`
                                                 (uninterrupted vs save-at-n / new-process resume / period n+1)
 g3_evaluation.py         (G3-ENG-04, 05)        the minimal G1 adapter: cases (160 bases x 8 opponents x 2 colours),
@@ -95,7 +99,9 @@ scripts/phase18_g3_pilot.py                     the staged driver: --freeze, --v
                ready row records an explicit skip. control: no update; the raw and EMA digests are asserted
                equal to the recorded initial version every period
 (5) filter     rows older than 21 periods expire (S21: ceil(4000 / 202) + 1)
-(6) bundle     every 32 periods and at the end; bundle_0 before any update
+(6) bundle     after period 1 (the consequential-stop gate), every 32 periods and at the horizon; bundle_0
+               before any update. The period record and the C1 update rows are appended BEFORE the bundle,
+               so a bundle at period p implies the records of periods 1..p exist (what recovery relies on)
 ```
 
 ### 1.2 Decisions taken inside the design's envelope (recorded, not silent)
@@ -149,6 +155,45 @@ outside; `setup_buffer.py` and the package `__init__` are byte-identical to `7a3
 round trip is proved exact (`test_g3_buffer_state.py`: identical digest, identical `process`
 output and minibatches after restore).
 
+### 1.4 The corrective commit (review round 1)
+
+Four corrections, each with its regression test; `8c4c863a` is untouched underneath.
+
+```text
+recovery      `--resume` (and `LineageRunner.resume(bundle_directory=None)`) selects the LATEST COMPLETE,
+              VERIFIED bundle by trying every `bundles/bundle_NNNN` from the highest period down through
+              `verify_bundle` (run, lineage, period, matched configuration, every component digest);
+              `run_state.json` is never consulted for the choice and partial, tampered or foreign bundles
+              are skipped and recorded. Everything made after that bundle is moved into
+              `<lineage>/archive/<stamp>_after_bundle_NNNN/` (live period file sets, the later period
+              records as `periods_after.jsonl`, the later C1 rows as `c1_rows_after.jsonl`, an
+              interrupted trailing line, partial or unverifiable later bundles, the old state file);
+              nothing is deleted. Before anything moves, the kept records are validated: exactly one
+              period record for each of 1..N in order and exactly K C1 rows per period, or the resume
+              refuses. `run_state.json` now names the actual last bundle (`last_bundle`,
+              `last_bundle_period`) and carries the resume record.
+binding       `--launch-manifest` re-checks the verification record's contract digest and every source
+              and test digest against the current files (stale evidence is refused). `--run`,
+              `--check-matching`, `--evaluate` and `--analyse` first verify HEAD and every tracked
+              harness source and test file against the launch manifest; generated reports and ignored
+              runtime output are allowed, tracked drift is not.
+fairness      `--analyse` refuses outright when the lineage-matching record is missing, written against
+              another contract, or not matched (it is required evidence, never telemetry), then computes
+              `fairness_conditions`: exactly periods 1..256 once each in order and exactly K C1 rows per
+              period for both lineages; equal and complete C1 update budgets; zero control setup, optimizer
+              and EMA updates with the control digest unchanged from initialisation; at least one real
+              candidate setup update; final candidate raw and EMA digests different from initialisation;
+              complete, verified final bundles for both lineages consistent with their final records; and
+              the arms evaluated with exactly those bundles. `decision_input` gives PROCEED only when the
+              frozen rule passes AND every computable gate AND every fairness condition hold; a failed
+              condition or gate BLOCKS (the comparison is then not the frozen one); otherwise
+              NEAR_BOUNDARY or FAIL as before.
+gate bundle   a resumable bundle is written after period 1 in both lineages in addition to the 32-period
+              cadence, so the launch sequence runs one period per lineage, runs `--check-matching`
+              (which now exits non-zero on a mismatch) and stops there if it fails; only then do both
+              lineages resume toward period 256. The MPS treatment of the period-1 C1 digest is unchanged.
+```
+
 ---
 
 ## 2. The frozen contract (`phase18_g3_pilot_contract_v1.json`)
@@ -180,11 +225,11 @@ from the code and refuses any drift before `--run`, `--evaluate` and `--analyse`
 
 ## 3. Test evidence (the critical implementation checks)
 
-Verification record `phase18_g3_stage6b_verification_v1.json` (driver `--verify`, from this
-worktree before the commit): **77 passed, 0 failed, 0 skipped** over the eight targets, and
-the restart check **PASS**. Full Phase 18 sweep (`tests/training/phase18` +
+Verification record `phase18_g3_stage6b_verification_v1.json` (driver `--verify`, regenerated
+for the corrective commit): **84 passed, 0 failed, 0 skipped** over the nine targets, and the
+restart check **PASS**. Full Phase 18 sweep (`tests/training/phase18` +
 `tests/evaluation/phase18`, plus the Phase 17 checkpoint-codec tests and the Phase 8 trainer /
-checkpoint tests the harness subclasses): **319 passed, 0 failed** (63.7 s), including the G2
+checkpoint tests the harness subclasses): **326 passed, 0 failed** (66.8 s), including the G2
 raw-confirmation driver's method-identity tripwire (section 1.3).
 
 ```text
@@ -240,6 +285,23 @@ supporting                                   collector: G4 accounting, exact cap
                                              parallel loader == serial reference, unconsumed plans refused;
                                              driver: production config == frozen defaults, deterministic
                                              freeze, drift refused, diagnostic arms gated, horizon enforced
+corrective commit (section 1.4)             test_g3_pilot::test_resume_selects_the_latest_verified_bundle_and_  PASS
+                                             replays_without_duplicates (cadence 2, horizon 4: three periods,
+                                             a partial newer bundle and a lying state file planted, resume picks
+                                             bundle_2 and skips a tampered newer one on a copy, period 3 archived
+                                             and replayed identically, period 4 finished: exactly one record per
+                                             period, exactly K rows per period, live periods 1..4, state names
+                                             bundle_0004, the archive holds every moved file; a second resume
+                                             archives nothing); test_recovery_refuses_a_history_it_cannot_
+                                             restore_exactly; test_fairness_conditions_hold_on_the_smoke_pilot_
+                                             and_fail_on_tampering (missing / failed / foreign matching, a
+                                             duplicated period record, a moved control digest, an unreached
+                                             horizon each fail their condition); test_decision_input_requires_
+                                             every_condition; test_g3_driver::test_stale_verification_evidence_
+                                             is_refused_at_launch, test_source_drift_or_a_mismatched_commit_is_
+                                             refused_before_every_stage (drift, foreign HEAD, missing file
+                                             refused; reports and runtime output tolerated), test_every_post_
+                                             launch_stage_refuses_without_the_launch_manifest
 ```
 
 Also observed while testing (not gates): teacher games on fresh-model pool setups ran at about
@@ -283,7 +345,9 @@ choice; they are not throughput claims for the pilot.
 ## 5. The exact pilot command (proposed; NOT executed; requires an explicit written instruction)
 
 From a clean detached execution worktree at the reviewed Stage 6B commit (storage policy:
-under `output/phase18/worktrees/`), with the main repo's interpreter:
+under `output/phase18/worktrees/`), with the main repo's interpreter. The sequence has a
+consequential stop after period 1: both lineages run exactly one period, the matching check
+must pass, and only then do both resume toward period 256.
 
 ```bash
 PY=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python
@@ -292,32 +356,45 @@ cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent
 git worktree add --detach output/phase18/worktrees/g3_pilot_exec "$COMMIT"
 cd output/phase18/worktrees/g3_pilot_exec
 REPORTS=$PWD/reports/phase18/g3_pilot
+LOGS=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime
 
-# 1. bind the source, the contract and the (empty, git-ignored) runtime root; refuses a dirty tree
+# 1. bind the source, the contract, the verification evidence and the (empty, git-ignored) runtime
+#    root; refuses a dirty tree and stale evidence. Every later stage re-checks HEAD and the tracked
+#    harness sources and tests against this manifest.
 $PY scripts/phase18_g3_pilot.py --launch-manifest --source-commit "$COMMIT" --reports "$REPORTS"
 
-# 2. the two lineages (separate processes; each verifies the accepted corpus and stops at period 256)
-nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage candidate --reports "$REPORTS" \
-    > /Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v1_candidate.log 2>&1 &
-nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage control --reports "$REPORTS" \
-    > /Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v1_control.log 2>&1 &
-#    (a crash resumes from the last bundle with:  --run --lineage <l> --resume --reports "$REPORTS")
+# 2. period 1 in each lineage (each verifies the accepted corpus; bundle_1 is the resumable gate bundle)
+$PY scripts/phase18_g3_pilot.py --run --lineage candidate --periods 1 --reports "$REPORTS" \
+    > "$LOGS/g3_pilot_v1_candidate_p1.log" 2>&1
+$PY scripts/phase18_g3_pilot.py --run --lineage control   --periods 1 --reports "$REPORTS" \
+    > "$LOGS/g3_pilot_v1_control_p1.log" 2>&1
 
-# 3. the period-1 lineage-identity and equal-budget check (may run as soon as both period 1 records exist)
-$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS"
+# 3. the consequential stop: the period-1 lineage-identity and equal-budget check; a non-zero exit
+#    means the lineages are not matched and NOTHING below may run
+$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" || { echo "STOP: lineages not matched"; exit 1; }
 
-# 4. the primary evaluation, control first (frozen order), on the G1 harness under EVALUATION_RULES
+# 4. both lineages resume from their latest verified bundle (bundle_1) toward period 256, as separate
+#    processes; a crash resumes the same way (progress after the last bundle is archived, never deleted)
+nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage candidate --resume --reports "$REPORTS" \
+    > "$LOGS/g3_pilot_v1_candidate.log" 2>&1 &
+nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage control   --resume --reports "$REPORTS" \
+    > "$LOGS/g3_pilot_v1_control.log" 2>&1 &
+
+# 5. after both reached period 256: re-run the matching check over the full history (equal budgets)
+$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" || { echo "STOP: lineages not matched"; exit 1; }
+
+# 6. the primary evaluation, control first (frozen order), on the G1 harness under EVALUATION_RULES
 $PY scripts/phase18_g3_pilot.py --evaluate --arm control_final   --device mps --workers 8 --reports "$REPORTS"
 $PY scripts/phase18_g3_pilot.py --evaluate --arm candidate_final --device mps --workers 8 --reports "$REPORTS"
 
-# 5. the contrast, the ten gates and the decision input
+# 7. the contrast, the ten gates, every fairness condition and the decision input
 $PY scripts/phase18_g3_pilot.py --analyse --reports "$REPORTS"
 ```
 
 The launch manifest, matching record and results are written under `$REPORTS` and are
-committed to the branch after review. Runtime data (bundles, live stores, receipts, period
-records) stays under `output/phase18/runtime/g3_pilot_v1/` (git-ignored). Nothing continues
-past period 256; the `--diagnostic` arms are not part of this command.
+committed to the branch after review. Runtime data (bundles, live stores, archives, receipts,
+period records) stays under `output/phase18/runtime/g3_pilot_v1/` (git-ignored). Nothing
+continues past period 256; the `--diagnostic` arms are not part of this command.
 
 ---
 
@@ -325,7 +402,8 @@ past period 256; the `--diagnostic` arms are not part of this command.
 
 No pilot period, no production game, no evaluation game against a trained model, no held-out
 access, nothing pushed; the approved commit `7a37cde5` and its history are untouched. Checks
-run for this commit: the driver's `--freeze` (deterministic, re-derived by the driver tests)
-and `--verify` (77 passed; restart check PASS) into `reports/phase18/g3_pilot/`; the Phase 18
-sweep and the adjacent Phase 17 / Phase 8 suites; `git diff --check`. The protected Phase 14
+run for the corrective commit: the driver's `--freeze` (deterministic, re-derived by the driver
+tests) and `--verify` (84 passed; restart check PASS) into `reports/phase18/g3_pilot/`, with the
+verification record's binding re-checked against the current files; the Phase 18 sweep and the
+adjacent Phase 17 / Phase 8 suites (326 passed); `git diff --check`. The protected Phase 14
 manifest was never staged.

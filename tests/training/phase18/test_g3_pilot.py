@@ -220,3 +220,191 @@ def test_checkpoint_save_and_resume_across_an_unfinished_game_reproduces_the_con
     assert report["passed"], report
     assert all(report["comparisons"].values()) and all(report["bundle_comparison"].values())
     assert report["control_next_period_completed"] >= 1
+
+
+# ---------------------------------------------------------------------------
+# Corrective commit: consistent recovery, the gate bundle, fairness conditions
+# ---------------------------------------------------------------------------
+
+
+def test_resume_selects_the_latest_verified_bundle_and_replays_without_duplicates(corpus, tmp_path):
+    """Cadence 2, horizon 4: run three periods (bundles 0, 1, 2; none at 3),
+    interrupt, leave a partial newer bundle and a lying run_state.json, resume
+    from bundle_2, replay period 3 and finish period 4: exactly one record per
+    period, exactly K C1 rows per period, the progress after bundle_2 archived
+    (never deleted), and the state naming the real last bundle."""
+    import shutil
+    from collections import Counter
+    from pathlib import Path
+
+    from stratego.training.phase18 import g3_live_store as ls
+
+    torch.set_num_threads(1)
+    config = smoke_pilot_config(namespace=NAMESPACE + ":cadence2", run_id="G3-RESUME-TEST", overrides={"periods": 4, "bundle_cadence_periods": 2})
+    run_root = tmp_path / "run"
+    runner = gp.LineageRunner.fresh(config, **keywords(run_root, corpus))
+    try:
+        first = runner.run(periods=3)
+    finally:
+        runner.close()
+    lineage_root = run_root / "candidate"
+    bundles = lineage_root / gp.BUNDLES_DIRECTORY
+    # The gate bundle after period 1 exists alongside the cadence bundle at 2.
+    assert sorted(p.name for p in bundles.iterdir()) == ["bundle_0000", "bundle_0001", "bundle_0002"]
+    assert first[0]["bundle_planned"] and not first[2]["bundle_planned"]
+    assert [r["period"] for r in gp.read_period_records(lineage_root)] == [1, 2, 3]
+    assert len(gp.read_c1_rows(lineage_root)) == 3 * 2
+    state_path = lineage_root / gp.STATE_NAME
+    assert json.loads(state_path.read_text())["last_bundle"] == str(bundles / "bundle_0002")
+    interrupted_period_3 = first[2]
+
+    # Debris of an interruption: a partial newer bundle and a lying state file.
+    (bundles / "bundle_0003.partial").mkdir()
+    (bundles / "bundle_0003.partial" / "junk").write_text("x")
+    state_path.write_text(json.dumps({"period": 3, "last_bundle": str(bundles / "bundle_0003"), "last_bundle_period": 3}))
+
+    # Selection reads the bundles, not the state file, and skips a tampered newer one.
+    copy = tmp_path / "copy"
+    shutil.copytree(lineage_root, copy / "candidate")
+    with (copy / "candidate" / gp.BUNDLES_DIRECTORY / "bundle_0002" / COLLECTOR_NAME).open("ab") as handle:
+        handle.write(b"x")
+    fallback = gp.select_resume_bundle(copy / "candidate", config)
+    assert fallback["period"] == 1 and [s["period"] for s in fallback["skipped"]] == [2]
+
+    resumed = gp.LineageRunner.resume(config, bundle_directory=None, **keywords(run_root, corpus))
+    try:
+        record = resumed.resume_record
+        assert record["selection"]["period"] == 2 and record["selection"]["skipped"] == [] and resumed.period == 2
+        archive = record["archive"]
+        assert archive["archive"] and archive["period_records_archived"] == 1 and archive["c1_rows_archived"] == 2
+        assert sorted(Path(m["from"]).name for m in archive["live_periods_moved"]) == [
+            "period_0003.done.json", "period_0003.journal.jsonl", "period_0003.meta.jsonl", "period_0003.records"
+        ]
+        assert [Path(m["from"]).name for m in archive["bundles_moved"]] == ["bundle_0003.partial"]
+        assert archive["previous_state_archived"]
+        assert [r["period"] for r in gp.read_period_records(lineage_root)] == [1, 2]
+        assert len(gp.read_c1_rows(lineage_root)) == 4
+        assert ls.available_periods(lineage_root / gp.LIVE_DIRECTORY) == (1, 2)
+        assert json.loads(state_path.read_text())["last_bundle"] == str(bundles / "bundle_0002")
+        later = resumed.run()
+    finally:
+        resumed.close()
+    assert [r["period"] for r in later] == [3, 4]
+    records = gp.read_period_records(lineage_root)
+    assert [r["period"] for r in records] == [1, 2, 3, 4]
+    assert dict(Counter(r["period"] for r in gp.read_c1_rows(lineage_root))) == {1: 2, 2: 2, 3: 2, 4: 2}
+    assert ls.available_periods(lineage_root / gp.LIVE_DIRECTORY) == (1, 2, 3, 4)
+    assert sorted(p.name for p in bundles.iterdir()) == ["bundle_0000", "bundle_0001", "bundle_0002", "bundle_0004"]
+    state = json.loads(state_path.read_text())
+    assert state["period"] == 4 and state["last_bundle_period"] == 4 and state["last_bundle"] == str(bundles / "bundle_0004")
+    assert state["resume"]["selection"]["period"] == 2
+    # The replayed period 3 is the interrupted period 3.
+    replayed = records[2]
+    for key in ("completed_game_ids_digest", "outcome_records_digest", "plies_advanced", "in_flight_at_end"):
+        assert replayed["collection"][key] == interrupted_period_3["collection"][key], key
+    assert replayed["c1"]["keys_digests"] == interrupted_period_3["c1"]["keys_digests"]
+    assert replayed["c1_state_digest"] == interrupted_period_3["c1_state_digest"]
+    assert replayed["setup_raw_digest"] == interrupted_period_3["setup_raw_digest"]
+    # The archive preserves everything that was made after bundle_2.
+    archive_dir = Path(archive["archive"])
+    assert json.loads((archive_dir / "periods_after.jsonl").read_text().splitlines()[0])["period"] == 3
+    assert len((archive_dir / "c1_rows_after.jsonl").read_text().splitlines()) == 2
+    assert sorted(p.name for p in (archive_dir / gp.LIVE_DIRECTORY).iterdir()) == [
+        "period_0003.done.json", "period_0003.journal.jsonl", "period_0003.meta.jsonl", "period_0003.records"
+    ]
+    assert (archive_dir / gp.BUNDLES_DIRECTORY / "bundle_0003.partial" / "junk").exists()
+    assert (archive_dir / gp.STATE_NAME).exists()
+    # A resume that finds nothing after its bundle archives nothing.
+    again = gp.LineageRunner.resume(config, bundle_directory=None, **keywords(run_root, corpus))
+    try:
+        assert again.period == 4 and again.resume_record["archive"]["archive"] is None
+        with pytest.raises(Phase18G3Error, match="bounded horizon"):
+            again.run_period()
+    finally:
+        again.close()
+
+
+def test_recovery_refuses_a_history_it_cannot_restore_exactly(corpus, tmp_path):
+    """A missing period record below the bundle period is corruption, not
+    something to paper over: the resume refuses before touching anything."""
+    torch.set_num_threads(1)
+    config = smoke_pilot_config(namespace=NAMESPACE + ":refuse", run_id="G3-REFUSE-TEST", overrides={"periods": 2, "bundle_cadence_periods": 2})
+    run_root = tmp_path / "run"
+    runner = gp.LineageRunner.fresh(config, **keywords(run_root, corpus))
+    try:
+        runner.run()
+    finally:
+        runner.close()
+    lineage_root = run_root / "candidate"
+    periods_path = lineage_root / gp.PERIODS_NAME
+    lines = periods_path.read_text().splitlines()
+    periods_path.write_text(lines[1] + "\n")  # period 1's record lost
+    with pytest.raises(Phase18G3Error, match="exactly one record"):
+        gp.archive_progress_after(lineage_root, 2, updates_per_period=2)
+    periods_path.write_text("\n".join(lines) + "\n")
+    rows_path = lineage_root / gp.C1_ROWS_NAME
+    rows = rows_path.read_text().splitlines()
+    rows_path.write_text("\n".join(rows + [rows[-1]]) + "\n")  # a duplicated C1 row
+    with pytest.raises(Phase18G3Error, match="C1 rows"):
+        gp.archive_progress_after(lineage_root, 2, updates_per_period=2)
+    rows_path.write_text("\n".join(rows) + "\n")
+    assert gp.archive_progress_after(lineage_root, 2, updates_per_period=2)["archive"] is None
+    # An interrupted append (a partial trailing line) is archived, not refused.
+    with periods_path.open("a") as handle:
+        handle.write('{"period": 3, "truncated')
+    report = gp.archive_progress_after(lineage_root, 2, updates_per_period=2)
+    assert report["partial_lines_archived"] == 1 and report["archive"]
+    assert [r["period"] for r in gp.read_period_records(lineage_root)] == [1, 2]
+
+
+def test_fairness_conditions_hold_on_the_smoke_pilot_and_fail_on_tampering(two_lineages, tmp_path):
+    import shutil
+
+    run_root, _records = two_lineages
+    matching = gp.matching_check(run_root, c1_device="cpu") | {"contract_sha256": "c" * 64}
+    fairness = gp.fairness_conditions(run_root, periods=3, updates_per_period=2, matching=matching, contract_sha256="c" * 64)
+    assert fairness["all_hold"], fairness["problems"]
+    assert all(fairness["conditions"].values())
+    assert fairness["budgets"]["candidate"] == fairness["budgets"]["control"] == {"completed_updates": 6, "final_global_step": 6}
+    assert all(entry["verified"] and entry["consistent_with_records"] for entry in fairness["final_bundles"].values())
+    # Missing, failed or foreign matching evidence is a failed condition, never telemetry.
+    missing = gp.fairness_conditions(run_root, periods=3, updates_per_period=2, matching=None, contract_sha256="c" * 64)
+    assert not missing["all_hold"] and not missing["conditions"]["matching_record_present"] and any("not telemetry" in p for p in missing["problems"])
+    failed = gp.fairness_conditions(run_root, periods=3, updates_per_period=2, matching=dict(matching, matched=False, problems=["x"]), contract_sha256="c" * 64)
+    assert not failed["all_hold"] and not failed["conditions"]["matching_record_matched"]
+    stale = gp.fairness_conditions(run_root, periods=3, updates_per_period=2, matching=matching, contract_sha256="d" * 64)
+    assert not stale["all_hold"] and not stale["conditions"]["matching_record_contract_bound"]
+    # A duplicated period record breaks the exact-history condition.
+    duplicated = tmp_path / "dup"
+    shutil.copytree(run_root, duplicated)
+    periods_path = duplicated / "candidate" / gp.PERIODS_NAME
+    lines = periods_path.read_text().splitlines()
+    periods_path.write_text("\n".join(lines + [lines[-1]]) + "\n")
+    dup = gp.fairness_conditions(duplicated, periods=3, updates_per_period=2, matching=matching, contract_sha256="c" * 64)
+    assert not dup["all_hold"] and not dup["conditions"]["candidate_periods_exactly_1_to_3"]
+    # A control whose records disagree with its recorded initial digest is not frozen.
+    tampered = tmp_path / "init"
+    shutil.copytree(run_root, tampered)
+    init_path = tampered / "control" / gp.INIT_NAME
+    init = json.loads(init_path.read_text())
+    init["setup_init_state_digest"] = "0" * 64
+    init_path.write_text(json.dumps(init))
+    frozen = gp.fairness_conditions(tampered, periods=3, updates_per_period=2, matching=matching, contract_sha256="c" * 64)
+    assert not frozen["all_hold"] and not frozen["conditions"]["control_setup_digest_unchanged"]
+    # A horizon the lineages never reached has no complete final bundle and an incomplete budget.
+    short = gp.fairness_conditions(run_root, periods=4, updates_per_period=2, matching=matching, contract_sha256="c" * 64)
+    assert not short["all_hold"]
+    assert not short["conditions"]["candidate_final_bundle_complete"] and not short["conditions"]["equal_completed_c1_update_budget"]
+
+
+def test_decision_input_requires_every_condition():
+    passes = {"passes": True, "near_boundary": False}
+    gates = {"G1": True, "G2": True, "G10_clean_deliverable": None}
+    good = {"all_hold": True, "problems": []}
+    assert gp.decision_input(passes, gates, good)["decision"] == "PROCEED"
+    blocked = gp.decision_input(passes, gates, {"all_hold": False, "problems": ["the lineage-matching record is missing"]})
+    assert blocked["decision"] == "BLOCKED" and "missing" in blocked["basis"]
+    assert gp.decision_input(passes, dict(gates, G2=False), good)["decision"] == "BLOCKED"
+    assert gp.decision_input({"passes": False, "near_boundary": True}, gates, good)["decision"] == "NEAR_BOUNDARY"
+    assert gp.decision_input({"passes": False, "near_boundary": False}, gates, good)["decision"] == "FAIL"
+    assert gp.decision_input(passes, gates, good)["uncomputed_gates"] == ["G10_clean_deliverable"]

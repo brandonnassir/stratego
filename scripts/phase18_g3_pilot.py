@@ -10,17 +10,32 @@ Stages, in order; each must finish before the next may start:
 * `--verify`            run the Stage 6B test files with a JUnit record and the
                         design-section-6 restart check; write the verification record.
 * `--launch-manifest`   from the clean execution worktree: bind the source commit, its
-                        tree, every harness source and test digest, the contract digest,
-                        and the runtime root. Refuses a non-empty runtime root.
-* `--run --lineage L`   run one lineage to the bounded horizon (256 periods), writing a
-                        joint bundle every 32 periods; `--resume` continues from the
-                        lineage's last bundle. Nothing continues past the horizon.
-* `--check-matching`    the period-1 lineage-identity check and the equal-budget check.
+                        tree, every harness source and test digest, the contract digest
+                        and the runtime root. Refuses a dirty tree, a non-empty runtime
+                        root, and a verification record whose contract, source or test
+                        digests do not match the current files (stale evidence).
+* `--run --lineage L`   run one lineage; `--periods N` stops after N more periods;
+                        `--resume` continues from the lineage's LATEST COMPLETE, VERIFIED
+                        bundle (never from run_state.json), archiving every record made
+                        after it. Bundles are written after period 1 (the consequential-
+                        stop gate), every 32 periods and at the horizon; nothing continues
+                        past period 256.
+* `--check-matching`    the period-1 lineage-identity check and the equal-budget check;
+                        exits non-zero when the lineages do not match, which stops the
+                        launch sequence before either lineage resumes.
 * `--evaluate --arm A`  play the frozen evaluation schedule with one final bundle on
                         the established G1 harness; one immutable receipt per game.
 * `--analyse`           the candidate-versus-control contrast, the stratified cluster
-                        bootstrap, the frozen rule, the ten gates.
+                        bootstrap, the frozen rule, the ten gates and every fairness
+                        condition (a present, contract-bound, successful matching record;
+                        exactly periods 1..256 once each in both lineages; equal C1
+                        budgets; a frozen control; a moved candidate; complete final
+                        bundles). PROCEED needs all of them; a failed condition BLOCKS.
 * `--restart-check`     the section-6 restart test on the smoke configuration, on demand.
+
+Every stage after `--launch-manifest` first verifies that HEAD and every tracked
+harness source and test file match the launch manifest. Generated reports and
+ignored runtime output may exist; only tracked source or test drift is refused.
 
 Frozen by the reviewer (2026-09-02): fresh initialisation of both lineages;
 K = 64 C1 updates per period; canonical:live 1:1; live retention 32 periods;
@@ -189,6 +204,71 @@ def digests_of(names, root: Path = REPOSITORY_ROOT) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# Binding: the verification record to the current files, and every later
+# stage to the launch manifest
+# ---------------------------------------------------------------------------
+
+
+def verification_binding_problems(verification: dict, *, root: Path, contract_sha256: str) -> list:
+    """Why a verification record is stale for the files that are here now."""
+    problems: list = []
+    if verification.get("contract_sha256") != contract_sha256:
+        problems.append("stale verification evidence: the record was produced against a different contract")
+    for label, names, recorded in (
+        ("source", HARNESS_SOURCES, verification.get("source_digests") or {}),
+        ("test", TEST_FILES, verification.get("test_digests") or {}),
+    ):
+        for name in names:
+            path = root / name
+            if not path.exists():
+                problems.append(f"stale verification evidence: {label} file {name} is missing")
+                continue
+            if recorded.get(name) != file_sha256(path):
+                problems.append(f"stale verification evidence: {label} file {name} changed since the record was written")
+    return problems
+
+
+def launch_binding_problems(manifest: dict, *, root: Path, head: str) -> list:
+    """Why the tree that is about to run is not the launched source.
+
+    Only HEAD and the tracked harness source and test files are compared;
+    generated reports and git-ignored runtime output are legitimately present.
+    """
+    problems: list = []
+    commit = (manifest.get("source") or {}).get("g3_source_commit")
+    if head != commit:
+        problems.append(f"HEAD {head} is not the launch manifest's source commit {commit}")
+    for label, names, recorded in (
+        ("source", HARNESS_SOURCES, manifest.get("source_digests") or {}),
+        ("test", TEST_FILES, manifest.get("test_digests") or {}),
+    ):
+        for name in names:
+            path = root / name
+            if not path.exists():
+                problems.append(f"tracked {label} file {name} is missing")
+                continue
+            if recorded.get(name) != file_sha256(path):
+                problems.append(f"tracked {label} file {name} differs from the launch manifest")
+    return problems
+
+
+def require_launch_binding(reports: Path, *, contract_sha256: "str | None" = None, root: Path = REPOSITORY_ROOT, head: "str | None" = None) -> dict:
+    """Load the launch manifest and refuse unless this tree is the launched one."""
+    launch_path = reports / LAUNCH_NAME
+    if not launch_path.exists():
+        raise G3Error("BLOCKED: no launch manifest; run --launch-manifest from the clean worktree first")
+    launch = json.loads(launch_path.read_text())
+    if contract_sha256 is not None and launch.get("contract_sha256") != contract_sha256:
+        raise G3Error("BLOCKED: the launch manifest binds a different contract")
+    current_head = head if head is not None else git_output("rev-parse", "HEAD", cwd=root)
+    problems = launch_binding_problems(launch, root=root, head=current_head)
+    if problems:
+        raise G3Error("BLOCKED: the tree is not the launched source: " + "; ".join(problems))
+    return launch
+
+
+
+# ---------------------------------------------------------------------------
 # The production configuration
 # ---------------------------------------------------------------------------
 
@@ -274,6 +354,9 @@ def stage_freeze(reports: Path, *, c1_device: str) -> dict:
             "seeds_one": 1,
             "c1_device": c1_device,
             "setup_device": candidate.setup_device,
+            "gate_bundle_after_period_1": True,
+            "bundle_periods": "0 (initial), 1 (the consequential-stop gate), every 32, and 256",
+            "consequential_stop": "both lineages run period 1, --check-matching must pass, only then do both resume toward period 256",
         },
         "seeds": {
             "namespace": NAMESPACE,
@@ -448,6 +531,9 @@ def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
     verification = json.loads(verification_path.read_text())
     if verification["tests"]["return_code"] != 0 or not verification["restart_check"]["passed"]:
         raise G3Error("BLOCKED: the verification record is not green")
+    stale = verification_binding_problems(verification, root=REPOSITORY_ROOT, contract_sha256=contract_sha)
+    if stale:
+        raise G3Error("BLOCKED: " + "; ".join(stale))
     ignored = subprocess.run(["git", "check-ignore", "-q", str(RUNTIME_RELATIVE / "probe")], cwd=CANONICAL_ROOT, capture_output=True).returncode == 0
     if not ignored:
         raise G3Error(f"BLOCKED: {RUNTIME_RELATIVE} is not git-ignored in the canonical tree")
@@ -472,6 +558,7 @@ def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
         "runtime": {"root_absolute": str(RUNTIME_ROOT), "root_relative": str(RUNTIME_RELATIVE), "git_ignored": ignored},
         "contract_sha256": contract_sha,
         "verification_sha256": file_sha256(verification_path),
+        "verification_binding": "the verification record's contract, source and test digests were re-checked against the current files at manifest time",
         "matched_digest": contract["matched_digest"],
         "schedule_digest": frozen["schedule"]["digest"],
         "source_digests": digests_of(HARNESS_SOURCES),
@@ -503,17 +590,12 @@ def accepted_corpus() -> tuple:
 
 
 def stage_run(reports: Path, *, lineage: str, runtime: Path, resume: bool, periods: "int | None", skip_payload_bytes: bool) -> dict:
-    from stratego.training.phase18.g3_pilot import BUNDLES_DIRECTORY, LineageRunner, bundle_name
+    from stratego.training.phase18.g3_pilot import BUNDLES_DIRECTORY, LineageRunner
     from stratego.training.warmstart_checkpoint import verify_corpus_identity
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
-    launch_path = reports / LAUNCH_NAME
-    if not launch_path.exists():
-        raise G3Error("BLOCKED: no launch manifest; run --launch-manifest from the clean worktree first")
-    launch = json.loads(launch_path.read_text())
-    if launch["contract_sha256"] != contract_sha:
-        raise G3Error("BLOCKED: the launch manifest binds a different contract")
+    launch = require_launch_binding(reports, contract_sha256=contract_sha)
     config = frozen["configs"][lineage]
     root, accepted = accepted_corpus()
     log("verifying the accepted corpus identity" + (" (digests only)" if skip_payload_bytes else " and every payload"))
@@ -521,15 +603,14 @@ def stage_run(reports: Path, *, lineage: str, runtime: Path, resume: bool, perio
     keywords = dict(run_root=runtime, corpus_root=root, corpus_identity=identity, log=log)
     started = time.perf_counter()
     if resume:
-        state_path = runtime / lineage / "run_state.json"
-        if not state_path.exists():
+        if not (runtime / lineage / BUNDLES_DIRECTORY).exists():
             raise G3Error(f"BLOCKED: nothing to resume under {runtime / lineage}")
-        state = json.loads(state_path.read_text())
-        bundle = runtime / lineage / BUNDLES_DIRECTORY / bundle_name(int(state["period"]) // config.bundle_cadence_periods * config.bundle_cadence_periods)
-        if not bundle.exists():
-            raise G3Error(f"BLOCKED: the last bundle {bundle} is missing")
-        runner = LineageRunner.resume(config, bundle_directory=bundle, **keywords)
-        log(f"{lineage}: resumed from {bundle.name} at period {runner.period}")
+        # The latest complete, verified bundle decides; run_state.json is never consulted.
+        runner = LineageRunner.resume(config, bundle_directory=None, **keywords)
+        selection = runner.resume_record["selection"]
+        log(f"{lineage}: resumed from the latest complete verified bundle {Path(selection['bundle']).name} at period {runner.period}" + (f"; skipped {len(selection['skipped'])} unverifiable bundle(s)" if selection["skipped"] else ""))
+        if runner.resume_record["archive"]["archive"]:
+            log(f"{lineage}: progress after the bundle archived under {runner.resume_record['archive']['archive']}")
     else:
         runner = LineageRunner.fresh(config, **keywords)
         log(f"{lineage}: fresh lineage, bundle_0 written")
@@ -548,6 +629,8 @@ def stage_run(reports: Path, *, lineage: str, runtime: Path, resume: bool, perio
         "horizon": config.periods,
         "complete": runner.period == config.periods,
         "last_bundle_id": runner.last_bundle_id,
+        "last_bundle_period": runner.last_bundle_period,
+        "resume": runner.resume_record,
         "integrity": runner.integrity,
         "setup_skips": runner.setup_skips,
         "wall_seconds": round(time.perf_counter() - started, 3),
@@ -568,6 +651,7 @@ def stage_check_matching(reports: Path, *, runtime: Path) -> dict:
     from stratego.training.phase18.g3_pilot import matching_check
 
     contract, contract_sha = load_contract(reports)
+    require_launch_binding(reports, contract_sha256=contract_sha)
     report = matching_check(runtime, c1_device=contract["frozen_defaults"]["c1_device"])
     record = {"artifact": "phase18_g3_pilot_matching_v1", "run_id": RUN_ID, "contract_sha256": contract_sha, "timestamp_utc": utc_now(), **report}
     write_json(reports / MATCHING_NAME, record)
@@ -594,6 +678,7 @@ def stage_evaluate(reports: Path, *, runtime: Path, arm: str, device: str, worke
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
+    require_launch_binding(reports, contract_sha256=contract_sha)
     if arm not in ARMS:
         raise G3Error(f"BLOCKED: unknown arm {arm!r}; known: {sorted(ARMS)}")
     lineage, period, is_diagnostic = ARMS[arm]
@@ -616,13 +701,35 @@ def stage_evaluate(reports: Path, *, runtime: Path, arm: str, device: str, worke
 
 def stage_analyse(reports: Path, *, runtime: Path) -> dict:
     from stratego.training.phase18.g3_evaluation import paired_analysis, prove_arm_identity, read_receipt_rows, reconcile
-    from stratego.training.phase18.g3_pilot import read_period_records
+    from stratego.training.phase18.g3_pilot import decision_input, fairness_conditions, read_period_records
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
+    require_launch_binding(reports, contract_sha256=contract_sha)
     cases, matches = frozen["cases"], frozen["matches"]
+    config = frozen["configs"][LINEAGE_CANDIDATE]
+
+    # The lineage-matching record is required evidence, never telemetry.
+    matching_path = reports / MATCHING_NAME
+    if not matching_path.exists():
+        raise G3Error("BLOCKED: the lineage-matching record is missing; run --check-matching first (it is required evidence, not telemetry)")
+    matching = json.loads(matching_path.read_text())
+    if matching.get("contract_sha256") != contract_sha:
+        raise G3Error("BLOCKED: the lineage-matching record was written against a different contract")
+    if not matching.get("matched"):
+        raise G3Error(f"BLOCKED: the lineages did not match: {matching.get('problems')}")
+
+    fairness = fairness_conditions(
+        runtime,
+        periods=config.periods,
+        updates_per_period=config.c1_updates_per_period,
+        matching=matching,
+        contract_sha256=contract_sha,
+    )
+
     arms = {}
     for arm in ("candidate_final", "control_final"):
+        lineage, period, _diagnostic = ARMS[arm]
         work = runtime / "evaluation" / arm
         record_path = work / "arm_record.json"
         if not record_path.exists():
@@ -636,29 +743,35 @@ def stage_analyse(reports: Path, *, runtime: Path) -> dict:
             raise G3Error(f"BLOCKED: the {arm} arm is incomplete: {accounting}")
         if record["schedule"]["digest"] != frozen["schedule"]["digest"]:
             raise G3Error(f"BLOCKED: the {arm} arm played a different schedule")
+        if record["lineage"] != lineage or int(record["bundle_period"]) != int(config.periods):
+            raise G3Error(f"BLOCKED: the {arm} arm was played with the wrong lineage or bundle period")
+        final_bundle = fairness["final_bundles"][lineage]
+        if not final_bundle["verified"] or record["bundle_id"] != final_bundle["bundle_id"]:
+            raise G3Error(f"BLOCKED: the {arm} arm was not played with the verified final {lineage} bundle")
         arms[arm] = {"record": record, "rows": rows, "accounting": accounting}
     identity = prove_arm_identity({arm: arms[arm]["rows"] for arm in arms}, cases)
     if identity["problems"]:
         raise G3Error(f"BLOCKED: arm identity failed: {identity['problems']}")
     analysis = paired_analysis(arms["candidate_final"]["rows"], arms["control_final"]["rows"], cases, namespace=NAMESPACE)
-    matching_path = reports / MATCHING_NAME
-    matching = json.loads(matching_path.read_text()) if matching_path.exists() else None
+
     periods = {lineage: read_period_records(runtime / lineage) for lineage in LINEAGES}
     integrity = {lineage: (periods[lineage][-1]["integrity"] if periods[lineage] else None) for lineage in LINEAGES}
     diversity = {lineage: min((r["pool"]["distinct_reflection_classes"] for r in periods[lineage]), default=None) for lineage in LINEAGES}
+    verification_path = reports / VERIFICATION_NAME
+    restart_passed = bool(json.loads(verification_path.read_text())["restart_check"]["passed"]) if verification_path.exists() else False
     gates = {
         "G1_legality": all(i and i["legality_failures"] == 0 for i in integrity.values()) and all(arms[a]["record"]["own_setups"]["legality_failures"] == 0 for a in arms),
         "G2_orientation": all(i and i["orientation_failures"] == 0 for i in integrity.values()) and all(arms[a]["record"]["own_setups"]["orientation_failures"] == 0 for a in arms),
         "G3_attribution": all(i and i["attribution_failures"] == 0 for i in integrity.values()),
         "G4_accounting": all(arms[a]["accounting"]["complete_for_primary"] for a in arms) and all(p and all(r["collection"]["failed"] == 0 for r in p) for p in periods.values()),
-        "G5_bundle_identity": all(arms[a]["record"]["bundle_id"] for a in arms) and arms["candidate_final"]["record"]["lineage"] == "candidate" and arms["control_final"]["record"]["lineage"] == "control",
-        "G6_restart": bool(json.loads((reports / VERIFICATION_NAME).read_text())["restart_check"]["passed"]) if (reports / VERIFICATION_NAME).exists() else False,
+        "G5_bundle_identity": all(fairness["final_bundles"][lineage]["verified"] for lineage in LINEAGES) and arms["candidate_final"]["record"]["lineage"] == "candidate" and arms["control_final"]["record"]["lineage"] == "control",
+        "G6_restart": restart_passed,
         "G7_paired": not identity["problems"] and arms["candidate_final"]["record"]["schedule"]["digest"] == arms["control_final"]["record"]["schedule"]["digest"],
         "G8_diversity": all(d is not None and d >= 922 for d in diversity.values()),
         "G9_finite_and_valid": all(i and i["non_finite_events"] == 0 for i in integrity.values()),
         "G10_clean_deliverable": None,
     }
-    decision = "PROCEED" if analysis["passes"] and all(v for k, v in gates.items() if k != "G10_clean_deliverable") else ("NEAR_BOUNDARY" if analysis["near_boundary"] else "FAIL")
+    decision = decision_input(analysis, gates, fairness)
     results = {
         "artifact": "phase18_g3_pilot_results_v1",
         "work_package": WORK_PACKAGE,
@@ -671,14 +784,19 @@ def stage_analyse(reports: Path, *, runtime: Path) -> dict:
         "arm_identity_proof": identity,
         "primary": analysis,
         "gates": gates,
-        "matching": matching,
+        "fairness": fairness,
+        "matching": {"contract_sha256": matching.get("contract_sha256"), "matched": matching.get("matched"), "problems": matching.get("problems"), "role": "REQUIRED evidence; a missing or failed record blocks the decision"},
         "pool_diversity_minimum": diversity,
-        "decision_input": {"decision": decision, "rule": contract["question"]["decision_rule"], "near_boundary_rule": contract["question"]["near_boundary_rule"], "note": "G10 is judged at review from the committed tree, not computed here"},
+        "decision_input": decision | {
+            "rule": contract["question"]["decision_rule"],
+            "near_boundary_rule": contract["question"]["near_boundary_rule"],
+            "note": "G10 is judged at review from the committed tree, not computed here",
+        },
         "environment": environment(),
         "timestamp_utc": utc_now(),
     }
     write_json(reports / RESULTS_NAME, results)
-    log(f"primary: point {analysis['point']:+.4f}, 95% [{analysis['lower']:+.4f}, {analysis['upper']:+.4f}] -> {decision}")
+    log(f"primary: point {analysis['point']:+.4f}, 95% [{analysis['lower']:+.4f}, {analysis['upper']:+.4f}] -> {decision['decision']} ({decision['basis']})")
     return results
 
 
@@ -727,7 +845,9 @@ def main(argv=None) -> int:
                 parser.error("--run needs --lineage")
             stage_run(arguments.reports, lineage=arguments.lineage, runtime=arguments.runtime, resume=arguments.resume, periods=arguments.periods, skip_payload_bytes=arguments.skip_payload_bytes)
         elif arguments.check_matching:
-            stage_check_matching(arguments.reports, runtime=arguments.runtime)
+            record = stage_check_matching(arguments.reports, runtime=arguments.runtime)
+            # The consequential stop: a non-zero exit halts the launch sequence.
+            return 0 if record["matched"] else 1
         elif arguments.evaluate:
             if not arguments.arm:
                 parser.error("--evaluate needs --arm")

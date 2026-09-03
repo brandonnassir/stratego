@@ -282,26 +282,35 @@ def available_periods(root) -> tuple:
     return tuple(sorted(periods))
 
 
-def discard_periods_after(root, period: int) -> list:
-    """Rename every period file set newer than `period` out of the way.
+def discard_periods_after(root, period: int, *, destination=None) -> list:
+    """Move every period file set newer than `period` out of the way.
 
     A restarted lineage re-plays the period after its bundle, so any live
     files a crashed process wrote for later periods must not be readable.
-    Nothing is deleted: the files are renamed with an `.orphaned` marker and
-    the renames are returned for the resume record.
+    Nothing is deleted: with `destination` the files are moved there under
+    their own names (the resume archive); without it they are renamed in place
+    with an `.orphaned` marker. The moves are returned for the resume record.
     """
     root = Path(root)
     renamed = []
     if not root.exists():
         return renamed
     stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    if destination is not None:
+        destination = Path(destination)
     for path in sorted(root.glob("period_*")):
         if ".orphaned" in path.name:
             continue
         stem = path.name[len("period_") : len("period_") + 4]
         if not stem.isdigit() or int(stem) <= int(period):
             continue
-        target = path.with_name(f"{path.name}.orphaned-{stamp}")
+        if destination is not None:
+            destination.mkdir(parents=True, exist_ok=True)
+            target = destination / path.name
+            if target.exists():
+                raise Phase18G3Error(f"{target} already exists in the archive")
+        else:
+            target = path.with_name(f"{path.name}.orphaned-{stamp}")
         os.replace(path, target)
         renamed.append({"from": str(path), "to": str(target)})
     return renamed

@@ -29,8 +29,11 @@ the digests the matching check and the gates read.
 from __future__ import annotations
 
 import json
+import os
 import resource
+import shutil
 import time
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -69,6 +72,7 @@ INIT_NAME = "init.json"
 STATE_NAME = "run_state.json"
 BUNDLES_DIRECTORY = "bundles"
 LIVE_DIRECTORY = "live"
+ARCHIVE_DIRECTORY = "archive"
 
 
 def bundle_name(period: int) -> str:
@@ -134,6 +138,8 @@ class LineageRunner:
         self.collector: PeriodCollector | None = None
         self.init_record: dict = {}
         self.last_bundle_id: str | None = None
+        self.last_bundle_period: int | None = None
+        self.resume_record: dict | None = None
         self.setup_skips = 0
         self.integrity = {
             "legality_failures": 0,
@@ -195,9 +201,24 @@ class LineageRunner:
         return runner
 
     @classmethod
-    def resume(cls, config: PilotConfig, *, bundle_directory, **keywords) -> "LineageRunner":
+    def resume(cls, config: PilotConfig, *, bundle_directory=None, **keywords) -> "LineageRunner":
+        """Continue a lineage from its latest complete, verified bundle.
+
+        `bundle_directory=None` selects the newest bundle that verifies
+        (`select_resume_bundle`); `run_state.json` is never trusted for the
+        choice. Everything the lineage produced after that bundle (live
+        periods, period records, C1 update rows, unverifiable or partial
+        bundles, the old state file) is moved into a dated archive under the
+        lineage root, and the active records are restored to exactly one entry
+        per completed period through the bundle before the replay begins.
+        """
         runner = cls(config, **keywords)
-        bundle_directory = Path(bundle_directory)
+        if bundle_directory is None:
+            selection = select_resume_bundle(runner.lineage_root, config)
+            bundle_directory = Path(selection["bundle"])
+        else:
+            bundle_directory = Path(bundle_directory)
+            selection = {"bundle": str(bundle_directory), "period": None, "skipped": [], "selected_by": "caller"}
         manifest = verify_bundle(
             bundle_directory,
             expected_run_id=config.run_id,
@@ -211,7 +232,8 @@ class LineageRunner:
             raise Phase18G3Error(f"{init_path} is missing; the lineage cannot prove its initial identity")
         runner.init_record = json.loads(init_path.read_text())
         period = int(manifest["period"])
-        discarded = discard_periods_after(runner.live_root, period)
+        selection["period"] = period
+        archive = archive_progress_after(runner.lineage_root, period, updates_per_period=config.c1_updates_per_period)
         reader = LiveRecordReader(runner.live_root)
         recorded = {entry["period"]: entry for entry in manifest["live_periods"]}
         if set(reader.periods()) != set(recorded):
@@ -251,17 +273,23 @@ class LineageRunner:
             raise Phase18G3Error(
                 f"the collector completed {runner.collector.periods_completed} periods, the bundle is period {period}"
             )
+        records = read_period_records(runner.lineage_root)
+        if [int(r["period"]) for r in records] != list(range(1, period + 1)):
+            raise Phase18G3Error("the period records do not hold exactly one entry per completed period through the bundle")
         runner.period = period
         runner.last_bundle_id = manifest["bundle_id"]
+        runner.last_bundle_period = period
         runner.setup_skips = int(manifest["telemetry"].get("setup_skips", 0))
         runner.integrity = dict(manifest["telemetry"].get("integrity", runner.integrity))
         runner.resume_record = {
             "bundle": str(bundle_directory),
             "bundle_id": manifest["bundle_id"],
             "period": period,
-            "live_periods_discarded": discarded,
+            "selection": selection,
+            "archive": archive,
             "games_restored": restored["games_restored"],
             "c1_global_step": int(runner.c1.global_step),
+            "resumed_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         }
         runner._write_state()
         return runner
@@ -376,26 +404,37 @@ class LineageRunner:
             "rss_bytes": _rss_bytes(),
         }
         self.period = period
-        bundle_written = None
-        if period % config.bundle_cadence_periods == 0 or period == config.periods:
-            tick = time.perf_counter()
-            manifest = self._write_bundle(period, telemetry={"period_record": {k: record[k] for k in ("collection", "c1_state_digest", "setup_raw_digest", "setup_ema_digest", "integrity")}, "setup_skips": self.setup_skips, "integrity": dict(self.integrity)})
-            seconds["bundle"] = time.perf_counter() - tick
-            bundle_written = {"path": str(self.bundle_path(period)), "bundle_id": manifest["bundle_id"], "seconds": round(seconds["bundle"], 3)}
-        record["bundle"] = bundle_written
+        bundle_due = self.bundle_due(period)
+        record["bundle_planned"] = bundle_due
         record["seconds"]["total"] = round(time.perf_counter() - started, 3)
+        # Records first, bundle second: a bundle at period p then implies the
+        # records and C1 rows of periods 1..p exist, which recovery relies on.
         self._append(PERIODS_NAME, record)
         with (self.lineage_root / C1_ROWS_NAME).open("a") as handle:
             for row in c1_rows:
                 handle.write(json.dumps(_json_safe({"period": period, **row}), default=str) + "\n")
+        bundle_written = None
+        if bundle_due:
+            tick = time.perf_counter()
+            manifest = self._write_bundle(period, telemetry={"period_record": {k: record[k] for k in ("collection", "c1_state_digest", "setup_raw_digest", "setup_ema_digest", "integrity")}, "setup_skips": self.setup_skips, "integrity": dict(self.integrity)})
+            seconds["bundle"] = time.perf_counter() - tick
+            bundle_written = {"path": str(self.bundle_path(period)), "bundle_id": manifest["bundle_id"], "seconds": round(seconds["bundle"], 3)}
         self._write_state()
         self.log(
             f"[{config.lineage}] period {period}/{config.periods}: games {collection['completed']} "
             f"(in flight {collection['in_flight_at_end']}), c1 step {self.c1.global_step}, "
             f"setup {'update' if setup_record['applied'] else ('SKIP' if setup_record['skipped'] else 'frozen')}, "
             f"{record['seconds']['total']} s"
+            + (f", bundle {bundle_written['bundle_id'][:12]}" if bundle_written else "")
         )
+        record["bundle"] = bundle_written
         return record
+
+    def bundle_due(self, period: int) -> bool:
+        """Bundle after period 1 (the consequential-stop gate), at every cadence
+        multiple, and at the horizon."""
+        config = self.config
+        return int(period) == 1 or int(period) % config.bundle_cadence_periods == 0 or int(period) == config.periods
 
     def run(self, *, periods: "int | None" = None) -> list:
         """Run `periods` more periods (default: to the bounded horizon)."""
@@ -437,6 +476,7 @@ class LineageRunner:
             parent_bundle_id=self.last_bundle_id,
         )
         self.last_bundle_id = manifest["bundle_id"]
+        self.last_bundle_period = int(period)
         return manifest
 
     def _append(self, name: str, record: dict) -> None:
@@ -451,7 +491,9 @@ class LineageRunner:
             "period": int(self.period),
             "periods": int(self.config.periods),
             "last_bundle_id": self.last_bundle_id,
-            "last_bundle": str(self.bundle_path(self.period)) if self.last_bundle_id else None,
+            "last_bundle_period": self.last_bundle_period,
+            "last_bundle": str(self.bundle_path(self.last_bundle_period)) if self.last_bundle_period is not None else None,
+            "resume": self.resume_record,
             "c1_global_step": int(self.c1.global_step) if self.c1 is not None else None,
             "setup_updates": int(self.setup_trainer.updates) if self.setup_trainer is not None else None,
             "integrity": dict(self.integrity),
@@ -625,7 +667,340 @@ def matching_check(run_root, *, c1_device: str) -> dict:
     return report
 
 
+
+
+# ---------------------------------------------------------------------------
+# Recovery: the latest verified bundle, and the archive of everything after it
+# ---------------------------------------------------------------------------
+
+
+def read_c1_rows(lineage_root) -> list:
+    path = Path(lineage_root) / C1_ROWS_NAME
+    if not path.exists():
+        return []
+    return [json.loads(line) for line in path.read_text().splitlines() if line.strip()]
+
+
+def _split_jsonl(path: Path, period: int, *, key: str = "period") -> tuple:
+    """`(kept, archived, partial_line)`: entries with `key <= period`, the
+    rest, and a malformed trailing line (an interrupted append) if there is
+    one. A malformed line anywhere else is corruption and is refused."""
+    if not path.exists():
+        return [], [], None
+    lines = path.read_text().split("\n")
+    if lines and lines[-1] == "":
+        lines.pop()
+    kept, archived = [], []
+    partial = None
+    for index, raw in enumerate(lines):
+        if not raw.strip():
+            continue
+        try:
+            entry = json.loads(raw)
+        except json.JSONDecodeError:
+            if index == len(lines) - 1:
+                partial = raw
+                continue
+            raise Phase18G3Error(f"{path} line {index + 1} is not JSON; the record file is corrupt")
+        (kept if int(entry[key]) <= int(period) else archived).append(entry)
+    return kept, archived, partial
+
+
+def _rewrite_jsonl(path: Path, entries: list) -> None:
+    temporary = path.with_suffix(path.suffix + ".partial")
+    with temporary.open("w") as handle:
+        for entry in entries:
+            handle.write(json.dumps(_json_safe(entry), sort_keys=True, default=str) + "\n")
+        handle.flush()
+        os.fsync(handle.fileno())
+    os.replace(temporary, path)
+
+
+def select_resume_bundle(lineage_root, config: PilotConfig) -> dict:
+    """The newest bundle that verifies whole, whatever `run_state.json` says.
+
+    Bundles are tried from the highest period downwards; a partial directory,
+    a tampered component or a foreign identity is skipped and recorded, never
+    repaired. No verified bundle at all is fatal.
+    """
+    bundles_root = Path(lineage_root) / BUNDLES_DIRECTORY
+    candidates = []
+    for path in bundles_root.glob("bundle_*") if bundles_root.exists() else ():
+        if not path.is_dir() or path.name.endswith(".partial"):
+            continue
+        stem = path.name[len("bundle_") :]
+        if stem.isdigit():
+            candidates.append((int(stem), path))
+    candidates.sort(reverse=True)
+    skipped = []
+    for period, path in candidates:
+        try:
+            manifest = verify_bundle(
+                path,
+                expected_run_id=config.run_id,
+                expected_lineage=config.lineage,
+                expected_period=period,
+                expected_matched_digest=config.matched_digest(),
+            )
+        except Phase18G3Error as error:
+            skipped.append({"bundle": str(path), "period": period, "problem": str(error)})
+            continue
+        return {
+            "bundle": str(path),
+            "period": period,
+            "bundle_id": manifest["bundle_id"],
+            "skipped": skipped,
+            "selected_by": "latest complete verified bundle",
+        }
+    raise Phase18G3Error(f"no complete verified bundle under {bundles_root}; skipped: {skipped}")
+
+
+def archive_progress_after(lineage_root, period: int, *, updates_per_period: int) -> dict:
+    """Move everything the lineage produced after bundle `period` into a dated
+    archive and restore the active records to exactly periods 1..`period`.
+
+    Validated before anything moves: the kept period records must be exactly
+    one per period 1..`period` in order, and the kept C1 rows exactly
+    `updates_per_period` per period. Nothing is deleted.
+    """
+    lineage_root = Path(lineage_root)
+    n = int(period)
+    periods_path = lineage_root / PERIODS_NAME
+    rows_path = lineage_root / C1_ROWS_NAME
+    kept_records, tail_records, partial_record = _split_jsonl(periods_path, n)
+    kept_periods = [int(r["period"]) for r in kept_records]
+    if kept_periods != list(range(1, n + 1)):
+        raise Phase18G3Error(
+            f"{periods_path} does not hold exactly one record for each of periods 1..{n} (found {kept_periods[:12]})"
+        )
+    kept_rows, tail_rows, partial_row = _split_jsonl(rows_path, n)
+    counts = Counter(int(r["period"]) for r in kept_rows)
+    expected = {p: int(updates_per_period) for p in range(1, n + 1)}
+    if dict(counts) != expected:
+        raise Phase18G3Error(
+            f"{rows_path} does not hold exactly {updates_per_period} C1 rows for each of periods 1..{n} (found {dict(counts)})"
+        )
+    live_root = lineage_root / LIVE_DIRECTORY
+    later_live = [p for p in (live_root.glob("period_*") if live_root.exists() else ()) if ".orphaned" not in p.name and p.name[len("period_") : len("period_") + 4].isdigit() and int(p.name[len("period_") : len("period_") + 4]) > n]
+    bundles_root = lineage_root / BUNDLES_DIRECTORY
+    later_bundles = []
+    for path in bundles_root.glob("bundle_*") if bundles_root.exists() else ():
+        stem = path.name[len("bundle_") :].split(".")[0]
+        if stem.isdigit() and (int(stem) > n or path.name.endswith(".partial")):
+            later_bundles.append(path)
+    record = {
+        "archive": None,
+        "restored_through_period": n,
+        "live_periods_moved": [],
+        "period_records_archived": len(tail_records),
+        "c1_rows_archived": len(tail_rows),
+        "partial_lines_archived": int(partial_record is not None) + int(partial_row is not None),
+        "bundles_moved": [],
+        "previous_state_archived": False,
+    }
+    if not (tail_records or tail_rows or partial_record or partial_row or later_live or later_bundles):
+        return record
+    stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+    archive = lineage_root / ARCHIVE_DIRECTORY / f"{stamp}_after_bundle_{n:04d}"
+    suffix = 0
+    while archive.exists():
+        suffix += 1
+        archive = lineage_root / ARCHIVE_DIRECTORY / f"{stamp}_after_bundle_{n:04d}_{suffix}"
+    archive.mkdir(parents=True)
+    record["archive"] = str(archive)
+    record["live_periods_moved"] = discard_periods_after(live_root, n, destination=archive / LIVE_DIRECTORY)
+    if tail_records or partial_record:
+        with (archive / "periods_after.jsonl").open("w") as handle:
+            for entry in tail_records:
+                handle.write(json.dumps(entry, sort_keys=True, default=str) + "\n")
+            if partial_record is not None:
+                (archive / "periods_after.partial_line").write_text(partial_record)
+        _rewrite_jsonl(periods_path, kept_records)
+    if tail_rows or partial_row:
+        with (archive / "c1_rows_after.jsonl").open("w") as handle:
+            for entry in tail_rows:
+                handle.write(json.dumps(entry, sort_keys=True, default=str) + "\n")
+            if partial_row is not None:
+                (archive / "c1_rows_after.partial_line").write_text(partial_row)
+        _rewrite_jsonl(rows_path, kept_rows)
+    for path in sorted(later_bundles):
+        target = archive / BUNDLES_DIRECTORY / path.name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.move(str(path), str(target))
+        record["bundles_moved"].append({"from": str(path), "to": str(target)})
+    state_path = lineage_root / STATE_NAME
+    if state_path.exists():
+        shutil.copy2(state_path, archive / STATE_NAME)
+        record["previous_state_archived"] = True
+    return record
+
+
+# ---------------------------------------------------------------------------
+# The fairness conditions every decision depends on
+# ---------------------------------------------------------------------------
+
+
+def fairness_conditions(run_root, *, periods: int, updates_per_period: int, matching, contract_sha256) -> dict:
+    """Every condition the primary comparison needs before it can decide.
+
+    A missing or failed lineage-matching record is a failed condition, never
+    telemetry. Every other condition reads the lineages' own records and
+    final bundles, so a decision cannot rest on an incomplete, duplicated or
+    unequal history.
+    """
+    run_root = Path(run_root)
+    periods = int(periods)
+    conditions: dict = {}
+    problems: list = []
+
+    matched = bool(matching) and matching.get("matched") is True
+    bound = bool(matching) and (contract_sha256 is None or matching.get("contract_sha256") == contract_sha256)
+    conditions["matching_record_present"] = bool(matching)
+    conditions["matching_record_contract_bound"] = bool(matching) and bound
+    conditions["matching_record_matched"] = matched
+    if not matching:
+        problems.append("the lineage-matching record is missing; it is required evidence, not telemetry")
+    else:
+        if not bound:
+            problems.append("the lineage-matching record was written against a different contract")
+        if not matched:
+            problems.append(f"the lineage-matching record reports problems: {matching.get('problems')}")
+
+    records = {}
+    inits = {}
+    budgets = {}
+    for lineage in LINEAGES:
+        root = run_root / lineage
+        records[lineage] = read_period_records(root)
+        inits[lineage] = read_init_record(root) if (root / INIT_NAME).exists() else None
+        ps = [int(r["period"]) for r in records[lineage]]
+        exact = ps == list(range(1, periods + 1))
+        conditions[f"{lineage}_periods_exactly_1_to_{periods}"] = exact
+        if not exact:
+            problems.append(f"{lineage}: period records are {ps[:12]}..., not exactly 1..{periods} once each in order")
+        rows = read_c1_rows(root)
+        counts = Counter(int(r["period"]) for r in rows)
+        rows_exact = dict(counts) == {p: int(updates_per_period) for p in range(1, periods + 1)}
+        conditions[f"{lineage}_c1_rows_exactly_{updates_per_period}_per_period"] = rows_exact
+        if not rows_exact:
+            problems.append(f"{lineage}: C1 update rows per period are {dict(sorted(counts.items()))[:1] if False else dict(sorted(counts.items()))}, not {updates_per_period} for each of 1..{periods}")
+        budgets[lineage] = {
+            "completed_updates": int(sum(int(r["c1"]["updates_completed"]) for r in records[lineage])),
+            "final_global_step": int(records[lineage][-1]["c1_global_step"]) if records[lineage] else None,
+        }
+    expected_budget = periods * int(updates_per_period)
+    equal = (
+        budgets["candidate"] == budgets["control"]
+        and budgets["candidate"]["completed_updates"] == expected_budget
+        and budgets["candidate"]["final_global_step"] == expected_budget
+    )
+    conditions["equal_completed_c1_update_budget"] = bool(equal)
+    if not equal:
+        problems.append(f"C1 update budgets are not equal and complete: {budgets} (expected {expected_budget} each)")
+
+    control = records["control"]
+    init_control = inits["control"]
+    if control and init_control:
+        last = control[-1]
+        zero = int(last["setup_updates"]) == 0 and int(last["setup_ema_updates"]) == 0 and int(last["setup_optimizer_steps"]) == 0
+        digest = init_control["setup_init_state_digest"]
+        unchanged = all(r["setup_raw_digest"] == digest and r["setup_ema_digest"] == digest for r in control)
+        conditions["control_zero_setup_and_ema_updates"] = bool(zero)
+        conditions["control_setup_digest_unchanged"] = bool(unchanged)
+        if not zero:
+            problems.append("the control lineage recorded a setup, optimizer or EMA update")
+        if not unchanged:
+            problems.append("the control setup digest moved away from the initial version")
+    else:
+        conditions["control_zero_setup_and_ema_updates"] = False
+        conditions["control_setup_digest_unchanged"] = False
+        problems.append("the control lineage has no records or no init record")
+
+    candidate = records["candidate"]
+    init_candidate = inits["candidate"]
+    if candidate and init_candidate:
+        applied = [
+            r for r in candidate
+            if r["setup"]["applied"] and int(r["setup"]["update"]["optimizer_steps"]) >= 1
+            and r["setup"]["update"]["raw_digest_after"] != r["setup"]["update"]["raw_digest_before"]
+        ]
+        conditions["candidate_at_least_one_real_setup_update"] = bool(applied)
+        if not applied:
+            problems.append("the candidate lineage applied no real setup update")
+        digest = init_candidate["setup_init_state_digest"]
+        final = candidate[-1]
+        moved = final["setup_raw_digest"] != digest and final["setup_ema_digest"] != digest
+        conditions["candidate_final_setup_digests_differ_from_init"] = bool(moved)
+        if not moved:
+            problems.append("the candidate's final raw or EMA setup digest equals its initialisation")
+    else:
+        conditions["candidate_at_least_one_real_setup_update"] = False
+        conditions["candidate_final_setup_digests_differ_from_init"] = False
+        problems.append("the candidate lineage has no records or no init record")
+
+    final_bundles = {}
+    for lineage in LINEAGES:
+        init = inits[lineage]
+        path = run_root / lineage / BUNDLES_DIRECTORY / bundle_name(periods)
+        try:
+            if init is None:
+                raise Phase18G3Error("no init record")
+            manifest = verify_bundle(path, expected_run_id=init["run_id"], expected_lineage=lineage, expected_period=periods, expected_matched_digest=init["matched_digest"])
+            last = records[lineage][-1] if records[lineage] else None
+            consistent = (
+                last is not None
+                and int(manifest["counters"]["c1_global_step"]) == expected_budget
+                and manifest["components"]["c1"]["state_digest"] == last["c1_state_digest"]
+                and manifest["components"]["setup_raw"]["state_digest"] == last["setup_raw_digest"]
+                and manifest["components"]["setup_ema"]["state_digest"] == last["setup_ema_digest"]
+            )
+            final_bundles[lineage] = {"bundle_id": manifest["bundle_id"], "verified": True, "consistent_with_records": bool(consistent)}
+            if not consistent:
+                problems.append(f"{lineage}: the final bundle disagrees with the final period record")
+        except Phase18G3Error as error:
+            final_bundles[lineage] = {"bundle_id": None, "verified": False, "consistent_with_records": False, "problem": str(error)}
+            problems.append(f"{lineage}: the final bundle {path.name} is missing or does not verify: {error}")
+        conditions[f"{lineage}_final_bundle_complete"] = bool(final_bundles[lineage]["verified"] and final_bundles[lineage]["consistent_with_records"])
+    return {
+        "periods": periods,
+        "updates_per_period": int(updates_per_period),
+        "conditions": conditions,
+        "budgets": budgets,
+        "final_bundles": final_bundles,
+        "problems": problems,
+        "all_hold": all(conditions.values()) and not problems,
+    }
+
+
+def decision_input(analysis: dict, gates: dict, fairness: dict) -> dict:
+    """PROCEED only when the primary rule passes AND every computable gate AND
+    every fairness condition hold; a failed fairness condition or gate blocks
+    the decision outright, because the comparison is then not the frozen one."""
+    computable = {name: value for name, value in gates.items() if value is not None}
+    failed_gates = sorted(name for name, value in computable.items() if not value)
+    if not fairness["all_hold"]:
+        decision, basis = "BLOCKED", f"a fairness condition failed: {fairness['problems']}"
+    elif failed_gates:
+        decision, basis = "BLOCKED", f"gate(s) failed: {failed_gates}"
+    elif analysis["passes"]:
+        decision, basis = "PROCEED", "the frozen rule passes with every gate and fairness condition holding"
+    elif analysis["near_boundary"]:
+        decision, basis = "NEAR_BOUNDARY", "the interval contains the margin; a conditional second seed is the design's follow-up"
+    else:
+        decision, basis = "FAIL", "the frozen rule does not pass"
+    return {
+        "decision": decision,
+        "basis": basis,
+        "primary_passes": bool(analysis["passes"]),
+        "near_boundary": bool(analysis["near_boundary"]),
+        "failed_gates": failed_gates,
+        "fairness_all_hold": bool(fairness["all_hold"]),
+        "fairness_problems": list(fairness["problems"]),
+        "uncomputed_gates": sorted(name for name, value in gates.items() if value is None),
+    }
+
 __all__ = [
+    "ARCHIVE_DIRECTORY",
     "BUNDLES_DIRECTORY",
     "C1_ROWS_NAME",
     "INIT_NAME",
@@ -634,9 +1009,14 @@ __all__ = [
     "MATCHED_PERIOD_FIELDS",
     "PERIODS_NAME",
     "STATE_NAME",
+    "archive_progress_after",
     "bundle_name",
+    "decision_input",
+    "fairness_conditions",
     "matching_check",
     "pool_content_digest",
+    "read_c1_rows",
     "read_init_record",
     "read_period_records",
+    "select_resume_bundle",
 ]

@@ -139,11 +139,14 @@
  "frozen_defaults": {
   "buffer_storage_periods": 21,
   "bundle_cadence_periods": 32,
+  "bundle_periods": "0 (initial), 1 (the consequential-stop gate), every 32, and 256",
   "c1_device": "mps",
   "c1_updates_per_period": 64,
   "canonical_live_mixture": "128:128 of batch 256",
   "collector_rules": "TRAINING_RULES (battleless 100)",
+  "consequential_stop": "both lineages run period 1, --check-matching must pass, only then do both resume toward period 256",
   "evaluation_rules": "EVALUATION_RULES (battleless 200, P18-A001)",
+  "gate_bundle_after_period_1": true,
   "initialisation": "both lineages fresh: C1 from the canonical Phase 8 init seed, the setup model from derive_stream_seed(namespace, 'model_init', 1)",
   "live_retention_periods": 32,
   "periods": 256,
@@ -255,7 +258,7 @@
   "root_absolute": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v1",
   "root_relative": "output/phase18/runtime/g3_pilot_v1"
  },
- "seconds": 0.175,
+ "seconds": 0.17,
  "seeds": {
   "c1_init_seed": 2026081302,
   "evaluation_bootstrap_seed": 2617613076104066311,
@@ -266,6 +269,6 @@
   "streams": "collector_policy(colour, period, slot, ordinal), pool_pairing(period), c1_live_draw(period, update), pool(snapshot, index), reflection(snapshot, index), shuffle(update, epoch)"
  },
  "status": "CONTRACT FROZEN; the pilot itself is NOT authorised by this file",
- "timestamp_utc": "2026-09-03T04:24:12Z",
+ "timestamp_utc": "2026-09-03T11:41:47Z",
  "work_package": "phase18_setup_integrated_warmstart"
 }
