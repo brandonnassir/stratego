@@ -11,8 +11,10 @@ Stages, in order; each must finish before the next may start:
                         design-section-6 restart check; write the verification record.
 * `--launch-manifest`   from the clean execution worktree: bind the source commit, its
                         tree, every harness source and test digest, the contract digest
-                        and the runtime root. Refuses a dirty tree, a non-empty runtime
-                        root, and a verification record whose contract, source or test
+                        and the runtime root (`--runtime`, which every later stage must
+                        name identically). Refuses a dirty tree, a non-empty runtime
+                        root, a runtime root that is not git-ignored under the canonical
+                        tree, and a verification record whose contract, source or test
                         digests do not match the current files (stale evidence).
 * `--run --lineage L`   run one lineage; `--periods N` stops after N more periods;
                         `--resume` continues from the lineage's LATEST COMPLETE, VERIFIED
@@ -21,8 +23,13 @@ Stages, in order; each must finish before the next may start:
                         stop gate), every 32 periods and at the horizon; nothing continues
                         past period 256.
 * `--check-matching`    the period-1 lineage-identity check and the equal-budget check;
-                        exits non-zero when the lineages do not match, which stops the
-                        launch sequence before either lineage resumes.
+                        the live stores are compared semantically (same games, same
+                        trajectories, same selected decisions, same metadata apart from
+                        the lineage stamp) and their raw commit digests are reported as
+                        audit information, expected unequal; each lineage must have
+                        served exactly its planned canonical and live rows. Exits
+                        non-zero when the lineages do not match, which stops the launch
+                        sequence before either lineage resumes.
 * `--evaluate --arm A`  play the frozen evaluation schedule with one final bundle on
                         the established G1 harness; one immutable receipt per game.
 * `--analyse`           the candidate-versus-control contrast, the stratified cluster
@@ -265,6 +272,22 @@ def require_launch_binding(reports: Path, *, contract_sha256: "str | None" = Non
     if problems:
         raise G3Error("BLOCKED: the tree is not the launched source: " + "; ".join(problems))
     return launch
+
+
+def runtime_binding_problems(manifest: dict, runtime: Path) -> list:
+    """Why `runtime` is not the runtime root the launch manifest bound."""
+    recorded = (manifest.get("runtime") or {}).get("root_absolute")
+    if not recorded:
+        return ["the launch manifest records no runtime root"]
+    if Path(recorded).resolve() != Path(runtime).resolve():
+        return [f"the runtime root {Path(runtime).resolve()} is not the launch manifest's {Path(recorded).resolve()}"]
+    return []
+
+
+def require_runtime_binding(launch: dict, runtime: Path) -> None:
+    problems = runtime_binding_problems(launch, runtime)
+    if problems:
+        raise G3Error("BLOCKED: " + "; ".join(problems))
 
 
 
@@ -516,7 +539,7 @@ def _mini_corpus(root: Path) -> Path:
 # ---------------------------------------------------------------------------
 
 
-def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
+def stage_launch_manifest(reports: Path, *, source_commit: str, runtime: Path = RUNTIME_ROOT) -> dict:
     porcelain = git_output("status", "--porcelain")
     if porcelain:
         raise G3Error(f"BLOCKED: the execution worktree is not clean:\n{porcelain}")
@@ -534,11 +557,16 @@ def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
     stale = verification_binding_problems(verification, root=REPOSITORY_ROOT, contract_sha256=contract_sha)
     if stale:
         raise G3Error("BLOCKED: " + "; ".join(stale))
-    ignored = subprocess.run(["git", "check-ignore", "-q", str(RUNTIME_RELATIVE / "probe")], cwd=CANONICAL_ROOT, capture_output=True).returncode == 0
+    runtime = Path(runtime).resolve()
+    try:
+        runtime_relative = runtime.relative_to(CANONICAL_ROOT)
+    except ValueError:
+        raise G3Error(f"BLOCKED: the runtime root {runtime} is not under the canonical tree {CANONICAL_ROOT} (storage policy)") from None
+    ignored = subprocess.run(["git", "check-ignore", "-q", str(runtime_relative / "probe")], cwd=CANONICAL_ROOT, capture_output=True).returncode == 0
     if not ignored:
-        raise G3Error(f"BLOCKED: {RUNTIME_RELATIVE} is not git-ignored in the canonical tree")
-    if RUNTIME_ROOT.exists() and any(RUNTIME_ROOT.iterdir()):
-        raise G3Error(f"BLOCKED: the runtime root {RUNTIME_ROOT} already exists and is not empty")
+        raise G3Error(f"BLOCKED: {runtime_relative} is not git-ignored in the canonical tree")
+    if runtime.exists() and any(runtime.iterdir()):
+        raise G3Error(f"BLOCKED: the runtime root {runtime} already exists and is not empty")
     manifest = {
         "artifact": "phase18_g3_pilot_launch_manifest_v1",
         "work_package": WORK_PACKAGE,
@@ -555,7 +583,7 @@ def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
             "worktree_porcelain_empty": True,
             "canonical_tree": str(CANONICAL_ROOT),
         },
-        "runtime": {"root_absolute": str(RUNTIME_ROOT), "root_relative": str(RUNTIME_RELATIVE), "git_ignored": ignored},
+        "runtime": {"root_absolute": str(runtime), "root_relative": str(runtime_relative), "git_ignored": ignored},
         "contract_sha256": contract_sha,
         "verification_sha256": file_sha256(verification_path),
         "verification_binding": "the verification record's contract, source and test digests were re-checked against the current files at manifest time",
@@ -569,7 +597,7 @@ def stage_launch_manifest(reports: Path, *, source_commit: str) -> dict:
         "note": "a launch manifest binds identities; the pilot starts only on an explicit written instruction after review",
     }
     write_json(reports / LAUNCH_NAME, manifest)
-    log(f"launch manifest bound to {source_commit[:12]} under {reports}")
+    log(f"launch manifest bound to {source_commit[:12]} under {reports}; runtime root {runtime}")
     return manifest
 
 
@@ -596,6 +624,7 @@ def stage_run(reports: Path, *, lineage: str, runtime: Path, resume: bool, perio
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
     launch = require_launch_binding(reports, contract_sha256=contract_sha)
+    require_runtime_binding(launch, runtime)
     config = frozen["configs"][lineage]
     root, accepted = accepted_corpus()
     log("verifying the accepted corpus identity" + (" (digests only)" if skip_payload_bytes else " and every payload"))
@@ -651,10 +680,28 @@ def stage_check_matching(reports: Path, *, runtime: Path) -> dict:
     from stratego.training.phase18.g3_pilot import matching_check
 
     contract, contract_sha = load_contract(reports)
-    require_launch_binding(reports, contract_sha256=contract_sha)
+    launch = require_launch_binding(reports, contract_sha256=contract_sha)
+    require_runtime_binding(launch, runtime)
     report = matching_check(runtime, c1_device=contract["frozen_defaults"]["c1_device"])
-    record = {"artifact": "phase18_g3_pilot_matching_v1", "run_id": RUN_ID, "contract_sha256": contract_sha, "timestamp_utc": utc_now(), **report}
+    record = {
+        "artifact": "phase18_g3_pilot_matching_v1",
+        "run_id": RUN_ID,
+        "contract_sha256": contract_sha,
+        "g3_source_commit": launch["source"]["g3_source_commit"],
+        "runtime_root": str(Path(runtime).resolve()),
+        "gate_condition": (
+            "matched: init identity, bundle_0 components, every MATCHED_PERIOD_FIELDS entry, the semantic "
+            "live-store identity (lineage-neutral), served == planned C1 rows, the equal budget; the raw "
+            "live commit digests are audit information only and differ by the lineage stamp"
+        ),
+        "timestamp_utc": utc_now(),
+        **report,
+    }
     write_json(reports / MATCHING_NAME, record)
+    live = report.get("live_store") or {}
+    if live.get("raw_commit_digest"):
+        raw = live["raw_commit_digest"]
+        log(f"live store raw digests (audit): candidate {raw['candidate'][:12]}, control {raw['control'][:12]}; semantic identity {'OK' if live.get('matched') else 'FAILED'}")
     log(f"matching: {'OK' if report['matched'] else 'PROBLEMS ' + str(report['problems'])}")
     return record
 
@@ -678,7 +725,8 @@ def stage_evaluate(reports: Path, *, runtime: Path, arm: str, device: str, worke
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
-    require_launch_binding(reports, contract_sha256=contract_sha)
+    launch = require_launch_binding(reports, contract_sha256=contract_sha)
+    require_runtime_binding(launch, runtime)
     if arm not in ARMS:
         raise G3Error(f"BLOCKED: unknown arm {arm!r}; known: {sorted(ARMS)}")
     lineage, period, is_diagnostic = ARMS[arm]
@@ -705,7 +753,8 @@ def stage_analyse(reports: Path, *, runtime: Path) -> dict:
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
-    require_launch_binding(reports, contract_sha256=contract_sha)
+    launch = require_launch_binding(reports, contract_sha256=contract_sha)
+    require_runtime_binding(launch, runtime)
     cases, matches = frozen["cases"], frozen["matches"]
     config = frozen["configs"][LINEAGE_CANDIDATE]
 
@@ -839,7 +888,7 @@ def main(argv=None) -> int:
         elif arguments.launch_manifest:
             if not arguments.source_commit:
                 parser.error("--launch-manifest needs --source-commit")
-            stage_launch_manifest(arguments.reports, source_commit=arguments.source_commit)
+            stage_launch_manifest(arguments.reports, source_commit=arguments.source_commit, runtime=arguments.runtime)
         elif arguments.run:
             if not arguments.lineage:
                 parser.error("--run needs --lineage")

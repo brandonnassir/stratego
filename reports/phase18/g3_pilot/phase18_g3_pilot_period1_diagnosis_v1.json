@@ -1,0 +1,147 @@
+{
+ "artifact": "phase18_g3_pilot_period1_diagnosis_v1",
+ "bundles": {
+  "candidate": {
+   "bundle_0": {
+    "bundle_id": "7bc0f274c2744db0bf3d370dc0aad330ef48d69dae8769493747c690be066199",
+    "period": 0
+   },
+   "bundle_1": {
+    "bundle_id": "92fcf4d2ee8a0c5f7473b350bf65a00c8162a7cbae42d0850490dd4195a87e62",
+    "period": 1
+   }
+  },
+  "control": {
+   "bundle_0": {
+    "bundle_id": "609cb34ea39903e537a549fafa3a9a1cb729ebd1baebf579ce5a7a5c3e433867",
+    "period": 0
+   },
+   "bundle_1": {
+    "bundle_id": "a4010818af534f6825a52fd19dc21a122994ab01698b5b41f745df82477eb2ad",
+    "period": 1
+   }
+  }
+ },
+ "conclusion": "CHECKER DEFECT, NOT A GAMEPLAY MISMATCH. Both lineages committed the same 1,709 games in the same order with identical trajectories, selected decisions and metadata apart from the `lineage` stamp the live writer records on every metadata line. The period-1 gate required the raw commit digest, which hashes that line, to be equal across differently named lineages, so it could never pass once a game completed. A second, independent telemetry defect: the accepted trainer's metric row drops the pipeline's mixture statistics, so `live_rows_served` was recorded as 0 (planned 8,192) although every row consumed a batch of 256 = 128 canonical + 128 live examples.",
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "evidence_digests": {
+  "candidate/c1_rows.jsonl": "61213b1d3fc196da48f79805f9588d1103f5d248a379898bb4cbdf182c55301b",
+  "candidate/live/period_0001.done.json": "1a7a5be50166d1584658cab9e9c22e1c0d2c7a439bc374b2714b8eb49700dd0d",
+  "candidate/live/period_0001.journal.jsonl": "62e3ab106a3d4c16f3d2b9cd7924881d5481c3fed11ff7572ba30403a3359ac8",
+  "candidate/live/period_0001.meta.jsonl": "33b86cf5de8bd3efde40e1b58537421445be5cb54d4a5b0b6fec08d3a0373f33",
+  "candidate/live/period_0001.records": "385502e10a9733cd36f016b72f18368e79ac0ccd13abbc3216ae2e1c704140c2",
+  "candidate/periods.jsonl": "f70df0e96063e019bb158949e271a67b1b48d5ddc80729077ba76f75baed014b",
+  "control/c1_rows.jsonl": "db5cc59fbbe9c424d4d12cd292041f948f7cc1ca8c2ad8882f50c4c13ded450a",
+  "control/live/period_0001.done.json": "bbb473346daf178cbd8da4275237c7058289f690f017df94ccc971cd336f6a94",
+  "control/live/period_0001.journal.jsonl": "c154f370502ac2c6114f024c303e7968d02b530a869ede2af316beedf7d05684",
+  "control/live/period_0001.meta.jsonl": "f4318ef5eb5ffabaec7b06f7ebddf37cf38e233f58ace97e6eb826143551ba7a",
+  "control/live/period_0001.records": "8e44d4de1ee37fcfed454c17b14433f99cbc47daf9ebb89aa54d82ae614ed434",
+  "control/periods.jsonl": "467b92eff0f5c67bf4c2f8de9b348927b7adcc6255bb467a9868267ae3eec4db",
+  "phase18_g3_pilot_launch_manifest_v1.json": "2687666178e627e5428186a6497add6de181336262e56f65028cccba1ac9d937",
+  "phase18_g3_pilot_matching_v1.json": "2234ab2724b2bfd74687de00219b9c02ef8ca2c7c648649cb5d1be5fc66de9f6"
+ },
+ "evidence_immutable": "the g3_pilot_v1 runtime, its bundles, logs, launch manifest and failed matching report were read only; nothing was overwritten, renamed, resumed or deleted",
+ "evidence_root": "output/phase18/runtime/g3_pilot_v1",
+ "findings": {
+  "both_lineages_1709_commits": true,
+  "c1_keys_digests_identical_across_lineages": true,
+  "c1_live_seeds_identical_across_lineages": true,
+  "c1_period_1": {
+   "candidate": {
+    "batch_size_every_row": [
+     256
+    ],
+    "c1_rows": 64,
+    "canonical_rows_planned": 8192,
+    "canonical_rows_served_recorded": null,
+    "live_rows_planned": 8192,
+    "live_rows_served_recorded": 0,
+    "rows_with_live_examples_field": 0,
+    "updates_completed": 64
+   },
+   "control": {
+    "batch_size_every_row": [
+     256
+    ],
+    "c1_rows": 64,
+    "canonical_rows_planned": 8192,
+    "canonical_rows_served_recorded": null,
+    "live_rows_planned": 8192,
+    "live_rows_served_recorded": 0,
+    "rows_with_live_examples_field": 0,
+    "updates_completed": 64
+   }
+  },
+  "commit_counts": {
+   "candidate": 1709,
+   "control": 1709
+  },
+  "lineage_neutral_commit_digest_harness": {
+   "candidate": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a",
+   "control": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a"
+  },
+  "lineage_neutral_commit_digest_recomputed_directly": {
+   "candidate": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a",
+   "control": "d7b48a7b1abd6cda4722f8a227269130adaaee452da275c00d99d3010421d40a"
+  },
+  "lineage_neutral_commit_digests_equal": true,
+  "metadata_fields_that_differ": [
+   "lineage"
+  ],
+  "metadata_identical_after_removing_only_lineage": true,
+  "metadata_lineage_values": {
+   "candidate": [
+    "candidate"
+   ],
+   "control": [
+    "control"
+   ]
+  },
+  "ordered_game_ids_identical": true,
+  "raw_commit_digest_recomputed_directly": {
+   "candidate": "413606e45edbf8947e344df4582f30d7497783259e57fce37d47fee228ea3a80",
+   "control": "50d02c2a5e92fd6778a484c52770a05f0b31adce8405e3443edbfb1c665fe38d"
+  },
+  "raw_commit_digest_recorded_in_done_json": {
+   "candidate": "413606e45edbf8947e344df4582f30d7497783259e57fce37d47fee228ea3a80",
+   "control": "50d02c2a5e92fd6778a484c52770a05f0b31adce8405e3443edbfb1c665fe38d"
+  },
+  "raw_commit_digest_reproduces": true,
+  "raw_commit_digests_equal": false,
+  "raw_digest_differs_because": "commit_digest hashes `game_id|trajectory_sha256|metadata_sha256` per commit and metadata_sha256 is the sha256 of the metadata line, which carries `lineage`; the 1,709 metadata_sha256 values differ pairwise, the 1,709 trajectory_sha256 values and game ids are equal",
+  "selected_decision_lists_identical": true,
+  "semantic_comparison_on_v1_stores": {
+   "checks": {
+    "commit_count": true,
+    "game_ids_and_order": true,
+    "lineage_labels_differ": true,
+    "lineage_neutral_commit_digest": true,
+    "lineage_stamps": true,
+    "neutral_metadata": true,
+    "selected_decisions": true,
+    "trajectory_digests": true
+   },
+   "file_integrity_verified": {
+    "candidate": true,
+    "control": true
+   },
+   "matched": true,
+   "problems": []
+  },
+  "trajectory_hashes_identical": true
+ },
+ "old_matching_report": {
+  "c1_state_digest": "reported only (MPS, P18-D002)",
+  "every_other_required_period_1_field_passed": true,
+  "failed_field": "collection/live/commit_digest",
+  "matched": false,
+  "problems": [
+   "period 1 collection/live/commit_digest differs between lineages"
+  ]
+ },
+ "pilot_attempt": "g3_pilot_v1 (period 1 only; stopped at the consequential-stop gate 2026-09-03)",
+ "run_id": "G3-PILOT-2026-A",
+ "smoke_gap": "the Stage 6B smoke pilot's period 1 completes no game (3 slots, 64 plies), so its two empty stores had equal raw digests and the defect was invisible to the suite",
+ "source_commit": "c12bed35b8cc0f5a92f87e26ad9af4f0ee7d18c7",
+ "timestamp_utc": "2026-09-03T17:19:44Z"
+}

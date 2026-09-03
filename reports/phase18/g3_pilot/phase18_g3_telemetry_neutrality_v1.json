@@ -1,0 +1,293 @@
+{
+ "all_training_quantities_identical": true,
+ "artifact": "phase18_g3_telemetry_neutrality_v1",
+ "claim": "the mixture-telemetry correction changes no model input, optimizer step or training result",
+ "comparisons": {
+  "candidate": {
+   "c1_rows": {
+    "count": [
+     6,
+     6
+    ],
+    "fields_compared": [
+     "keys_digest",
+     "loss_total",
+     "loss_policy",
+     "loss_value",
+     "loss_belief",
+     "grad_norm_pre_clip",
+     "parameter_norm",
+     "batch_size"
+    ],
+    "identical": true,
+    "published_rows_carry_mixture_fields": false,
+    "repaired_rows_mixture": [
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ]
+    ]
+   },
+   "init_c1_state_digest_identical": true,
+   "periods": [
+    {
+     "all_identical": true,
+     "c1_state_digest": "1b9a52698c0349b0a993b6cca9afb999e4a65fcba5525d0d8cedce2b0e85cc43",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 4,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 1,
+     "setup_raw_digest": "adfa5fbb6907199f1334590c4c0694c4eec0fdc08beb3059284d680009aa6116"
+    },
+    {
+     "all_identical": true,
+     "c1_state_digest": "5b03f91267d9c71c5107b2aa41b4f095dcc4f0800cc5ddef1bb0b61aa741abf9",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 4,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 2,
+     "setup_raw_digest": "52d06ce715f026d7c4c57c2d4d2a273adde1fa48881f248aa98b06c11e399b01"
+    },
+    {
+     "all_identical": true,
+     "c1_state_digest": "854a68562a7cd223622cbf00c82c0367f0d6b6c25260234a20319b5a4e7ca41a",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 8,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 3,
+     "setup_raw_digest": "b56eb192c03e5759edfd4a3f6dde78475a12f80062040b4a414d545a182aa645"
+    }
+   ]
+  },
+  "control": {
+   "c1_rows": {
+    "count": [
+     6,
+     6
+    ],
+    "fields_compared": [
+     "keys_digest",
+     "loss_total",
+     "loss_policy",
+     "loss_value",
+     "loss_belief",
+     "grad_norm_pre_clip",
+     "parameter_norm",
+     "batch_size"
+    ],
+    "identical": true,
+    "published_rows_carry_mixture_fields": false,
+    "repaired_rows_mixture": [
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ],
+     [
+      4,
+      4,
+      8
+     ]
+    ]
+   },
+   "init_c1_state_digest_identical": true,
+   "periods": [
+    {
+     "all_identical": true,
+     "c1_state_digest": "1b9a52698c0349b0a993b6cca9afb999e4a65fcba5525d0d8cedce2b0e85cc43",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 4,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 1,
+     "setup_raw_digest": "41b0a4c1f1d4f952c250837b74657d036f70aa15cc7a5fc98c12a14ab3dabfa0"
+    },
+    {
+     "all_identical": true,
+     "c1_state_digest": "ff2ca55b979d7d79e7383bce0fa284a47e5332c89917bcb4f934894668cb3267",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 8,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 2,
+     "setup_raw_digest": "41b0a4c1f1d4f952c250837b74657d036f70aa15cc7a5fc98c12a14ab3dabfa0"
+    },
+    {
+     "all_identical": true,
+     "c1_state_digest": "0125db179ab1c7b93ab0cd1e799781c53b52bb1e0757dc2b28a5312cee031a94",
+     "canonical_rows_served": {
+      "published_c12bed35": null,
+      "repaired": 8
+     },
+     "completed_games": 5,
+     "identical": {
+      "buffer_state_digest": true,
+      "c1_global_step": true,
+      "c1_keys_digests": true,
+      "c1_live_seeds": true,
+      "c1_state_digest": true,
+      "completed": true,
+      "completed_game_ids_digest": true,
+      "live_raw_commit_digest": true,
+      "period": true,
+      "setup_ema_digest": true,
+      "setup_raw_digest": true
+     },
+     "live_rows_served": {
+      "published_c12bed35": 0,
+      "repaired": 8
+     },
+     "period": 3,
+     "setup_raw_digest": "41b0a4c1f1d4f952c250837b74657d036f70aa15cc7a5fc98c12a14ab3dabfa0"
+    }
+   ]
+  }
+ },
+ "method": "the smoke two-lineage pilot (CPU, one thread, C0 model, 2 slots x 400 plies so period 1 completes games, 3 periods, 2 C1 updates per period) run from a scratch worktree at the published commit and from the repaired tree with the same namespace and seeds; every period record digest and every C1 row's loss, gradient norm, parameter norm and key digest compared bitwise",
+ "only_difference": "the served-row telemetry: the published commit recorded live_rows_served = 0 and no canonical_rows_served; the repaired tree records the counts the pipeline served (8 + 8 per period here, 8,192 + 8,192 under the production configuration)",
+ "published_commit": "c12bed35b8cc0f5a92f87e26ad9af4f0ee7d18c7",
+ "timestamp_utc": "2026-09-03T17:20:00Z",
+ "trees": {
+  "published": "/private/tmp/claude-501/-Users-brandonwashington-Dev-Github-stratego-gpt-agent/66d88d83-b441-4251-8c1c-a23f83954cae/scratchpad/old_c12bed35",
+  "repaired": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3-stage6b"
+ }
+}

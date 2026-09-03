@@ -27,6 +27,19 @@ so worker count and prefetch depth cannot change a batch (the accepted
 `_BatchPipeline` argument, transcribed). The cursor stored in the C1 checkpoint
 advances by the canonical half only, which is what makes a resumed lineage
 serve the exact next canonical keys.
+
+Mixture telemetry (the period-1 gate correction)
+-------------------------------------------------
+The accepted trainer's metric row keeps only the cache counters of the batch
+statistics, so the first pilot recorded `live_rows_served = 0` for a period
+that served 8,192 live rows. Every row now carries the mixture the pipeline
+actually served (`canonical_examples`, `live_examples`, `examples`, the live
+draw seed and the plan index), checked at the step against the trainer's own
+batch size and against the plan; the period record carries
+`canonical_rows_served` and `live_rows_served`, and a period whose served
+counts differ from its planned counts fails before anything is written. The
+telemetry is read from the statistics the pipeline already returned with the
+arrays: no key, batch, loss, optimizer or scheduler path changes.
 """
 
 from __future__ import annotations
@@ -180,6 +193,9 @@ class MixturePipeline:
         self._pending: deque = deque()
         self._pool = None
         self.served = 0
+        #: The statistics of every batch served in the current period, in
+        #: service order (reset by `schedule`); the trainer folds them into rows.
+        self.period_stats: list = []
         if self.workers > 1:
             options = {
                 "root": str(dataset.root),
@@ -196,6 +212,7 @@ class MixturePipeline:
                 f"{self.remaining()} planned batches of the previous period were never consumed"
             )
         self._plans = deque(plans)
+        self.period_stats = []
         self._fill()
 
     def remaining(self) -> int:
@@ -231,6 +248,7 @@ class MixturePipeline:
             self._fill()
         self.served += 1
         stats = dict(stats, plan_index=plan.index, period=plan.period, update=plan.update, live_seed=plan.live_seed)
+        self.period_stats.append(stats)
         return arrays, metadata, stats, plan.cursor_after, waited
 
     def shutdown(self) -> None:
@@ -297,6 +315,7 @@ class JointC1Trainer(WarmstartTrainer):
                 f"pilot {pilot.canonical_per_batch}"
             )
         self.period_record: dict | None = None
+        self._period_plans: list = []
 
     @classmethod
     def resume(
@@ -360,6 +379,7 @@ class JointC1Trainer(WarmstartTrainer):
             seed_index=pilot.seed_index,
         )
         self._ensure_pipeline().schedule(plans)
+        self._period_plans = list(plans)
         self.period_record = {
             "period": int(period),
             "updates_planned": len(plans),
@@ -388,16 +408,77 @@ class JointC1Trainer(WarmstartTrainer):
         record["updates_completed"] = int(updates)
         record["global_step_after"] = int(self.global_step)
         record["keys_digests"] = [row["keys_digest"] for row in rows]
-        record["live_rows_served"] = int(sum(int(row.get("live_examples", 0)) for row in rows))
+        record["canonical_rows_served"] = int(sum(int(row["canonical_examples"]) for row in rows))
+        record["live_rows_served"] = int(sum(int(row["live_examples"]) for row in rows))
+        record["examples_served"] = int(sum(int(row["examples"]) for row in rows))
+        served_equals_planned = (
+            record["canonical_rows_served"] == int(record["canonical_rows_planned"])
+            and record["live_rows_served"] == int(record["live_rows_planned"])
+            and record["examples_served"] == record["canonical_rows_served"] + record["live_rows_served"]
+        )
+        if not served_equals_planned:
+            raise Phase18G3Error(
+                f"period {period}: the pipeline served {record['canonical_rows_served']} canonical and "
+                f"{record['live_rows_served']} live rows, the plan was {record['canonical_rows_planned']} and "
+                f"{record['live_rows_planned']}; the period is not the planned mixture"
+            )
+        record["served_equals_planned"] = True
         return rows, record
 
-    def train_updates(self, updates: int, **keywords) -> list:
-        """The accepted loop; the mixed stats are folded into each row."""
+    #: Row fields folded in from the pipeline's batch statistics.
+    MIXTURE_ROW_FIELDS = ("canonical_examples", "live_examples", "examples", "live_seed", "plan_index")
+
+    def _fold_mixture_stats(self, row: dict, batch, stats: dict) -> None:
+        """Record the served mixture on the row; refuse a batch that is not its plan.
+
+        Runs at the step (the accepted trainer's `on_step` hook), so a
+        mis-served batch stops the period at once rather than after K updates.
+        """
+        canonical = int(stats["canonical_examples"])
+        live = int(stats["live_examples"])
+        total = int(stats["examples"])
+        index = int(stats["plan_index"])
+        where = f"period {stats.get('period')} update {stats.get('update')}"
+        if canonical + live != total or int(batch.batch_size) != total:
+            raise Phase18G3Error(
+                f"{where}: the pipeline reports {canonical} canonical + {live} live = {total} examples "
+                f"but the trainer consumed a batch of {batch.batch_size}"
+            )
+        plan = self._period_plans[index] if index < len(self._period_plans) else None
+        if plan is None or plan.index != index:
+            raise Phase18G3Error(f"{where}: no scheduled plan with index {index}")
+        if canonical != len(plan.canonical_keys) or live != len(plan.live_keys) or int(stats["live_seed"]) != plan.live_seed:
+            raise Phase18G3Error(
+                f"{where}: served {canonical} canonical + {live} live examples (live seed {stats['live_seed']}), "
+                f"planned {len(plan.canonical_keys)} + {len(plan.live_keys)} (live seed {plan.live_seed})"
+            )
+        row["canonical_examples"] = canonical
+        row["live_examples"] = live
+        row["examples"] = total
+        row["live_seed"] = int(stats["live_seed"])
+        row["plan_index"] = index
+
+    def train_updates(self, updates: int, *, on_step=None, **keywords) -> list:
+        """The accepted loop; the served mixture is folded into each row at the step."""
         pipeline = self._ensure_pipeline()
         served_before = pipeline.served
-        rows = super().train_updates(updates, **keywords)
+        stats_before = len(pipeline.period_stats)
+
+        def at_step(row, batch):
+            # `next()` appended this batch's statistics before the trainer consumed it.
+            self._fold_mixture_stats(row, batch, pipeline.period_stats[-1])
+            if on_step is not None:
+                on_step(row, batch)
+
+        rows = super().train_updates(updates, on_step=at_step, **keywords)
         if pipeline.served - served_before != len(rows):
             raise Phase18G3Error("the pipeline served a different number of batches than rows recorded")
+        if len(pipeline.period_stats) - stats_before != len(rows):
+            raise Phase18G3Error("the pipeline recorded a different number of batch statistics than rows")
+        for row in rows:
+            missing = [name for name in self.MIXTURE_ROW_FIELDS if name not in row]
+            if missing:
+                raise Phase18G3Error(f"a C1 row is missing the mixture telemetry {missing}")
         return rows
 
 

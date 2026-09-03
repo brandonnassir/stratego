@@ -119,3 +119,150 @@ def test_an_unfinalised_period_is_invisible_and_a_wrong_split_is_refused(tmp_pat
     assert ls.available_periods(tmp_path) == (1,)
     done = json.loads((tmp_path / "period_0001.done.json").read_text())
     assert done["games"] == 1 and set(done["files"]) == {"period_0001.records", "period_0001.meta.jsonl", "period_0001.journal.jsonl"}
+
+
+# ---------------------------------------------------------------------------
+# The period-1 gate correction: the lineage-neutral semantic comparison
+# ---------------------------------------------------------------------------
+
+
+def _two_lineage_stores(root, train_games, *, mutate_control=None):
+    """Both lineages commit the same games; the control's metadata may be mutated."""
+    stores = {}
+    writers = {
+        lineage: ls.LivePeriodWriter(root / lineage, period=1, namespace=NAMESPACE, lineage=lineage, run_id="G3-TEST")
+        for lineage in ("candidate", "control")
+    }
+    for index, (record, metadata) in enumerate(train_games):
+        for lineage, writer in writers.items():
+            stamped = dict(metadata, lineage=lineage)
+            if lineage == "control" and mutate_control is not None:
+                stamped = mutate_control(index, stamped)
+            writer.write(record, stamped)
+    for lineage, writer in writers.items():
+        stores[lineage] = writer.close()
+    return stores
+
+
+def test_the_semantic_comparison_passes_when_only_the_lineage_stamp_differs(tmp_path, train_games):
+    summaries = _two_lineage_stores(tmp_path, train_games)
+    # The raw digests hash the metadata line, which carries the lineage: unequal by construction.
+    assert summaries["candidate"]["commit_digest"] != summaries["control"]["commit_digest"]
+    assert summaries["candidate"]["games"] == summaries["control"]["games"] == 3
+    result = ls.compare_live_periods(tmp_path / "candidate", tmp_path / "control", 1, lineage_a="candidate", lineage_b="control")
+    assert result["matched"], result["problems"]
+    assert result["problems"] == []
+    assert result["raw_commit_digest"] == {
+        "candidate": summaries["candidate"]["commit_digest"],
+        "control": summaries["control"]["commit_digest"],
+    }
+    assert result["raw_commit_digest_equal"] is False
+    assert "lineage stamp" in result["raw_commit_digest_note"]
+    assert all(result["file_integrity"][lineage]["verified"] for lineage in ("candidate", "control"))
+    semantic = result["semantic"]
+    assert semantic["matched"] and all(semantic["checks"].values()), semantic["checks"]
+    assert semantic["commits"] == {"candidate": 3, "control": 3}
+    assert semantic["selected_examples"]["candidate"] == semantic["selected_examples"]["control"] == summaries["candidate"]["selected_examples"]
+    assert semantic["lineage_neutral_commit_digest"]["candidate"] == semantic["lineage_neutral_commit_digest"]["control"]
+    assert semantic["metadata_field_differences"] == []
+    assert "'lineage'" in semantic["permitted_difference"]
+    # The neutral metadata drops exactly one field, and the stamps read as expected.
+    reader_a, reader_b = ls.LiveRecordReader(tmp_path / "candidate"), ls.LiveRecordReader(tmp_path / "control")
+    for game_id in reader_a.commits(1):
+        a, b = reader_a.metadata(1, game_id), reader_b.metadata(1, game_id)
+        assert a != b and (a["lineage"], b["lineage"]) == ("candidate", "control")
+        assert ls.lineage_neutral_metadata(a) == ls.lineage_neutral_metadata(b)
+        assert set(a) - set(ls.lineage_neutral_metadata(a)) == {"lineage"}
+        assert ls.lineage_neutral_metadata_sha256(a) == ls.lineage_neutral_metadata_sha256(b)
+
+
+def test_the_semantic_comparison_fails_on_a_non_lineage_metadata_field_on_disk(tmp_path, train_games):
+    def bump_blue_seed(index, metadata):
+        return dict(metadata, blue_policy_seed=int(metadata["blue_policy_seed"]) + 1) if index == 1 else metadata
+
+    _two_lineage_stores(tmp_path, train_games, mutate_control=bump_blue_seed)
+    result = ls.compare_live_periods(tmp_path / "candidate", tmp_path / "control", 1, lineage_a="candidate", lineage_b="control")
+    assert not result["matched"]
+    assert all(result["file_integrity"][lineage]["verified"] for lineage in ("candidate", "control"))
+    semantic = result["semantic"]
+    assert semantic["checks"]["neutral_metadata"] is False
+    assert semantic["checks"]["trajectory_digests"] and semantic["checks"]["game_ids_and_order"] and semantic["checks"]["lineage_stamps"]
+    assert semantic["checks"]["lineage_neutral_commit_digest"] is False
+    assert semantic["metadata_field_differences"] == [{"game_id": train_games[1][0].game_id, "fields": ["blue_policy_seed"]}]
+    assert any("blue_policy_seed" in problem for problem in result["problems"])
+
+
+def test_the_semantic_comparison_fails_on_every_non_lineage_difference(tmp_path, train_games):
+    import copy
+
+    _two_lineage_stores(tmp_path, train_games)
+    entries_a = ls.semantic_period_entries(ls.LiveRecordReader(tmp_path / "candidate"), 1)
+    entries_b = ls.semantic_period_entries(ls.LiveRecordReader(tmp_path / "control"), 1)
+    baseline = ls.compare_period_semantics(entries_a, entries_b, lineage_a="candidate", lineage_b="control")
+    assert baseline["matched"] and baseline["problems"] == []
+
+    def mutated(change):
+        entries = copy.deepcopy(entries_b)
+        change(entries)
+        return ls.compare_period_semantics(entries_a, entries, lineage_a="candidate", lineage_b="control")
+
+    # A changed non-lineage metadata field.
+    result = mutated(lambda e: e[0]["neutral_metadata"].__setitem__("period_completed", 99))
+    assert not result["matched"] and result["checks"]["neutral_metadata"] is False
+    assert result["metadata_field_differences"][0]["fields"] == ["period_completed"]
+    # An added metadata field.
+    result = mutated(lambda e: e[2]["neutral_metadata"].__setitem__("extra", 1))
+    assert not result["matched"] and result["metadata_field_differences"][0]["fields"] == ["extra"]
+    # A removed metadata field.
+    result = mutated(lambda e: e[2]["neutral_metadata"].pop("final_ply"))
+    assert not result["matched"] and result["metadata_field_differences"][0]["fields"] == ["final_ply"]
+    # A different trajectory under the same game id.
+    result = mutated(lambda e: e[1].__setitem__("trajectory_sha256", "0" * 64))
+    assert not result["matched"] and result["checks"]["trajectory_digests"] is False
+    assert any("trajectory digests differ" in p for p in result["problems"])
+    # A different selected-decision list.
+    result = mutated(lambda e: e[1].__setitem__("selected_decisions", tuple(e[1]["selected_decisions"][:-1])))
+    assert not result["matched"] and result["checks"]["selected_decisions"] is False
+    # The same games in a different order.
+    result = mutated(lambda e: e.reverse())
+    assert not result["matched"] and result["checks"]["game_ids_and_order"] is False
+    assert any("different order" in p for p in result["problems"])
+    # A missing commit.
+    result = mutated(lambda e: e.pop())
+    assert not result["matched"] and result["checks"]["commit_count"] is False and result["checks"]["game_ids_and_order"] is False
+    # A different game id.
+    result = mutated(lambda e: e[0].__setitem__("game_id", "other"))
+    assert not result["matched"] and result["checks"]["game_ids_and_order"] is False
+    # A wrong or missing lineage stamp is not a permitted difference.
+    result = mutated(lambda e: e[0].__setitem__("lineage", "candidate"))
+    assert not result["matched"] and result["checks"]["lineage_stamps"] is False
+    result = mutated(lambda e: e[0].__setitem__("lineage", None))
+    assert not result["matched"] and result["checks"]["lineage_stamps"] is False
+    # Two stores under the same label are not a two-lineage comparison.
+    result = ls.compare_period_semantics(entries_a, entries_a, lineage_a="candidate", lineage_b="candidate")
+    assert not result["matched"] and result["checks"]["lineage_labels_differ"] is False
+    # Every other check in the baseline is still true (no check is vacuous).
+    assert set(baseline["checks"]) == {
+        "lineage_stamps",
+        "lineage_labels_differ",
+        "commit_count",
+        "game_ids_and_order",
+        "trajectory_digests",
+        "selected_decisions",
+        "neutral_metadata",
+        "lineage_neutral_commit_digest",
+    }
+
+
+def test_the_raw_digest_still_audits_the_files(tmp_path, train_games):
+    """The raw commit digest keeps its file-integrity job: a tampered store fails
+    the comparison through `verify_period`, whatever the semantics say."""
+    _two_lineage_stores(tmp_path, train_games)
+    path = tmp_path / "control" / "period_0001.meta.jsonl"
+    lines = path.read_text().splitlines()
+    lines[0] = lines[0].replace('"lineage":"control"', '"lineage":"candidate"')
+    path.write_text("\n".join(lines) + "\n")
+    result = ls.compare_live_periods(tmp_path / "candidate", tmp_path / "control", 1, lineage_a="candidate", lineage_b="control")
+    assert not result["matched"]
+    assert result["file_integrity"]["control"]["verified"] is False
+    assert any("do not verify" in p for p in result["problems"])

@@ -12,7 +12,7 @@ from stratego.engine.constants import BLUE, RED
 from stratego.training.phase18 import g3_collector as gc
 from stratego.training.phase18.g3_contract import Phase18G3Error, PilotConfig
 from stratego.training.phase18.g3_buffer_state import buffer_state_digest, capture_buffer_state, restore_buffer_state
-from stratego.training.phase18.g3_live_store import LiveRecordReader
+from stratego.training.phase18.g3_live_store import LiveRecordReader, compare_live_periods, lineage_neutral_metadata
 from stratego.training.phase18.setup_buffer import SetupBuffer
 from stratego.training.phase18.setup_model import build_setup_model, state_dict_digest
 from stratego.training.phase18.setup_sampling import generate_pool
@@ -116,16 +116,44 @@ def collector_outcomes(document, reader):
 
 
 def test_both_lineages_produce_identical_period_one_games(tmp_path, pool):
+    """At least one game must complete, so the comparison is of committed
+    trajectories rather than of two empty stores (the first pilot's smoke
+    configuration completed none in period 1 and so never exercised the raw
+    digest across lineages). The raw commit digests then differ, through the
+    lineage stamp alone; the lineage-neutral semantic comparison passes."""
     documents = {}
     for lineage in ("candidate", "control"):
-        config = tiny_config(lineage=lineage)
+        config = tiny_config(lineage=lineage, slots=2, plies_per_period=400)
         buffer, collector = _fresh(tmp_path / lineage, config, pool)
         collector.run_period()
         documents[lineage] = collector.end_period()
     a, b = documents["candidate"], documents["control"]
-    for key in ("started", "completed", "completed_game_ids_digest", "outcome_records_digest", "plies_advanced"):
+    assert a["completed"] >= 1, "the configuration must complete at least one game in period 1"
+    for key in ("started", "completed", "in_flight_at_end", "completed_game_ids_digest", "outcome_records_digest", "plies_advanced"):
         assert a[key] == b[key], key
-    assert a["live"]["commit_digest"] == b["live"]["commit_digest"]
+    assert a["live"]["games"] == b["live"]["games"] == a["completed"]
+    assert a["live"]["selected_examples"] == b["live"]["selected_examples"]
+    # The raw digests hash each metadata line, and every line carries the lineage.
+    assert a["live"]["commit_digest"] != b["live"]["commit_digest"]
+    result = compare_live_periods(tmp_path / "candidate" / "live", tmp_path / "control" / "live", 1, lineage_a="candidate", lineage_b="control")
+    assert result["matched"], result["problems"]
+    assert result["raw_commit_digest"] == {"candidate": a["live"]["commit_digest"], "control": b["live"]["commit_digest"]}
+    assert result["raw_commit_digest_equal"] is False
+    semantic = result["semantic"]
+    assert all(semantic["checks"].values()), semantic["checks"]
+    assert semantic["commits"] == {"candidate": a["completed"], "control": b["completed"]}
+    assert semantic["lineage_neutral_commit_digest"]["candidate"] == semantic["lineage_neutral_commit_digest"]["control"]
+    reader_a = LiveRecordReader(tmp_path / "candidate" / "live")
+    reader_b = LiveRecordReader(tmp_path / "control" / "live")
+    assert list(reader_a.commits(1)) == list(reader_b.commits(1))
+    for game_id, commit in reader_a.commits(1).items():
+        other = reader_b.commits(1)[game_id]
+        assert commit.trajectory_sha256 == other.trajectory_sha256 and commit.selected_decisions == other.selected_decisions
+        assert commit.metadata_sha256 != other.metadata_sha256
+        meta_a, meta_b = reader_a.metadata(1, game_id), reader_b.metadata(1, game_id)
+        assert (meta_a["lineage"], meta_b["lineage"]) == ("candidate", "control")
+        assert lineage_neutral_metadata(meta_a) == lineage_neutral_metadata(meta_b)
+        assert reader_a.record(1, game_id).actions == reader_b.record(1, game_id).actions
 
 
 def test_capture_and_restore_reproduce_the_next_period_exactly(tmp_path, pool):

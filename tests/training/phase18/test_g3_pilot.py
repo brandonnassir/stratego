@@ -397,6 +397,80 @@ def test_fairness_conditions_hold_on_the_smoke_pilot_and_fail_on_tampering(two_l
     assert not short["conditions"]["candidate_final_bundle_complete"] and not short["conditions"]["equal_completed_c1_update_budget"]
 
 
+def test_the_period_one_gate_passes_with_completed_games_and_unequal_raw_digests(corpus, tmp_path):
+    """The first pilot's failure mode reproduced and corrected: period 1 completes
+    games in both lineages, so the raw live commit digests differ (each hashed
+    metadata line carries the lineage stamp); the gate reads the semantic
+    identity instead, both lineages serve exactly the planned mixture, and
+    `matched` is true. A non-lineage difference in a store fails the gate."""
+    import shutil
+
+    torch.set_num_threads(1)
+    run_root = tmp_path / "run"
+    records = {}
+    for lineage in ("candidate", "control"):
+        config = smoke_pilot_config(lineage=lineage, namespace=NAMESPACE + ":gate", run_id="G3-GATE-TEST", overrides={"periods": 1, "slots": 2, "plies_per_period": 400})
+        runner = gp.LineageRunner.fresh(config, **keywords(run_root, corpus))
+        try:
+            records[lineage] = runner.run()
+        finally:
+            runner.close()
+    first = {lineage: records[lineage][0] for lineage in records}
+    assert first["candidate"]["collection"]["completed"] >= 1
+    assert first["candidate"]["collection"]["live"]["commit_digest"] != first["control"]["collection"]["live"]["commit_digest"]
+
+    report = gp.matching_check(run_root, c1_device="cpu")
+    assert report["matched"], report["problems"]
+    assert all(v for k, v in report["period_1"].items() if k != "c1_state_digest_note")
+    assert report["period_1"]["collection/live/semantic_identity"] is True
+    assert report["period_1"]["collection/live/raw_commit_digest_recorded"] is True
+    assert report["period_1"]["c1/served_rows_equal_planned"] is True
+    assert "collection/live/commit_digest" not in report["period_1"]
+    live = report["live_store"]
+    assert live["matched"] and live["raw_commit_digest_equal"] is False
+    assert live["raw_commit_digest"] == {lineage: first[lineage]["collection"]["live"]["commit_digest"] for lineage in first}
+    assert "lineage stamp" in live["raw_commit_digest_note"]
+    assert all(live["semantic"]["checks"].values())
+    assert live["semantic"]["lineage_neutral_commit_digest"]["candidate"] == live["semantic"]["lineage_neutral_commit_digest"]["control"]
+    assert live["semantic"]["commits"] == {"candidate": first["candidate"]["collection"]["completed"], "control": first["control"]["collection"]["completed"]}
+    for lineage in first:
+        c1 = first[lineage]["c1"]
+        assert c1["live_rows_served"] == c1["live_rows_planned"] == 2 * 4
+        assert c1["canonical_rows_served"] == c1["canonical_rows_planned"] == 2 * 4
+        assert c1["served_equals_planned"] is True
+        rows = gp.read_c1_rows(run_root / lineage)
+        assert [(r["canonical_examples"], r["live_examples"], r["examples"]) for r in rows] == [(4, 4, 8)] * 2
+        assert [r["live_seed"] for r in rows] == c1["live_seeds"]
+    assert report["budget"]["candidate"]["live_rows_served"] == report["budget"]["control"]["live_rows_served"] == 8
+    assert report["budget"]["candidate"]["canonical_rows_served"] == report["budget"]["control"]["canonical_rows_served"] == 8
+
+    # A non-lineage metadata difference in the control store fails the gate.
+    tampered = tmp_path / "tampered"
+    shutil.copytree(run_root, tampered)
+    meta_path = tampered / "control" / gp.LIVE_DIRECTORY / "period_0001.meta.jsonl"
+    lines = meta_path.read_text().splitlines()
+    entry = json.loads(lines[0])
+    entry["blue_policy_seed"] = int(entry["blue_policy_seed"]) + 1
+    lines[0] = json.dumps(entry, sort_keys=True, separators=(",", ":"))
+    meta_path.write_text("\n".join(lines) + "\n")
+    failed = gp.matching_check(tampered, c1_device="cpu")
+    assert not failed["matched"]
+    assert failed["period_1"]["collection/live/semantic_identity"] is False
+    assert any("blue_policy_seed" in p for p in failed["live_store"]["problems"])
+    assert any("semantically identical" in p for p in failed["problems"])
+
+    # A period record whose served counts do not equal the plan fails the gate.
+    short = tmp_path / "short"
+    shutil.copytree(run_root, short)
+    periods_path = short / "candidate" / gp.PERIODS_NAME
+    record = json.loads(periods_path.read_text().splitlines()[0])
+    record["c1"]["live_rows_served"] = 0
+    periods_path.write_text(json.dumps(record, sort_keys=True) + "\n")
+    failed = gp.matching_check(short, c1_device="cpu")
+    assert not failed["matched"] and failed["period_1"]["c1/served_rows_equal_planned"] is False
+    assert failed["period_1"]["c1/live_rows_served"] is False
+
+
 def test_decision_input_requires_every_condition():
     passes = {"passes": True, "near_boundary": False}
     gates = {"G1": True, "G2": True, "G10_clean_deliverable": None}

@@ -50,6 +50,8 @@ RESTART_COMPARED_FIELDS = (
     ("c1", "keys_digests"),
     ("c1", "live_universe_digest"),
     ("c1", "cursor_after_planned"),
+    ("c1", "canonical_rows_served"),
+    ("c1", "live_rows_served"),
     ("c1_state_digest",),
     ("c1_global_step",),
     ("setup_raw_digest",),

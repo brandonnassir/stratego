@@ -23,6 +23,20 @@ journal does not name does not exist. The journal also carries the game's
 selected decision indices, so the live example universe is enumerated without
 decoding a single payload.
 
+Two digests, two purposes (the period-1 gate correction)
+--------------------------------------------------------
+`commit_digest` (the *raw* digest) hashes every commit's game id, trajectory
+digest and metadata-line digest. The metadata line carries `lineage`, so the
+raw digests of the candidate and the control can NEVER be equal even when
+both lineages committed byte-identical games; the raw digest is a file-
+integrity audit of one lineage's own store (resume, bundle, verify_period),
+not a cross-lineage comparison. The cross-lineage fairness comparison is the
+*semantic* one below (`compare_live_periods`): equal commit counts and
+order, equal game ids, equal trajectory digests, equal selected-decision
+lists and equal metadata after removing exactly the `lineage` field, which
+must read "candidate" in the candidate store and "control" in the control
+store. No other metadata field is ever ignored.
+
 Why not `corpus_commit.CorpusWriter`
 ------------------------------------
 Its pre-commit verification requires a *synthetic* corpus game id whose seeds
@@ -497,18 +511,203 @@ def universe_digest(universe) -> str:
     return hasher.hexdigest()
 
 
+# ---------------------------------------------------------------------------
+# The lineage-neutral semantic comparison of two lineages' periods
+# ---------------------------------------------------------------------------
+
+#: The ONE metadata field the two lineages are permitted to differ in.
+LINEAGE_METADATA_FIELD = "lineage"
+
+
+def lineage_neutral_metadata(metadata: dict) -> dict:
+    """The metadata document with exactly the `lineage` field removed."""
+    return {key: value for key, value in metadata.items() if key != LINEAGE_METADATA_FIELD}
+
+
+def lineage_neutral_metadata_sha256(metadata: dict) -> str:
+    line = json.dumps(lineage_neutral_metadata(metadata), sort_keys=True, separators=(",", ":")) + "\n"
+    return hashlib.sha256(line.encode()).hexdigest()
+
+
+def semantic_period_entries(reader: "LiveRecordReader", period: int) -> list:
+    """One lineage-neutral entry per commit of a finalised period, in commit order.
+
+    Each entry carries what the fairness comparison reads: the game id, the
+    trajectory digest, the selected decisions, the lineage the store stamped,
+    the neutral metadata and its digest. Nothing is decoded.
+    """
+    entries = []
+    for game_id, commit in reader.commits(period).items():
+        metadata = reader.metadata(period, game_id)
+        entries.append(
+            {
+                "game_id": game_id,
+                "record_index": int(commit.record_index),
+                "trajectory_sha256": commit.trajectory_sha256,
+                "metadata_sha256": commit.metadata_sha256,
+                "selected_decisions": tuple(int(index) for index in commit.selected_decisions),
+                "final_ply": int(commit.final_ply),
+                "total_decisions": int(commit.total_decisions),
+                "lineage": metadata.get(LINEAGE_METADATA_FIELD),
+                "neutral_metadata": lineage_neutral_metadata(metadata),
+                "neutral_metadata_sha256": lineage_neutral_metadata_sha256(metadata),
+            }
+        )
+    return entries
+
+
+def lineage_neutral_commit_digest(entries) -> str:
+    """`commits_digest` with the metadata digest taken over the neutral metadata."""
+    hasher = hashlib.sha256()
+    for entry in entries:
+        hasher.update(f"{entry['game_id']}|{entry['trajectory_sha256']}|{entry['neutral_metadata_sha256']}\n".encode())
+    return hasher.hexdigest()
+
+
+def compare_period_semantics(entries_a, entries_b, *, lineage_a: str, lineage_b: str, max_reported: int = 8) -> dict:
+    """Are two lineages' periods the same games, apart from the lineage stamp?
+
+    Required, in order: every entry of `entries_a` is stamped `lineage_a` and
+    every entry of `entries_b` `lineage_b`; equal commit counts; equal game
+    ids in the same order; equal trajectory digests; equal selected-decision
+    lists; equal neutral metadata (every field other than `lineage`). The
+    first differences of each kind are reported by game and field. A missing
+    lineage stamp, a wrong one, or ANY other metadata difference fails.
+    """
+    entries_a = list(entries_a)
+    entries_b = list(entries_b)
+    problems: list = []
+    checks: dict = {}
+
+    def note(problem: str) -> None:
+        if len(problems) < max_reported:
+            problems.append(problem)
+
+    stamped = {}
+    for label, entries, expected in ((lineage_a, entries_a, lineage_a), (lineage_b, entries_b, lineage_b)):
+        wrong = [e["game_id"] for e in entries if e["lineage"] != expected]
+        stamped[label] = not wrong
+        for game_id in wrong[:2]:
+            note(f"{game_id} in the {label} store is stamped lineage={next(e['lineage'] for e in entries if e['game_id'] == game_id)!r}, not {expected!r}")
+    checks["lineage_stamps"] = all(stamped.values())
+    checks["lineage_labels_differ"] = lineage_a != lineage_b
+    if lineage_a == lineage_b:
+        note(f"both stores are labelled {lineage_a!r}; the comparison is between two lineages")
+
+    checks["commit_count"] = len(entries_a) == len(entries_b)
+    if not checks["commit_count"]:
+        note(f"{len(entries_a)} commits in {lineage_a}, {len(entries_b)} in {lineage_b}")
+    ids_a = [e["game_id"] for e in entries_a]
+    ids_b = [e["game_id"] for e in entries_b]
+    checks["game_ids_and_order"] = ids_a == ids_b
+    if not checks["game_ids_and_order"]:
+        if sorted(ids_a) == sorted(ids_b):
+            note("the same game ids were committed in a different order")
+        else:
+            only_a = sorted(set(ids_a) - set(ids_b))[:3]
+            only_b = sorted(set(ids_b) - set(ids_a))[:3]
+            note(f"game ids differ (only in {lineage_a}: {only_a}; only in {lineage_b}: {only_b})")
+
+    trajectories = selections = metadata_same = True
+    field_differences: list = []
+    for a, b in zip(entries_a, entries_b):
+        if a["game_id"] != b["game_id"]:
+            continue
+        if a["trajectory_sha256"] != b["trajectory_sha256"]:
+            trajectories = False
+            note(f"{a['game_id']}: trajectory digests differ")
+        if tuple(a["selected_decisions"]) != tuple(b["selected_decisions"]):
+            selections = False
+            note(f"{a['game_id']}: selected decisions differ")
+        if a["neutral_metadata"] != b["neutral_metadata"]:
+            metadata_same = False
+            keys = sorted(set(a["neutral_metadata"]) | set(b["neutral_metadata"]))
+            differing = [k for k in keys if a["neutral_metadata"].get(k, "<absent>") != b["neutral_metadata"].get(k, "<absent>")]
+            field_differences.append({"game_id": a["game_id"], "fields": differing})
+            note(f"{a['game_id']}: metadata differs in non-lineage field(s) {differing}")
+    checks["trajectory_digests"] = trajectories
+    checks["selected_decisions"] = selections
+    checks["neutral_metadata"] = metadata_same
+
+    neutral_a = lineage_neutral_commit_digest(entries_a)
+    neutral_b = lineage_neutral_commit_digest(entries_b)
+    checks["lineage_neutral_commit_digest"] = neutral_a == neutral_b
+    matched = all(checks.values()) and not problems
+    return {
+        "matched": matched,
+        "checks": checks,
+        "commits": {lineage_a: len(entries_a), lineage_b: len(entries_b)},
+        "selected_examples": {
+            lineage_a: int(sum(len(e["selected_decisions"]) for e in entries_a)),
+            lineage_b: int(sum(len(e["selected_decisions"]) for e in entries_b)),
+        },
+        "lineage_neutral_commit_digest": {lineage_a: neutral_a, lineage_b: neutral_b},
+        "permitted_difference": f"metadata field {LINEAGE_METADATA_FIELD!r} only: {lineage_a!r} versus {lineage_b!r}",
+        "metadata_field_differences": field_differences[:max_reported],
+        "problems": problems,
+    }
+
+
+def compare_live_periods(root_a, root_b, period: int, *, lineage_a: str, lineage_b: str) -> dict:
+    """The fairness comparison of one period between two lineages' stores.
+
+    Each store is first re-hashed against its own finalisation summary (the
+    raw digest's job: file integrity); then the semantic comparison runs.
+    Both raw commit digests are reported as audit information. They differ
+    whenever at least one game was committed, because each metadata line
+    carries the lineage; that inequality is expected and is NOT a condition.
+    """
+    reader_a = LiveRecordReader(root_a)
+    reader_b = LiveRecordReader(root_b)
+    integrity = {lineage_a: reader_a.verify_period(period), lineage_b: reader_b.verify_period(period)}
+    raw = {lineage_a: reader_a.summary(period)["commit_digest"], lineage_b: reader_b.summary(period)["commit_digest"]}
+    semantic = compare_period_semantics(
+        semantic_period_entries(reader_a, period),
+        semantic_period_entries(reader_b, period),
+        lineage_a=lineage_a,
+        lineage_b=lineage_b,
+    )
+    problems = list(semantic["problems"])
+    for label, verification in integrity.items():
+        if not verification["verified"]:
+            problems.append(f"{label}: the live period {period} files do not verify: {verification['problems']}")
+    games = semantic["commits"][lineage_a]
+    return {
+        "period": int(period),
+        "matched": semantic["matched"] and all(v["verified"] for v in integrity.values()),
+        "file_integrity": integrity,
+        "raw_commit_digest": raw,
+        "raw_commit_digest_equal": raw[lineage_a] == raw[lineage_b],
+        "raw_commit_digest_note": (
+            "audit only; unequal by construction when any game was committed, because the hashed "
+            "metadata line carries the lineage stamp"
+            if games
+            else "audit only; equal here because no game was committed in this period"
+        ),
+        "semantic": semantic,
+        "problems": problems,
+    }
+
+
 __all__ = [
     "DONE_SUFFIX",
     "JOURNAL_SUFFIX",
     "LiveCommit",
     "LivePeriodWriter",
+    "LINEAGE_METADATA_FIELD",
     "LiveRecordReader",
     "METADATA_SUFFIX",
     "RECORDS_SUFFIX",
     "available_periods",
     "commits_digest",
+    "compare_live_periods",
+    "compare_period_semantics",
     "discard_periods_after",
+    "lineage_neutral_commit_digest",
+    "lineage_neutral_metadata",
+    "lineage_neutral_metadata_sha256",
     "live_selected_decision_indices",
     "period_name",
+    "semantic_period_entries",
     "universe_digest",
 ]

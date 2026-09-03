@@ -60,7 +60,7 @@ from .g3_contract import (
     Phase18G3Error,
     PilotConfig,
 )
-from .g3_live_store import LiveRecordReader, discard_periods_after
+from .g3_live_store import LiveRecordReader, compare_live_periods, discard_periods_after
 from .setup_buffer import SetupBuffer
 from .setup_learning import SetupTrainer
 from .setup_model import build_setup_model, state_dict_digest
@@ -531,6 +531,11 @@ def read_init_record(lineage_root) -> dict:
 
 #: Period-record fields that must be identical between the lineages in period 1
 #: whatever the C1 device, because nothing on their path touches C1 weights.
+#: The live store's RAW commit digest is deliberately absent: it hashes the
+#: metadata line, which carries the lineage stamp, so it differs between the
+#: lineages by construction whenever a game completed (the first pilot's
+#: period-1 stop). The live store is compared semantically instead
+#: (`compare_live_periods`), and both raw digests are reported for audit.
 MATCHED_PERIOD_FIELDS = (
     ("pool", "content_digest"),
     ("pool", "snapshot_digest"),
@@ -540,11 +545,17 @@ MATCHED_PERIOD_FIELDS = (
     ("collection", "plies_advanced"),
     ("collection", "completed_game_ids_digest"),
     ("collection", "outcome_records_digest"),
-    ("collection", "live", "commit_digest"),
+    ("collection", "live", "games"),
+    ("collection", "live", "selected_examples"),
     ("c1", "live_universe_digest"),
     ("c1", "keys_digests"),
+    ("c1", "updates_planned"),
     ("c1", "updates_completed"),
     ("c1", "live_seeds"),
+    ("c1", "canonical_rows_planned"),
+    ("c1", "live_rows_planned"),
+    ("c1", "canonical_rows_served"),
+    ("c1", "live_rows_served"),
     ("buffer", "rows"),
 )
 
@@ -561,11 +572,16 @@ def matching_check(run_root, *, c1_device: str) -> dict:
 
     Exact identity is required for the initial components (bundle_0 differs
     only in lineage) and for every period-1 quantity that does not pass
-    through a C1 forward/backward pass. The period-1 C1 weight digest is
-    required to be identical on CPU (bit-exact with fixed threads) and is
-    reported, not required, on MPS (P18-D002: MPS training is not run-to-run
-    bitwise reproducible), because a period-1 difference there is not
-    evidence of an implementation defect.
+    through a C1 forward/backward pass. The period-1 live stores are compared
+    semantically (same games, same trajectories, same selected decisions,
+    same metadata apart from the lineage stamp: `compare_live_periods`);
+    their raw commit digests are reported under `live_store` as audit
+    information and are expected to differ. Each lineage's period-1 C1 rows
+    must have served exactly the planned canonical and live counts. The
+    period-1 C1 weight digest is required to be identical on CPU (bit-exact
+    with fixed threads) and is reported, not required, on MPS (P18-D002: MPS
+    training is not run-to-run bitwise reproducible), because a period-1
+    difference there is not evidence of an implementation defect.
     """
     run_root = Path(run_root)
     inits = {lineage: read_init_record(run_root / lineage) for lineage in LINEAGES}
@@ -629,6 +645,47 @@ def matching_check(run_root, *, c1_device: str) -> dict:
             if first[lineage]["pool"]["snapshot_digest"] != inits[lineage]["setup_init_state_digest"]:
                 problems.append(f"{lineage}: the period-1 pool was not sampled by the initial setup model")
 
+        # The live stores: semantic identity is the condition; the raw digests are audit.
+        try:
+            live = compare_live_periods(
+                run_root / "candidate" / LIVE_DIRECTORY,
+                run_root / "control" / LIVE_DIRECTORY,
+                1,
+                lineage_a="candidate",
+                lineage_b="control",
+            )
+        except Phase18G3Error as error:
+            live = {"matched": False, "problems": [str(error)], "raw_commit_digest": None, "raw_commit_digest_equal": None, "semantic": None}
+        report["live_store"] = live
+        report["period_1"]["collection/live/semantic_identity"] = bool(live["matched"])
+        if not live["matched"]:
+            problems.append("period 1 live stores are not semantically identical: " + "; ".join(live["problems"]))
+        recorded = True
+        if live.get("raw_commit_digest"):
+            for lineage in LINEAGES:
+                if first[lineage]["collection"]["live"]["commit_digest"] != live["raw_commit_digest"][lineage]:
+                    recorded = False
+                    problems.append(f"{lineage}: the period record's raw live commit digest is not the store's own")
+        report["period_1"]["collection/live/raw_commit_digest_recorded"] = recorded
+
+        # Each lineage served exactly the planned mixture in period 1.
+        served = True
+        for lineage in LINEAGES:
+            c1 = first[lineage]["c1"]
+            ok = (
+                c1.get("live_rows_served") is not None
+                and c1.get("canonical_rows_served") is not None
+                and int(c1["live_rows_served"]) == int(c1["live_rows_planned"])
+                and int(c1["canonical_rows_served"]) == int(c1["canonical_rows_planned"])
+            )
+            if not ok:
+                served = False
+                problems.append(
+                    f"{lineage}: period 1 served {c1.get('canonical_rows_served')} canonical / {c1.get('live_rows_served')} live rows, "
+                    f"planned {c1.get('canonical_rows_planned')} / {c1.get('live_rows_planned')}"
+                )
+        report["period_1"]["c1/served_rows_equal_planned"] = served
+
     # The equal gameplay-update budget, over every completed period.
     budget = {}
     for lineage in LINEAGES:
@@ -637,6 +694,8 @@ def matching_check(run_root, *, c1_device: str) -> dict:
             "periods": len(records),
             "c1_updates": int(sum(r["c1"]["updates_completed"] for r in records)),
             "c1_global_step": int(records[-1]["c1_global_step"]) if records else 0,
+            "canonical_rows_served": int(sum(int(r["c1"].get("canonical_rows_served") or 0) for r in records)),
+            "live_rows_served": int(sum(int(r["c1"].get("live_rows_served") or 0) for r in records)),
             "setup_updates": int(records[-1]["setup_updates"]) if records else 0,
             "setup_ema_updates": int(records[-1]["setup_ema_updates"]) if records else 0,
         }
@@ -648,6 +707,10 @@ def matching_check(run_root, *, c1_device: str) -> dict:
             observed = int(sum(r["c1"]["updates_completed"] for r in periods[lineage][:common]))
             if observed != expected:
                 problems.append(f"{lineage}: {observed} C1 updates over {common} periods, expected {expected}")
+        for name in ("canonical_rows_served", "live_rows_served"):
+            counts = {lineage: int(sum(int(r["c1"].get(name) or 0) for r in periods[lineage][:common])) for lineage in LINEAGES}
+            if counts["candidate"] != counts["control"]:
+                problems.append(f"{name} over the common {common} periods differs: {counts}")
         if budget["control"]["setup_updates"] or budget["control"]["setup_ema_updates"]:
             problems.append("the control lineage recorded a setup or EMA update")
         control_digests = {(r["setup_raw_digest"], r["setup_ema_digest"]) for r in periods["control"]}

@@ -22,7 +22,13 @@ test evidence            reports/phase18/g3_pilot/phase18_g3_stage6b_verificatio
 corrective commit        review round 1 (2026-09-03), on top of 8c4c863a (never rewritten): consistent
                          recovery, the launch binding, the fairness-gated decision and the period-1 gate
                          bundle (section 1.4)
-runtime location         output/phase18/runtime/g3_pilot_v1/ (git-ignored, storage policy item 3)
+gate correction          review round 2 (2026-09-03), on top of c12bed35 (never rewritten): the period-1
+                         live-store comparison made lineage-neutral and the C1 mixture telemetry
+                         corrected, after the first pilot attempt stopped at the gate on a checker
+                         defect (section 1.5; reports/phase18/g3_pilot/phase18_g3_pilot_period1_diagnosis_v1.md)
+runtime location         output/phase18/runtime/g3_pilot_v1/ (the stopped first attempt, preserved as
+                         evidence) and output/phase18/runtime/g3_pilot_v2/ (the repeat from the gate
+                         correction; git-ignored, storage policy item 3)
 protected file           reports/phase13/phase14_launch_manifest_v1.json: never staged, never modified
 ```
 
@@ -194,6 +200,71 @@ gate bundle   a resumable bundle is written after period 1 in both lineages in a
               lineages resume toward period 256. The MPS treatment of the period-1 C1 digest is unchanged.
 ```
 
+### 1.5 The gate correction (review round 2): the period-1 stop was a checker defect
+
+The first pilot attempt (`g3_pilot_v1`, from `c12bed35`) ran period 1 in both lineages and
+stopped at `--check-matching` on exactly one field, `collection/live/commit_digest`. The
+diagnosis (`reports/phase18/g3_pilot/phase18_g3_pilot_period1_diagnosis_v1.{md,json}`,
+computed read-only from the preserved runtime) shows both lineages committed the same 1,709
+games in the same order with identical trajectory digests, selected-decision lists and
+metadata apart from the `lineage` stamp on every metadata line; the raw commit digest hashes
+that line, so it can never be equal across differently named lineages once a game completes.
+The smoke pilot's period 1 completes no game, which is why the suite never saw it. The same
+records also showed `live_rows_served = 0` for a period that served 8,192 live rows: the
+accepted trainer's metric row drops the pipeline's mixture statistics.
+
+Two corrections, telemetry and checking only; `c12bed35` is untouched underneath. The
+setup-learning equation, seeds, schedules, batch composition, budgets, evaluation rules and
+checkpoint formats are unchanged and the contract digest (`7cd75349…`) is the same.
+
+```text
+live store    `g3_live_store.compare_live_periods`: each store is re-hashed against its own
+              finalisation summary (the raw digest keeps its file-integrity job for resume, bundle
+              and verify_period), then `compare_period_semantics` requires equal commit counts and
+              order, equal game ids, equal trajectory digests, equal selected-decision lists and
+              equal metadata after removing exactly the `lineage` field, which must read
+              "candidate" in the candidate store and "control" in the control store; any other
+              metadata difference, a wrong or missing stamp, a different trajectory, selection,
+              order or count fails. Both raw digests are reported as audit information with a note
+              that their inequality is expected; a lineage-neutral commit digest is reported equal.
+matching      `matching_check` drops `collection/live/commit_digest` from MATCHED_PERIOD_FIELDS, adds
+              `collection/live/games` and `selected_examples`, the planned and served canonical and
+              live counts, and three new period-1 conditions: `collection/live/semantic_identity`
+              (the gate), `collection/live/raw_commit_digest_recorded` (the period record's raw
+              digest is the store's own) and `c1/served_rows_equal_planned`; the full live-store
+              comparison is written under `live_store`. The budget section carries the served
+              totals per lineage and requires them equal over the common periods.
+telemetry     `JointC1Trainer` folds the pipeline's statistics into every C1 row at the step
+              (`canonical_examples`, `live_examples`, `examples`, `live_seed`, `plan_index`) through
+              the accepted trainer's `on_step` hook, checking them against the trainer's own batch
+              size and against the plan; `train_period` records `canonical_rows_served`,
+              `live_rows_served` and `examples_served` and raises before anything is written when
+              served != planned. Under the production configuration each lineage must therefore
+              report 64 updates of 128 + 128 and 8,192 + 8,192 rows served per period.
+neutrality    `reports/phase18/g3_pilot/phase18_g3_telemetry_neutrality_v1.json`: the smoke
+              two-lineage pilot (CPU, one thread, period 1 completing games) run from a scratch
+              worktree at `c12bed35` and from this tree: every period digest (C1 weights, setup raw
+              and EMA, buffer, live raw commit digest, completed ids), every C1 row's key digest,
+              losses, gradient and parameter norms are bitwise identical; only the served telemetry
+              differs (0 versus the true counts).
+driver        `--launch-manifest` takes `--runtime` (it must be git-ignored under the canonical tree
+              and empty) and every post-launch stage refuses a runtime root other than the one the
+              manifest bound, so a repeated attempt runs in a fresh namespace without touching the
+              preserved one. `--check-matching` logs both raw digests and the semantic result.
+tests         test_g3_live_store: the semantic comparison passes with only the stamp differing (raw
+              digests unequal, neutral digest equal); fails on disk for a non-lineage field; fails
+              for every non-lineage difference in turn (field changed / added / removed, trajectory,
+              selection, order, count, game id, wrong or missing stamp, same labels); the raw digest
+              still audits a tampered file. test_g3_collector: the two-lineage test now completes at
+              least one game and requires raw digests unequal with the semantic comparison passing.
+              test_g3_c1_mixture: every row 4 + 4 = 8 with served == planned; the production values
+              (batch 256, 128 + 128, 64 updates) plan 8,192 + 8,192 with every batch 128:128 and a
+              real 256-row update records 128 + 128; a pipeline one live row short fails at the first
+              step. test_g3_pilot: a one-period two-lineage pilot that completes games passes the
+              corrected gate with unequal raw digests, and fails it on a non-lineage metadata edit or
+              on served != planned. test_g3_driver: the runtime binding.
+```
+
 ---
 
 ## 2. The frozen contract (`phase18_g3_pilot_contract_v1.json`)
@@ -226,8 +297,10 @@ from the code and refuses any drift before `--run`, `--evaluate` and `--analyse`
 ## 3. Test evidence (the critical implementation checks)
 
 Verification record `phase18_g3_stage6b_verification_v1.json` (driver `--verify`, regenerated
-for the corrective commit): **84 passed, 0 failed, 0 skipped** over the nine targets, and the
-restart check **PASS**. Full Phase 18 sweep (`tests/training/phase18` +
+for the gate correction): **92 passed, 0 failed, 0 skipped** over the nine targets (the seven G3
+files alone: 53 = the 45 of the corrective commit plus 8 new), and the restart check **PASS**
+(now also comparing the served canonical and live counts). For the corrective commit the same
+record read 84 passed, restart PASS. Full Phase 18 sweep (`tests/training/phase18` +
 `tests/evaluation/phase18`, plus the Phase 17 checkpoint-codec tests and the Phase 8 trainer /
 checkpoint tests the harness subclasses): **326 passed, 0 failed** (66.8 s), including the G2
 raw-confirmation driver's method-identity tripwire (section 1.3).
@@ -342,58 +415,63 @@ choice; they are not throughput claims for the pilot.
 
 ---
 
-## 5. The exact pilot command (proposed; NOT executed; requires an explicit written instruction)
+## 5. The exact pilot command (steps 1-3 executed for `g3_pilot_v1` and again for `g3_pilot_v2`; steps 4-7 require an explicit written instruction)
 
-From a clean detached execution worktree at the reviewed Stage 6B commit (storage policy:
-under `output/phase18/worktrees/`), with the main repo's interpreter. The sequence has a
+From a clean detached execution worktree at the reviewed commit (storage policy: under
+`output/phase18/worktrees/`), with the main repo's interpreter. The sequence has a
 consequential stop after period 1: both lineages run exactly one period, the matching check
-must pass, and only then do both resume toward period 256.
+must pass, and only then do both resume toward period 256. A repeated attempt uses a fresh
+execution worktree and a fresh, empty runtime namespace (`--runtime`); the stopped attempt's
+worktree and runtime are never reused, resumed or deleted.
 
 ```bash
 PY=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/.venv/bin/python
-COMMIT=<the reviewed Stage 6B commit>
+COMMIT=<the reviewed commit>
+ATTEMPT=g3_pilot_v2                                  # g3_pilot_v1 was the stopped first attempt
 cd /Users/brandonwashington/Dev/Github/stratego/gpt_agent
-git worktree add --detach output/phase18/worktrees/g3_pilot_exec "$COMMIT"
-cd output/phase18/worktrees/g3_pilot_exec
+RUNTIME=$PWD/output/phase18/runtime/$ATTEMPT         # git-ignored; must not exist or be empty
+git worktree add --detach output/phase18/worktrees/${ATTEMPT}_exec "$COMMIT"
+cd output/phase18/worktrees/${ATTEMPT}_exec
 REPORTS=$PWD/reports/phase18/g3_pilot
 LOGS=/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime
 
 # 1. bind the source, the contract, the verification evidence and the (empty, git-ignored) runtime
-#    root; refuses a dirty tree and stale evidence. Every later stage re-checks HEAD and the tracked
-#    harness sources and tests against this manifest.
-$PY scripts/phase18_g3_pilot.py --launch-manifest --source-commit "$COMMIT" --reports "$REPORTS"
+#    root; refuses a dirty tree and stale evidence. Every later stage re-checks HEAD, the tracked
+#    harness sources and tests, and the runtime root against this manifest.
+$PY scripts/phase18_g3_pilot.py --launch-manifest --source-commit "$COMMIT" --reports "$REPORTS" --runtime "$RUNTIME"
 
 # 2. period 1 in each lineage (each verifies the accepted corpus; bundle_1 is the resumable gate bundle)
-$PY scripts/phase18_g3_pilot.py --run --lineage candidate --periods 1 --reports "$REPORTS" \
-    > "$LOGS/g3_pilot_v1_candidate_p1.log" 2>&1
-$PY scripts/phase18_g3_pilot.py --run --lineage control   --periods 1 --reports "$REPORTS" \
-    > "$LOGS/g3_pilot_v1_control_p1.log" 2>&1
+$PY scripts/phase18_g3_pilot.py --run --lineage candidate --periods 1 --reports "$REPORTS" --runtime "$RUNTIME" \
+    > "$LOGS/${ATTEMPT}_candidate_p1.log" 2>&1
+$PY scripts/phase18_g3_pilot.py --run --lineage control   --periods 1 --reports "$REPORTS" --runtime "$RUNTIME" \
+    > "$LOGS/${ATTEMPT}_control_p1.log" 2>&1
 
-# 3. the consequential stop: the period-1 lineage-identity and equal-budget check; a non-zero exit
-#    means the lineages are not matched and NOTHING below may run
-$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" || { echo "STOP: lineages not matched"; exit 1; }
+# 3. the consequential stop: the period-1 lineage-identity (semantic live-store identity, served ==
+#    planned rows) and equal-budget check; a non-zero exit means the lineages are not matched and
+#    NOTHING below may run
+$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" --runtime "$RUNTIME" || { echo "STOP: lineages not matched"; exit 1; }
 
 # 4. both lineages resume from their latest verified bundle (bundle_1) toward period 256, as separate
 #    processes; a crash resumes the same way (progress after the last bundle is archived, never deleted)
-nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage candidate --resume --reports "$REPORTS" \
-    > "$LOGS/g3_pilot_v1_candidate.log" 2>&1 &
-nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage control   --resume --reports "$REPORTS" \
-    > "$LOGS/g3_pilot_v1_control.log" 2>&1 &
+nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage candidate --resume --reports "$REPORTS" --runtime "$RUNTIME" \
+    > "$LOGS/${ATTEMPT}_candidate.log" 2>&1 &
+nohup caffeinate -i $PY scripts/phase18_g3_pilot.py --run --lineage control   --resume --reports "$REPORTS" --runtime "$RUNTIME" \
+    > "$LOGS/${ATTEMPT}_control.log" 2>&1 &
 
 # 5. after both reached period 256: re-run the matching check over the full history (equal budgets)
-$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" || { echo "STOP: lineages not matched"; exit 1; }
+$PY scripts/phase18_g3_pilot.py --check-matching --reports "$REPORTS" --runtime "$RUNTIME" || { echo "STOP: lineages not matched"; exit 1; }
 
 # 6. the primary evaluation, control first (frozen order), on the G1 harness under EVALUATION_RULES
-$PY scripts/phase18_g3_pilot.py --evaluate --arm control_final   --device mps --workers 8 --reports "$REPORTS"
-$PY scripts/phase18_g3_pilot.py --evaluate --arm candidate_final --device mps --workers 8 --reports "$REPORTS"
+$PY scripts/phase18_g3_pilot.py --evaluate --arm control_final   --device mps --workers 8 --reports "$REPORTS" --runtime "$RUNTIME"
+$PY scripts/phase18_g3_pilot.py --evaluate --arm candidate_final --device mps --workers 8 --reports "$REPORTS" --runtime "$RUNTIME"
 
 # 7. the contrast, the ten gates, every fairness condition and the decision input
-$PY scripts/phase18_g3_pilot.py --analyse --reports "$REPORTS"
+$PY scripts/phase18_g3_pilot.py --analyse --reports "$REPORTS" --runtime "$RUNTIME"
 ```
 
 The launch manifest, matching record and results are written under `$REPORTS` and are
 committed to the branch after review. Runtime data (bundles, live stores, archives, receipts,
-period records) stays under `output/phase18/runtime/g3_pilot_v1/` (git-ignored). Nothing
+period records) stays under `output/phase18/runtime/<attempt>/` (git-ignored). Nothing
 continues past period 256; the `--diagnostic` arms are not part of this command.
 
 ---

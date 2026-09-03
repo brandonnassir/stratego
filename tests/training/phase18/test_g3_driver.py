@@ -180,3 +180,19 @@ def test_every_post_launch_stage_refuses_without_the_launch_manifest(driver, fro
         ["--analyse"],
     ):
         assert driver.main(argv + ["--reports", str(reports), "--runtime", str(tmp_path)]) == 2
+
+
+def test_the_runtime_root_is_bound_to_the_launch_manifest(driver, tmp_path):
+    """A repeated pilot runs in a fresh runtime namespace; every post-launch stage
+    must name the runtime root the manifest bound, never another."""
+    bound = tmp_path / "runtime" / "g3_pilot_v2"
+    manifest = {"runtime": {"root_absolute": str(bound)}}
+    assert driver.runtime_binding_problems(manifest, bound) == []
+    assert driver.runtime_binding_problems(manifest, tmp_path / "runtime" / ".." / "runtime" / "g3_pilot_v2") == []
+    other = tmp_path / "runtime" / "g3_pilot_v1"
+    problems = driver.runtime_binding_problems(manifest, other)
+    assert len(problems) == 1 and "is not the launch manifest's" in problems[0]
+    assert driver.runtime_binding_problems({}, bound) == ["the launch manifest records no runtime root"]
+    with pytest.raises(driver.G3Error, match="BLOCKED"):
+        driver.require_runtime_binding(manifest, other)
+    driver.require_runtime_binding(manifest, bound)

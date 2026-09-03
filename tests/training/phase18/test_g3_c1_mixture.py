@@ -106,9 +106,85 @@ def test_a_period_of_mixed_updates_is_deterministic_and_records_its_keys(corpus,
         assert len(rows) == 3 and record["updates_completed"] == 3 and record["live_rows_planned"] == 12
         assert record["live_universe_digest"] == ls.universe_digest(universe)
         assert trainer.global_step == 3 and trainer.cursor.position == 12 and trainer.cursor.batch_size == 4
+        # Every row records the mixture the pipeline served, and the served totals equal the plan.
+        for index, row in enumerate(rows):
+            assert (row["canonical_examples"], row["live_examples"], row["examples"]) == (4, 4, 8)
+            assert row["batch_size"] == 8 and row["plan_index"] == index
+        assert [row["live_seed"] for row in rows] == record["live_seeds"]
+        assert record["canonical_rows_served"] == record["canonical_rows_planned"] == 12
+        assert record["live_rows_served"] == record["live_rows_planned"] == 12
+        assert record["examples_served"] == 24 and record["served_equals_planned"] is True
         digests.append((record["keys_digests"], c1.c1_digest(trainer) if hasattr(c1, "c1_digest") else None))
         trainer.close()
     assert digests[0][0] == digests[1][0]
+
+
+def test_the_production_mixture_is_128_canonical_and_128_live_for_64_updates(corpus, live_root):
+    """With the frozen production values (batch 256, 128 canonical + 128 live,
+    64 updates per period) every planned batch is the 128:128 mixture and the
+    period plans 8,192 canonical and 8,192 live rows."""
+    from dataclasses import replace
+
+    from stratego.training.phase18.g3_contract import C1_UPDATES_PER_PERIOD, CANONICAL_PER_BATCH, LIVE_PER_BATCH
+
+    assert (C1_UPDATES_PER_PERIOD, CANONICAL_PER_BATCH, LIVE_PER_BATCH) == (64, 128, 128)
+    torch.set_num_threads(1)
+    config = pilot()
+    trainer = trainer_for(config, corpus, live_root)
+    universe = ls.LiveRecordReader(live_root).universe([1])
+    assert len(universe) >= LIVE_PER_BATCH
+    # The accepted planner never spans an epoch boundary, so the canonical
+    # universe must hold a period's worth of rows for every batch to be full,
+    # as the 42,376-game production corpus does; a synthetic universe stands in.
+    canonical = tuple((f"game_{index // 64:05d}", index % 64) for index in range(4 * 8192))
+    cursor = replace(trainer.cursor, batch_size=CANONICAL_PER_BATCH)
+    plans = c1.plan_mixture_batches(
+        canonical, cursor, universe, period=1, batches=C1_UPDATES_PER_PERIOD, batch_size=CANONICAL_PER_BATCH + LIVE_PER_BATCH,
+        live_per_batch=LIVE_PER_BATCH, namespace=NAMESPACE, seed_index=1,
+    )
+    assert len(plans) == 64
+    assert all(len(plan.canonical_keys) == 128 and len(plan.live_keys) == 128 and plan.batch_size == 256 for plan in plans)
+    assert all(len(set(plan.live_keys)) == 128 and set(plan.live_keys) <= set(universe) for plan in plans)
+    assert all(len(set(plan.canonical_keys)) == 128 and set(plan.canonical_keys) <= set(canonical) for plan in plans)
+    assert sum(len(plan.canonical_keys) for plan in plans) == 8192
+    assert sum(len(plan.live_keys) for plan in plans) == 8192
+    assert plans[-1].cursor_after.batch_size == 128 and plans[-1].cursor_after.position == 8192
+    trainer.close()
+
+    # One real update at the production composition through the accepted
+    # trainer: the row records 128 + 128 = 256, the period record 128 / 128 served.
+    production = pilot(c1_train_config=unit_test_config(batch_size=256), canonical_per_batch=128, live_per_batch=128, c1_updates_per_period=1)
+    trainer = trainer_for(production, corpus, live_root)
+    rows, record = trainer.train_period(period=1, live_universe=universe, updates=1)
+    assert len(rows) == 1
+    assert (rows[0]["canonical_examples"], rows[0]["live_examples"], rows[0]["examples"], rows[0]["batch_size"]) == (128, 128, 256, 256)
+    assert record["canonical_rows_served"] == record["canonical_rows_planned"] == 128
+    assert record["live_rows_served"] == record["live_rows_planned"] == 128
+    assert record["served_equals_planned"] is True
+    assert trainer.cursor.batch_size == 128 and trainer.cursor.position == 128
+    trainer.close()
+
+
+def test_a_period_whose_served_mixture_differs_from_the_plan_fails_at_the_step(monkeypatch, corpus, live_root):
+    """The served-equals-planned check is not telemetry: a pipeline that serves
+    one live example short stops the period at that update."""
+    torch.set_num_threads(1)
+    original = c1.build_mixed_batch
+    calls = []
+
+    def one_live_short(dataset, live, canonical_keys, live_keys):
+        calls.append(len(live_keys))
+        return original(dataset, live, canonical_keys, tuple(live_keys)[:-1])
+
+    monkeypatch.setattr(c1, "build_mixed_batch", one_live_short)
+    config = pilot()
+    universe = ls.LiveRecordReader(live_root).universe([1])
+    trainer = trainer_for(config, corpus, live_root)
+    with pytest.raises(Phase18G3Error, match="planned 4 \\+ 4"):
+        trainer.train_period(period=1, live_universe=universe, updates=3)
+    assert calls == [4], "the first mis-served batch stopped the period"
+    assert trainer.global_step == 1
+    trainer.close()
 
 
 def test_resume_serves_the_exact_next_batches(tmp_path, corpus, live_root):
