@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Phase 18 Agent 6, Stage 6A replacement design: the supporting tables for the matched
-joint-bundle pilot, reproducibly. Analytic only; no Monte Carlo (the resampling unit was
+two-lineage joint-bundle pilot (candidate with setup learning against a control whose setup
+model stays frozen at its initial version), reproducibly. Analytic only; no Monte Carlo (the resampling unit was
 validated in scripts/phase18_g3_stage6a_tables.py, T5, and that validation does not depend on
 the number of cases per base).
 
@@ -49,8 +50,9 @@ G1_GPS = C["G1_HARNESS_GAMES_PER_SECOND"][0]
 # Frozen structure of the matched-bundle evaluation (operator decisions 2026-09-02, correction round)
 BASES = 160                      # 10 per family, the screening slice base_index 400..409
 FAMILIES = 16
-HANDCRAFTED_OPPONENTS = ("strategic_rule_based", "tactical_rule_based", "stress_scout_rush", "stress_miner_rush",
-                         "stress_berserker", "stress_information_miser", "stress_chaos")
+HANDCRAFTED_OPPONENTS = ("basic_heuristic", "strategic_rule_based", "tactical_rule_based", "stress_scout_rush",
+                         "stress_miner_rush", "stress_berserker", "stress_information_miser", "stress_chaos")
+LINEAGES = 2                     # candidate (setup updates enabled) and control (setup model frozen at its initial version)
 COLOURS = 2
 CASES_PER_BASE = len(HANDCRAFTED_OPPONENTS) * COLOURS
 CASES_PER_ARM = BASES * CASES_PER_BASE
@@ -128,13 +130,13 @@ def table_budget() -> dict:
         for K in (64, 128):
             games = completions * periods
             cpu_h = (games * SEC_PER_GAME + periods * K * C1_SEC) / 3600.0
-            rows.append({"periods": periods, "c1_updates_per_period": K, "games_per_seed": games,
-                         "c1_updates_per_seed": periods * K, "live_examples_per_seed": games * SEL_PER_GAME,
-                         "cpu_hours_per_seed": cpu_h,
-                         **{f"wall_h_per_seed_at_{r}gps": (games / r + periods * K * C1_SEC) / 3600.0 for r in (30, 60, 100)},
-                         "trajectory_GB_per_seed": games * TRAJ_BYTES / 1e9,
-                         "outcome_receipts_MB_per_seed": games * 2 * OUTCOME_RECEIPT_BYTES / 1e6})
-    return {"rows": rows}
+            rows.append({"periods": periods, "c1_updates_per_period": K, "games_per_lineage": games,
+                         "c1_updates_per_lineage": periods * K, "live_examples_per_lineage": games * SEL_PER_GAME,
+                         "cpu_hours_per_lineage": cpu_h, "cpu_hours_per_pilot": LINEAGES * cpu_h,
+                         **{f"wall_h_per_pilot_at_{r}gps": LINEAGES * (games / r + periods * K * C1_SEC) / 3600.0 for r in (30, 60, 100)},
+                         "trajectory_GB_per_pilot": LINEAGES * games * TRAJ_BYTES / 1e9,
+                         "outcome_receipts_MB_per_pilot": LINEAGES * games * 2 * OUTCOME_RECEIPT_BYTES / 1e6})
+    return {"lineages": LINEAGES, "seeds": 1, "rows": rows}
 
 
 def table_bundle() -> dict:
@@ -145,16 +147,23 @@ def table_bundle() -> dict:
             "bundles_per_256_periods_every_32": 256 // 32, "bundle_storage_MB_per_256_periods": total * (256 // 32)}
 
 
+ARM_SETS = (
+    ("primary: candidate_final vs control_final", 2),
+    ("primary + candidate diagnostics (candidate_128, candidate_0)", 4),
+    ("primary + candidate diagnostics + control_128 (optional)", 5),
+)
+
+
 def table_evaluation() -> dict:
     rows = []
-    for seeds in (1, 3):
-        for bundles in (2, 3, 4, 9):     # baseline + final, plus intermediate progress bundles
-            games = bundles * CASES_PER_ARM * seeds
-            rows.append({"seeds": seeds, "bundles_evaluated_per_seed": bundles, "cases_per_arm": CASES_PER_ARM,
+    for seeds in (1, 2):                 # one seed; a second seed only as conditional follow-up
+        for label, arms in ARM_SETS:
+            games = arms * CASES_PER_ARM * seeds
+            rows.append({"seeds": seeds, "arm_set": label, "arms": arms, "cases_per_arm": CASES_PER_ARM,
                          "games": games, "hours_g1_harness": games / G1_GPS / 3600.0,
-                         "paired_games_per_opponent_pooled": COLOURS * BASES * seeds,
-                         "paired_games_per_opponent_colour_pooled": BASES * seeds,
-                         "paired_games_per_family_pooled": CASES_PER_BASE * BASES * seeds // FAMILIES})
+                         "paired_games_per_opponent": COLOURS * BASES * seeds,
+                         "paired_games_per_opponent_colour": BASES * seeds,
+                         "paired_games_per_family": CASES_PER_BASE * BASES * seeds // FAMILIES})
     return {"bases": BASES, "opponents": list(HANDCRAFTED_OPPONENTS), "colours": COLOURS, "cases_per_base": CASES_PER_BASE,
             "cases_per_arm": CASES_PER_ARM, "g1_harness_games_per_second": G1_GPS, "rows": rows}
 
@@ -164,21 +173,27 @@ def var_factor(rho_b, rho_w, seeds):
     return rho_b + rho_w / CASES_PER_BASE + rest / (CASES_PER_BASE * seeds)
 
 
+def pass_prob(d: float, se: float) -> float:
+    return 1.0 - ncdf(max(Z975 - d / se, (MARGIN - d) / se))
+
+
 def table_resolution() -> dict:
     rows = []
-    for seeds in (1, 3):
+    for seeds in (1, 2):
         for rho_b in (0.0, 0.05, 0.10, 0.20):
             f = var_factor(rho_b, 0.10, seeds)
             se = math.sqrt(V * f / BASES)
             rows.append({"seeds": seeds, "rho_b": rho_b, "rho_w": 0.10, "per_base_sd": math.sqrt(V * f), "n_eff": BASES / f,
                          "se": se, "half_width": Z975 * se, "mde80_lower_gt_0": (Z975 + Z80) * se,
                          "d80_combined_rule": max(MARGIN + Z80 * se, (Z975 + Z80) * se),
-                         "pass_prob_at_0.10": 1.0 - ncdf(max(Z975 - 0.10 / se, (MARGIN - 0.10) / se)),
-                         "pass_prob_at_0.30": 1.0 - ncdf(max(Z975 - 0.30 / se, (MARGIN - 0.30) / se))})
-    return {"model": "Var(pooled contrast) = (V / B) * [rho_b + rho_w / C + (1 - rho_b - rho_w) / (C * seeds)], "
-                     "C = 14 cases per base, independent per-seed baselines, type effects shared across seeds (worst case)",
+                         "pass_prob_at_0.05": pass_prob(0.05, se), "pass_prob_at_0.08": pass_prob(0.08, se),
+                         "pass_prob_at_0.10": pass_prob(0.10, se)})
+    return {"model": "Var(pooled candidate-minus-control contrast) = (V / B) * [rho_b + rho_w / C + (1 - rho_b - rho_w) / (C * seeds)], "
+                     f"C = {CASES_PER_BASE} cases per base, one independent lineage pair per seed, type effects shared across seeds (worst case); "
+                     "V is the frozen paired per-game variance, which may understate a contrast whose two arms also differ in mover",
             "stratified_bootstrap": "bases resampled with replacement within each family, carrying every opponent, colour and "
-                                    "bundle of the base; rescaling sqrt(n_f / (n_f - 1)) with n_f = 10; validated in Stage 6A T5",
+                                    "arm of the base; rescaling sqrt(n_f / (n_f - 1)) with n_f = 10; validated in Stage 6A T5",
+            "near_boundary_rule": "the 95% interval of the candidate-minus-control contrast contains 0.05; the second seed is then a conditional follow-up",
             "rows": rows}
 
 
@@ -201,25 +216,25 @@ def render(t: dict) -> str:
     L.append("|---|---|---|---|---|---|")
     for r in p["rows"]:
         L.append(f"| {r['c1_updates_per_period']} | {r['c1_seconds']:.1f} | {r['collector_cpu_seconds']:.0f} | {r['wall_s_at_30gps']:.0f} | {r['wall_s_at_60gps']:.0f} | {r['wall_s_at_100gps']:.0f} |")
-    L.append("\n## J3 Bounded pilot budget per seed (cost only; example building and memory are measured in the pilot)\n")
-    L.append("| periods | C1 updates/period | games | C1 updates | live examples | CPU h | wall h @30 | @60 | @100 | trajectories GB | receipts MB |")
-    L.append("|---|---|---|---|---|---|---|---|---|---|---|")
+    L.append(f"\n## J3 Bounded pilot budget: two lineages (candidate and control), one seed (cost only; example building and memory are measured in the pilot)\n")
+    L.append("| periods | C1 updates/period | games per lineage | C1 updates per lineage | live examples per lineage | CPU h per lineage | CPU h per pilot | wall h per pilot @30 | @60 | @100 | trajectories GB per pilot | receipts MB per pilot |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|")
     for r in t["budget"]["rows"]:
-        L.append(f"| {r['periods']} | {r['c1_updates_per_period']} | {r['games_per_seed']/1e6:.2f} M | {r['c1_updates_per_seed']} | {r['live_examples_per_seed']/1e6:.1f} M | {r['cpu_hours_per_seed']:.1f} | {r['wall_h_per_seed_at_30gps']:.1f} | {r['wall_h_per_seed_at_60gps']:.1f} | {r['wall_h_per_seed_at_100gps']:.1f} | {r['trajectory_GB_per_seed']:.1f} | {r['outcome_receipts_MB_per_seed']:.0f} |")
+        L.append(f"| {r['periods']} | {r['c1_updates_per_period']} | {r['games_per_lineage']/1e6:.2f} M | {r['c1_updates_per_lineage']} | {r['live_examples_per_lineage']/1e6:.1f} M | {r['cpu_hours_per_lineage']:.1f} | {r['cpu_hours_per_pilot']:.1f} | {r['wall_h_per_pilot_at_30gps']:.1f} | {r['wall_h_per_pilot_at_60gps']:.1f} | {r['wall_h_per_pilot_at_100gps']:.1f} | {r['trajectory_GB_per_pilot']:.1f} | {r['outcome_receipts_MB_per_pilot']:.0f} |")
     b = t["bundle"]
     L.append(f"\n## J4 Joint bundle size (estimate): C1 weights {b['c1_weights_MB']:.1f} MB + C1 optimizer {b['c1_optimizer_MB_estimate']:.1f} MB + setup raw/optimizer/EMA {b['setup_raw_opt_ema_MB']:.1f} MB + collector state {b['collector_state_MB_estimate']:.1f} MB = {b['bundle_MB_estimate']:.0f} MB; {b['bundles_per_256_periods_every_32']} bundles per 256 periods at every 32 = {b['bundle_storage_MB_per_256_periods']:.0f} MB\n")
     e = t["evaluation"]
-    L.append(f"## J5 Matched-bundle evaluation on the G1 harness: {e['bases']} bases x {len(e['opponents'])} handcrafted opponents x {e['colours']} colours = {e['cases_per_arm']} cases per arm; {e['g1_harness_games_per_second']:.2f} games/s\n")
-    L.append("| seeds | bundles per seed | games | hours (G1 harness) | paired games per opponent (pooled) | per opponent x colour | per family |")
-    L.append("|---|---|---|---|---|---|---|")
+    L.append(f"## J5 Candidate-versus-control evaluation on the G1 harness: {e['bases']} bases x {len(e['opponents'])} handcrafted opponents x {e['colours']} colours = {e['cases_per_arm']} cases per arm; {e['g1_harness_games_per_second']:.2f} games/s\n")
+    L.append("| seeds | arm set | arms | games | hours (G1 harness) | paired games per opponent | per opponent x colour | per family |")
+    L.append("|---|---|---|---|---|---|---|---|")
     for r in e["rows"]:
-        L.append(f"| {r['seeds']} | {r['bundles_evaluated_per_seed']} | {r['games']} | {r['hours_g1_harness']:.2f} | {r['paired_games_per_opponent_pooled']} | {r['paired_games_per_opponent_colour_pooled']} | {r['paired_games_per_family_pooled']} |")
+        L.append(f"| {r['seeds']} | {r['arm_set']} | {r['arms']} | {r['games']} | {r['hours_g1_harness']:.2f} | {r['paired_games_per_opponent']} | {r['paired_games_per_opponent_colour']} | {r['paired_games_per_family']} |")
     rs = t["resolution"]
-    L.append(f"\n## J6 Resolution of the paired bundle contrast at B = {BASES} bases, 14 cases per base (rho_w = 0.10)\n")
-    L.append("| seeds | rho_b | per-base SD | n_eff | SE | 95% half-width | MDE (lower>0, 80%) | d80 combined rule | P(pass at 0.10) | P(pass at 0.30) |")
-    L.append("|---|---|---|---|---|---|---|---|---|---|")
+    L.append(f"\n## J6 Resolution of the paired candidate-minus-control contrast at B = {BASES} bases, {CASES_PER_BASE} cases per base (rho_w = 0.10); the near-boundary zone is the half-width around 0.05\n")
+    L.append("| seeds | rho_b | per-base SD | n_eff | SE | 95% half-width | MDE (lower>0, 80%) | d80 combined rule | P(pass at 0.05) | P(pass at 0.08) | P(pass at 0.10) |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|")
     for r in rs["rows"]:
-        L.append(f"| {r['seeds']} | {r['rho_b']} | {fmt(r['per_base_sd'])} | {r['n_eff']:.0f} | {fmt(r['se'])} | {fmt(r['half_width'])} | {fmt(r['mde80_lower_gt_0'])} | {fmt(r['d80_combined_rule'])} | {fmt(r['pass_prob_at_0.10'],3)} | {fmt(r['pass_prob_at_0.30'],3)} |")
+        L.append(f"| {r['seeds']} | {r['rho_b']} | {fmt(r['per_base_sd'])} | {r['n_eff']:.0f} | {fmt(r['se'])} | {fmt(r['half_width'])} | {fmt(r['mde80_lower_gt_0'])} | {fmt(r['d80_combined_rule'])} | {fmt(r['pass_prob_at_0.05'],3)} | {fmt(r['pass_prob_at_0.08'],3)} | {fmt(r['pass_prob_at_0.10'],3)} |")
     return "\n".join(L) + "\n"
 
 
@@ -227,6 +242,7 @@ def build() -> dict:
     return {"extra_constants": {k: list(v) for k, v in X.items()}, "period": table_period(), "budget": table_budget(),
             "bundle": table_bundle(), "evaluation": table_evaluation(), "resolution": table_resolution(),
             "structure": {"bases": BASES, "opponents": list(HANDCRAFTED_OPPONENTS), "colours": COLOURS, "cases_per_arm": CASES_PER_ARM,
+                          "lineages": LINEAGES, "seeds": 1, "second_seed": "conditional follow-up only",
                           "slots_provisional": SLOTS, "plies_per_period": T_PLIES, "retention_periods": RETENTION}}
 
 
