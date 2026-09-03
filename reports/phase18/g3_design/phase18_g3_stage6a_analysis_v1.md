@@ -1,3 +1,14 @@
+> **SUPERSEDED on 2026-09-02 by `phase18_g3_stage6a_joint_design_v2.md`.** The setup-only
+> C0 evaluation design in this document — the frozen C0 mover, the fixed-library comparator,
+> the P1/P2 contrasts, the confirmation sizing rule, the concentration review flags, the
+> preflight, the teacher-regime probe and the in-process evaluator with R1–R11 — is no longer
+> the active Phase 18 design. Its evidence is preserved unchanged: the throughput and storage
+> measurements (section 2.6), the teacher-schedule facts (2.1), the library and leakage facts
+> and the data-boundary record (2.3–2.5), the collector reconciliation with S21–S23 (3), the
+> EMA parameter-aging record (4), the cluster-aware variance model, stratified bootstrap and
+> direct per-base variance (5) and the appendix tables remain the reference the replacement
+> design cites. Nothing below was re-run or edited for the supersession.
+
 # Phase 18 Agent 6 — Stage 6A: Gate G3 evidence, power, and feasibility analysis (v1, corrected)
 
 **Stage 6A of the G3 design work package. Analysis only.** This document freezes no contract

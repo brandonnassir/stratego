@@ -1,0 +1,381 @@
+{
+ "budget": {
+  "rows": [
+   {
+    "c1_updates_per_period": 64,
+    "c1_updates_per_seed": 4096,
+    "cpu_hours_per_seed": 3.2334057211372063,
+    "games_per_seed": 127874.87490968383,
+    "live_examples_per_seed": 7974149.324492974,
+    "outcome_receipts_MB_per_seed": 20.459979985549413,
+    "periods": 64,
+    "trajectory_GB_per_seed": 1.6120246969621201,
+    "wall_h_per_seed_at_100gps": 0.5153059298711105,
+    "wall_h_per_seed_at_30gps": 1.344124563544987,
+    "wall_h_per_seed_at_60gps": 0.7521112537779323
+   },
+   {
+    "c1_updates_per_period": 128,
+    "c1_updates_per_seed": 8192,
+    "cpu_hours_per_seed": 3.393503665148083,
+    "games_per_seed": 127874.87490968383,
+    "live_examples_per_seed": 7974149.324492974,
+    "outcome_receipts_MB_per_seed": 20.459979985549413,
+    "periods": 64,
+    "trajectory_GB_per_seed": 1.6120246969621201,
+    "wall_h_per_seed_at_100gps": 0.675403873881988,
+    "wall_h_per_seed_at_30gps": 1.5042225075558646,
+    "wall_h_per_seed_at_60gps": 0.91220919778881
+   },
+   {
+    "c1_updates_per_period": 64,
+    "c1_updates_per_seed": 8192,
+    "cpu_hours_per_seed": 6.4668114422744125,
+    "games_per_seed": 255749.74981936766,
+    "live_examples_per_seed": 15948298.648985948,
+    "outcome_receipts_MB_per_seed": 40.91995997109883,
+    "periods": 128,
+    "trajectory_GB_per_seed": 3.2240493939242403,
+    "wall_h_per_seed_at_100gps": 1.030611859742221,
+    "wall_h_per_seed_at_30gps": 2.688249127089974,
+    "wall_h_per_seed_at_60gps": 1.5042225075558646
+   },
+   {
+    "c1_updates_per_period": 128,
+    "c1_updates_per_seed": 16384,
+    "cpu_hours_per_seed": 6.787007330296166,
+    "games_per_seed": 255749.74981936766,
+    "live_examples_per_seed": 15948298.648985948,
+    "outcome_receipts_MB_per_seed": 40.91995997109883,
+    "periods": 128,
+    "trajectory_GB_per_seed": 3.2240493939242403,
+    "wall_h_per_seed_at_100gps": 1.350807747763976,
+    "wall_h_per_seed_at_30gps": 3.0084450151117292,
+    "wall_h_per_seed_at_60gps": 1.82441839557762
+   },
+   {
+    "c1_updates_per_period": 64,
+    "c1_updates_per_seed": 16384,
+    "cpu_hours_per_seed": 12.933622884548825,
+    "games_per_seed": 511499.4996387353,
+    "live_examples_per_seed": 31896597.297971897,
+    "outcome_receipts_MB_per_seed": 81.83991994219765,
+    "periods": 256,
+    "trajectory_GB_per_seed": 6.448098787848481,
+    "wall_h_per_seed_at_100gps": 2.061223719484442,
+    "wall_h_per_seed_at_30gps": 5.376498254179948,
+    "wall_h_per_seed_at_60gps": 3.0084450151117292
+   },
+   {
+    "c1_updates_per_period": 128,
+    "c1_updates_per_seed": 32768,
+    "cpu_hours_per_seed": 13.574014660592333,
+    "games_per_seed": 511499.4996387353,
+    "live_examples_per_seed": 31896597.297971897,
+    "outcome_receipts_MB_per_seed": 81.83991994219765,
+    "periods": 256,
+    "trajectory_GB_per_seed": 6.448098787848481,
+    "wall_h_per_seed_at_100gps": 2.701615495527952,
+    "wall_h_per_seed_at_30gps": 6.0168900302234585,
+    "wall_h_per_seed_at_60gps": 3.64883679115524
+   }
+  ]
+ },
+ "bundle": {
+  "bundle_MB_estimate": 46.143619,
+  "bundle_storage_MB_per_256_periods": 369.148952,
+  "bundles_per_256_periods_every_32": 8,
+  "c1_optimizer_MB_estimate": 6.911672,
+  "c1_weights_MB": 10.459947,
+  "collector_state_MB_estimate": 15.872,
+  "setup_raw_opt_ema_MB": 12.9
+ },
+ "evaluation": {
+  "bases": 160,
+  "cases_per_arm": 2240,
+  "cases_per_base": 14,
+  "colours": 2,
+  "g1_harness_games_per_second": 1.4958669189724754,
+  "opponents": [
+   "strategic_rule_based",
+   "tactical_rule_based",
+   "stress_scout_rush",
+   "stress_miner_rush",
+   "stress_berserker",
+   "stress_information_miser",
+   "stress_chaos"
+  ],
+  "rows": [
+   {
+    "bundles_evaluated_per_seed": 2,
+    "cases_per_arm": 2240,
+    "games": 4480,
+    "hours_g1_harness": 0.8319218967013888,
+    "paired_games_per_family_pooled": 140,
+    "paired_games_per_opponent_colour_pooled": 160,
+    "paired_games_per_opponent_pooled": 320,
+    "seeds": 1
+   },
+   {
+    "bundles_evaluated_per_seed": 3,
+    "cases_per_arm": 2240,
+    "games": 6720,
+    "hours_g1_harness": 1.2478828450520831,
+    "paired_games_per_family_pooled": 140,
+    "paired_games_per_opponent_colour_pooled": 160,
+    "paired_games_per_opponent_pooled": 320,
+    "seeds": 1
+   },
+   {
+    "bundles_evaluated_per_seed": 4,
+    "cases_per_arm": 2240,
+    "games": 8960,
+    "hours_g1_harness": 1.6638437934027777,
+    "paired_games_per_family_pooled": 140,
+    "paired_games_per_opponent_colour_pooled": 160,
+    "paired_games_per_opponent_pooled": 320,
+    "seeds": 1
+   },
+   {
+    "bundles_evaluated_per_seed": 9,
+    "cases_per_arm": 2240,
+    "games": 20160,
+    "hours_g1_harness": 3.74364853515625,
+    "paired_games_per_family_pooled": 140,
+    "paired_games_per_opponent_colour_pooled": 160,
+    "paired_games_per_opponent_pooled": 320,
+    "seeds": 1
+   },
+   {
+    "bundles_evaluated_per_seed": 2,
+    "cases_per_arm": 2240,
+    "games": 13440,
+    "hours_g1_harness": 2.4957656901041663,
+    "paired_games_per_family_pooled": 420,
+    "paired_games_per_opponent_colour_pooled": 480,
+    "paired_games_per_opponent_pooled": 960,
+    "seeds": 3
+   },
+   {
+    "bundles_evaluated_per_seed": 3,
+    "cases_per_arm": 2240,
+    "games": 20160,
+    "hours_g1_harness": 3.74364853515625,
+    "paired_games_per_family_pooled": 420,
+    "paired_games_per_opponent_colour_pooled": 480,
+    "paired_games_per_opponent_pooled": 960,
+    "seeds": 3
+   },
+   {
+    "bundles_evaluated_per_seed": 4,
+    "cases_per_arm": 2240,
+    "games": 26880,
+    "hours_g1_harness": 4.9915313802083325,
+    "paired_games_per_family_pooled": 420,
+    "paired_games_per_opponent_colour_pooled": 480,
+    "paired_games_per_opponent_pooled": 960,
+    "seeds": 3
+   },
+   {
+    "bundles_evaluated_per_seed": 9,
+    "cases_per_arm": 2240,
+    "games": 60480,
+    "hours_g1_harness": 11.230945605468749,
+    "paired_games_per_family_pooled": 420,
+    "paired_games_per_opponent_colour_pooled": 480,
+    "paired_games_per_opponent_pooled": 960,
+    "seeds": 3
+   }
+  ]
+ },
+ "extra_constants": {
+  "C1_BATCH_SIZE": [
+   256,
+   "reports/phase18/phase18_g1_control_run_v1.json:/restart_proof/cursor_at_boundary/batch_size"
+  ],
+  "C1_SECONDS_PER_UPDATE": [
+   0.1407110836033104,
+   "reports/phase18/phase18_g1_control_run_v1.json: (run.wall_seconds - run.validation_seconds) / run.updates_completed"
+  ],
+  "C1_UPDATES_MEASURED": [
+   25000,
+   "same file, run.updates_completed"
+  ],
+  "SELECTED_DECISIONS_PER_GAME": [
+   62.359,
+   "reports/phase_8_data/agent_02_corpus_manifest.json: decision_totals.per_split.train.mean_selected_decisions"
+  ],
+  "TRAJECTORY_BYTES_PER_GAME": [
+   12606.266071428572,
+   "reports/phase_8_data/agent_02_corpus_manifest.json: storage.total_bytes / decision_totals.totals.games"
+  ]
+ },
+ "period": {
+  "completions_per_period": 1998.0449204638098,
+  "live_examples_per_period": 124596.08319520272,
+  "outcomes_per_period": 3996.0898409276197,
+  "outcomes_per_setup": 3.9024314852808786,
+  "rows": [
+   {
+    "c1_seconds": 4.502754675305932,
+    "c1_updates_per_period": 32,
+    "collector_cpu_seconds": 172.87356246335597,
+    "wall_s_at_100gps": 24.483203879944032,
+    "wall_s_at_30gps": 71.1042520240996,
+    "wall_s_at_60gps": 37.80350334970276
+   },
+   {
+    "c1_seconds": 9.005509350611865,
+    "c1_updates_per_period": 64,
+    "collector_cpu_seconds": 172.87356246335597,
+    "wall_s_at_100gps": 28.985958555249965,
+    "wall_s_at_30gps": 75.60700669940552,
+    "wall_s_at_60gps": 42.306258025008695
+   },
+   {
+    "c1_seconds": 18.01101870122373,
+    "c1_updates_per_period": 128,
+    "collector_cpu_seconds": 172.87356246335597,
+    "wall_s_at_100gps": 37.991467905861825,
+    "wall_s_at_30gps": 84.61251605001739,
+    "wall_s_at_60gps": 51.31176737562056
+   },
+   {
+    "c1_seconds": 36.02203740244746,
+    "c1_updates_per_period": 256,
+    "collector_cpu_seconds": 172.87356246335597,
+    "wall_s_at_100gps": 56.00248660708556,
+    "wall_s_at_30gps": 102.62353475124112,
+    "wall_s_at_60gps": 69.3227860768443
+   }
+  ],
+  "trajectory_MB_per_period": 25.187885890033126
+ },
+ "resolution": {
+  "model": "Var(pooled contrast) = (V / B) * [rho_b + rho_w / C + (1 - rho_b - rho_w) / (C * seeds)], C = 14 cases per base, independent per-seed baselines, type effects shared across seeds (worst case)",
+  "rows": [
+   {
+    "d80_combined_rule": 0.05958654260197961,
+    "half_width": 0.02232510004099263,
+    "mde80_lower_gt_0": 0.03191164264297224,
+    "n_eff": 2239.9999999999995,
+    "pass_prob_at_0.10": 0.9999943219624762,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.144080535514988,
+    "rho_b": 0.0,
+    "rho_w": 0.1,
+    "se": 0.011390566468103583,
+    "seeds": 1
+   },
+   {
+    "d80_combined_rule": 0.06231413693477097,
+    "half_width": 0.02867711023685167,
+    "mde80_lower_gt_0": 0.040991247171622634,
+    "n_eff": 1357.5757575757575,
+    "pass_prob_at_0.10": 0.999683768648654,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.1850747988748642,
+    "rho_b": 0.05,
+    "rho_w": 0.1,
+    "se": 0.014631447548553472,
+    "seeds": 1
+   },
+   {
+    "d80_combined_rule": 0.06453871169798106,
+    "half_width": 0.033857690577367455,
+    "mde80_lower_gt_0": 0.048396402275348506,
+    "n_eff": 973.9130434782608,
+    "pass_prob_at_0.10": 0.998100669822837,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.21850895094447997,
+    "rho_b": 0.1,
+    "rho_w": 0.1,
+    "se": 0.017274649352963932,
+    "seeds": 1
+   },
+   {
+    "d80_combined_rule": 0.06818918570509555,
+    "half_width": 0.0423588990723931,
+    "mde80_lower_gt_0": 0.06054808477748864,
+    "n_eff": 622.2222222222222,
+    "pass_prob_at_0.10": 0.9896529920866266,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.273373595234486,
+    "rho_b": 0.2,
+    "rho_w": 0.1,
+    "se": 0.0216120803272482,
+    "seeds": 1
+   },
+   {
+    "d80_combined_rule": 0.05606306190169852,
+    "half_width": 0.014119633024131032,
+    "mde80_lower_gt_0": 0.020182694925829546,
+    "n_eff": 5599.999999999999,
+    "pass_prob_at_0.10": 0.9999999999980473,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.09112453174482867,
+    "rho_b": 0.0,
+    "rho_w": 0.1,
+    "se": 0.007204026775749399,
+    "seeds": 3
+   },
+   {
+    "d80_combined_rule": 0.05997798989348728,
+    "half_width": 0.02323670084500716,
+    "mde80_lower_gt_0": 0.03321469073849444,
+    "n_eff": 2067.6923076923076,
+    "pass_prob_at_0.10": 0.9999876426122286,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.14996377598321156,
+    "rho_b": 0.05,
+    "rho_w": 0.1,
+    "se": 0.011855677465655131,
+    "seeds": 3
+   },
+   {
+    "d80_combined_rule": 0.06274205026694057,
+    "half_width": 0.02967363300279528,
+    "mde80_lower_gt_0": 0.042415683269735854,
+    "n_eff": 1267.9245283018868,
+    "pass_prob_at_0.10": 0.9995209236407064,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.19150610415485828,
+    "rho_b": 0.1,
+    "rho_w": 0.1,
+    "se": 0.01513988687386968,
+    "seeds": 3
+   },
+   {
+    "d80_combined_rule": 0.06696935385884367,
+    "half_width": 0.03951815980575299,
+    "mde80_lower_gt_0": 0.05648751366459666,
+    "n_eff": 714.8936170212766,
+    "pass_prob_at_0.10": 0.9934276927382029,
+    "pass_prob_at_0.30": 1.0,
+    "per_base_sd": 0.2550401842287379,
+    "rho_b": 0.2,
+    "rho_w": 0.1,
+    "se": 0.020162696925794144,
+    "seeds": 3
+   }
+  ],
+  "stratified_bootstrap": "bases resampled with replacement within each family, carrying every opponent, colour and bundle of the base; rescaling sqrt(n_f / (n_f - 1)) with n_f = 10; validated in Stage 6A T5"
+ },
+ "structure": {
+  "bases": 160,
+  "cases_per_arm": 2240,
+  "colours": 2,
+  "opponents": [
+   "strategic_rule_based",
+   "tactical_rule_based",
+   "stress_scout_rush",
+   "stress_miner_rush",
+   "stress_berserker",
+   "stress_information_miser",
+   "stress_chaos"
+  ],
+  "plies_per_period": 202,
+  "retention_periods": 21,
+  "slots_provisional": 2560
+ }
+}
