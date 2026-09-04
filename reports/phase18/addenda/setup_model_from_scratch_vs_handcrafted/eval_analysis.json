@@ -1,0 +1,657 @@
+{
+ "digests": {
+  "ckpt_0": "c549bc02e974433eaf4e08eb48c755c160e08e353f2850010103680ca966bca3",
+  "ckpt_128": "18722ceb1640f18d5c72f1377598a00f96951c4d6fc8caf2ebbeed1805cf807f",
+  "ckpt_192": "6d61e543a12c533d2035b624508daa7416e9f3319103a64ba4a1644d086db951",
+  "ckpt_256": "ee20572e83bd9c16dc37ade3656cc191f8ed9495c9c02bbe51ac6689d1787960",
+  "ckpt_32": "34bc59a8f0c4548347f821a41a8457204c45af25506725411d4681035e672e3c",
+  "ckpt_64": "31e0b0d92e36c7b8112737ce2319da5204e87a41f6787c46d3cded9d8011a7b2"
+ },
+ "ewr": {
+  "basic_heuristic": {
+   "ckpt_0": 0.434375,
+   "ckpt_128": 0.457421875,
+   "ckpt_192": 0.47109375,
+   "ckpt_256": 0.48203125,
+   "ckpt_32": 0.4345703125,
+   "ckpt_64": 0.43671875,
+   "library": 0.58203125
+  },
+  "strategic_rule_based": {
+   "ckpt_0": 0.5021484375,
+   "ckpt_128": 0.538671875,
+   "ckpt_192": 0.54140625,
+   "ckpt_256": 0.57421875,
+   "ckpt_32": 0.5048828125,
+   "ckpt_64": 0.5080078125,
+   "library": 0.7498046875
+  },
+  "stress_berserker": {
+   "ckpt_0": 0.28984375,
+   "ckpt_128": 0.3091796875,
+   "ckpt_192": 0.3103515625,
+   "ckpt_256": 0.3341796875,
+   "ckpt_32": 0.2875,
+   "ckpt_64": 0.2798828125,
+   "library": 0.4056640625
+  },
+  "stress_chaos": {
+   "ckpt_0": 0.2203125,
+   "ckpt_128": 0.241796875,
+   "ckpt_192": 0.2525390625,
+   "ckpt_256": 0.257421875,
+   "ckpt_32": 0.2240234375,
+   "ckpt_64": 0.22578125,
+   "library": 0.343359375
+  },
+  "stress_information_miser": {
+   "ckpt_0": 0.2283203125,
+   "ckpt_128": 0.2416015625,
+   "ckpt_192": 0.2490234375,
+   "ckpt_256": 0.2583984375,
+   "ckpt_32": 0.225390625,
+   "ckpt_64": 0.23046875,
+   "library": 0.322265625
+  },
+  "stress_miner_rush": {
+   "ckpt_0": 0.3154296875,
+   "ckpt_128": 0.3224609375,
+   "ckpt_192": 0.3349609375,
+   "ckpt_256": 0.3587890625,
+   "ckpt_32": 0.315625,
+   "ckpt_64": 0.30625,
+   "library": 0.44765625
+  },
+  "stress_scout_rush": {
+   "ckpt_0": 0.2927734375,
+   "ckpt_128": 0.303515625,
+   "ckpt_192": 0.321875,
+   "ckpt_256": 0.3271484375,
+   "ckpt_32": 0.291796875,
+   "ckpt_64": 0.298828125,
+   "library": 0.4138671875
+  },
+  "tactical_rule_based": {
+   "ckpt_0": 0.5060546875,
+   "ckpt_128": 0.5365234375,
+   "ckpt_192": 0.5474609375,
+   "ckpt_256": 0.5720703125,
+   "ckpt_32": 0.5076171875,
+   "ckpt_64": 0.51484375,
+   "library": 0.7267578125
+  }
+ },
+ "per_student": {
+  "basic_heuristic": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.027274382268445994,
+    "point": 0.04765625,
+    "upper": 0.06865575008705566
+   },
+   "ckpt_256-library": {
+    "lower": -0.13355802464892222,
+    "point": -0.1,
+    "upper": -0.06520671064007447
+   }
+  },
+  "strategic_rule_based": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.05148256731661211,
+    "point": 0.0720703125,
+    "upper": 0.09306981258705564
+   },
+   "ckpt_256-library": {
+    "lower": -0.20626167782324797,
+    "point": -0.1755859375,
+    "upper": -0.14388080991758265
+   }
+  },
+  "stress_berserker": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.025184187543153456,
+    "point": 0.0443359375,
+    "upper": 0.06307078561688298
+   },
+   "ckpt_256-library": {
+    "lower": -0.11018933594476923,
+    "point": -0.071484375,
+    "upper": -0.03195075731159947
+   }
+  },
+  "stress_chaos": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.022903830823462364,
+    "point": 0.037109375,
+    "upper": 0.05131491917653764
+   },
+   "ckpt_256-library": {
+    "lower": -0.11043691676823157,
+    "point": -0.0859375,
+    "upper": -0.06102632832810065
+   }
+  },
+  "stress_information_miser": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.02060776221564157,
+    "point": 0.030078125,
+    "upper": 0.040371997591693944
+   },
+   "ckpt_256-library": {
+    "lower": -0.0782786091283715,
+    "point": -0.0638671875,
+    "upper": -0.049455765871628476
+   }
+  },
+  "stress_miner_rush": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.0277126886606252,
+    "point": 0.043359375,
+    "upper": 0.059211938791208674
+   },
+   "ckpt_256-library": {
+    "lower": -0.11295484936456382,
+    "point": -0.0888671875,
+    "upper": -0.06416189327993453
+   }
+  },
+  "stress_scout_rush": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.020581210727130116,
+    "point": 0.034375,
+    "upper": 0.04878642162837152
+   },
+   "ckpt_256-library": {
+    "lower": -0.11163506860819516,
+    "point": -0.08671875,
+    "upper": -0.061189945972599025
+   }
+  },
+  "tactical_rule_based": {
+   "ckpt_256-ckpt_0": {
+    "lower": 0.04625138962394763,
+    "point": 0.066015625,
+    "upper": 0.08577986037605237
+   },
+   "ckpt_256-library": {
+    "lower": -0.18762789229342064,
+    "point": -0.1546875,
+    "upper": -0.12051184299557613
+   }
+  }
+ },
+ "pooled": {
+  "ckpt_0-library": {
+   "bootstrap_standard_error": 0.010476193574900265,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.2056640625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.12265625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.267578125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.1888671875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0107421875,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.1517578125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.14140625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.1349609375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3486572265625,
+   "cases_on_which_arms_differ": 7820,
+   "control_ewr": 0.49892578125,
+   "lower": -0.1703673409227824,
+   "point": -0.1502685546875,
+   "upper": -0.12932052396340282
+  },
+  "ckpt_128-ckpt_0": {
+   "bootstrap_standard_error": 0.004247903607610947,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.04375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0103515625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.016015625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0083984375,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0005859375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0314453125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.031640625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0208984375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.368896484375,
+   "cases_on_which_arms_differ": 4893,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.01197842505766561,
+   "point": 0.0202392578125,
+   "upper": 0.02857793797880907
+  },
+  "ckpt_128-library": {
+   "bootstrap_standard_error": 0.009837384192514398,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.1619140625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.1123046875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.2515625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.18046875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.01015625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.1203125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.109765625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.1140625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.368896484375,
+   "cases_on_which_arms_differ": 7689,
+   "control_ewr": 0.49892578125,
+   "lower": -0.14837876813673145,
+   "point": -0.130029296875,
+   "upper": -0.11026313139783671
+  },
+  "ckpt_192-ckpt_0": {
+   "bootstrap_standard_error": 0.004178073809159213,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0564453125,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0193359375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.047265625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0345703125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.000390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0224609375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.030859375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.02890625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3785888671875,
+   "cases_on_which_arms_differ": 5542,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.02187604195496251,
+   "point": 0.029931640625,
+   "upper": 0.03824394274279285
+  },
+  "ckpt_192-library": {
+   "bootstrap_standard_error": 0.010154725852155025,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.14921875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.1033203125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.2203125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.154296875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0103515625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.129296875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.110546875,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.1060546875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3785888671875,
+   "cases_on_which_arms_differ": 7689,
+   "control_ewr": 0.49892578125,
+   "lower": -0.13987082403931322,
+   "point": -0.1203369140625,
+   "upper": -0.10018537173018516
+  },
+  "ckpt_256-ckpt_0": {
+   "bootstrap_standard_error": 0.0045999209148368855,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0619140625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0482421875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.061328125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0759765625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.000390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0291015625,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0529296875,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0451171875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3955322265625,
+   "cases_on_which_arms_differ": 5954,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.037867218115230826,
+   "point": 0.046875,
+   "upper": 0.05595934256216991
+  },
+  "ckpt_256-library": {
+   "bootstrap_standard_error": 0.010630499196954187,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.14375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.0744140625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.20625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.112890625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0111328125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.12265625,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0884765625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.08984375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3955322265625,
+   "cases_on_which_arms_differ": 7534,
+   "control_ewr": 0.49892578125,
+   "lower": -0.12382689178201249,
+   "point": -0.1033935546875,
+   "upper": -0.08226473782601121
+  },
+  "ckpt_32-ckpt_0": {
+   "bootstrap_standard_error": 0.002608959107239152,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.007421875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.005078125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.0052734375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0087890625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.002734375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0005859375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0037109375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0095703125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.34892578125,
+   "cases_on_which_arms_differ": 1699,
+   "control_ewr": 0.3486572265625,
+   "lower": -0.004826912245388502,
+   "point": 0.0002685546875,
+   "upper": 0.005364021620388502
+  },
+  "ckpt_32-library": {
+   "bootstrap_standard_error": 0.01027945532686548,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.1982421875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.117578125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.2728515625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.19765625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0080078125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.151171875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.1451171875,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.125390625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.34892578125,
+   "cases_on_which_arms_differ": 7809,
+   "control_ewr": 0.49892578125,
+   "lower": -0.16953262324273924,
+   "point": -0.15,
+   "upper": -0.12951519354252905
+  },
+  "ckpt_64-ckpt_0": {
+   "bootstrap_standard_error": 0.003528581258713521,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0083984375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0076171875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.0111328125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0015625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0025390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0025390625,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0017578125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0099609375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.35009765625,
+   "cases_on_which_arms_differ": 3095,
+   "control_ewr": 0.3486572265625,
+   "lower": -0.005430730267455707,
+   "point": 0.0014404296875,
+   "upper": 0.008415171735409621
+  },
+  "ckpt_64-library": {
+   "bootstrap_standard_error": 0.010329405460189114,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.197265625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.1150390625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.2787109375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.1904296875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.008203125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.14921875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.1431640625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.35009765625,
+   "cases_on_which_arms_differ": 7749,
+   "control_ewr": 0.49892578125,
+   "lower": -0.16830927887978075,
+   "point": -0.148828125,
+   "upper": -0.1285234613128837
+  }
+ }
+}
