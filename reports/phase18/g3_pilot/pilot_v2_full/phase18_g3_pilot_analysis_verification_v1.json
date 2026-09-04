@@ -1,0 +1,30 @@
+{
+ "all_bound_evidence_verified": true,
+ "analysis_reader_commit": "ffb799ee4d26246f612ed2435219d82a791ccd37",
+ "analysis_worktree_clean": true,
+ "analysis_worktree_head": "2cc42f930e7f5a49300f07cab44a7687b889e022",
+ "arms": {
+  "candidate_final": {
+   "arm_record_unchanged": true,
+   "bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+   "bundle_id_matches_rebind": true,
+   "receipts_unchanged": true,
+   "rows": 2560
+  },
+  "control_final": {
+   "arm_record_unchanged": true,
+   "bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+   "bundle_id_matches_rebind": true,
+   "receipts_unchanged": true,
+   "rows": 2560
+  }
+ },
+ "artifact": "phase18_g3_pilot_analysis_verification_v1",
+ "bound_evidence_still_matches": {
+  "contract": true,
+  "launch_manifest": true,
+  "matching_report": true
+ },
+ "note": "the receipts were read, never modified; write_receipts and every frozen checker are byte-identical to the original source commit",
+ "original_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669"
+}

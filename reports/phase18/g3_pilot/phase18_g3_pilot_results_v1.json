@@ -1,0 +1,318 @@
+{
+ "agent": "phase_18_agent_6",
+ "arm_identity_proof": {
+  "arms": [
+   "candidate_final",
+   "control_final"
+  ],
+  "field_mismatches": {},
+  "fields_checked": [
+   "paired_unit_id",
+   "setup_pair_id",
+   "setup_bank_version",
+   "candidate_color",
+   "first_player",
+   "root_seed",
+   "candidate_seed",
+   "opponent_seed",
+   "opponent_policy_id",
+   "opponent_policy_version",
+   "rules"
+  ],
+  "opponent_formation_mismatches": 0,
+  "problems": [],
+  "rows_per_arm": {
+   "candidate_final": 2560,
+   "control_final": 2560
+  }
+ },
+ "arms": {
+  "candidate_final": {
+   "accounting": {
+    "complete_for_primary": true,
+    "completed": 2560,
+    "duplicates": 0,
+    "failed": 0,
+    "failed_ids": [],
+    "missing": 0,
+    "missing_ids": [],
+    "planned": 2560,
+    "reconciles": true,
+    "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+    "unplanned": 0
+   },
+   "bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+   "bundle_period": 256,
+   "c1_state_digest": "e87d3133de670ee0a84e1daf91f56249ac2ab0893d1ae65bc1f91b0c72027c66",
+   "lineage": "candidate",
+   "receipts": {
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/evaluation/candidate_final/receipts.jsonl",
+    "rows": 2560,
+    "sha256": "d2e8e4bfeefda534ab50605f09126a6060a148f8b957febe2b70f8d4f1b0feff"
+   },
+   "setup_model_digest": "ea1a809b7a9decf6efaa1d59a65815df06839b262db957a72ca3191eec358447"
+  },
+  "control_final": {
+   "accounting": {
+    "complete_for_primary": true,
+    "completed": 2560,
+    "duplicates": 0,
+    "failed": 0,
+    "failed_ids": [],
+    "missing": 0,
+    "missing_ids": [],
+    "planned": 2560,
+    "reconciles": true,
+    "rule": "planned = completed + failed + missing; failures and retries are never draws and never passes",
+    "unplanned": 0
+   },
+   "bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+   "bundle_period": 256,
+   "c1_state_digest": "ef8c7d29d031e88f2a89a9b5abd1e3f39066f115a3d4c56124cee2b4c76ce95e",
+   "lineage": "control",
+   "receipts": {
+    "path": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/evaluation/control_final/receipts.jsonl",
+    "rows": 2560,
+    "sha256": "7648548b47fbf9de866bcc7f54467801023f2e3975f433837abfd91ed415e941"
+   },
+   "setup_model_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97"
+  }
+ },
+ "artifact": "phase18_g3_pilot_results_v1",
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "decision_input": {
+  "basis": "the frozen rule does not pass",
+  "decision": "FAIL",
+  "failed_gates": [],
+  "fairness_all_hold": true,
+  "fairness_problems": [],
+  "near_boundary": false,
+  "near_boundary_rule": "a second seed is a conditional follow-up when the interval contains the margin or the run is operationally irregular; never pooled after the fact to rescue a failed primary",
+  "note": "G10 is judged at review from the committed tree, not computed here",
+  "primary_passes": false,
+  "rule": "PROCEED requires the 95% lower bound above zero AND the point estimate at least 0.05",
+  "uncomputed_gates": [
+   "G10_clean_deliverable"
+  ]
+ },
+ "environment": {
+  "dirty_paths": [],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3_analysis",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "2cc42f930e7f5a49300f07cab44a7687b889e022",
+  "source_tree": "4fe8174c277921677ab948336b3e7d99c556dd17",
+  "torch": "2.13.0",
+  "working_tree_state": "clean"
+ },
+ "fairness": {
+  "all_hold": true,
+  "budgets": {
+   "candidate": {
+    "completed_updates": 16384,
+    "final_global_step": 16384
+   },
+   "control": {
+    "completed_updates": 16384,
+    "final_global_step": 16384
+   }
+  },
+  "conditions": {
+   "candidate_at_least_one_real_setup_update": true,
+   "candidate_c1_rows_exactly_64_per_period": true,
+   "candidate_final_bundle_complete": true,
+   "candidate_final_setup_digests_differ_from_init": true,
+   "candidate_periods_exactly_1_to_256": true,
+   "control_c1_rows_exactly_64_per_period": true,
+   "control_final_bundle_complete": true,
+   "control_periods_exactly_1_to_256": true,
+   "control_setup_digest_unchanged": true,
+   "control_zero_setup_and_ema_updates": true,
+   "equal_completed_c1_update_budget": true,
+   "matching_record_contract_bound": true,
+   "matching_record_matched": true,
+   "matching_record_present": true
+  },
+  "final_bundles": {
+   "candidate": {
+    "bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+    "consistent_with_records": true,
+    "verified": true
+   },
+   "control": {
+    "bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+    "consistent_with_records": true,
+    "verified": true
+   }
+  },
+  "periods": 256,
+  "problems": [],
+  "updates_per_period": 64
+ },
+ "gate": "G3",
+ "gates": {
+  "G10_clean_deliverable": null,
+  "G1_legality": true,
+  "G2_orientation": true,
+  "G3_attribution": true,
+  "G4_accounting": true,
+  "G5_bundle_identity": true,
+  "G6_restart": true,
+  "G7_paired": true,
+  "G8_diversity": true,
+  "G9_finite_and_valid": true
+ },
+ "matching": {
+  "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+  "matched": true,
+  "problems": [],
+  "role": "REQUIRED evidence; a missing or failed record blocks the decision"
+ },
+ "pool_diversity_minimum": {
+  "candidate": 1024,
+  "control": 1024
+ },
+ "primary": {
+  "bases": 160,
+  "bootstrap": "stratified cluster bootstrap over bases within families, finite-stratum rescaling sqrt(n_f/(n_f-1))",
+  "bootstrap_seed": 2617613076104066311,
+  "bootstrap_standard_error": 0.010242327833044181,
+  "by_colour": {
+   "0": {
+    "mean_difference": 0.00234375,
+    "n": 1280
+   },
+   "1": {
+    "mean_difference": 0.003515625,
+    "n": 1280
+   }
+  },
+  "by_family": {
+   "F00": {
+    "mean_difference": 0.009375,
+    "n": 160
+   },
+   "F01": {
+    "mean_difference": -0.003125,
+    "n": 160
+   },
+   "F02": {
+    "mean_difference": -0.05625,
+    "n": 160
+   },
+   "F03": {
+    "mean_difference": -0.0375,
+    "n": 160
+   },
+   "F04": {
+    "mean_difference": 0.046875,
+    "n": 160
+   },
+   "F05": {
+    "mean_difference": -0.071875,
+    "n": 160
+   },
+   "F06": {
+    "mean_difference": -0.034375,
+    "n": 160
+   },
+   "F07": {
+    "mean_difference": 0.021875,
+    "n": 160
+   },
+   "F08": {
+    "mean_difference": 0.06875,
+    "n": 160
+   },
+   "F09": {
+    "mean_difference": 0.040625,
+    "n": 160
+   },
+   "F10": {
+    "mean_difference": -0.00625,
+    "n": 160
+   },
+   "F11": {
+    "mean_difference": 0.09375,
+    "n": 160
+   },
+   "F12": {
+    "mean_difference": 0.021875,
+    "n": 160
+   },
+   "F13": {
+    "mean_difference": 0.021875,
+    "n": 160
+   },
+   "F14": {
+    "mean_difference": -0.00625,
+    "n": 160
+   },
+   "F15": {
+    "mean_difference": -0.0625,
+    "n": 160
+   }
+  },
+  "by_opponent": {
+   "basic_heuristic": {
+    "mean_difference": -0.0078125,
+    "n": 320
+   },
+   "strategic_rule_based": {
+    "mean_difference": 0.040625,
+    "n": 320
+   },
+   "stress_berserker": {
+    "mean_difference": -0.028125,
+    "n": 320
+   },
+   "stress_chaos": {
+    "mean_difference": 0.0046875,
+    "n": 320
+   },
+   "stress_information_miser": {
+    "mean_difference": -0.0046875,
+    "n": 320
+   },
+   "stress_miner_rush": {
+    "mean_difference": -0.015625,
+    "n": 320
+   },
+   "stress_scout_rush": {
+    "mean_difference": 0.0046875,
+    "n": 320
+   },
+   "tactical_rule_based": {
+    "mean_difference": 0.0296875,
+    "n": 320
+   }
+  },
+  "candidate_ewr": 0.60546875,
+  "cases": 2560,
+  "cases_on_which_arms_differ": 864,
+  "cases_per_base": 16,
+  "confidence": 0.95,
+  "contrast": "EWR(candidate_final) - EWR(control_final), paired by case",
+  "control_ewr": 0.6025390625,
+  "direct_per_base_standard_error": 0.010332710165286212,
+  "evaluation_version": "phase18_g3_bundle_evaluation_v1",
+  "families": 16,
+  "lower": -0.017040425327886244,
+  "lower_above_zero": false,
+  "margin": 0.05,
+  "near_boundary": false,
+  "near_boundary_rule": "a second seed is a conditional follow-up when the interval contains the margin (design 4.4); never pooled to rescue a failed primary",
+  "passes": false,
+  "per_base_sd": 0.1326194316724907,
+  "point": 0.0029296875,
+  "point_at_margin": false,
+  "replicates": 10000,
+  "rule": "PROCEED requires the 95% lower bound above zero AND the point estimate at least the margin",
+  "upper": 0.022693922876052375
+ },
+ "run_id": "G3-PILOT-2026-A",
+ "schedule_digest": "1a878a3ea7428542d3c495ae6183dc77b356faf292b3511a1f38de8125b7987e",
+ "timestamp_utc": "2026-09-04T17:23:43Z",
+ "work_package": "phase18_setup_integrated_warmstart"
+}

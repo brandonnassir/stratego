@@ -1,0 +1,2 @@
+[g3 13:23:43] analysis rebind: reading 8c1baa8ff163 evidence with reader ffb799ee4d26
+[g3 13:23:43] primary: point +0.0029, 95% [-0.0170, +0.0227] -> FAIL (the frozen rule does not pass)
