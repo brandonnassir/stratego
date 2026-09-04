@@ -2,20 +2,20 @@
  "artifact": "phase18_g3_pilot_matching_v1",
  "budget": {
   "candidate": {
-   "c1_global_step": 16384,
-   "c1_updates": 16384,
-   "canonical_rows_served": 2097093,
-   "live_rows_served": 2097152,
-   "periods": 256,
-   "setup_ema_updates": 256,
-   "setup_updates": 256
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "canonical_rows_served": 8192,
+   "live_rows_served": 8192,
+   "periods": 1,
+   "setup_ema_updates": 1,
+   "setup_updates": 1
   },
   "control": {
-   "c1_global_step": 16384,
-   "c1_updates": 16384,
-   "canonical_rows_served": 2097093,
-   "live_rows_served": 2097152,
-   "periods": 256,
+   "c1_global_step": 64,
+   "c1_updates": 64,
+   "canonical_rows_served": 8192,
+   "live_rows_served": 8192,
+   "periods": 1,
    "setup_ema_updates": 0,
    "setup_updates": 0
   }
@@ -33,7 +33,7 @@
  "c1_exact_required": false,
  "candidate_setup_moved_on_every_applied_update": true,
  "candidate_setup_skips": 0,
- "candidate_setup_updates_applied": 256,
+ "candidate_setup_updates_applied": 1,
  "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
  "control_setup_digest_constant": true,
  "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
@@ -129,5 +129,5 @@
  "problems": [],
  "run_id": "G3-PILOT-2026-A",
  "runtime_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2",
- "timestamp_utc": "2026-09-04T16:18:20Z"
+ "timestamp_utc": "2026-09-03T17:30:51Z"
 }

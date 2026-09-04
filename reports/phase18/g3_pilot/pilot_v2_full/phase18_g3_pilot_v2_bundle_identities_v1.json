@@ -1,0 +1,180 @@
+{
+ "artifact": "phase18_g3_pilot_v2_bundle_identities_v1",
+ "bundles": {
+  "candidate": {
+   "0": {
+    "bundle_id": "fa7a5faf4c5d42f3db9c869724fa19f8f8c87b5862632022e24082e3cb34922b",
+    "c1_global_step": 0,
+    "c1_state_digest": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "1": {
+    "bundle_id": "3bcca8dc7a25be8d71b7d661af904a13452771bf01557ca5a015a39232722088",
+    "c1_global_step": 64,
+    "c1_state_digest": "7da9e79c6c4e9c242a211721c058101e9ce5828a3b57ab470230d3da3789abf3",
+    "setup_ema_state_digest": "80e45acc2a8a44a94344c8807e7fd7e0095fdbe1bfd144ee754f2ad46eecca30",
+    "setup_raw_state_digest": "8dd335e3c296e35021a596be65ac94d43d404ab939fe41eab93915f50b14f9b9",
+    "verified": true
+   },
+   "128": {
+    "bundle_id": "b612ef86529b05d748cd43238aa61f5c0fcd03785cdb5522da6977e6b45fb0b7",
+    "c1_global_step": 8192,
+    "c1_state_digest": "db5e65f425090b92a484e547eca2609a595c269f2abdf1d3a05408247700724e",
+    "setup_ema_state_digest": "530755fee1f83862131b594d1d37a38fd5797c1cbbb369c5274b487fdf037492",
+    "setup_raw_state_digest": "8bc224cbd222ed86f490fc1d435591a54616016f48c38e03e4832f7f9a5f5f9e",
+    "verified": true
+   },
+   "160": {
+    "bundle_id": "61b5883a95f1f3266a758caceb1faac665fc08d85c0626851a1509fe0e59b76f",
+    "c1_global_step": 10240,
+    "c1_state_digest": "a4cba30a007ae2b56ffffcb276bf9899bcf6722ec2ed9198fd4f9a45af826ce2",
+    "setup_ema_state_digest": "013f962f01f74fe229a40556545f231315be3889abe4a9b0c474ab0d8c9a3270",
+    "setup_raw_state_digest": "97dfc7bc90e8db64aa46381c0f34abd0268df9a4f7d3530c54db8c394ef304cc",
+    "verified": true
+   },
+   "192": {
+    "bundle_id": "5a3aa33286fa75a94afd06d7070c642816d52187d70b73d661450ad7696affaf",
+    "c1_global_step": 12288,
+    "c1_state_digest": "dc12101f143abe7fbce49aa2ffbaf039d0168e1dfa153e35214ea8a1ed5f49d7",
+    "setup_ema_state_digest": "937af44f5fd30fc731f6745e8b5ef7a85238f0cde0fdf8589f091d45f8557fd9",
+    "setup_raw_state_digest": "42111134a5679cfda5a3f7aa1f33b9339dafe776c52b6f2240c89ec7ac7be11c",
+    "verified": true
+   },
+   "224": {
+    "bundle_id": "0708a53268cc698b5a5d99952bdb78a67fb245df49e2d3467b98420ea01e65a9",
+    "c1_global_step": 14336,
+    "c1_state_digest": "1b7bd1e18d3ec1bc9042252cb93b0166745c86e4b644dda27041bbff81c6acda",
+    "setup_ema_state_digest": "8b9fb6b1058d6a3b9498b39dfa5afbe2fa01a5a8e06c64f46a469705ed6ddc3c",
+    "setup_raw_state_digest": "770e073831604ec6a39e5e7dc286886c6509a6d1936544380d4aaadb64d328fb",
+    "verified": true
+   },
+   "256": {
+    "bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+    "c1_global_step": 16384,
+    "c1_state_digest": "e87d3133de670ee0a84e1daf91f56249ac2ab0893d1ae65bc1f91b0c72027c66",
+    "setup_ema_state_digest": "ea1a809b7a9decf6efaa1d59a65815df06839b262db957a72ca3191eec358447",
+    "setup_raw_state_digest": "679c07b217a0c5bfec419b01a7ea5ebcd396f26fd5d03ebcb3b3746f63b08ab3",
+    "verified": true
+   },
+   "32": {
+    "bundle_id": "0695333a12f7c1bbe9921554f2e4af36637b29c79ad880609b6afa22d291356f",
+    "c1_global_step": 2048,
+    "c1_state_digest": "6e775b5e438cb0f6ab4f6d5a193214c499671d50013678278c3ce3cee89106d4",
+    "setup_ema_state_digest": "0b3140a376739e5898055a67ba05a4db6fd4359a32be328282faf4bfc55860a5",
+    "setup_raw_state_digest": "4933a4422102ac1c5a64cc9ab5a09c836cf3d643f4c0b6e97edf938a56c2ee13",
+    "verified": true
+   },
+   "64": {
+    "bundle_id": "6101c415a720f924719eb310753df109e9e6c15b7eb0aff0411ec2364152545e",
+    "c1_global_step": 4096,
+    "c1_state_digest": "b3eb2bc9f1f983ef6c632ef1d96afe6c3d283fd48f74b171233350e7217fbbcd",
+    "setup_ema_state_digest": "e2d88b86800570134ec40cd87ad48164a42994d8a8597347e8ef43c26d4c20ff",
+    "setup_raw_state_digest": "7c994bfe99c485f111f1f1c59131395e281f01932dca44b76adc78e7ba59d4fb",
+    "verified": true
+   },
+   "96": {
+    "bundle_id": "2d42d965601307f26127aa5b5e6260aefd5921b4e81d51f3505cd640ff6dc588",
+    "c1_global_step": 6144,
+    "c1_state_digest": "aa39c1da900d849643cfd5c9152918efe7c27cbe63de641c5534a84e9a69db17",
+    "setup_ema_state_digest": "71ad5aefe4d9cdc7b27b2b94b00e2f7d9111a59def35515a8582afb83e827cd7",
+    "setup_raw_state_digest": "11f076d68c581f72c5e24b70e32040f8fef620d1c7b71f9ad280eb676469c55c",
+    "verified": true
+   }
+  },
+  "control": {
+   "0": {
+    "bundle_id": "bb3b4bf1e2929e00aea335dfcc2036e2e18d6cb379d7a80df10555b08ce2eac7",
+    "c1_global_step": 0,
+    "c1_state_digest": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "1": {
+    "bundle_id": "c43710d440f6e5278c3cc0062185df045743f089c7dbea7634b206985f895d59",
+    "c1_global_step": 64,
+    "c1_state_digest": "5ae1998917a7d9a2f955b89890919cb6ccc483f8420e2c53315bbf88ac8ed547",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "128": {
+    "bundle_id": "53195f9cc515515bbc6f2fd8a6d049123ba325a9eeb63c8ec482a86fac9fd59f",
+    "c1_global_step": 8192,
+    "c1_state_digest": "42f05604c3c2ceb5e664a3c491bf1d20ed911746dfed50fb530ac48c1aa3e302",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "160": {
+    "bundle_id": "fc0f4d017f687f52bd7ccfeca14854091fcb9499f97fea1ad1bb56ba03fbce3e",
+    "c1_global_step": 10240,
+    "c1_state_digest": "d0972a982f6155db1e8c330de8e91a0a118ce48928147ee8a8e52c4599630c39",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "192": {
+    "bundle_id": "b479fe9ba28a1985992b2818931d54e4c18432075294bc4a337fdee282c0dc6a",
+    "c1_global_step": 12288,
+    "c1_state_digest": "cd791a370ae52e74012053bca9f4f63bbe78ca4bfd27b1fa66468ba3dcc8645b",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "224": {
+    "bundle_id": "46a494afec1f24fdaec72d4e239362200bc2508a9a4487cdd053b628b829863e",
+    "c1_global_step": 14336,
+    "c1_state_digest": "e8fbad7926f93e3d2bb6266fd5d201184772319a5f4b44f0d056ab31a63f186a",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "256": {
+    "bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+    "c1_global_step": 16384,
+    "c1_state_digest": "ef8c7d29d031e88f2a89a9b5abd1e3f39066f115a3d4c56124cee2b4c76ce95e",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "32": {
+    "bundle_id": "24e69ffa2d2f053f5f197f1839cc7a4089c8093c880e896db1bb70ccaab95540",
+    "c1_global_step": 2048,
+    "c1_state_digest": "d25759294715d6a8dda0f40923a0b960773868eea3ece5cbd8126a9ef2eabebc",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "64": {
+    "bundle_id": "ea6d88cfa802af4887a601a7eaac1e2fd41a0ca1e6288794b8cb47f8cd95a213",
+    "c1_global_step": 4096,
+    "c1_state_digest": "668797c78cfb4e46c9934503071958156e4da87d57498cd8ac6d6d2a90360e8e",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   },
+   "96": {
+    "bundle_id": "e1da14d512771dff610d250df931f5a69307daecc073ee5faf89ade37a5e2a4b",
+    "c1_global_step": 6144,
+    "c1_state_digest": "c192bf7cd5d5ba7a035cb4ad56153dc2647ae1e11e5cfaa27a18ddafcd1a1f24",
+    "setup_ema_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "setup_raw_state_digest": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+    "verified": true
+   }
+  }
+ },
+ "candidate_setup_moved_from_init": true,
+ "control_setup_frozen_at_every_bundle": true,
+ "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "note": "every bundle re-verified after the 2026-09-04 host crash; run-id, lineage, period and matched-digest bound",
+ "run_id": "G3-PILOT-2026-A",
+ "runtime_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2",
+ "setup_init_state_digest": {
+  "candidate": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+  "control": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97"
+ },
+ "timestamp_utc": "2026-09-04T17:07:48Z"
+}

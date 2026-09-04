@@ -1,0 +1,42 @@
+{
+ "artifact": "phase18_g3_pilot_analysis_blocker_v1",
+ "run_id": "G3-PILOT-2026-A",
+ "gate": "G3",
+ "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "status": "TRAINING AND EVALUATION COMPLETE; --analyse CANNOT RUN",
+ "class": "CHECKER/READER DEFECT, not a fairness or data defect",
+ "summary": "stage_analyse reads the persisted receipts back through read_receipt_rows, which rebuilds each row as SimpleNamespace(**receipt_json). Three of the eleven ARM_INVARIANT_FIELDS are not persisted under those names, so the analysis raises AttributeError before it computes anything.",
+ "traceback_site": "stratego/training/phase18/g3_evaluation.py:513 prove_arm_identity -> case = case_by_index[int(reference.setup_pair_id)]",
+ "missing_on_receipt_loaded_rows": {
+  "setup_pair_id": "persisted instead as 'case_index'; identical by construction (write_receipts looks up by_case[int(row.setup_pair_id)] and writes case.case_index)",
+  "opponent_policy_id": "persisted folded into 'opponent_policy' as 'id@version'",
+  "opponent_policy_version": "persisted folded into 'opponent_policy' as 'id@version'"
+ },
+ "second_site_same_cause": "case_scores() (g3_evaluation.py:656-662) also reads row.setup_pair_id, so it would fail next even if prove_arm_identity were repaired",
+ "why_the_53_tests_did_not_catch_it": "tests/evaluation/phase18/test_g3_evaluation.py passes the IN-MEMORY rows returned by evaluate_bundle straight into prove_arm_identity and paired_analysis. It never round-trips through read_receipt_rows. stage_analyse is the only caller that reads from disk, and no test exercises stage_analyse end to end.",
+ "data_integrity": {
+  "verdict": "the underlying evidence is intact and the frozen analysis is computable once the reader is repaired",
+  "arms_rows": {"candidate_final": 2560, "control_final": 2560},
+  "accounting_reconciles": true,
+  "receipts_sha256_match_arm_records": true,
+  "match_id_sets_identical": true,
+  "case_index_distinct_per_arm": 2560,
+  "schedule_digests_equal": true,
+  "setup_model_digests_differ": true,
+  "cross_arm_mismatches_on_the_8_persisted_invariant_fields": 0,
+  "cross_arm_mismatches_on_case_index_and_opponent_policy": 0,
+  "errored_games": 0,
+  "illegal_actions": 0,
+  "policy_errors": 0,
+  "games_where_own_setup_differs_between_arms": 2524
+ },
+ "primary_contrast_deliberately_not_computed": "EWR(candidate_final) - EWR(control_final) has NOT been computed by any path. Computing it outside the frozen analysis, before the reviewer settles the checker repair, would let the outcome influence the choice of repair. The gate structure exists to prevent exactly that.",
+ "binding_obstacle": "every stage after --launch-manifest re-verifies HEAD and every tracked harness source and test digest against the launch manifest, so repairing g3_evaluation.py makes --analyse refuse to run on source drift; --launch-manifest cannot simply be re-issued because it refuses a non-empty runtime root. The repair and the re-binding are one reviewer decision.",
+ "recommended_repair": "the minimal, outcome-independent fix is reader-only: have read_receipt_rows reconstruct the three aliases from the persisted fields (setup_pair_id := case_index; opponent_policy_id, opponent_policy_version := opponent_policy.rsplit('@', 1)). That leaves the immutable receipts untouched and leaves prove_arm_identity, case_scores and ARM_INVARIANT_FIELDS exactly as frozen.",
+ "not_done_pending_review": [
+  "no source file was modified",
+  "no analysis was run by any alternative path",
+  "no diagnostic arm was evaluated",
+  "no second seed was launched"
+ ]
+}

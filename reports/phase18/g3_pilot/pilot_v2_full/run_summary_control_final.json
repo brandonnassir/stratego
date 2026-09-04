@@ -1,0 +1,208 @@
+{
+ "artifact": "phase18_g3_pilot_run_control_v1",
+ "complete": true,
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "environment": {
+  "dirty_paths": [
+   "?? reports/phase18/g3_pilot/phase18_g3_pilot_launch_manifest_v1.json",
+   "?? reports/phase18/g3_pilot/phase18_g3_pilot_matching_v1.json"
+  ],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3_pilot_exec_v2",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+  "source_tree": "5001cc1dec21d677039b591fef79e7e4cac57f9f",
+  "torch": "2.13.0",
+  "working_tree_state": "dirty (2 paths)"
+ },
+ "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "horizon": 256,
+ "integrity": {
+  "attribution_failures": 0,
+  "duplicates_collapsed": 0,
+  "immediately_terminal_setups": 21,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0
+ },
+ "last_bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+ "last_bundle_period": 256,
+ "lineage": "control",
+ "period_reached": 256,
+ "periods_run_this_process": 96,
+ "resume": {
+  "archive": {
+   "archive": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160",
+   "bundles_moved": [],
+   "c1_rows_archived": 576,
+   "live_periods_moved": [
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0161.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0161.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0161.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0161.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0161.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0161.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0161.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0161.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0162.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0162.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0162.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0162.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0162.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0162.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0162.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0162.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0163.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0163.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0163.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0163.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0163.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0163.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0163.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0163.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0164.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0164.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0164.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0164.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0164.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0164.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0164.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0164.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0165.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0165.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0165.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0165.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0165.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0165.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0165.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0165.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0166.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0166.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0166.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0166.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0166.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0166.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0166.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0166.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0167.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0167.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0167.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0167.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0167.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0167.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0167.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0167.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0168.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0168.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0168.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0168.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0168.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0168.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0168.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0168.records"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0169.done.json",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0169.done.json"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0169.journal.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0169.journal.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0169.meta.jsonl",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0169.meta.jsonl"
+    },
+    {
+     "from": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/live/period_0169.records",
+     "to": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/archive/20260904T123848Z_after_bundle_0160/live/period_0169.records"
+    }
+   ],
+   "partial_lines_archived": 0,
+   "period_records_archived": 9,
+   "previous_state_archived": true,
+   "restored_through_period": 160
+  },
+  "bundle": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/bundles/bundle_0160",
+  "bundle_id": "fc0f4d017f687f52bd7ccfeca14854091fcb9499f97fea1ad1bb56ba03fbce3e",
+  "c1_global_step": 10240,
+  "games_restored": 2552,
+  "period": 160,
+  "resumed_utc": "2026-09-04T12:39:02Z",
+  "selection": {
+   "bundle": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/control/bundles/bundle_0160",
+   "bundle_id": "fc0f4d017f687f52bd7ccfeca14854091fcb9499f97fea1ad1bb56ba03fbce3e",
+   "period": 160,
+   "selected_by": "latest complete verified bundle",
+   "skipped": []
+  }
+ },
+ "run_id": "G3-PILOT-2026-A",
+ "setup_skips": 0,
+ "timestamp_utc": "2026-09-04T16:17:47Z",
+ "wall_seconds": 13139.506
+}

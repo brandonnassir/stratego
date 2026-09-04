@@ -1,0 +1,6 @@
+[eval 12:18:56] starting arm candidate_final
+[g3 12:41:48] candidate_final: 2560/2560 games, reconciles=True
+[eval 12:41:48] finished arm candidate_final
+[eval 12:41:48] starting arm control_final
+[g3 13:04:46] control_final: 2560/2560 games, reconciles=True
+[eval 13:04:46] finished arm control_final

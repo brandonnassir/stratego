@@ -1,0 +1,63 @@
+{
+ "artifact": "phase18_g3_pilot_run_candidate_v1",
+ "complete": true,
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "environment": {
+  "dirty_paths": [
+   "?? reports/phase18/g3_pilot/phase18_g3_pilot_launch_manifest_v1.json",
+   "?? reports/phase18/g3_pilot/phase18_g3_pilot_matching_v1.json"
+  ],
+  "executing_tree": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/worktrees/g3_pilot_exec_v2",
+  "mps_available": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.2",
+  "source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+  "source_tree": "5001cc1dec21d677039b591fef79e7e4cac57f9f",
+  "torch": "2.13.0",
+  "working_tree_state": "dirty (2 paths)"
+ },
+ "g3_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "horizon": 256,
+ "integrity": {
+  "attribution_failures": 0,
+  "duplicates_collapsed": 0,
+  "immediately_terminal_setups": 4,
+  "legality_failures": 0,
+  "non_finite_events": 0,
+  "orientation_failures": 0
+ },
+ "last_bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+ "last_bundle_period": 256,
+ "lineage": "candidate",
+ "period_reached": 256,
+ "periods_run_this_process": 255,
+ "resume": {
+  "archive": {
+   "archive": null,
+   "bundles_moved": [],
+   "c1_rows_archived": 0,
+   "live_periods_moved": [],
+   "partial_lines_archived": 0,
+   "period_records_archived": 0,
+   "previous_state_archived": false,
+   "restored_through_period": 1
+  },
+  "bundle": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/candidate/bundles/bundle_0001",
+  "bundle_id": "3bcca8dc7a25be8d71b7d661af904a13452771bf01557ca5a015a39232722088",
+  "c1_global_step": 64,
+  "games_restored": 2546,
+  "period": 1,
+  "resumed_utc": "2026-09-03T18:52:03Z",
+  "selection": {
+   "bundle": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2/candidate/bundles/bundle_0001",
+   "bundle_id": "3bcca8dc7a25be8d71b7d661af904a13452771bf01557ca5a015a39232722088",
+   "period": 1,
+   "selected_by": "latest complete verified bundle",
+   "skipped": []
+  }
+ },
+ "run_id": "G3-PILOT-2026-A",
+ "setup_skips": 0,
+ "timestamp_utc": "2026-09-04T05:55:31Z",
+ "wall_seconds": 39813.046
+}
