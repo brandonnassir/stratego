@@ -1,0 +1,624 @@
+{
+ "design": "Operator addendum (informal, not gate evidence).\n\nQuestion: does the learned setup model make the HANDCRAFTED bots better?\nNo neural policy anywhere. Each of the 8 handcrafted bots plays the frozen G3\nevaluation schedule (160 library formations x 8 opponents x 2 colours = 2,560\npaired games) three times, differing only in where its OWN starting formation\ncomes from:\n\n  learned  - the G3 candidate's period-256 EMA setup model (trained only on\n             handcrafted-teacher games; digest ea1a809b...)\n  frozen   - the same model at initialisation, never trained (082ff778...)\n  library  - a handcrafted library formation from the same family (rotated so\n             it is never the opponent's own formation)\n\nThe learned/frozen arms use exactly the G3 evaluation seeds, so the formations\nare byte-identical to the ones candidate_final / control_final played in G3 \u2014\nonly the mover changes, from the neural policy to a handcrafted bot.\n",
+ "ewr": {
+  "basic_heuristic": {
+   "frozen": 0.5494140625,
+   "learned": 0.556640625,
+   "library": 0.58203125
+  },
+  "strategic_rule_based": {
+   "frozen": 0.63828125,
+   "learned": 0.6513671875,
+   "library": 0.7498046875
+  },
+  "stress_berserker": {
+   "frozen": 0.3912109375,
+   "learned": 0.395703125,
+   "library": 0.4056640625
+  },
+  "stress_chaos": {
+   "frozen": 0.3,
+   "learned": 0.3119140625,
+   "library": 0.343359375
+  },
+  "stress_information_miser": {
+   "frozen": 0.2830078125,
+   "learned": 0.2966796875,
+   "library": 0.322265625
+  },
+  "stress_miner_rush": {
+   "frozen": 0.424609375,
+   "learned": 0.433984375,
+   "library": 0.44765625
+  },
+  "stress_scout_rush": {
+   "frozen": 0.3666015625,
+   "learned": 0.3767578125,
+   "library": 0.4138671875
+  },
+  "tactical_rule_based": {
+   "frozen": 0.6421875,
+   "learned": 0.6484375,
+   "library": 0.7267578125
+  }
+ },
+ "game_summaries": {
+  "basic_heuristic/frozen": {
+   "ewr": 0.5494140625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 20.3
+  },
+  "basic_heuristic/learned": {
+   "ewr": 0.556640625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 20.3
+  },
+  "basic_heuristic/library": {
+   "ewr": 0.58203125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 19.4
+  },
+  "strategic_rule_based/frozen": {
+   "ewr": 0.63828125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 24.3
+  },
+  "strategic_rule_based/learned": {
+   "ewr": 0.6513671875,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 24.7
+  },
+  "strategic_rule_based/library": {
+   "ewr": 0.7498046875,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 23.9
+  },
+  "stress_berserker/frozen": {
+   "ewr": 0.3912109375,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 19.9
+  },
+  "stress_berserker/learned": {
+   "ewr": 0.395703125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 20.5
+  },
+  "stress_berserker/library": {
+   "ewr": 0.4056640625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 18.6
+  },
+  "stress_chaos/frozen": {
+   "ewr": 0.3,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 48.7
+  },
+  "stress_chaos/learned": {
+   "ewr": 0.3119140625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 47.7
+  },
+  "stress_chaos/library": {
+   "ewr": 0.343359375,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 44.8
+  },
+  "stress_information_miser/frozen": {
+   "ewr": 0.2830078125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 37.5
+  },
+  "stress_information_miser/learned": {
+   "ewr": 0.2966796875,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 37.9
+  },
+  "stress_information_miser/library": {
+   "ewr": 0.322265625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 38.2
+  },
+  "stress_miner_rush/frozen": {
+   "ewr": 0.424609375,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 25.7
+  },
+  "stress_miner_rush/learned": {
+   "ewr": 0.433984375,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 27.9
+  },
+  "stress_miner_rush/library": {
+   "ewr": 0.44765625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 29.1
+  },
+  "stress_scout_rush/frozen": {
+   "ewr": 0.3666015625,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 27.3
+  },
+  "stress_scout_rush/learned": {
+   "ewr": 0.3767578125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 29.2
+  },
+  "stress_scout_rush/library": {
+   "ewr": 0.4138671875,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 29.1
+  },
+  "tactical_rule_based/frozen": {
+   "ewr": 0.6421875,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 23.2
+  },
+  "tactical_rule_based/learned": {
+   "ewr": 0.6484375,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 23.4
+  },
+  "tactical_rule_based/library": {
+   "ewr": 0.7267578125,
+   "games": 2560,
+   "illegal": 0,
+   "policy_errors": 0,
+   "seconds": 22.3
+  }
+ },
+ "own_setups_differ_learned_vs_frozen": 2524,
+ "per_student": {
+  "basic_heuristic": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.02024744913144034,
+    "candidate_ewr": 0.5494140625,
+    "cases_on_which_arms_differ": 1023,
+    "control_ewr": 0.58203125,
+    "lower": -0.07132214844476922,
+    "point": -0.0326171875,
+    "upper": 0.007940670511274141
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.010688093640441538,
+    "candidate_ewr": 0.556640625,
+    "cases_on_which_arms_differ": 770,
+    "control_ewr": 0.5494140625,
+    "lower": -0.014189839427019207,
+    "point": 0.0072265625,
+    "upper": 0.02802018513522176
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.01788012390907737,
+    "candidate_ewr": 0.556640625,
+    "cases_on_which_arms_differ": 963,
+    "control_ewr": 0.58203125,
+    "lower": -0.06080154671542716,
+    "point": -0.025390625,
+    "upper": 0.009613688748055188
+   }
+  },
+  "strategic_rule_based": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.01577460321274231,
+    "candidate_ewr": 0.63828125,
+    "cases_on_which_arms_differ": 1045,
+    "control_ewr": 0.7498046875,
+    "lower": -0.1415815454677463,
+    "point": -0.1115234375,
+    "upper": -0.08002418736941655
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.010101968915091894,
+    "candidate_ewr": 0.6513671875,
+    "cases_on_which_arms_differ": 800,
+    "control_ewr": 0.63828125,
+    "lower": -0.007295930231554009,
+    "point": 0.0130859375,
+    "upper": 0.03223254052055074
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.014699630295809481,
+    "candidate_ewr": 0.6513671875,
+    "cases_on_which_arms_differ": 1011,
+    "control_ewr": 0.7498046875,
+    "lower": -0.1266427109012414,
+    "point": -0.0984375,
+    "upper": -0.06961465674325695
+   }
+  },
+  "stress_berserker": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.021557823825036623,
+    "candidate_ewr": 0.3912109375,
+    "cases_on_which_arms_differ": 1072,
+    "control_ewr": 0.4056640625,
+    "lower": -0.05686388007777904,
+    "point": -0.014453125,
+    "upper": 0.02775175262594517
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.011123413975662407,
+    "candidate_ewr": 0.395703125,
+    "cases_on_which_arms_differ": 796,
+    "control_ewr": 0.3912109375,
+    "lower": -0.017130091878853088,
+    "point": 0.0044921875,
+    "upper": 0.026315197394391157
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.020893142022191134,
+    "candidate_ewr": 0.395703125,
+    "cases_on_which_arms_differ": 1096,
+    "control_ewr": 0.4056640625,
+    "lower": -0.04969528570393862,
+    "point": -0.0099609375,
+    "upper": 0.031013822351237678
+   }
+  },
+  "stress_chaos": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.012099861166975923,
+    "candidate_ewr": 0.3,
+    "cases_on_which_arms_differ": 1013,
+    "control_ewr": 0.343359375,
+    "lower": -0.06662352705722831,
+    "point": -0.043359375,
+    "upper": -0.019683468039103938
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.00707643567019911,
+    "candidate_ewr": 0.3119140625,
+    "cases_on_which_arms_differ": 729,
+    "control_ewr": 0.3,
+    "lower": -0.0018797267728698863,
+    "point": 0.0119140625,
+    "upper": 0.025501974321036007
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.011407104909141761,
+    "candidate_ewr": 0.3119140625,
+    "cases_on_which_arms_differ": 987,
+    "control_ewr": 0.343359375,
+    "lower": -0.0538859547498928,
+    "point": -0.0314453125,
+    "upper": -0.009210547701941081
+   }
+  },
+  "stress_information_miser": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.006928881983008962,
+    "candidate_ewr": 0.2830078125,
+    "cases_on_which_arms_differ": 482,
+    "control_ewr": 0.322265625,
+    "lower": -0.05263984686920213,
+    "point": -0.0392578125,
+    "upper": -0.025464023227130116
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.005206797425793567,
+    "candidate_ewr": 0.2966796875,
+    "cases_on_which_arms_differ": 381,
+    "control_ewr": 0.2830078125,
+    "lower": 0.0031721249564721785,
+    "point": 0.013671875,
+    "upper": 0.023759870139860063
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.007138015354556316,
+    "candidate_ewr": 0.2966796875,
+    "cases_on_which_arms_differ": 457,
+    "control_ewr": 0.322265625,
+    "lower": -0.03958560422470377,
+    "point": -0.0255859375,
+    "upper": -0.011586270775296236
+   }
+  },
+  "stress_miner_rush": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.014772266146936873,
+    "candidate_ewr": 0.424609375,
+    "cases_on_which_arms_differ": 1055,
+    "control_ewr": 0.44765625,
+    "lower": -0.051663840804909156,
+    "point": -0.023046875,
+    "upper": 0.00639360061224468
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.008678899897639597,
+    "candidate_ewr": 0.433984375,
+    "cases_on_which_arms_differ": 862,
+    "control_ewr": 0.424609375,
+    "lower": -0.007506951050378068,
+    "point": 0.009375,
+    "upper": 0.02646282850221195
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.0124922483474293,
+    "candidate_ewr": 0.433984375,
+    "cases_on_which_arms_differ": 1017,
+    "control_ewr": 0.44765625,
+    "lower": -0.03755365941272995,
+    "point": -0.013671875,
+    "upper": 0.011445174123733224
+   }
+  },
+  "stress_scout_rush": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.012889054456087496,
+    "candidate_ewr": 0.3666015625,
+    "cases_on_which_arms_differ": 916,
+    "control_ewr": 0.4138671875,
+    "lower": -0.07217679667189934,
+    "point": -0.047265625,
+    "upper": -0.021530943520765143
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.007917469964211155,
+    "candidate_ewr": 0.3767578125,
+    "cases_on_which_arms_differ": 673,
+    "control_ewr": 0.3666015625,
+    "lower": -0.005289705823836719,
+    "point": 0.01015625,
+    "upper": 0.025597058887540915
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.011854242700972278,
+    "candidate_ewr": 0.3767578125,
+    "cases_on_which_arms_differ": 897,
+    "control_ewr": 0.4138671875,
+    "lower": -0.06037352705722831,
+    "point": -0.037109375,
+    "upper": -0.014045953458309786
+   }
+  },
+  "tactical_rule_based": {
+   "frozen-library": {
+    "bootstrap_standard_error": 0.017428913865704505,
+    "candidate_ewr": 0.6421875,
+    "cases_on_which_arms_differ": 1081,
+    "control_ewr": 0.7267578125,
+    "lower": -0.1179224596970884,
+    "point": -0.0845703125,
+    "upper": -0.049982900591908346
+   },
+   "learned-frozen": {
+    "bootstrap_standard_error": 0.010161205846218832,
+    "candidate_ewr": 0.6484375,
+    "cases_on_which_arms_differ": 830,
+    "control_ewr": 0.6421875,
+    "lower": -0.013519382312348177,
+    "point": 0.00625,
+    "upper": 0.026425990279720125
+   },
+   "learned-library": {
+    "bootstrap_standard_error": 0.01615984668235984,
+    "candidate_ewr": 0.6484375,
+    "cases_on_which_arms_differ": 1034,
+    "control_ewr": 0.7267578125,
+    "lower": -0.10838356740404212,
+    "point": -0.0783203125,
+    "upper": -0.04599755256208101
+   }
+  }
+ },
+ "pooled": {
+  "frozen-library": {
+   "bases": 160,
+   "bootstrap_standard_error": 0.011496260830248057,
+   "by_colour": {
+    "0": {
+     "mean_difference": -0.050244140625,
+     "n": 10240
+    },
+    "1": {
+     "mean_difference": -0.048779296875,
+     "n": 10240
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.1091796875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.0392578125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.117578125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0029296875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0099609375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.063671875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0478515625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.0255859375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.4494140625,
+   "cases": 20480,
+   "cases_on_which_arms_differ": 7687,
+   "control_ewr": 0.49892578125,
+   "families": 16,
+   "lower": -0.07138748474142356,
+   "point": -0.04951171875,
+   "upper": -0.02650298340645311
+  },
+  "learned-frozen": {
+   "bases": 160,
+   "bootstrap_standard_error": 0.004055402494788126,
+   "by_colour": {
+    "0": {
+     "mean_difference": 0.00751953125,
+     "n": 10240
+    },
+    "1": {
+     "mean_difference": 0.0115234375,
+     "n": 10240
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.009375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0037109375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.0361328125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0111328125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.00078125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.004296875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0119140625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.007421875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.458935546875,
+   "cases": 20480,
+   "cases_on_which_arms_differ": 5841,
+   "control_ewr": 0.4494140625,
+   "families": 16,
+   "lower": 0.0014150597090410192,
+   "point": 0.009521484375,
+   "upper": 0.01744840963764131
+  },
+  "learned-library": {
+   "bases": 160,
+   "bootstrap_standard_error": 0.01027716260125611,
+   "by_colour": {
+    "0": {
+     "mean_difference": -0.042724609375,
+     "n": 10240
+    },
+    "1": {
+     "mean_difference": -0.037255859375,
+     "n": 10240
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.0998046875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.035546875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.0814453125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.008203125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0107421875,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.06796875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0359375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.0181640625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.458935546875,
+   "cases": 20480,
+   "cases_on_which_arms_differ": 7462,
+   "control_ewr": 0.49892578125,
+   "families": 16,
+   "lower": -0.059419918891822326,
+   "point": -0.039990234375,
+   "upper": -0.019273815784215942
+  }
+ },
+ "setup_model_digests": {
+  "frozen": "082ff778379fc5569705a702ea0c56b9df6fdf013a965b52926758c9b73d4f97",
+  "learned": "ea1a809b7a9decf6efaa1d59a65815df06839b262db957a72ca3191eec358447"
+ }
+}

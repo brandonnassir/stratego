@@ -1,0 +1,28 @@
+[addendum 13:46:43] 2560 cases over 160 bases
+[addendum 13:46:43] learned EMA ea1a809b7a9d | frozen EMA 082ff778379f
+[addendum 13:47:04] own setups differ learned vs frozen on 2524/2560 cases
+[addendum 13:47:24] basic_heuristic            learned  2560 games  EWR 0.5566  errors 0  20s
+[addendum 13:47:44] basic_heuristic            frozen   2560 games  EWR 0.5494  errors 0  20s
+[addendum 13:48:04] basic_heuristic            library  2560 games  EWR 0.5820  errors 0  19s
+[addendum 13:48:29] strategic_rule_based       learned  2560 games  EWR 0.6514  errors 0  25s
+[addendum 13:48:53] strategic_rule_based       frozen   2560 games  EWR 0.6383  errors 0  24s
+[addendum 13:49:17] strategic_rule_based       library  2560 games  EWR 0.7498  errors 0  24s
+[addendum 13:49:40] tactical_rule_based        learned  2560 games  EWR 0.6484  errors 0  23s
+[addendum 13:50:04] tactical_rule_based        frozen   2560 games  EWR 0.6422  errors 0  23s
+[addendum 13:50:26] tactical_rule_based        library  2560 games  EWR 0.7268  errors 0  22s
+[addendum 13:50:55] stress_scout_rush          learned  2560 games  EWR 0.3768  errors 0  29s
+[addendum 13:51:22] stress_scout_rush          frozen   2560 games  EWR 0.3666  errors 0  27s
+[addendum 13:51:52] stress_scout_rush          library  2560 games  EWR 0.4139  errors 0  29s
+[addendum 13:52:20] stress_miner_rush          learned  2560 games  EWR 0.4340  errors 0  28s
+[addendum 13:52:45] stress_miner_rush          frozen   2560 games  EWR 0.4246  errors 0  26s
+[addendum 13:53:14] stress_miner_rush          library  2560 games  EWR 0.4477  errors 0  29s
+[addendum 13:53:35] stress_berserker           learned  2560 games  EWR 0.3957  errors 0  21s
+[addendum 13:53:55] stress_berserker           frozen   2560 games  EWR 0.3912  errors 0  20s
+[addendum 13:54:14] stress_berserker           library  2560 games  EWR 0.4057  errors 0  19s
+[addendum 13:54:52] stress_information_miser   learned  2560 games  EWR 0.2967  errors 0  38s
+[addendum 13:55:29] stress_information_miser   frozen   2560 games  EWR 0.2830  errors 0  38s
+[addendum 13:56:07] stress_information_miser   library  2560 games  EWR 0.3223  errors 0  38s
+[addendum 13:56:55] stress_chaos               learned  2560 games  EWR 0.3119  errors 0  48s
+[addendum 13:57:44] stress_chaos               frozen   2560 games  EWR 0.3000  errors 0  49s
+[addendum 13:58:29] stress_chaos               library  2560 games  EWR 0.3434  errors 0  45s
+[addendum 13:58:29] DONE
