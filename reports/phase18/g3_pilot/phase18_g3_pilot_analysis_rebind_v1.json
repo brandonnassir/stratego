@@ -1,0 +1,49 @@
+{
+ "amendment": "P18-A002",
+ "analysis_reader_change": "read_receipt_rows only; write_receipts, ARM_INVARIANT_FIELDS, prove_arm_identity, case_scores, the bootstrap and the decision rules are byte-identical to the original source commit",
+ "analysis_reader_commit": "ffb799ee4d26246f612ed2435219d82a791ccd37",
+ "arms": {
+  "candidate_final": {
+   "arm_record_sha256": "1a4c9b6ac3fbb137b6d21baa70851dc38e5d4d8fa2caa11036c67e0dcf2fcd35",
+   "bundle_id": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+   "bundle_period": 256,
+   "lineage": "candidate",
+   "receipts_rows": 2560,
+   "receipts_sha256": "d2e8e4bfeefda534ab50605f09126a6060a148f8b957febe2b70f8d4f1b0feff"
+  },
+  "control_final": {
+   "arm_record_sha256": "41ef608e8a927938ac16775af850c5ab87bdefa92f32aecaeb1b476bd262e261",
+   "bundle_id": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837",
+   "bundle_period": 256,
+   "lineage": "control",
+   "receipts_rows": 2560,
+   "receipts_sha256": "7648548b47fbf9de866bcc7f54467801023f2e3975f433837abfd91ed415e941"
+  }
+ },
+ "artifact": "phase18_g3_pilot_analysis_rebind_v1",
+ "authorises": "analysis_only",
+ "contract_sha256": "7cd753498e0d64332ab362c42417017b949876bca577cc3e6c608284c50a6a37",
+ "explicitly_not_authorised": {
+  "diagnostics": true,
+  "evaluation": true,
+  "resumption": true,
+  "second_seed": true,
+  "training": true
+ },
+ "gate": "G3",
+ "launch_manifest_sha256": "d6e698073f9ef78250ea7fc328e3b510d7467235a00f1414a56ecb0f93f39813",
+ "matching_report_sha256": "638e074148322fcc5bf9bf5b43c381bbb76dc05a5e367fd557415523af6ed629",
+ "original_source_commit": "8c1baa8ff163c593d72c63b711e905937b557669",
+ "period_256_bundle_ids": {
+  "candidate": "2162b448017ca844ccde2a0680332c62f54722f790ad61f81409d295fd323aac",
+  "control": "e1c410021f71124f1768f3defa41405a6a87352bf83e9baf51b25ebad61bd837"
+ },
+ "refusal_rule": "--analyse refuses if any bound hash above no longer matches the evidence on disk",
+ "run_id": "G3-PILOT-2026-A",
+ "runtime_root": "/Users/brandonwashington/Dev/Github/stratego/gpt_agent/output/phase18/runtime/g3_pilot_v2",
+ "stages_authorised": [
+  "--analyse"
+ ],
+ "statement": "This record authorises ANALYSIS ONLY. It permits --analyse to read the evidence created at the original experimental source commit using the repaired persisted-receipt reader, and nothing else. It does not authorise further training, resumption of any lineage, any new evaluation, any diagnostic arm, or a second seed. The original launch manifest is preserved unmodified and continues to identify the original source commit as the source that created the training and evaluation data.",
+ "timestamp_utc": "2026-09-04T17:22:59Z"
+}
