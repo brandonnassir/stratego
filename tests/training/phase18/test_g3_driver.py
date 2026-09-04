@@ -196,3 +196,125 @@ def test_the_runtime_root_is_bound_to_the_launch_manifest(driver, tmp_path):
     with pytest.raises(driver.G3Error, match="BLOCKED"):
         driver.require_runtime_binding(manifest, other)
     driver.require_runtime_binding(manifest, bound)
+
+
+# ---------------------------------------------------------------------------
+# P18-A002: the analysis-only source rebind.
+# ---------------------------------------------------------------------------
+
+
+def _rebind_environment(driver, tmp_path):
+    """A reports tree and runtime whose evidence a rebind can bind."""
+    reports = tmp_path / "reports"
+    runtime = tmp_path / "runtime" / "g3_pilot_v2"
+    reports.mkdir(parents=True)
+    driver.write_json(reports / driver.LAUNCH_NAME, {
+        "contract_sha256": "c" * 64,
+        "source": {"g3_source_commit": "8c1baa8"},
+        "runtime": {"root_absolute": str(runtime)},
+    })
+    driver.write_json(reports / driver.MATCHING_NAME, {"matched": True, "contract_sha256": "c" * 64})
+    arms = {}
+    for arm, bundle in (("candidate_final", "2162b448"), ("control_final", "e1c41002")):
+        work = runtime / "evaluation" / arm
+        work.mkdir(parents=True)
+        receipts = work / "receipts.jsonl"
+        receipts.write_text(json.dumps({"arm": arm}) + "\n")
+        driver.write_json(work / "arm_record.json", {
+            "bundle_id": bundle,
+            "receipts": {"path": str(receipts), "sha256": driver.file_sha256(receipts)},
+        })
+        arms[arm] = {
+            "arm_record_sha256": driver.file_sha256(work / "arm_record.json"),
+            "receipts_sha256": driver.file_sha256(receipts),
+            "bundle_id": bundle,
+        }
+    rebind = {
+        "authorises": "analysis_only",
+        "stages_authorised": ["--analyse"],
+        "explicitly_not_authorised": {k: True for k in ("training", "resumption", "evaluation", "diagnostics", "second_seed")},
+        "original_source_commit": "8c1baa8",
+        "analysis_reader_commit": "d" * 40,
+        "contract_sha256": "c" * 64,
+        "launch_manifest_sha256": driver.file_sha256(reports / driver.LAUNCH_NAME),
+        "matching_report_sha256": driver.file_sha256(reports / driver.MATCHING_NAME),
+        "arms": arms,
+    }
+    launch = json.loads((reports / driver.LAUNCH_NAME).read_text())
+    return reports, runtime, rebind, launch
+
+
+def test_a_well_formed_analysis_rebind_authorises_only_analysis(driver, tmp_path):
+    reports, runtime, rebind, launch = _rebind_environment(driver, tmp_path)
+    assert driver.analysis_rebind_problems(rebind, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime) == []
+    driver.require_analysis_rebind(rebind, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime)
+    assert driver.load_analysis_rebind(reports) is None
+    driver.write_json(reports / driver.REBIND_NAME, rebind)
+    assert driver.load_analysis_rebind(reports)["analysis_reader_commit"] == "d" * 40
+
+
+@pytest.mark.parametrize("mutation", [
+    {"authorises": "everything"},
+    {"stages_authorised": ["--analyse", "--evaluate"]},
+    {"stages_authorised": []},
+    {"original_source_commit": "some_other_commit"},
+    {"analysis_reader_commit": ""},
+    {"contract_sha256": "0" * 64},
+])
+def test_a_rebind_that_overreaches_or_misbinds_is_refused(driver, tmp_path, mutation):
+    reports, runtime, rebind, launch = _rebind_environment(driver, tmp_path)
+    with pytest.raises(driver.G3Error, match="does not authorise this run"):
+        driver.require_analysis_rebind(rebind | mutation, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime)
+
+
+@pytest.mark.parametrize("forbidden", ["training", "resumption", "evaluation", "diagnostics", "second_seed"])
+def test_a_rebind_must_explicitly_refuse_every_other_activity(driver, tmp_path, forbidden):
+    reports, runtime, rebind, launch = _rebind_environment(driver, tmp_path)
+    weakened = dict(rebind["explicitly_not_authorised"])
+    weakened[forbidden] = False
+    with pytest.raises(driver.G3Error, match=f"does not explicitly refuse {forbidden}"):
+        driver.require_analysis_rebind(rebind | {"explicitly_not_authorised": weakened}, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime)
+
+
+@pytest.mark.parametrize("target", ["launch_manifest", "matching_report", "receipts", "arm_record", "bundle_id"])
+def test_the_analysis_refuses_when_any_bound_evidence_changes(driver, tmp_path, target):
+    reports, runtime, rebind, launch = _rebind_environment(driver, tmp_path)
+    work = runtime / "evaluation" / "candidate_final"
+    if target == "launch_manifest":
+        (reports / driver.LAUNCH_NAME).write_text(json.dumps({"tampered": True}))
+    elif target == "matching_report":
+        (reports / driver.MATCHING_NAME).write_text(json.dumps({"tampered": True}))
+    elif target == "receipts":
+        Path(json.loads((work / "arm_record.json").read_text())["receipts"]["path"]).write_text('{"arm":"tampered"}\n')
+    elif target == "arm_record":
+        record = json.loads((work / "arm_record.json").read_text())
+        driver.write_json(work / "arm_record.json", record | {"tampered": True})
+    else:
+        record = json.loads((work / "arm_record.json").read_text())
+        driver.write_json(work / "arm_record.json", record | {"bundle_id": "a_different_bundle"})
+        rebind["arms"]["candidate_final"]["arm_record_sha256"] = driver.file_sha256(work / "arm_record.json")
+    problems = driver.analysis_rebind_problems(rebind, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime)
+    assert problems, f"a changed {target} was not detected"
+    with pytest.raises(driver.G3Error, match="does not authorise this run"):
+        driver.require_analysis_rebind(rebind, launch=launch, contract_sha256="c" * 64, reports=reports, runtime=runtime)
+
+
+def test_source_drift_is_relaxed_only_when_a_rebind_is_present(driver, tmp_path):
+    """Without a rebind the strict check stands; with one, drift is tolerated for
+    --analyse alone. Every other stage keeps calling the strict form."""
+    root, reports, contract = _binding_root(tmp_path, driver)
+    manifest = {
+        "source": {"g3_source_commit": "a" * 40},
+        "contract_sha256": driver.file_sha256(contract),
+        "source_digests": driver.digests_of(driver.HARNESS_SOURCES, root),
+        "test_digests": driver.digests_of(driver.TEST_FILES, root),
+    }
+    driver.write_json(reports / driver.LAUNCH_NAME, manifest)
+    (root / driver.HARNESS_SOURCES[0]).write_text("the repaired reader\n")
+    with pytest.raises(driver.G3Error, match="not the launched source"):
+        driver.require_launch_binding(reports, root=root, head="a" * 40)
+    bound = driver.require_launch_binding(reports, root=root, head="a" * 40, allow_source_drift=True)
+    assert bound["source"]["g3_source_commit"] == "a" * 40
+    # the contract check is never relaxed
+    with pytest.raises(driver.G3Error, match="different contract"):
+        driver.require_launch_binding(reports, contract_sha256="0" * 64, root=root, head="a" * 40, allow_source_drift=True)

@@ -753,20 +753,71 @@ def paired_analysis(candidate_rows, control_rows, cases, *, namespace: str, marg
     }
 
 
+RECEIPT_ALIASES = ("setup_pair_id", "opponent_policy_id", "opponent_policy_version")
+
+
+def _receipt_row_aliases(receipt: dict, *, path, line_number: int) -> dict:
+    """The three ARM_INVARIANT_FIELDS the receipt stores under other names (P18-A002).
+
+    `setup_pair_id` is persisted as `case_index` -- identical by construction, because
+    `write_receipts` resolves `by_case[int(row.setup_pair_id)]` and writes that case's
+    `case_index`. The opponent policy is persisted as the single string
+    `"<id>@<version>"`. Nothing else is reconstructed, and nothing is repaired: a
+    receipt that does not support the reconstruction is rejected.
+    """
+    where = f"{path} line {line_number}"
+    for field in ("case_index", "opponent_policy", "opponent_id"):
+        if receipt.get(field) is None:
+            raise Phase18G3Error(f"{where}: receipt is missing {field!r}; it cannot be read for analysis")
+
+    combined = str(receipt["opponent_policy"])
+    identifier, separator, version = combined.rpartition("@")
+    if not separator or not identifier or not version:
+        raise Phase18G3Error(
+            f"{where}: opponent_policy {combined!r} is not '<id>@<version>'; refusing to guess the split"
+        )
+    if identifier != str(receipt["opponent_id"]):
+        raise Phase18G3Error(
+            f"{where}: opponent_policy id {identifier!r} disagrees with the persisted opponent_id "
+            f"{receipt['opponent_id']!r}"
+        )
+
+    aliases = {
+        "setup_pair_id": int(receipt["case_index"]),
+        "opponent_policy_id": identifier,
+        "opponent_policy_version": version,
+    }
+    for name, value in aliases.items():
+        if name in receipt and receipt[name] != value:
+            raise Phase18G3Error(
+                f"{where}: receipt carries {name}={receipt[name]!r}, conflicting with the "
+                f"reconstruction {value!r}"
+            )
+    return aliases
+
+
 def read_receipt_rows(path) -> list:
-    """Receipts back as the minimal row objects the analysis reads."""
+    """Receipts back as the minimal row objects the analysis reads.
+
+    The receipts are immutable and are never rewritten. Three ARM_INVARIANT_FIELDS are
+    persisted under other names, so they are reconstructed here on load, under P18-A002.
+    """
     from types import SimpleNamespace
 
     rows = []
     with open(path) as stream:
-        for line in stream:
-            if line.strip():
-                rows.append(SimpleNamespace(**json.loads(line)))
+        for line_number, line in enumerate(stream, start=1):
+            if not line.strip():
+                continue
+            receipt = json.loads(line)
+            aliases = _receipt_row_aliases(receipt, path=path, line_number=line_number)
+            rows.append(SimpleNamespace(**(receipt | aliases)))
     return rows
 
 
 __all__ = [
     "ARM_INVARIANT_FIELDS",
+    "RECEIPT_ALIASES",
     "CANDIDATE_TOKEN_ID",
     "ComponentTag",
     "EvaluationCase",

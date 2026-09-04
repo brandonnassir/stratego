@@ -210,3 +210,222 @@ def test_the_stratified_bootstrap_reproduces_the_design_formula_and_the_rule():
     assert ev.direct_per_base_standard_error(per_base, families) == pytest.approx(np.sqrt(np.mean([per_base[families == f].var(ddof=1) for f in labels]) / 160))
     with pytest.raises(Phase18G3Error, match="at least two"):
         ev.stratified_cluster_bootstrap(np.zeros(3), np.array([0, 0, 1]), replicates=10, seed=1)
+
+
+# ---------------------------------------------------------------------------
+# P18-A002: the persisted-receipt reader. stage_analyse is the only caller that
+# reads rows back from disk, and the tests above hand prove_arm_identity the
+# in-memory rows, so the round trip through read_receipt_rows was never covered.
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def evaluated_arms(pilot_bundles, cases, tmp_path_factory):
+    """Both arms played once: the in-memory rows, and the receipts they wrote."""
+    torch.set_num_threads(1)
+    run_root, bundles, configs = pilot_bundles
+    work = tmp_path_factory.mktemp("receipt_round_trip")
+    arms = {}
+    for lineage in ("candidate", "control"):
+        record, rows = ev.evaluate_bundle(
+            bundles[lineage], config=configs[lineage], lineage=lineage, label=f"{lineage}_final",
+            cases=cases, work=work / lineage, device="cpu", workers=1, chunk_units=4, log=lambda m: None
+        )
+        arms[lineage] = {"record": record, "rows": rows, "receipts": Path(record["receipts"]["path"])}
+    return arms
+
+
+def test_every_invariant_field_survives_the_receipt_round_trip(evaluated_arms):
+    for lineage, arm in evaluated_arms.items():
+        loaded = ev.read_receipt_rows(arm["receipts"])
+        assert len(loaded) == len(arm["rows"])
+        by_match = {row.match_id: row for row in arm["rows"]}
+        for row in loaded:
+            original = by_match[row.match_id]
+            for field in ev.ARM_INVARIANT_FIELDS:
+                assert hasattr(row, field), f"{lineage}: {field} did not survive persistence"
+                assert getattr(row, field) == getattr(original, field), f"{lineage}: {field} changed"
+        # the three reconstructed aliases are exactly the documented ones
+        assert set(ev.RECEIPT_ALIASES) <= set(ev.ARM_INVARIANT_FIELDS)
+
+
+def test_prove_arm_identity_and_case_scores_accept_loaded_receipts(evaluated_arms, cases):
+    loaded = {f"{lineage}_final": ev.read_receipt_rows(arm["receipts"]) for lineage, arm in evaluated_arms.items()}
+    identity = ev.prove_arm_identity(loaded, cases)
+    assert not identity["problems"], identity
+    assert identity["opponent_formation_mismatches"] == 0
+    for rows in loaded.values():
+        scores = ev.case_scores(rows, cases)
+        assert scores.shape == (len(cases),)
+        assert set(scores.tolist()) <= {0.0, 0.5, 1.0}
+
+
+def test_analysis_of_loaded_receipts_equals_analysis_of_the_in_memory_rows(evaluated_arms, cases):
+    memory = ev.paired_analysis(
+        evaluated_arms["candidate"]["rows"], evaluated_arms["control"]["rows"], cases,
+        namespace=NAMESPACE, replicates=200,
+    )
+    disk = ev.paired_analysis(
+        ev.read_receipt_rows(evaluated_arms["candidate"]["receipts"]),
+        ev.read_receipt_rows(evaluated_arms["control"]["receipts"]),
+        cases, namespace=NAMESPACE, replicates=200,
+    )
+    for field in ("point", "lower", "upper", "cases", "bases", "families", "passes", "near_boundary"):
+        assert disk[field] == memory[field], f"{field} differs between the disk and memory analyses"
+
+
+def _one_receipt(evaluated_arms):
+    return json.loads(evaluated_arms["candidate"]["receipts"].read_text().splitlines()[0])
+
+
+@pytest.mark.parametrize("drop", ["case_index", "opponent_policy", "opponent_id"])
+def test_a_receipt_missing_a_reconstruction_input_is_rejected(evaluated_arms, tmp_path, drop):
+    receipt = _one_receipt(evaluated_arms)
+    receipt.pop(drop)
+    path = tmp_path / f"missing_{drop}.jsonl"
+    path.write_text(json.dumps(receipt) + "\n")
+    with pytest.raises(Phase18G3Error, match=drop):
+        ev.read_receipt_rows(path)
+
+
+@pytest.mark.parametrize("policy", ["no_separator", "@only_version", "only_id@"])
+def test_a_malformed_combined_policy_name_is_rejected(evaluated_arms, tmp_path, policy):
+    receipt = _one_receipt(evaluated_arms)
+    receipt["opponent_policy"] = policy
+    path = tmp_path / "malformed_policy.jsonl"
+    path.write_text(json.dumps(receipt) + "\n")
+    with pytest.raises(Phase18G3Error, match="opponent_policy"):
+        ev.read_receipt_rows(path)
+
+
+def test_a_policy_id_disagreeing_with_opponent_id_is_rejected(evaluated_arms, tmp_path):
+    receipt = _one_receipt(evaluated_arms)
+    receipt["opponent_policy"] = f"someone_else@{receipt['opponent_policy'].rpartition('@')[2]}"
+    path = tmp_path / "policy_disagrees.jsonl"
+    path.write_text(json.dumps(receipt) + "\n")
+    with pytest.raises(Phase18G3Error, match="disagrees with the persisted opponent_id"):
+        ev.read_receipt_rows(path)
+
+
+@pytest.mark.parametrize("alias", ["setup_pair_id", "opponent_policy_id", "opponent_policy_version"])
+def test_a_conflicting_persisted_alias_is_rejected(evaluated_arms, tmp_path, alias):
+    receipt = _one_receipt(evaluated_arms)
+    receipt[alias] = 999999 if alias == "setup_pair_id" else "conflicting_value"
+    path = tmp_path / f"conflict_{alias}.jsonl"
+    path.write_text(json.dumps(receipt) + "\n")
+    with pytest.raises(Phase18G3Error, match="conflicting with the reconstruction"):
+        ev.read_receipt_rows(path)
+
+
+def test_an_agreeing_persisted_alias_is_accepted(evaluated_arms, tmp_path):
+    """A future receipt that also writes the alias is fine, as long as it agrees."""
+    receipt = _one_receipt(evaluated_arms)
+    identifier, _, version = str(receipt["opponent_policy"]).rpartition("@")
+    receipt["setup_pair_id"] = int(receipt["case_index"])
+    receipt["opponent_policy_id"] = identifier
+    receipt["opponent_policy_version"] = version
+    path = tmp_path / "agreeing_alias.jsonl"
+    path.write_text(json.dumps(receipt) + "\n")
+    row = ev.read_receipt_rows(path)[0]
+    assert row.setup_pair_id == int(receipt["case_index"])
+    assert row.opponent_policy_id == identifier and row.opponent_policy_version == version
+
+
+# ---------------------------------------------------------------------------
+# The command-level analysis path, exercised over PERSISTED receipts. This is
+# the coverage whose absence let P18-A002's defect reach a completed run:
+# stage_analyse is the only caller that reads rows back from disk.
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def driver():
+    import importlib.util
+
+    root = Path(__file__).resolve().parents[3]
+    spec = importlib.util.spec_from_file_location("phase18_g3_pilot", root / "scripts" / "phase18_g3_pilot.py")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@pytest.fixture(scope="module")
+def analysable_run(driver, pilot_bundles, cases, tmp_path_factory):
+    """A complete miniature G3 run: two smoke periods per lineage, both arms
+    evaluated into the runtime, and every record stage_analyse reads."""
+    torch.set_num_threads(1)
+    run_root, bundles, configs = pilot_bundles
+    reports = tmp_path_factory.mktemp("stage_analyse_reports")
+    matches = ev.build_schedule(cases, namespace=NAMESPACE)
+    schedule = ev.schedule_record(cases, matches, namespace=NAMESPACE)
+
+    for lineage in ("candidate", "control"):
+        work = run_root / "evaluation" / f"{lineage}_final"
+        record, _rows = ev.evaluate_bundle(
+            bundles[lineage], config=configs[lineage], lineage=lineage, label=f"{lineage}_final",
+            cases=cases, work=work, device="cpu", workers=1, chunk_units=4, log=lambda m: None,
+        )
+        record = record | {"contract_sha256": None, "diagnostic": False}
+        driver.write_json(work / "arm_record.json", record)
+
+    contract = {
+        "question": {"decision_rule": "test rule", "near_boundary_rule": "test near-boundary rule"},
+        "frozen_defaults": {"c1_device": "cpu"},
+    }
+    driver.write_json(reports / driver.CONTRACT_NAME, contract)
+    contract_sha = driver.file_sha256(reports / driver.CONTRACT_NAME)
+    for work in (run_root / "evaluation" / "candidate_final", run_root / "evaluation" / "control_final"):
+        record = json.loads((work / "arm_record.json").read_text())
+        driver.write_json(work / "arm_record.json", record | {"contract_sha256": contract_sha})
+
+    matching = gp.matching_check(run_root, c1_device="cpu")
+    matching["contract_sha256"] = contract_sha
+    driver.write_json(reports / driver.MATCHING_NAME, matching)
+    driver.write_json(reports / driver.VERIFICATION_NAME, {"restart_check": {"passed": True}})
+    driver.write_json(reports / driver.LAUNCH_NAME, {
+        "contract_sha256": contract_sha,
+        "source": {"g3_source_commit": "0" * 40},
+        "source_digests": {}, "test_digests": {},
+        "runtime": {"root_absolute": str(run_root)},
+    })
+    frozen = {"configs": configs, "cases": cases, "matches": matches, "schedule": schedule}
+    return driver, reports, run_root, frozen, contract_sha
+
+
+def test_stage_analyse_reads_persisted_receipts_end_to_end(analysable_run, monkeypatch):
+    driver, reports, run_root, frozen, _sha = analysable_run
+    monkeypatch.setattr(driver, "verify_frozen_identity", lambda contract: frozen)
+    monkeypatch.setattr(driver, "require_launch_binding", lambda reports, **kw: json.loads((reports / driver.LAUNCH_NAME).read_text()))
+    results = driver.stage_analyse(reports, runtime=run_root)
+    assert (reports / driver.RESULTS_NAME).exists()
+    assert results["arm_identity_proof"]["problems"] == []
+    assert results["primary"]["cases"] == len(frozen["cases"])
+    assert results["decision_input"]["decision"] in ("PROCEED", "NEAR_BOUNDARY", "FAIL", "BLOCKED")
+    # the analysis really went through the on-disk receipts
+    for arm in ("candidate_final", "control_final"):
+        assert results["arms"][arm]["receipts"]["rows"] == len(frozen["cases"])
+
+
+def test_stage_analyse_refuses_a_receipt_that_lost_its_reconstruction_inputs(analysable_run, monkeypatch, tmp_path):
+    """The exact failure P18-A002 repaired must stay a loud refusal, not a crash
+    that only appears after a completed run."""
+    driver, reports, run_root, frozen, _sha = analysable_run
+    monkeypatch.setattr(driver, "verify_frozen_identity", lambda contract: frozen)
+    monkeypatch.setattr(driver, "require_launch_binding", lambda reports, **kw: json.loads((reports / driver.LAUNCH_NAME).read_text()))
+    record_path = run_root / "evaluation" / "candidate_final" / "arm_record.json"
+    record = json.loads(record_path.read_text())
+    receipts = Path(record["receipts"]["path"])
+    original = receipts.read_text()
+    damaged = [json.loads(line) for line in original.splitlines() if line.strip()]
+    for receipt in damaged:
+        receipt.pop("case_index")
+    receipts.write_text("".join(json.dumps(r) + "\n" for r in damaged))
+    try:
+        record["receipts"]["sha256"] = driver.file_sha256(receipts)
+        driver.write_json(record_path, record)
+        with pytest.raises(Phase18G3Error, match="case_index"):
+            driver.stage_analyse(reports, runtime=run_root)
+    finally:
+        receipts.write_text(original)
+        record["receipts"]["sha256"] = driver.file_sha256(receipts)
+        driver.write_json(record_path, record)

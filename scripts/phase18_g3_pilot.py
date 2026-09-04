@@ -108,6 +108,7 @@ VERIFICATION_NAME = "phase18_g3_stage6b_verification_v1.json"
 LAUNCH_NAME = "phase18_g3_pilot_launch_manifest_v1.json"
 MATCHING_NAME = "phase18_g3_pilot_matching_v1.json"
 RESULTS_NAME = "phase18_g3_pilot_results_v1.json"
+REBIND_NAME = "phase18_g3_pilot_analysis_rebind_v1.json"
 
 AUTHORIZATION_FILES = (
     "reports/phase18/g3_design/phase18_g3_stage6a_joint_design_v2.md",
@@ -259,8 +260,14 @@ def launch_binding_problems(manifest: dict, *, root: Path, head: str) -> list:
     return problems
 
 
-def require_launch_binding(reports: Path, *, contract_sha256: "str | None" = None, root: Path = REPOSITORY_ROOT, head: "str | None" = None) -> dict:
-    """Load the launch manifest and refuse unless this tree is the launched one."""
+def require_launch_binding(reports: Path, *, contract_sha256: "str | None" = None, root: Path = REPOSITORY_ROOT, head: "str | None" = None, allow_source_drift: bool = False) -> dict:
+    """Load the launch manifest and refuse unless this tree is the launched one.
+
+    `allow_source_drift` is set by `--analyse` alone, and only when a valid
+    analysis-only rebind record is present (P18-A002). The launch manifest itself
+    is never modified: it goes on naming the source commit that created the
+    training and evaluation data. Every other stage keeps the strict check.
+    """
     launch_path = reports / LAUNCH_NAME
     if not launch_path.exists():
         raise G3Error("BLOCKED: no launch manifest; run --launch-manifest from the clean worktree first")
@@ -269,9 +276,79 @@ def require_launch_binding(reports: Path, *, contract_sha256: "str | None" = Non
         raise G3Error("BLOCKED: the launch manifest binds a different contract")
     current_head = head if head is not None else git_output("rev-parse", "HEAD", cwd=root)
     problems = launch_binding_problems(launch, root=root, head=current_head)
-    if problems:
+    if problems and not allow_source_drift:
         raise G3Error("BLOCKED: the tree is not the launched source: " + "; ".join(problems))
     return launch
+
+
+def load_analysis_rebind(reports: Path) -> "dict | None":
+    """The analysis-only rebind record, when one has been published."""
+    path = reports / REBIND_NAME
+    if not path.exists():
+        return None
+    return json.loads(path.read_text())
+
+
+def analysis_rebind_problems(rebind: dict, *, launch: dict, contract_sha256: str, reports: Path, runtime: Path) -> list:
+    """Why this rebind does not authorise analysing this evidence (P18-A002).
+
+    The rebind relaxes the source-commit equality check for `--analyse` and
+    nothing else. In exchange it pins every piece of evidence the analysis will
+    read, so a changed receipt, arm record, matching report, launch manifest,
+    contract or final bundle refuses the run.
+    """
+    problems: list = []
+    if rebind.get("authorises") != "analysis_only":
+        problems.append(f"the rebind does not declare authorises='analysis_only' (got {rebind.get('authorises')!r})")
+    if list(rebind.get("stages_authorised") or []) != ["--analyse"]:
+        problems.append(f"the rebind authorises stages {rebind.get('stages_authorised')!r}, not exactly ['--analyse']")
+    for forbidden in ("training", "resumption", "evaluation", "diagnostics", "second_seed"):
+        if (rebind.get("explicitly_not_authorised") or {}).get(forbidden) is not True:
+            problems.append(f"the rebind does not explicitly refuse {forbidden}")
+
+    launch_commit = (launch.get("source") or {}).get("g3_source_commit")
+    if rebind.get("original_source_commit") != launch_commit:
+        problems.append(f"the rebind's original source commit {rebind.get('original_source_commit')} is not the launch manifest's {launch_commit}")
+    if not rebind.get("analysis_reader_commit"):
+        problems.append("the rebind names no analysis-reader commit")
+    if rebind.get("contract_sha256") != contract_sha256:
+        problems.append("the rebind binds a different contract")
+
+    bound_files = {
+        "launch_manifest_sha256": reports / LAUNCH_NAME,
+        "matching_report_sha256": reports / MATCHING_NAME,
+    }
+    for key, path in bound_files.items():
+        if not path.exists():
+            problems.append(f"bound evidence {path.name} is missing")
+        elif rebind.get(key) != file_sha256(path):
+            problems.append(f"bound evidence {path.name} has changed since the rebind was written")
+
+    for arm in ("candidate_final", "control_final"):
+        recorded = (rebind.get("arms") or {}).get(arm) or {}
+        work = runtime / "evaluation" / arm
+        record_path = work / "arm_record.json"
+        if not record_path.exists():
+            problems.append(f"bound evidence {arm}/arm_record.json is missing")
+            continue
+        if recorded.get("arm_record_sha256") != file_sha256(record_path):
+            problems.append(f"bound evidence {arm}/arm_record.json has changed since the rebind was written")
+        record = json.loads(record_path.read_text())
+        receipts_path = Path(record["receipts"]["path"])
+        if not receipts_path.exists():
+            problems.append(f"bound evidence {arm} receipts are missing")
+        elif recorded.get("receipts_sha256") != file_sha256(receipts_path):
+            problems.append(f"bound evidence {arm} receipts have changed since the rebind was written")
+        if recorded.get("bundle_id") != record.get("bundle_id"):
+            problems.append(f"the {arm} arm record's bundle id is not the rebind's bound period-256 bundle")
+    return problems
+
+
+def require_analysis_rebind(rebind: dict, *, launch: dict, contract_sha256: str, reports: Path, runtime: Path) -> dict:
+    problems = analysis_rebind_problems(rebind, launch=launch, contract_sha256=contract_sha256, reports=reports, runtime=runtime)
+    if problems:
+        raise G3Error("BLOCKED: the analysis rebind does not authorise this run: " + "; ".join(problems))
+    return rebind
 
 
 def runtime_binding_problems(manifest: dict, runtime: Path) -> list:
@@ -753,8 +830,14 @@ def stage_analyse(reports: Path, *, runtime: Path) -> dict:
 
     contract, contract_sha = load_contract(reports)
     frozen = verify_frozen_identity(contract)
-    launch = require_launch_binding(reports, contract_sha256=contract_sha)
+    # P18-A002: an analysis-only rebind relaxes the source-commit equality check for
+    # this stage alone, and only in exchange for pinning every evidence hash it reads.
+    rebind = load_analysis_rebind(reports)
+    launch = require_launch_binding(reports, contract_sha256=contract_sha, allow_source_drift=rebind is not None)
     require_runtime_binding(launch, runtime)
+    if rebind is not None:
+        require_analysis_rebind(rebind, launch=launch, contract_sha256=contract_sha, reports=reports, runtime=runtime)
+        log(f"analysis rebind: reading {launch['source']['g3_source_commit'][:12]} evidence with reader {rebind['analysis_reader_commit'][:12]}")
     cases, matches = frozen["cases"], frozen["matches"]
     config = frozen["configs"][LINEAGE_CANDIDATE]
 

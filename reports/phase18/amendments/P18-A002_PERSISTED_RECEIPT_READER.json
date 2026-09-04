@@ -1,0 +1,43 @@
+{
+ "artifact": "phase18_amendment_P18-A002",
+ "amendment_id": "P18-A002",
+ "title": "The persisted-receipt reader: three aliases, reconstructed on load",
+ "work_package": "phase18_setup_integrated_warmstart",
+ "gate": "G3",
+ "proposed_by": "phase_18_agent_6",
+ "timestamp_utc": "2026-09-04T17:15:09Z",
+ "status": "FROZEN BEFORE THE RESULT WAS COMPUTED; the primary contrast had not been calculated by any path when this amendment was committed",
+ "motivation": {
+  "defect": "stage_analyse reads the immutable receipts back through read_receipt_rows, which rebuilds each row as SimpleNamespace(**receipt_json). Three of the eleven ARM_INVARIANT_FIELDS are not persisted under those names, so prove_arm_identity raises AttributeError before computing anything and case_scores reads the same missing field.",
+  "class": "CHECKER/READER defect. The receipts, the games, the scores and the training are unaffected.",
+  "evidence": "reports/phase18/g3_pilot/pilot_v2_full/phase18_g3_pilot_analysis_blocker_v1.json",
+  "why_tests_missed_it": "the G3 tests pass the in-memory rows returned by evaluate_bundle straight into prove_arm_identity and paired_analysis; they never round-trip through read_receipt_rows, and stage_analyse has no end-to-end test."
+ },
+ "authorised_reader_aliases": {
+  "setup_pair_id": ":= case_index (the persisted field). Identical by construction: write_receipts resolves by_case[int(row.setup_pair_id)] and writes that case's case_index.",
+  "opponent_policy_id": ":= the left side of opponent_policy split at its FINAL '@'",
+  "opponent_policy_version": ":= the right side of opponent_policy split at its FINAL '@'"
+ },
+ "required_consistency_check": "the reconstructed opponent_policy_id MUST equal the separately persisted opponent_id; a disagreement is rejected, not repaired",
+ "rejection_conditions": [
+  "a receipt missing case_index, opponent_policy or opponent_id",
+  "an opponent_policy with no '@' separator, or an empty id or version side",
+  "a receipt that already carries any of the three alias names with a value conflicting with the reconstruction",
+  "a reconstructed opponent_policy_id that differs from the persisted opponent_id"
+ ],
+ "explicitly_forbidden_by_this_amendment": [
+  "any change to receipt contents, and any rewriting of the existing receipt files",
+  "any change to write_receipts",
+  "any change to the evaluation cases or the frozen schedule",
+  "any change to scores or outcome handling",
+  "any change to ARM_INVARIANT_FIELDS",
+  "any change to prove_arm_identity",
+  "any change to case_scores",
+  "any change to the bootstrap calculation",
+  "any change to the success rule or the near-boundary rule",
+  "rerunning training or evaluation, replacing any checkpoint, or running a diagnostic arm or a second seed"
+ ],
+ "scope": "read_receipt_rows only, plus test coverage and an analysis-only rebind record. Nothing in this amendment authorises new data of any kind.",
+ "binding_consequence": "every stage after --launch-manifest re-verifies HEAD and each tracked harness source and test digest against the launch manifest, so this repair necessarily drifts from 8c1baa8. The original launch manifest is PRESERVED and continues to identify 8c1baa8 as the source that created the training and evaluation data. A separate, narrowly scoped analysis rebind record (phase18_g3_pilot_analysis_rebind_v1.json) relaxes the source-commit equality check for --analyse ALONE, binds every evidence hash, and authorises no other stage.",
+ "ordering_guarantee": "this amendment, the reader repair, the regression tests and the rebind support were committed and pushed BEFORE the primary analysis was executed, so the repair cannot have been chosen with knowledge of the outcome."
+}
