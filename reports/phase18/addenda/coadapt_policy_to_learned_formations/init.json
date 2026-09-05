@@ -1,0 +1,24 @@
+{
+ "c1_init_checksum": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+ "c1_init_seed": 2026081302,
+ "c1_init_state_digest": "cfe60bb0cb342b03e2506259b5c4d39d321148f7bc8c030bf722e5a234e042b8",
+ "c1_parameter_count": 863959,
+ "config_digest": "88870d39cbda79838a0922c38ab1511552ca4f53f177a371d0c69c186cd0c9b7",
+ "corpus_identity": {
+  "commit_index_digest": "32e8e18d1ca57ee555ed848851284f5938d4989ceb6c864f83ca4b9286c15db1",
+  "content_digest": "c95c3545b07f2341e7efbc83c79e6342510dd973038b0f72e7eae013cff87d0d",
+  "corpus_version": "synthetic_warmstart_corpus_v1",
+  "metadata_digest": "1db0f02fe45b16f539f070b1e12d4fdd6f390fd0487180fe660af0f4d49c81bb"
+ },
+ "design_commit": "7a37cde59f3d94dec3f2fbb66c47accc618f6001",
+ "harness_version": "phase18_g3_two_lineage_harness_v1",
+ "lineage": "control",
+ "matched_digest": "e5efc024d759e99566cfc7a5d10e5d9a4acb302930fa2d3f2784a964fee4b7d5",
+ "run_id": "ADDENDUM-COADAPT-2026-A",
+ "setup_ema_init_state_digest": "c0f532e75d8090ee9a8923bee4dc5355f0326c26f04ebd1daa0745be482a29c3",
+ "setup_init_seed": 9033167075343681386,
+ "setup_init_state_digest": "c0f532e75d8090ee9a8923bee4dc5355f0326c26f04ebd1daa0745be482a29c3",
+ "setup_parameter_count": 802320,
+ "setup_updates_enabled": false,
+ "written_utc": "2026-09-05T05:03:37Z"
+}

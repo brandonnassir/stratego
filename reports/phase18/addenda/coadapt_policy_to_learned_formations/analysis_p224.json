@@ -1,0 +1,271 @@
+{
+ "contrasts": {
+  "PRIMARY budget-matched: coadapt_p224 - g3control_p224 @ ckpt_1024": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.003125,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.034375,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.0375,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0203125,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0078125,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0171875,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.034375,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0140625,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.751171875,
+   "cases_on_which_arms_differ": 658,
+   "control_ewr": 0.730859375,
+   "lower": 0.0024011616904525443,
+   "point": 0.0203125,
+   "upper": 0.038017960857713584
+  },
+  "coadapt_p224 - control_final(p256) @ g3_init": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0015625,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.0140625,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": -0.0203125,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0359375,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0015625,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0328125,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.00625,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.009375,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.6048828125,
+   "cases_on_which_arms_differ": 707,
+   "control_ewr": 0.6025390625,
+   "lower": -0.014949955954045826,
+   "point": 0.00234375,
+   "upper": 0.019637455954045827
+  },
+  "coadapt_p224 - g3control_p256(v3) @ ckpt_1024": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0046875,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.046875,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.028125,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0203125,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.003125,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0234375,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0234375,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.751171875,
+   "cases_on_which_arms_differ": 642,
+   "control_ewr": 0.732421875,
+   "lower": 0.0018680489496219325,
+   "point": 0.01875,
+   "upper": 0.03583782850221194
+  },
+  "coadapt_p224 - g3control_p256(v3) @ library": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0484375,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0140625,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.025,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0265625,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0109375,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0203125,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.115625,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.05625,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.7044921875,
+   "cases_on_which_arms_differ": 793,
+   "control_ewr": 0.66484375,
+   "lower": 0.020707711931283145,
+   "point": 0.0396484375,
+   "upper": 0.05858916306871685
+  },
+  "coadapt_p224: ckpt_1024 - library": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.015625,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1328125,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.096875,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.04375,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.003125,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0296875,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.021875,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0796875,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.751171875,
+   "cases_on_which_arms_differ": 936,
+   "control_ewr": 0.7044921875,
+   "lower": 0.017234064951459512,
+   "point": 0.0466796875,
+   "upper": 0.07735542782324795
+  },
+  "g3control_p224 - g3control_p256(v3) @ ckpt_1024 (budget effect)": {
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0078125,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0125,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": -0.009375,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0046875,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.0171875,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0109375,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.009375,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.730859375,
+   "cases_on_which_arms_differ": 639,
+   "control_ewr": 0.732421875,
+   "lower": -0.019679715761381344,
+   "point": -0.0015625,
+   "upper": 0.01676059321321522
+  }
+ },
+ "ewr": {
+  "coadapt_p224@ckpt_1024": 0.751171875,
+  "coadapt_p224@g3_init": 0.6048828125,
+  "coadapt_p224@library": 0.7044921875,
+  "g3control_p224@ckpt_1024": 0.730859375
+ },
+ "ewr_control_p256_v3": {
+  "ckpt_1024": 0.732421875,
+  "g3_init": 0.6025390625,
+  "library": 0.66484375
+ },
+ "movers": {
+  "coadapt_p224": "a20587fb62f1ad42edb0461febabc2bdefbaf062eecb9b1071c68f8ee1e55ac7",
+  "g3control_p224": "e8fbad7926f93e3d2bb6266fd5d201184772319a5f4b44f0d056ab31a63f186a"
+ }
+}
