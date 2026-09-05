@@ -1,0 +1,279 @@
+{
+ "contrasts": {
+  "ckpt_0-g3_init": {
+   "bootstrap_standard_error": 0.011048543988264525,
+   "by_colour": {
+    "0": {
+     "mean_difference": -0.0921875,
+     "n": 1280
+    },
+    "1": {
+     "mean_difference": -0.148046875,
+     "n": 1280
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.13125,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.1203125,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": -0.225,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": -0.134375,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.003125,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.090625,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.1171875,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.1453125,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.482421875,
+   "cases_on_which_arms_differ": 1040,
+   "control_ewr": 0.6025390625,
+   "lower": -0.14194019739439115,
+   "point": -0.1201171875,
+   "upper": -0.09829417760560884
+  },
+  "ckpt_1024-ckpt_0": {
+   "bootstrap_standard_error": 0.010925685361524095,
+   "by_colour": {
+    "0": {
+     "mean_difference": 0.237109375,
+     "n": 1280
+    },
+    "1": {
+     "mean_difference": 0.262890625,
+     "n": 1280
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.3375,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.315625,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.39375,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.209375,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.01875,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.2421875,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.221875,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.2609375,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.732421875,
+   "cases_on_which_arms_differ": 1090,
+   "control_ewr": 0.482421875,
+   "lower": 0.22858874500927662,
+   "point": 0.25,
+   "upper": 0.27141125499072344
+  },
+  "ckpt_1024-g3_init": {
+   "bootstrap_standard_error": 0.010452972635150944,
+   "by_colour": {
+    "0": {
+     "mean_difference": 0.144921875,
+     "n": 1280
+    },
+    "1": {
+     "mean_difference": 0.11484375,
+     "n": 1280
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.20625,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1953125,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.16875,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.075,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.021875,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.1515625,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.1046875,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.115625,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.732421875,
+   "cases_on_which_arms_differ": 960,
+   "control_ewr": 0.6025390625,
+   "lower": 0.1092950673166121,
+   "point": 0.1298828125,
+   "upper": 0.15005880277972014
+  },
+  "ckpt_1024-library": {
+   "bootstrap_standard_error": 0.01697882866498633,
+   "by_colour": {
+    "0": {
+     "mean_difference": 0.082421875,
+     "n": 1280
+    },
+    "1": {
+     "mean_difference": 0.052734375,
+     "n": 1280
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.059375,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.09375,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.05,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0046875,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.05,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0703125,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.1125,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.732421875,
+   "cases_on_which_arms_differ": 957,
+   "control_ewr": 0.66484375,
+   "lower": 0.035049487610247135,
+   "point": 0.067578125,
+   "upper": 0.10154790455259
+  },
+  "library-g3_init": {
+   "bootstrap_standard_error": 0.01782849457094822,
+   "by_colour": {
+    "0": {
+     "mean_difference": 0.0625,
+     "n": 1280
+    },
+    "1": {
+     "mean_difference": 0.062109375,
+     "n": 1280
+    }
+   },
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.146875,
+     "n": 320
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0953125,
+     "n": 320
+    },
+    "stress_berserker": {
+     "mean_difference": 0.075,
+     "n": 320
+    },
+    "stress_chaos": {
+     "mean_difference": 0.025,
+     "n": 320
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0171875,
+     "n": 320
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.1015625,
+     "n": 320
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.034375,
+     "n": 320
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.003125,
+     "n": 320
+    }
+   },
+   "candidate_ewr": 0.66484375,
+   "cases_on_which_arms_differ": 1088,
+   "control_ewr": 0.6025390625,
+   "lower": 0.02627613342907119,
+   "point": 0.0623046875,
+   "upper": 0.09627446705259
+  }
+ },
+ "ewr": {
+  "ckpt_0": 0.482421875,
+  "ckpt_1024": 0.732421875,
+  "g3_init": 0.6025390625,
+  "library": 0.66484375
+ },
+ "mover": {
+  "bundle": "control/bundle_0256",
+  "c1_state_digest": "ef8c7d29d031e88f2a89a9b5abd1e3f39066f115a3d4c56124cee2b4c76ce95e"
+ }
+}
