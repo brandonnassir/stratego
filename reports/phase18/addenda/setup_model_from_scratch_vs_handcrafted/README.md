@@ -1,108 +1,105 @@
-# Operator addendum v2 — a setup model trained FROM SCRATCH on handcrafted games only
+# Operator addendum v2 (extended to 1,024 periods) — a setup model trained FROM SCRATCH on handcrafted games only
 
 **Informal, operator-requested. Not Gate G3 evidence.** Run 2026-09-04 from the
-`phase18/g3-stage6b-harness` tree; runtime (checkpoints, 143k evaluation rows) under
-`output/phase18/runtime/addendum_library_setup_from_scratch/` (ignored).
+`phase18/g3-stage6b-harness` tree. The first 256 periods are reported in `README_256.md`;
+this run resumed from `ckpt_0256` (full trainer state: raw weights, AdamW moments, EMA,
+counters; per-period draws and match seeds keyed on the period number) and continued to
+1,024. Runtime under `output/phase18/runtime/addendum_library_setup_from_scratch/` (ignored).
 
 ## Question
 
 Does a setup model that learns *only* by watching the handcrafted bots play each other —
-with formations drawn from the handcrafted library — make those bots better? No neural
-policy anywhere; the movers are the fixed rule-based bots throughout.
+formations drawn from the handcrafted library — make those bots better? No neural policy
+anywhere; the movers are the fixed rule-based bots throughout.
 
-## Design
+## Design (unchanged from the 256-period run)
 
-- **Fresh model**, new init (`c549bc02…`, independent of G3's `082ff778…`), the G3 setup
-  architecture and the G3 setup trainer **byte-for-byte** (PPO-clip policy loss, value
-  head, entropy-prediction head, behaviour KL, alpha schedule, EMA 0.999, lr 5e-5,
-  5 epochs/update, batch 1,024).
-- **Training data**: each period, 2,048 games; game *k* is cell *k* mod 56 of the 56
-  ordered pairs of distinct handcrafted bots (no self-play); each side's formation is
-  drawn **uniformly with replacement** from the 6,400 training-split library formations
-  (indices 0..399, all 16 families). Formations enter the buffer as teacher-forced rows
-  scored under the current raw model; outcomes (+1/0/−1 per side) attribute to the
-  formation used. The model never plays and never generates a training formation.
-- 256 periods, **524,288 games**, ~3,024 distinct formations observed per period,
-  1.76 h. Checkpoints every 32 periods.
-- **Evaluation**: identical to addendum v1. Each of the 8 bots plays the frozen G3
-  schedule (160 evaluation formations × 8 opponents × 2 colours = 2,560 paired games)
-  with its own formation sampled from a checkpoint's EMA model (G3 evaluation seeds),
-  from the init model, or a same-family library formation. G3 bootstrap, unchanged.
-  Evaluation formations (indices 400..409) were never seen in training.
+Fresh init `c549bc02…`; the G3 setup architecture and trainer byte-for-byte. Each period
+2,048 games over the 56 ordered pairs of distinct bots (no self-play), each side's formation
+drawn uniformly **with replacement** from the 6,400 training-split library formations;
+formations enter the buffer as teacher-forced rows scored under the current raw model;
+outcomes attribute to the formation used. **1,024 periods, 2,097,152 games, 7.1 h.**
+
+Evaluation: each of the 8 bots plays the frozen G3 schedule (160 held-out evaluation
+formations × 8 opponents × 2 colours = 2,560 paired games) with its own formation from a
+checkpoint's EMA model, from the init model, or a same-family library formation. G3
+bootstrap, unchanged. 48 arms, zero policy errors.
 
 ## Result
 
-### Learning curve — pooled over 8 students, each checkpoint vs the init (`ckpt_0`)
+### Learning curve — pooled over 8 students (20,480 paired games per contrast)
 
-| checkpoint | EWR | vs init, 95% |
-|---|---|---|
-| ckpt_0 (init) | 0.3487 | — |
-| ckpt_32 | 0.3489 | +0.0003 [-0.0048, +0.0054] |
-| ckpt_64 | 0.3501 | +0.0014 [-0.0054, +0.0084] |
-| ckpt_128 | 0.3689 | +0.0202 [+0.0120, +0.0286] |
-| ckpt_192 | 0.3786 | +0.0299 [+0.0219, +0.0382] |
-| ckpt_256 | 0.3955 | +0.0469 [+0.0379, +0.0560] |
-| library | 0.4989 | ckpt_0 − library -0.1503 [-0.1704, -0.1293] |
+| period | EWR | vs init, 95% | vs library, 95% | entropy (nats/prefix) |
+|---|---|---|---|---|
+| 0 (init) | 0.3487 | — | -0.1503 [-0.1704, -0.1293] | 1.824 |
+| 256 | 0.3955 | +0.0469 [+0.0379, +0.0560] | -0.1034 [-0.1238, -0.0823] | 1.701 |
+| 384 | 0.4383 | +0.0896 [+0.0796, +0.1000] | -0.0606 [-0.0801, -0.0405] | 1.641 |
+| 512 | 0.4717 | +0.1231 [+0.1126, +0.1337] | -0.0272 [-0.0466, -0.0071] | 1.575 |
+| 640 | 0.4959 | +0.1472 [+0.1366, +0.1580] | -0.0031 [-0.0233, +0.0177] | 1.543 |
+| 768 | 0.5112 | +0.1626 [+0.1528, +0.1727] | +0.0123 [-0.0069, +0.0320] | 1.494 |
+| 896 | 0.5312 | +0.1826 [+0.1726, +0.1930] | +0.0323 [+0.0120, +0.0531] | 1.496 |
+| 1024 | 0.5359 | +0.1872 [+0.1763, +0.1981] | +0.0370 [+0.0169, +0.0576] | 1.377 |
+| library | 0.4989 | | | |
 
-Nothing for the first 64 periods, then a steady, **accelerating** climb: +2.0 points by
-128, +3.0 by 192, **+4.7 by 256** — and the curve had not flattened. The policy entropy
-fell from 1.84 to 1.68 nats/prefix over the run (G3's trainer never left 1.81).
+The model **crosses the handcrafted library between periods 640 and 768** and finishes
+**+0.0370 [+0.0169, +0.0576] above it**, having gained **+0.1872 [+0.1763, +0.1981]**
+over its init. The gain is decelerating (+4.7, +4.3, +3.4, +2.4, +1.5, +2.0, +0.5 per
+128 periods), so 1,024 is near a plateau, though the entropy was still falling.
 
 ### Per student (EWR over 2,560 games)
 
-| student | init | ckpt_256 | library | 256 − init | 256 − library |
-|---|---|---|---|---|---|
-| basic_heuristic | 0.4344 | 0.4820 | 0.5820 | **+0.0477** | -0.1000 |
-| strategic_rule_based | 0.5021 | 0.5742 | 0.7498 | **+0.0721** | -0.1756 |
-| stress_berserker | 0.2898 | 0.3342 | 0.4057 | **+0.0443** | -0.0715 |
-| stress_chaos | 0.2203 | 0.2574 | 0.3434 | **+0.0371** | -0.0859 |
-| stress_information_miser | 0.2283 | 0.2584 | 0.3223 | **+0.0301** | -0.0639 |
-| stress_miner_rush | 0.3154 | 0.3588 | 0.4477 | **+0.0434** | -0.0889 |
-| stress_scout_rush | 0.2928 | 0.3271 | 0.4139 | **+0.0344** | -0.0867 |
-| tactical_rule_based | 0.5061 | 0.5721 | 0.7268 | **+0.0660** | -0.1547 |
+| student | init | 256 | 1,024 | library | 1,024 − init | 1,024 − library |
+|---|---|---|---|---|---|---|
+| basic_heuristic | 0.4344 | 0.4820 | 0.6479 | 0.5820 | +0.2135 [+0.1902, +0.2372] | +0.0658 [+0.0298, +0.1012] |
+| strategic_rule_based | 0.5021 | 0.5742 | 0.7742 | 0.7498 | +0.2721 [+0.2496, +0.2951] | +0.0244 [-0.0042, +0.0545] |
+| stress_berserker | 0.2898 | 0.3342 | 0.4668 | 0.4057 | +0.1770 [+0.1535, +0.1998] | +0.0611 [+0.0224, +0.1005] |
+| stress_chaos | 0.2203 | 0.2574 | 0.3768 | 0.3434 | +0.1564 [+0.1385, +0.1742] | +0.0334 [+0.0110, +0.0560] |
+| stress_information_miser | 0.2283 | 0.2584 | 0.3303 | 0.3223 | +0.1020 [+0.0908, +0.1135] | +0.0080 [-0.0062, +0.0226] |
+| stress_miner_rush | 0.3154 | 0.3588 | 0.4992 | 0.4477 | +0.1838 [+0.1655, +0.2025] | +0.0516 [+0.0262, +0.0771] |
+| stress_scout_rush | 0.2928 | 0.3271 | 0.4314 | 0.4139 | +0.1387 [+0.1218, +0.1560] | +0.0176 [-0.0075, +0.0433] |
+| tactical_rule_based | 0.5061 | 0.5721 | 0.7605 | 0.7268 | +0.2545 [+0.2335, +0.2753] | +0.0338 [+0.0035, +0.0647] |
 
-**All eight** students improve, every one with its own 95% interval excluding zero
-(+3.0 to +7.2 points). And **all eight** remain well below the library formation.
+**All eight** bots improve by 10–27 points over the init, every interval far from zero.
+**All eight** now score above their handcrafted library formation; 5 of 8 individually
+significant, the other 3 positive but within noise.
 
-### Gain by opponent (ckpt_256 − init, pooled)
+### Gain by opponent (1,024 − init, pooled)
 
 | opponent | difference |
 |---|---|
-| stress_chaos | +0.0760 |
-| basic_heuristic | +0.0619 |
-| stress_berserker | +0.0613 |
-| stress_scout_rush | +0.0529 |
-| strategic_rule_based | +0.0482 |
-| tactical_rule_based | +0.0451 |
-| stress_miner_rush | +0.0291 |
-| stress_information_miser | +0.0004 |
+| stress_berserker | +0.3520 |
+| basic_heuristic | +0.2365 |
+| stress_chaos | +0.2330 |
+| tactical_rule_based | +0.1877 |
+| strategic_rule_based | +0.1809 |
+| stress_scout_rush | +0.1525 |
+| stress_miner_rush | +0.1510 |
+| stress_information_miser | +0.0043 |
 
-## Reading, next to the G3 model (addendum v1)
+The learned formations gain against every opponent except `stress_information_miser`
+(flat), and most of all against the aggressive `stress_berserker` (+35 points).
 
-| formation source | pooled EWR | vs its init | vs library |
-|---|---|---|---|
-| G3 candidate init (`082ff778`) | 0.4494 | — | -0.0495 |
-| G3 candidate after 256 periods (self-sampled formations) | 0.4589 | +0.0095 | -0.0400 |
-| this init (`c549bc02`) | 0.3487 | — | -0.1503 |
-| this model after 256 periods (library formations, handcrafted games) | 0.3955 | **+0.0469** | -0.1034 |
-| handcrafted library | 0.4989 | | |
+## Reading
 
-1. **Yes — a setup model trained only on handcrafted games makes every handcrafted bot
-   better.** +4.7 points pooled, all eight bots individually significant, still rising.
-   That is roughly 5× the +0.95 the G3 model transferred, for the same number of
-   periods and outcomes.
-2. **Learning from the library's games is a far stronger signal than learning from the
-   model's own samples.** G3's trainer sat at maximum entropy for 256 periods; this one
-   concentrated. Same loss, same recipe — the difference is what it watched.
-3. **The model family still starts far below the handcrafted library.** This init was
-   15 points under it (G3's happened to be 5 under — the init lottery is large), and 256
-   periods closed about a third of that gap. Its formations are better than an untrained
-   model's, and worse than a human-designed one.
-4. The steep, unflattened curve says the honest next question is horizon: this run
-   was stopped at G3's budget, not at convergence.
+1. **A setup model can learn, from handcrafted games alone, formations that beat the
+   handcrafted library** — for every one of the eight bots, using held-out evaluation
+   formations as the opponents' boards. This is the first Phase 18 result in which a
+   model-generated formation beats a human-designed one.
+2. **It needed a long horizon.** At G3's budget of 256 periods the model was still
+   10 points below the library; it reached parity around 700 and a significant lead by
+   896. The G3 pilot's 256-period horizon was far too short for this learning rule, and
+   G3's own trainer, learning from the model's self-samples, never left maximum entropy
+   in the same 256 periods.
+3. **The signal is what the model watches.** Same loss, same recipe as G3. Learning from
+   handcrafted bots playing library formations (+18.7 over init at 1,024; +4.7 at 256)
+   dwarfs learning from the model's own samples (+0.95 at 256).
+4. The G3 FAIL therefore looks like two compounding causes: a training signal too weak
+   for the horizon, and an init lottery that starts the model deep below the library.
 
 ## Caveats
 
 One seed; informal; no pre-registered rule. The library arm's formations come from the
-same evaluation library as the opponents' (a different formation of the same family).
-Model arms sample one formation per case; the library arm uses a fixed one.
+same evaluation library as the opponents' (a different formation of the same family);
+model arms sample one formation per case, the library arm uses a fixed one. The learned
+formations are tuned to these eight bots' play; how they fare against the neural policy
+or the operator is untested.

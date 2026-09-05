@@ -88,8 +88,8 @@ def score_formations(model, canonicals, *, snapshot_digest, period):
     return rows, int(reflected.sum())
 
 def main():
-    p = argparse.ArgumentParser(); p.add_argument("--smoke", action="store_true"); a = p.parse_args()
-    periods, games = (1, 64) if a.smoke else (PERIODS, GAMES_PER_PERIOD)
+    p = argparse.ArgumentParser(); p.add_argument("--smoke", action="store_true"); p.add_argument("--periods", type=int, default=PERIODS); a = p.parse_args()
+    periods, games = (1, 64) if a.smoke else (a.periods, GAMES_PER_PERIOD)
     OUT.mkdir(parents=True, exist_ok=True)
     library = [e for e in read_library_jsonl(ev.LIBRARY_JSONL_PATH) if e.base_index < 400]
     canon = [tuple(int(v) for v in e.canonical_setup) for e in library]
