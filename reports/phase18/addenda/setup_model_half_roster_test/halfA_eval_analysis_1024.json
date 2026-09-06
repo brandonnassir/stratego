@@ -1,0 +1,922 @@
+{
+ "digests": {
+  "ckpt_0": "c549bc02e974433eaf4e08eb48c755c160e08e353f2850010103680ca966bca3",
+  "ckpt_1024": "c1c34370794cf41ff1ff87318a7c0a7c749ec7c515580a393f1726fcd65ae693",
+  "ckpt_256": "a9bd8f9bfbd0bbead686b8b48d03730e66bf8239e84729cc919b4982c9266e2d",
+  "ckpt_384": "a539b3d0da87c3070e0389a9e1eebeb5d35ed5946b1e94c3b98db32364889342",
+  "ckpt_512": "51a8144d0f25608dae0fc60d8756ccbda0a0c5284af3c7c7e8204d8452dc518d",
+  "ckpt_640": "213c58791d14c9c6391594d20283014a392822fd161f5e7fcd15f23cd6bf56e1",
+  "ckpt_768": "10c8ac2ecae2ac9eb4ff70d99ef422172d70e2f5ac06512b7be2589f7e80a8ee",
+  "ckpt_896": "138befd163c07a27c43f9210fddaa4c968eb90dbaf8915e798b1a779c31f9f80"
+ },
+ "ewr": {
+  "basic_heuristic": {
+   "ckpt_0": 0.434375,
+   "ckpt_1024": 0.6423828125,
+   "ckpt_256": 0.4728515625,
+   "ckpt_384": 0.526171875,
+   "ckpt_512": 0.5599609375,
+   "ckpt_640": 0.5724609375,
+   "ckpt_768": 0.6142578125,
+   "ckpt_896": 0.6177734375,
+   "library": 0.58203125
+  },
+  "strategic_rule_based": {
+   "ckpt_0": 0.5021484375,
+   "ckpt_1024": 0.7666015625,
+   "ckpt_256": 0.5572265625,
+   "ckpt_384": 0.6125,
+   "ckpt_512": 0.6751953125,
+   "ckpt_640": 0.69765625,
+   "ckpt_768": 0.740625,
+   "ckpt_896": 0.75546875,
+   "library": 0.7498046875
+  },
+  "stress_berserker": {
+   "ckpt_0": 0.28984375,
+   "ckpt_1024": 0.44765625,
+   "ckpt_256": 0.31953125,
+   "ckpt_384": 0.3666015625,
+   "ckpt_512": 0.371875,
+   "ckpt_640": 0.4177734375,
+   "ckpt_768": 0.429296875,
+   "ckpt_896": 0.445703125,
+   "library": 0.4056640625
+  },
+  "stress_chaos": {
+   "ckpt_0": 0.2203125,
+   "ckpt_1024": 0.3638671875,
+   "ckpt_256": 0.2435546875,
+   "ckpt_384": 0.277734375,
+   "ckpt_512": 0.3111328125,
+   "ckpt_640": 0.314453125,
+   "ckpt_768": 0.3341796875,
+   "ckpt_896": 0.354296875,
+   "library": 0.343359375
+  },
+  "stress_information_miser": {
+   "ckpt_0": 0.2283203125,
+   "ckpt_1024": 0.333203125,
+   "ckpt_256": 0.254296875,
+   "ckpt_384": 0.273046875,
+   "ckpt_512": 0.2927734375,
+   "ckpt_640": 0.311328125,
+   "ckpt_768": 0.32109375,
+   "ckpt_896": 0.323828125,
+   "library": 0.322265625
+  },
+  "stress_miner_rush": {
+   "ckpt_0": 0.3154296875,
+   "ckpt_1024": 0.494921875,
+   "ckpt_256": 0.339453125,
+   "ckpt_384": 0.3794921875,
+   "ckpt_512": 0.41953125,
+   "ckpt_640": 0.43828125,
+   "ckpt_768": 0.4630859375,
+   "ckpt_896": 0.4875,
+   "library": 0.44765625
+  },
+  "stress_scout_rush": {
+   "ckpt_0": 0.2927734375,
+   "ckpt_1024": 0.4361328125,
+   "ckpt_256": 0.320703125,
+   "ckpt_384": 0.3484375,
+   "ckpt_512": 0.35859375,
+   "ckpt_640": 0.3908203125,
+   "ckpt_768": 0.41875,
+   "ckpt_896": 0.4326171875,
+   "library": 0.4138671875
+  },
+  "tactical_rule_based": {
+   "ckpt_0": 0.5060546875,
+   "ckpt_1024": 0.758984375,
+   "ckpt_256": 0.5595703125,
+   "ckpt_384": 0.6125,
+   "ckpt_512": 0.661328125,
+   "ckpt_640": 0.69140625,
+   "ckpt_768": 0.7234375,
+   "ckpt_896": 0.75,
+   "library": 0.7267578125
+  }
+ },
+ "ewr_by_student_group": {
+  "ckpt_0": {
+   "seen_students": 0.37104492187500004,
+   "unseen_students": 0.32626953125
+  },
+  "ckpt_1024": {
+   "seen_students": 0.557373046875,
+   "unseen_students": 0.503564453125
+  },
+  "ckpt_256": {
+   "seen_students": 0.40654296875,
+   "unseen_students": 0.36025390625
+  },
+  "ckpt_384": {
+   "seen_students": 0.447802734375,
+   "unseen_students": 0.401318359375
+  },
+  "ckpt_512": {
+   "seen_students": 0.4833984375,
+   "unseen_students": 0.42919921875
+  },
+  "ckpt_640": {
+   "seen_students": 0.503369140625,
+   "unseen_students": 0.45517578125
+  },
+  "ckpt_768": {
+   "seen_students": 0.53046875,
+   "unseen_students": 0.480712890625
+  },
+  "ckpt_896": {
+   "seen_students": 0.544775390625,
+   "unseen_students": 0.497021484375
+  },
+  "library": {
+   "seen_students": 0.519677734375,
+   "unseen_students": 0.478173828125
+  }
+ },
+ "half": "A",
+ "per_student": {
+  "basic_heuristic": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.1857730477019411,
+    "point": 0.2080078125,
+    "upper": 0.23065433220172665
+   },
+   "ckpt_1024-library": {
+    "lower": 0.025970028043742224,
+    "point": 0.0603515625,
+    "upper": 0.09555660676359327
+   }
+  },
+  "strategic_rule_based": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.2438653798166121,
+    "point": 0.264453125,
+    "upper": 0.28524674763522173
+   },
+   "ckpt_1024-library": {
+    "lower": -0.012849478064078549,
+    "point": 0.016796875,
+    "upper": 0.047884370226915704
+   }
+  },
+  "stress_berserker": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.13207781852076514,
+    "point": 0.1578125,
+    "upper": 0.18354718147923485
+   },
+   "ckpt_1024-library": {
+    "lower": 0.00328722655523077,
+    "point": 0.0419921875,
+    "upper": 0.0819324131557725
+   }
+  },
+  "stress_chaos": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.1270844913532897,
+    "point": 0.1435546875,
+    "upper": 0.16085354039034164
+   },
+   "ckpt_1024-library": {
+    "lower": -0.002756339557228312,
+    "point": 0.0205078125,
+    "upper": 0.04418371946089607
+   }
+  },
+  "stress_information_miser": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.09479481736013992,
+    "point": 0.1048828125,
+    "upper": 0.11517668509169396
+   },
+   "ckpt_1024-library": {
+    "lower": -0.003473921628371522,
+    "point": 0.0109375,
+    "upper": 0.0255547990802054
+   }
+  },
+  "stress_miner_rush": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.16137497173861864,
+    "point": 0.1794921875,
+    "upper": 0.19822703561688299
+   },
+   "ckpt_1024-library": {
+    "lower": 0.022560330779934544,
+    "point": 0.047265625,
+    "upper": 0.07238267412373323
+   }
+  },
+  "stress_scout_rush": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.12812444356429298,
+    "point": 0.143359375,
+    "upper": 0.15900606133937478
+   },
+   "ckpt_1024-library": {
+    "lower": -0.0007926496053944328,
+    "point": 0.022265625,
+    "upper": 0.04635328686456383
+   }
+  },
+  "tactical_rule_based": {
+   "ckpt_1024-ckpt_0": {
+    "lower": 0.23316545212394763,
+    "point": 0.2529296875,
+    "upper": 0.27331155523155404
+   },
+   "ckpt_1024-library": {
+    "lower": 0.003815474146924712,
+    "point": 0.0322265625,
+    "upper": 0.0614611606604108
+   }
+  }
+ },
+ "pooled": {
+  "ckpt_0-library": {
+   "bootstrap_standard_error": 0.010476193574900265,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.2056640625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.12265625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.267578125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.1888671875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0107421875,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.1517578125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.14140625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.1349609375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3486572265625,
+   "cases_on_which_arms_differ": 7820,
+   "control_ewr": 0.49892578125,
+   "lower": -0.1703673409227824,
+   "point": -0.1502685546875,
+   "seen_opponents_mean": -0.12041015625,
+   "unseen_opponents_mean": -0.180126953125,
+   "upper": -0.12932052396340282
+  },
+  "ckpt_1024-ckpt_0": {
+   "bootstrap_standard_error": 0.005140906647125497,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.25390625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1638671875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.3408203125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.2154296875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0017578125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.151171875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.15078125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.1802734375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.53046875,
+   "cases_on_which_arms_differ": 7664,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.17185155833799912,
+   "point": 0.1818115234375,
+   "seen_opponents_mean": 0.1458984375,
+   "unseen_opponents_mean": 0.217724609375,
+   "upper": 0.19215750875918944
+  },
+  "ckpt_1024-library": {
+   "bootstrap_standard_error": 0.01035351125942164,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0482421875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0412109375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.0732421875,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0265625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.008984375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.0005859375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.009375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0453125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.53046875,
+   "cases_on_which_arms_differ": 7135,
+   "control_ewr": 0.49892578125,
+   "lower": 0.011648773232477504,
+   "point": 0.03154296875,
+   "seen_opponents_mean": 0.025488281249999998,
+   "unseen_opponents_mean": 0.03759765625,
+   "upper": 0.05218218329634635
+  },
+  "ckpt_256-ckpt_0": {
+   "bootstrap_standard_error": 0.004836897277893193,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.034765625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0263671875,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.05234375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.0484375,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.0068359375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0345703125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.04140625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.046875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3833984375,
+   "cases_on_which_arms_differ": 5973,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.02563113369385086,
+   "point": 0.0347412109375,
+   "seen_opponents_mean": 0.02734375,
+   "unseen_opponents_mean": 0.042138671875,
+   "upper": 0.04431515581481234
+  },
+  "ckpt_256-library": {
+   "bootstrap_standard_error": 0.011085002420540887,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.1708984375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.0962890625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.215234375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.1404296875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.00390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.1171875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.1,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.0880859375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.3833984375,
+   "cases_on_which_arms_differ": 7642,
+   "control_ewr": 0.49892578125,
+   "lower": -0.13688777274480188,
+   "point": -0.11552734375,
+   "seen_opponents_mean": -0.09306640625,
+   "unseen_opponents_mean": -0.13798828125,
+   "upper": -0.09370369048857187
+  },
+  "ckpt_384-ckpt_0": {
+   "bootstrap_standard_error": 0.004755627437282674,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.0896484375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.05859375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.1095703125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.11015625,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.000390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.0677734375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0908203125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0802734375,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.424560546875,
+   "cases_on_which_arms_differ": 6500,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.0666639262944177,
+   "point": 0.0759033203125,
+   "seen_opponents_mean": 0.059521484375,
+   "unseen_opponents_mean": 0.09228515625,
+   "upper": 0.08524500968946225
+  },
+  "ckpt_384-library": {
+   "bootstrap_standard_error": 0.010141802337905603,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.116015625,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.0640625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.1580078125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0787109375,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0111328125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.083984375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0505859375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.0546875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.424560546875,
+   "cases_on_which_arms_differ": 7375,
+   "control_ewr": 0.49892578125,
+   "lower": -0.09379491889182232,
+   "point": -0.074365234375,
+   "seen_opponents_mean": -0.060888671875,
+   "unseen_opponents_mean": -0.087841796875,
+   "upper": -0.05434365218415529
+  },
+  "ckpt_512-ckpt_0": {
+   "bootstrap_standard_error": 0.00537316238131806,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.115234375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.09375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.2044921875,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.162109375,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.003125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.101171875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.0908203125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.0966796875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.456298828125,
+   "cases_on_which_arms_differ": 6815,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.09716758620045142,
+   "point": 0.1076416015625,
+   "seen_opponents_mean": 0.077490234375,
+   "unseen_opponents_mean": 0.13779296875,
+   "upper": 0.11824493369898173
+  },
+  "ckpt_512-library": {
+   "bootstrap_standard_error": 0.010070166819631412,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.0904296875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": -0.02890625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.0630859375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0267578125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0076171875,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.0505859375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0505859375,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.03828125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.456298828125,
+   "cases_on_which_arms_differ": 7227,
+   "control_ewr": 0.49892578125,
+   "lower": -0.06213577178737094,
+   "point": -0.042626953125,
+   "seen_opponents_mean": -0.042919921874999996,
+   "unseen_opponents_mean": -0.042333984374999994,
+   "upper": -0.022528166889717573
+  },
+  "ckpt_640-ckpt_0": {
+   "bootstrap_standard_error": 0.0053422987225706636,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.16484375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1228515625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.234375,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.16875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0013671875,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.1234375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.11015625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.119140625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.4792724609375,
+   "cases_on_which_arms_differ": 7187,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.12019268837590989,
+   "point": 0.130615234375,
+   "seen_opponents_mean": 0.102197265625,
+   "unseen_opponents_mean": 0.159033203125,
+   "upper": 0.14106351505556936
+  },
+  "ckpt_640-library": {
+   "bootstrap_standard_error": 0.010438283574910103,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.0408203125,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0001953125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": -0.033203125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0201171875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.012109375,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.0283203125,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.03125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": -0.0158203125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.4792724609375,
+   "cases_on_which_arms_differ": 7169,
+   "control_ewr": 0.49892578125,
+   "lower": -0.03949475973299008,
+   "point": -0.0196533203125,
+   "seen_opponents_mean": -0.018212890625,
+   "unseen_opponents_mean": -0.02109375,
+   "upper": 0.0009871809679202995
+  },
+  "ckpt_768-ckpt_0": {
+   "bootstrap_standard_error": 0.005463536622714142,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.198046875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.13125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.31640625,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.184375,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": -0.000390625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.1443359375,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.12890625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.1525390625,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.5055908203125,
+   "cases_on_which_arms_differ": 7413,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.14622732288760132,
+   "point": 0.15693359375,
+   "seen_opponents_mean": 0.12363281250000001,
+   "unseen_opponents_mean": 0.190234375,
+   "upper": 0.16766495592684091
+  },
+  "ckpt_768-library": {
+   "bootstrap_standard_error": 0.009948406329749708,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": -0.0076171875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.00859375,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.048828125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": -0.0044921875,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0103515625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.007421875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": -0.0125,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.017578125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.5055908203125,
+   "cases_on_which_arms_differ": 7106,
+   "control_ewr": 0.49892578125,
+   "lower": -0.012302707921770038,
+   "point": 0.0066650390625,
+   "seen_opponents_mean": 0.00322265625,
+   "unseen_opponents_mean": 0.010107421875,
+   "upper": 0.026557947845948542
+  },
+  "ckpt_896-ckpt_0": {
+   "bootstrap_standard_error": 0.004951020215492615,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.2193359375,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.1462890625,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.3298828125,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.2126953125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0033203125,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": 0.1513671875,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.14765625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.1673828125,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.5208984375,
+   "cases_on_which_arms_differ": 7600,
+   "control_ewr": 0.3486572265625,
+   "lower": 0.1626936441087039,
+   "point": 0.1722412109375,
+   "seen_opponents_mean": 0.1353515625,
+   "unseen_opponents_mean": 0.209130859375,
+   "upper": 0.18202038989960923
+  },
+  "ckpt_896-library": {
+   "bootstrap_standard_error": 0.010178737831413877,
+   "by_opponent": {
+    "basic_heuristic": {
+     "mean_difference": 0.013671875,
+     "n": 2560
+    },
+    "strategic_rule_based": {
+     "mean_difference": 0.0236328125,
+     "n": 2560
+    },
+    "stress_berserker": {
+     "mean_difference": 0.0623046875,
+     "n": 2560
+    },
+    "stress_chaos": {
+     "mean_difference": 0.023828125,
+     "n": 2560
+    },
+    "stress_information_miser": {
+     "mean_difference": 0.0140625,
+     "n": 2560
+    },
+    "stress_miner_rush": {
+     "mean_difference": -0.000390625,
+     "n": 2560
+    },
+    "stress_scout_rush": {
+     "mean_difference": 0.00625,
+     "n": 2560
+    },
+    "tactical_rule_based": {
+     "mean_difference": 0.032421875,
+     "n": 2560
+    }
+   },
+   "candidate_ewr": 0.5208984375,
+   "cases_on_which_arms_differ": 7043,
+   "control_ewr": 0.49892578125,
+   "lower": 0.00243874627318679,
+   "point": 0.02197265625,
+   "seen_opponents_mean": 0.01494140625,
+   "unseen_opponents_mean": 0.02900390625,
+   "upper": 0.04227925003822723
+  }
+ },
+ "seen_opponents": [
+  "basic_heuristic",
+  "stress_information_miser",
+  "stress_miner_rush",
+  "tactical_rule_based"
+ ]
+}

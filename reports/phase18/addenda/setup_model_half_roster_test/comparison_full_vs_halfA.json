@@ -1,0 +1,151 @@
+{
+ "library": 0.49892578125,
+ "runs": {
+  "full": {
+   "checkpoints": [
+    [
+     0,
+     0.34865722656250003
+    ],
+    [
+     256,
+     0.3955322265625
+    ],
+    [
+     384,
+     0.43828125
+    ],
+    [
+     512,
+     0.471728515625
+    ],
+    [
+     640,
+     0.4958740234375
+    ],
+    [
+     768,
+     0.51123046875
+    ],
+    [
+     896,
+     0.53125
+    ],
+    [
+     1024,
+     0.535888671875
+    ]
+   ],
+   "final": 0.535888671875,
+   "final_ewr_by_opponent": {
+    "basic_heuristic": 0.4373046875,
+    "strategic_rule_based": 0.3048828125,
+    "stress_berserker": 0.673828125,
+    "stress_chaos": 0.7076171875,
+    "stress_information_miser": 0.6876953125,
+    "stress_miner_rush": 0.5486328125,
+    "stress_scout_rush": 0.605859375,
+    "tactical_rule_based": 0.3212890625
+   },
+   "final_minus_library_seen": 0.03696289062500001,
+   "final_minus_library_unseen": null,
+   "init": 0.34865722656250003,
+   "library_ewr_by_opponent": {
+    "basic_heuristic": 0.4064453125,
+    "strategic_rule_based": 0.2466796875,
+    "stress_berserker": 0.589453125,
+    "stress_chaos": 0.6634765625,
+    "stress_information_miser": 0.67265625,
+    "stress_miner_rush": 0.5494140625,
+    "stress_scout_rush": 0.5947265625,
+    "tactical_rule_based": 0.2685546875
+   },
+   "seen_opponents": [
+    "basic_heuristic",
+    "strategic_rule_based",
+    "stress_berserker",
+    "stress_chaos",
+    "stress_information_miser",
+    "stress_miner_rush",
+    "stress_scout_rush",
+    "tactical_rule_based"
+   ],
+   "vs_library": {
+    "lower": 0.016914930385639067,
+    "point": 0.036962890625,
+    "upper": 0.0575770138569041
+   }
+  },
+  "half_A": {
+   "checkpoints": [
+    [
+     0,
+     0.34865722656250003
+    ],
+    [
+     256,
+     0.3833984375
+    ],
+    [
+     384,
+     0.424560546875
+    ],
+    [
+     512,
+     0.456298828125
+    ],
+    [
+     640,
+     0.4792724609375
+    ],
+    [
+     768,
+     0.5055908203125
+    ],
+    [
+     896,
+     0.5208984375
+    ],
+    [
+     1024,
+     0.53046875
+    ]
+   ],
+   "final": 0.53046875,
+   "final_ewr_by_opponent": {
+    "basic_heuristic": 0.4546875,
+    "strategic_rule_based": 0.287890625,
+    "stress_berserker": 0.6626953125,
+    "stress_chaos": 0.6900390625,
+    "stress_information_miser": 0.681640625,
+    "stress_miner_rush": 0.548828125,
+    "stress_scout_rush": 0.6041015625,
+    "tactical_rule_based": 0.3138671875
+   },
+   "final_minus_library_seen": 0.02548828125000001,
+   "final_minus_library_unseen": 0.03759765625000002,
+   "init": 0.34865722656250003,
+   "library_ewr_by_opponent": {
+    "basic_heuristic": 0.4064453125,
+    "strategic_rule_based": 0.2466796875,
+    "stress_berserker": 0.589453125,
+    "stress_chaos": 0.6634765625,
+    "stress_information_miser": 0.67265625,
+    "stress_miner_rush": 0.5494140625,
+    "stress_scout_rush": 0.5947265625,
+    "tactical_rule_based": 0.2685546875
+   },
+   "seen_opponents": [
+    "basic_heuristic",
+    "stress_information_miser",
+    "stress_miner_rush",
+    "tactical_rule_based"
+   ],
+   "vs_library": {
+    "lower": 0.011648773232477504,
+    "point": 0.03154296875,
+    "upper": 0.05218218329634635
+   }
+  }
+ }
+}

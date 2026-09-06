@@ -1,0 +1,4 @@
+[chain 09:17:04] training half A
+[chain 16:08:04] evaluating half A
+[stop-after-A 16:29:04] half A evaluation complete — stopping the chain before half B (operator decision)
+[stop-after-A 16:29:07] chain stopped; half B not started (B directory: eval )
