@@ -1,0 +1,6 @@
+{
+ "untrained": 0.276953125,
+ "phase8@library": 0.6888671875,
+ "phase8@ckpt1024": 0.7248046875,
+ "phase8@g3init": 0.5890625
+}
