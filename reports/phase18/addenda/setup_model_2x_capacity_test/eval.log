@@ -1,0 +1,72 @@
+[eval 15:46:05] arms: ['ckpt_0', 'ckpt_256', 'library'] | digests {'ckpt_0': '256270c985', 'ckpt_256': 'e571b036ab'}
+[eval 15:46:27] basic_heuristic            ckpt_0    EWR 0.4959 errors 0 22s
+[eval 15:46:53] basic_heuristic            ckpt_256  EWR 0.5549 errors 0 26s
+[eval 15:47:20] strategic_rule_based       ckpt_0    EWR 0.6143 errors 0 27s
+[eval 15:47:49] strategic_rule_based       ckpt_256  EWR 0.6623 errors 0 29s
+[eval 15:48:17] tactical_rule_based        ckpt_0    EWR 0.6029 errors 0 28s
+[eval 15:48:43] tactical_rule_based        ckpt_256  EWR 0.6576 errors 0 25s
+[eval 15:49:12] stress_scout_rush          ckpt_0    EWR 0.3463 errors 0 29s
+[eval 15:49:48] stress_scout_rush          ckpt_256  EWR 0.3965 errors 0 36s
+[eval 15:50:21] stress_miner_rush          ckpt_0    EWR 0.3643 errors 0 33s
+[eval 15:50:54] stress_miner_rush          ckpt_256  EWR 0.4000 errors 0 33s
+[eval 15:51:14] stress_berserker           ckpt_0    EWR 0.3213 errors 0 20s
+[eval 15:51:39] stress_berserker           ckpt_256  EWR 0.3574 errors 0 25s
+[eval 15:52:19] stress_information_miser   ckpt_0    EWR 0.2682 errors 0 39s
+[eval 15:53:03] stress_information_miser   ckpt_256  EWR 0.2865 errors 0 44s
+[eval 15:53:59] stress_chaos               ckpt_0    EWR 0.2729 errors 0 56s
+[eval 15:54:55] stress_chaos               ckpt_256  EWR 0.2883 errors 0 56s
+[eval 15:54:55] EVAL DONE
+[eval 18:06:28] arms: ['ckpt_0', 'ckpt_256', 'ckpt_384', 'ckpt_512', 'library'] | digests {'ckpt_0': '256270c985', 'ckpt_256': 'e571b036ab', 'ckpt_384': '6ca3a9e96a', 'ckpt_512': '10c49612be'}
+[eval 18:06:53] basic_heuristic            ckpt_384  EWR 0.5639 errors 0 25s
+[eval 18:07:18] basic_heuristic            ckpt_512  EWR 0.5854 errors 0 25s
+[eval 18:07:44] strategic_rule_based       ckpt_384  EWR 0.6943 errors 0 26s
+[eval 18:08:14] strategic_rule_based       ckpt_512  EWR 0.7205 errors 0 30s
+[eval 18:08:43] tactical_rule_based        ckpt_384  EWR 0.6818 errors 0 28s
+[eval 18:09:08] tactical_rule_based        ckpt_512  EWR 0.7045 errors 0 25s
+[eval 18:09:44] stress_scout_rush          ckpt_384  EWR 0.3990 errors 0 36s
+[eval 18:10:20] stress_scout_rush          ckpt_512  EWR 0.4137 errors 0 36s
+[eval 18:10:56] stress_miner_rush          ckpt_384  EWR 0.4236 errors 0 36s
+[eval 18:11:35] stress_miner_rush          ckpt_512  EWR 0.4354 errors 0 39s
+[eval 18:11:59] stress_berserker           ckpt_384  EWR 0.3957 errors 0 24s
+[eval 18:12:20] stress_berserker           ckpt_512  EWR 0.4062 errors 0 21s
+[eval 18:13:06] stress_information_miser   ckpt_384  EWR 0.2984 errors 0 46s
+[eval 18:13:50] stress_information_miser   ckpt_512  EWR 0.3066 errors 0 44s
+[eval 18:14:45] stress_chaos               ckpt_384  EWR 0.3137 errors 0 55s
+[eval 18:15:45] stress_chaos               ckpt_512  EWR 0.3266 errors 0 60s
+[eval 18:15:46] EVAL DONE
+[eval 20:27:28] arms: ['ckpt_0', 'ckpt_256', 'ckpt_384', 'ckpt_512', 'ckpt_640', 'ckpt_768', 'library'] | digests {'ckpt_0': '256270c985', 'ckpt_256': 'e571b036ab', 'ckpt_384': '6ca3a9e96a', 'ckpt_512': '10c49612be', 'ckpt_640': 'aaf836cb01', 'ckpt_768': '0a001e663a'}
+[eval 20:27:51] basic_heuristic            ckpt_640  EWR 0.5996 errors 0 23s
+[eval 20:28:15] basic_heuristic            ckpt_768  EWR 0.6215 errors 0 24s
+[eval 20:28:45] strategic_rule_based       ckpt_640  EWR 0.7461 errors 0 30s
+[eval 20:29:12] strategic_rule_based       ckpt_768  EWR 0.7600 errors 0 27s
+[eval 20:29:39] tactical_rule_based        ckpt_640  EWR 0.7209 errors 0 26s
+[eval 20:30:07] tactical_rule_based        ckpt_768  EWR 0.7529 errors 0 28s
+[eval 20:30:44] stress_scout_rush          ckpt_640  EWR 0.4137 errors 0 37s
+[eval 20:31:22] stress_scout_rush          ckpt_768  EWR 0.4324 errors 0 38s
+[eval 20:31:57] stress_miner_rush          ckpt_640  EWR 0.4623 errors 0 36s
+[eval 20:32:33] stress_miner_rush          ckpt_768  EWR 0.4736 errors 0 36s
+[eval 20:32:55] stress_berserker           ckpt_640  EWR 0.4279 errors 0 22s
+[eval 20:33:21] stress_berserker           ckpt_768  EWR 0.4543 errors 0 26s
+[eval 20:34:08] stress_information_miser   ckpt_640  EWR 0.3156 errors 0 47s
+[eval 20:34:55] stress_information_miser   ckpt_768  EWR 0.3234 errors 0 47s
+[eval 20:35:52] stress_chaos               ckpt_640  EWR 0.3373 errors 0 57s
+[eval 20:36:49] stress_chaos               ckpt_768  EWR 0.3557 errors 0 57s
+[eval 20:36:50] EVAL DONE
+[eval 22:48:27] arms: ['ckpt_0', 'ckpt_256', 'ckpt_384', 'ckpt_512', 'ckpt_640', 'ckpt_768', 'ckpt_896', 'ckpt_1024', 'library'] | digests {'ckpt_0': '256270c985', 'ckpt_256': 'e571b036ab', 'ckpt_384': '6ca3a9e96a', 'ckpt_512': '10c49612be', 'ckpt_640': 'aaf836cb01', 'ckpt_768': '0a001e663a', 'ckpt_896': '3c07318b5a', 'ckpt_1024': 'cca7ab3c37'}
+[eval 22:48:47] basic_heuristic            ckpt_896  EWR 0.6383 errors 0 20s
+[eval 22:49:07] basic_heuristic            ckpt_1024 EWR 0.6395 errors 0 21s
+[eval 22:49:31] strategic_rule_based       ckpt_896  EWR 0.7949 errors 0 24s
+[eval 22:49:55] strategic_rule_based       ckpt_1024 EWR 0.7947 errors 0 24s
+[eval 22:50:17] tactical_rule_based        ckpt_896  EWR 0.7643 errors 0 22s
+[eval 22:50:40] tactical_rule_based        ckpt_1024 EWR 0.7668 errors 0 23s
+[eval 22:51:13] stress_scout_rush          ckpt_896  EWR 0.4373 errors 0 33s
+[eval 22:51:44] stress_scout_rush          ckpt_1024 EWR 0.4680 errors 0 32s
+[eval 22:52:14] stress_miner_rush          ckpt_896  EWR 0.4943 errors 0 30s
+[eval 22:52:45] stress_miner_rush          ckpt_1024 EWR 0.5117 errors 0 31s
+[eval 22:53:04] stress_berserker           ckpt_896  EWR 0.4561 errors 0 19s
+[eval 22:53:23] stress_berserker           ckpt_1024 EWR 0.4451 errors 0 19s
+[eval 22:54:04] stress_information_miser   ckpt_896  EWR 0.3342 errors 0 40s
+[eval 22:54:44] stress_information_miser   ckpt_1024 EWR 0.3463 errors 0 40s
+[eval 22:55:32] stress_chaos               ckpt_896  EWR 0.3619 errors 0 48s
+[eval 22:56:20] stress_chaos               ckpt_1024 EWR 0.3713 errors 0 49s
+[eval 22:56:21] EVAL DONE
