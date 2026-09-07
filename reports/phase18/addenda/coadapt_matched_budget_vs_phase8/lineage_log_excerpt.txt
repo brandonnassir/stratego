@@ -1,0 +1,9 @@
+[coadapt 01:07:13] resumed from bundle_0001 at period 1
+[coadapt 11:21:11] resumed from bundle_0224 at period 224
+[coadapt 17:02:59] HORIZON EXTENSION: periods=375 (Phase 8 budget 24000 C1 updates); the only config difference from the 256-period v4 lineage is the horizon; C1 lr schedule is warmup-then-constant, so training dynamics are unchanged
+[coadapt 17:04:32] DEVIATION RECORDED: source bundle verified under its own (256-period) identity; all bundles written from here on carry the 375-period identity
+[coadapt 17:04:32] resumed from bundle_0224 at period 224
+[coadapt 22:10:32] HORIZON EXTENSION: periods=375 (Phase 8 budget 24000 C1 updates); the only config difference from the 256-period v4 lineage is the horizon; C1 lr schedule is warmup-then-constant, so training dynamics are unchanged
+[coadapt 22:12:10] resumed from bundle_0320 at period 320
+[coadapt 00:21:43] [control] period 375/375: games 1877 (in flight 2546), c1 step 24000, setup frozen, 148.846 s, bundle cf129a3bc0c0
+[coadapt 00:22:50] period 375/375 in 7860 s; LINEAGE DONE
